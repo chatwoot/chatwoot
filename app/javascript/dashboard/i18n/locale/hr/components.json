@@ -7,6 +7,7 @@
     "PLACEHOLDER": "Select an option...",
     "EMPTY_SEARCH_RESULTS": "No items found for the search term `{searchTerm}`",
     "EMPTY_STATE": "Nisu pronađeni rezultati.",
+    "LOADING": "Učitavanje...",
     "SEARCH_PLACEHOLDER": "Search...",
     "MORE": "+{count} more"
   },
@@ -41,13 +42,13 @@
     "TAG_BUTTON": "tag"
   },
   "FEATURE_ANNOUNCEMENT": {
-    "BADGE": "New",
-    "DISMISS": "Got it",
-    "PREVIOUS": "Previous",
-    "NEXT": "Next",
-    "DISMISS_HINT": "Press {key} to close",
+    "BADGE": "Novo",
+    "DISMISS": "U redu",
+    "PREVIOUS": "Prethodno",
+    "NEXT": "Dalje",
+    "DISMISS_HINT": "Pritisnite {key} za zatvaranje",
     "ESCAPE_KEY": "Esc",
-    "CLOSE": "Close"
+    "CLOSE": "Zatvori"
   },
   "FEATURE_SPOTLIGHT": {
     "LEARN_MORE": "Learn more",
@@ -73,20 +74,20 @@
     "BULLET_LIST": "Bullet List",
     "ORDERED_LIST": "Ordered List",
     "TABLE": "Table",
-    "IMAGE": "Image",
+    "IMAGE": "Slika",
     "VIDEO": "Video",
-    "DIVIDER": "Divider"
+    "DIVIDER": "Razdjelnik"
   },
   "VIDEO_EMBED": {
-    "TAB_EMBED": "Embed link",
-    "TAB_UPLOAD": "Upload",
-    "PLACEHOLDER": "Paste a video link",
-    "HINT": "Works with YouTube, Vimeo, Loom, Wistia, Arcade, Bunny, CodePen, GuideJar and mp4 links",
-    "ERROR": "That doesn't look like a supported video link",
-    "UPLOAD_LABEL": "Choose a video file",
-    "UPLOAD_HINT": "MP4 · up to {size}MB · or drop it here",
-    "UPLOAD_ERROR": "Only MP4 files can be uploaded",
-    "ADD": "Embed",
+    "TAB_EMBED": "Ugradi poveznicu",
+    "TAB_UPLOAD": "Prenesi",
+    "PLACEHOLDER": "Zalijepite poveznicu na videozapis",
+    "HINT": "Podržane su poveznice na YouTube, Vimeo, Loom, Wistia, Arcade, Bunny, CodePen i GuideJar te poveznice na MP4 videozapise",
+    "ERROR": "Poveznica na videozapis nije podržana",
+    "UPLOAD_LABEL": "Odaberi videodatoteku",
+    "UPLOAD_HINT": "MP4 · do {size} MB · ili je ispustite ovdje",
+    "UPLOAD_ERROR": "Mogu se prenijeti samo MP4 datoteke",
+    "ADD": "Ugradi",
     "CANCEL": "Odustani"
   }
 }

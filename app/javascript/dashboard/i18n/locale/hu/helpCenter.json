@@ -317,6 +317,11 @@
         }
       },
       "DELETE_LOCALE": {
+        "DIALOG": {
+          "TITLE": "Delete {locale}?",
+          "DESCRIPTION": "This will permanently delete {articles} and {categories} in this locale. This action cannot be undone.",
+          "CONFIRM": "Delete locale"
+        },
         "API": {
           "SUCCESS_MESSAGE": "Terület sikeresen eltávolítva a portálról",
           "ERROR_MESSAGE": "Nem sikerült eltávolítani a területet a portálról. Kérlek, próbáld újra."
@@ -554,10 +559,16 @@
       "ARTICLES_HEADER": {
         "TABS": {
           "ALL": "All articles",
-          "MINE": "Enyém",
           "DRAFT": "Vázlat",
           "PUBLISHED": "Publikált",
           "ARCHIVED": "Archivált"
+        },
+        "AUTHOR": {
+          "LABEL": "Filter by author: {author}",
+          "ALL": "All authors",
+          "ME": "Én",
+          "SELECTED": "Selected author",
+          "SEARCH_PLACEHOLDER": "Search teammates..."
         },
         "CATEGORY": {
           "ALL": "All categories"
@@ -574,9 +585,9 @@
           "SUBTITLE": "Write a rich article, let’s get started!",
           "BUTTON_LABEL": "New article"
         },
-        "MINE": {
-          "TITLE": "You haven't written any articles here",
-          "SUBTITLE": "All articles written by you show up here for quick access."
+        "AUTHOR": {
+          "TITLE": "Nincs a keresésnek megfelelő cikk",
+          "SUBTITLE": "Try another author or change the selected filters."
         },
         "DRAFT": {
           "TITLE": "There are no articles in drafts",
@@ -801,6 +812,8 @@
           "SAVED": "Mentve"
         },
         "PREVIEW": "Előnézet",
+        "PREVIEW_ERROR": "Could not open the preview. Please try again.",
+        "PREVIEW_POPUP_BLOCKED": "Allow popups for this site to open the preview.",
         "PUBLISH": "Publikálás",
         "PUBLISH_CHANGES": "Módosítások közzététele",
         "PUBLISH_CHANGES_SUCCESS": "A módosítások közzététele sikerült",
@@ -816,6 +829,11 @@
         "DRAFT": "Vázlat",
         "ARCHIVE": "Archive",
         "BACK_TO_ARTICLES": "Back to articles"
+      },
+      "NEWER_VERSION": {
+        "LABEL": "Load latest version",
+        "TOOLTIP": "This article was changed by a teammate or in another tab. Click to load the latest version.",
+        "LOAD_ERROR": "Couldn't load the latest version. Try again."
       },
       "PENDING_CHANGES_POPOVER": {
         "TITLE": "Nem közzétett módosítások",
@@ -835,12 +853,19 @@
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "Article properties",
+        "ORIGINAL_ARTICLE": "Original article",
+        "ORIGINAL_ARTICLE_PLACEHOLDER": "This is the original article",
+        "ORIGINAL_ARTICLE_SEARCH": "Cikkek keresése...",
+        "ORIGINAL_ARTICLE_EMPTY": "Nem található cikk",
         "META_DESCRIPTION": "Meta leírás",
         "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
         "META_TITLE": "Meta cím",
         "META_TITLE_PLACEHOLDER": "Add meta title",
         "META_TAGS": "Meta tagek",
         "META_TAGS_PLACEHOLDER": "Add meta tags",
+        "SEARCH_ENGINE_VISIBILITY": "Show in search results",
+        "SEARCH_ENGINE_VISIBILITY_DESCRIPTION": "Turn off to keep this article out of Google and other search engines. It stays published and visible in your help center.",
+        "SEARCH_ENGINE_VISIBILITY_PORTAL_OVERRIDE": "Disabled because this help center is hidden from search results. Change it in Settings → SEO.",
         "SLUG": "Slug",
         "SLUG_PLACEHOLDER": "URL-végződés hozzáadása",
         "SLUG_USE_TITLE": "A cím használata URL-végződésként",
@@ -882,6 +907,9 @@
       "FORM": {
         "AVATAR": {
           "LABEL": "Logó",
+          "ADD_DARK_MODE": "Add dark mode logo",
+          "LIGHT_MODE": "Light mode",
+          "DARK_MODE": "Dark mode",
           "IMAGE_UPLOAD_ERROR": "A képet nem lehet betölteni! Próbálja újra",
           "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save changes to save the logo",
           "IMAGE_DELETE_SUCCESS": "Logo sikeresen törölve",
@@ -986,6 +1014,14 @@
         },
         "SAVE": "Módosítások mentése"
       },
+      "SEO": {
+        "HEADER": "SEO",
+        "DESCRIPTION": "Control how search engines discover your help center.",
+        "SEARCH_ENGINE_VISIBILITY": {
+          "LABEL": "Show in search results",
+          "DESCRIPTION": "Let search engines like Google list this help center. When turned off, your help center works exactly the same for visitors. It just stops appearing in search engine results, which can take a few days or weeks."
+        }
+      },
       "INTEGRATIONS": {
         "HEADER": "Integrációk",
         "DESCRIPTION": "Kapcsoljon össze olyan eszközöket, amelyekkel bővítheti a súgóközpont funkcióit.",
@@ -1050,6 +1086,7 @@
         "GENERAL": "Általános",
         "DOMAIN": "Domain",
         "APPEARANCE": "Megjelenés",
+        "SEO": "SEO",
         "INTEGRATIONS": "Integrációk"
       },
       "API": {

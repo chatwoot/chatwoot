@@ -206,6 +206,40 @@ describe('useNumberFormatter', () => {
     });
   });
 
+  describe('formatUnit', () => {
+    it.each([
+      [1, '1 sat'],
+      [2, '2 sata'],
+      [5, '5 sati'],
+      [11, '11 sati'],
+      [21, '21 sat'],
+      [22, '22 sata'],
+    ])(
+      'formats Croatian hours at %s with the correct plural: %s',
+      (count, expected) => {
+        vi.mocked(useI18n).mockReturnValue({ locale: ref('hr') });
+        const { formatUnit } = useNumberFormatter();
+        expect(formatUnit(count, 'hour')).toBe(expected);
+      }
+    );
+
+    it('handles all duration units and reactive locale changes', () => {
+      const locale = ref('hr');
+      vi.mocked(useI18n).mockReturnValue({ locale });
+      const { formatUnit } = useNumberFormatter();
+
+      expect(formatUnit(1, 'minute')).toBe('1 minuta');
+      expect(formatUnit(2, 'minute')).toBe('2 minute');
+      expect(formatUnit(5, 'minute')).toBe('5 minuta');
+      expect(formatUnit(21, 'day')).toBe('21 dan');
+      locale.value = 'pt_BR';
+      expect(formatUnit(2, 'hour')).toBe('2 horas');
+      locale.value = 'en';
+      expect(formatUnit(1, 'hour')).toBe('1 hour');
+      expect(formatUnit(21, 'hour')).toBe('21 hours');
+    });
+  });
+
   describe('formatFullNumber', () => {
     it('should format numbers with locale-specific formatting', () => {
       const { formatFullNumber } = useNumberFormatter();

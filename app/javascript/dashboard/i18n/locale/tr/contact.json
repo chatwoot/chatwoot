@@ -320,25 +320,6 @@
         "BLOCK_ERROR_MESSAGE": "Kişi engellenemedi. Lütfen daha sonra tekrar deneyin.",
         "UNBLOCK_SUCCESS_MESSAGE": "Bu kişinin engeli başarıyla kaldırıldı",
         "UNBLOCK_ERROR_MESSAGE": "Kişinin engeli kaldırılamadı. Lütfen daha sonra tekrar deneyin.",
-        "IMPORT_CONTACT": {
-          "TITLE": "Kişileri İçe Aktar",
-          "DESCRIPTION": "Kişileri CSV dosyası olarak içe aktar.",
-          "DOWNLOAD_LABEL": "Örnek CSV dosyası indir.",
-          "LABEL": "CSV Dosyası:",
-          "CHOOSE_FILE": "Dosya seç",
-          "CHANGE": "Durumu Değiştir",
-          "CANCEL": "İptal Et",
-          "IMPORT": "İçe Aktar",
-          "SUCCESS_MESSAGE": "İçe aktarma işlemi tamamlandığında e-posta ile bildirileceksiniz.",
-          "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
-        },
-        "EXPORT_CONTACT": {
-          "TITLE": "Kişileri Dışa Aktar",
-          "DESCRIPTION": "Kişilerinizin ayrıntılı bilgilerini içeren bir CSV dosyasını hızlıca dışa aktarın",
-          "CONFIRM": "Dışa Aktar",
-          "SUCCESS_MESSAGE": "Dışa aktarma işlemi devam ediyor, dışa aktarma dosyası indirmeye hazır olduğunda e-posta ile bildirileceksiniz.",
-          "ERROR_MESSAGE": "Bir hata oluştu, lütfen tekrar deneyin"
-        },
         "SORT_BY": {
           "LABEL": "Sırala",
           "OPTIONS": {
@@ -405,6 +386,8 @@
       },
       "TITLE": "Kişileri filtrele",
       "EDIT_SEGMENT": "Segmenti düzenle",
+      "INVALID_SEGMENT": "This segment has an invalid filter. Edit the segment to fix it.",
+      "LOAD_ERROR": "Could not load filtered contacts. Try again.",
       "SEGMENT": {
         "LABEL": "Segment name",
         "INPUT_PLACEHOLDER": "Enter the name of the segment"

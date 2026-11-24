@@ -133,6 +133,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "Populära artiklar",
     "VIEW_ALL_ARTICLES": "Se alla artiklar",
+    "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
     "IFRAME_LOAD_ERROR": "Det gick inte att ladda artikeln, uppdatera sidan och försök igen."
   },
   "ATTACHMENTS": {

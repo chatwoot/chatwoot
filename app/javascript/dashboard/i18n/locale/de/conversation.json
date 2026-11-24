@@ -52,6 +52,7 @@
     "CLICK_HERE": "Hier klicken",
     "LOADING_INBOXES": "Posteingänge laden",
     "LOADING_CONVERSATIONS": "Gespräche laden",
+    "ANONYMOUS_CALLER_CANNOT_REPLY": "Messages cannot be sent because this caller’s phone number is unavailable.",
     "CANNOT_REPLY": "Sie können nicht antworten, weil",
     "24_HOURS_WINDOW": "24-Stunden-Nachrichtenfenster-Beschränkung",
     "48_HOURS_WINDOW": "Beschränkung des 48-Stunden-Nachrichtenfensters",
@@ -140,6 +141,8 @@
       "MISSED_CALL": "Entgangener Anruf",
       "MISSED_CALL_INBOUND_SUBTEXT": "Kein Agent hat abgenommen",
       "MISSED_CALL_DECLINED_BY": "Abgelehnt von {agentName}",
+      "MISSED_CALL_OUTSIDE_HOURS": "Outside business hours",
+      "MISSED_CALL_NOBODY_ONLINE": "Nobody was online",
       "CALL_ENDED": "Anruf beendet",
       "HANDLED_BY": "Bearbeitet von {agentName}",
       "NOT_ANSWERED_YET": "Noch nicht beantwortet",
@@ -150,7 +153,8 @@
       "JOIN_CALL": "Join call",
       "CALL_BACK": "Zurückrufen",
       "TRANSCRIPT_SHOW_MORE": "Mehr anzeigen",
-      "TRANSCRIPT_SHOW_LESS": "Weniger anzeigen"
+      "TRANSCRIPT_SHOW_LESS": "Weniger anzeigen",
+      "DISMISS_FAILED": "Couldn't dismiss the call. It may keep ringing in your other tabs."
     },
     "HEADER": {
       "RESOLVE_ACTION": "Fall schließen",
@@ -171,6 +175,13 @@
       "VOICE_CALL_FAILED": "Der Anruf konnte nicht gestartet werden.",
       "WHATSAPP_CALL_PERMISSION_REQUESTED": "Eine Anfrage für die Anrufberechtigung wurde an den Kontakt gesendet. Versuche es erneut, sobald die Anfrage angenommen wurde.",
       "WHATSAPP_CALL_PERMISSION_PENDING": "Vor Kurzem wurde bereits eine Anfrage für die Anrufberechtigung gesendet. Versuche es erneut, sobald der Kontakt sie annimmt.",
+      "AUTO_TRANSLATE": {
+        "TURN_OFF": "Turn off auto-translate",
+        "TURN_ON": "Turn on auto-translate",
+        "TURNED_OFF": "Auto-translate is off for this conversation",
+        "TURNED_ON": "Auto-translate is on for this conversation",
+        "UPDATE_FAILED": "Could not change auto-translate for this conversation. Please try again."
+      },
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -438,6 +449,14 @@
       "END_CALL": "End call",
       "MUTE": "Mikrofon stummschalten",
       "UNMUTE": "Mikrofon einschalten",
+      "SHOW_KEYPAD": "Show keypad",
+      "HIDE_KEYPAD": "Hide keypad",
+      "KEYPAD": "Call keypad",
+      "STAR": "Star",
+      "POUND": "Pound",
+      "KEYPAD_SEND_FAILED": "Could not send keypad tone",
+      "ON_HOLD": "On hold",
+      "HOLD_FAILED": "Couldn't update the hold. Please try again.",
       "VIEW_CHAT_HISTORY": "Chatverlauf anzeigen",
       "GO_TO_CONVERSATION": "Zur Unterhaltung wechseln"
     }

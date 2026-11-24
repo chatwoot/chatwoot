@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onMounted, ref, useTemplateRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useNumberFormatter } from 'shared/composables/useNumberFormatter';
 import ConditionRow from 'dashboard/components-next/filter/ConditionRow.vue';
 import FilterSelect from 'dashboard/components-next/filter/inputs/FilterSelect.vue';
 import MultiSelect from 'dashboard/components-next/filter/inputs/MultiSelect.vue';
@@ -49,6 +50,7 @@ const delay = defineModel('delay', { type: Number, default: null });
 const unit = defineModel('unit', { type: String, required: true });
 
 const { t } = useI18n();
+const { formatUnit } = useNumberFormatter();
 
 const selectedTrigger = ref(DEFAULT_TRIGGER);
 const triggerStatus = ref(DEFAULT_TRIGGER_STATUS);
@@ -107,11 +109,7 @@ const minDelay = computed(() =>
 // "4 hours" in the unit the inputs above are using, so the explanation reads the same.
 const durationLabel = computed(() => {
   const count = Math.floor((delay.value || 0) / MINUTES_PER_UNIT[unit.value]);
-  return t(
-    `AUTOMATION.ADD.FORM.WAIT.DURATION.${unit.value.toUpperCase()}`,
-    { count },
-    count
-  );
+  return formatUnit(count, unit.value.slice(0, -1));
 });
 
 const explanation = computed(() =>

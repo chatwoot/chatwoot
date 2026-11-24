@@ -133,6 +133,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "Populære Artikler",
     "VIEW_ALL_ARTICLES": "Se alle artikler",
+    "IFRAME_ERROR": "URL er tom eller ugyldig. Kan ikke vise indholdet.",
     "IFRAME_LOAD_ERROR": "Der opstod en fejl under indlæsning af artiklen. Genindlæs venligst siden og prøv igen."
   },
   "ATTACHMENTS": {

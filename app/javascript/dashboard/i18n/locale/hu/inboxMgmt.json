@@ -55,6 +55,9 @@
       },
       "INSTAGRAM": {
         "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "SELECT_ACCOUNT": "Choose an Instagram account",
+        "CONNECT_ACCOUNT": "Connect account",
+        "START_AGAIN": "Start again",
         "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
         "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
         "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
@@ -202,6 +205,16 @@
           "ERROR_MESSAGE": "Nem tudtuk menteni az SMS csatornáját"
         },
         "BANDWIDTH": {
+          "CALLBACK_AUTH": {
+            "TITLE": "Callback credentials",
+            "DESCRIPTION": "Add these as the inbound and outbound callback credentials in your Bandwidth application. If several inboxes share one Bandwidth application, use the callback URL and credentials of one of them.",
+            "RESET_SUCCESS": "Callback password reset. Update it in your Bandwidth application.",
+            "RESET_ERROR": "Could not reset the callback password. Please try again.",
+            "USERNAME": "Username",
+            "PASSWORD": "Jelszó",
+            "ENFORCE": "Require callback credentials",
+            "ENFORCE_DESCRIPTION": "Reject callbacks that do not use these credentials. Turn this on after adding the credentials to your Bandwidth application."
+          },
           "ACCOUNT_ID": {
             "LABEL": "Fiók Azonosító",
             "PLACEHOLDER": "Kérlek add meg a Bandwidth Fiók felhasználódat",
@@ -239,6 +252,30 @@
           "API_CALLBACK": {
             "TITLE": "Visszahívás URL",
             "SUBTITLE": "Be kell állítanod az üzenet visszahívási URL-jét a sávszélességben az itt említett URL-lel."
+          },
+          "CLIENT_ID": {
+            "LABEL": "Client ID",
+            "PLACEHOLDER": "Enter your Bandwidth Client ID",
+            "ERROR": "Ez a mező kötelező"
+          },
+          "CLIENT_SECRET": {
+            "LABEL": "Client Secret",
+            "PLACEHOLDER": "Enter your Bandwidth Client Secret",
+            "ERROR": "Ez a mező kötelező"
+          },
+          "OAUTH": {
+            "TITLE": "API credentials",
+            "MIGRATE": "Update credentials",
+            "READ_ONLY": "Read-only",
+            "SHOW_SECRET": "Show client secret",
+            "HIDE_SECRET": "Hide client secret",
+            "LEGACY_DESCRIPTION": "Update your Bandwidth credentials before December 2, 2026 to keep this inbox connected.",
+            "DESCRIPTION": "This inbox uses OAuth. Enter a new Client ID and Client Secret to replace its credentials.",
+            "SAVE": "Verify and save credentials",
+            "SUCCESS": "Bandwidth OAuth credentials saved.",
+            "LOAD_ERROR": "Unable to load Bandwidth credentials. Reload this page to try again.",
+            "ERROR": "Unable to save Bandwidth credentials. Please try again.",
+            "CALLBACK_DESCRIPTION": "Use this URL for inbound messages and delivery status callbacks in your Bandwidth application."
           }
         }
       },
@@ -289,6 +326,11 @@
           "LABEL": "API kulcs",
           "SUBTITLE": "WhatsApp API kulcs beállítása.",
           "PLACEHOLDER": "API kulcs",
+          "ERROR": "Kérlek adj meg egy érvényes értéket."
+        },
+        "APP_SECRET": {
+          "LABEL": "App secret",
+          "PLACEHOLDER": "App secret of your Meta app",
           "ERROR": "Kérlek adj meg egy érvényes értéket."
         },
         "API_CALLBACK": {
@@ -344,7 +386,10 @@
             "PHONE_ID_LABEL": "Telefonszám-azonosító",
             "PHONE_ID_PLACEHOLDER": "Adja meg a telefonszám-azonosítót",
             "TOKEN_LABEL": "Állandó hozzáférési token",
-            "TOKEN_PLACEHOLDER": "Illessze be a hozzáférési tokent"
+            "TOKEN_PLACEHOLDER": "Illessze be a hozzáférési tokent",
+            "APP_SECRET_LABEL": "App secret",
+            "APP_SECRET_PLACEHOLDER": "Paste app secret",
+            "APP_SECRET_HELP": "Find it in your Meta app under App settings > Basic. It is used to verify incoming webhooks."
           },
           "REVIEW": {
             "TITLE": "WhatsApp-postafiók létrehozása",
@@ -388,7 +433,7 @@
           },
           "ERRORS": {
             "IDS_REQUIRED": "Adja meg a telefonszám azonosítóját és a WhatsApp üzleti fiók azonosítóját.",
-            "REQUIRED": "Adja meg a telefonszám azonosítóját, a WhatsApp üzleti fiók azonosítóját és az állandó hozzáférési tokent.",
+            "REQUIRED": "Enter the Phone Number ID, WhatsApp Business Account ID, permanent access token, and app secret.",
             "INVALID_TOKEN": "Ez a hozzáférési token érvénytelen vagy lejárt. Hozzon létre új állandó tokent, és próbálja újra.",
             "GENERIC": "Nem sikerült befejezni a WhatsApp beállítását. Ellenőrizze az adatokat, és próbálja újra."
           }
@@ -766,49 +811,111 @@
       "BOT_CONFIGURATION": "Bot konfiguráció",
       "ACCOUNT_HEALTH": "Account Health",
       "CSAT": "CSAT",
-      "VOICE": "Voice",
       "CALLS": "Hívások"
     },
-    "VOICE_CONFIGURATION": {
-      "ENABLE_VOICE": {
-        "LABEL": "Hanghívás engedélyezése",
-        "DESCRIPTION": "Engedélyezze a hanghívást ebben a postafiókban. Az ügynökök telefonhívásokat kezdeményezhetnek és fogadhatnak."
+    "CALL_SETTINGS": {
+      "SAVE": "Save changes",
+      "OPTIONAL": "(opcionális)",
+      "OFF": "Ki",
+      "SECONDS": "{seconds} seconds",
+      "MINUTES": "{n} perc | {n} perc",
+      "CALLING": {
+        "TITLE": "Hívás folyamatban",
+        "DESCRIPTION": "Whether voice calling is enabled for this inbox",
+        "TAKE_INCOMING": "Taking incoming calls",
+        "TAKE_INCOMING_HELP": "Turn off to stop calls ringing without disconnecting the number. Outgoing calls still work.",
+        "CREDENTIALS_HELP": "Calling needs an API key from your Twilio account, and the account's auth token to check Twilio's requests.",
+        "REPLACE_HELP": "Enter a new API key to replace the one this inbox uses.",
+        "CONNECT": "Turn on calling",
+        "CONNECTED": "Csatlakoztatva",
+        "TWILIO_ACCOUNT": "Twilio account {sid}",
+        "MANAGE_CONNECTION": "Manage connection",
+        "HIDE_CONNECTION": "Hide connection",
+        "UPDATE_CONNECTION": "Update connection",
+        "WHATSAPP_ENABLE": "Turn on WhatsApp calling",
+        "WHATSAPP_ENABLE_HELP": "Customers can call this number from WhatsApp. Agents answer in the browser, which needs microphone access.",
+        "META_ON": "Calling on at Meta",
+        "META_HELP": "Calls ring on this WhatsApp number",
+        "TURN_OFF": "Turn off calling"
       },
-      "CREDENTIALS": {
-        "DESCRIPTION": "A hanghívások webhookjának ellenőrzéséhez fiókhitelesítési tokenre, a hívások lebonyolításához pedig API-kulcs hitelesítő adataira van szükség."
+      "INCOMING": {
+        "TITLE": "When a call comes in",
+        "DESCRIPTION": "What the caller hears and who rings.",
+        "GREETING": "Greeting",
+        "GREETING_PLACEHOLDER": "Thanks for calling. Connecting you to the team.",
+        "GREETING_HELP": "Played once to the caller while agents ring, followed by hold music. Leave empty for no greeting.",
+        "SIMULTANEOUS": "Ring everyone at once",
+        "SIMULTANEOUS_HELP": "All available agents ring together. The first to answer gets the call.",
+        "SEQUENTIAL": "Ring one agent at a time",
+        "SEQUENTIAL_HELP": "Starts with the longest-idle agent, then adds the next if nobody answers.",
+        "STEP": "Add another agent after",
+        "ASSIGNEE_FIRST": "Ring the conversation assignee first for returning callers",
+        "ASSIGNEE_FIRST_HELP": "Turn off for line-staffed teams on rotation.",
+        "ALWAYS": "Always:",
+        "ALWAYS_NOTE": "agents who are on a call, in wrap-up, or not taking calls are never rung. The caller waits, and the first agent who frees up rings.",
+        "ROUTING": "How calls are routed",
+        "WHATSAPP_DESCRIPTION": "Who rings, and in what order."
       },
-      "INBOUND": {
-        "LABEL": "Bejövő hívások engedélyezése",
-        "DESCRIPTION": "Engedélyezze, hogy az ügyfelek felhívhassák ezt a számot. Kikapcsolt állapotban a rendszer automatikusan elutasítja a bejövő hívásokat, nem értesíti az ügynököket, és nem hoz létre beszélgetést. Az ügynökök továbbra is kezdeményezhetnek kimenő hívásokat."
+      "UNANSWERED": {
+        "TITLE": "If nobody answers",
+        "DESCRIPTION": "Also used straight away when no agent is available.",
+        "WAIT": "Wait",
+        "THEN": "then play the message and hang up",
+        "MESSAGE": "Missed-call message",
+        "MESSAGE_HELP": "Read out to the caller.",
+        "WHATSAPP_DESCRIPTION": "When a call ends without being answered, including when no agent is available.",
+        "WHATSAPP_SEND": "Send a WhatsApp message",
+        "WHATSAPP_SEND_HELP": "Sent after each missed call, in the call's conversation, so the caller can reply there.",
+        "WHATSAPP_PLACEHOLDER": "Sorry we missed your call. Reply here and we'll get back to you as soon as we can.",
+        "WHATSAPP_MESSAGE_HELP": "Leave empty to send the text shown. Only sent within WhatsApp's 24-hour messaging window."
       },
-      "RECORDING": {
-        "LABEL": "Hívások rögzítése",
-        "DESCRIPTION": "Rögzítse a hívásokat, és csatolja a felvételt a beszélgetéshez. Kapcsolja ki ezt a beállítást ott, ahol a hívások rögzítése nem engedélyezett."
+      "OUT_OF_HOURS": {
+        "TITLE": "Nyitvatartási időn kívül",
+        "DESCRIPTION": "Uses the inbox's hours from the Business hours tab.",
+        "APPLY": "Apply business hours to calls",
+        "APPLY_HELP": "When on, calls outside business hours follow the rule below.",
+        "HOURS_OFF": "Business hours are off for this inbox. Turn them on for the inbox first, then calls can follow them.",
+        "HOURS_OFF_APPLIED": "Business hours are off for this inbox, so calls will keep ringing as usual at all times. Turn business hours on for the inbox to apply this.",
+        "GO_TO_HOURS": "Go to Business hours",
+        "INBOX_HOURS": "Inbox hours:",
+        "ALL_DAY": "all day",
+        "ALWAYS_CLOSED": "Closed every day",
+        "EDIT_HOURS": "Edit hours",
+        "MESSAGE": "Out-of-hours message",
+        "SAME": "Same as the missed-call message",
+        "MESSAGE_HELP": "What callers hear outside business hours, after which the call ends.",
+        "WHATSAPP_APPLY_HELP": "WhatsApp won't put calls through outside these hours. Callers see when they can call next and can message you instead.",
+        "WHATSAPP_HOURS_CHECKING": "Checking WhatsApp…",
+        "WHATSAPP_HOURS_APPLYING": "Applying on WhatsApp…",
+        "WHATSAPP_HOURS_APPLIED": "Applied on WhatsApp",
+        "WHATSAPP_HOURS_DIFFER": "WhatsApp is using different call hours from this inbox. Calls follow WhatsApp's hours until you apply the inbox hours.",
+        "WHATSAPP_APPLY_INBOX_HOURS": "Apply inbox hours",
+        "WHATSAPP_HOURS_STILL_ON": "WhatsApp is still applying call hours, but this inbox doesn't. Calls outside those hours won't go through until you turn them off.",
+        "WHATSAPP_TURN_OFF_HOURS": "Turn off on WhatsApp"
       },
-      "TRANSCRIPTION": {
-        "LABEL": "Felvételek átírása szöveggé",
-        "DESCRIPTION": "Minden felvételből szöveges átirat készül. A funkció a Captaint használja, és csak akkor működik, ha a fióknál engedélyezve van a hangátírás."
+      "AFTER_CALL": {
+        "TITLE": "After a call",
+        "DESCRIPTION": "Wrap-up and records.",
+        "WRAP_UP": "Wrap-up time",
+        "WRAP_UP_HELP": "Agents in wrap-up aren't rung; resolving the conversation also ends it.",
+        "RECORD": "Hívások rögzítése",
+        "TRANSCRIBE": "Felvételek átírása szöveggé",
+        "TRANSCRIBE_HELP": "Turned into text with Captain and shown with the call. Needs recording on.",
+        "RECORD_HELP": "The recording is attached to the conversation."
+      },
+      "PLAY": "Play",
+      "PLAY_AFTER_SAVE": "Save changes to record and play the new message",
+      "STOP": "Stop",
+      "CALLING_CUSTOMERS": {
+        "TITLE": "Calling customers",
+        "DESCRIPTION": "WhatsApp needs the customer's permission before you call them.",
+        "PERMISSION_MESSAGE": "Permission request message",
+        "PERMISSION_PLACEHOLDER": "Can we call you on WhatsApp about your request?",
+        "PERMISSION_HELP": "Sent when an agent calls a customer who hasn't allowed calls yet. Leave empty to use the default."
       }
     },
     "WHATSAPP_CALLING": {
-      "ENABLE": {
-        "LABEL": "WhatsApp-hívások engedélyezése",
-        "DESCRIPTION": "Engedélyezze, hogy az ügynökök WhatsApp Cloud-hívásokat fogadhassanak és indíthassanak ebben a postafiókban. Az ügyfelek közvetlenül a WhatsAppon hívhatják ezt az üzleti telefonszámot."
-      },
-      "ENABLE_FAILED": "Nem sikerült bekapcsolni a hanghívást ehhez a számhoz, mert még nincs regisztrálva a WhatsApp Business Calling API-ban. A regisztrációhoz forduljon a Metához vagy a WhatsApp üzleti megoldásszolgáltatójához, majd próbálja újra.",
-      "PHONE_NUMBER": {
-        "LABEL": "Üzleti telefonszám",
-        "HELP_TEXT": "Az a WhatsApp-szám, amelyet az ügyfelek hívhatnak."
-      },
-      "HOW_IT_WORKS": {
-        "LABEL": "Működés",
-        "DESCRIPTION": "A hívások közvetlenül az ügynök böngészője és a Meta között zajlanak, nincs szükség további hitelesítő adatokra. Győződjön meg róla, hogy az ügynök böngészőjében engedélyezve van a mikrofon használata ezen a webhelyen."
-      },
-      "PERMISSION_REQUEST_BODY": {
-        "LABEL": "Hívásengedélyezési üzenet",
-        "HELP_TEXT": "Ez az üzenet jelenik meg a kontaktnak, ha még nem járult hozzá a hívások fogadásához. Hagyja üresen az alapértelmezett szöveg használatához.",
-        "PLACEHOLDER": "Szeretnénk felhívni a beszélgetéssel kapcsolatban."
-      }
+      "ENABLE_FAILED": "Nem sikerült bekapcsolni a hanghívást ehhez a számhoz, mert még nincs regisztrálva a WhatsApp Business Calling API-ban. A regisztrációhoz forduljon a Metához vagy a WhatsApp üzleti megoldásszolgáltatójához, majd próbálja újra."
     },
     "CHANNEL_PREFERENCES": "Channel Preferences",
     "WIDGET_FEATURES": "Widget features",
@@ -847,6 +954,22 @@
         "VOICE_CALLING": {
           "LABEL": "Hanghívás",
           "TOOLTIP": "Be van-e kapcsolva a hívás ebben a postafiókban"
+        },
+        "SENDER_STATUS": {
+          "LABEL": "WhatsApp sender status",
+          "TOOLTIP": "The sender must be online to send and receive WhatsApp messages"
+        },
+        "DISPLAY_NAME": {
+          "LABEL": "WhatsApp megjelenített név",
+          "TOOLTIP": "The business name shown to customers on WhatsApp"
+        },
+        "QUALITY_RATING": {
+          "LABEL": "Quality rating",
+          "TOOLTIP": "The WhatsApp sender quality rating reported by Twilio"
+        },
+        "MESSAGING_LIMIT": {
+          "LABEL": "Messaging limit",
+          "TOOLTIP": "The WhatsApp messaging limit reported by Twilio"
         }
       },
       "VALUES": {
@@ -865,10 +988,25 @@
         },
         "SENDER_TYPES": {
           "PHONE_NUMBER": "Telefonszám",
-          "MESSAGING_SERVICE": "Üzenetküldő szolgáltatás"
+          "MESSAGING_SERVICE": "Üzenetküldő szolgáltatás",
+          "WHATSAPP_SENDER": "WhatsApp sender"
         },
         "ENABLED": "Engedélyezve",
-        "DISABLED": "Letiltva"
+        "DISABLED": "Letiltva",
+        "SENDER_STATUSES": {
+          "ONLINE": "Online",
+          "OFFLINE": "Offline",
+          "CREATING": "Creating",
+          "VERIFYING": "Ellenőrzés",
+          "UPDATING": "Frissítés folyamatban",
+          "DELETING": "Deleting",
+          "UNKNOWN": "Ismeretlen"
+        },
+        "QUALITY_RATINGS": {
+          "HIGH": "Magas",
+          "MEDIUM": "Közepes",
+          "LOW": "Alacsony"
+        }
       },
       "WEBHOOKS": {
         "TITLE": "Webhook",
@@ -1086,6 +1224,7 @@
       }
     },
     "SETTINGS": "Beállítások",
+    "VIEW_CONVERSATIONS": "View conversations",
     "FEATURES": {
       "LABEL": "Lehetőségek",
       "DISPLAY_FILE_PICKER": "File választó megjelenítése a widgeten",
@@ -1160,6 +1299,10 @@
       "WHATSAPP_SECTION_UPDATE_TITLE": "API-kulcs frissítése",
       "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Add meg az új API kulcsot",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Frissítés",
+      "WHATSAPP_APP_SECRET_TITLE": "App Secret",
+      "WHATSAPP_APP_SECRET_SUBHEADER": "Enter the app secret of your Meta app (App settings > Basic). It is used to verify that incoming webhooks come from Meta.",
+      "WHATSAPP_APP_SECRET_MISSING": "Incoming webhooks for this inbox are not verified yet. Add your Meta app secret to complete the setup.",
+      "WHATSAPP_APP_SECRET_PLACEHOLDER": "Enter the app secret here",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_ADD_TITLE": "Üzleti fiók kezelési token hozzáadása",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_REPLACE_TITLE": "Üzleti fiók kezelési token cseréje",
       "WHATSAPP_BUSINESS_MANAGEMENT_TOKEN_CONFIGURED": "Az üzleti fiók kezelési token beállítva",
@@ -1229,6 +1372,8 @@
           "DISPLAY_PHONE_NUMBER_HELP": "Az ügyfelek számára látható WhatsApp-szám. Az átállás során nem módosítható.",
           "ACCESS_TOKEN": "Állandó hozzáférési token vagy rendszerfelhasználói token",
           "ACCESS_TOKEN_PLACEHOLDER": "Illessze be a hozzáférési tokent",
+          "APP_SECRET": "App secret",
+          "APP_SECRET_PLACEHOLDER": "App secret from App settings > Basic in your Meta app",
           "TOKEN_HELP_PREFIX": "A tokennek a következő jogosultságokkal kell rendelkeznie",
           "TOKEN_HELP_MIDDLE": "Hozzáadás",
           "TOKEN_HELP_SUFFIX": "a sablonok szinkronizálásához és kezeléséhez.",
@@ -1256,7 +1401,7 @@
           },
           "ACCESS_TOKEN": {
             "TITLE": "Hozzáférési token",
-            "DESCRIPTION": "Illesszen be állandó hozzáférési tokent vagy WhatsApp-jogosultságokkal rendelkező rendszerfelhasználói tokent."
+            "DESCRIPTION": "Paste a permanent access token or system user token with WhatsApp permissions, and the app secret of your Meta app."
           },
           "REVIEW_MIGRATION": {
             "TITLE": "Átállás áttekintése",
@@ -1311,7 +1456,10 @@
         "BALANCED": "Balanced assignment"
       },
       "UPGRADE_PROMPT": "Custom assignment policies are available on the Business plan",
+      "SELF_HOSTED_PROMPT": "Az egyéni hozzárendelési szabályzatok a Premium csomagban érhetők el",
+      "FEATURE_DISABLED_PROMPT": "Az egyéni hozzárendelési szabályzatok nincsenek engedélyezve ehhez a fiókhoz.",
       "UPGRADE_TO_BUSINESS": "Upgrade to Business",
+      "UPGRADE_TO_PREMIUM": "Váltás Premium csomagra",
       "DEFAULT_POLICY_LINKED": "Default policy linked",
       "DEFAULT_POLICY_DESCRIPTION": "Link a custom assignment policy to customize how conversations are assigned to agents in this inbox.",
       "LINK_EXISTING_POLICY": "Link existing policy",

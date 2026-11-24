@@ -75,6 +75,7 @@
       "VALUE_REQUIRED": "Değer gereklidir",
       "ATTRIBUTE_KEY_REQUIRED": "Özellik anahtarı zorunludur",
       "FILTER_OPERATOR_REQUIRED": "Filtre operatörü zorunludur",
+      "INVALID_FILTER_OPERATOR": "Select a valid operator for this attribute",
       "VALUE_MUST_BE_BETWEEN_1_AND_998": "Değer 1 ile 998 arasında olmalıdır"
     },
     "GROUPS": {

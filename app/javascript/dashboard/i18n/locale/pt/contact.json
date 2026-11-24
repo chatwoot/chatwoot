@@ -320,25 +320,6 @@
         "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
         "UNBLOCK_SUCCESS_MESSAGE": "Este contacto foi desbloqueado",
         "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
-        "IMPORT_CONTACT": {
-          "TITLE": "Import contacts",
-          "DESCRIPTION": "Importar contactos através de um ficheiro CSV.",
-          "DOWNLOAD_LABEL": "Descarregar uma amostra CSV.",
-          "LABEL": "Ficheiro CSV:",
-          "CHOOSE_FILE": "Choose file",
-          "CHANGE": "Trocar",
-          "CANCEL": "Cancelar",
-          "IMPORT": "Importar",
-          "SUCCESS_MESSAGE": "Será notificado via e-mail quando a importação estiver completa.",
-          "ERROR_MESSAGE": "Ocorreu um erro, por favor, tente novamente"
-        },
-        "EXPORT_CONTACT": {
-          "TITLE": "Export contacts",
-          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
-          "CONFIRM": "Exportar",
-          "SUCCESS_MESSAGE": "Exportação em progresso. Será notificado via e-mail quando o ficheiro de exportação estiver pronto para descarregar.",
-          "ERROR_MESSAGE": "Ocorreu um erro, por favor, tente novamente"
-        },
         "SORT_BY": {
           "LABEL": "Ordenar por",
           "OPTIONS": {
@@ -405,6 +386,8 @@
       },
       "TITLE": "Filtrar contactos",
       "EDIT_SEGMENT": "Editar segmento",
+      "INVALID_SEGMENT": "This segment has an invalid filter. Edit the segment to fix it.",
+      "LOAD_ERROR": "Could not load filtered contacts. Try again.",
       "SEGMENT": {
         "LABEL": "Segment name",
         "INPUT_PLACEHOLDER": "Enter the name of the segment"

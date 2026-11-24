@@ -133,6 +133,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "Популярни статии",
     "VIEW_ALL_ARTICLES": "Вижте всички статии",
+    "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
     "IFRAME_LOAD_ERROR": "Възникна грешка при зареждането на статията, моля опреснете страницата и опитайте отново."
   },
   "ATTACHMENTS": {
