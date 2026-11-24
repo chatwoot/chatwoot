@@ -89,6 +89,26 @@ RSpec.describe Enterprise::SearchService do
     expect(search.perform[:messages].map(&:id)).to contain_exactly(assigned_message.id)
   end
 
+  it 'searches call transcripts for accessible conversations' do
+    account.enable_features!('advanced_search')
+    [assigned_message, restricted_message].each do |message|
+      message.update!(content: 'no content match', content_type: :voice_call)
+      create(:call, conversation: message.conversation, message: message, transcript: 'restricted search term')
+    end
+
+    expect(search.perform[:messages].map(&:id)).to contain_exactly(assigned_message.id)
+  end
+
+  it 'does not use the subject of an inaccessible conversation' do
+    account.enable_features!('advanced_search')
+    assigned_message.update!(content: 'no content match')
+    restricted_message.update!(content: 'no content match')
+    assigned_conversation.update!(additional_attributes: { mail_subject: 'restricted search term' })
+    restricted_conversation.update!(additional_attributes: { mail_subject: 'restricted search term' })
+
+    expect(search.perform[:messages].map(&:id)).to contain_exactly(assigned_message.id)
+  end
+
   context 'when the agent is not a member of every inbox' do
     before { create(:inbox, account: account) }
 

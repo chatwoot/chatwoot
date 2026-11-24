@@ -32,8 +32,11 @@ module Enterprise::SearchService
         conversations.additional_attributes ->> 'mail_subject' ILIKE :search) OR EXISTS (
          SELECT 1 FROM attachments
          WHERE attachments.message_id = messages.id AND attachments.meta ->> 'transcribed_text' ILIKE :search
-       )",
-      search: "%#{search_query}%"
+       ) OR (messages.content_type = :voice_call AND EXISTS (
+         SELECT 1 FROM calls
+         WHERE calls.message_id = messages.id AND calls.transcript ILIKE :search
+       ))",
+      search: "%#{search_query}%", voice_call: Message.content_types[:voice_call]
     ).reorder('messages.created_at DESC, messages.id DESC').page(params[:page]).per(15)
   end
 
