@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe SearchIndexing::ConversationBackfillJob do
+  include_context 'with conversation search queue'
+
   let(:account) { create(:account) }
   let(:identity) { { 'name' => 'conversation-test', 'uuid' => 'generation-one' } }
 
