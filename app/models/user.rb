@@ -99,7 +99,8 @@ class User < ApplicationRecord
   has_many :inbox_members, dependent: :destroy_async
   has_many :inboxes, through: :inbox_members, source: :inbox
   has_many :messages, as: :sender, dependent: :nullify
-  has_many :invitees, through: :account_users, class_name: 'User', foreign_key: 'inviter_id', source: :inviter, dependent: :nullify
+  has_many :invited_account_users, class_name: 'AccountUser', foreign_key: 'inviter_id', dependent: :nullify, inverse_of: :inviter
+  has_many :invitees, through: :invited_account_users, source: :user
 
   has_many :user_sessions, dependent: :destroy
   has_many :custom_filters, dependent: :destroy_async
@@ -118,6 +119,7 @@ class User < ApplicationRecord
   # rubocop:enable Rails/HasManyOrHasOneDependent
 
   before_validation :set_password_and_uid, on: :create
+  before_destroy :preserve_invitation_state_for_unconfirmed_invitees, prepend: true
   after_destroy :remove_macros
   after_save :sync_user_sessions, if: :saved_change_to_tokens?
 
@@ -257,6 +259,16 @@ class User < ApplicationRecord
 
   def remove_macros
     macros.personal.destroy_all
+  end
+
+  def preserve_invitation_state_for_unconfirmed_invitees
+    invited_account_users.includes(:user).find_each do |account_user|
+      invitee = account_user.user
+      next if invitee.blank? || invitee.confirmed?
+
+      invitee.custom_attributes = (invitee.custom_attributes || {}).merge('invited_user' => true)
+      invitee.save(validate: false)
+    end
   end
 end
 
