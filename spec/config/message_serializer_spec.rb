@@ -79,16 +79,29 @@ describe 'Message Serializer Configuration' do
       expect(Marshal).not_to have_received(:load)
     end
 
-    it 'reads larger blob ids issued in the binary format' do
-      [123, (2**30) - 1, 2**30, 2**40].each do |id|
+    it 'reads integer ids issued in the binary format' do
+      [0, 123, -123, (2**30) - 1, 2**30, 2**40, -(2**40)].each do |id|
         signed_id = binary_format_verifier('ActiveStorage').generate(id, purpose: :blob_id)
 
         expect(ActiveStorage.verifier.verified(signed_id, purpose: :blob_id)).to eq(id)
       end
     end
 
-    it 'rejects other payloads in the binary format without loading them' do
-      [{ key: 'abc' }, 'abc', 1..2, -1].each do |payload|
+    it 'keeps variation keys and blob keys issued in the binary format working' do
+      transformations = { format: 'jpg', resize_to_fill: [250, nil], saver: { strip: true, quality: 80 } }
+      variation_key = binary_format_verifier('ActiveStorage').generate(transformations, purpose: :variation)
+      blob_key = { key: 'abc', disposition: 'inline; filename="café.png"', content_type: 'image/png', service_name: 'test' }
+      blob_token = binary_format_verifier('ActiveStorage').generate(blob_key, purpose: :blob_key)
+
+      expect(ActiveStorage::Variation.decode(variation_key).transformations).to eq(transformations)
+      expect(ActiveStorage.verifier.verified(blob_token, purpose: :blob_key)).to eq(blob_key)
+      expect(Marshal).not_to have_received(:load)
+    end
+
+    it 'rejects objects in the binary format without loading them' do
+      tagged = +'abc'
+      tagged.instance_variable_set(:@tag, 1)
+      [1..2, Object.new, Time.current, { 'a' => 1 }.with_indifferent_access, tagged].each do |payload|
         token = binary_format_verifier('ActiveStorage').generate(payload, purpose: :blob_key)
 
         expect { ActiveStorage.verifier.verified(token, purpose: :blob_key) }
@@ -105,6 +118,20 @@ describe 'Message Serializer Configuration' do
 
       expect(response).to have_http_status(:ok)
       expect(response.body).to eq('hello')
+    end
+
+    it 'serves a representation from a url issued in the binary format' do
+      image = ActiveStorage::Blob.create_and_upload!(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png',
+                                                     content_type: 'image/png')
+      verifier = binary_format_verifier('ActiveStorage')
+      signed_id = verifier.generate(image.id, purpose: :blob_id)
+      variation_key = verifier.generate({ resize_to_fill: [250, nil] }, purpose: :variation)
+
+      get "/rails/active_storage/representations/redirect/#{signed_id}/#{variation_key}/avatar.png"
+      follow_redirect!
+
+      expect(response).to have_http_status(:ok)
+      expect(response.media_type).to eq('image/png')
     end
   end
 end
