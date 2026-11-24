@@ -90,7 +90,7 @@ RSpec.describe 'Passwords API', type: :request do
       expect(response).to have_http_status(:success)
       user.reload
       expect(user.tokens.keys).to eq([response.headers['client']])
-      expect(user.user_sessions).to be_empty
+      expect(user.user_sessions.pluck(:client_id)).to eq([response.headers['client']])
     end
 
     context 'when account enforces MFA' do

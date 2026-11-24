@@ -26,6 +26,7 @@ class DeviseOverrides::PasswordsController < Devise::PasswordsController
       return render_mfa_sign_in_required if mfa_sign_in_required?(@recoverable)
 
       send_auth_headers(@recoverable)
+      track_user_session(@recoverable)
       render partial: 'devise/auth', formats: [:json], locals: { resource: @recoverable }
     else
       render json: { message: 'Invalid token', redirect_url: '/' }, status: :unprocessable_entity
@@ -53,6 +54,12 @@ class DeviseOverrides::PasswordsController < Devise::PasswordsController
     recoverable.save!
     recoverable.confirm unless recoverable.confirmed? # confirm if user resets password without confirming anytime before
     true
+  end
+
+  def track_user_session(user)
+    UserSessionTrackingService.new(user: user, request: request, client_id: response.headers['client']).create_or_update!
+  rescue StandardError => e
+    Rails.logger.warn "Session tracking failed: #{e.message}"
   end
 
   def build_response(message, status)
