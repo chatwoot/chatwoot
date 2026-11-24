@@ -8,9 +8,19 @@ const props = defineProps({
   min: { type: Number, default: 0 },
   max: { type: Number, default: Infinity },
   disabled: { type: Boolean, default: false },
+  // The units offered; a value stored in whole hours leaves out minutes
+  units: { type: Array, default: () => Object.values(DURATION_UNITS) },
 });
 
 const { t } = useI18n();
+const unitOptions = computed(() => {
+  const labels = {
+    [DURATION_UNITS.MINUTES]: t('DURATION_INPUT.MINUTES'),
+    [DURATION_UNITS.HOURS]: t('DURATION_INPUT.HOURS'),
+    [DURATION_UNITS.DAYS]: t('DURATION_INPUT.DAYS'),
+  };
+  return props.units.map(value => ({ value, label: labels[value] }));
+});
 const duration = defineModel('modelValue', { type: Number, default: null });
 const unit = defineModel('unit', {
   type: String,
@@ -19,6 +29,8 @@ const unit = defineModel('unit', {
     return Object.values(DURATION_UNITS).includes(value);
   },
 });
+
+let hasTypedValue = false;
 
 const convertToMinutes = newValue => {
   if (unit.value === DURATION_UNITS.MINUTES) {
@@ -42,6 +54,7 @@ const transformedValue = computed({
     return 0;
   },
   set(newValue) {
+    hasTypedValue = true;
     if (newValue == null || newValue === '') {
       duration.value = null;
       return;
@@ -50,9 +63,11 @@ const transformedValue = computed({
   },
 });
 
+// Clamp only what the user typed, so a saved value outside the range survives focus and blur
 const normalizeDuration = () => {
-  if (duration.value == null) return;
+  if (!hasTypedValue || duration.value == null) return;
 
+  hasTypedValue = false;
   duration.value = Math.min(Math.max(duration.value, props.min), props.max);
 };
 
@@ -84,14 +99,12 @@ watch(unit, () => {
     :disabled="disabled"
     class="mb-0 text-sm disabled:outline-n-weak disabled:opacity-40"
   >
-    <option :value="DURATION_UNITS.MINUTES">
-      {{ t('DURATION_INPUT.MINUTES') }}
-    </option>
-    <option :value="DURATION_UNITS.HOURS">
-      {{ t('DURATION_INPUT.HOURS') }}
-    </option>
-    <option :value="DURATION_UNITS.DAYS">
-      {{ t('DURATION_INPUT.DAYS') }}
+    <option
+      v-for="option in unitOptions"
+      :key="option.value"
+      :value="option.value"
+    >
+      {{ option.label }}
     </option>
   </select>
 </template>
