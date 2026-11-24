@@ -1,0 +1,46 @@
+# Conversation search indexing
+
+Tracking: [CW-7523](https://linear.app/chatwoot/issue/CW-7523/opensearch-support-for-conversations).
+
+## Live indexing
+
+Run `bundle exec rails search:setup_conversations` to create the conversation index,
+then enable the default-off `advanced_search_conversations` account feature. Contact search remains in SQL;
+contact identity is embedded only in conversation documents. Activity timestamps
+remain available for the planned conversation-filter migration.
+
+Searchkick 5.5.2 owns the Redis ID queue and bulk jobs. Committed writes add IDs to
+`Conversation.search_index.reindex_queue`; a scheduled job invokes Searchkick's
+`ProcessQueueJob` every 30 seconds. It deduplicates each page and creates native
+`ProcessBatchJob` jobs. Run workers for `async_database_migration` (and the configured
+Searchkick queue if overridden). Queue delay and engine refresh add to visibility
+latency; 30 seconds is a scheduling interval, not a guarantee.
+
+Inspect pending IDs with `Conversation.search_index.reindex_queue.length`, and
+monitor normal Sidekiq queue latency, retries and dead jobs. There are no custom
+Redis leases, Lua scripts, throughput thresholds or external-version counters.
+Searchkick uses current primary records when jobs run and removes missing records.
+Contact changes use ordinary paginated jobs; CSV and historical imports explicitly
+capture changes that bypass model callbacks. Deletes still enqueue cleanup when
+an account's writer flag has been disabled.
+
+## Lifecycle and recovery
+
+Setup is explicit and never clears an existing index. The scheduled drain leaves
+IDs queued when the index is absent; normal application writes do not provision it.
+Do not delete/recreate an active index while jobs are running. Disable search reads,
+quiet indexing workers, provision/rebuild, and verify before restoring reads. Disable
+OpenSearch automatic index creation for the conversation index in production so
+already-enqueued bulk jobs cannot recreate an empty, incorrectly mapped index.
+
+Searchkick's queue is best effort: it removes IDs before scheduling a bulk job, so
+process death in that interval can lose an update. A database commit followed by a
+failed Redis enqueue has the same need for repair. Ordinary job exceptions retry in
+Sidekiq; concurrent bulk jobs can finish out of order. This implementation deliberately
+uses Searchkick's behavior rather than recreating a reliable queue around it. Recover
+with a backfill/rebuild; a missing match cannot be recovered by SQL authorization.
+
+Before a code rollback, disable producers and drain/cancel this feature's queued,
+scheduled and retry jobs while their classes are available. Retain the index until
+its retirement is explicitly scheduled. Deployment does not enable indexing or
+change user search behavior.

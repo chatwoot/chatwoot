@@ -30,4 +30,19 @@ module Enterprise::DataImports::Importer
       monitor.eligible_imported_activity?(conversation, activity_times)
     end
   end
+
+  def update_existing_contact(contact, contact_payload)
+    super.tap do |updated_contact|
+      ActiveRecord.after_all_transactions_commit { ::SearchIndexing::Conversations.refresh_contact(updated_contact) }
+    end
+  end
+
+  def create_conversation(...)
+    super.tap { |conversation| ::SearchIndexing::Conversations.enqueue(conversation.account_id, [conversation.id]) }
+  end
+
+  def update_conversation_activity(conversation)
+    super
+    ::SearchIndexing::Conversations.enqueue(conversation.account_id, [conversation.id])
+  end
 end

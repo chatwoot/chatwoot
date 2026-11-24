@@ -1,3 +1,5 @@
+Searchkick.redis = ConnectionPool.new(size: ENV.fetch('REDIS_ALFRED_SIZE', 5), timeout: 1) { Redis.new(**Redis::Config.app) }
+
 Searchkick.queue_name = :async_database_migration if ENV.fetch('OPENSEARCH_URL', '').present?
 
 api_key = ENV.fetch('OPENSEARCH_API_KEY', '').presence || ENV.fetch('ELASTICSEARCH_API_KEY', '').presence

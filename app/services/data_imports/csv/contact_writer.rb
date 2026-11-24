@@ -76,3 +76,5 @@ class DataImports::Csv::ContactWriter
     ActsAsTaggableOn::Tagging.insert_all(taggings) # rubocop:disable Rails/SkipsModelValidations
   end
 end
+
+DataImports::Csv::ContactWriter.prepend_mod_with('DataImports::Csv::ContactWriter')
