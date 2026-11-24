@@ -23,4 +23,12 @@ module SearchIndexing::Conversations
     index = Conversation.search_index
     index.create(index.index_options) unless index.exists?
   end
+
+  def self.reindex_account(account_id)
+    account = Account.find(account_id)
+    raise ArgumentError, 'Configure OpenSearch and enable advanced_search_conversations before reindexing' unless enabled?(account)
+    raise Searchkick::Error, 'Run search:setup_conversations before reindexing' unless Conversation.search_index.exists?
+
+    account.conversations.reindex(mode: :async)
+  end
 end

@@ -1,5 +1,4 @@
 class SearchIndexing::ConversationDocument
-  VERSION = 1
   INDEXED_ATTRIBUTES = %w[contact_id inbox_id display_id created_at last_activity_at].freeze
 
   def self.index_name

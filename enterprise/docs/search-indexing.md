@@ -60,3 +60,34 @@ scheduled and retry jobs while their classes are available. Retain the index unt
 its retirement is explicitly scheduled. Deployment enables live indexing when OpenSearch
 is configured; historical records require an explicit account reindex. Search reads
 remain on PostgreSQL until the later reader PRs are deployed.
+
+## Reindex one account on demand
+
+From the production Rails console:
+
+```ruby
+SearchIndexing::Conversations.reindex_account(123)
+```
+
+Or from a shell:
+
+```sh
+bundle exec rails search:reindex_conversations ACCOUNT_ID=123
+```
+
+This uses Searchkick's account-scoped `reindex(mode: :async)`. Searchkick scans IDs
+in 500-record batches and enqueues its own `BulkReindexJob` for each batch, targeting
+the existing shared index. The console/task must stay connected until scheduling
+finishes; the bulk jobs continue in Sidekiq afterward. No full-model reindex, index
+replacement, custom backfill job, verification scan or repair loop is involved.
+
+There is no account ready/reindexed marker, completion timestamp or activation step.
+The command returning means jobs were scheduled, not that every bulk write finished.
+Use normal Sidekiq queue/retry/dead-job monitoring. Rerunning the command reindexes
+current account records; it does not audit or delete historical orphan documents.
+Live callbacks continue to handle new updates and deletions. If scheduling is
+interrupted, rerun the account. Native batch jobs retry failures normally.
+
+Run accounts individually at a rate appropriate for worker and OpenSearch capacity.
+The native async operation can enqueue many jobs; batch size does not cap total jobs
+or worker concurrency. This PR still leaves all search reads on PostgreSQL.

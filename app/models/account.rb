@@ -246,7 +246,6 @@ class Account < ApplicationRecord
 end
 
 Account.prepend_mod_with('Account')
-Account.include_mod_with('SearchIndexing::Account')
 Account.prepend_mod_with('Account::PlanUsageAndLimits')
 Account.include_mod_with('AccountBillingIdentity')
 Account.include_mod_with('Concerns::Account')
