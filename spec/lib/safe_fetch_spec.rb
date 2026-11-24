@@ -60,6 +60,21 @@ RSpec.describe SafeFetch do
         end
       end
 
+      it 'keeps the raw filename when decoding yields control or invalid bytes' do
+        %w[report%00.png report%FF.png].each do |name|
+          raw_url = "http://example.com/#{name}"
+          stub_request(:get, raw_url).to_return(
+            status: 200,
+            body: File.new(Rails.root.join('spec/assets/avatar.png')),
+            headers: { 'Content-Type' => 'image/png' }
+          )
+
+          described_class.fetch(raw_url) do |result|
+            expect(result.filename).to eq(name)
+          end
+        end
+      end
+
       it 'defaults the filename to a unique "download-<timestamp>-<hex>" when the URL has no path' do
         bare_url = 'http://example.com'
         stub_request(:get, bare_url).to_return(

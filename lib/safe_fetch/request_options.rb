@@ -40,7 +40,7 @@ class SafeFetch::RequestOptions
   end
 
   def filename
-    @filename ||= URI.decode_uri_component(File.basename(uri.path)).presence || "download-#{Time.current.to_i}-#{SecureRandom.hex(4)}"
+    @filename ||= decoded_basename.presence || "download-#{Time.current.to_i}-#{SecureRandom.hex(4)}"
   end
 
   def request_options
@@ -59,6 +59,12 @@ class SafeFetch::RequestOptions
   end
 
   private
+
+  def decoded_basename
+    raw = File.basename(uri.path)
+    decoded = URI.decode_uri_component(raw)
+    decoded.valid_encoding? && !decoded.match?(/[[:cntrl:]]/) ? decoded : raw
+  end
 
   def default_max_bytes
     limit_mb = GlobalConfigService.load('MAXIMUM_FILE_UPLOAD_SIZE', SafeFetch::DEFAULT_MAX_BYTES_FALLBACK_MB).to_i
