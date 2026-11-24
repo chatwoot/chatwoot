@@ -19,6 +19,7 @@ vi.mock('dashboard/api/inboxes', () => ({
     setInboundCalls: vi.fn(),
     setCallRouting: vi.fn(),
     setCallRecording: vi.fn(),
+    setWhatsappCallbackPermission: vi.fn(),
     enableWhatsappCalling: vi.fn(),
     disableWhatsappCalling: vi.fn(),
     getWhatsappCallHours: vi.fn(),
@@ -106,6 +107,45 @@ describe('WhatsappCallingPage', () => {
         },
       },
     });
+  });
+
+  it('saves asking callers for permission to call back after the other settings, so they cannot undo it', async () => {
+    const order = [];
+    dispatch.mockImplementation(async () => order.push('updateInbox'));
+    InboxesAPI.setWhatsappCallbackPermission.mockImplementation(async () =>
+      order.push('callbackPermission')
+    );
+    const wrapper = mountPage({
+      provider_config: {
+        calling_enabled: true,
+        callback_permission_enabled: true,
+      },
+    });
+    const option = label =>
+      wrapper
+        .findAllComponents(CallSettingsOption)
+        .find(
+          component =>
+            component.props('label') === `INBOX_MGMT.CALL_SETTINGS.${label}`
+        );
+
+    expect(
+      option('CALLING_CUSTOMERS.CALLBACK_PERMISSION').find('input').element
+        .checked
+    ).toBe(true);
+
+    await option('CALLING_CUSTOMERS.CALLBACK_PERMISSION')
+      .find('input')
+      .setValue(false);
+    await option('UNANSWERED.WHATSAPP_SEND').find('input').setValue(true);
+    await saveButton(wrapper).trigger('click');
+    await flushPromises();
+
+    expect(InboxesAPI.setWhatsappCallbackPermission).toHaveBeenCalledWith(
+      52,
+      false
+    );
+    expect(order.slice(0, 2)).toEqual(['updateInbox', 'callbackPermission']);
   });
 
   it('shows the saved missed-call message', () => {

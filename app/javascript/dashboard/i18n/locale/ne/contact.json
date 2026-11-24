@@ -320,25 +320,6 @@
         "BLOCK_ERROR_MESSAGE": "सम्पर्क ब्लक गर्न सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।",
         "UNBLOCK_SUCCESS_MESSAGE": "यो सम्पर्क सफलतापूर्वक अनब्लक गरियो",
         "UNBLOCK_ERROR_MESSAGE": "सम्पर्क अनब्लक गर्न सकिएन। कृपया पछि फेरि प्रयास गर्नुहोस्।",
-        "IMPORT_CONTACT": {
-          "TITLE": "सम्पर्कहरू आयात गर्नुहोस्",
-          "DESCRIPTION": "CSV फाइल मार्फत सम्पर्कहरू आयात गर्नुहोस्।",
-          "DOWNLOAD_LABEL": "नमूना CSV डाउनलोड गर्नुहोस्।",
-          "LABEL": "CSV फाइल:",
-          "CHOOSE_FILE": "फाइल छान्नुहोस्",
-          "CHANGE": "परिवर्तन गर्नुहोस्",
-          "CANCEL": "रद्द गर्नुहोस्",
-          "IMPORT": "आयात गर्नुहोस्",
-          "SUCCESS_MESSAGE": "आयात पूरा भएपछि तपाईंलाई इमेलमार्फत सूचित गरिनेछ।",
-          "ERROR_MESSAGE": "त्रुटि भयो, कृपया फेरि प्रयास गर्नुहोस्"
-        },
-        "EXPORT_CONTACT": {
-          "TITLE": "सम्पर्कहरू निर्यात गर्नुहोस्",
-          "DESCRIPTION": "तपाईंका सम्पर्कहरूको विस्तृत विवरण सहित छिटो csv फाइल निर्यात गर्नुहोस्",
-          "CONFIRM": "निर्यात गर्नुहोस्",
-          "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-          "ERROR_MESSAGE": "त्रुटि भयो, कृपया फेरि प्रयास गर्नुहोस्"
-        },
         "SORT_BY": {
           "LABEL": "द्वारा क्रमबद्ध गर्नुहोस्",
           "OPTIONS": {
@@ -405,6 +386,8 @@
       },
       "TITLE": "सम्पर्कहरू फिल्टर गर्नुहोस्",
       "EDIT_SEGMENT": "सेगमेन्ट सम्पादन गर्नुहोस्",
+      "INVALID_SEGMENT": "This segment has an invalid filter. Edit the segment to fix it.",
+      "LOAD_ERROR": "Could not load filtered contacts. Try again.",
       "SEGMENT": {
         "LABEL": "सेगमेन्ट नाम",
         "INPUT_PLACEHOLDER": "सेगमेन्टको नाम प्रविष्ट गर्नुहोस्"

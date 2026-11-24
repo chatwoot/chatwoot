@@ -19,20 +19,9 @@ vi.mock('dashboard/composables/useUISettings', () => ({
   useUISettings: () => ({ uiSettings, updateUISettings }),
 }));
 
-const enabledFeatures = ref([]);
-vi.mock('dashboard/composables/store', () => ({
-  useMapGetter: getter =>
-    getter === 'getCurrentAccountId'
-      ? ref(1)
-      : ref((accountId, feature) =>
-          enabledFeatures.value.includes(`${accountId}:${feature}`)
-        ),
-}));
-
 describe('useCopilotDot', () => {
   beforeEach(() => {
     uiSettings.value = { is_copilot_panel_open: false };
-    enabledFeatures.value = ['1:copilot_workflows'];
     updateUISettings.mockClear();
     useTrack.mockClear();
   });
@@ -49,26 +38,6 @@ describe('useCopilotDot', () => {
       copilot_dot_dismissed: true,
     });
     expect(showDot.value).toBe(false);
-  });
-
-  it('hides the dot without workflows, and keeps it for when workflows reaches the account', () => {
-    enabledFeatures.value = [];
-    const { showDot, openCopilot } = useCopilotDot();
-    expect(showDot.value).toBe(false);
-
-    openCopilot(COPILOT_OPEN_SOURCES.LAUNCHER);
-
-    expect(updateUISettings).toHaveBeenCalledWith({
-      is_contact_sidebar_open: false,
-      is_copilot_panel_open: true,
-    });
-    expect(useTrack).toHaveBeenCalledWith(COPILOT_EVENTS.OPEN, {
-      source: 'launcher',
-      dot_shown: false,
-    });
-
-    enabledFeatures.value = ['1:copilot_workflows'];
-    expect(showDot.value).toBe(true);
   });
 
   it('records where Copilot was opened from and whether the dot was showing', () => {

@@ -52,6 +52,7 @@
     "CLICK_HERE": "Kattints ide",
     "LOADING_INBOXES": "Postaládák betöltése",
     "LOADING_CONVERSATIONS": "Beszélgetések betöltése",
+    "ANONYMOUS_CALLER_CANNOT_REPLY": "Nem küldhetők üzenetek, mert a hívó telefonszáma nem érhető el.",
     "CANNOT_REPLY": "Nem tudunk válaszolni, mivel",
     "24_HOURS_WINDOW": "24 órás üzeneti ablak megkötés",
     "48_HOURS_WINDOW": "48 órás üzeneti ablak megkötés",
@@ -87,10 +88,10 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Ez az üzenet nem támogatott. Ezt az üzenetet a Facebook Messenger alkalmazásban tekintheti meg.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Ez az üzenet nem támogatott. Ezt az üzenetet az Instagram alkalmazásban tekintheti meg.",
     "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
-    "UNSUPPORTED_MESSAGE_WHATSAPP_TITLE": "Message content unavailable",
-    "UNSUPPORTED_MESSAGE_WHATSAPP": "We’re unable to display this message because Meta hasn’t provided its content. This can happen with WhatsApp Coexistence setups. To view the message, please check it in your WhatsApp Business app.",
-    "UNSUPPORTED_MESSAGE_WHATSAPP_DETAILS": "For more details, refer to {documentation}.",
-    "UNSUPPORTED_MESSAGE_WHATSAPP_LEARN_MORE": "Meta’s documentation",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_TITLE": "Az üzenet tartalma nem érhető el",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "Nem tudjuk megjeleníteni ezt az üzenetet, mert a Meta nem biztosította a tartalmát. Ez WhatsApp Coexistence beállítások esetén fordulhat elő. Az üzenet megtekintéséhez ellenőrizze a WhatsApp Business alkalmazásban.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_DETAILS": "További részletekért tekintse meg a következőt: {documentation}.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_LEARN_MORE": "A Meta dokumentációja",
     "WHATSAPP_FLOW_RESPONSE": "Űrlapválasz beküldve",
     "WHATSAPP_REFERRAL": {
       "AD": "Hirdetés"
@@ -140,6 +141,8 @@
       "MISSED_CALL": "Missed call",
       "MISSED_CALL_INBOUND_SUBTEXT": "Egyik ügynök sem vette fel",
       "MISSED_CALL_DECLINED_BY": "Elutasította: {agentName}",
+      "MISSED_CALL_OUTSIDE_HOURS": "Nyitvatartási időn kívül",
+      "MISSED_CALL_NOBODY_ONLINE": "Nobody was online",
       "CALL_ENDED": "Call ended",
       "HANDLED_BY": "Kezelte: {agentName}",
       "NOT_ANSWERED_YET": "Not answered yet",
@@ -150,7 +153,8 @@
       "JOIN_CALL": "Join call",
       "CALL_BACK": "Visszahívás",
       "TRANSCRIPT_SHOW_MORE": "Továbbiak megjelenítése",
-      "TRANSCRIPT_SHOW_LESS": "Kevesebb mutatása"
+      "TRANSCRIPT_SHOW_LESS": "Kevesebb mutatása",
+      "DISMISS_FAILED": "Couldn't dismiss the call. It may keep ringing in your other tabs."
     },
     "HEADER": {
       "RESOLVE_ACTION": "Megoldva",
@@ -171,6 +175,13 @@
       "VOICE_CALL_FAILED": "Nem sikerült elindítani a hívást.",
       "WHATSAPP_CALL_PERMISSION_REQUESTED": "Hívási engedélykérést küldtünk a kontaktnak. Próbálja újra, miután elfogadta.",
       "WHATSAPP_CALL_PERMISSION_PENDING": "Nemrég már küldtünk hívási engedélykérést. Próbálja újra, miután a kontakt elfogadta.",
+      "AUTO_TRANSLATE": {
+        "TURN_OFF": "Turn off auto-translate",
+        "TURN_ON": "Turn on auto-translate",
+        "TURNED_OFF": "Auto-translate is off for this conversation",
+        "TURNED_ON": "Auto-translate is on for this conversation",
+        "UPDATE_FAILED": "Could not change auto-translate for this conversation. Please try again."
+      },
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -438,6 +449,14 @@
       "END_CALL": "End call",
       "MUTE": "Mikrofon némítása",
       "UNMUTE": "Mikrofon bekapcsolása",
+      "SHOW_KEYPAD": "Show keypad",
+      "HIDE_KEYPAD": "Hide keypad",
+      "KEYPAD": "Call keypad",
+      "STAR": "Star",
+      "POUND": "Pound",
+      "KEYPAD_SEND_FAILED": "Could not send keypad tone",
+      "ON_HOLD": "On hold",
+      "HOLD_FAILED": "Couldn't update the hold. Please try again.",
       "VIEW_CHAT_HISTORY": "Beszélgetési előzmények megtekintése",
       "GO_TO_CONVERSATION": "Ugrás a beszélgetésre"
     }

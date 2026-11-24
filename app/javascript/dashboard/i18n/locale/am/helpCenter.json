@@ -317,6 +317,11 @@
         }
       },
       "DELETE_LOCALE": {
+        "DIALOG": {
+          "TITLE": "{locale} አስወግድ?",
+          "DESCRIPTION": "This will permanently delete {articles} and {categories} in this locale. This action cannot be undone.",
+          "CONFIRM": "Delete locale"
+        },
         "API": {
           "SUCCESS_MESSAGE": "ቋንቋው ከፖርታል በተሳካ ሁኔታ ተሰርዟል",
           "ERROR_MESSAGE": "ከፖርታሉ ቋንቋ ማስወገድ አልተቻለም። እባክዎ ደግመው ይሞክሩ።."
@@ -554,10 +559,16 @@
       "ARTICLES_HEADER": {
         "TABS": {
           "ALL": "ሁሉም ጽሁፎች",
-          "MINE": "የእኔ",
           "DRAFT": "እቅድ",
           "PUBLISHED": "ታተም",
           "ARCHIVED": "ተቀምጧል"
+        },
+        "AUTHOR": {
+          "LABEL": "Filter by author: {author}",
+          "ALL": "All authors",
+          "ME": "Me",
+          "SELECTED": "Selected author",
+          "SEARCH_PLACEHOLDER": "Search teammates..."
         },
         "CATEGORY": {
           "ALL": "ሁሉም ምድቦች"
@@ -574,9 +585,9 @@
           "SUBTITLE": "ባለጠጋ ጽሑፍ ይጽፉ፣ እንጀምር!",
           "BUTTON_LABEL": "አዲስ ጽሑፍ"
         },
-        "MINE": {
-          "TITLE": "እዚህ ምንም ጽሑፎች አልጻፉም",
-          "SUBTITLE": "በእርስዎ የተጻፉ ሁሉም ሰነዶች እዚህ ለፈጣን መዳረሻ ይታያሉ።."
+        "AUTHOR": {
+          "TITLE": "No matching articles",
+          "SUBTITLE": "Try another author or change the selected filters."
         },
         "DRAFT": {
           "TITLE": "በረቂቅ ላይ ምንም ጽሑፎች የሉም",
@@ -801,6 +812,8 @@
           "SAVED": "ተቀመጠ"
         },
         "PREVIEW": "ቅድመ እይታ",
+        "PREVIEW_ERROR": "Could not open the preview. Please try again.",
+        "PREVIEW_POPUP_BLOCKED": "Allow popups for this site to open the preview.",
         "PUBLISH": "ለማስታወቂያ",
         "PUBLISH_CHANGES": "Publish changes",
         "PUBLISH_CHANGES_SUCCESS": "Changes published successfully",
@@ -816,6 +829,11 @@
         "DRAFT": "እቅድ",
         "ARCHIVE": "አርክቭ",
         "BACK_TO_ARTICLES": "ወደ ጽሑፎች ተመለስ"
+      },
+      "NEWER_VERSION": {
+        "LABEL": "Load latest version",
+        "TOOLTIP": "This article was changed by a teammate or in another tab. Click to load the latest version.",
+        "LOAD_ERROR": "Couldn't load the latest version. Try again."
       },
       "PENDING_CHANGES_POPOVER": {
         "TITLE": "Unpublished changes",
@@ -835,12 +853,19 @@
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "የጽሑፍ ባህሪያት",
+        "ORIGINAL_ARTICLE": "Original article",
+        "ORIGINAL_ARTICLE_PLACEHOLDER": "This is the original article",
+        "ORIGINAL_ARTICLE_SEARCH": "ጽሑፎችን ፈልግ...",
+        "ORIGINAL_ARTICLE_EMPTY": "ምንም ጽሑፎች አልተገኙም",
         "META_DESCRIPTION": "የሜታ መግለጫ",
         "META_DESCRIPTION_PLACEHOLDER": "የሜታ መግለጫ ያክሉ",
         "META_TITLE": "ሜታ ርዕስ",
         "META_TITLE_PLACEHOLDER": "ሜታ ርዕስ ያክሉ",
         "META_TAGS": "ሜታ መለያዎች",
         "META_TAGS_PLACEHOLDER": "ሜታ መለያዎች ያክሉ",
+        "SEARCH_ENGINE_VISIBILITY": "Show in search results",
+        "SEARCH_ENGINE_VISIBILITY_DESCRIPTION": "Turn off to keep this article out of Google and other search engines. It stays published and visible in your help center.",
+        "SEARCH_ENGINE_VISIBILITY_PORTAL_OVERRIDE": "Disabled because this help center is hidden from search results. Change it in Settings → SEO.",
         "SLUG": "ስልግ",
         "SLUG_PLACEHOLDER": "Add slug",
         "SLUG_USE_TITLE": "Use title as slug",
@@ -882,6 +907,9 @@
       "FORM": {
         "AVATAR": {
           "LABEL": "ሎጎ",
+          "ADD_DARK_MODE": "Add dark mode logo",
+          "LIGHT_MODE": "Light mode",
+          "DARK_MODE": "Dark mode",
           "IMAGE_UPLOAD_ERROR": "ምስሉን ማስገባት አልተቻለም! እንደገና ይሞክሩ",
           "IMAGE_UPLOAD_SUCCESS": "ምስሉ በተሳካ ሁኔታ ተጨምሯል። ሎጎውን ለመቀየር እባክዎ በማስቀመጥ ላይ ያጫኑ",
           "IMAGE_DELETE_SUCCESS": "ሎጎው በተሳካ ሁኔታ ተሰርዟል",
@@ -986,6 +1014,14 @@
         },
         "SAVE": "ለውጦች አስቀምጥ"
       },
+      "SEO": {
+        "HEADER": "SEO",
+        "DESCRIPTION": "Control how search engines discover your help center.",
+        "SEARCH_ENGINE_VISIBILITY": {
+          "LABEL": "Show in search results",
+          "DESCRIPTION": "Let search engines like Google list this help center. When turned off, your help center works exactly the same for visitors. It just stops appearing in search engine results, which can take a few days or weeks."
+        }
+      },
       "INTEGRATIONS": {
         "HEADER": "አካባቢዎች",
         "DESCRIPTION": "Connect tools that extend what your help center can do.",
@@ -1050,6 +1086,7 @@
         "GENERAL": "General",
         "DOMAIN": "ዶሜይን",
         "APPEARANCE": "Appearance",
+        "SEO": "SEO",
         "INTEGRATIONS": "አካባቢዎች"
       },
       "API": {

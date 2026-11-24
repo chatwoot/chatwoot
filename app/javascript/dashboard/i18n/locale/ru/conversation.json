@@ -52,6 +52,7 @@
     "CLICK_HERE": "Нажмите здесь",
     "LOADING_INBOXES": "Загружаем источники",
     "LOADING_CONVERSATIONS": "Загрузка диалогов",
+    "ANONYMOUS_CALLER_CANNOT_REPLY": "Messages cannot be sent because this caller’s phone number is unavailable.",
     "CANNOT_REPLY": "Вы не можете ответить из-за",
     "24_HOURS_WINDOW": "Ограничение на 24 часа",
     "48_HOURS_WINDOW": "Ограничение на 48 часа",
@@ -140,6 +141,8 @@
       "MISSED_CALL": "Пропущенный звонок",
       "MISSED_CALL_INBOUND_SUBTEXT": "Агенты не взяли трубку",
       "MISSED_CALL_DECLINED_BY": "Агент {agentName} отменил звонок",
+      "MISSED_CALL_OUTSIDE_HOURS": "Outside business hours",
+      "MISSED_CALL_NOBODY_ONLINE": "Nobody was online",
       "CALL_ENDED": "Звонок завершен",
       "HANDLED_BY": "Handled by {agentName}",
       "NOT_ANSWERED_YET": "Пока нет ответа",
@@ -150,7 +153,8 @@
       "JOIN_CALL": "Присоединиться к звонку",
       "CALL_BACK": "Перезвонить",
       "TRANSCRIPT_SHOW_MORE": "Show more",
-      "TRANSCRIPT_SHOW_LESS": "Показать меньше"
+      "TRANSCRIPT_SHOW_LESS": "Показать меньше",
+      "DISMISS_FAILED": "Couldn't dismiss the call. It may keep ringing in your other tabs."
     },
     "HEADER": {
       "RESOLVE_ACTION": "Завершить",
@@ -171,6 +175,13 @@
       "VOICE_CALL_FAILED": "Не получается начать звонок.",
       "WHATSAPP_CALL_PERMISSION_REQUESTED": "Запросите разрешение на звонок у контакта. Попробуйте снова после получения разрешения.",
       "WHATSAPP_CALL_PERMISSION_PENDING": "Запросите разрешение на звонок у контакта. Попробуйте снова после получения разрешения.",
+      "AUTO_TRANSLATE": {
+        "TURN_OFF": "Turn off auto-translate",
+        "TURN_ON": "Turn on auto-translate",
+        "TURNED_OFF": "Auto-translate is off for this conversation",
+        "TURNED_ON": "Auto-translate is on for this conversation",
+        "UPDATE_FAILED": "Could not change auto-translate for this conversation. Please try again."
+      },
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -438,6 +449,14 @@
       "END_CALL": "Завершить звонок",
       "MUTE": "Выключить микрофон",
       "UNMUTE": "Включить микрофон",
+      "SHOW_KEYPAD": "Show keypad",
+      "HIDE_KEYPAD": "Hide keypad",
+      "KEYPAD": "Call keypad",
+      "STAR": "Star",
+      "POUND": "Pound",
+      "KEYPAD_SEND_FAILED": "Could not send keypad tone",
+      "ON_HOLD": "On hold",
+      "HOLD_FAILED": "Couldn't update the hold. Please try again.",
       "VIEW_CHAT_HISTORY": "Посмотреть историю чата",
       "GO_TO_CONVERSATION": "Go to conversation thread"
     }

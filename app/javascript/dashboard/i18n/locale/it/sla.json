@@ -87,6 +87,12 @@
     "ADD": {
       "TITLE": "Aggiungi SLA",
       "DESC": "Amichevoli promesse per un grande servizio!",
+      "SUCCESS": {
+        "TITLE": "SLA created",
+        "DESC": "SLAs are applied to conversations through automation rules. Create an automation to start tracking this SLA.",
+        "LATER": "Later",
+        "CREATE_AUTOMATION": "Crea automazione"
+      },
       "API": {
         "SUCCESS_MESSAGE": "SLA aggiunta correttamente",
         "ERROR_MESSAGE": "Si è verificato un errore, riprova"

@@ -110,6 +110,7 @@ class Message < ApplicationRecord
   # [:external_created_at] : Can specify if the message was created at a different timestamp externally
   # [:external_error : Can specify if the message creation failed due to an error at external API
   # [:data] : Used for structured content types such as voice_call
+  # [:email_quote_appended] : Set by the email reply box to say whether it appended the earlier thread to the reply
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted,
                                          :external_created_at, :story_sender, :story_id, :external_error,
                                          :translations, :translation_failed, :translation_provider, :source_language,
@@ -238,6 +239,22 @@ class Message < ApplicationRecord
 
   def forwarded?
     content_attributes['forwarded_message_id'].present?
+  end
+
+  # The email reply box appends the earlier thread after the reply: a "> On <date> <sender> wrote:" header, then only "> " lines.
+  # It sets email_quote_appended to false when it added no thread, so a quote the agent wrote in that shape is kept.
+  # Replies without the key (older ones and API messages) are matched by shape alone.
+  # Customer emails can reply between quoted lines, so they are never matched.
+  def email_quoted_thread
+    return '' unless outgoing? && conversation.inbox.email?
+    return '' if content_attributes['email_quote_appended'] == false
+
+    content.to_s[/^> On [^\n]* wrote:(?:\n>[^\n]*)*\s*\z/].to_s
+  end
+
+  def content_without_email_quoted_thread
+    quoted_thread = email_quoted_thread
+    quoted_thread.blank? ? content : content.delete_suffix(quoted_thread).strip
   end
 
   def auto_reply_email?

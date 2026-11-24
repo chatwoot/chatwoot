@@ -26,7 +26,7 @@ RSpec.describe Captain::Copilot::ReviewJob do
   end
 
   before do
-    account.enable_features!('copilot_workflows')
+    account.enable_features!('captain_integration')
     allow(Captain::Copilot::ReviewService).to receive(:new).and_return(service)
   end
 
@@ -51,11 +51,11 @@ RSpec.describe Captain::Copilot::ReviewJob do
     expect(described_class).to have_been_enqueued.with(review.id)
   end
 
-  it 'completes a review that finished every conversation, even when workflows were switched off during the last batch' do
+  it 'completes a review that finished every conversation, even when Captain was switched off during the last batch' do
     allow(service).to receive(:review).and_return(verdict)
     described_class.perform_now(review.id)
     conversations.each { |conversation| Captain::Copilot::ReviewConversationJob.perform_now(review.id, conversation.id) }
-    account.disable_features!('copilot_workflows')
+    account.disable_features!('captain_integration')
 
     described_class.perform_now(review.id)
 

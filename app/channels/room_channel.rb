@@ -1,4 +1,8 @@
 class RoomChannel < ApplicationCable::Channel
+  def self.account_user_stream(account_id, user_id)
+    "account_#{account_id}_user_#{user_id}"
+  end
+
   def subscribed
     # TODO: should we only do ensure stream  if current account is present?
     # for now going ahead with guard clauses in update_subscription and broadcast_presence
@@ -33,7 +37,10 @@ class RoomChannel < ApplicationCable::Channel
 
   def ensure_stream
     stream_from pubsub_token
-    stream_from "account_#{@current_account.id}" if @current_account.present? && @current_user.is_a?(User)
+    return unless @current_account.present? && @current_user.is_a?(User)
+
+    stream_from "account_#{@current_account.id}"
+    stream_from(self.class.account_user_stream(@current_account.id, @current_user.id)) { connection.close(reason: 'unauthorized') }
   end
 
   def update_subscription

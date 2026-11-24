@@ -320,25 +320,6 @@
         "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
         "UNBLOCK_SUCCESS_MESSAGE": "This contact is unblocked successfully",
         "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
-        "IMPORT_CONTACT": {
-          "TITLE": "Import contacts",
-          "DESCRIPTION": "Import contacts through a CSV file.",
-          "DOWNLOAD_LABEL": "Ներբեռնեք օրինակային csv նմուշ։",
-          "LABEL": "CSV ֆայլ:",
-          "CHOOSE_FILE": "Choose file",
-          "CHANGE": "Փոխել",
-          "CANCEL": "Չեղարկել",
-          "IMPORT": "Ներմուծել",
-          "SUCCESS_MESSAGE": "Ներմուծման ավարտի մասին կստանաք էլեկտրոնային նամակ։",
-          "ERROR_MESSAGE": "Սխալ է տեղի ունեցել, խնդրում ենք փորձել կրկին"
-        },
-        "EXPORT_CONTACT": {
-          "TITLE": "Export contacts",
-          "DESCRIPTION": "Արագ արտահանեք շփումների մանրամասնություններով csv ֆայլ",
-          "CONFIRM": "Արտահանել",
-          "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-          "ERROR_MESSAGE": "Սխալ է տեղի ունեցել, խնդրում ենք կրկին փորձել"
-        },
         "SORT_BY": {
           "LABEL": "Տեսակավորել ըստ",
           "OPTIONS": {
@@ -405,6 +386,8 @@
       },
       "TITLE": "Զտել շփումները",
       "EDIT_SEGMENT": "Խմբագրել հատվածը",
+      "INVALID_SEGMENT": "This segment has an invalid filter. Edit the segment to fix it.",
+      "LOAD_ERROR": "Could not load filtered contacts. Try again.",
       "SEGMENT": {
         "LABEL": "Հատվածի անունը",
         "INPUT_PLACEHOLDER": "Մուտքագրեք հատվածի անունը"
