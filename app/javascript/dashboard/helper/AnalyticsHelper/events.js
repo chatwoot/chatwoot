@@ -103,6 +103,7 @@ export const CAPTAIN_EVENTS = Object.freeze({
   REPLY_SUGGESTION_USED: 'Captain: Reply suggestion used',
   REPLY_SUGGESTION_APPLIED: 'Captain: Reply suggestion applied',
   REPLY_SUGGESTION_DISMISSED: 'Captain: Reply suggestion dismissed',
+  REPLY_SUGGESTION_NOT_NEEDED: 'Captain: Reply suggestion not needed',
 
   // Follow-up events
   FOLLOW_UP_SENT: 'Captain: Follow-up sent',

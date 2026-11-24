@@ -60,6 +60,7 @@ class Api::V1::Accounts::Captain::TasksController < Api::V1::Accounts::BaseContr
     else
       response_data = { message: result[:message] }
       response_data[:follow_up_context] = result[:follow_up_context] if result[:follow_up_context]
+      response_data[:no_reply_reason] = result[:no_reply_reason] if result.key?(:no_reply_reason)
       render json: response_data
     end
   end

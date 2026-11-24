@@ -72,4 +72,14 @@ RSpec.describe 'Captain task conversation access', type: :request do
       expect(response).to have_http_status(:ok)
     end
   end
+
+  it 'returns a reply suggestion that needs no reply as a success with its reason' do
+    create(:inbox_member, inbox: conversation.inbox, user: agent)
+    service = instance_double(Captain::ReplySuggestionService, perform: { message: nil, no_reply_reason: 'You already answered.' })
+    allow(Captain::ReplySuggestionService).to receive(:new).and_return(service)
+    post "/api/v1/accounts/#{account.id}/captain/tasks/reply_suggestion", params: params, headers: agent.create_new_auth_token, as: :json
+
+    expect(response).to have_http_status(:ok)
+    expect(response.parsed_body).to eq('message' => nil, 'no_reply_reason' => 'You already answered.')
+  end
 end

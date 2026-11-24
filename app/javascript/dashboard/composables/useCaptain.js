@@ -159,14 +159,23 @@ export function useCaptain() {
    */
   const getReplySuggestion = async (options = {}) => {
     try {
-      const result = await TasksAPI.replySuggestion(
+      const { data } = await TasksAPI.replySuggestion(
         conversationId.value,
         options.signal
       );
       const {
-        data: { message: generatedMessage, follow_up_context: followUpContext },
-      } = result;
-      return { message: generatedMessage, followUpContext };
+        message: generatedMessage,
+        follow_up_context: followUpContext,
+        no_reply_reason: noReplyReason,
+      } = data;
+      if (noReplyReason !== undefined) {
+        useAlert(
+          t('INTEGRATION_SETTINGS.OPEN_AI.NO_REPLY_NEEDED', {
+            reason: noReplyReason,
+          }).trim()
+        );
+      }
+      return { message: generatedMessage, followUpContext, noReplyReason };
     } catch (error) {
       handleAPIError(error);
       return { message: '', errorType: getErrorType(error) };

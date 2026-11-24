@@ -15,7 +15,7 @@ module Captain::ToolInstrumentation
         set_tool_session_attributes(span, params)
         response = yield
         executed = true
-        span.set_attribute(ATTR_LANGFUSE_OBSERVATION_OUTPUT, response[:message] || response.to_json)
+        span.set_attribute(ATTR_LANGFUSE_OBSERVATION_OUTPUT, tool_session_output(response))
         set_tool_session_error_attributes(span, response) if response.is_a?(Hash)
       end
     end
@@ -23,6 +23,14 @@ module Captain::ToolInstrumentation
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: account).capture_exception
     executed ? response : yield
+  end
+
+  # A structured answer comes back as a Hash, which a span attribute cannot hold.
+  def tool_session_output(response)
+    message = response[:message]
+    return message if message.is_a?(String)
+
+    message.nil? ? response.to_json : message.to_json
   end
 
   def set_tool_session_attributes(span, params)
