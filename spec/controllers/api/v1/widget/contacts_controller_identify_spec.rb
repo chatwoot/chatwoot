@@ -75,6 +75,30 @@ RSpec.describe 'POST /api/v1/widget/contact/identify', type: :request do
 
       expect(response).to have_http_status(:success)
     end
+
+    it 'does not store the contact again when the same token is sent again' do
+      token = identity_token(claims)
+      identify(token)
+      allow(Rails.configuration.dispatcher).to receive(:dispatch).and_call_original
+
+      identify(token)
+
+      expect(response).to have_http_status(:success)
+      expect(Rails.configuration.dispatcher).not_to have_received(:dispatch).with(Events::Types::CONTACT_UPDATED, any_args)
+    end
+
+    it 'keeps the verified values when the session sends other values without a token' do
+      identify(identity_token(claims))
+
+      patch '/api/v1/widget/contact',
+            params: { website_token: web_widget.website_token, name: 'Someone Else', email: 'someone.else@example.com' },
+            headers: { 'X-Auth-Token' => widget_token },
+            as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(contact.reload).to have_attributes(name: 'Priya', email: 'priya@example.com')
+      expect(contact.verified_attributes).to eq('name' => 'jwt', 'email' => 'jwt', 'phone_number' => 'jwt')
+    end
   end
 
   context 'when the session belongs to another identified contact' do
@@ -125,6 +149,16 @@ RSpec.describe 'POST /api/v1/widget/contact/identify', type: :request do
       expect(contact.reload.email).to eq('priya@example.com')
       expect(contact.verified_attributes['email']).to eq('jwt')
       expect(other_contact.reload).to have_attributes(identifier: 'user-9', email: nil)
+    end
+
+    it 'takes the phone number from an identified contact whose phone number is not verified' do
+      other_contact = create(:contact, account: account, identifier: 'user-9', phone_number: '+919999888877')
+
+      identify(identity_token(claims))
+
+      expect(contact.reload.phone_number).to eq('+919999888877')
+      expect(contact.verified_attributes['phone_number']).to eq('jwt')
+      expect(other_contact.reload.phone_number).to be_nil
     end
 
     it 'leaves the email with an identified contact whose email is verified' do

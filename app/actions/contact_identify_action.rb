@@ -150,7 +150,7 @@ class ContactIdentifyAction
     @contact.attributes = { custom_attributes: custom_attributes, additional_attributes: additional_attributes }
     @contact.discard_invalid_attrs if discard_invalid_attrs
     # A trusted value that the contact already stores changes no column, but its mark still has to be stored.
-    @contact.save! if @contact.changed? || !visitor_input?
+    @contact.save! if @contact.changed? || @contact.verification_to_store?
     enqueue_avatar_job
   end
 

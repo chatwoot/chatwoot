@@ -29,6 +29,13 @@ module VerifiableAttributes
     end
   end
 
+  # True when storing the contact would add a mark or change its source, even if no value changes.
+  def verification_to_store?
+    pending_verifications.any? do |attribute, pending_verification|
+      pending_verification[:value] == self[attribute] && verified_attributes[attribute] != pending_verification[:source]
+    end
+  end
+
   # Contacts::SyncAttributes calls this before a contact is stored.
   def sync_verified_attributes
     return if verified_attributes.blank? && pending_verifications.blank?

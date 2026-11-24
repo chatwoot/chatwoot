@@ -73,6 +73,28 @@ RSpec.describe VerifiableAttributes do
     end
   end
 
+  describe '#verification_to_store?' do
+    it 'is true when a trusted source sends a value that is stored but not marked' do
+      contact.assign_verified_attributes({ email: 'visitor@example.com' }, source: 'jwt')
+
+      expect(contact.changed?).to be(false)
+      expect(contact.verification_to_store?).to be(true)
+    end
+
+    it 'is false when the value is already marked with that source' do
+      verify(email: 'visitor@example.com')
+      contact.assign_verified_attributes({ email: 'visitor@example.com' }, source: 'jwt')
+
+      expect(contact.verification_to_store?).to be(false)
+    end
+
+    it 'is false without a trusted write' do
+      contact.name = 'Someone Else'
+
+      expect(contact.verification_to_store?).to be(false)
+    end
+  end
+
   describe 'a write without a trusted source' do
     before { verify(name: 'Priya', email: 'priya@example.com') }
 
