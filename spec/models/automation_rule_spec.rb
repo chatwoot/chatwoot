@@ -357,10 +357,10 @@ RSpec.describe AutomationRule do
     end
   end
 
-  it 'rejects business hours on a rule that runs immediately' do
-    rule = build(:automation_rule, execution_delay: nil, only_during_business_hours: true)
-    expect(rule).not_to be_valid
-    expect(rule.errors[:only_during_business_hours]).to include('can only be used with an execution delay.')
+  it 'rejects business hours on a monitor rule' do
+    rule = build(:automation_rule, event_name: 'monitor_matched', only_during_business_hours: true)
+    rule.valid?
+    expect(rule.errors[:only_during_business_hours]).to include('is not supported for monitor events.')
   end
 
   describe 'discarding stale pending executions on edit' do

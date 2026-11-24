@@ -5,6 +5,7 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useOperators } from 'dashboard/components-next/filter/operators';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import ToggleSwitch from 'dashboard/components-next/switch/Switch.vue';
 import SidePanel from 'dashboard/components-next/side-panel/SidePanel.vue';
 import {
   generateAutomationPayload,
@@ -133,6 +134,14 @@ const waitTriggerDraft = shallowRef(null);
 const isSyncingDelayState = ref(false);
 // Bumped on every open() so the wait section remounts and re-reads the rule it is given.
 const waitSectionKey = ref(0);
+
+// Monitor rules are delivered by their own job, which doesn't check business hours.
+const showInstantBusinessHours = computed(
+  () =>
+    allowsDelayedExecution.value &&
+    !isDelayed.value &&
+    automation.value?.event_name !== 'monitor_matched'
+);
 
 const executionDelayInvalid = computed(
   () => isDelayed.value && !Number.isFinite(delayMinutes.value)
@@ -440,7 +449,7 @@ const emitSaveAutomation = () => {
     if (!allowsDelayedExecution.value) {
       delete payload.execution_delay;
       delete payload.only_during_business_hours;
-    } else if (!isDelayed.value) {
+    } else if (payload.event_name === 'monitor_matched') {
       payload.only_during_business_hours = false;
     }
     emit('save', payload, props.mode);
@@ -526,6 +535,20 @@ defineExpose({ open, close });
           @retry="fetchMonitors"
         />
       </AutomationInstantTrigger>
+      <div v-if="showInstantBusinessHours" class="flex flex-col gap-2">
+        <label class="flex items-center gap-2 mb-0 cursor-pointer">
+          <ToggleSwitch v-model="automation.only_during_business_hours" />
+          <span class="text-sm text-n-slate-12">
+            {{ $t('AUTOMATION.ADD.FORM.INSTANT_BUSINESS_HOURS.LABEL') }}
+          </span>
+        </label>
+        <p
+          v-if="automation.only_during_business_hours"
+          class="mb-0 text-xs text-n-slate-11"
+        >
+          {{ $t('AUTOMATION.ADD.FORM.INSTANT_BUSINESS_HOURS.NOTE') }}
+        </p>
+      </div>
       <AutomationActions
         v-model="automation.actions"
         :action-types="automationActionTypes"

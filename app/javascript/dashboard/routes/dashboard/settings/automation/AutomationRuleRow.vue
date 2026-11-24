@@ -102,6 +102,15 @@ const automationActive = computed({
               <Icon icon="i-lucide-timer" class="size-3 text-n-slate-11" />
             </template>
           </Label>
+          <Label
+            v-else-if="automation.only_during_business_hours"
+            compact
+            :label="$t('AUTOMATION.LIST.BUSINESS_HOURS_BADGE')"
+          >
+            <template #icon>
+              <Icon icon="i-lucide-clock" class="size-3 text-n-slate-11" />
+            </template>
+          </Label>
         </div>
         <div
           v-if="automation.monitor_name || automation.description"

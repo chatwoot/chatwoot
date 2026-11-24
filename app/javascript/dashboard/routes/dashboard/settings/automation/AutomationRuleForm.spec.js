@@ -362,23 +362,23 @@ describe('AutomationRuleForm', () => {
     expect(wrapper.emitted('save')[0][0].only_during_business_hours).toBe(true);
   });
 
-  it('clears business hours when the rule switches to run instantly', async () => {
+  it('keeps business hours on an instant rule and explains the skip', async () => {
     const wrapper = mountComponent({
       mode: 'edit',
       automation: {
-        ...buildAutomation({ delayed: true }),
+        ...buildAutomation({ delayed: false }),
         only_during_business_hours: true,
         actions: [{ action_name: 'assign_agent', action_params: [1] }],
       },
     });
-    wrapper.vm.open(60);
+    wrapper.vm.open(null);
     await nextTick();
-    await selectRunType(wrapper, false);
+    expect(wrapper.text()).toContain(
+      'AUTOMATION.ADD.FORM.INSTANT_BUSINESS_HOURS.NOTE'
+    );
 
     await wrapper.findAll('button').at(-1).trigger('click');
-    expect(wrapper.emitted('save')[0][0].only_during_business_hours).toBe(
-      false
-    );
+    expect(wrapper.emitted('save')[0][0].only_during_business_hours).toBe(true);
   });
 
   it('hides the monitor event on a community installation', async () => {
