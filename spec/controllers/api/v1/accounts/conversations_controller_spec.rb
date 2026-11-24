@@ -33,7 +33,7 @@ RSpec.describe 'Conversations API', type: :request do
         expect(body[:data][:meta].keys).to include(:all_count, :mine_count, :assigned_count, :unassigned_count)
         expect(body[:data][:payload].first[:uuid]).to eq(conversation.uuid)
         expect(body[:data][:payload].first[:messages].first[:id]).to eq(message.id)
-        expect(body[:data][:payload].first[:last_message_at]).to eq(message.created_at.to_f)
+        expect(body[:data][:payload].first[:last_message_at]).to eq(message.reload.created_at.to_f)
       end
 
       it 'sorts by latest public message with empty conversations last' do
@@ -47,7 +47,11 @@ RSpec.describe 'Conversations API', type: :request do
         get "/api/v1/accounts/#{account.id}/conversations", params: { sort_by: 'last_message_at_desc' }, headers: agent.create_new_auth_token
         expect(response).to have_http_status(:success)
         rows = response.parsed_body.dig('data', 'payload')
-        expected = [[newer.display_id, second.created_at.to_f], [conversation.display_id, first.created_at.to_f], [empty.display_id, nil]]
+        expected = [
+          [newer.display_id, second.reload.created_at.to_f],
+          [conversation.display_id, first.reload.created_at.to_f],
+          [empty.display_id, nil]
+        ]
         expect(rows.pluck('id', 'last_message_at')).to eq(expected)
       end
 

@@ -500,7 +500,7 @@ RSpec.describe Message do
       conversation = message.conversation
       described_class.transaction(requires_new: true) do
         message.save!
-        expect(conversation.reload.last_message_at).to eq(message.created_at)
+        expect(conversation.reload.last_message_at).to eq(message.reload.created_at)
         raise ActiveRecord::Rollback
       end
       expect(conversation.reload.last_message_at).to be_nil
