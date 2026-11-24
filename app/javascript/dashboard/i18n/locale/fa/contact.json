@@ -320,25 +320,6 @@
         "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
         "UNBLOCK_SUCCESS_MESSAGE": "مخاطب با موفقیت رفع نسداد شد",
         "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
-        "IMPORT_CONTACT": {
-          "TITLE": "Import contacts",
-          "DESCRIPTION": "مخاطبین را از طریق یک فایل CSV وارد کنید.",
-          "DOWNLOAD_LABEL": "نمونه csv را بارگیری کنید.",
-          "LABEL": "پرونده CSV:",
-          "CHOOSE_FILE": "Choose file",
-          "CHANGE": "تغییر",
-          "CANCEL": "انصراف",
-          "IMPORT": "تزریق کردن",
-          "SUCCESS_MESSAGE": "پس از تکمیل ورود اطلاعات از طریق ایمیل به شما اطلاع داده خواهد شد.",
-          "ERROR_MESSAGE": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
-        },
-        "EXPORT_CONTACT": {
-          "TITLE": "Export contacts",
-          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
-          "CONFIRM": "خروجی گرفتن",
-          "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-          "ERROR_MESSAGE": "خطایی پیش آمد. لطفا دوباره امتحان کنید"
-        },
         "SORT_BY": {
           "LABEL": "مرتب‌سازی براساس",
           "OPTIONS": {
@@ -405,6 +386,8 @@
       },
       "TITLE": "فیلتر مخاطبین",
       "EDIT_SEGMENT": "ویرایش بخش",
+      "INVALID_SEGMENT": "This segment has an invalid filter. Edit the segment to fix it.",
+      "LOAD_ERROR": "Could not load filtered contacts. Try again.",
       "SEGMENT": {
         "LABEL": "Segment name",
         "INPUT_PLACEHOLDER": "Enter the name of the segment"

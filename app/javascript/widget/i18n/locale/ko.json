@@ -133,6 +133,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "인기 문서",
     "VIEW_ALL_ARTICLES": "모든 문서 보기",
+    "IFRAME_ERROR": "URL이 비어 있거나 유효하지 않습니다. 콘텐츠를 표시할 수 없습니다.",
     "IFRAME_LOAD_ERROR": "문서를 불러오는 중 오류가 발생했습니다. 페이지를 새로고침 한 후 다시 시도해 주세요."
   },
   "ATTACHMENTS": {
