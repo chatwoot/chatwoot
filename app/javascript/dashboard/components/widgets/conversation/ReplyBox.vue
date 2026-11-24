@@ -1238,6 +1238,13 @@ export default {
         private: this.isPrivate,
         sender: this.sender,
       };
+      // Tells the server whether the reply ends with the thread added here, so
+      // transcripts never strip a quote the agent wrote.
+      if (this.isAnEmailChannel && !this.isPrivate) {
+        messagePayload.contentAttributes = {
+          email_quote_appended: messageWithQuote !== message,
+        };
+      }
       messagePayload = this.setReplyToInPayload(messagePayload);
 
       if (this.attachedFiles && this.attachedFiles.length) {
