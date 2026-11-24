@@ -13,10 +13,11 @@ class SearchIndexing::ConversationSearch
   end
 
   def ids
-    return unless supported? && SearchIndexing::IndexVerification.ready?(@account)
+    return unless supported? && SearchIndexing::Conversations.enabled?(@account)
 
     response = Searchkick.client.search(index: Conversation.search_index.name, body: search_body)
-    SearchIndexing::IndexedConversations.check_response!(response)
+    raise Searchkick::Error, 'Incomplete conversation search response' if response['timed_out'] || response.fetch('_shards').fetch('failed').positive?
+
     ids = complete_ids(response)
     Rails.logger.info("Conversation search backend=opensearch account_id=#{@account.id} candidates=#{ids.size}") if ids
     ids

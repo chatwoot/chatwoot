@@ -91,3 +91,24 @@ interrupted, rerun the account. Native batch jobs retry failures normally.
 Run accounts individually at a rate appropriate for worker and OpenSearch capacity.
 The native async operation can enqueue many jobs; batch size does not cap total jobs
 or worker concurrency. This PR still leaves all search reads on PostgreSQL.
+
+## Conversation search reads
+
+After the search PR is deployed, supported queries use OpenSearch whenever it is
+configured and `advanced_search_conversations` is enabled. There is no readiness
+check or per-account activation. A partially populated index can return incomplete
+historical results until the account reindex jobs finish; deployment does not wait.
+
+OpenSearch matches conversation display IDs and subjects. Contact name/email/phone/
+identifier matching remains an account-scoped SQL subquery until contacts are indexed
+separately. SQL combines these matches and checks current tenant/inbox access,
+matching, dates, order and pagination. Contact edits take effect without reindexing.
+
+ASCII substring queries of 3–256 characters without SQL wildcards or escapes use a
+complete set of at most 1,000 engine candidates. Unsupported/broader queries and known
+availability failures or partial responses use SQL. Valid empty engine results remain
+empty for conversation-field matches. Contact and message search are unchanged.
+
+Disable `advanced_search_conversations` to return an account to SQL; this also stops
+ordinary live indexing. Reindex the account after reenabling to catch up on missed
+updates. No timestamp or completion state is written to the account.

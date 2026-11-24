@@ -11,7 +11,8 @@ RSpec.describe SearchIndexing::ConversationSearch do
   end
 
   before do
-    allow(SearchIndexing::IndexVerification).to receive(:ready?).with(account).and_return(true)
+    allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(true)
+    account.enable_features!('advanced_search_conversations')
     allow(Searchkick).to receive(:client).and_return(client)
     allow(client).to receive(:search).and_return(response)
   end
@@ -32,8 +33,19 @@ RSpec.describe SearchIndexing::ConversationSearch do
     expect(search.ids).to eq([])
   end
 
-  it 'falls back when the account is not verified' do
-    allow(SearchIndexing::IndexVerification).to receive(:ready?).with(account).and_return(false)
+  it 'uses OpenSearch without any account readiness metadata' do
+    expect(account.internal_attributes).to eq({})
+    expect(search.ids).to eq([123])
+  end
+
+  it 'falls back when the account feature is disabled' do
+    account.disable_features!('advanced_search_conversations')
+    expect(search.ids).to be_nil
+    expect(client).not_to have_received(:search)
+  end
+
+  it 'falls back when OpenSearch is not configured' do
+    allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(false)
     expect(search.ids).to be_nil
     expect(client).not_to have_received(:search)
   end
