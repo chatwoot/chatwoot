@@ -15,6 +15,10 @@ module VerifiableAttributes
     verified_attributes.key?(attribute.to_s)
   end
 
+  def any_attribute_verified?
+    verified_attributes.present?
+  end
+
   # Writes the values a trusted source vouches for. Their marks are set when the contact is stored.
   def assign_verified_attributes(attributes, source:)
     raise ArgumentError, "Unknown verification source: #{source}" unless VERIFICATION_SOURCES.include?(source)

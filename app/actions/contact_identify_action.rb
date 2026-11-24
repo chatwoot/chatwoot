@@ -91,8 +91,13 @@ class ContactIdentifyAction
     verification_source.blank?
   end
 
+  # The identifier is what a contact's values were verified for. A visitor who could change it
+  # would keep those values under an identifier of their choice, and lock their owner out of them.
   def protected_from_visitor?(attribute)
-    visitor_input? && @contact.attribute_verified?(attribute)
+    return false unless visitor_input?
+    return @contact.any_attribute_verified? if attribute.to_sym == :identifier
+
+    @contact.attribute_verified?(attribute)
   end
 
   def identified_as_someone_else?(existing_contact)

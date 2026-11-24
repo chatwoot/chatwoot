@@ -101,6 +101,47 @@ RSpec.describe 'POST /api/v1/widget/contact/identify', type: :request do
     end
   end
 
+  context 'when a visitor without a token reaches the contact' do
+    let(:visitor_contact_inbox) { create(:contact_inbox, contact: create(:contact, account: account), inbox: web_widget.inbox) }
+    let(:visitor_token) do
+      Widget::TokenService.new(payload: { source_id: visitor_contact_inbox.source_id, inbox_id: web_widget.inbox.id }).generate_token
+    end
+
+    def visitor_request(path, params)
+      patch path, params: { website_token: web_widget.website_token }.merge(params), headers: { 'X-Auth-Token' => visitor_token }, as: :json
+    end
+
+    before do
+      identify(identity_token(claims))
+      visitor_request('/api/v1/widget/contact/set_user', identifier: 'user-1')
+    end
+
+    it 'does not let the visitor change the identifier of the contact' do
+      visitor_request('/api/v1/widget/contact', identifier: 'someone-else')
+
+      expect(response).to have_http_status(:success)
+      expect(contact.reload.identifier).to eq('user-1')
+    end
+
+    it 'still finds the contact when its owner sends a token again' do
+      visitor_request('/api/v1/widget/contact', identifier: 'someone-else')
+
+      identify(identity_token(claims))
+
+      expect(response.parsed_body['id']).to eq(contact.id)
+      expect(contact.reload).to have_attributes(email: 'priya@example.com', phone_number: '+919999888877')
+    end
+
+    it 'does not let the visitor merge the contact into another identified contact' do
+      other_contact = create(:contact, account: account, identifier: 'user-9')
+
+      visitor_request('/api/v1/widget/contact', identifier: 'user-9')
+
+      expect(contact.reload.identifier).to eq('user-1')
+      expect(other_contact.reload.email).to be_nil
+    end
+  end
+
   context 'when the session belongs to another identified contact' do
     before { contact.update!(identifier: 'user-0') }
 
