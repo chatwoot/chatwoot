@@ -7,6 +7,9 @@ import StarRating from 'shared/components/StarRating.vue';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { getContrastingTextColor } from '@chatwoot/utils';
 
+// The widget API responds with 422 when the survey's response window has passed.
+const HTTP_UNPROCESSABLE_ENTITY = 422;
+
 export default {
   components: {
     Spinner,
@@ -41,6 +44,7 @@ export default {
       ratings: CSAT_RATINGS,
       selectedRating: null,
       isUpdating: false,
+      isExpired: false,
       feedback: '',
     };
   },
@@ -53,6 +57,9 @@ export default {
       return this.messageContentAttributes?.csat_survey_response
         ?.feedback_message;
     },
+    isLocked() {
+      return this.isFeedbackSubmitted || this.isUpdating || this.isExpired;
+    },
     isButtonDisabled() {
       if (!(this.selectedRating && this.feedback)) return true;
       if (this.isUpdating) return true;
@@ -62,6 +69,8 @@ export default {
       return getContrastingTextColor(this.widgetColor);
     },
     title() {
+      if (this.isExpired) return this.$t('CSAT.EXPIRED_TITLE');
+
       return this.isRatingSubmitted
         ? this.$t('CSAT.SUBMITTED_TITLE')
         : this.message || this.$t('CSAT.TITLE');
@@ -89,11 +98,10 @@ export default {
 
   methods: {
     buttonClass(rating) {
-      const isLocked = this.isFeedbackSubmitted || this.isUpdating;
       return [
         { selected: rating.value === this.selectedRating },
-        { disabled: isLocked },
-        { hover: isLocked },
+        { disabled: this.isLocked },
+        { hover: this.isLocked },
         'emoji-button',
       ];
     },
@@ -111,19 +119,23 @@ export default {
           messageId: this.messageId,
         });
       } catch (error) {
-        // Ignore error
+        if (error.response?.status === HTTP_UNPROCESSABLE_ENTITY) {
+          this.isExpired = true;
+          this.selectedRating =
+            this.messageContentAttributes?.csat_survey_response?.rating ?? null;
+        }
       } finally {
         this.isUpdating = false;
       }
     },
 
     selectRating(rating) {
-      if (this.isFeedbackSubmitted || this.isUpdating) return;
+      if (this.isLocked) return;
       this.selectedRating = rating.value;
       this.onSubmit();
     },
     selectStarRating(value) {
-      if (this.isFeedbackSubmitted || this.isUpdating) return;
+      if (this.isLocked) return;
       this.selectedRating = value;
       this.onSubmit();
     },
@@ -153,11 +165,11 @@ export default {
     <StarRating
       v-else-if="isStarType"
       :selected-rating="selectedRating"
-      :is-disabled="isFeedbackSubmitted || isUpdating"
+      :is-disabled="isLocked"
       @select-rating="selectStarRating"
     />
     <form
-      v-if="!isFeedbackSubmitted"
+      v-if="!isFeedbackSubmitted && !isExpired"
       class="feedback-form flex"
       @submit.prevent="onSubmit()"
     >

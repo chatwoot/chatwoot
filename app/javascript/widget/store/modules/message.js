@@ -37,10 +37,9 @@ export const actions = {
         { root: true }
       );
       dispatch('contacts/get', {}, { root: true });
-    } catch (error) {
-      // Ignore error
+    } finally {
+      commit('toggleUpdateStatus', false);
     }
-    commit('toggleUpdateStatus', false);
   },
 };
 

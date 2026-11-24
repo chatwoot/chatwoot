@@ -288,6 +288,57 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
   end
 
   describe 'PUT /api/v1/widget/messages' do
+    context 'when put request submits a CSAT rating' do
+      let(:sent_at) { Time.zone.local(2026, 11, 1, 23, 0, 0) }
+      let(:csat_message) do
+        create(:message, content_type: 'input_csat', account: account, inbox: web_widget.inbox,
+                         conversation: conversation, created_at: sent_at)
+      end
+      let(:csat_params) do
+        {
+          website_token: web_widget.website_token,
+          message: { submitted_values: { csat_survey_response: { rating: 5, feedback_message: 'great' } } }
+        }
+      end
+
+      def submit_csat_rating
+        put api_v1_widget_message_url(csat_message.id), params: csat_params, headers: { 'X-Auth-Token' => token }, as: :json
+      end
+
+      it 'records the rating on the last day of the response window' do
+        travel_to(sent_at.to_date + 14.days + 23.hours) { submit_csat_rating }
+
+        expect(response).to have_http_status(:success)
+        expect(csat_message.reload.content_attributes.dig('submitted_values', 'csat_survey_response', 'rating')).to eq(5)
+      end
+
+      it 'rejects the rating once the response window has passed' do
+        travel_to(sent_at.to_date + 15.days) { submit_csat_rating }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq('You cannot update the CSAT survey after 14 days')
+        expect(csat_message.reload.content_attributes['submitted_values']).to be_nil
+      end
+
+      it 'keeps the existing rating when a change arrives after the response window' do
+        csat_message.update!(submitted_values: { csat_survey_response: { rating: 2, feedback_message: 'slow' } })
+
+        travel_to(sent_at.to_date + 15.days) { submit_csat_rating }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(csat_message.reload.content_attributes.dig('submitted_values', 'csat_survey_response', 'rating')).to eq(2)
+      end
+
+      it 'updates an existing rating within the response window' do
+        csat_message.update!(submitted_values: { csat_survey_response: { rating: 2, feedback_message: 'slow' } })
+
+        travel_to(sent_at + 1.day) { submit_csat_rating }
+
+        expect(response).to have_http_status(:success)
+        expect(csat_message.reload.content_attributes.dig('submitted_values', 'csat_survey_response', 'rating')).to eq(5)
+      end
+    end
+
     context 'when put request targets a message from another visitor in the same inbox' do
       it 'does not update the foreign message' do
         other_contact = create(:contact, account: account, email: nil)

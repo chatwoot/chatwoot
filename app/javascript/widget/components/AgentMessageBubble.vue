@@ -83,8 +83,12 @@ export default {
     },
   },
   methods: {
-    onResponse(messageResponse) {
-      this.$store.dispatch('message/update', messageResponse);
+    async onResponse(messageResponse) {
+      try {
+        await this.$store.dispatch('message/update', messageResponse);
+      } catch (error) {
+        // Ignore error
+      }
     },
     onOptionSelect(selectedOption) {
       this.onResponse({

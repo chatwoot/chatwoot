@@ -12,7 +12,10 @@ class Public::Api::V1::Inboxes::MessagesController < Public::Api::V1::InboxesCon
   end
 
   def update
-    render json: { error: 'You cannot update the CSAT survey after 14 days' }, status: :unprocessable_entity and return if check_csat_locked
+    if @message.csat_survey_expired?
+      error = I18n.t('errors.csat_survey.expired', days: Message::CSAT_SURVEY_RESPONSE_WINDOW_DAYS)
+      render json: { error: error }, status: :unprocessable_entity and return
+    end
 
     @message.update!(message_update_params)
   rescue StandardError => e
@@ -65,9 +68,5 @@ class Public::Api::V1::Inboxes::MessagesController < Public::Api::V1::InboxesCon
       echo_id: permitted_params[:echo_id],
       message_type: :incoming
     }
-  end
-
-  def check_csat_locked
-    (Time.zone.now.to_date - @message.created_at.to_date).to_i > 14 and @message.content_type == 'input_csat'
   end
 end
