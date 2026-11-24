@@ -9,10 +9,7 @@ class SearchIndexing::ConversationVerification
 
     account_updated_at = @account.reload.updated_at
     index_identity = SearchIndexing::IndexVerification.identity
-    upper_id = @account.conversations.maximum(:id) || 0
-    @account.conversations.where(id: ..upper_id).search_import.find_in_batches(batch_size: SearchIndexing::Conversations::BATCH_SIZE) do |records|
-      verify_records(records)
-    end
+    verify_source_records
     remove_orphans
     Conversation.search_index.refresh
     clean = @report.values_at(:missing, :stale, :orphaned).all?(&:zero?)
@@ -24,27 +21,39 @@ class SearchIndexing::ConversationVerification
 
   private
 
+  def verify_source_records
+    Conversation.search_index.refresh
+    upper_id = @account.conversations.maximum(:id) || 0
+    @account.conversations.where(id: ..upper_id).search_import.find_in_batches(batch_size: SearchIndexing::Conversations::BATCH_SIZE) do |records|
+      verify_records(records)
+    end
+  end
+
   def verify_records(records)
     records = records.select(&:should_index?)
     return if records.empty?
 
-    documents = Searchkick.client.mget(index: Conversation.search_index.name, body: { ids: records.map(&:id) }).fetch('docs')
-    documents = documents.index_by { |document| document.fetch('_id') }
+    documents = indexed_documents(records)
     repairs = records.filter_map do |record|
-      next unless repair_needed?(record, documents.fetch(record.id.to_s))
+      next unless repair_needed?(record, documents[record.id.to_s])
 
       record.id.to_s
     end
     repair(repairs)
   end
 
+  def indexed_documents(records)
+    body = { size: records.size, query: { bool: { filter: [{ term: { account_id: @account.id } }, { ids: { values: records.map(&:id) } }] } } }
+    response = Searchkick.client.search(index: Conversation.search_index.name, body: body)
+    SearchIndexing::IndexedConversations.check_response!(response)
+    response.fetch('hits').fetch('hits').index_by { |document| document.fetch('_id') }
+  end
+
   def repair_needed?(record, document)
-    raise Searchkick::Error, "Could not verify conversation #{record.id}" if document['error']
-
     @report[:checked] += 1
-    return false if document['found'] && document.fetch('_source') == record.search_data.as_json
+    return false if document && document.fetch('_source') == record.search_data.as_json
 
-    @report[document['found'] ? :stale : :missing] += 1
+    @report[document ? :stale : :missing] += 1
     true
   end
 
