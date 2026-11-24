@@ -87,7 +87,7 @@ class Captain::Tools::Copilot::SearchChatwootDocsService < Captain::Tools::BaseT
 
   def get(url, query: nil)
     # Net::HTTP retries a timed out GET once by default, and the help center keeps running the first search.
-    response = HTTParty.get(url, query: query, timeout: SEARCH_TIMEOUT, max_retries: 0, follow_redirects: false)
+    response = HTTParty.get(url, query: query, max_retries: 0, follow_redirects: false)
     raise RequestError, "#{url} returned #{response.code}" unless response.success?
 
     response.body
