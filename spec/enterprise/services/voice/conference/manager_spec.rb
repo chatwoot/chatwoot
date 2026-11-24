@@ -112,6 +112,16 @@ RSpec.describe Voice::Conference::Manager do
     end
   end
 
+  describe 'the conference ending while nobody has answered' do
+    it 'records a missed call, as the contact leaving would' do
+      call.update!(status: 'ringing', accepted_by_agent: nil, started_at: nil)
+
+      described_class.new(call: call, event: 'end').process
+
+      expect(call.reload.status).to eq('no_answer')
+    end
+  end
+
   describe 'the claiming agent leaving before their join callback arrives' do
     it 'ends the conference and completes the call' do
       call.update!(status: 'ringing')

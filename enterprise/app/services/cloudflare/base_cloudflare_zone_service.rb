@@ -10,6 +10,10 @@ class Cloudflare::BaseCloudflareZoneService
     }
   end
 
+  def fetch_hostnames(hostname)
+    HTTParty.get("#{BASE_URI}/zones/#{zone_id}/custom_hostnames?hostname=#{hostname}", headers: headers)
+  end
+
   def api_token
     InstallationConfig.find_by(name: 'CLOUDFLARE_API_KEY')&.value
   end

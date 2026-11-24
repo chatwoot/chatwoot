@@ -320,25 +320,6 @@
         "BLOCK_ERROR_MESSAGE": "እውነተኛውን ግንኙነት መከልከል አልተቻለም። እባክዎ በኋላ ደግመው ይሞክሩ።.",
         "UNBLOCK_SUCCESS_MESSAGE": "ይህ እውነተኛ በተሳካ ሁኔታ ከተከለከለ ተለይቷል",
         "UNBLOCK_ERROR_MESSAGE": "እውነተኛውን ግንኙነት ከመከልከል መነሳት አልተቻለም። እባክዎ በኋላ ደግመው ይሞክሩ።.",
-        "IMPORT_CONTACT": {
-          "TITLE": "እያካተቱ አድራሻዎች",
-          "DESCRIPTION": "እውነተኛዎችን በCSV ፋይል በመጫን ያስመጡ።.",
-          "DOWNLOAD_LABEL": "ናሙና የCSV ፋይል ያውርዱ።.",
-          "LABEL": "CSV ፋይል፡:",
-          "CHOOSE_FILE": "ፋይል ይምረጡ",
-          "CHANGE": "ቀይር",
-          "CANCEL": "ሰርዝ",
-          "IMPORT": "አስመጣ",
-          "SUCCESS_MESSAGE": "እስከ አስመጣ ሲጠናቀቅ በኢሜይል ይማሳውቃሉ።.",
-          "ERROR_MESSAGE": "ስህተት አጋጥሟል፣ እባክዎ እንደገና ይሞክሩ"
-        },
-        "EXPORT_CONTACT": {
-          "TITLE": "ኮንታክቶችን ውጣ",
-          "DESCRIPTION": "በፍጥነት ከኮንታክቶችዎ ዝርዝር ያለው ኮምፕሪሃንሲቭ ዝርዝር ያለውን csv ፋይል ውጣ",
-          "CONFIRM": "ውጣ",
-          "SUCCESS_MESSAGE": "የማስወገጃ ሂደት በመካከል ነው። የማስወገጃ ፋይል ለማውረድ ሲዝግጅ በኢሜይል ይማሳውቃሉ።.",
-          "ERROR_MESSAGE": "ስህተት አጋጥሟል፣ እባክዎ እንደገና ይሞክሩ"
-        },
         "SORT_BY": {
           "LABEL": "በደረጃ ያደርጉ",
           "OPTIONS": {
@@ -405,6 +386,8 @@
       },
       "TITLE": "እውቂያዎችን ፊልተር አድርግ",
       "EDIT_SEGMENT": "ክፍል አርትዕ",
+      "INVALID_SEGMENT": "This segment has an invalid filter. Edit the segment to fix it.",
+      "LOAD_ERROR": "Could not load filtered contacts. Try again.",
       "SEGMENT": {
         "LABEL": "የክፍል ስም",
         "INPUT_PLACEHOLDER": "የክፍል ስም አስገባ"

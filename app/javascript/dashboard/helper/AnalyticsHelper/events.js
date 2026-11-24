@@ -49,9 +49,6 @@ export const CONTACTS_EVENTS = Object.freeze({
   SEARCH: 'Searched contacts list',
   CREATE_CONTACT: 'Created a contact',
   MERGED_CONTACTS: 'Used merge contact option',
-  IMPORT_MODAL_OPEN: 'Opened import contacts modal',
-  IMPORT_FAILURE: 'Import contacts failed',
-  IMPORT_SUCCESS: 'Imported contacts successfully',
 });
 
 // CAMPAIGN EVENTS
@@ -134,6 +131,11 @@ export const SNOOZE_EVENTS = Object.freeze({
 
 export const GENERAL_EVENTS = Object.freeze({
   COMMAND_BAR: 'Used commandbar',
+});
+
+export const COMMAND_BAR_EVENTS = Object.freeze({
+  OPENED: 'Command bar: Opened',
+  COMMAND_SELECTED: 'Command bar: Selected a command',
 });
 
 export const INBOX_EVENTS = Object.freeze({

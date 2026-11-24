@@ -353,6 +353,17 @@ RSpec.describe Captain::Assistant, type: :model do
       expect(instructions).not_to include('You are drafting a reply for a support agent to review.')
     end
 
+    it 'renders the current time and context after the guardrails and before the decision framework' do
+      assistant.update!(guardrails: ['Never share internal pricing.'])
+      state = { conversation: { id: 1, display_id: 7 }, assistant_config: {} }
+
+      instructions = assistant.agent_instructions(Struct.new(:context).new({ state: state }))
+
+      expect(instructions.index('# Current Time')).to be > instructions.index('# Guardrails')
+      expect(instructions.index('# Current Context')).to be > instructions.index('# Current Time')
+      expect(instructions.index('# Decision Framework')).to be > instructions.index('# Current Context')
+    end
+
     it 'renders the separate Copilot reply suggestion prompt when requested' do
       assistant.update!(
         response_guidelines: ['Include the raw guide URL https://yc.ms/eglb1H.'],

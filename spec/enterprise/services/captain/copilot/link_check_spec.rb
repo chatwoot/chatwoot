@@ -16,6 +16,14 @@ RSpec.describe Captain::Copilot::LinkCheck do
       .to eq('See #12 and [#123](/app/accounts/7/conversations/123).')
   end
 
+  it 'removes a link to a word the instructions contain, and keeps a conversation link a tool returned' do
+    check = described_class.new(['Never invent a URL. A list of values (null for no value).',
+                                 '[#5](/app/accounts/7/conversations/5)'], run_id: 1)
+
+    expect(check.strip('See [1](URL), [2](null) and [#5](/app/accounts/7/conversations/5).'))
+      .to eq('See 1, 2 and [#5](/app/accounts/7/conversations/5).')
+  end
+
   it 'keeps a chart marker written as a link, so its chart is still attached' do
     expect(check.strip('Monthly volume: [copilot-chart:12](https://example.com/chart)')).to eq('Monthly volume: [copilot-chart:12]')
   end

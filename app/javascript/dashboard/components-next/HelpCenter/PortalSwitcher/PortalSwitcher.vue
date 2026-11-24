@@ -2,8 +2,9 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
-import { useMapGetter, useStore } from 'dashboard/composables/store.js';
+import { useMapGetter } from 'dashboard/composables/store.js';
 import { buildPortalURL } from 'dashboard/helper/portalHelper';
+import { DEFAULT_ROUTE, usePortalSwitcher } from './usePortalSwitcher';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
@@ -13,15 +14,7 @@ const emit = defineEmits(['close', 'createPortal']);
 const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
-const store = useStore();
-
-const DEFAULT_ROUTE = 'portals_articles_index';
-const CATEGORY_ROUTE = 'portals_categories_index';
-const CATEGORY_SUB_ROUTES = [
-  'portals_categories_articles_index',
-  'portals_categories_articles_new',
-  'portals_categories_articles_edit',
-];
+const { switchPortal } = usePortalSwitcher();
 
 const portals = useMapGetter('portals/allPortals');
 
@@ -39,37 +32,10 @@ const getPortalThumbnailSrc = portal => {
   return portal?.logo?.file_url || '';
 };
 
-const fetchPortalAndItsCategories = async (slug, locale) => {
-  await store.dispatch('portals/switchPortal', true);
-  await store.dispatch('portals/index');
-  const selectedPortalParam = {
-    portalSlug: slug,
-    locale,
-  };
-  await store.dispatch('portals/show', selectedPortalParam);
-  await store.dispatch('categories/index', selectedPortalParam);
-  await store.dispatch('agents/get');
-  await store.dispatch('portals/switchPortal', false);
-};
-
 const handlePortalChange = async portal => {
   if (isPortalActive(portal)) return;
-  const {
-    slug,
-    meta: { default_locale: defaultLocale },
-  } = portal;
   emit('close');
-  await fetchPortalAndItsCategories(slug, defaultLocale);
-  const targetRouteName = CATEGORY_SUB_ROUTES.includes(route.name)
-    ? CATEGORY_ROUTE
-    : route.name || DEFAULT_ROUTE;
-  router.push({
-    name: targetRouteName,
-    params: {
-      portalSlug: slug,
-      locale: defaultLocale,
-    },
-  });
+  await switchPortal(portal);
 };
 
 const openCreatePortalDialog = () => {

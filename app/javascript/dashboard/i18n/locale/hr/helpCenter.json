@@ -45,14 +45,14 @@
         "TITLE": "Prenesi sliku",
         "UPLOADING": "Prenosim...",
         "SUCCESS": "Image uploaded successfully",
-        "UPLOAD_FAILED": "Upload failed",
-        "RATE_LIMITED": "Upload limit reached. Try again in a few minutes.",
-        "RETRY": "Retry",
+        "UPLOAD_FAILED": "Prijenos nije uspio",
+        "RATE_LIMITED": "Dosegnuto je ograničenje prijenosa. Pokušajte ponovno za nekoliko minuta.",
+        "RETRY": "Pokušaj ponovno",
         "REMOVE": "Izbriši",
-        "CANCEL": "Cancel upload",
+        "CANCEL": "Odustani od prijenosa",
         "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
-        "ERROR_ATTACHMENT_FILE_SIZE": "File size should be less than {size}MB",
-        "ERROR_UNSUPPORTED_TYPE": "This file type is not supported",
+        "ERROR_ATTACHMENT_FILE_SIZE": "Veličina datoteke mora biti manja od {size} MB",
+        "ERROR_UNSUPPORTED_TYPE": "Ova vrsta datoteke nije podržana",
         "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
         "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
       }
@@ -317,6 +317,11 @@
         }
       },
       "DELETE_LOCALE": {
+        "DIALOG": {
+          "TITLE": "Obriši {locale}?",
+          "DESCRIPTION": "Time ćete trajno izbrisati {articles} i {categories} za ovaj jezik. Radnju nije moguće poništiti.",
+          "CONFIRM": "Izbriši jezik"
+        },
         "API": {
           "SUCCESS_MESSAGE": "Locale removed from portal successfully",
           "ERROR_MESSAGE": "Unable to remove locale from portal. Try again."
@@ -410,10 +415,10 @@
       }
     },
     "BREADCRUMB": {
-      "ARTICLES": "Articles",
-      "CATEGORIES": "Categories",
+      "ARTICLES": "Članci",
+      "CATEGORIES": "Kategorije",
       "LOCALES": "Locales",
-      "SETTINGS": "Settings"
+      "SETTINGS": "Postavke"
     },
     "CATEGORY": {
       "ADD": {
@@ -536,7 +541,7 @@
             "PUBLISH": "Objavi",
             "DRAFT": "Skica",
             "ARCHIVE": "Archive",
-            "TRANSLATE": "Translate",
+            "TRANSLATE": "Prevedi",
             "DELETE": "Izbriši"
           },
           "STATUS": {
@@ -544,8 +549,8 @@
             "PUBLISHED": "Published",
             "ARCHIVED": "Arhivirano"
           },
-          "PENDING_EDITS": "Unpublished edits",
-          "PENDING_EDITS_TOOLTIP": "This published article has unpublished edits",
+          "PENDING_EDITS": "Neobjavljene izmjene",
+          "PENDING_EDITS_TOOLTIP": "Ovaj objavljeni članak ima neobjavljene izmjene",
           "CATEGORY": {
             "UNCATEGORISED": "Uncategorised"
           }
@@ -554,10 +559,16 @@
       "ARTICLES_HEADER": {
         "TABS": {
           "ALL": "All articles",
-          "MINE": "Mine",
           "DRAFT": "Skica",
           "PUBLISHED": "Published",
           "ARCHIVED": "Arhivirano"
+        },
+        "AUTHOR": {
+          "LABEL": "Filtriraj prema autoru: {author}",
+          "ALL": "Svi autori",
+          "ME": "Ja",
+          "SELECTED": "Odabrani autor",
+          "SEARCH_PLACEHOLDER": "Pretraži članove tima..."
         },
         "CATEGORY": {
           "ALL": "All categories"
@@ -565,7 +576,7 @@
         "LOCALE": {
           "ALL": "All locales"
         },
-        "SEARCH_PLACEHOLDER": "Search articles...",
+        "SEARCH_PLACEHOLDER": "Pretraži članke…",
         "NEW_ARTICLE": "New article"
       },
       "EMPTY_STATE": {
@@ -574,9 +585,9 @@
           "SUBTITLE": "Write a rich article, let’s get started!",
           "BUTTON_LABEL": "New article"
         },
-        "MINE": {
-          "TITLE": "You haven't written any articles here",
-          "SUBTITLE": "All articles written by you show up here for quick access."
+        "AUTHOR": {
+          "TITLE": "Nema odgovarajućih članaka",
+          "SUBTITLE": "Pokušajte s drugim autorom ili promijenite odabrane filtre."
         },
         "DRAFT": {
           "TITLE": "There are no articles in drafts",
@@ -595,56 +606,56 @@
           "SUBTITLE": "Articles in this category will appear here"
         },
         "SEARCH": {
-          "TITLE": "No matching articles",
-          "SUBTITLE": "We couldn't find any articles matching your search. Try a different term."
+          "TITLE": "Nema odgovarajućih članaka",
+          "SUBTITLE": "Nisu pronađeni članci koji odgovaraju vašoj pretrazi. Pokušajte s drugim pojmom."
         }
       },
       "BULK_TRANSLATE": {
-        "TITLE": "Translate article | Translate {count} articles",
-        "DESCRIPTION": "Translate the selected article to another language. | Translate the selected articles to another language.",
-        "LOCALE_LABEL": "Target language",
-        "LOCALE_PLACEHOLDER": "Select a language",
-        "CATEGORY_LABEL": "Target category",
-        "CATEGORY_PLACEHOLDER": "Select a category",
-        "OPTIONAL": "(optional)",
-        "CONFIRM": "Translate",
-        "SELECT_ALL": "Select all ({count})",
-        "SELECTED_COUNT": "{count} selected",
-        "CLEAR_SELECTION": "Clear selection",
-        "TRANSLATE_BUTTON": "Translate",
-        "CONFIRM_OVERWRITE": "Overwrite and translate",
-        "DUPLICATE_WARNING": "A translation already exists for this article in the selected language. | Translations already exist for {count} articles in the selected language.",
-        "DUPLICATE_CONFIRM_HINT": "Click translate again to overwrite the existing translation.",
+        "TITLE": "Prevedi članak | Prevedi {count} članaka",
+        "DESCRIPTION": "Prevedite odabrani članak na drugi jezik. | Prevedite odabrane članke na drugi jezik.",
+        "LOCALE_LABEL": "Ciljni jezik",
+        "LOCALE_PLACEHOLDER": "Odaberi jezik",
+        "CATEGORY_LABEL": "Ciljna kategorija",
+        "CATEGORY_PLACEHOLDER": "Odaberi kategoriju",
+        "OPTIONAL": "(neobavezno)",
+        "CONFIRM": "Prevedi",
+        "SELECT_ALL": "Odaberi sve ({count})",
+        "SELECTED_COUNT": "{count} odabrano",
+        "CLEAR_SELECTION": "Poništi odabir",
+        "TRANSLATE_BUTTON": "Prevedi",
+        "CONFIRM_OVERWRITE": "Prepiši i prevedi",
+        "DUPLICATE_WARNING": "Za ovaj članak već postoji prijevod na odabranom jeziku. | Za {count} članaka već postoje prijevodi na odabranom jeziku.",
+        "DUPLICATE_CONFIRM_HINT": "Ponovno kliknite gumb za prevođenje kako biste prepisali postojeći prijevod.",
         "API": {
-          "SUCCESS_MESSAGE": "Translation in progress. The article will appear as a draft once ready.",
-          "ERROR_MESSAGE": "Failed to start translation. Please try again."
+          "SUCCESS_MESSAGE": "Prevođenje je u tijeku. Članak će se prikazati kao skica kada prijevod bude spreman.",
+          "ERROR_MESSAGE": "Pokretanje prevođenja nije uspjelo. Pokušajte ponovno."
         }
       },
       "BULK_ACTIONS": {
         "PUBLISH": "Objavi",
         "DRAFT": "Skica",
-        "ARCHIVE": "Archive",
-        "TRANSLATE": "Translate",
+        "ARCHIVE": "Arhiva",
+        "TRANSLATE": "Prevedi",
         "MOVE_TO_CATEGORY": "Kategorija",
         "DELETE": "Izbriši",
-        "STATUS_SUCCESS": "Articles updated successfully",
-        "STATUS_ERROR": "Failed to update articles",
-        "STATUS_SKIPPED": "1 article with unpublished edits was skipped — open it to publish or discard. | {count} articles with unpublished edits were skipped — open them to publish or discard.",
-        "STATUS_SKIPPED_ALL": "These articles have unpublished edits — open each to publish or discard.",
-        "CATEGORY_SUCCESS": "Articles moved successfully",
-        "CATEGORY_ERROR": "Failed to move articles",
-        "DELETE_CONFIRM_TITLE": "Delete article | Delete {count} articles",
-        "DELETE_CONFIRM_DESCRIPTION": "This will permanently delete the selected article. This action cannot be undone. | This will permanently delete {count} selected articles. This action cannot be undone.",
+        "STATUS_SUCCESS": "Članci su uspješno ažurirani",
+        "STATUS_ERROR": "Ažuriranje članaka nije uspjelo",
+        "STATUS_SKIPPED": "Preskočen je 1 članak s neobjavljenim izmjenama. Otvorite ga kako biste objavili ili odbacili izmjene. | Preskočeno je {count} članaka s neobjavljenim izmjenama. Otvorite ih kako biste objavili ili odbacili izmjene.",
+        "STATUS_SKIPPED_ALL": "Ovi članci imaju neobjavljene izmjene. Otvorite svaki članak kako biste objavili ili odbacili izmjene.",
+        "CATEGORY_SUCCESS": "Članci su uspješno premješteni",
+        "CATEGORY_ERROR": "Premještanje članaka nije uspjelo",
+        "DELETE_CONFIRM_TITLE": "Izbriši članak | Izbriši {count} članaka",
+        "DELETE_CONFIRM_DESCRIPTION": "Odabrani članak trajno će se izbrisati. Ovu radnju nije moguće poništiti. | Trajno će se izbrisati {count} odabranih članaka. Ovu radnju nije moguće poništiti.",
         "DELETE_CONFIRM": "Izbriši",
-        "DELETE_SUCCESS": "Articles deleted successfully",
-        "DELETE_ERROR": "Failed to delete articles"
+        "DELETE_SUCCESS": "Članci su uspješno izbrisani",
+        "DELETE_ERROR": "Brisanje članaka nije uspjelo"
       }
     },
     "CATEGORY_PAGE": {
       "CATEGORY_HEADER": {
         "NEW_CATEGORY": "New category",
         "EDIT_CATEGORY": "Edit category",
-        "SEARCH_PLACEHOLDER": "Search categories...",
+        "SEARCH_PLACEHOLDER": "Pretraži kategorije…",
         "CATEGORIES_COUNT": "{n} category | {n} categories",
         "BREADCRUMB": {
           "CATEGORY_LOCALE": "Categories ({localeCode})",
@@ -656,8 +667,8 @@
         "SUBTITLE": "Categories will appear here. You can add a category by clicking the 'New Category' button."
       },
       "SEARCH_EMPTY_STATE": {
-        "TITLE": "No matching categories",
-        "SUBTITLE": "We couldn't find any categories matching your search. Try a different term."
+        "TITLE": "Nema odgovarajućih kategorija",
+        "SUBTITLE": "Nisu pronađene kategorije koje odgovaraju vašoj pretrazi. Pokušajte s drugim pojmom."
       },
       "CATEGORY_CARD": {
         "ARTICLES_COUNT": "{count} article | {count} articles"
@@ -716,10 +727,10 @@
     "LOCALES_PAGE": {
       "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
       "NEW_LOCALE_BUTTON_TEXT": "New locale",
-      "SEARCH_PLACEHOLDER": "Search locales...",
+      "SEARCH_PLACEHOLDER": "Pretraži jezike…",
       "SEARCH_EMPTY_STATE": {
-        "TITLE": "No matching locales",
-        "SUBTITLE": "We couldn't find any locales matching your search. Try a different term."
+        "TITLE": "Nema odgovarajućih jezika",
+        "SUBTITLE": "Nisu pronađeni jezici koji odgovaraju vašoj pretrazi. Pokušajte s drugim pojmom."
       },
       "LOCALE_CARD": {
         "ARTICLES_COUNT": "{count} article | {count} articles",
@@ -730,37 +741,37 @@
           "MAKE_DEFAULT": "Make default",
           "MOVE_TO_DRAFT": "Move to draft",
           "PUBLISH_LOCALE": "Publish locale",
-          "CUSTOMIZE_CONTENT": "Localize content",
-          "SELECT_POPULAR_CONTENT": "Select recommended content",
+          "CUSTOMIZE_CONTENT": "Prilagodi sadržaj jeziku",
+          "SELECT_POPULAR_CONTENT": "Odaberi preporučeni sadržaj",
           "DELETE": "Izbriši"
         }
       },
       "POPULAR_CONTENT_DIALOG": {
-        "TITLE": "Recommended content",
-        "DESCRIPTION": "Pick up to 3 categories and 6 articles to feature on this locale's help center home page. Drag them into the order you want visitors to see.",
-        "SEARCH": "Search...",
-        "EMPTY": "No matching results",
-        "ADD_ANOTHER": "Add another...",
-        "SLOTS_LEFT": "{count} slots left",
-        "OVERRIDING_DEFAULTS": "Overriding defaults for this locale",
-        "CONFIRM": "Save recommendations",
+        "TITLE": "Preporučeni sadržaj",
+        "DESCRIPTION": "Odaberite najviše 3 kategorije i 6 članaka koje želite istaknuti na početnoj stranici centra za pomoć za ovaj jezik. Povucite ih u redoslijed kojim ih želite prikazati posjetiteljima.",
+        "SEARCH": "Pretraži...",
+        "EMPTY": "Nema odgovarajućih rezultata",
+        "ADD_ANOTHER": "Dodaj još…",
+        "SLOTS_LEFT": "Preostalo mjesta: {count}",
+        "OVERRIDING_DEFAULTS": "Za ovaj jezik koriste se prilagođene vrijednosti umjesto zadanih",
+        "CONFIRM": "Spremi preporuke",
         "CATEGORIES": {
-          "LABEL": "Recommended categories",
-          "ARTICLES_COUNT": "No articles | {count} article | {count} articles"
+          "LABEL": "Preporučene kategorije",
+          "ARTICLES_COUNT": "Nema članaka | {count} članak | {count} članaka"
         },
         "ARTICLES": {
-          "LABEL": "Recommended articles",
-          "IN_CATEGORY": "in {category}",
-          "UNCATEGORIZED": "Uncategorized"
+          "LABEL": "Preporučeni članci",
+          "IN_CATEGORY": "u kategoriji {category}",
+          "UNCATEGORIZED": "Nekategorizirano"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Recommended content updated successfully",
-          "ERROR_MESSAGE": "Unable to update recommended content. Try again."
+          "SUCCESS_MESSAGE": "Preporučeni sadržaj uspješno je ažuriran",
+          "ERROR_MESSAGE": "Ažuriranje preporučenog sadržaja nije uspjelo. Pokušajte ponovno."
         }
       },
       "CONTENT_DIALOG": {
-        "TITLE": "Localize content",
-        "DESCRIPTION": "Set values specific to this locale. Anything left blank falls back to the default locale.",
+        "TITLE": "Prilagodi sadržaj jeziku",
+        "DESCRIPTION": "Postavite vrijednosti za ovaj jezik. Za prazna polja koristit će se vrijednosti zadanog jezika.",
         "NAME": {
           "LABEL": "Ime"
         },
@@ -771,8 +782,8 @@
           "LABEL": "Header text"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Locale content updated successfully",
-          "ERROR_MESSAGE": "Unable to update locale content. Try again."
+          "SUCCESS_MESSAGE": "Sadržaj za ovaj jezik uspješno je ažuriran",
+          "ERROR_MESSAGE": "Ažuriranje sadržaja za ovaj jezik nije uspjelo. Pokušajte ponovno."
         }
       },
       "ADD_LOCALE_DIALOG": {
@@ -801,32 +812,39 @@
           "SAVED": "Saved"
         },
         "PREVIEW": "Pretpregled",
+        "PREVIEW_ERROR": "Otvaranje pregleda nije uspjelo. Pokušajte ponovno.",
+        "PREVIEW_POPUP_BLOCKED": "Dopustite skočne prozore na ovoj stranici kako biste otvorili pregled.",
         "PUBLISH": "Objavi",
-        "PUBLISH_CHANGES": "Publish changes",
-        "PUBLISH_CHANGES_SUCCESS": "Changes published successfully",
-        "PUBLISH_CHANGES_ERROR": "Could not publish changes",
-        "SAVE_IN_PROGRESS": "Still saving your latest changes. Please try again in a moment.",
-        "UPLOAD_IN_PROGRESS": "A file upload is unfinished. Wait for it to finish or remove it first.",
-        "CREATE_IN_PROGRESS": "The article is still being created. Add files again in a moment.",
-        "DISCARD_CHANGES": "Discard changes",
-        "DISCARD_CHANGES_SUCCESS": "Changes discarded",
-        "DISCARD_CHANGES_ERROR": "Could not discard changes",
-        "PENDING_CHANGES": "Pending changes",
-        "VIEW_CHANGES": "View unpublished changes",
+        "PUBLISH_CHANGES": "Objavi promjene",
+        "PUBLISH_CHANGES_SUCCESS": "Promjene su uspješno objavljene",
+        "PUBLISH_CHANGES_ERROR": "Objava promjena nije uspjela",
+        "SAVE_IN_PROGRESS": "Spremanje posljednjih promjena još traje. Pokušajte ponovno za trenutak.",
+        "UPLOAD_IN_PROGRESS": "Prijenos datoteke nije dovršen. Pričekajte da se dovrši ili prvo uklonite datoteku.",
+        "CREATE_IN_PROGRESS": "Izrada članka još traje. Ponovno dodajte datoteke za trenutak.",
+        "DISCARD_CHANGES": "Odbaci promjene",
+        "DISCARD_CHANGES_SUCCESS": "Promjene su odbačene",
+        "DISCARD_CHANGES_ERROR": "Odbacivanje promjena nije uspjelo",
+        "PENDING_CHANGES": "Promjene na čekanju",
+        "VIEW_CHANGES": "Prikaži neobjavljene promjene",
         "DRAFT": "Skica",
         "ARCHIVE": "Archive",
         "BACK_TO_ARTICLES": "Back to articles"
       },
+      "NEWER_VERSION": {
+        "LABEL": "Učitaj najnoviju verziju",
+        "TOOLTIP": "Ovaj je članak promijenio član tima ili je izmijenjen u drugoj kartici. Kliknite za učitavanje najnovije verzije.",
+        "LOAD_ERROR": "Učitavanje najnovije verzije nije uspjelo. Pokušajte ponovno."
+      },
       "PENDING_CHANGES_POPOVER": {
-        "TITLE": "Unpublished changes",
-        "DESCRIPTION": "This article has draft changes that aren't live yet. Apply them before changing the status, or discard them?",
-        "APPLY": "Apply changes",
-        "DISCARD": "Discard changes"
+        "TITLE": "Neobjavljene promjene",
+        "DESCRIPTION": "Ovaj članak ima promjene u skici koje još nisu objavljene. Želite li ih primijeniti prije promjene statusa ili ih odbaciti?",
+        "APPLY": "Primijeni promjene",
+        "DISCARD": "Odbaci promjene"
       },
       "DIFF_DIALOG": {
-        "TITLE": "Unpublished changes",
-        "DESCRIPTION": "Compare your draft against the version that's currently live.",
-        "TITLE_LABEL": "Title"
+        "TITLE": "Neobjavljene promjene",
+        "DESCRIPTION": "Usporedite skicu s trenutačno objavljenom verzijom.",
+        "TITLE_LABEL": "Naslov"
       },
       "EDIT_ARTICLE": {
         "MORE_PROPERTIES": "More properties",
@@ -835,19 +853,26 @@
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "Article properties",
+        "ORIGINAL_ARTICLE": "Izvorni članak",
+        "ORIGINAL_ARTICLE_PLACEHOLDER": "Ovo je izvorni članak",
+        "ORIGINAL_ARTICLE_SEARCH": "Pretraži članke…",
+        "ORIGINAL_ARTICLE_EMPTY": "Nema pronađenih članaka",
         "META_DESCRIPTION": "Meta description",
         "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
         "META_TITLE": "Meta title",
         "META_TITLE_PLACEHOLDER": "Add meta title",
         "META_TAGS": "Meta tags",
         "META_TAGS_PLACEHOLDER": "Add meta tags",
+        "SEARCH_ENGINE_VISIBILITY": "Prikaži u rezultatima pretraživanja",
+        "SEARCH_ENGINE_VISIBILITY_DESCRIPTION": "Isključite kako se ovaj članak ne bi pojavljivao na Googleu i drugim tražilicama. I dalje ostaje objavljen i vidljiv u centru za pomoć.",
+        "SEARCH_ENGINE_VISIBILITY_PORTAL_OVERRIDE": "Onemogućeno jer je ovaj centar za pomoć skriven iz rezultata pretraživanja. Promijenite to u odjeljku Postavke → SEO.",
         "SLUG": "Slug",
-        "SLUG_PLACEHOLDER": "Add slug",
-        "SLUG_USE_TITLE": "Use title as slug",
-        "SLUG_WARNING": "The current URL will stop working, and existing links to it will break.",
-        "SLUG_UPDATE": "Update",
-        "SLUG_UPDATED": "Slug updated. The article is now available at the new URL.",
-        "SLUG_OPEN": "Open URL"
+        "SLUG_PLACEHOLDER": "Dodaj URL oznaku",
+        "SLUG_USE_TITLE": "Koristi naslov kao URL oznaku",
+        "SLUG_WARNING": "Trenutačni URL prestat će raditi, a postojeće poveznice na njega više neće biti valjane.",
+        "SLUG_UPDATE": "Ažuriraj",
+        "SLUG_UPDATED": "URL oznaka je ažurirana. Članak je sada dostupan na novom URL-u.",
+        "SLUG_OPEN": "Otvori URL"
       },
       "API": {
         "ERROR": "Error while saving article"
@@ -882,6 +907,9 @@
       "FORM": {
         "AVATAR": {
           "LABEL": "Logo",
+          "ADD_DARK_MODE": "Dodaj logotip za tamni način rada",
+          "LIGHT_MODE": "Svijetli način rada",
+          "DARK_MODE": "Tamni način rada",
           "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
           "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save changes to save the logo",
           "IMAGE_DELETE_SUCCESS": "Logo deleted successfully",
@@ -965,92 +993,101 @@
         "EDIT_CONFIGURATION": "Edit configuration"
       },
       "LAYOUT_CONTENT": {
-        "HEADER": "Appearance",
-        "DESCRIPTION": "Pick the layout that fits how your visitors read.",
+        "HEADER": "Izgled",
+        "DESCRIPTION": "Odaberite raspored koji odgovara načinu na koji vaši posjetitelji čitaju.",
         "LAYOUT": {
           "CLASSIC": {
-            "TITLE": "Classic",
-            "DESCRIPTION": "A welcoming home page with search and featured topics."
+            "TITLE": "Klasični",
+            "DESCRIPTION": "Pregledna početna stranica s pretraživanjem i istaknutim temama."
           },
           "SIDEBAR": {
-            "TITLE": "Documentation",
-            "DESCRIPTION": "Side-by-side navigation that keeps every guide a click away."
+            "TITLE": "Dokumentacija",
+            "DESCRIPTION": "Bočna navigacija omogućuje pristup svakom vodiču jednim klikom."
           }
         },
         "SOCIAL_LINKS": {
-          "HEADER": "Social links",
-          "DESCRIPTION": "Add the handle for each network and your help center builds the full link. Shown in the documentation layout footer.",
-          "PLACEHOLDER": "handle",
-          "ADD": "Add social link",
+          "HEADER": "Poveznice na društvene mreže",
+          "DESCRIPTION": "Unesite korisničko ime za svaku mrežu, a centar za pomoć izradit će punu poveznicu. Poveznice se prikazuju u podnožju rasporeda Dokumentacija.",
+          "PLACEHOLDER": "korisničko ime",
+          "ADD": "Dodaj poveznicu na društvenu mrežu",
           "REMOVE": "Izbriši"
         },
-        "SAVE": "Save changes"
+        "SAVE": "Spremi promjene"
+      },
+      "SEO": {
+        "HEADER": "SEO",
+        "DESCRIPTION": "Odredite kako tražilice pronalaze vaš centar za pomoć.",
+        "SEARCH_ENGINE_VISIBILITY": {
+          "LABEL": "Prikaži u rezultatima pretraživanja",
+          "DESCRIPTION": "Dopustite tražilicama poput Googlea da prikazuju ovaj centar za pomoć. Kada je opcija isključena, centar za pomoć posjetiteljima radi jednako, ali se prestaje prikazivati u rezultatima pretraživanja, što može potrajati nekoliko dana ili tjedana."
+        }
       },
       "INTEGRATIONS": {
-        "HEADER": "Integrations",
-        "DESCRIPTION": "Connect tools that extend what your help center can do.",
+        "HEADER": "Integracije",
+        "DESCRIPTION": "Povežite alate koji proširuju mogućnosti vašeg centra za pomoć.",
         "LIVE_CHAT": {
-          "TITLE": "Live chat with Chatwoot",
-          "DESCRIPTION": "Show a live chat widget on your help center so visitors can reach you while they read.",
-          "PLACEHOLDER": "Select live chat widget",
-          "NONE_OPTION": "No widget"
+          "TITLE": "Razgovor uživo uz Chatwoot",
+          "DESCRIPTION": "Prikažite dodatak za razgovor uživo u centru za pomoć kako bi vam se posjetitelji mogli javiti dok čitaju.",
+          "PLACEHOLDER": "Odaberi dodatak za razgovor uživo",
+          "NONE_OPTION": "Bez dodatka"
         },
         "GTM": {
           "TITLE": "Google Tag Manager",
-          "DESCRIPTION": "Add analytics and marketing tags by connecting your Tag Manager container.",
+          "DESCRIPTION": "Dodajte oznake za analitiku i marketing povezivanjem svojeg spremnika u usluzi Google Tag Manager.",
           "PLACEHOLDER": "GTM-XXXXXXX",
-          "HELP": "Find this in your Google Tag Manager workspace. Leave empty to disable.",
-          "INVALID": "Enter a valid container ID, for example GTM-XXXXXXX."
+          "HELP": "Pronađite ga u svojem radnom prostoru usluge Google Tag Manager. Ostavite prazno za isključivanje.",
+          "INVALID": "Unesite valjan ID spremnika, primjerice GTM-XXXXXXX."
         },
         "GA4": {
           "TITLE": "Google Analytics 4",
-          "DESCRIPTION": "Measure traffic and visitor behavior on your help center with Google Analytics.",
+          "DESCRIPTION": "Pratite promet i ponašanje posjetitelja u centru za pomoć uz Google Analytics.",
           "PLACEHOLDER": "G-XXXXXXXXXX",
-          "HELP": "Find the measurement ID under Admin → Data streams in Google Analytics. Leave empty to disable.",
-          "INVALID": "Enter a valid measurement ID, for example G-XXXXXXXXXX."
+          "HELP": "ID mjerenja pronađite u odjeljku Administrator → Tokovi podataka u usluzi Google Analytics. Ostavite prazno za isključivanje.",
+          "INVALID": "Unesite valjan ID mjerenja, primjerice G-XXXXXXXXXX."
         },
         "HOTJAR": {
           "TITLE": "Hotjar",
-          "DESCRIPTION": "Understand how visitors use your help center with heatmaps and session recordings.",
+          "DESCRIPTION": "Saznajte kako posjetitelji koriste vaš centar za pomoć uz toplinske karte i snimke sesija.",
           "PLACEHOLDER": "1234567",
-          "HELP": "Find your site ID under Sites & organizations in Hotjar. Leave empty to disable.",
-          "INVALID": "Enter a numeric Hotjar site ID."
+          "HELP": "ID web-mjesta pronađite u odjeljku Sites & organizations u usluzi Hotjar. Ostavite prazno za isključivanje.",
+          "INVALID": "Unesite brojčani ID web-mjesta iz usluge Hotjar."
         },
         "PLAUSIBLE": {
           "TITLE": "Plausible",
-          "DESCRIPTION": "Track help center traffic with privacy-friendly Plausible Analytics.",
+          "DESCRIPTION": "Pratite promet centra za pomoć uz Plausible Analytics, uz poštovanje privatnosti posjetitelja.",
           "PLACEHOLDER": "example.com",
-          "HELP": "Enter the domain configured in your Plausible site settings. Leave empty to disable.",
-          "INVALID": "Enter a valid domain, for example example.com."
+          "HELP": "Unesite domenu postavljenu u postavkama svojeg web-mjesta u usluzi Plausible. Ostavite prazno za isključivanje.",
+          "INVALID": "Unesite valjanu domenu, primjerice example.com."
         },
         "AMPLITUDE": {
           "TITLE": "Amplitude",
-          "DESCRIPTION": "Analyze visitor behavior on your help center with Amplitude.",
+          "DESCRIPTION": "Analizirajte ponašanje posjetitelja u centru za pomoć uz Amplitude.",
           "PLACEHOLDER": "0123456789abcdef0123456789abcdef",
-          "HELP": "Find the API key in your Amplitude project settings. Leave empty to disable.",
-          "INVALID": "Enter a valid Amplitude API key."
+          "HELP": "API ključ pronađite u postavkama svojeg projekta u usluzi Amplitude. Ostavite prazno za isključivanje.",
+          "INVALID": "Unesite valjan API ključ za Amplitude."
         },
         "CLARITY": {
           "TITLE": "Microsoft Clarity",
-          "DESCRIPTION": "Capture heatmaps and session recordings with Microsoft Clarity.",
+          "DESCRIPTION": "Bilježite toplinske karte i snimke sesija uz Microsoft Clarity.",
           "PLACEHOLDER": "abcd1234ef",
-          "HELP": "Find the project ID in your Clarity project settings. Leave empty to disable.",
-          "INVALID": "Enter a valid Clarity project ID."
+          "HELP": "ID projekta pronađite u postavkama svojeg projekta u usluzi Clarity. Ostavite prazno za isključivanje.",
+          "INVALID": "Unesite valjan ID projekta iz usluge Clarity."
         },
         "META_PIXEL": {
           "TITLE": "Meta Pixel",
-          "DESCRIPTION": "Measure ad conversions and build audiences from help center visits with Meta Pixel.",
+          "DESCRIPTION": "Mjerite konverzije oglasa i izradite publike na temelju posjeta centru za pomoć uz Meta Pixel.",
           "PLACEHOLDER": "123456789012345",
-          "HELP": "Find the pixel ID in Meta Events Manager. Leave empty to disable.",
-          "INVALID": "Enter a numeric pixel ID."
+          "HELP": "ID piksela pronađite u usluzi Meta Events Manager. Ostavite prazno za isključivanje.",
+          "INVALID": "Unesite brojčani ID piksela."
         },
-        "SAVE": "Save changes"
+        "SAVE": "Spremi promjene"
       },
       "NAV": {
-        "GENERAL": "General",
-        "DOMAIN": "Domain",
-        "APPEARANCE": "Appearance",
-        "INTEGRATIONS": "Integrations"
+        "GENERAL": "Općenito",
+        "DOMAIN": "Domena",
+        "APPEARANCE": "Izgled",
+        "SEO": "SEO",
+        "INTEGRATIONS": "Integracije"
       },
       "API": {
         "CREATE_PORTAL": {

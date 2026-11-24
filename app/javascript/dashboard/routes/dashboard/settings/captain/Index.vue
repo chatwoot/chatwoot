@@ -38,7 +38,7 @@ const modelFeatures = computed(() => [
     enterprise: true,
   },
   {
-    key: 'copilot',
+    key: 'copilot_workflows',
     title: t('CAPTAIN_SETTINGS.MODEL_CONFIG.COPILOT.TITLE'),
     description: t('CAPTAIN_SETTINGS.MODEL_CONFIG.COPILOT.DESCRIPTION'),
     enterprise: true,

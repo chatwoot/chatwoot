@@ -1,7 +1,7 @@
 class DataImports::MessageBatchBuilder
   REGULAR_PART_TYPES = %w[comment note source].freeze
 
-  Entry = Struct.new(:source_id, :part, :position, :mapping, :message, :classification, keyword_init: true) do
+  Entry = Struct.new(:source_id, :part, :position, :mapping, :message, :classification, :prepared_message, keyword_init: true) do
     def source?
       part['part_type'] == 'source'
     end
@@ -44,7 +44,7 @@ class DataImports::MessageBatchBuilder
 
   def refresh(entries)
     classify(entries.map do |entry|
-      { source_id: entry.source_id, part: entry.part, position: entry.position }
+      { source_id: entry.source_id, part: entry.part, position: entry.position, prepared_message: entry.prepared_message }
     end)
   end
 
@@ -122,6 +122,7 @@ class DataImports::MessageBatchBuilder
     Entry.new(
       source_id: source_id,
       part: source_entry[:part],
+      prepared_message: source_entry[:prepared_message],
       position: position,
       mapping: mapping,
       message: mapped_message || existing_message,

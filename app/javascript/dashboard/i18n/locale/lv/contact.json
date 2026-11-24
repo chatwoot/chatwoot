@@ -320,25 +320,6 @@
         "BLOCK_ERROR_MESSAGE": "Nevar bloķēt kontaktpersonu. Lūdzu, vēlāk mēģiniet vēlreiz.",
         "UNBLOCK_SUCCESS_MESSAGE": "Šī kontaktpersona ir veiksmīgi atbloķēta",
         "UNBLOCK_ERROR_MESSAGE": "Nevar atbloķēt kontaktpersonu. Lūdzu, vēlāk mēģiniet vēlreiz.",
-        "IMPORT_CONTACT": {
-          "TITLE": "Importēt kontaktpersonas",
-          "DESCRIPTION": "Importēt kontaktpersonas, izmantojot CSV failu.",
-          "DOWNLOAD_LABEL": "Lejupielādēt csv paraugu.",
-          "LABEL": "CSV Fails:",
-          "CHOOSE_FILE": "Izvēlēties failu",
-          "CHANGE": "Mainīt",
-          "CANCEL": "Atcelt",
-          "IMPORT": "Importēt",
-          "SUCCESS_MESSAGE": "Kad importēšana būs pabeigta, jūs saņemsiet paziņojumu pa e-pastu.",
-          "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
-        },
-        "EXPORT_CONTACT": {
-          "TITLE": "Eksportēt kontaktpersonas",
-          "DESCRIPTION": "Ātri eksportējiet csv failu ar visaptverošu informāciju par jūsu kontaktpersonām",
-          "CONFIRM": "Eksportēt",
-          "SUCCESS_MESSAGE": "Notiek eksportēšana, Jūs saņemsit paziņojumu pa e-pastu, kad eksporta fails būs gatavs lejupielādei.",
-          "ERROR_MESSAGE": "Radās kļūda. Lūdzu, mēģiniet vēlreiz"
-        },
         "SORT_BY": {
           "LABEL": "Kārtot pēc",
           "OPTIONS": {
@@ -405,6 +386,8 @@
       },
       "TITLE": "Filtrēt kontaktpersonas",
       "EDIT_SEGMENT": "Rediģēt segmentu",
+      "INVALID_SEGMENT": "This segment has an invalid filter. Edit the segment to fix it.",
+      "LOAD_ERROR": "Could not load filtered contacts. Try again.",
       "SEGMENT": {
         "LABEL": "Segmenta nosaukums",
         "INPUT_PLACEHOLDER": "Ievadiet segmenta nosaukumu"

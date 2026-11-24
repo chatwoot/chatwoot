@@ -1,6 +1,5 @@
-# Evaluates whether a conversation is complete and can be auto-resolved.
-# Used by InboxPendingConversationsResolutionJob to determine if inactive
-# conversations should be resolved or handed off to human agents.
+# Decides what happens to an inactive pending conversation next: complete, waiting_on_customer, or needs_human.
+# Used by InboxPendingConversationsResolutionJob.
 #
 # NOTE: This service intentionally does NOT count toward Captain usage limits.
 # The response excludes the :message key that Enterprise::Captain::BaseTaskService
@@ -13,7 +12,7 @@ class Captain::ConversationCompletionService < Captain::BaseTaskService
 
   def perform
     content = format_evaluation_input
-    return default_incomplete_response('No messages found') if content.blank?
+    return default_needs_human_response('No messages found') if content.blank?
 
     response = make_api_call(
       feature: 'conversation_completion',
@@ -24,7 +23,7 @@ class Captain::ConversationCompletionService < Captain::BaseTaskService
       schema: RESPONSE_SCHEMA
     )
 
-    return default_incomplete_response(response[:error]) if response[:error].present?
+    return default_needs_human_response(response[:error]) if response[:error].present?
 
     parse_response(response[:message])
   end
@@ -87,20 +86,20 @@ class Captain::ConversationCompletionService < Captain::BaseTaskService
   end
 
   def bot_reply?(message)
-    message.outgoing? && message.sender_type.in?(['AgentBot', 'Captain::Assistant'])
+    message.outgoing? && message.sender_type.in?(Message::BOT_SENDER_TYPES)
   end
 
   def parse_response(message)
-    return default_incomplete_response('Invalid response format') unless message.is_a?(Hash)
+    return default_needs_human_response('Invalid response format') unless message.is_a?(Hash)
 
     {
-      complete: message['complete'] == true,
+      outcome: message['outcome'],
       reason: message['reason'] || 'No reason provided'
     }
   end
 
-  def default_incomplete_response(reason)
-    { complete: false, reason: reason }
+  def default_needs_human_response(reason)
+    { outcome: 'needs_human', reason: reason }
   end
 
   # This is an internal operational evaluation, not a customer-triggered feature,

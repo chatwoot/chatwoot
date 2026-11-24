@@ -6,18 +6,20 @@ module Instagram::IntegrationHelper
   # @param account_id [Integer] The account ID to encode in the token
   # @param return_to [String, nil] Optional onboarding return hint
   # @return [String, nil] The encoded JWT token or nil if client secret is missing
-  def generate_instagram_token(account_id, return_to = nil)
+  def generate_instagram_token(account_id, return_to = nil, inbox_id: nil)
     return if client_secret.blank?
 
-    JWT.encode(token_payload(account_id, return_to), client_secret, 'HS256')
+    JWT.encode(token_payload(account_id, return_to, inbox_id: inbox_id), client_secret, 'HS256')
   rescue StandardError => e
     Rails.logger.error("Failed to generate Instagram token: #{e.message}")
     nil
   end
 
-  def token_payload(account_id, return_to = nil)
-    payload = { sub: account_id, iat: Time.current.to_i }
+  def token_payload(account_id, return_to = nil, inbox_id: nil)
+    payload = { sub: account_id, iat: Time.current.to_i, exp: 15.minutes.from_now.to_i }
     payload[:return_to] = return_to if return_to.present?
+    payload[:inbox_id] = inbox_id if inbox_id.present?
+    payload[:configuration_id] = instagram_configuration_id if instagram_configuration_id.present?
     payload
   end
 
@@ -38,16 +40,40 @@ module Instagram::IntegrationHelper
     decode_token(token, client_secret)&.dig('return_to')
   end
 
+  def instagram_token_configuration_id(token)
+    return if token.blank? || client_secret.blank?
+
+    decode_token(token, client_secret)&.dig('configuration_id')
+  end
+
+  def instagram_token_inbox_id(token)
+    return if token.blank? || client_secret.blank?
+
+    decode_token(token, client_secret)&.dig('inbox_id')
+  end
+
+  # An expired but correctly signed account ID is only used for the retry page.
+  def instagram_expired_token_account_id(token)
+    return if token.blank? || client_secret.blank?
+
+    payload = decode_token(token, client_secret, verify_expiration: false)
+    payload['sub'] if payload && payload['exp'].present? && payload['exp'] < Time.current.to_i
+  end
+
+  def instagram_configuration_id
+    @instagram_configuration_id ||= Instagram::LoginConfiguration.configuration_id
+  end
+
   private
 
   def client_secret
-    @client_secret ||= GlobalConfigService.load('INSTAGRAM_APP_SECRET', nil)
+    @client_secret ||= GlobalConfigService.load('INSTAGRAM_APP_SECRET', nil).presence || GlobalConfigService.load('INSTAGRAM_UNIFIED_APP_SECRET', nil)
   end
 
-  def decode_token(token, secret)
+  def decode_token(token, secret, verify_expiration: true)
     JWT.decode(token, secret, true, {
                  algorithm: 'HS256',
-                 verify_expiration: true
+                 verify_expiration: verify_expiration
                }).first
   rescue StandardError => e
     Rails.logger.error("Unexpected error verifying Instagram token: #{e.message}")

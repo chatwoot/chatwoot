@@ -113,6 +113,7 @@ const displayAgentName = computed(() => {
   return conversationAssignee.value?.name || null;
 });
 
+// Legacy WhatsApp recordings stay on the message until the backfill moves them to the call
 const audioAttachment = computed(() =>
   (attachments?.value || []).find(a => a.fileType === ATTACHMENT_TYPES.AUDIO)
 );
@@ -174,6 +175,9 @@ const subtext = computed(() => {
     if (endReason.value === VOICE_CALL_END_REASON.OUTSIDE_WORKING_HOURS) {
       return t('CONVERSATION.VOICE_CALL.MISSED_CALL_OUTSIDE_HOURS');
     }
+    if (endReason.value === VOICE_CALL_END_REASON.NO_AGENTS_AVAILABLE) {
+      return t('CONVERSATION.VOICE_CALL.MISSED_CALL_NOBODY_ONLINE');
+    }
     if (wasDeclinedByAgent.value && displayAgentName.value) {
       return t('CONVERSATION.VOICE_CALL.MISSED_CALL_DECLINED_BY', {
         agentName: displayAgentName.value,
@@ -231,7 +235,8 @@ const recordingAttachment = computed(() => {
   return {
     dataUrl: url,
     fileType: ATTACHMENT_TYPES.AUDIO,
-    extension: 'wav',
+    // The URL ends in the stored filename, e.g. .wav from Twilio or .ogg from WhatsApp
+    extension: new URL(url).pathname.split('.').pop(),
     transcribedText: call.value?.transcript || '',
   };
 });
@@ -318,7 +323,9 @@ const handleCallBack = async () => {
     useAlert(
       error instanceof ExceptionWithMessage
         ? error.data
-        : error?.message || t('CONTACT_PANEL.CALL_FAILED')
+        : error?.response?.data?.error ||
+            error?.message ||
+            t('CONTACT_PANEL.CALL_FAILED')
     );
   }
 };

@@ -6,6 +6,7 @@ import { useStore } from 'dashboard/composables/store';
 import SettingsFieldSection from 'dashboard/components-next/Settings/SettingsFieldSection.vue';
 import NextInput from 'dashboard/components-next/input/Input.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import BandwidthCallbackAuth from './components/BandwidthCallbackAuth.vue';
 
 const props = defineProps({
   inbox: { type: Object, required: true },
@@ -162,5 +163,6 @@ const saveCredentials = async () => {
     >
       <woot-code :script="inbox.callback_webhook_url" />
     </SettingsFieldSection>
+    <BandwidthCallbackAuth :inbox="inbox" />
   </div>
 </template>

@@ -81,11 +81,16 @@ def linear_create_issue(input_data: dict[str, Any], api_key: str) -> dict[str, s
 
 
 def reporter_login(advisory: dict[str, Any]) -> str:
-    for credit in advisory.get("credits") or []:
-        user = (credit or {}).get("user") or {}
+    detailed = [credit or {} for credit in advisory.get("credits_detailed") or []]
+    detailed.sort(key=lambda credit: credit.get("type") != "reporter")
+    for credit in detailed:
+        user = credit.get("user") or {}
         if user.get("login"):
             return user["login"]
-    return "unknown"
+    for credit in advisory.get("credits") or []:
+        if (credit or {}).get("login"):
+            return credit["login"]
+    return (advisory.get("author") or {}).get("login") or "unknown"
 
 
 def cvss_score(advisory: dict[str, Any]) -> str:

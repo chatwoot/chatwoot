@@ -7,15 +7,11 @@ class Voice::RingingTimeoutService
 
   # Meta's carrier ring lasts up to about 60 s, so a call is never ended here while the
   # caller still hears it ring. A Twilio caller waits on the conference's music until they
-  # hang up or an agent joins, unless the inbox ends unanswered calls after its own ring time.
+  # hang up, an agent joins or the inbox's ring time is up.
   RING_TIMEOUT_SECONDS = { 'whatsapp' => 60 }.freeze
-  # A timeout attempt older than this is taken to have died, and another may start
+  # Expired marks allow recovery after a worker dies.
   ATTEMPT_TTL_SECONDS = 120
 
-  # Inbound calls still ringing past their provider's timeout that rang phones, as the
-  # agents rung recorded on the call show, so one stays covered if the account stops
-  # ringing phones meanwhile. A WhatsApp answer moves the call on as it is claimed, so a
-  # ringing call has no claim. An outbound call ends with the provider's own word.
   def self.overdue
     RING_TIMEOUT_SECONDS.map { |provider, seconds| Call.where(status: 'ringing', provider: provider).where(created_at: ...seconds.seconds.ago) }
                         .reduce(:or)
@@ -68,7 +64,7 @@ class Voice::RingingTimeoutService
 
   # Meta's ring is bounded by the sweep's clock; a Twilio ring by the job queued for it
   def due?
-    return call.inbox.channel.unanswered_calls_enabled? if call.twilio?
+    return true if call.twilio?
 
     timeout = RING_TIMEOUT_SECONDS[call.provider]
     timeout.present? && call.created_at < timeout.seconds.ago
