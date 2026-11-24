@@ -11,6 +11,7 @@ export default {
     PENDING: 'pending',
     SNOOZED: 'snoozed',
     ALL: 'all',
+    UNREAD: 'unread',
   },
   CONVERSATION_TYPE: {
     MENTION: 'mention',
