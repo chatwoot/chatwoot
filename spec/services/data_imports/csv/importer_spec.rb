@@ -82,7 +82,11 @@ RSpec.describe DataImports::Csv::Importer do
     it 'links contacts silently, updates counts, and rejects invalid rows', :aggregate_failures do
       account.enable_features!('companies')
       old_company = create(:company, account: account)
-      target_company = create(:company, account: account, name: 'Existing', domain: 'Existing.example')
+      # Seed the stored spelling that predates Company domain normalization.
+      Company.lease_connection.insert_fixture(
+        { account_id: account.id, name: 'Existing', domain: 'Existing.example', created_at: Time.current, updated_at: Time.current }, 'companies'
+      )
+      target_company = account.companies.find_by!(name: 'Existing')
       existing = create(:contact, account: account, company: old_company, email: 'existing@example.com')
       allow(Rails.configuration.dispatcher).to receive(:dispatch)
 
@@ -96,6 +100,7 @@ RSpec.describe DataImports::Csv::Importer do
       expect(existing.custom_attributes).to eq({})
       expect(old_company.reload.contacts_count).to eq(0)
       expect(target_company.reload.contacts_count).to eq(1)
+      expect(target_company.domain).to eq('Existing.example')
 
       company = account.companies.find_by!(domain: 'north-star.example')
       expect(company.name).to eq('North Star')
