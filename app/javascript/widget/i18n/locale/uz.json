@@ -133,6 +133,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "Ommabop maqolalar",
     "VIEW_ALL_ARTICLES": "Barcha maqolalarni ko'rish",
+    "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
     "IFRAME_LOAD_ERROR": "Maqolani yuklashda xatolik yuz berdi, sahifani yangilab qayta urinib ko'ring."
   },
   "ATTACHMENTS": {

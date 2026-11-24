@@ -320,25 +320,6 @@
         "BLOCK_ERROR_MESSAGE": "Kontakti blokeerimine ebaõnnestus. Palun proovi hiljem uuesti.",
         "UNBLOCK_SUCCESS_MESSAGE": "See kontakt on edukalt blokeeringust vabaks tehtud",
         "UNBLOCK_ERROR_MESSAGE": "Kontakti blokeeringust vabaks tegemine ebaõnnestus. Palun proovi hiljem uuesti.",
-        "IMPORT_CONTACT": {
-          "TITLE": "Impordi kontaktid",
-          "DESCRIPTION": "Impordi kontaktid CSV-faili kaudu.",
-          "DOWNLOAD_LABEL": "Laadi alla näidis-CSV.",
-          "LABEL": "CSV-fail:",
-          "CHOOSE_FILE": "Vali fail",
-          "CHANGE": "Muuda",
-          "CANCEL": "Tühista",
-          "IMPORT": "Impordi",
-          "SUCCESS_MESSAGE": "Saadame teile e-kirja, kui importimine on lõpetatud.",
-          "ERROR_MESSAGE": "Tekkis viga, palun proovi uuesti"
-        },
-        "EXPORT_CONTACT": {
-          "TITLE": "Ekspordi kontaktid",
-          "DESCRIPTION": "Ekspordi kiiresti CSV-fail, mis sisaldab põhjalikku teavet sinu kontaktide kohta",
-          "CONFIRM": "Ekspordi",
-          "SUCCESS_MESSAGE": "Ekspordiprotsess on käimas. Saadame sulle e-kirja, kui ekspordifail on allalaadimiseks valmis.",
-          "ERROR_MESSAGE": "Tekkis viga, palun proovi uuesti"
-        },
         "SORT_BY": {
           "LABEL": "Sorteeri",
           "OPTIONS": {
@@ -405,6 +386,8 @@
       },
       "TITLE": "Filtreeri kontakte",
       "EDIT_SEGMENT": "Muuda segmenti",
+      "INVALID_SEGMENT": "This segment has an invalid filter. Edit the segment to fix it.",
+      "LOAD_ERROR": "Could not load filtered contacts. Try again.",
       "SEGMENT": {
         "LABEL": "Segmendi nimi",
         "INPUT_PLACEHOLDER": "Sisesta segmendi nimi"

@@ -320,25 +320,6 @@
         "BLOCK_ERROR_MESSAGE": "連絡先をブロックできませんでした。再度お試しください。",
         "UNBLOCK_SUCCESS_MESSAGE": "この連絡先のブロックが正常に解除されました",
         "UNBLOCK_ERROR_MESSAGE": "連絡先のブロックを解除できませんでした。再度お試しください。",
-        "IMPORT_CONTACT": {
-          "TITLE": "連絡先をインポート",
-          "DESCRIPTION": "CSVファイルを使用して連絡先をインポートします。",
-          "DOWNLOAD_LABEL": "サンプルCSVをダウンロード",
-          "LABEL": "CSVファイル:",
-          "CHOOSE_FILE": "ファイルを選択",
-          "CHANGE": "ステータスを変更",
-          "CANCEL": "キャンセル",
-          "IMPORT": "インポート",
-          "SUCCESS_MESSAGE": "インポート完了後、メールで通知されます。",
-          "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
-        },
-        "EXPORT_CONTACT": {
-          "TITLE": "連絡先をエクスポート",
-          "DESCRIPTION": "連絡先の詳細を含むCSVファイルを迅速にエクスポートします。",
-          "CONFIRM": "エクスポート",
-          "SUCCESS_MESSAGE": "エクスポートが進行中です。完了後にダウンロード可能な状態になるとメールで通知されます。",
-          "ERROR_MESSAGE": "エラーが発生しました。もう一度お試しください。"
-        },
         "SORT_BY": {
           "LABEL": "並び替え",
           "OPTIONS": {
@@ -405,6 +386,8 @@
       },
       "TITLE": "連絡先をフィルター",
       "EDIT_SEGMENT": "セグメントを編集",
+      "INVALID_SEGMENT": "This segment has an invalid filter. Edit the segment to fix it.",
+      "LOAD_ERROR": "Could not load filtered contacts. Try again.",
       "SEGMENT": {
         "LABEL": "セグメント名",
         "INPUT_PLACEHOLDER": "セグメントの名前を入力"

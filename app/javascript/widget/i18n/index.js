@@ -13,6 +13,7 @@ import fi from './locale/fi.json';
 import fr from './locale/fr.json';
 import he from './locale/he.json';
 import hi from './locale/hi.json';
+import hr from './locale/hr.json';
 import hu from './locale/hu.json';
 import id from './locale/id.json';
 import is from './locale/is.json';
@@ -58,6 +59,7 @@ export default {
   fr,
   he,
   hi,
+  hr,
   hu,
   id,
   is,

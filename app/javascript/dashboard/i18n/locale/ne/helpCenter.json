@@ -317,6 +317,11 @@
         }
       },
       "DELETE_LOCALE": {
+        "DIALOG": {
+          "TITLE": "Delete {locale}?",
+          "DESCRIPTION": "This will permanently delete {articles} and {categories} in this locale. This action cannot be undone.",
+          "CONFIRM": "Delete locale"
+        },
         "API": {
           "SUCCESS_MESSAGE": "भाषा पोर्टलबाट सफलतापूर्वक हटाइयो।",
           "ERROR_MESSAGE": "भाषा पोर्टलबाट हटाउन सकिएन। फेरि प्रयास गर्नुहोस्।"
@@ -554,10 +559,16 @@
       "ARTICLES_HEADER": {
         "TABS": {
           "ALL": "सबै लेखहरू",
-          "MINE": "मेरो",
           "DRAFT": "ड्राफ्ट",
           "PUBLISHED": "प्रकाशित",
           "ARCHIVED": "अभिलेखित"
+        },
+        "AUTHOR": {
+          "LABEL": "Filter by author: {author}",
+          "ALL": "All authors",
+          "ME": "Me",
+          "SELECTED": "Selected author",
+          "SEARCH_PLACEHOLDER": "Search teammates..."
         },
         "CATEGORY": {
           "ALL": "सबै श्रेणीहरू"
@@ -574,9 +585,9 @@
           "SUBTITLE": "धनी लेख लेखौं, सुरु गरौं!",
           "BUTTON_LABEL": "नयाँ लेख"
         },
-        "MINE": {
-          "TITLE": "तपाईंले यहाँ कुनै लेख लेख्नुभएको छैन",
-          "SUBTITLE": "यहाँ तपाईंले लेख्नुभएको सबै लेखहरू छिटो पहुँचका लागि देखिन्छन्।"
+        "AUTHOR": {
+          "TITLE": "No matching articles",
+          "SUBTITLE": "Try another author or change the selected filters."
         },
         "DRAFT": {
           "TITLE": "ड्राफ्टमा कुनै लेखहरू छैनन्",
@@ -801,6 +812,8 @@
           "SAVED": "सेभ गरियो"
         },
         "PREVIEW": "पूर्वावलोकन",
+        "PREVIEW_ERROR": "Could not open the preview. Please try again.",
+        "PREVIEW_POPUP_BLOCKED": "Allow popups for this site to open the preview.",
         "PUBLISH": "प्रकाशित गर्नुहोस्",
         "PUBLISH_CHANGES": "Publish changes",
         "PUBLISH_CHANGES_SUCCESS": "Changes published successfully",
@@ -816,6 +829,11 @@
         "DRAFT": "ड्राफ्ट",
         "ARCHIVE": "अभिलेख",
         "BACK_TO_ARTICLES": "लेखहरूमा फर्कनुहोस्"
+      },
+      "NEWER_VERSION": {
+        "LABEL": "Load latest version",
+        "TOOLTIP": "This article was changed by a teammate or in another tab. Click to load the latest version.",
+        "LOAD_ERROR": "Couldn't load the latest version. Try again."
       },
       "PENDING_CHANGES_POPOVER": {
         "TITLE": "Unpublished changes",
@@ -835,12 +853,19 @@
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "लेखका गुणहरू",
+        "ORIGINAL_ARTICLE": "Original article",
+        "ORIGINAL_ARTICLE_PLACEHOLDER": "This is the original article",
+        "ORIGINAL_ARTICLE_SEARCH": "Search articles...",
+        "ORIGINAL_ARTICLE_EMPTY": "कुनै लेख फेला परेन",
         "META_DESCRIPTION": "मेटा विवरण",
         "META_DESCRIPTION_PLACEHOLDER": "मेटा विवरण थप्नुहोस्",
         "META_TITLE": "मेटा शीर्षक",
         "META_TITLE_PLACEHOLDER": "मेटा शीर्षक थप्नुहोस्",
         "META_TAGS": "मेटा ट्यागहरू",
         "META_TAGS_PLACEHOLDER": "मेटा ट्यागहरू थप्नुहोस्",
+        "SEARCH_ENGINE_VISIBILITY": "Show in search results",
+        "SEARCH_ENGINE_VISIBILITY_DESCRIPTION": "Turn off to keep this article out of Google and other search engines. It stays published and visible in your help center.",
+        "SEARCH_ENGINE_VISIBILITY_PORTAL_OVERRIDE": "Disabled because this help center is hidden from search results. Change it in Settings → SEO.",
         "SLUG": "स्लग",
         "SLUG_PLACEHOLDER": "Add slug",
         "SLUG_USE_TITLE": "Use title as slug",
@@ -882,6 +907,9 @@
       "FORM": {
         "AVATAR": {
           "LABEL": "लोगो",
+          "ADD_DARK_MODE": "Add dark mode logo",
+          "LIGHT_MODE": "Light mode",
+          "DARK_MODE": "Dark mode",
           "IMAGE_UPLOAD_ERROR": "छवि अपलोड गर्न सकिएन! फेरि प्रयास गर्नुहोस्",
           "IMAGE_UPLOAD_SUCCESS": "छवि सफलतापूर्वक थपियो। कृपया लोगो सुरक्षित गर्न परिवर्तनहरू बचत गर्नुहोस्।",
           "IMAGE_DELETE_SUCCESS": "लोगो सफलतापूर्वक मेटाइयो",
@@ -986,6 +1014,14 @@
         },
         "SAVE": "परिवर्तनहरू बचत गर्नुहोस्"
       },
+      "SEO": {
+        "HEADER": "SEO",
+        "DESCRIPTION": "Control how search engines discover your help center.",
+        "SEARCH_ENGINE_VISIBILITY": {
+          "LABEL": "Show in search results",
+          "DESCRIPTION": "Let search engines like Google list this help center. When turned off, your help center works exactly the same for visitors. It just stops appearing in search engine results, which can take a few days or weeks."
+        }
+      },
       "INTEGRATIONS": {
         "HEADER": "एकीकरणहरू",
         "DESCRIPTION": "Connect tools that extend what your help center can do.",
@@ -1050,6 +1086,7 @@
         "GENERAL": "General",
         "DOMAIN": "डोमेन",
         "APPEARANCE": "Appearance",
+        "SEO": "SEO",
         "INTEGRATIONS": "एकीकरणहरू"
       },
       "API": {

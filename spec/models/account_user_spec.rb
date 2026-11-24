@@ -54,6 +54,13 @@ RSpec.describe AccountUser do
     end
   end
 
+  describe 'live update streams' do
+    it 'notifies the open streams of the user when removed from the account' do
+      expect { account_user.destroy! }
+        .to have_broadcasted_to(RoomChannel.account_user_stream(account_user.account_id, account_user.user_id))
+    end
+  end
+
   describe 'filtered unread count invalidation' do
     let(:account) { create(:account) }
     let(:user) { create(:user) }

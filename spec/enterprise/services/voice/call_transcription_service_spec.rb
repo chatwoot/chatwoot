@@ -83,4 +83,24 @@ RSpec.describe Voice::CallTranscriptionService, type: :service do
       expect { described_class.new(call: call).perform }.to raise_error(StandardError, 'reindex boom')
     end
   end
+
+  context 'with a WhatsApp call' do
+    let(:channel) do
+      create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false)
+    end
+    let(:call) do
+      create(:call, account: account, inbox: inbox, conversation: conversation, contact: conversation.contact, status: 'completed',
+                    message: message, provider: :whatsapp)
+    end
+
+    it 'skips calls whose inbox has transcription turned off' do
+      allow(Llm::SpeechToTextService).to receive(:new)
+      channel.update!(provider_config: channel.provider_config.merge('transcription_enabled' => false))
+
+      described_class.new(call: call).perform
+
+      expect(call.reload.transcript).to be_nil
+      expect(Llm::SpeechToTextService).not_to have_received(:new)
+    end
+  end
 end

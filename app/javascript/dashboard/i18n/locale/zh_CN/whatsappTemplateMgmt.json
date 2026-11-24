@@ -28,8 +28,8 @@
     },
     "TYPES": {
       "TEXT": "文本",
-      "IMAGE": "Image",
-      "VIDEO": "Video",
+      "IMAGE": "图片",
+      "VIDEO": "视频",
       "DOCUMENT": "Document",
       "MEDIA": "媒体",
       "QUICK_REPLY": "Quick reply",

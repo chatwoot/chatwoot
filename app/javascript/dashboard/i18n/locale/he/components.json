@@ -7,6 +7,7 @@
     "PLACEHOLDER": "בחר אפשרות...",
     "EMPTY_SEARCH_RESULTS": "לא נמצאו פריטים עבור מונח החיפוש `{searchTerm}`",
     "EMPTY_STATE": "לא נמצאו תוצאות.",
+    "LOADING": "טוען...",
     "SEARCH_PLACEHOLDER": "חיפוש...",
     "MORE": "+{count} נוספים"
   },

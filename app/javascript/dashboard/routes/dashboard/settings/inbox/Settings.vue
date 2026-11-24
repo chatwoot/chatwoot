@@ -19,6 +19,7 @@ import MicrosoftReauthorize from './channels/microsoft/Reauthorize.vue';
 import GoogleReauthorize from './channels/google/Reauthorize.vue';
 import WhatsappReauthorize from './channels/whatsapp/Reauthorize.vue';
 import InboxHealthAPI from 'dashboard/api/inboxHealth';
+import InboxesAPI from 'dashboard/api/inboxes';
 import PreChatFormSettings from './PreChatForm/Settings.vue';
 import WeeklyAvailability from './components/WeeklyAvailability.vue';
 import GreetingsEditor from 'shared/components/GreetingsEditor.vue';
@@ -127,6 +128,7 @@ export default {
       isLoadingHealth: false,
       healthError: null,
       isRegisteringWebhook: false,
+      isEnablingCalling: false,
       isTransferringWhatsAppToManual: false,
       widgetBubblePosition: 'right',
       widgetBubbleType: 'standard',
@@ -651,6 +653,20 @@ export default {
         );
       } finally {
         this.isRegisteringWebhook = false;
+      }
+    },
+    async enableWhatsappCalling() {
+      try {
+        this.isEnablingCalling = true;
+        await InboxesAPI.enableWhatsappCalling(this.inbox.id);
+        await this.fetchHealthData();
+      } catch (error) {
+        useAlert(
+          error.response?.data?.error ||
+            this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE')
+        );
+      } finally {
+        this.isEnablingCalling = false;
       }
     },
     handleFeatureFlag(e) {
@@ -1513,8 +1529,10 @@ export default {
             :health-error="healthError"
             :is-embedded-signup="isEmbeddedSignupWhatsApp"
             :is-registering-webhook="isRegisteringWebhook"
+            :is-enabling-calling="isEnablingCalling"
             @register-webhook="registerWebhook"
             @go-to-configuration="goToWhatsAppConfiguration"
+            @enable-calling="enableWhatsappCalling"
           />
         </div>
         <div v-if="selectedTabKey === 'twilio-health'">

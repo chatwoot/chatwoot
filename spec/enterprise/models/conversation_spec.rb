@@ -297,7 +297,7 @@ RSpec.describe Conversation, type: :model do
                                             approval_message_id: card.id })
     end
 
-    before { account.enable_features!('copilot_workflows') }
+    before { account.enable_features!('captain_integration') }
 
     after { Current.reset }
 

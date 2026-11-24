@@ -133,6 +133,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "熱門文章",
     "VIEW_ALL_ARTICLES": "查看所有文章",
+    "IFRAME_ERROR": "URL 為空或無效，無法顯示內容。",
     "IFRAME_LOAD_ERROR": "載入文章時出錯，請重新整理頁面並重試。"
   },
   "ATTACHMENTS": {

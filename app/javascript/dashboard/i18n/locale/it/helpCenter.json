@@ -317,6 +317,11 @@
         }
       },
       "DELETE_LOCALE": {
+        "DIALOG": {
+          "TITLE": "Elimina {locale}?",
+          "DESCRIPTION": "This will permanently delete {articles} and {categories} in this locale. This action cannot be undone.",
+          "CONFIRM": "Delete locale"
+        },
         "API": {
           "SUCCESS_MESSAGE": "Lingua rimossa dal portale con successo",
           "ERROR_MESSAGE": "Impossibile rimuovere la lingua dal portale. Riprova."
@@ -554,10 +559,16 @@
       "ARTICLES_HEADER": {
         "TABS": {
           "ALL": "Tutti gli articoli",
-          "MINE": "Mie",
           "DRAFT": "Bozza",
           "PUBLISHED": "Pubblicato",
           "ARCHIVED": "Archiviato"
+        },
+        "AUTHOR": {
+          "LABEL": "Filter by author: {author}",
+          "ALL": "All authors",
+          "ME": "Io",
+          "SELECTED": "Selected author",
+          "SEARCH_PLACEHOLDER": "Search teammates..."
         },
         "CATEGORY": {
           "ALL": "Tutte le categorie"
@@ -574,9 +585,9 @@
           "SUBTITLE": "Scrivi un articolo, iniziamo!",
           "BUTTON_LABEL": "Nuovo articolo"
         },
-        "MINE": {
-          "TITLE": "Non hai scritto nessun articolo qui",
-          "SUBTITLE": "Tutti gli articoli scritti da te appaiono qui per un rapido accesso."
+        "AUTHOR": {
+          "TITLE": "Nessun articolo corrispondente",
+          "SUBTITLE": "Try another author or change the selected filters."
         },
         "DRAFT": {
           "TITLE": "Non ci sono articoli nelle bozze",
@@ -801,6 +812,8 @@
           "SAVED": "Salvato"
         },
         "PREVIEW": "Anteprima",
+        "PREVIEW_ERROR": "Could not open the preview. Please try again.",
+        "PREVIEW_POPUP_BLOCKED": "Allow popups for this site to open the preview.",
         "PUBLISH": "Pubblica",
         "PUBLISH_CHANGES": "Pubblica le modifiche",
         "PUBLISH_CHANGES_SUCCESS": "Modifiche pubblicate",
@@ -816,6 +829,11 @@
         "DRAFT": "Bozza",
         "ARCHIVE": "Archivia",
         "BACK_TO_ARTICLES": "Torna agli articoli"
+      },
+      "NEWER_VERSION": {
+        "LABEL": "Load latest version",
+        "TOOLTIP": "This article was changed by a teammate or in another tab. Click to load the latest version.",
+        "LOAD_ERROR": "Couldn't load the latest version. Try again."
       },
       "PENDING_CHANGES_POPOVER": {
         "TITLE": "Modifiche non pubblicate",
@@ -835,12 +853,19 @@
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "Proprietà articolo",
+        "ORIGINAL_ARTICLE": "Original article",
+        "ORIGINAL_ARTICLE_PLACEHOLDER": "This is the original article",
+        "ORIGINAL_ARTICLE_SEARCH": "Cerca articoli...",
+        "ORIGINAL_ARTICLE_EMPTY": "Nessun articolo trovato",
         "META_DESCRIPTION": "Descrizione meta",
         "META_DESCRIPTION_PLACEHOLDER": "Aggiungi descrizione meta",
         "META_TITLE": "Titolo meta",
         "META_TITLE_PLACEHOLDER": "Aggiungi titolo meta",
         "META_TAGS": "Tag meta",
         "META_TAGS_PLACEHOLDER": "Aggiungi tag meta",
+        "SEARCH_ENGINE_VISIBILITY": "Show in search results",
+        "SEARCH_ENGINE_VISIBILITY_DESCRIPTION": "Turn off to keep this article out of Google and other search engines. It stays published and visible in your help center.",
+        "SEARCH_ENGINE_VISIBILITY_PORTAL_OVERRIDE": "Disabled because this help center is hidden from search results. Change it in Settings → SEO.",
         "SLUG": "Slug",
         "SLUG_PLACEHOLDER": "Aggiungi lo slug",
         "SLUG_USE_TITLE": "Usa il titolo come slug",
@@ -882,6 +907,9 @@
       "FORM": {
         "AVATAR": {
           "LABEL": "Logo",
+          "ADD_DARK_MODE": "Add dark mode logo",
+          "LIGHT_MODE": "Light mode",
+          "DARK_MODE": "Dark mode",
           "IMAGE_UPLOAD_ERROR": "Impossibile caricare l'immagine! Riprova",
           "IMAGE_UPLOAD_SUCCESS": "Immagine aggiunta con successo. Clicca su salva le modifiche per salvare il logo",
           "IMAGE_DELETE_SUCCESS": "Logo eliminato correttamente",
@@ -986,6 +1014,14 @@
         },
         "SAVE": "Salva modifiche"
       },
+      "SEO": {
+        "HEADER": "SEO",
+        "DESCRIPTION": "Control how search engines discover your help center.",
+        "SEARCH_ENGINE_VISIBILITY": {
+          "LABEL": "Show in search results",
+          "DESCRIPTION": "Let search engines like Google list this help center. When turned off, your help center works exactly the same for visitors. It just stops appearing in search engine results, which can take a few days or weeks."
+        }
+      },
       "INTEGRATIONS": {
         "HEADER": "Integrazioni",
         "DESCRIPTION": "Collega strumenti che estendono le funzioni del tuo centro assistenza.",
@@ -1050,6 +1086,7 @@
         "GENERAL": "Generale",
         "DOMAIN": "Dominio",
         "APPEARANCE": "Aspetto",
+        "SEO": "SEO",
         "INTEGRATIONS": "Integrazioni"
       },
       "API": {

@@ -207,6 +207,40 @@ RSpec.describe 'DeviseOverrides::OmniauthCallbacksController', type: :request do
       end
     end
 
+    context 'with a Google auth hash too large for the session cookie' do
+      before do
+        set_omniauth_config('large-auth@example.com')
+        OmniAuth.config.mock_auth[:google_oauth2].merge!(
+          credentials: { token: 'a' * 2048, expires_at: 1_795_199_038, expires: true },
+          info: { name: 'Large Auth', email: 'large-auth@example.com', email_verified: true, image: 'https://example.com/avatar.jpg' }
+        )
+      end
+
+      it 'stores only the provider and email for an existing user and signs them in' do
+        with_modified_env FRONTEND_URL: 'http://www.example.com' do
+          create(:user, email: 'large-auth@example.com')
+
+          get '/omniauth/google_oauth2/callback'
+
+          expect(response).to redirect_to('http://www.example.com/auth/google_oauth2/callback')
+          expect(session['dta.omniauth.auth']).to eq('provider' => 'google_oauth2', 'info' => { 'email' => 'large-auth@example.com' })
+
+          follow_redirect!
+          expect(response).to redirect_to(%r{/app/login\?email=.+&sso_auth_token=.+$})
+        end
+      end
+    end
+
+    it 'keeps the full Google profile in the session for a new sign up' do
+      with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true', FRONTEND_URL: 'http://www.example.com' do
+        set_omniauth_config('new-google-user@example.com')
+
+        get '/omniauth/google_oauth2/callback'
+
+        expect(session['dta.omniauth.auth'].dig('info', 'image')).to eq('https://example.com/image.jpg')
+      end
+    end
+
     # from a line coverage point of view this may seem redundant
     # but to ensure that the logic allows for existing users even if they have a gmail account
     # we need to test this explicitly

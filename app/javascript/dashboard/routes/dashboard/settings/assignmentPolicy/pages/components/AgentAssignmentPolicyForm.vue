@@ -70,6 +70,8 @@ const emit = defineEmits([
 // Duration limits for the stale-conversation threshold: 1 hour to 999 days (in minutes)
 const MIN_EXCLUSION_MINUTES = 60;
 const MAX_EXCLUSION_MINUTES = 1438560;
+// Stored in whole hours, so minutes aren't offered
+const EXCLUSION_UNITS = [DURATION_UNITS.HOURS, DURATION_UNITS.DAYS];
 
 const { t } = useI18n();
 const route = useRoute();
@@ -295,6 +297,7 @@ defineExpose({
             v-model:model-value="excludeOlderThanMinutes"
             :min="MIN_EXCLUSION_MINUTES"
             :max="MAX_EXCLUSION_MINUTES"
+            :units="EXCLUSION_UNITS"
           />
         </div>
       </div>

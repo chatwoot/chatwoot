@@ -133,6 +133,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "מאמרים פופולריים",
     "VIEW_ALL_ARTICLES": "הצג את כל המאמרים",
+    "IFRAME_ERROR": "כתובת ה-URL ריקה או לא חוקית. לא ניתן להציג תוכן.",
     "IFRAME_LOAD_ERROR": "אירעה שגיאה בטעינת המאמר, אנא רענן את הדף ונסה שוב."
   },
   "ATTACHMENTS": {
