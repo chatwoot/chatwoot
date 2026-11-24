@@ -83,7 +83,7 @@ module Integrations::Slack::SlackMessageHelper
   end
 
   def conversation
-    @conversation ||= Conversation.where(identifier: params[:event][:thread_ts]).first
+    @conversation ||= Conversation.where(account_id: integration_hook.account_id, identifier: params[:event][:thread_ts]).first
   end
 
   def resolve_slack_sender
