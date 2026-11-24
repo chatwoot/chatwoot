@@ -15,7 +15,7 @@ class SearchIndexing::ConversationFilter
     return unless eligible?
 
     query = supported_query
-    return unless query && SearchIndexing::IndexVerification.ready?(@account, version: 2)
+    return unless query
 
     response = Searchkick.client.search(index: Conversation.search_index.name, body: search_body(query))
     SearchIndexing::IndexedConversations.check_response!(response)

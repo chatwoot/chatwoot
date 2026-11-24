@@ -21,12 +21,12 @@ RSpec.describe Conversations::FilterService do
   before do
     allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(true)
     account.enable_features!('advanced_search_conversations')
-    allow(SearchIndexing::IndexVerification).to receive(:ready?).with(account, version: 2).and_return(true)
     allow(Searchkick).to receive(:client).and_return(client)
     allow(client).to receive(:search).and_return(response)
   end
 
   it 'uses indexed rows and aggregations with current SQL authorization' do
+    expect(account.internal_attributes).to eq({})
     expect(result[:conversations].map(&:id)).to eq([conversation.id])
     expect(result[:count]).to eq(mine_count: 0, assigned_count: 0, unassigned_count: 1, all_count: 1)
     expect(client).to have_received(:search)
@@ -45,9 +45,16 @@ RSpec.describe Conversations::FilterService do
     expect(client).not_to have_received(:search)
   end
 
-  it 'keeps older verified search projections on SQL for filtering' do
+  it 'uses SQL when the account feature is disabled' do
     conversation
-    allow(SearchIndexing::IndexVerification).to receive(:ready?).with(account, version: 2).and_return(false)
+    account.disable_features!('advanced_search_conversations')
+    expect(result[:conversations].map(&:id)).to eq([conversation.id])
+    expect(client).not_to have_received(:search)
+  end
+
+  it 'uses SQL when OpenSearch is not configured' do
+    conversation
+    allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(false)
     expect(result[:conversations].map(&:id)).to eq([conversation.id])
     expect(client).not_to have_received(:search)
   end

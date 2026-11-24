@@ -1,5 +1,4 @@
 class SearchIndexing::ConversationDocument
-  VERSION = 2
   FILTER_ATTRIBUTES = %w[status priority assignee_id assignee_agent_bot_id team_id].freeze
   INDEXED_ATTRIBUTES = (%w[contact_id inbox_id display_id created_at last_activity_at] + FILTER_ATTRIBUTES).freeze
 
@@ -15,7 +14,7 @@ class SearchIndexing::ConversationDocument
   end
 
   def self.mappings
-    { dynamic: false, _meta: { conversation_document_version: VERSION }, properties: {
+    { dynamic: false, properties: {
       conversation_id: { type: 'alias', path: 'id' },
       id: { type: 'long' }, account_id: { type: 'long' }, contact_id: { type: 'long' }, inbox_id: { type: 'long' }, display_id: { type: 'long' },
       display_id_text: { type: 'text', analyzer: 'substring' }, mail_subject: { type: 'text', analyzer: 'substring' },

@@ -10,8 +10,7 @@ class SearchIndexing::IndexedConversations
     scroll_id = nil
     response = Searchkick.client.search(
       index: Conversation.search_index.name, scroll: '1m',
-      body: { query: { bool: { filter: filters } }, sort: ['_doc'], size: SearchIndexing::Conversations::BATCH_SIZE,
-              docvalue_fields: SearchIndexing::ConversationDocument::FILTER_ATTRIBUTES }
+      body: { query: { bool: { filter: filters } }, sort: ['_doc'], size: SearchIndexing::Conversations::BATCH_SIZE, _source: false }
     )
     loop do
       scroll_id = response.fetch('_scroll_id')

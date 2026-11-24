@@ -4,7 +4,7 @@ RSpec.describe 'Conversations API', type: :request do
   let(:account) { create(:account) }
   let(:administrator) { create(:user, account: account, role: :administrator) }
 
-  describe 'POST /api/v1/accounts/{account.id}/conversations/filter with verified indexing' do
+  describe 'POST /api/v1/accounts/{account.id}/conversations/filter with indexing enabled' do
     include_context 'with conversation search queue'
 
     let(:conversation) { create(:conversation, account: account, status: :open) }
@@ -13,7 +13,6 @@ RSpec.describe 'Conversations API', type: :request do
     before do
       allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(true)
       account.enable_features!('advanced_search_conversations')
-      allow(SearchIndexing::IndexVerification).to receive(:ready?).and_return(true)
       allow(Searchkick).to receive(:client).and_return(client)
       allow(client).to receive(:search).and_return(
         '_shards' => { 'failed' => 0 },
