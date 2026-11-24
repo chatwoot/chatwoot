@@ -317,6 +317,11 @@
         }
       },
       "DELETE_LOCALE": {
+        "DIALOG": {
+          "TITLE": "Dzēst {locale}?",
+          "DESCRIPTION": "This will permanently delete {articles} and {categories} in this locale. This action cannot be undone.",
+          "CONFIRM": "Delete locale"
+        },
         "API": {
           "SUCCESS_MESSAGE": "Lokalizācija veiksmīgi noņemta no portāla",
           "ERROR_MESSAGE": "Nevar noņemt lokalizāciju no portāla. Mēģiniet vēlreiz."
@@ -554,10 +559,16 @@
       "ARTICLES_HEADER": {
         "TABS": {
           "ALL": "Visi raksti",
-          "MINE": "Mani",
           "DRAFT": "Melnraksts",
           "PUBLISHED": "Publicēts",
           "ARCHIVED": "Arhivēts"
+        },
+        "AUTHOR": {
+          "LABEL": "Filter by author: {author}",
+          "ALL": "All authors",
+          "ME": "Me",
+          "SELECTED": "Selected author",
+          "SEARCH_PLACEHOLDER": "Search teammates..."
         },
         "CATEGORY": {
           "ALL": "Visas kategorijas"
@@ -574,9 +585,9 @@
           "SUBTITLE": "Uzrakstīt bagātīgu rakstu, sāksim!",
           "BUTTON_LABEL": "Jauns raksts"
         },
-        "MINE": {
-          "TITLE": "Jūs neesat uzrakstījis nevienu rakstu",
-          "SUBTITLE": "Visi raksti, kurus jūs uzrakstījāt, tiek attēloti šeit lai ātri tiem varētu piekļūt."
+        "AUTHOR": {
+          "TITLE": "No matching articles",
+          "SUBTITLE": "Try another author or change the selected filters."
         },
         "DRAFT": {
           "TITLE": "Projektos nav rakstu",
@@ -801,6 +812,8 @@
           "SAVED": "Saglabāts"
         },
         "PREVIEW": "Priekšskatījums",
+        "PREVIEW_ERROR": "Could not open the preview. Please try again.",
+        "PREVIEW_POPUP_BLOCKED": "Allow popups for this site to open the preview.",
         "PUBLISH": "Publicēt",
         "PUBLISH_CHANGES": "Publish changes",
         "PUBLISH_CHANGES_SUCCESS": "Changes published successfully",
@@ -816,6 +829,11 @@
         "DRAFT": "Melnraksts",
         "ARCHIVE": "Arhīvs",
         "BACK_TO_ARTICLES": "Atpakaļ uz rakstiem"
+      },
+      "NEWER_VERSION": {
+        "LABEL": "Load latest version",
+        "TOOLTIP": "This article was changed by a teammate or in another tab. Click to load the latest version.",
+        "LOAD_ERROR": "Couldn't load the latest version. Try again."
       },
       "PENDING_CHANGES_POPOVER": {
         "TITLE": "Unpublished changes",
@@ -835,12 +853,19 @@
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "Raksta īpašības",
+        "ORIGINAL_ARTICLE": "Original article",
+        "ORIGINAL_ARTICLE_PLACEHOLDER": "This is the original article",
+        "ORIGINAL_ARTICLE_SEARCH": "Meklēt rakstus...",
+        "ORIGINAL_ARTICLE_EMPTY": "Raksti nav atrasti",
         "META_DESCRIPTION": "Meta apraksts",
         "META_DESCRIPTION_PLACEHOLDER": "Pievienot meta aprakstu",
         "META_TITLE": "Meta virsraksts",
         "META_TITLE_PLACEHOLDER": "Pievienot meta virsrakstu",
         "META_TAGS": "Meta tagi",
         "META_TAGS_PLACEHOLDER": "Pievienot meta tagus",
+        "SEARCH_ENGINE_VISIBILITY": "Show in search results",
+        "SEARCH_ENGINE_VISIBILITY_DESCRIPTION": "Turn off to keep this article out of Google and other search engines. It stays published and visible in your help center.",
+        "SEARCH_ENGINE_VISIBILITY_PORTAL_OVERRIDE": "Disabled because this help center is hidden from search results. Change it in Settings → SEO.",
         "SLUG": "Slug",
         "SLUG_PLACEHOLDER": "Add slug",
         "SLUG_USE_TITLE": "Use title as slug",
@@ -882,6 +907,9 @@
       "FORM": {
         "AVATAR": {
           "LABEL": "Logotips",
+          "ADD_DARK_MODE": "Add dark mode logo",
+          "LIGHT_MODE": "Light mode",
+          "DARK_MODE": "Dark mode",
           "IMAGE_UPLOAD_ERROR": "Nevarēja augšupielādēt attēlu! Lūdzu, mēģiniet vēlreiz",
           "IMAGE_UPLOAD_SUCCESS": "Attēls ir veiksmīgi pievienots. Lūdzu, noklikšķiniet uz saglabāt izmaiņas, lai saglabātu logotipu",
           "IMAGE_DELETE_SUCCESS": "Logotips veiksmīgi izdzēsts",
@@ -986,6 +1014,14 @@
         },
         "SAVE": "Saglabāt izmaiņas"
       },
+      "SEO": {
+        "HEADER": "SEO",
+        "DESCRIPTION": "Control how search engines discover your help center.",
+        "SEARCH_ENGINE_VISIBILITY": {
+          "LABEL": "Show in search results",
+          "DESCRIPTION": "Let search engines like Google list this help center. When turned off, your help center works exactly the same for visitors. It just stops appearing in search engine results, which can take a few days or weeks."
+        }
+      },
       "INTEGRATIONS": {
         "HEADER": "Integrācijas",
         "DESCRIPTION": "Connect tools that extend what your help center can do.",
@@ -1050,6 +1086,7 @@
         "GENERAL": "Vispārēji",
         "DOMAIN": "Domēns",
         "APPEARANCE": "Izskats",
+        "SEO": "SEO",
         "INTEGRATIONS": "Integrācijas"
       },
       "API": {

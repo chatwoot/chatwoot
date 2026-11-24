@@ -504,7 +504,7 @@ RSpec.describe Account do
 
         expect(prefs[:models]['editor']).to eq('gpt-5.1')
         expect(prefs[:models]['assistant']).to eq('gpt-5.2')
-        expect(prefs[:models]['copilot']).to eq(Llm::Models.default_model_for('copilot'))
+        expect(prefs[:models]['copilot_workflows']).to eq(Llm::Models.default_model_for('copilot_workflows'))
       end
     end
 
@@ -516,7 +516,7 @@ RSpec.describe Account do
 
         expect(prefs[:features]['editor']).to be true
         expect(prefs[:features]['assistant']).to be true
-        expect(prefs[:features]['copilot']).to be false
+        expect(prefs[:features]['copilot_workflows']).to be false
       end
     end
 

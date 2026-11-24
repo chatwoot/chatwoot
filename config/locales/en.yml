@@ -34,7 +34,6 @@ en:
     no_accounts: 'No Instagram accounts were shared. Connect again and select an Instagram professional account.'
     connection_expired: 'This Instagram connection has expired. Please start again.'
     authorization_expired: 'This Instagram authorization has expired. Please start the connection again.'
-    existing_login_method: 'This Instagram account uses another login method. Reconnect it from its existing inbox settings.'
     wrong_account: 'Please reconnect using the Instagram account already linked to this inbox.'
     invalid_account: 'Please select an Instagram account shared during this connection.'
     subscription_failed: 'Instagram messaging could not be enabled. Please check the app permissions and connect again.'
@@ -56,13 +55,19 @@ en:
       not_required: 'Reauthorization is not required for this inbox'
       invalid_channel: 'Invalid channel type for reauthorization'
     voice_settings:
-      unsupported_inbox: 'This setting requires a Twilio voice inbox'
+      unsupported_inbox: 'This setting requires an inbox with calling turned on'
     call_announcements:
       invalid_settings: 'Provide a boolean for enabled and text for the announcement'
       message_required: 'Add the message callers hear'
       default_unanswered: "Sorry, we can't take your call right now. We'll get back to you as soon as we can."
       message_too_long: 'The announcement must be 1000 characters or fewer'
       invalid_timeout: 'Ring time must be a whole number of seconds between %{min} and %{max}'
+    call_hours:
+      closed_every_day: 'Open the inbox on at least one day before applying business hours to WhatsApp calls'
+      whatsapp_failed: "Couldn't apply business hours to WhatsApp calls: %{error}"
+    missed_call_message:
+      default: "Sorry we missed your call. Reply here and we'll get back to you as soon as we can."
+      invalid: 'The missed-call message must be %{max} characters or fewer'
     call_routing:
       invalid_settings: 'Choose who rings, a ring interval of %{step_min} to %{step_max} seconds, a wrap-up time of 0 to %{cooldown_max} seconds and what happens outside business hours'
   auth:
@@ -573,7 +578,7 @@ en:
     copilot_message_required: Message is required
     copilot_error: 'Please connect an assistant to this inbox to use Copilot'
     copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
-    copilot_workflows_disabled: 'Copilot workflows are turned off for this account.'
+    copilot_disabled: 'Copilot is not available on this account.'
     upgrade: 'Upgrade your plan to enable Captain AI'
     disabled: 'Captain AI is disabled for this account.'
     api_key_missing: 'Captain AI API key is not configured.'
@@ -689,7 +694,7 @@ en:
       results_for: "Search Results for '%{query}'"
       no_results: "No results found for '%{query}'"
       found_results:
-        one: Found 1 result
+        one: 'Found %{count} result'
         other: 'Found %{count} results'
       submit: Search
     toc_header: 'On this page'
@@ -904,8 +909,7 @@ en:
         conversation_completion: 'Inactive conversation completion evaluator'
         editor: 'Editor'
         assistant: 'Assistant'
-        copilot: 'Copilot'
-        copilot_workflows: 'Copilot workflows'
+        copilot_workflows: 'Copilot'
         document_faq_generation: 'Document FAQ generation'
         conversation_faq_generation: 'Conversation FAQ generation'
         conversation_faq_matching: 'Conversation FAQ matching'

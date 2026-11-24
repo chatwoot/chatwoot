@@ -320,25 +320,6 @@
         "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
         "UNBLOCK_SUCCESS_MESSAGE": "تم إلغاء حجب جهة الاتصال بنجاح",
         "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
-        "IMPORT_CONTACT": {
-          "TITLE": "Import contacts",
-          "DESCRIPTION": "استيراد جهات الاتصال من خلال ملف CSV.",
-          "DOWNLOAD_LABEL": "تحميل عينة csv.",
-          "LABEL": "ملف CSV:",
-          "CHOOSE_FILE": "Choose file",
-          "CHANGE": "يتغيرون",
-          "CANCEL": "إلغاء",
-          "IMPORT": "استيراد",
-          "SUCCESS_MESSAGE": "سيتم إعلامك عبر البريد الإلكتروني عند استكمال الاستيراد.",
-          "ERROR_MESSAGE": "حدث خطأ، الرجاء المحاولة مرة أخرى"
-        },
-        "EXPORT_CONTACT": {
-          "TITLE": "Export contacts",
-          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
-          "CONFIRM": "تصدير",
-          "SUCCESS_MESSAGE": "التصدير جاري. سيتم إعلامك على البريد الإلكتروني عندما يكون ملف التصدير جاهزا للتحميل.",
-          "ERROR_MESSAGE": "حدث خطأ، الرجاء المحاولة مرة أخرى"
-        },
         "SORT_BY": {
           "LABEL": "ترتيب حسب",
           "OPTIONS": {
@@ -405,6 +386,8 @@
       },
       "TITLE": "تصفية جهات الاتصال",
       "EDIT_SEGMENT": "تحرير الجزء",
+      "INVALID_SEGMENT": "This segment has an invalid filter. Edit the segment to fix it.",
+      "LOAD_ERROR": "Could not load filtered contacts. Try again.",
       "SEGMENT": {
         "LABEL": "Segment name",
         "INPUT_PLACEHOLDER": "Enter the name of the segment"

@@ -74,6 +74,7 @@ RSpec.describe SamlUserBuilder do
     end
 
     context 'when user already exists' do
+      let!(:saml_settings) { create(:account_saml_settings, account: account) }
       let!(:existing_user) { create(:user, email: email, account: account) }
 
       it 'does not create a new user' do
@@ -134,6 +135,45 @@ RSpec.describe SamlUserBuilder do
           rescue StandardError => e
             raise unless e.class.name == 'SamlUserBuilder::AuthenticationFailed' # rubocop:disable Style/ClassEqualityComparison
           end.not_to(change { existing_user.reload.provider })
+        end
+      end
+
+      context 'when the user also belongs to another account' do
+        let(:other_account) { create(:account) }
+
+        before do
+          other_account.enable_features!('saml')
+          existing_user.account_users.create!(account: other_account, role: :agent)
+        end
+
+        it 'signs in the user when the other account trusts the same identity provider' do
+          create(:account_saml_settings, account: other_account, certificate: saml_settings.certificate)
+
+          expect(builder.perform).to eq(existing_user)
+        end
+
+        it 'raises an authentication failure when the other account does not use SAML' do
+          expect { builder.perform }.to raise_error(SamlUserBuilder::AuthenticationFailed)
+        end
+
+        it 'raises an authentication failure when the other account trusts a different certificate' do
+          create(:account_saml_settings, account: other_account)
+
+          expect { builder.perform }.to raise_error(SamlUserBuilder::AuthenticationFailed)
+        end
+
+        it 'raises an authentication failure when the other account trusts a different identity provider' do
+          create(:account_saml_settings, account: other_account, certificate: saml_settings.certificate,
+                                         idp_entity_id: 'https://other-idp.example.com/metadata')
+
+          expect { builder.perform }.to raise_error(SamlUserBuilder::AuthenticationFailed)
+        end
+
+        it 'raises an authentication failure when SAML is disabled for the other account' do
+          create(:account_saml_settings, account: other_account, certificate: saml_settings.certificate)
+          other_account.disable_features!('saml')
+
+          expect { builder.perform }.to raise_error(SamlUserBuilder::AuthenticationFailed)
         end
       end
 

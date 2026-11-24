@@ -7,6 +7,7 @@
     "PLACEHOLDER": "옵션을 선택하십시오...",
     "EMPTY_SEARCH_RESULTS": "검색어 `{searchTerm}`에 대한 항목을 찾을 수 없습니다",
     "EMPTY_STATE": "검색 결과가 없습니다.",
+    "LOADING": "불러오는 중...",
     "SEARCH_PLACEHOLDER": "검색...",
     "MORE": "+{count}개 더"
   },

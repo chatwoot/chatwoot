@@ -283,6 +283,17 @@ describe('composeConversationHelper', () => {
       const files = [{ resource: { file: 'file1' } }];
       expect(helpers.prepareAttachmentPayload(files, false)).toEqual(['file1']);
     });
+
+    it('prepares files that were not uploaded directly', () => {
+      const files = [
+        { blobSignedId: 'signed1' },
+        { resource: { file: 'file1' } },
+      ];
+      expect(helpers.prepareAttachmentPayload(files, true)).toEqual([
+        'signed1',
+        'file1',
+      ]);
+    });
   });
 
   describe('prepareNewMessagePayload', () => {

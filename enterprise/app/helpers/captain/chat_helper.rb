@@ -1,26 +1,10 @@
+# Builds the model chat for Copilot turns. The including service sets @messages, @tools and @model, and defines
+# setup_event_handlers and feature_name.
 module Captain::ChatHelper
   include Integrations::LlmInstrumentation
-  include Captain::ChatResponseHelper
   include Captain::ChatGenerationRecorder
 
   attr_reader :llm_protocol
-
-  def request_chat_completion
-    log_chat_completion_request
-    chat = build_chat
-
-    add_messages_to_chat(chat)
-    with_agent_session do
-      last_content = conversation_messages.last[:content]
-      text, attachments = Captain::OpenAiMessageBuilderService.extract_text_and_attachments(last_content)
-
-      response = attachments.any? ? chat.ask(text, with: attachments) : chat.ask(text)
-      build_response(response)
-    end
-  rescue StandardError => e
-    Rails.logger.error "#{self.class.name} Assistant: #{@assistant.id}, Error in chat completion: #{e}"
-    raise e
-  end
 
   private
 
@@ -46,33 +30,13 @@ module Captain::ChatHelper
     chat.with_instructions(combined_instructions)
   end
 
-  def setup_event_handlers(chat)
-    # We use after_message to record the generation with token counts.
-    # RubyLLM callbacks fire after chunks arrive, not around the API call, so
-    # span timing won't reflect actual API latency. But Langfuse calculates costs
-    # from model + token counts, so this is sufficient for cost tracking.
-    chat.after_message { |message| record_llm_generation(chat, message) }
-    chat.before_tool_call { |tool_call| handle_tool_call(tool_call) }
-    chat.after_tool_result { |result| handle_tool_result(result) }
-    chat
-  end
-
-  def handle_tool_call(tool_call)
-    persist_thinking_message(tool_call)
-    start_tool_span(tool_call)
-    (@pending_tool_calls ||= []).push(tool_call)
-  end
-
-  def handle_tool_result(result)
-    end_tool_span(result)
-    persist_tool_completion
-  end
-
-  def add_messages_to_chat(chat)
-    conversation_messages[0...-1].each do |msg|
-      text, attachments = Captain::OpenAiMessageBuilderService.extract_text_and_attachments(msg[:content])
-      chat.add_message(role: msg[:role].to_sym, content: text, attachments: attachments)
-    end
+  def parse_json_response(content)
+    content = content.gsub('```json', '').gsub('```', '')
+    content = content.strip
+    JSON.parse(content)
+  rescue JSON::ParserError => e
+    Rails.logger.error "#{self.class.name} Assistant: #{@assistant.id}, Error parsing JSON response: #{e.message}"
+    { 'content' => content }
   end
 
   def instrumentation_params(chat = nil)
@@ -92,10 +56,6 @@ module Captain::ChatHelper
     }
   end
 
-  def conversation_messages
-    @messages.reject { |m| m[:role] == 'system' || m[:role] == :system }
-  end
-
   def temperature
     @assistant&.config&.[]('temperature').presence&.to_f || 0.5
   end
@@ -106,31 +66,5 @@ module Captain::ChatHelper
 
   def resolved_channel_type
     @conversation&.inbox&.channel_type
-  end
-
-  # Ensures all LLM calls and tool executions within an agentic loop
-  # are grouped under a single trace/session in Langfuse.
-  #
-  # Without this guard, each recursive call to request_chat_completion
-  # (triggered by tool calls) would create a separate trace instead of
-  # nesting within the existing session span.
-  def with_agent_session(&)
-    already_active = @agent_session_active
-    return yield if already_active
-
-    @agent_session_active = true
-    instrument_agent_session(instrumentation_params, &)
-  ensure
-    @agent_session_active = false unless already_active
-  end
-
-  # Must be implemented by including class to identify the feature for instrumentation.
-  # Used for Langfuse tagging and span naming.
-  def feature_name
-    raise NotImplementedError, "#{self.class.name} must implement #feature_name"
-  end
-
-  def log_chat_completion_request
-    Rails.logger.info("#{self.class.name} Assistant: #{@assistant.id}, requesting completion for #{@messages} with #{@tools&.length || 0} tools")
   end
 end

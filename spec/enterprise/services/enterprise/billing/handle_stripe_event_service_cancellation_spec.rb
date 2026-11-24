@@ -22,9 +22,12 @@ describe Enterprise::Billing::HandleStripeEventService do
   end
 
   def handle(overrides = {}, previous: {}, type: 'customer.subscription.updated')
+    subscription = cancelling_subscription.merge(id: 'sub_123').merge(overrides)
+    allow(Stripe::Subscription).to receive(:retrieve).and_return(Stripe::Subscription.construct_from(subscription))
     event = Stripe::Event.construct_from(
       type: type,
-      data: { object: cancelling_subscription.merge(overrides), previous_attributes: previous }
+      api_version: '2024-06-20',
+      data: { object: subscription, previous_attributes: previous }
     )
     described_class.new.perform(event: event)
     account.reload

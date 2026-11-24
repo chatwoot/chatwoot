@@ -52,6 +52,7 @@
     "CLICK_HERE": "Buraya Tıkla",
     "LOADING_INBOXES": "Gelen kutuları yükleniyor",
     "LOADING_CONVERSATIONS": "Sohbetler Yükleniyor\n",
+    "ANONYMOUS_CALLER_CANNOT_REPLY": "Messages cannot be sent because this caller’s phone number is unavailable.",
     "CANNOT_REPLY": "Nedeniyle cevap veremezsiniz",
     "24_HOURS_WINDOW": "24 saat mesaj penceresi kısıtlaması",
     "48_HOURS_WINDOW": "48 saat mesaj penceresi kısıtlaması",
@@ -140,6 +141,8 @@
       "MISSED_CALL": "Cevapsız arama",
       "MISSED_CALL_INBOUND_SUBTEXT": "Hiçbir temsilci aramayı yanıtlamadı",
       "MISSED_CALL_DECLINED_BY": "{agentName} tarafından reddedildi",
+      "MISSED_CALL_OUTSIDE_HOURS": "Çalışma saatleri dışında",
+      "MISSED_CALL_NOBODY_ONLINE": "Nobody was online",
       "CALL_ENDED": "Arama sona erdi",
       "HANDLED_BY": "{agentName} tarafından ele alındı",
       "NOT_ANSWERED_YET": "Henüz yanıtlanmadı",
@@ -150,7 +153,8 @@
       "JOIN_CALL": "Join call",
       "CALL_BACK": "Geri ara",
       "TRANSCRIPT_SHOW_MORE": "Daha Fazla Göster",
-      "TRANSCRIPT_SHOW_LESS": "Daha Az Göster"
+      "TRANSCRIPT_SHOW_LESS": "Daha Az Göster",
+      "DISMISS_FAILED": "Couldn't dismiss the call. It may keep ringing in your other tabs."
     },
     "HEADER": {
       "RESOLVE_ACTION": "Çözüldü",
@@ -171,6 +175,13 @@
       "VOICE_CALL_FAILED": "Arama başlatılamadı.",
       "WHATSAPP_CALL_PERMISSION_REQUESTED": "Kişiye arama izni isteği gönderildi. Kişi kabul ettikten sonra tekrar deneyin.",
       "WHATSAPP_CALL_PERMISSION_PENDING": "Arama izni isteği yakın zamanda zaten gönderildi. Kişi kabul ettikten sonra tekrar deneyin.",
+      "AUTO_TRANSLATE": {
+        "TURN_OFF": "Turn off auto-translate",
+        "TURN_ON": "Turn on auto-translate",
+        "TURNED_OFF": "Auto-translate is off for this conversation",
+        "TURNED_ON": "Auto-translate is on for this conversation",
+        "UPDATE_FAILED": "Could not change auto-translate for this conversation. Please try again."
+      },
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -438,6 +449,14 @@
       "END_CALL": "End call",
       "MUTE": "Mikrofonu kapat",
       "UNMUTE": "Mikrofonu aç",
+      "SHOW_KEYPAD": "Show keypad",
+      "HIDE_KEYPAD": "Hide keypad",
+      "KEYPAD": "Call keypad",
+      "STAR": "Star",
+      "POUND": "Pound",
+      "KEYPAD_SEND_FAILED": "Could not send keypad tone",
+      "ON_HOLD": "On hold",
+      "HOLD_FAILED": "Couldn't update the hold. Please try again.",
       "VIEW_CHAT_HISTORY": "Sohbet geçmişini görüntüle",
       "GO_TO_CONVERSATION": "Konuşma dizisine git"
     }

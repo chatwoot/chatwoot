@@ -1,16 +1,10 @@
 class Notification::FcmService
   SCOPES = ['https://www.googleapis.com/auth/firebase.messaging'].freeze
   TOKEN_MARGIN_SECONDS = 60
-  # Google access tokens by credentials, held in this process only
   TOKENS = {} # rubocop:disable Style/MutableConstant
   TOKENS_LOCK = Mutex.new
-  # How long a token request to Google may take. Callers for the same credentials wait on
-  # it, so it is kept well inside a call's ring.
   TOKEN_REQUEST_TIMEOUT_SECONDS = 10
-  # How long a whole token refresh may take, the auth library's own retries included
   TOKEN_REFRESH_BUDGET_SECONDS = 15
-  # After a token request fails, callers for the same credentials fail at once for this
-  # long instead of each repeating the request in turn
   TOKEN_RETRY_SECONDS = 30
 
   class TokenUnavailable < StandardError; end
@@ -21,8 +15,7 @@ class Notification::FcmService
     @token_info = nil
   end
 
-  # The client fetches a fresh Google OAuth token on every send, about a second each;
-  # it is given the cached token instead
+  # The FCM client otherwise fetches a token for every send.
   def fcm_client
     token = current_token
     client = FCM.new(token, credentials_path, @project_id)
@@ -37,8 +30,6 @@ class Notification::FcmService
     @token_info[:token]
   end
 
-  # One token per credentials for as long as it is valid, kept in this process only: the
-  # bearer token is never written to a shared or on-disk cache
   def cached_token_info
     TOKENS_LOCK.synchronize do
       cached = TOKENS[cache_key] || {}

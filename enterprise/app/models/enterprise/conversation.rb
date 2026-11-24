@@ -1,7 +1,23 @@
 module Enterprise::Conversation
+  CAPTAIN_WAITING_RESOLVED_AT_ATTRIBUTE = 'captain_waiting_resolved_at'.freeze
+
   attr_accessor :captain_activity_reason, :captain_activity_reason_type
-  # Set on the conversation an inbound Twilio call opens, before the call that rings exists
+  # Set on the conversation an inbound call opens, before the call that rings exists
   attr_writer :call_ringing
+
+  # Set when Captain resolves a conversation because the customer stopped replying to its question.
+  # Saved with the status change, because the CSAT listener reloads the conversation in a background job.
+  def mark_captain_waiting_close
+    additional_attributes[CAPTAIN_WAITING_RESOLVED_AT_ATTRIBUTE] = Time.current.iso8601(6)
+  end
+
+  # True until the customer writes again after a waiting close, so a later resolution is treated normally.
+  def captain_waiting_close_without_reply?
+    resolved_at = additional_attributes&.dig(CAPTAIN_WAITING_RESOLVED_AT_ATTRIBUTE)
+    return false if resolved_at.blank?
+
+    messages.incoming.where(created_at: Time.zone.parse(resolved_at)..).none?
+  end
 
   def can_reply?
     return false if contact_inbox.anonymous_caller?
@@ -46,10 +62,10 @@ module Enterprise::Conversation
 
   private
 
-  # Auto-assignment, the inbox's or a team's, holds off while an inbound Twilio call rings, so the
+  # Auto-assignment, the inbox's or a team's, holds off while an inbound call rings, so the
   # agent who answers gets the conversation
   def call_ringing?
-    return false unless inbox.twilio?
+    return false unless inbox.rings_for_calls?
 
     @call_ringing || calls.holding_assignment.exists?
   end
