@@ -15,10 +15,8 @@ class Contacts::CompanyAssociationService
     companies = account.companies
 
     if domain
-      domain = domain.downcase
-      existing_company = companies.where(Company.arel_table[:domain].lower.eq(domain)).first
-      existing_company || companies.find_or_create_by!(domain: domain) do |company|
-        company.name = name || company_name_from_domain(domain)
+      companies.find_or_create_by!(domain: domain) do |company|
+        company.name = name || company_name_from_domain(company.domain)
       end
     elsif name
       companies.where(Company.arel_table[:name].lower.eq(name.downcase)).first_or_create!(name: name)

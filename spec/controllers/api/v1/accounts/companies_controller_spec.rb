@@ -253,7 +253,7 @@ RSpec.describe 'Companies API', type: :request do
         {
           company: {
             name: 'New Company',
-            domain: 'newcompany.com',
+            domain: 'NewCompany.COM',
             description: 'A new company'
           }
         }
@@ -301,7 +301,7 @@ RSpec.describe 'Companies API', type: :request do
         {
           company: {
             name: 'Updated Company Name',
-            domain: 'updated.com'
+            domain: 'Updated.COM'
           }
         }
       end
