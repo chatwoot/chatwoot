@@ -59,8 +59,6 @@ export default {
         );
         router.replace({
           name: 'settings_inboxes_add_agents',
-          query:
-            this.$route.query.from === 'shopify' ? { from: 'shopify' } : {},
           params: {
             page: 'new',
             inbox_id: website.id,

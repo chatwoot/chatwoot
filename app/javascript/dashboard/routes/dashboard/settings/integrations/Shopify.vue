@@ -6,10 +6,8 @@ import {
   useMapGetter,
   useStore,
 } from 'dashboard/composables/store';
-import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
-import { useBranding } from 'shared/composables/useBranding';
 import { isShopifyBillingAccount } from 'v3/helpers/AuthHelper';
 import shopifyAPI from 'dashboard/api/integrations/shopify';
 import { useAccount } from 'dashboard/composables/useAccount';
@@ -46,8 +44,6 @@ const isSubmitting = ref(false);
 const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
-const { formatMessage } = useMessageFormatter();
-const { replaceInstallationName } = useBranding();
 const integration = useFunctionGetter('integrations/getIntegration', 'shopify');
 const uiFlags = useMapGetter('integrations/getUIFlags');
 const currentAccount = useMapGetter('getCurrentAccount');
@@ -77,17 +73,6 @@ const canSetUpStorefront = computed(
 );
 
 const storeDomain = computed(() => hook.value.reference_id || '');
-
-const formattedHelpText = computed(() => {
-  return formatMessage(
-    replaceInstallationName(
-      t('INTEGRATION_SETTINGS.SHOPIFY.HELP_TEXT.BODY', {
-        storeDomain: storeDomain.value,
-      })
-    ),
-    false
-  );
-});
 
 const resetStoreUrlForm = () => {
   storeUrl.value = '';
@@ -171,9 +156,14 @@ onMounted(() => {
         <Integration
           v-if="!isCustomAppSetupEnabled || integration.enabled"
           :integration-id="integration.id"
-          :integration-logo="integration.logo"
-          :integration-name="integration.name"
-          :integration-description="integration.description"
+          :integration-name="
+            integration.enabled ? storeDomain : integration.name
+          "
+          :integration-description="
+            integration.enabled
+              ? t('INTEGRATION_SETTINGS.SHOPIFY.CONNECTED_DESCRIPTION')
+              : integration.description
+          "
           :integration-enabled="integration.enabled"
           :integration-action="integrationAction"
           :hide-enabled-action="isShopifyBillingManaged"
@@ -224,18 +214,6 @@ onMounted(() => {
             :message-type="storeUrlError ? 'error' : 'info'"
           />
         </Dialog>
-
-        <div
-          v-if="integration.enabled"
-          class="flex-1 w-full px-6 py-5 rounded-md shadow outline outline-n-container outline-1 bg-n-alpha-3"
-        >
-          <div class="max-w-5xl prose-lg">
-            <h5 class="tracking-tight text-n-slate-12">
-              {{ $t('INTEGRATION_SETTINGS.SHOPIFY.HELP_TEXT.TITLE') }}
-            </h5>
-            <div v-dompurify-html="formattedHelpText" class="text-n-slate-11" />
-          </div>
-        </div>
 
         <div
           v-if="error"
