@@ -991,6 +991,13 @@ RSpec.describe ConversationReplyMailer do
       let(:conversation) { create(:conversation, assignee: agent, inbox: email_channel.inbox, account: account) }
       let(:transcript) { described_class.conversation_transcript(conversation, 'customer@example.com').deliver_now.decoded }
 
+      it 'shows the inbox address on agent replies instead of the agent email' do
+        create(:message, conversation: conversation, account: account, message_type: 'outgoing', sender: agent, content: 'It ships today.')
+
+        expect(transcript).to include("From: #{email_channel.email}")
+        expect(transcript).not_to include(agent.email)
+      end
+
       it 'leaves the quoted thread out of agent replies saved before the reply box flagged it' do
         create(:message, conversation: conversation, account: account, message_type: 'incoming', content: 'Where is my order?')
         create(:message, conversation: conversation, account: account, message_type: 'outgoing',
