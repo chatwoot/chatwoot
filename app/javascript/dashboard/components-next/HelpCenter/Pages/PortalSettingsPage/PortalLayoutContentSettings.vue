@@ -184,7 +184,6 @@ const handleSave = () => {
 
         <RadioCard
           :id="PORTAL_LAYOUTS.DOCUMENTATION"
-          beta
           :is-active="state.layout === PORTAL_LAYOUTS.DOCUMENTATION"
           :label="
             t('HELP_CENTER.PORTAL_SETTINGS.LAYOUT_CONTENT.LAYOUT.SIDEBAR.TITLE')

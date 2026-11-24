@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Public Articles API', type: :request do
   let!(:account) { create(:account) }
   let(:agent) { create(:user, account: account, role: :agent) }
-  let!(:portal) { create(:portal, slug: 'test-portal', config: { allowed_locales: %w[en es] }, custom_domain: 'www.example.com') }
+  let!(:portal) { create(:portal, slug: 'test-portal', config: { allowed_locales: %w[en es], layout: 'classic' }, custom_domain: 'www.example.com') }
   let!(:category) { create(:category, name: 'category', portal: portal, account_id: account.id, locale: 'en', slug: 'category_slug') }
   let!(:category_2) { create(:category, name: 'category', portal: portal, account_id: account.id, locale: 'es', slug: 'category_slug') }
   let!(:article) do
