@@ -16,6 +16,6 @@ class NormalizeCompanyDomains < ActiveRecord::Migration[7.2]
   end
 
   def down
-    raise ActiveRecord::IrreversibleMigration, 'The original company domain casing is no longer available'
+    # Keep normalized domains when rolling back the application.
   end
 end
