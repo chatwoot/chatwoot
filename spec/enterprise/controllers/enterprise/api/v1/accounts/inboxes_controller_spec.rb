@@ -207,6 +207,37 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
     end
   end
 
+  describe 'GET /api/v1/accounts/{account.id}/inboxes/:id/health with WhatsApp calling' do
+    let(:channel) do
+      create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false)
+    end
+    let(:health_service) { instance_double(Whatsapp::HealthService, sync_health_status!: { id: 'phone123' }) }
+    let(:calling_service) { instance_double(Whatsapp::CallingHealthService, perform: { meta_status: { status: 'disabled' } }) }
+
+    before do
+      account.enable_features!('channel_voice')
+      allow(Whatsapp::HealthService).to receive(:new).and_return(health_service)
+      allow(Whatsapp::CallingHealthService).to receive(:new).with(channel: channel).and_return(calling_service)
+    end
+
+    it 'adds the calling checks when calling is on' do
+      channel.update!(provider_config: channel.provider_config.merge('calling_enabled' => true))
+
+      get "/api/v1/accounts/#{account.id}/inboxes/#{channel.inbox.id}/health", headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body).to eq('id' => 'phone123', 'calling' => { 'meta_status' => { 'status' => 'disabled' } })
+    end
+
+    it 'leaves the calling checks out when calling is off' do
+      get "/api/v1/accounts/#{account.id}/inboxes/#{channel.inbox.id}/health", headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body).not_to have_key('calling')
+      expect(Whatsapp::CallingHealthService).not_to have_received(:new)
+    end
+  end
+
   describe 'PATCH /api/v1/accounts/{account.id}/inboxes/:id' do
     let(:inbox) { create(:inbox, account: account, auto_assignment_config: { max_assignment_limit: 5 }) }
 
@@ -356,6 +387,50 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
 
       expect(response).to have_http_status(:success)
       expect(a_request(:any, settings_url)).not_to have_been_made
+    end
+  end
+
+  describe 'POST /api/v1/accounts/{account.id}/inboxes/:id/set_whatsapp_callback_permission' do
+    let(:channel) do
+      create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false)
+    end
+    let(:url) { "/api/v1/accounts/#{account.id}/inboxes/#{channel.inbox.id}/set_whatsapp_callback_permission" }
+    let(:settings_url) { 'https://graph.facebook.com/v22.0/123456789/settings' }
+
+    before do
+      account.enable_features!('channel_voice')
+      channel.update!(provider_config: channel.provider_config.merge('calling_enabled' => true))
+    end
+
+    it 'turns asking callers for permission to call back off at WhatsApp and saves it' do
+      update = stub_request(:post, settings_url).with(body: { calling: { callback_permission_status: 'DISABLED' } }.to_json)
+                                                .to_return(status: 200, headers: { 'Content-Type' => 'application/json' }, body: '{}')
+
+      post url, headers: admin.create_new_auth_token, params: { enabled: false }, as: :json
+
+      expect(response).to have_http_status(:ok)
+      expect(update).to have_been_requested
+      expect(channel.reload.provider_config['callback_permission_enabled']).to be(false)
+    end
+
+    it "shows WhatsApp's reason and saves nothing when WhatsApp refuses" do
+      stub_request(:post, settings_url).to_return(status: 400, headers: { 'Content-Type' => 'application/json' },
+                                                  body: { error: { error_user_msg: 'Callback permission is not available' } }.to_json)
+
+      post url, headers: admin.create_new_auth_token, params: { enabled: true }, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['error']).to eq('Callback permission is not available')
+      expect(channel.reload.provider_config).not_to have_key('callback_permission_enabled')
+    end
+
+    it 'is forbidden for agents' do
+      agent = create(:user, account: account, role: :agent)
+
+      post url, headers: agent.create_new_auth_token, params: { enabled: true }, as: :json
+
+      expect(response).to have_http_status(:unauthorized)
+      expect(a_request(:post, settings_url)).not_to have_been_made
     end
   end
 end

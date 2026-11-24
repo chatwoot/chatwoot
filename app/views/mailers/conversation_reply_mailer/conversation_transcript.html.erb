@@ -29,8 +29,10 @@
   </tr>
   <tr>
     <td style="padding-bottom: 32px;">
-      <% if message.content %>
-        <%= ChatwootMarkdownRenderer.new(message.content).render_message %>
+      <%# Agent email replies carry the earlier thread, which the transcript already lists. %>
+      <% content = message.content_without_email_quoted_thread %>
+      <% if content %>
+        <%= ChatwootMarkdownRenderer.new(content).render_message %>
       <% end %>
       <% if message.attachments.present? %>
         <p>Attachments:</p>
