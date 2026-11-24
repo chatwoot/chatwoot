@@ -88,4 +88,74 @@ RSpec.describe Enterprise::SearchService do
 
     expect(search.perform[:messages].map(&:id)).to contain_exactly(assigned_message.id)
   end
+
+  context 'when the agent is not a member of every inbox' do
+    before { create(:inbox, account: account) }
+
+    it 'returns messages only from conversations the agent can access' do
+      expect(search.perform[:messages].map(&:id)).to contain_exactly(assigned_message.id)
+    end
+
+    it 'returns conversations only the agent can access' do
+      assigned_conversation.contact.update!(name: 'restricted search term')
+      restricted_conversation.contact.update!(name: 'restricted search term')
+      conversation_search = SearchService.new(
+        current_user: user, current_account: account, params: { q: 'restricted search term' }, search_type: 'Conversation'
+      )
+
+      expect(conversation_search.perform[:conversations].map(&:id)).to contain_exactly(assigned_conversation.id)
+    end
+  end
+
+  it 'includes conversations the agent participates in' do
+    create(:conversation_participant, conversation: restricted_conversation, user: user, account: account)
+
+    expect(search.perform[:messages].map(&:id)).to contain_exactly(assigned_message.id, restricted_message.id)
+  end
+
+  it 'applies the permission scope to the combined search' do
+    assigned_conversation.contact.update!(name: 'restricted search term')
+    restricted_conversation.contact.update!(name: 'restricted search term')
+    combined_search = SearchService.new(
+      current_user: user, current_account: account, params: { q: 'restricted search term' }, search_type: 'all'
+    )
+    result = combined_search.perform
+
+    expect(result[:messages].map(&:id)).to contain_exactly(assigned_message.id)
+    expect(result[:conversations].map(&:id)).to contain_exactly(assigned_conversation.id)
+  end
+
+  it 'limits an unassigned role to unassigned and own conversations' do
+    account.account_users.find_by!(user: user).custom_role.update!(permissions: ['conversation_unassigned_manage'])
+    unassigned_conversation = create(:conversation, account: account, inbox: inbox, assignee: nil)
+    unassigned_message = create(
+      :message, account: account, inbox: inbox, conversation: unassigned_conversation, content: 'restricted search term'
+    )
+
+    expect(search.perform[:messages].map(&:id)).to contain_exactly(assigned_message.id, unassigned_message.id)
+  end
+
+  it 'returns no conversation content when the role has no conversation permission' do
+    account.account_users.find_by!(user: user).custom_role.update!(permissions: ['knowledge_base_manage'])
+    assigned_conversation.contact.update!(name: 'restricted search term')
+    combined_search = SearchService.new(
+      current_user: user, current_account: account, params: { q: 'restricted search term' }, search_type: 'all'
+    )
+    result = combined_search.perform
+
+    expect(result[:messages]).to be_empty
+    expect(result[:conversations]).to be_empty
+  end
+
+  it 'keeps inbox-wide results for a role with full conversation access' do
+    account.account_users.find_by!(user: user).custom_role.update!(permissions: ['conversation_manage'])
+
+    expect(search.perform[:messages].map(&:id)).to contain_exactly(assigned_message.id, restricted_message.id)
+  end
+
+  it 'applies the permission scope to GIN search' do
+    account.enable_features!('search_with_gin')
+
+    expect(search.perform[:messages].map(&:id)).to contain_exactly(assigned_message.id)
+  end
 end
