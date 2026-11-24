@@ -256,6 +256,7 @@
     "SUPER_ADMIN_CONSOLE": "Console de Super Admin",
     "DOCS": "Ler documentação",
     "CHANGELOG": "Notas de versão",
+    "CHANGELOG_DISMISS_ALL": "Dispensar tudo",
     "LOGOUT": "Encerrar sessão"
   },
   "APP_GLOBAL": {
@@ -339,6 +340,7 @@
     "CAPTAIN_DOCUMENTS": "Documentos",
     "CAPTAIN_RESPONSES": "FAQs",
     "CAPTAIN_TOOLS": "Ferramentas",
+    "CAPTAIN_TOOLS_AND_MCP": "Ferramentas e MCP",
     "CAPTAIN_SCENARIOS": "Cenários",
     "CAPTAIN_PLAYGROUND": "Playground",
     "CAPTAIN_INBOXES": "Caixas de Entrada",
@@ -399,6 +401,15 @@
       "SETTINGS": "Configurações"
     },
     "CHANNELS": "Canais",
+    "ACCEPT_CONVERSATIONS": {
+      "TEXT": "Receber conversas",
+      "INFO_SHORT": "Receba automaticamente novas conversas atribuídas a você."
+    },
+    "ACCEPT_CALLS": {
+      "TEXT": "Receber chamadas de voz",
+      "INFO_SHORT": "Receba chamadas na versão web e no aplicativo móvel."
+    },
+    "WORK_PAUSED": "Você só voltará a receber novas conversas ou chamadas quando estiver Online.",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Marcar offline automaticamente",
       "INFO_TEXT": "Deixe o sistema marcar você automaticamente quando você não estiver usando o app ou o painel de controle.",
@@ -426,16 +437,17 @@
   },
   "DATA_IMPORTS": {
     "HEADER": "Dados",
-    "DESCRIPTION": "Importe seus contatos existentes e conversas anteriores de outra ferramenta de atendimento para esta conta. Cada importação é executada em segundo plano, para que você possa continuar trabalhando enquanto ela é concluída, acompanhar seu progresso e revisar tudo o que foi ignorado durante o processo.",
-    "LOADING": "Carregando importações",
+    "DESCRIPTION": "Importe os dados dos seus clientes e gerencie as exportações de contatos.",
+    "LOADING": "Carregando importações e exportações",
     "DEFAULT_IMPORT_NAME": "Importação do Intercom",
     "DEFAULT_IMPORT_NAMES": {
-      "INTERCOM": "Importação do Intercom",
-      "FRESHDESK": "Importação do Freshdesk"
+      "CSV": "Importação de contatos - {date}",
+      "INTERCOM": "Importação do Intercom - {date}",
+      "FRESHDESK": "Importação do Freshdesk - {date}"
     },
     "TABS": {
-      "IMPORT": "Importar",
-      "EXPORT": "Exportar"
+      "IMPORT": "Importações",
+      "EXPORT": "Exportações"
     },
     "TYPES": {
       "CONTACTS": "Contatos",
@@ -459,20 +471,43 @@
       "VALIDATING": "Validando chave de acesso...",
       "VALID_KEY": "Chave de acesso validada.",
       "INVALID_KEY": "Não foi possível validar esta chave de acesso.",
-      "ACTIVE_IMPORT": "Espere a importação ativa terminar antes de iniciar outra.",
+      "ACTIVE_IMPORT": "Já existe uma importação em andamento nesta conta. Aguarde a conclusão antes de iniciar outra.",
       "CANCEL": "Cancelar",
       "IMPORT": "Importar"
     },
-    "EXPORT": {
-      "TITLE": "As exportações estão a caminho",
-      "DESCRIPTION": "Exporte seus contatos e conversas para fora desta conta. Este fluxo de trabalho estará disponível em breve.",
-      "COMING_SOON": "Em breve"
+    "CSV": {
+      "ROW_ERRORS": "Erros nas linhas",
+      "SOURCE": "Arquivo CSV",
+      "FILE": "Arquivo CSV de contatos",
+      "HELP": "Use os nomes de coluna do modelo e as etiquetas existentes. Até 250.000 linhas e 1 MiB por campo.",
+      "SILENT_UPDATES": "Os contatos correspondentes serão atualizados. A importação não aciona automações de contatos nem webhooks.",
+      "INVALID_FILE": "Selecione um arquivo CSV com dados e tamanho de até 50 MiB.",
+      "SAMPLE": "Baixar modelo CSV",
+      "UPLOADING": "Enviando {percent}%. O processamento começa após o envio.",
+      "OUTCOMES": "{created} criados · {updated} atualizados · {failed} com falha",
+      "PROCESSED": "de {total} processados",
+      "REJECTED_HELP": "Baixe as linhas rejeitadas, corrija os erros e envie o arquivo em uma nova importação. Os arquivos ficam disponíveis por 30 dias.",
+      "DOWNLOAD_REJECTED": "Baixar linhas rejeitadas",
+      "EXPIRED": "O arquivo original e o arquivo de linhas rejeitadas expiraram. Envie um novo arquivo para importar esses contatos novamente.",
+      "FILE_REMOVED": "Este arquivo foi removido após 30 dias.",
+      "CHOOSE_FILE": "Clique para enviar ou arraste e solte",
+      "FILE_LIMIT": "Somente CSV · até 50 MiB",
+      "REMOVE_FILE": "Remover arquivo",
+      "PREVIEW_TITLE": "Prévia do arquivo",
+      "PREVIEW_DESCRIPTION": "Exibindo até {count} linhas. O arquivo será enviado quando você iniciar a importação.",
+      "PREVIEW_LOADING": "Carregando prévia...",
+      "PREVIEW_ERROR": "Não foi possível exibir a prévia do CSV. Você ainda pode iniciar a importação para verificar o arquivo.",
+      "PREVIEW_EMPTY": "Nenhuma linha de dados encontrada neste arquivo.",
+      "REJECTED_TITLE": "Algumas linhas precisam de atenção",
+      "CREATED": "Criado",
+      "UPDATED": "Atualizado",
+      "FAILED": "Falha"
     },
     "TABLE": {
       "TITLE": "Importações recentes",
       "EMPTY": "Nenhuma importação ainda",
-      "EMPTY_DESCRIPTION": "Inicie uma importação para trazer o histórico dos seus clientes para esta conta.",
-      "NEW_IMPORT": "Importar",
+      "EMPTY_DESCRIPTION": "Importe contatos de um arquivo CSV ou traga o histórico de clientes de outra ferramenta de atendimento.",
+      "NEW_IMPORT": "Nova importação",
       "COUNT": "{count} importações",
       "UNNAMED": "Importação sem título",
       "IMPORTED_COUNT": "{count} importados",
@@ -483,10 +518,11 @@
       "IMPORTED": "Importado",
       "CREATED": "Criado",
       "RETRY": "Tentar novamente",
+      "RESUME": "Retomar",
       "ABANDON": "Cancelar"
     },
     "DETAIL": {
-      "BACK": "Voltar às importações",
+      "BACK": "Voltar para importações e exportações",
       "ERRORS": "Erros",
       "SKIP_LOGS": "Pular registros",
       "SOURCE": "Fonte",
@@ -518,6 +554,7 @@
       "STAGES": {
         "unknown": "Aguardando atualização",
         "queued": "Na fila",
+        "preparing": "Validando e preparando o CSV",
         "contacts": "Importando contatos",
         "conversations": "Importando conversas",
         "finalizing": "Finalizando a importação",
@@ -528,11 +565,56 @@
       }
     },
     "ALERTS": {
+      "LOAD_FAILED": "Não foi possível atualizar as importações e exportações. Por favor, tente novamente.",
       "IMPORT_STARTED": "A importação foi iniciada.",
       "IMPORT_RETRIED": "A importação foi adicionada à fila para ser retomada.",
       "IMPORT_RETRY_FAILED": "Não foi possível tentar a importação novamente.",
       "IMPORT_ABANDONED": "A importação foi abandonada.",
       "IMPORT_FAILED": "Não foi possível iniciar a importação."
+    },
+    "STATUS": {
+      "PENDING": "Na fila",
+      "PROCESSING": "Em andamento",
+      "COMPLETED": "Concluído",
+      "COMPLETED_WITH_ERRORS": "Concluído com erros",
+      "FAILED": "Falha",
+      "ABANDONED": "Cancelado"
+    }
+  },
+  "DATA_EXPORTS": {
+    "INITIATOR": "Iniciado por {name} em {date}",
+    "TITLE": "Exportação de contatos",
+    "NEW": "Exportar contatos",
+    "START": "Iniciar exportação",
+    "EMPTY": "Nenhuma exportação",
+    "ALL_CONTACTS": "Todos os contatos",
+    "FILTERED_CONTACTS": "Contatos que correspondem aos filtros atuais",
+    "SCOPE": "Contatos a exportar: {scope}",
+    "DESCRIPTION": "Exporte os contatos selecionados para CSV. Os dados são coletados no momento da exportação.",
+    "PROCESSED": "{count} contatos exportados",
+    "ESTIMATE": "Total estimado: {count}. Esse número pode mudar enquanto os contatos são atualizados.",
+    "DOWNLOAD": "Baixar CSV",
+    "RERUN": "Executar novamente",
+    "STALLED": "Esta exportação parou de informar o progresso. Execute-a novamente para criar uma nova exportação.",
+    "EXPIRED": "Este download expirou. Execute a exportação novamente para criar um novo arquivo.",
+    "RETENTION": "Os arquivos de exportação ficam disponíveis por 30 dias após a conclusão.",
+    "ERROR": "Não foi possível carregar ou iniciar esta exportação. Por favor, tente novamente.",
+    "LOAD_ERROR": "Não foi possível carregar esta exportação. Por favor, tente novamente.",
+    "RETRY": "Tentar novamente",
+    "LOAD_OLDER": "Carregar exportações anteriores",
+    "LOAD_OLDER_ERROR": "Não foi possível carregar exportações anteriores. Tente novamente.",
+    "DOWNLOAD_ERROR": "Este arquivo não está mais disponível. Atualize a página para ver o status atual.",
+    "DRAFT_UNAVAILABLE": "A seleção para exportação está indisponível ou expirou. Volte para Contatos e selecione Exportar novamente. Nenhuma exportação foi iniciada.",
+    "EMPTY_DESCRIPTION": "Exporte seus contatos para um arquivo CSV. O histórico de exportações e os downloads aparecerão aqui.",
+    "NOTIFICATION": "Enviaremos um e-mail quando seu CSV estiver pronto. Você também pode acompanhar o progresso e baixar o arquivo aqui.",
+    "FILE_FORMAT": "Arquivo CSV (.csv)",
+    "SELECTION": "Contatos",
+    "PROGRESS": "Progresso da exportação",
+    "FILE_READY": "Sua exportação está pronta",
+    "IN_PROGRESS": "Preparando seu CSV. Você pode sair desta página enquanto a exportação está em andamento.",
+    "TABLE": {
+      "EXPORTED": "Exportado",
+      "COUNT": "Exibindo {count} exportação | Exibindo {count} exportações"
     }
   },
   "CAPTAIN_SETTINGS": {
@@ -695,6 +777,15 @@
         "LABEL": "ACS URL",
         "TOOLTIP": "URL do Assertion Consumer Service - Configure esta URL no seu IdP como o destino para as respostas SAML"
       },
+      "SOURCE": {
+        "METADATA_URL": "URL de metadados",
+        "MANUAL": "Manual"
+      },
+      "METADATA_URL": {
+        "LABEL": "URL de metadados",
+        "HELP": "A URL de SSO, o ID da entidade e o certificado de assinatura são obtidos desta URL. Eles são atualizados automaticamente quando o certificado está prestes a expirar. Se o seu provedor de identidade alterá-los antes disso, clique em Atualizar metadados.",
+        "PLACEHOLDER": "https://sso.example.com/saml/metadata"
+      },
       "SSO_URL": {
         "LABEL": "SSO URL",
         "HELP": "A URL para onde as solicitações de autenticação SAML serão enviadas",
@@ -721,14 +812,18 @@
         "PLACEHOLDER": "https://sso.example.com/saml"
       },
       "UPDATE_BUTTON": "Atualizar configurações de SAML",
+      "REFRESH_BUTTON": "Atualizar metadados",
       "API": {
         "SUCCESS": "Configurações de SAML atualizadas com sucesso",
+        "REFRESH_SUCCESS": "Metadados atualizados a partir do seu provedor de identidade",
+        "REFRESH_ERROR": "Falha ao atualizar os metadados",
         "ERROR": "Falha ao atualizar as configurações de SAML",
         "ERROR_LOADING": "Falha ao carregar as configurações de SAML",
         "DISABLED": "Configurações de SAML desativadas com sucesso"
       },
       "VALIDATION": {
         "REQUIRED_FIELDS": "A URL de SSO, o ID da Entidade do Provedor de Identidade e o Certificado são campos obrigatórios",
+        "METADATA_URL_ERROR": "Insira uma URL de metadados válida",
         "SSO_URL_ERROR": "Por favor, insira uma URL de SSO válida",
         "CERTIFICATE_ERROR": "O certificado é necessário",
         "IDP_ENTITY_ID_ERROR": "O ID da Entidade do Provedor de Identidade é obrigatório"

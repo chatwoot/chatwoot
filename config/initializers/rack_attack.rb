@@ -410,6 +410,15 @@ class Rack::Attack
   ## ----------------------------------------------- ##
 end
 
+Rack::Attack.throttled_responder = lambda do |request|
+  match_data = request.env['rack.attack.match_data']
+  period = match_data[:period].to_i
+  retry_after = period - (match_data[:epoch_time] % period)
+  body = { error: "Too many requests. Retry after #{retry_after} seconds.", retry_after: retry_after }
+
+  [429, { 'content-type' => 'application/json', 'retry-after' => retry_after.to_s }, [body.to_json]]
+end
+
 # Log blocked events
 ActiveSupport::Notifications.subscribe('throttle.rack_attack') do |_name, _start, _finish, _request_id, payload|
   req = payload[:request]

@@ -133,6 +133,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "Populaire artikelen",
     "VIEW_ALL_ARTICLES": "Bekijk alle artikelen",
+    "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
     "IFRAME_LOAD_ERROR": "Er is een fout opgetreden bij het laden van het artikel, ververs de pagina en probeer het opnieuw."
   },
   "ATTACHMENTS": {

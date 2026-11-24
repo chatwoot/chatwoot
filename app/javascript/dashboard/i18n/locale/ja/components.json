@@ -7,6 +7,7 @@
     "PLACEHOLDER": "オプションを選択...",
     "EMPTY_SEARCH_RESULTS": "`{searchTerm}` に該当する項目が見つかりませんでした。",
     "EMPTY_STATE": "該当結果が見つかりませんでした。",
+    "LOADING": "読み込み中...",
     "SEARCH_PLACEHOLDER": "検索...",
     "MORE": "+{count} 件をさらに表示"
   },

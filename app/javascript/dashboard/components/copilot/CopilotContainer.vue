@@ -41,8 +41,8 @@ const isSmallScreen = computed(
 
 const selectedCopilotThreadId = ref(null);
 const isLoadingSelectedThread = ref(false);
-// The conversation the open thread last answered about. A workflow thread stays open across conversations, so its
-// suggested reply can only be used in the conversation it was written for.
+// The conversation the open thread last answered about. A thread stays open across conversations, so its suggested
+// reply can only be used in the conversation it was written for.
 const threadConversationId = ref(null);
 const canUseReply = computed(
   () => threadConversationId.value === currentChat.value?.id
@@ -151,28 +151,12 @@ watch(
   }
 );
 
-const isWorkflowsEnabled = computed(() =>
-  isFeatureEnabledonAccount.value(
-    currentAccountId.value,
-    FEATURE_FLAGS.COPILOT_WORKFLOWS
-  )
-);
-
 const handleReset = () => {
   selectionVersion += 1;
   selectedCopilotThreadId.value = null;
   threadConversationId.value = null;
   isLoadingSelectedThread.value = false;
 };
-
-// A workflow thread works across conversations, and its answers and approval cards link to them, so opening one
-// keeps the thread. Otherwise a thread is about the conversation it was started in.
-watch(
-  () => currentChat.value?.id,
-  () => {
-    if (!isWorkflowsEnabled.value) handleReset();
-  }
-);
 
 // Events sent while the cable was down are lost, so the open thread is read again from the server.
 useEmitter(BUS_EVENTS.WEBSOCKET_RECONNECT, () => {
@@ -298,13 +282,8 @@ const sendMessage = async payload => {
       ) {
         return true;
       }
-      if (
-        isWorkflowsEnabled.value ||
-        currentChat.value?.id === conversationId
-      ) {
-        selectedCopilotThreadId.value = response.id;
-        threadConversationId.value = conversationId;
-      }
+      selectedCopilotThreadId.value = response.id;
+      threadConversationId.value = conversationId;
       if (!threads.value.some(thread => thread.id === response.id)) {
         threads.value.unshift(response);
       }
@@ -368,10 +347,7 @@ onMounted(() => {
       :can-suggest-reply="canSuggestReply"
       :can-use-reply="canUseReply"
       :is-expanded="isExpanded"
-      :can-show-avatar="isWorkflowsEnabled"
-      :is-workflows-enabled="isWorkflowsEnabled"
       :on-send-message="sendMessage"
-      :can-stop="isWorkflowsEnabled"
       :on-stop="stopCopilot"
       @set-assistant="setAssistant"
       @select-thread="selectThread"

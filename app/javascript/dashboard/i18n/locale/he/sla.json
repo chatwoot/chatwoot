@@ -87,6 +87,12 @@
     "ADD": {
       "TITLE": "הוסף SLA",
       "DESC": "הבטחות ידידותיות לשירות נהדר!",
+      "SUCCESS": {
+        "TITLE": "SLA created",
+        "DESC": "SLAs are applied to conversations through automation rules. Create an automation to start tracking this SLA.",
+        "LATER": "Later",
+        "CREATE_AUTOMATION": "Create automation"
+      },
       "API": {
         "SUCCESS_MESSAGE": "SLA נוסף בהצלחה",
         "ERROR_MESSAGE": "היתה שגיאה, בקשה נסה שוב"

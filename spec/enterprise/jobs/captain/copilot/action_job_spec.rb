@@ -22,7 +22,7 @@ RSpec.describe Captain::Copilot::ActionJob do
   end
 
   before do
-    account.enable_features!('copilot_workflows')
+    account.enable_features!('captain_integration')
     create(:label, account: account, title: 'billing')
     labeled.add_labels(['billing'])
   end

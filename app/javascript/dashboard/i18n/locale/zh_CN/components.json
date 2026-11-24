@@ -7,6 +7,7 @@
     "PLACEHOLDER": "请选择一个选项……",
     "EMPTY_SEARCH_RESULTS": "未找到与搜索词 `{searchTerm}` 匹配的项",
     "EMPTY_STATE": "未找到结果。",
+    "LOADING": "加载中...",
     "SEARCH_PLACEHOLDER": "搜索……",
     "MORE": "+{count} 更多"
   },
@@ -43,8 +44,8 @@
   "FEATURE_ANNOUNCEMENT": {
     "BADGE": "New",
     "DISMISS": "Got it",
-    "PREVIOUS": "Previous",
-    "NEXT": "Next",
+    "PREVIOUS": "上一页",
+    "NEXT": "下一页",
     "DISMISS_HINT": "Press {key} to close",
     "ESCAPE_KEY": "Esc",
     "CLOSE": "关闭"

@@ -1,168 +1,181 @@
 {
   "MONITORS": {
-    "TITLE": "Monitors",
+    "TITLE": "Praćenje tema",
+    "SLACK_ALERT": {
+      "TITLE": "Slack upozorenja",
+      "DESCRIPTION": "Objavi poruku u Slack kanalu kada ovaj nadzor prvi put pronađe razgovor koji odgovara novoj aktivnosti.",
+      "NONE": "Ne šalji upozorenja",
+      "PLACEHOLDER": "Odaberite kanal",
+      "LOADING": "Učitavanje kanala…",
+      "CONNECT": "Poveži Slack",
+      "ON": "Uključeno",
+      "OFF": "Isključeno",
+      "SAVED": "Slack upozorenja su ažurirana.",
+      "FETCH_FAILED": "Učitavanje kanala nije uspjelo. Otvorite za ponovni pokušaj.",
+      "SAVE_FAILED": "Ažuriranje Slack upozorenja nije uspjelo. Pokušajte ponovno."
+    },
     "AUTOMATIONS": {
-      "TITLE": "Automations",
-      "DESCRIPTION": "Run actions when this monitor first matches a conversation from new live activity.",
-      "CREATE": "Create automation",
-      "EMPTY": "No automations are linked to this monitor yet.",
-      "ACTIVE": "Active",
-      "DISABLED": "Disabled",
-      "FETCH_FAILED": "Could not load linked automations."
+      "TITLE": "Automatizacije",
+      "DESCRIPTION": "Pokrenite radnje kada ovo praćenje prvi put prepozna odgovarajući razgovor na temelju nove aktivnosti u stvarnom vremenu.",
+      "CREATE": "Izradi automatizaciju",
+      "EMPTY": "Još nijedna automatizacija nije povezana s ovim praćenjem.",
+      "ACTIVE": "Aktivno",
+      "DISABLED": "Onemogućeno",
+      "FETCH_FAILED": "Učitavanje povezanih automatizacija nije uspjelo."
     },
     "LIST": {
-      "CONVERSATIONS_COUNT": "{count} conversation | {count} conversations",
-      "CONVERSATIONS_HELP": "Count of conversations matching this monitor in the last 7 days.",
-      "RUNNING": "Running",
-      "FETCH_FAILED": "Could not load monitors. Please try again.",
-      "PAGINATION": "Showing {startItem} – {endItem} of {totalItems} monitor | Showing {startItem} – {endItem} of {totalItems} monitors"
+      "CONVERSATIONS_COUNT": "{count} razgovor | {count} razgovora",
+      "CONVERSATIONS_HELP": "Broj razgovora koji odgovaraju ovom praćenju u posljednjih 7 dana.",
+      "RUNNING": "Izvođenje u tijeku",
+      "FETCH_FAILED": "Učitavanje praćenja nije uspjelo. Pokušajte ponovno.",
+      "PAGINATION": "Prikaz {startItem} – {endItem} od {totalItems} praćenja | Prikaz {startItem} – {endItem} od {totalItems} praćenja"
     },
-    "DESCRIPTION": "Follow the themes that matter across your customer conversations. Describe a topic in plain English, and a monitor charts matching conversations as new customer messages arrive.",
-    "CREATE": "Create monitor",
-    "PREVIEW": "Preview matches",
-    "PREVIEW_COOLDOWN": "You can preview again in {count} second. | You can preview again in {count} seconds.",
-    "PREVIEW_FAILED": "Could not preview matches. Please try again.",
-    "PREVIEW_HELP": "{count} match in a sample of {sampled} recent conversations ({excluded} without usable context). This sample does not represent a complete scan. | {count} matches in a sample of {sampled} recent conversations ({excluded} without usable context). This sample does not represent a complete scan.",
+    "DESCRIPTION": "Pratite važne teme u razgovorima s kupcima. Opišite temu jednostavnim engleskim jezikom, a praćenje će prikazivati odgovarajuće razgovore na grafikonu kako stižu nove poruke kupaca.",
+    "CREATE": "Izradi praćenje",
+    "PREVIEW": "Pregledaj podudaranja",
+    "PREVIEW_COOLDOWN": "Ponovni pregled bit će dostupan za {count} sekundu. | Ponovni pregled bit će dostupan za {count} sekundi.",
+    "PREVIEW_FAILED": "Pregled podudaranja nije uspio. Pokušajte ponovno.",
+    "PREVIEW_HELP": "{count} podudaranje u uzorku od {sampled} nedavnih razgovora ({excluded} bez upotrebljivog konteksta). Ovaj uzorak ne predstavlja potpun pregled. | {count} podudaranja u uzorku od {sampled} nedavnih razgovora ({excluded} bez upotrebljivog konteksta). Ovaj uzorak ne predstavlja potpun pregled.",
     "NAME": "Ime",
-    "NAME_PLACEHOLDER": "Refund conversations",
-    "CHOOSE_ICON": "Choose icon or emoji",
-    "CONDITION": "Which conversations should this monitor find?",
-    "CONDITION_PLACEHOLDER": "All conversations mentioning refunds",
-    "CREATE_HELP": "We will check conversations created in the last seven days, then keep checking new customer messages. Public replies and configured customer attributes provide context. Private notes are excluded.",
+    "NAME_PLACEHOLDER": "Razgovori o povratu sredstava",
+    "CHOOSE_ICON": "Odaberi ikonu ili emotikon",
+    "CONDITION": "Koje razgovore ovo praćenje treba pronaći?",
+    "CONDITION_PLACEHOLDER": "Svi razgovori u kojima se spominje povrat sredstava",
+    "CREATE_HELP": "Provjerit ćemo razgovore izrađene u posljednjih sedam dana, a zatim nastaviti provjeravati nove poruke kupaca. Javni odgovori i postavljeni atributi kupaca daju kontekst. Privatne bilješke nisu uključene.",
     "SECTIONS": {
-      "YOUR_MONITORS": "Your monitors",
-      "TEMPLATES": "Templates"
+      "YOUR_MONITORS": "Vaša praćenja",
+      "TEMPLATES": "Predlošci"
     },
     "TEMPLATES": {
-      "TITLE": "Start with a template",
-      "USE_NAMED": "Use {name} template",
-      "EDIT_HINT": "From {name} template. Edit anything before creating.",
-      "ADMIN_HELP": "Ask an administrator to create a monitor from a template.",
+      "TITLE": "Započnite s predloškom",
+      "USE_NAMED": "Koristi predložak {name}",
+      "EDIT_HINT": "Na temelju predloška {name}. Prije izrade možete sve urediti.",
+      "ADMIN_HELP": "Zatražite od administratora da izradi praćenje iz predloška.",
       "LOGIN_PROBLEMS": {
-        "NAME": "Login problems",
-        "AUDIENCE": "For support teams",
-        "SUMMARY": "See when login complaints start increasing.",
-        "CONDITION": "A customer says they cannot sign in to their account, including failed password resets and verification codes that never arrive. Exclude questions about changing a password while already signed in."
+        "NAME": "Problemi s prijavom",
+        "AUDIENCE": "Za timove podrške",
+        "SUMMARY": "Uočite kada pritužbe na prijavu počnu rasti.",
+        "CONDITION": "Kupac navodi da se ne može prijaviti na svoj račun, uključujući neuspjele ponovne postavke lozinke i kodove za provjeru koji ne stižu. Isključite pitanja o promjeni lozinke kada je korisnik već prijavljen."
       },
       "MISSING_ORDER_UPDATES": {
-        "NAME": "Missing order updates",
-        "AUDIENCE": "For operations teams",
-        "SUMMARY": "Track recurring delivery communication problems.",
-        "CONDITION": "A customer says an order confirmation, shipping update, or delivery notice did not arrive, or arrived for the wrong order. Exclude customers asking where a parcel is when they did receive the tracking email."
+        "NAME": "Nedostaju obavijesti o narudžbi",
+        "AUDIENCE": "Za operativne timove",
+        "SUMMARY": "Pratite ponavljajuće probleme u komunikaciji o dostavi.",
+        "CONDITION": "Kupac navodi da potvrda narudžbe, obavijest o slanju ili obavijest o dostavi nije stigla ili je stigla za pogrešnu narudžbu. Isključite kupce koji pitaju gdje je paket, a primili su e-poruku za praćenje."
       },
       "COMPETITOR_MENTIONS": {
-        "NAME": "Competitor mentions",
-        "AUDIENCE": "For founders and sales teams",
-        "SUMMARY": "Find conversations worth following up on.",
-        "CONDITION": "A customer compares us with a competing product, says they are evaluating one, or mentions they may switch. Exclude customers who moved to us from a competitor and are asking how to import their data."
+        "NAME": "Spominjanje konkurencije",
+        "AUDIENCE": "Za osnivače i prodajne timove",
+        "SUMMARY": "Pronađite razgovore na koje se vrijedi naknadno javiti.",
+        "CONDITION": "Kupac nas uspoređuje s konkurentskim proizvodom, navodi da ga razmatra ili spominje mogućnost prelaska na njega. Isključite kupce koji su nam prešli od konkurencije i pitaju kako uvesti svoje podatke."
       },
       "FEATURE_REQUESTS": {
-        "NAME": "Feature requests",
-        "AUDIENCE": "For product teams",
-        "SUMMARY": "Keep a running count of conversations about unmet needs.",
-        "CONDITION": "A customer asks for a capability the product does not currently offer, or asks whether something is possible and it is not. Exclude questions about how to use a feature that already exists."
+        "NAME": "Zahtjevi za novim značajkama",
+        "AUDIENCE": "Za timove za razvoj proizvoda",
+        "SUMMARY": "Kontinuirano pratite broj razgovora o nezadovoljenim potrebama.",
+        "CONDITION": "Kupac traži mogućnost koju proizvod trenutačno ne nudi ili pita je li nešto moguće, a nije. Isključite pitanja o korištenju postojeće značajke."
       },
       "REFUND_REQUESTS": {
-        "NAME": "Refund requests",
-        "AUDIENCE": "For finance teams",
-        "SUMMARY": "Bring a consistent definition to your weekly refund request count.",
-        "CONDITION": "A customer asks for money back on a payment they already made, including duplicate charges and refunds after cancelling. Exclude questions about the refund policy and requests for a discount."
+        "NAME": "Zahtjevi za povrat sredstava",
+        "AUDIENCE": "Za financijske timove",
+        "SUMMARY": "Ujednačite kriterije za tjedno brojanje zahtjeva za povrat sredstava.",
+        "CONDITION": "Kupac traži povrat već izvršenog plaćanja, uključujući dvostruke naplate i povrate nakon otkazivanja. Isključite pitanja o pravilima povrata sredstava i zahtjeve za popust."
       },
       "CANCELLATION_INTENT": {
-        "NAME": "Cancellation intent",
-        "AUDIENCE": "For account managers",
-        "SUMMARY": "Find customers who may need a conversation before they leave.",
-        "CONDITION": "A customer says they intend to cancel, will not renew, or plan to stop using the product. Exclude requests to reduce seats or downgrade, and cancellations the customer takes back in the same conversation."
+        "NAME": "Namjera otkazivanja",
+        "AUDIENCE": "Za voditelje odnosa s klijentima",
+        "SUMMARY": "Pronađite kupce s kojima bi trebalo razgovarati prije nego što odu.",
+        "CONDITION": "Kupac navodi da namjerava otkazati, da neće obnoviti pretplatu ili da planira prestati koristiti proizvod. Isključite zahtjeve za smanjenje broja korisničkih mjesta ili prelazak na niži paket te otkazivanja od kojih kupac odustane u istom razgovoru."
       },
       "PAYMENT_FAILURES": {
-        "NAME": "Payment failures",
-        "AUDIENCE": "For billing and support teams",
-        "SUMMARY": "Spot customers who are blocked from paying.",
-        "CONDITION": "A customer says a payment, checkout, or invoice payment failed, or their card was declined. Exclude refund requests, disputes about completed charges, and general questions about payment methods."
+        "NAME": "Neuspjela plaćanja",
+        "AUDIENCE": "Za timove naplate i podrške",
+        "SUMMARY": "Prepoznajte kupce koji ne mogu izvršiti plaćanje.",
+        "CONDITION": "Kupac navodi da plaćanje, završetak kupnje ili plaćanje računa nije uspjelo ili da je kartica odbijena. Isključite zahtjeve za povrat sredstava, sporove oko izvršenih naplata i opća pitanja o načinima plaćanja."
       },
       "PRODUCT_ERRORS": {
-        "NAME": "Product errors",
-        "AUDIENCE": "For support and engineering teams",
-        "SUMMARY": "See when errors and crashes start spreading.",
-        "CONDITION": "A customer reports an error, crash, unavailable service, or severe slowness that prevents them from completing a task. Exclude sign-in problems and questions about how to use a working feature."
+        "NAME": "Pogreške proizvoda",
+        "AUDIENCE": "Za timove podrške i tehničkog razvoja",
+        "SUMMARY": "Uočite kada se pogreške i rušenja počnu širiti.",
+        "CONDITION": "Kupac prijavljuje pogrešku, rušenje, nedostupnu uslugu ili izrazitu sporost koja ga sprječava u izvršavanju zadatka. Isključite probleme s prijavom i pitanja o korištenju značajke koja ispravno radi."
       },
       "ISSUE_STILL_UNRESOLVED": {
-        "NAME": "Issue still unresolved",
-        "AUDIENCE": "For support leads",
-        "SUMMARY": "Find conversations that need another pass.",
-        "CONDITION": "A customer says a suggested fix did not work, the same problem returned, or their issue remains after support said it was resolved. Exclude first-time reports and requests only asking for a status update."
+        "NAME": "Problem još nije riješen",
+        "AUDIENCE": "Za voditelje podrške",
+        "SUMMARY": "Pronađite razgovore koje treba ponovno pregledati.",
+        "CONDITION": "Kupac navodi da predloženo rješenje nije pomoglo, da se isti problem vratio ili da problem i dalje postoji nakon što ga je podrška proglasila riješenim. Isključite prve prijave i zahtjeve koji traže samo obavijest o statusu."
       },
       "ESCALATION_REQUESTS": {
-        "NAME": "Escalation requests",
-        "AUDIENCE": "For support leads",
-        "SUMMARY": "Surface requests that need prompt attention.",
-        "CONDITION": "A customer explicitly asks for a human agent, manager, specialist, or higher support tier because their issue has not been resolved. Exclude routine transfers and sales requests."
+        "NAME": "Zahtjevi za eskalaciju",
+        "AUDIENCE": "Za voditelje podrške",
+        "SUMMARY": "Istaknite zahtjeve koje treba brzo razmotriti.",
+        "CONDITION": "Kupac izričito traži djelatnika, voditelja, stručnjaka ili višu razinu podrške jer njegov problem nije riješen. Isključite uobičajene prijenose i prodajne upite."
       }
     },
-    "MATCHING_CONVERSATIONS": "Matching conversations created",
-    "LAST_DAYS": "Last {count} day | Last {count} days",
-    "LAST_DAYS_BEFORE_PAUSE": "{count} day before pause | {count} days before pause",
-    "GROUP_BY": "Group by {interval}",
+    "MATCHING_CONVERSATIONS": "Izrađeni razgovori koji odgovaraju uvjetima",
+    "LAST_DAYS": "Posljednji {count} dan | Posljednjih {count} dana",
+    "LAST_DAYS_BEFORE_PAUSE": "{count} dan prije pauziranja | {count} dana prije pauziranja",
+    "GROUP_BY": "Grupiraj prema intervalu {interval}",
     "INTERVALS": {
-      "HOUR": "1 hour",
-      "SIX_HOURS": "6 hours",
-      "DAY": "1 day"
+      "HOUR": "1 sat",
+      "SIX_HOURS": "6 sati",
+      "DAY": "1 dan"
     },
     "EDIT": "Uredi",
-    "UPDATE": "Update",
-    "MONITOR_DESCRIPTION": "Description",
-    "EDIT_HELP": "The description defines which conversations match. Changing it clears existing matches and rechecks previously checked conversations. Skipped periods stay skipped. If paused, rechecking starts when you resume.",
-    "DUPLICATE": "Duplicate",
-    "PAUSE": "Pause",
-    "RESUME": "Resume",
-    "RESUME_HELP": "Choose where this monitor should pick up. Existing results will stay available.",
-    "RESUME_CATCH_UP": "Check the paused period",
-    "RESUME_CATCH_UP_HELP": "Check conversations created and customer messages received from when the monitor was paused until now, then continue live updates.",
-    "RESUME_FROM_NOW": "Start from now",
-    "RESUME_FROM_NOW_HELP": "Only check new customer messages and conversations from now on. Do not scan the paused period.",
+    "UPDATE": "Ažuriraj",
+    "MONITOR_DESCRIPTION": "Opis",
+    "EDIT_HELP": "Opis određuje koji razgovori odgovaraju uvjetima. Njegovom promjenom brišu se postojeća podudaranja i ponovno provjeravaju prethodno provjereni razgovori. Preskočena razdoblja ostaju preskočena. Ako je praćenje pauzirano, ponovna provjera počinje nakon nastavka.",
+    "DUPLICATE": "Dupliciraj",
+    "PAUSE": "Pauziraj",
+    "RESUME": "Nastavi",
+    "RESUME_HELP": "Odaberite odakle ovo praćenje treba nastaviti. Postojeći rezultati ostat će dostupni.",
+    "RESUME_CATCH_UP": "Provjeri razdoblje pauze",
+    "RESUME_CATCH_UP_HELP": "Provjerite razgovore izrađene i poruke kupaca primljene od pauziranja praćenja do sada, a zatim nastavite ažuriranje u stvarnom vremenu.",
+    "RESUME_FROM_NOW": "Počni od sada",
+    "RESUME_FROM_NOW_HELP": "Od sada provjeravajte samo nove poruke kupaca i razgovore. Nemojte provjeravati razdoblje pauze.",
     "DELETE": "Izbriši",
-    "DELETE_HELP": "Delete this monitor and its results? This does not delete the conversations.",
-    "PAUSE_HELP": "Pause this monitor? Its results will remain available, and it will stop checking messages and conversations.",
-    "PAUSED_HELP": "Paused on {time}. Historical results remain available. New messages and conversations are not being checked.",
-    "COLLECTED_UNTIL": "Results collected until {time}.",
-    "RETRY": "Retry",
-    "RESULTS_UPDATED": "New results are available. The chart has been refreshed; select a bar to view its updated conversations.",
-    "TIME_BASIS_HELP": "Each conversation counts once, on the date it was created. A new match can update an earlier bar.",
-    "COVERAGE_HELP": "This range includes periods that were not fully checked. Counts may be incomplete.",
-    "REFRESHED": "Last refreshed at {time}. Updates appear automatically.",
+    "DELETE_HELP": "Izbrisati ovo praćenje i njegove rezultate? Time se ne brišu razgovori.",
+    "PAUSE_HELP": "Pauzirati ovo praćenje? Njegovi rezultati ostat će dostupni, a provjera poruka i razgovora prestat će.",
+    "PAUSED_HELP": "Pauzirano {time}. Prethodni rezultati ostaju dostupni. Nove poruke i razgovori ne provjeravaju se.",
+    "COLLECTED_UNTIL": "Rezultati prikupljeni do {time}.",
+    "RETRY": "Pokušaj ponovno",
+    "RESULTS_UPDATED": "Dostupni su novi rezultati. Grafikon je osvježen. Odaberite stupac za prikaz ažuriranog popisa razgovora.",
+    "TIME_BASIS_HELP": "Svaki razgovor broji se jednom, na datum izrade. Novo podudaranje može ažurirati raniji stupac.",
+    "COVERAGE_HELP": "Ovaj raspon uključuje razdoblja koja nisu potpuno provjerena. Brojčani podaci mogu biti nepotpuni.",
+    "REFRESHED": "Posljednje osvježavanje: {time}. Ažuriranja se prikazuju automatski.",
     "USAGE": {
-      "LIMIT_REACHED": "This account has used its {limit} monitor calls for this month.",
-      "RESETS": "New evaluations and previews are on hold until {time}. Existing results remain available.",
-      "REACHED_AT": "Limit reached on {time}."
+      "LIMIT_REACHED": "Ovaj je račun potrošio mjesečno ograničenje od {limit} AI klasifikacijskih poziva. Nadzori, Captain uvjeti automatizacija te prijedlozi oznaka i prioriteta dijele to ograničenje.",
+      "RESETS": "Provjere i pregledi nadzora, Captain uvjeti automatizacija te prijedlozi oznaka i prioriteta nisu dostupni do {time}. Postojeći rezultati ostaju dostupni.",
+      "REACHED_AT": "Ograničenje je dosegnuto {time}."
     },
     "STATES": {
-      "SCANNING": "Checking recent conversations",
-      "PROCESSING": "Checking conversations",
-      "RECHECKING": "Rechecking conversations with the updated description",
-      "LIVE": "Up to date",
-      "DELAYED": "Updates are delayed",
-      "NEEDS_ATTENTION": "Needs attention",
-      "PAUSED": "Paused",
-      "CATCHING_UP": "Checking the paused period"
+      "SCANNING": "Provjera nedavnih razgovora",
+      "PROCESSING": "Provjera razgovora",
+      "RECHECKING": "Ponovna provjera razgovora prema ažuriranom opisu",
+      "LIVE": "Ažurno",
+      "DELAYED": "Ažuriranja kasne",
+      "NEEDS_ATTENTION": "Potrebna je provjera",
+      "PAUSED": "Pauzirano",
+      "CATCHING_UP": "Provjera razdoblja pauze"
     },
     "ERRORS": {
-      "FETCH_FAILED": "Could not load this monitor. Refresh to try again.",
-      "SAVE_FAILED": "Could not save the monitor. Check the name and condition, then try again.",
-      "NOT_CONFIGURED": "Configure the OpenRouter connection, then click Retry.",
-      "CREDENTIALS_INVALID": "The OpenRouter connection needs attention. Ask your installation administrator to check its credentials.",
-      "PROVIDER_CREDITS_EXHAUSTED": "The OpenRouter account has insufficient credits. Ask your installation administrator to check its balance, then retry.",
-      "INVALID_REQUEST": "The evaluation request needs attention. Contact your installation administrator.",
-      "INVALID_RESPONSE": "The evaluation provider returned an incomplete result. Affected conversations have not been counted.",
-      "PROVIDER_BUSY": "The evaluation provider is busy. Pending conversations need another evaluation.",
-      "PROVIDER_UNAVAILABLE": "The evaluation provider is temporarily unavailable. Updates may be delayed.",
-      "BUDGET_LIMIT": "The daily evaluation allowance has been reached. Pending work will resume after it resets.",
-      "MONTHLY_LIMIT": "This account has reached its monthly monitor allowance. Pending evaluations will resume next month.",
-      "CONTEXT_LIMIT": "Some conversations are too long to evaluate completely. They are excluded from the results.",
-      "INVALID_PARAMETERS": "Check the name, condition, date range, and interval.",
-      "TOO_MANY_BUCKETS": "Choose a shorter date range or a larger interval. A chart can show up to 744 bars.",
-      "MONITOR_LIMIT": "This account has reached its active monitor limit. Pause a monitor before creating another.",
-      "MONITOR_PAUSED": "This monitor is paused and no longer checks conversations.",
-      "MONITOR_CHANGED": "This monitor changed in another session. Its current state has been refreshed. Try again."
+      "FETCH_FAILED": "Učitavanje ovog praćenja nije uspjelo. Osvježite i pokušajte ponovno.",
+      "SAVE_FAILED": "Spremanje praćenja nije uspjelo. Provjerite naziv i uvjet pa pokušajte ponovno.",
+      "NOT_CONFIGURED": "Postavite vezu s uslugom OpenRouter, a zatim kliknite Pokušaj ponovno.",
+      "CREDENTIALS_INVALID": "Potrebno je provjeriti vezu s uslugom OpenRouter. Zatražite od administratora instalacije da provjeri pristupne podatke.",
+      "PROVIDER_CREDITS_EXHAUSTED": "OpenRouter račun nema dovoljno kredita. Zatražite od administratora instalacije da provjeri stanje pa pokušajte ponovno.",
+      "INVALID_REQUEST": "Potrebno je provjeriti zahtjev za procjenu. Obratite se administratoru instalacije.",
+      "INVALID_RESPONSE": "Pružatelj usluge procjene vratio je nepotpun rezultat. Zahvaćeni razgovori nisu uračunati.",
+      "PROVIDER_BUSY": "Pružatelj usluge procjene je zauzet. Razgovore na čekanju potrebno je ponovno procijeniti.",
+      "PROVIDER_UNAVAILABLE": "Pružatelj usluge procjene privremeno nije dostupan. Ažuriranja mogu kasniti.",
+      "BUDGET_LIMIT": "Dosegnuto je dnevno ograničenje procjena. Obrada na čekanju nastavit će se kada ograničenje bude poništeno za novo razdoblje.",
+      "MONTHLY_LIMIT": "Ovaj je račun dosegnuo zajedničko mjesečno ograničenje AI klasifikacija. Provjere na čekanju nastavit će se sljedeći mjesec.",
+      "CONTEXT_LIMIT": "Neki su razgovori predugi za potpunu procjenu. Isključeni su iz rezultata.",
+      "INVALID_PARAMETERS": "Provjerite naziv, uvjet, datumski raspon i interval.",
+      "TOO_MANY_BUCKETS": "Odaberite kraći datumski raspon ili veći interval. Grafikon može prikazati najviše 744 stupca.",
+      "MONITOR_LIMIT": "Ovaj je račun dosegnuo ograničenje aktivnih praćenja. Pauzirajte jedno praćenje prije izrade novog.",
+      "MONITOR_PAUSED": "Ovo je praćenje pauzirano i više ne provjerava razgovore.",
+      "MONITOR_CHANGED": "Ovo je praćenje promijenjeno u drugoj sesiji. Njegovo trenutačno stanje je osvježeno. Pokušajte ponovno."
     }
   },
   "REPORT": {
@@ -189,14 +202,14 @@
         "NAME": "First Response Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
+        "TOOLTIP_DESCRIPTION": "Na temelju {count} razgovora | Na temelju {count} razgovora",
         "TOOLTIP_TEXT": "First Response Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Resolution Time",
         "DESC": "( Avg )",
         "INFO_TEXT": "Total number of conversations used for computation:",
-        "TOOLTIP_DESCRIPTION": "Based on {count} conversation | Based on {count} conversations",
+        "TOOLTIP_DESCRIPTION": "Na temelju {count} razgovora | Na temelju {count} razgovora",
         "TOOLTIP_TEXT": "Resolution Time is {metricValue} (based on {conversationCount} conversations)"
       },
       "RESOLUTION_COUNT": {
@@ -213,8 +226,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_LABEL": "Waiting time",
-        "TOOLTIP_DESCRIPTION": "Based on {count} reply | Based on {count} replies",
+        "TOOLTIP_LABEL": "Vrijeme čekanja",
+        "TOOLTIP_DESCRIPTION": "Na temelju {count} odgovora | Na temelju {count} odgovora",
         "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
         "DESC": ""
       }
@@ -292,24 +305,24 @@
       "EMPTY_LIST": "Nisu pronađeni rezultati"
     },
     "DRILLDOWN": {
-      "TITLE": "{metric} details",
-      "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations",
-      "RESULT_COUNT_MESSAGE": "{count} message | {count} messages",
-      "EMPTY": "No records found for this bar.",
-      "ERROR": "Could not load records. Please try again.",
-      "ADMIN_ONLY": "Only administrators can drill down into report records.",
-      "LOAD_MORE": "Load more",
-      "PREVIOUS_BUCKET": "Previous bar",
-      "NEXT_BUCKET": "Next bar",
-      "VIEW_ALL": "View all",
-      "UNKNOWN_CONTACT": "Unknown contact",
-      "UNKNOWN_INBOX": "Unknown inbox",
-      "UNASSIGNED_AGENT": "Unassigned",
-      "NO_MESSAGE_CONTENT": "No message content",
-      "MESSAGE_CREATED_AT": "Message created at {time}",
-      "EVENT_OCCURRED_AT": "Event occurred at {time}",
-      "INCOMING_MESSAGE": "Incoming message",
-      "OUTGOING_MESSAGE": "Outgoing message"
+      "TITLE": "Pojedinosti pokazatelja: {metric}",
+      "RESULT_COUNT_CONVERSATION": "{count} razgovor | {count} razgovora",
+      "RESULT_COUNT_MESSAGE": "{count} poruka | {count} poruka",
+      "EMPTY": "Nisu pronađeni zapisi za ovaj stupac.",
+      "ERROR": "Učitavanje zapisa nije uspjelo. Pokušajte ponovno.",
+      "ADMIN_ONLY": "Samo administratori mogu pregledavati pojedinačne zapise izvještaja.",
+      "LOAD_MORE": "Učitaj više",
+      "PREVIOUS_BUCKET": "Prethodni stupac",
+      "NEXT_BUCKET": "Sljedeći stupac",
+      "VIEW_ALL": "Prikaži sve",
+      "UNKNOWN_CONTACT": "Nepoznati kontakt",
+      "UNKNOWN_INBOX": "Nepoznati pretinac",
+      "UNASSIGNED_AGENT": "Nedodijeljeno",
+      "NO_MESSAGE_CONTENT": "Nema sadržaja poruke",
+      "MESSAGE_CREATED_AT": "Poruka je izrađena {time}",
+      "EVENT_OCCURRED_AT": "Događaj se dogodio {time}",
+      "INCOMING_MESSAGE": "Dolazna poruka",
+      "OUTGOING_MESSAGE": "Odlazna poruka"
     },
     "PAGINATION": {
       "RESULTS": "Showing {start} to {end} of {total} results",
@@ -715,7 +728,7 @@
   "OVERVIEW_REPORTS": {
     "HEADER": "Pregled",
     "LIVE": "Live",
-    "HEATMAP_ARIA_LABEL": "{metric} by day and hour",
+    "HEATMAP_ARIA_LABEL": "{metric} prema danu i satu",
     "ACCOUNT_CONVERSATIONS": {
       "HEADER": "Open Conversations",
       "LOADING_MESSAGE": "Loading conversation metrics...",

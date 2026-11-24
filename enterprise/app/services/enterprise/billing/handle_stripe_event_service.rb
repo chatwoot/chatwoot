@@ -30,6 +30,9 @@ class Enterprise::Billing::HandleStripeEventService
   end
 
   def process_subscription_updated
+    # skipping self hosted plan events
+    return unless stripe_billed_account?
+
     # A cancelled subscription keeps emitting updates that still carry its old plan.
     # Acting on one re-applies that plan over the downgrade customer.subscription.deleted
     # just made, so the account keeps paid features it no longer pays for.
@@ -38,29 +41,44 @@ class Enterprise::Billing::HandleStripeEventService
     plan = find_plan(subscription['plan']['product']) if subscription['plan'].present?
 
     # skipping self hosted plan events
-    return if plan.blank? || !stripe_billed_account?
+    return if plan.blank?
+
+    account.with_lock { apply_subscription(plan) }
+    track_marketing_plan_activation(previous_plan_name) if event_changed_plan?
+    broadcast_billing_updated
+  end
+
+  # Credits are settled by diffing the stored account against the current subscription, so the plan and
+  # credit writes commit together: a failed delivery leaves the old state for its retry to diff again,
+  # and concurrent deliveries can't both settle the same change.
+  def apply_subscription(plan)
+    # Stripe is read before taking the lock, so a slow call never holds it, but concurrent deliveries
+    # can then reach the lock out of order.
+    return if subscription_read.overtaken_on?(account)
 
     previous_usage = capture_previous_usage
     update_account_attributes(subscription, plan)
     Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
     sync_subscription_credits(plan, previous_usage)
-    track_marketing_plan_activation(previous_plan_name, plan['name']) if plan_changed?
-    broadcast_billing_updated
   end
 
   def sync_subscription_credits(plan, previous_usage)
-    if billing_period_renewed?
-      ActiveRecord::Base.transaction do
-        handle_subscription_credits(plan, previous_usage)
-        account.reset_response_usage
-      end
-    elsif plan_changed?
+    if billing_period_renewed?(previous_usage)
+      handle_subscription_credits(plan, previous_usage)
+      account.reset_response_usage
+    # Compare with the stored plan, not the event: whichever event first applies a new plan settles its credits.
+    elsif previous_usage[:plan_name] != plan['name']
       handle_plan_change_credits(plan, previous_usage)
     end
   end
 
   def capture_previous_usage
-    { responses: account.custom_attributes['captain_responses_usage'].to_i, monthly: current_plan_credits[:responses] }
+    {
+      responses: account.custom_attributes['captain_responses_usage'].to_i,
+      monthly: current_plan_credits[:responses],
+      plan_name: account.custom_attributes['plan_name'],
+      period_ends_on: account.custom_attributes['subscription_ends_on']
+    }
   end
 
   def current_plan_credits
@@ -82,7 +100,8 @@ class Enterprise::Billing::HandleStripeEventService
         'subscription_ends_on' => subscription_ends_on(subscription),
         'subscription_cancels_on' => subscription_cancels_on(subscription),
         'billing_currency' => billing_currency_for(subscription, plan)
-      )
+      ),
+      internal_attributes: subscription_read.mark_applied(account.internal_attributes)
     )
   end
 
@@ -93,13 +112,14 @@ class Enterprise::Billing::HandleStripeEventService
     Enterprise::Billing::Currencies.to_supported(subscription['plan']['currency'])
   end
 
-  def track_marketing_plan_activation(previous_plan_name, current_plan_name)
-    subscription_plan = subscription['plan']
+  # Records the activation this event describes, so it reads the event's payload, not the current subscription.
+  def track_marketing_plan_activation(previous_plan_name)
+    subscription_plan = event_subscription['plan']
 
     Internal::Accounts::CloudPlanActivationConversionService.new(
       account: account,
       previous_plan_name: previous_plan_name,
-      current_plan_name: current_plan_name,
+      current_plan_name: find_plan(subscription_plan['product'])&.dig('name'),
       activated_at: Time.zone.at(@event.created),
       conversion_value: subscription_conversion_value(subscription_plan),
       currency_code: subscription_plan['currency'].upcase
@@ -107,7 +127,7 @@ class Enterprise::Billing::HandleStripeEventService
   end
 
   def subscription_conversion_value(subscription_plan)
-    ((subscription_plan['amount'] || subscription_plan['amount_decimal']).to_d * subscription['quantity'].to_i / 100).to_f
+    ((subscription_plan['amount'] || subscription_plan['amount_decimal']).to_d * event_subscription['quantity'].to_i / 100).to_f
   end
 
   def process_subscription_deleted
@@ -164,31 +184,46 @@ class Enterprise::Billing::HandleStripeEventService
     config[plan_name.downcase]&.symbolize_keys
   end
 
+  # Stripe delivers events out of order and retries a failed one for days, so a payload can be older
+  # than state already applied. Read the subscription as it is now, in the payload's API version.
   def subscription
-    @subscription ||= @event.data.object
+    subscription_read.subscription
+  end
+
+  def subscription_read
+    @subscription_read ||= Enterprise::Billing::StripeSubscriptionRead.new(
+      subscription_id: event_subscription.id, stripe_version: @event.api_version
+    )
+  end
+
+  def event_subscription
+    @event.data.object
   end
 
   def previous_attributes
     @previous_attributes ||= JSON.parse((@event.data.previous_attributes || {}).to_json)
   end
 
-  def plan_changed?
+  def event_changed_plan?
     return false if previous_attributes['plan'].blank?
 
     previous_plan_id = previous_attributes.dig('plan', 'id')
-    current_plan_id = subscription['plan']['id']
+    current_plan_id = event_subscription['plan']['id']
 
     previous_plan_id != current_plan_id
   end
 
-  def billing_period_renewed?
-    return false if previous_attributes['current_period_start'].blank?
+  # Like the plan, a renewal is detected against the stored period, so whichever event first sees the
+  # new period settles it with the old plan's allowance, even if that event isn't the renewal itself.
+  def billing_period_renewed?(previous_usage)
+    return false if previous_usage[:period_ends_on].blank?
 
-    previous_attributes['current_period_start'] != subscription['current_period_start']
+    Time.zone.parse(previous_usage[:period_ends_on].to_s) != subscription_ends_on(subscription)
   end
 
   def account
-    @account ||= Account.where("custom_attributes->>'stripe_customer_id' = ?", subscription.customer).first
+    # A subscription never changes customer, so the payload finds the account without a Stripe read.
+    @account ||= Account.where("custom_attributes->>'stripe_customer_id' = ?", event_subscription.customer).first
   end
 
   def stripe_billed_account?

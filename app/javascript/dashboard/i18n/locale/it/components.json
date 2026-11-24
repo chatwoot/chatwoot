@@ -7,6 +7,7 @@
     "PLACEHOLDER": "Seleziona un'opzione...",
     "EMPTY_SEARCH_RESULTS": "Nessun elemento trovato per il termine di ricerca `{searchTerm}`",
     "EMPTY_STATE": "Nessun risultato trovato.",
+    "LOADING": "Caricamento...",
     "SEARCH_PLACEHOLDER": "Cerca...",
     "MORE": "+{count} altre"
   },

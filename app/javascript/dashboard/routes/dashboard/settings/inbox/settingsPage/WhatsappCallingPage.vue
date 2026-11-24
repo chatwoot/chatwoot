@@ -32,16 +32,28 @@ const store = useStore();
 const { t } = useI18n();
 const label = key => t(`INBOX_MGMT.CALL_SETTINGS.${key}`);
 
+const MESSAGE_MAX_LENGTH = 1000;
+const PROVIDER_CONFIG_KEYS = [
+  'permissionRequestBody',
+  'missedCallMessageEnabled',
+  'missedCallMessage',
+];
+
 const savedValues = () => ({
   ...sharedSavedValues(props.inbox),
   permissionRequestBody:
     props.inbox.provider_config?.call_permission_request_body || '',
+  missedCallMessageEnabled:
+    props.inbox.provider_config?.missed_call_message_enabled === true,
+  missedCallMessage: props.inbox.provider_config?.missed_call_message || '',
+  callbackPermissionEnabled:
+    props.inbox.provider_config?.callback_permission_enabled === true,
 });
 
 const buildSteps = (changed, values) => {
   const { id } = props.inbox;
   const steps = [];
-  if (changed(['permissionRequestBody'])) {
+  if (changed(PROVIDER_CONFIG_KEYS)) {
     steps.push(() =>
       store.dispatch('inboxes/updateInbox', {
         id,
@@ -51,9 +63,20 @@ const buildSteps = (changed, values) => {
             ...props.inbox.provider_config,
             call_permission_request_body:
               values.permissionRequestBody.trim() || null,
+            missed_call_message_enabled: values.missedCallMessageEnabled,
+            missed_call_message: values.missedCallMessage.trim() || null,
           },
         },
       })
+    );
+  }
+  // After the save above, which writes back the whole provider_config it was given
+  if (changed(['callbackPermissionEnabled'])) {
+    steps.push(() =>
+      InboxesAPI.setWhatsappCallbackPermission(
+        id,
+        values.callbackPermissionEnabled
+      )
     );
   }
   return [...steps, ...sharedSteps(id, changed, values)];
@@ -223,6 +246,39 @@ const applyInboxHours = async () => {
         </CallSettingsSection>
 
         <CallSettingsSection
+          :title="label('UNANSWERED.TITLE')"
+          :description="label('UNANSWERED.WHATSAPP_DESCRIPTION')"
+        >
+          <CallSettingsOption
+            v-model="form.missedCallMessageEnabled"
+            :label="label('UNANSWERED.WHATSAPP_SEND')"
+            :help="label('UNANSWERED.WHATSAPP_SEND_HELP')"
+          />
+          <div
+            v-if="form.missedCallMessageEnabled"
+            class="flex flex-col gap-1.5"
+          >
+            <label
+              :for="`call-missed-message-${inbox.id}`"
+              class="mb-0 text-heading-3 text-n-slate-12"
+            >
+              {{ label('UNANSWERED.MESSAGE') }}
+            </label>
+            <TextArea
+              :id="`call-missed-message-${inbox.id}`"
+              v-model="form.missedCallMessage"
+              :placeholder="label('UNANSWERED.WHATSAPP_PLACEHOLDER')"
+              :max-length="MESSAGE_MAX_LENGTH"
+              show-character-count
+              auto-height
+            />
+            <p class="text-body-main text-n-slate-11">
+              {{ label('UNANSWERED.WHATSAPP_MESSAGE_HELP') }}
+            </p>
+          </div>
+        </CallSettingsSection>
+
+        <CallSettingsSection
           :title="label('OUT_OF_HOURS.TITLE')"
           :description="label('OUT_OF_HOURS.DESCRIPTION')"
         >
@@ -297,6 +353,11 @@ const applyInboxHours = async () => {
           :title="label('CALLING_CUSTOMERS.TITLE')"
           :description="label('CALLING_CUSTOMERS.DESCRIPTION')"
         >
+          <CallSettingsOption
+            v-model="form.callbackPermissionEnabled"
+            :label="label('CALLING_CUSTOMERS.CALLBACK_PERMISSION')"
+            :help="label('CALLING_CUSTOMERS.CALLBACK_PERMISSION_HELP')"
+          />
           <div class="flex flex-col gap-1.5">
             <label
               :for="`call-permission-request-${inbox.id}`"

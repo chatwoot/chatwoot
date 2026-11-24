@@ -1,6 +1,5 @@
 import { computed, toValue } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRoute } from 'vue-router';
 import { useTrack } from 'dashboard/composables';
 import { useMapGetter } from 'dashboard/composables/store';
 import { COPILOT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
@@ -15,18 +14,6 @@ const PROMPTS = {
     label: 'CAPTAIN.COPILOT.PROMPTS.SUGGEST.LABEL',
     content: 'CAPTAIN.COPILOT.PROMPTS.SUGGEST.CONTENT',
     requestType: 'reply_suggestion',
-  },
-  RATE: {
-    label: 'CAPTAIN.COPILOT.PROMPTS.RATE.LABEL',
-    content: 'CAPTAIN.COPILOT.PROMPTS.RATE.CONTENT',
-  },
-  HIGH_PRIORITY: {
-    label: 'CAPTAIN.COPILOT.PROMPTS.HIGH_PRIORITY.LABEL',
-    content: 'CAPTAIN.COPILOT.PROMPTS.HIGH_PRIORITY.CONTENT',
-  },
-  LIST_CONTACTS: {
-    label: 'CAPTAIN.COPILOT.PROMPTS.LIST_CONTACTS.LABEL',
-    content: 'CAPTAIN.COPILOT.PROMPTS.LIST_CONTACTS.CONTENT',
   },
   CUSTOMER_HISTORY: {
     label: 'CAPTAIN.COPILOT.PROMPTS.CUSTOMER_HISTORY.LABEL',
@@ -90,13 +77,7 @@ const PROMPTS = {
   },
 };
 
-// The older Copilot answers about the page the person is on.
-const ROUTE_PROMPTS = {
-  conversations: ['SUMMARIZE', 'SUGGEST', 'RATE'],
-  dashboard: ['HIGH_PRIORITY', 'LIST_CONTACTS'],
-};
-
-// Workflows answers across many conversations, so its prompts follow the person's role. Agents can't read reports,
+// Copilot answers across many conversations, so its prompts follow the person's role. Agents can't read reports,
 // so their prompts read conversations. Each prompt reads only conversations the person can open.
 const ROLE_PROMPTS = {
   agent: [
@@ -134,13 +115,12 @@ const rankOf = key => {
 };
 const byRank = keys => [...keys].sort((a, b) => rankOf(a) - rankOf(b));
 
-export function useCopilotPrompts({ isWorkflowsEnabled, canSuggestReply }) {
+export function useCopilotPrompts({ canSuggestReply }) {
   const { t } = useI18n();
-  const route = useRoute();
   const currentRole = useMapGetter('getCurrentRole');
   const currentChat = useMapGetter('getSelectedChat');
 
-  const workflowKeys = () => {
+  const promptKeys = () => {
     const roleKeys = ROLE_PROMPTS[currentRole.value] || ROLE_PROMPTS.agent;
     if (!currentChat.value.id) {
       return byRank(roleKeys).slice(0, MAX_ROLE_PROMPTS);
@@ -154,19 +134,9 @@ export function useCopilotPrompts({ isWorkflowsEnabled, canSuggestReply }) {
     return [...fixedKeys, ...randomKeys].slice(0, MAX_CONVERSATION_PROMPTS);
   };
 
-  const routeKeys = () => {
-    const keys = route.path.includes('/conversations')
-      ? ROUTE_PROMPTS.conversations
-      : ROUTE_PROMPTS.dashboard;
-    if (toValue(canSuggestReply)) return keys;
-
-    return keys.filter(key => !PROMPTS[key].requestType);
-  };
-
-  const prompts = computed(() => {
-    const keys = toValue(isWorkflowsEnabled) ? workflowKeys() : routeKeys();
-    return keys.map(key => ({ key, label: t(PROMPTS[key].label) }));
-  });
+  const prompts = computed(() =>
+    promptKeys().map(key => ({ key, label: t(PROMPTS[key].label) }))
+  );
 
   // Records the click and returns what Copilot sends: the prompt text, with its request type when it has one.
   const selectPrompt = key => {

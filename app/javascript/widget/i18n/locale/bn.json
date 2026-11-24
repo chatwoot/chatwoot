@@ -133,6 +133,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "Popular Articles",
     "VIEW_ALL_ARTICLES": "View all articles",
+    "IFRAME_ERROR": "URL খালি আছে বা সঠিক নয়. বিষয়বস্তু প্রদর্শন করা যাচ্ছে না.",
     "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
   },
   "ATTACHMENTS": {
