@@ -16,6 +16,7 @@ const localeFiles = import.meta.glob(
     './locale/fi/*.json',
     './locale/fr/*.json',
     './locale/he/*.json',
+    './locale/hr/*.json',
     './locale/hu/*.json',
     './locale/id/*.json',
     './locale/is/*.json',

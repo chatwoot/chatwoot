@@ -77,6 +77,28 @@ RSpec.describe Cloudflare::CheckCustomHostnameService do
         end
       end
 
+      context 'when Cloudflare lists a hostname it has deleted' do
+        let(:url) { 'https://api.cloudflare.com/client/v4/zones/test-zone-id/custom_hostnames?hostname=test.example.com' }
+        let(:deleted_hostname) { { 'id' => 'old-id', 'status' => 'deleted', 'ssl' => { 'status' => 'validation_timed_out' } } }
+
+        it 'treats the hostname as missing when only deleted records are listed' do
+          stub_request(:get, url).to_return(status: 200, body: { 'result' => [deleted_hostname] }.to_json,
+                                            headers: { 'Content-Type' => 'application/json' })
+
+          expect(described_class.new(portal: portal).perform).to eq(errors: ['Hostname is missing in Cloudflare'])
+        end
+
+        it 'stores the status of the live record' do
+          live_hostname = { 'id' => 'new-id', 'status' => 'active', 'ssl' => { 'status' => 'active' } }
+          stub_request(:get, url).to_return(status: 200, body: { 'result' => [deleted_hostname, live_hostname] }.to_json,
+                                            headers: { 'Content-Type' => 'application/json' })
+
+          described_class.new(portal: portal).perform
+
+          expect(portal.reload.ssl_settings['cf_status']).to eq('active')
+        end
+      end
+
       context 'when API request succeeds and data is returned' do
         it 'updates portal SSL settings and returns success' do
           service = described_class.new(portal: portal)

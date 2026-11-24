@@ -256,6 +256,7 @@
     "SUPER_ADMIN_CONSOLE": "超级管理员控制台",
     "DOCS": "阅读文档",
     "CHANGELOG": "更新日志",
+    "CHANGELOG_DISMISS_ALL": "Dismiss all",
     "LOGOUT": "注销"
   },
   "APP_GLOBAL": {
@@ -333,12 +334,13 @@
     "COMPANIES": "公司",
     "ALL_COMPANIES": "所有公司",
     "CAPTAIN": "Captain",
-    "CALLS": "Calls",
+    "CALLS": "通话",
     "CAPTAIN_ASSISTANTS": "助手",
     "CAPTAIN_OVERVIEW": "概览",
     "CAPTAIN_DOCUMENTS": "文档",
     "CAPTAIN_RESPONSES": "常见问题",
     "CAPTAIN_TOOLS": "工具",
+    "CAPTAIN_TOOLS_AND_MCP": "Tools & MCP",
     "CAPTAIN_SCENARIOS": "场景",
     "CAPTAIN_PLAYGROUND": "试验场",
     "CAPTAIN_INBOXES": "收件箱",
@@ -399,6 +401,15 @@
       "SETTINGS": "设置"
     },
     "CHANNELS": "频道",
+    "ACCEPT_CONVERSATIONS": {
+      "TEXT": "Receive conversations",
+      "INFO_SHORT": "Get new conversations assigned to you automatically."
+    },
+    "ACCEPT_CALLS": {
+      "TEXT": "Receive voice calls",
+      "INFO_SHORT": "Receive incoming calls on web and mobile."
+    },
+    "WORK_PAUSED": "You won't get new conversations or calls until you're back Online.",
     "SET_AUTO_OFFLINE": {
       "TEXT": "自动标记离线状态",
       "INFO_TEXT": "当您不使用应用程序或仪表板时，让系统自动标记您离线。",
@@ -426,16 +437,17 @@
   },
   "DATA_IMPORTS": {
     "HEADER": "数据",
-    "DESCRIPTION": "将其他客服支持工具中的现有联系人和历史对话导入此账户。每次导入都会在后台运行，您可以在导入期间继续工作、跟踪进度，并查看过程中被跳过的内容。",
-    "LOADING": "正在获取导入任务",
+    "DESCRIPTION": "Bring in your customer data and manage contact exports.",
+    "LOADING": "Fetching imports and exports",
     "DEFAULT_IMPORT_NAME": "Intercom 导入",
     "DEFAULT_IMPORT_NAMES": {
-      "INTERCOM": "Intercom 导入",
-      "FRESHDESK": "Freshdesk 导入"
+      "CSV": "Contacts Import - {date}",
+      "INTERCOM": "Intercom Import - {date}",
+      "FRESHDESK": "Freshdesk Import - {date}"
     },
     "TABS": {
-      "IMPORT": "导入",
-      "EXPORT": "导出"
+      "IMPORT": "Imports",
+      "EXPORT": "Exports"
     },
     "TYPES": {
       "CONTACTS": "联系人",
@@ -459,20 +471,43 @@
       "VALIDATING": "正在验证访问密钥...",
       "VALID_KEY": "访问密钥验证成功。",
       "INVALID_KEY": "无法验证此访问密钥。",
-      "ACTIVE_IMPORT": "请等待当前导入完成后再开始新的导入。",
+      "ACTIVE_IMPORT": "There is already an active import in this account. Wait for it to finish before starting another one.",
       "CANCEL": "取消",
       "IMPORT": "导入"
     },
-    "EXPORT": {
-      "TITLE": "导出功能即将推出",
-      "DESCRIPTION": "将此账户中的联系人和对话导出。此功能即将推出。",
-      "COMING_SOON": "即将推出"
+    "CSV": {
+      "ROW_ERRORS": "Row errors",
+      "SOURCE": "CSV file",
+      "FILE": "Contact CSV file",
+      "HELP": "Use the sample column names and existing labels. Up to 250,000 rows and 1 MiB per field.",
+      "SILENT_UPDATES": "Matching contacts are updated. Imports do not trigger contact automations or webhooks.",
+      "INVALID_FILE": "Choose a nonempty CSV file of 50 MiB or smaller.",
+      "SAMPLE": "Download sample CSV",
+      "UPLOADING": "Uploading {percent}%. Processing starts after the upload finishes.",
+      "OUTCOMES": "{created} created · {updated} updated · {failed} failed",
+      "PROCESSED": "of {total} processed",
+      "REJECTED_HELP": "Download the rejected rows, make corrections, and upload them as a new import. Files are available for 30 days.",
+      "DOWNLOAD_REJECTED": "Download rejected rows",
+      "EXPIRED": "The source and rejected-row files have expired. Upload a new file to import these contacts again.",
+      "FILE_REMOVED": "This file was removed after 30 days.",
+      "CHOOSE_FILE": "Click to upload or drag and drop",
+      "FILE_LIMIT": "CSV only · up to 50 MiB",
+      "REMOVE_FILE": "Remove file",
+      "PREVIEW_TITLE": "File preview",
+      "PREVIEW_DESCRIPTION": "Showing up to {count} rows. The file is uploaded when you start the import.",
+      "PREVIEW_LOADING": "Reading preview...",
+      "PREVIEW_ERROR": "We couldn't preview this CSV. You can still start the import to check the file.",
+      "PREVIEW_EMPTY": "No data rows found in this file.",
+      "REJECTED_TITLE": "Some rows need attention",
+      "CREATED": "创建时间",
+      "UPDATED": "已更新",
+      "FAILED": "失败"
     },
     "TABLE": {
       "TITLE": "最近的导入",
       "EMPTY": "暂无导入任务",
-      "EMPTY_DESCRIPTION": "开始导入，将现有客户历史记录迁移到此账户。",
-      "NEW_IMPORT": "导入",
+      "EMPTY_DESCRIPTION": "Import contacts from a CSV file or bring over customer history from another support tool.",
+      "NEW_IMPORT": "新建导入",
       "COUNT": "{count} 个导入任务",
       "UNNAMED": "未命名的导入",
       "IMPORTED_COUNT": "已导入 {count} 条",
@@ -483,10 +518,11 @@
       "IMPORTED": "已导入",
       "CREATED": "创建时间",
       "RETRY": "重试",
+      "RESUME": "Resume",
       "ABANDON": "终止"
     },
     "DETAIL": {
-      "BACK": "返回导入列表",
+      "BACK": "Back to imports and exports",
       "ERRORS": "错误",
       "SKIP_LOGS": "跳过记录",
       "SOURCE": "来源",
@@ -518,6 +554,7 @@
       "STAGES": {
         "unknown": "等待更新",
         "queued": "已排队",
+        "preparing": "Validating and preparing CSV",
         "contacts": "正在导入联系人",
         "conversations": "正在导入对话",
         "finalizing": "正在完成导入",
@@ -528,11 +565,56 @@
       }
     },
     "ALERTS": {
+      "LOAD_FAILED": "Could not refresh imports and exports. Please try again.",
       "IMPORT_STARTED": "导入已开始。",
       "IMPORT_RETRIED": "导入已加入恢复队列。",
       "IMPORT_RETRY_FAILED": "无法重试导入。",
       "IMPORT_ABANDONED": "导入已终止。",
       "IMPORT_FAILED": "无法开始导入。"
+    },
+    "STATUS": {
+      "PENDING": "已排队",
+      "PROCESSING": "In progress",
+      "COMPLETED": "已完成",
+      "COMPLETED_WITH_ERRORS": "已完成，但存在错误",
+      "FAILED": "失败",
+      "ABANDONED": "已终止"
+    }
+  },
+  "DATA_EXPORTS": {
+    "INITIATOR": "Started by {name} on {date}",
+    "TITLE": "Contact export",
+    "NEW": "导出联系人",
+    "START": "Start export",
+    "EMPTY": "No exports yet",
+    "ALL_CONTACTS": "All contacts",
+    "FILTERED_CONTACTS": "Contacts matching the current filters",
+    "SCOPE": "Contacts to export: {scope}",
+    "DESCRIPTION": "Export the selected contacts to CSV. Data is captured when the export runs.",
+    "PROCESSED": "{count} contacts exported",
+    "ESTIMATE": "Estimated total: {count}. This can change while contacts are updated.",
+    "DOWNLOAD": "下载 CSV",
+    "RERUN": "Run again",
+    "STALLED": "This export has stopped reporting progress. Run it again to create a new export.",
+    "EXPIRED": "This download has expired. Run the export again to create a new file.",
+    "RETENTION": "Export files are available for 30 days after completion.",
+    "ERROR": "Could not load or start this export. Please try again.",
+    "LOAD_ERROR": "Could not load this export. Please try again.",
+    "RETRY": "重试",
+    "LOAD_OLDER": "Load older exports",
+    "LOAD_OLDER_ERROR": "Could not load older exports. Try again.",
+    "DOWNLOAD_ERROR": "This file is no longer available. Refresh the page to see its current status.",
+    "DRAFT_UNAVAILABLE": "The export selection is unavailable or expired. Return to Contacts and choose Export again. No export has been started.",
+    "EMPTY_DESCRIPTION": "Export your contacts to a CSV file. Your export history and downloads will appear here.",
+    "NOTIFICATION": "We’ll email you when your CSV is ready. You can also track progress and download it here.",
+    "FILE_FORMAT": "CSV file (.csv)",
+    "SELECTION": "联系人",
+    "PROGRESS": "Export progress",
+    "FILE_READY": "Your export is ready",
+    "IN_PROGRESS": "Preparing your CSV. You can leave this page while the export runs.",
+    "TABLE": {
+      "EXPORTED": "Exported",
+      "COUNT": "Showing {count} export | Showing {count} exports"
     }
   },
   "CAPTAIN_SETTINGS": {
@@ -653,7 +735,7 @@
         "ACTIVE": "状态",
         "TRIALING": "Trial",
         "CANCELLED": "Cancellation scheduled",
-        "EXPIRED": "Expired",
+        "EXPIRED": "已过期",
         "MISSING": "No active plan"
       }
     },
@@ -695,6 +777,15 @@
         "LABEL": "ACS URL",
         "TOOLTIP": "断言消费者服务 URL - 在您的 IdP 中将此 URL 配置为 SAML 响应的目标地址"
       },
+      "SOURCE": {
+        "METADATA_URL": "Metadata URL",
+        "MANUAL": "Manual"
+      },
+      "METADATA_URL": {
+        "LABEL": "Metadata URL",
+        "HELP": "The SSO URL, Entity ID and signing certificate are read from this URL. They update automatically when your certificate is about to expire. If your identity provider changes them earlier, click Refresh metadata.",
+        "PLACEHOLDER": "https://sso.example.com/saml/metadata"
+      },
       "SSO_URL": {
         "LABEL": "SSO URL",
         "HELP": "发送 SAML 身份验证请求的 URL",
@@ -721,14 +812,18 @@
         "PLACEHOLDER": "https://your-idp.com/saml"
       },
       "UPDATE_BUTTON": "更新 SAML 设置",
+      "REFRESH_BUTTON": "Refresh metadata",
       "API": {
         "SUCCESS": "SAML 设置更新成功",
+        "REFRESH_SUCCESS": "Metadata refreshed from your identity provider",
+        "REFRESH_ERROR": "Failed to refresh metadata",
         "ERROR": "更新 SAML 设置失败",
         "ERROR_LOADING": "加载 SAML 设置失败",
         "DISABLED": "SAML 设置已成功禁用"
       },
       "VALIDATION": {
         "REQUIRED_FIELDS": "SSO URL、身份提供商实体 ID 和证书为必填项",
+        "METADATA_URL_ERROR": "Please enter a valid metadata URL",
         "SSO_URL_ERROR": "请输入有效的 SSO URL",
         "CERTIFICATE_ERROR": "证书是必填项",
         "IDP_ENTITY_ID_ERROR": "身份提供商实体 ID 是必填项"

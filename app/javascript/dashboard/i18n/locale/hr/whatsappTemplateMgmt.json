@@ -1,53 +1,53 @@
 {
   "WHATSAPP_TEMPLATE_MGMT": {
-    "TITLE": "Templates",
-    "DESCRIPTION": "View the message templates synced from your WhatsApp inboxes. To create or edit a template, manage it with your provider.",
-    "COUNT": "{n} template | {n} templates",
-    "LEARN_MORE": "Learn more about WhatsApp templates",
-    "SYNC_TEMPLATES": "Sync templates",
-    "SYNC_SUCCESS": "Template sync started for all WhatsApp inboxes. Updates may take a couple of minutes.",
-    "PARTIAL_SYNC_ERROR": "Template sync started for some WhatsApp inboxes, but others could not be synced.",
-    "SYNC_ERROR": "Unable to start template sync. Please try again.",
-    "SEARCH_PLACEHOLDER": "Search by content or name...",
-    "MANAGE_IN_META": "Manage in Meta",
-    "MANAGE_IN_TWILIO": "Manage in Twilio",
-    "LOADING": "Loading WhatsApp templates...",
-    "EMPTY": "No WhatsApp templates found.",
-    "NO_RESULTS": "No templates match your filters.",
-    "FETCH_ERROR": "Unable to load WhatsApp templates. Please try again.",
-    "PARTIAL_FETCH_ERROR": "Some WhatsApp templates could not be loaded. Please try again.",
-    "LAST_SYNC_ATTEMPT": "Last sync attempt on {date}",
+    "TITLE": "Predlošci",
+    "DESCRIPTION": "Pregledajte predloške poruka sinkronizirane iz svojih WhatsApp pretinaca. Za izradu ili uređivanje predloška upotrijebite sučelje svojeg pružatelja usluge.",
+    "COUNT": "{n} predložak | {n} predložaka",
+    "LEARN_MORE": "Saznajte više o WhatsApp predlošcima",
+    "SYNC_TEMPLATES": "Sinkroniziraj predloške",
+    "SYNC_SUCCESS": "Pokrenuta je sinkronizacija predložaka za sve WhatsApp pretince. Ažuriranje može potrajati nekoliko minuta.",
+    "PARTIAL_SYNC_ERROR": "Pokrenuta je sinkronizacija predložaka za neke WhatsApp pretince, ali za ostale nije uspjela.",
+    "SYNC_ERROR": "Pokretanje sinkronizacije predložaka nije uspjelo. Pokušajte ponovno.",
+    "SEARCH_PLACEHOLDER": "Pretraži prema sadržaju ili nazivu…",
+    "MANAGE_IN_META": "Upravljaj u Meti",
+    "MANAGE_IN_TWILIO": "Upravljaj u Twiliju",
+    "LOADING": "Učitavanje WhatsApp predložaka…",
+    "EMPTY": "Nisu pronađeni WhatsApp predlošci.",
+    "NO_RESULTS": "Nijedan predložak ne odgovara vašim filtrima.",
+    "FETCH_ERROR": "Učitavanje WhatsApp predložaka nije uspjelo. Pokušajte ponovno.",
+    "PARTIAL_FETCH_ERROR": "Učitavanje nekih WhatsApp predložaka nije uspjelo. Pokušajte ponovno.",
+    "LAST_SYNC_ATTEMPT": "Posljednji pokušaj sinkronizacije: {date}",
     "MORE_INBOXES": "+{n}",
     "STATUSES": {
-      "UNSUBMITTED": "Not submitted for WhatsApp approval"
+      "UNSUBMITTED": "Nije poslano WhatsAppu na odobrenje"
     },
     "FILTERS": {
-      "ALL_INBOXES": "All inboxes",
-      "ALL_LANGUAGES": "All languages",
-      "ALL_TYPES": "All types"
+      "ALL_INBOXES": "Svi pretinci",
+      "ALL_LANGUAGES": "Svi jezici",
+      "ALL_TYPES": "Sve vrste"
     },
     "TYPES": {
       "TEXT": "Tekst",
-      "IMAGE": "Image",
+      "IMAGE": "Slika",
       "VIDEO": "Video",
-      "DOCUMENT": "Document",
-      "MEDIA": "Media",
-      "QUICK_REPLY": "Quick reply",
-      "CALL_TO_ACTION": "Call to action",
-      "CATALOG": "Catalog",
-      "COPY_CODE": "Copy code"
+      "DOCUMENT": "Dokument",
+      "MEDIA": "Mediji",
+      "QUICK_REPLY": "Brzi odgovor",
+      "CALL_TO_ACTION": "Poziv na radnju",
+      "CATALOG": "Katalog",
+      "COPY_CODE": "Kopiraj kod"
     },
     "PREVIEW": {
-      "TITLE": "Template preview",
-      "DESCRIPTION": "Preview how this template appears in WhatsApp.",
-      "OPEN": "Preview {name}",
-      "CLOSE": "Close preview",
-      "DETAILS": "Template details",
+      "TITLE": "Pretpregled predloška",
+      "DESCRIPTION": "Pogledajte kako se ovaj predložak prikazuje u WhatsAppu.",
+      "OPEN": "Pretpregled predloška {name}",
+      "CLOSE": "Zatvori pretpregled",
+      "DETAILS": "Pojedinosti predloška",
       "STATUS": "Status",
-      "TYPE": "Content type",
+      "TYPE": "Vrsta sadržaja",
       "CATEGORY": "Kategorija",
       "LANGUAGE": "Jezik",
-      "INBOXES": "Inboxes"
+      "INBOXES": "Pretinci"
     }
   }
 }

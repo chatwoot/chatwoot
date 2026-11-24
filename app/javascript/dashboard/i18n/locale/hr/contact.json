@@ -3,7 +3,7 @@
     "NOT_AVAILABLE": "Not Available",
     "EMAIL_ADDRESS": "Adresa e-pošte",
     "PHONE_NUMBER": "Phone number",
-    "WHATSAPP_USERNAME": "WhatsApp username",
+    "WHATSAPP_USERNAME": "Korisničko ime za WhatsApp",
     "IDENTIFIER": "Identifier",
     "COPY_SUCCESSFUL": "Copied to clipboard successfully",
     "COMPANY": "Company",
@@ -21,8 +21,8 @@
     "CALL": "Call",
     "CALL_INITIATED": "Calling the contact…",
     "CALL_FAILED": "Unable to start the call. Please try again.",
-    "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
-    "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
+    "WHATSAPP_CALL_PERMISSION_REQUESTED": "Kontaktu je poslan zahtjev za dopuštenje poziva. Pokušajte ponovno kada ga prihvati.",
+    "WHATSAPP_CALL_PERMISSION_PENDING": "Kontaktu je poslan zahtjev za dopuštenje poziva. Pokušajte ponovno kada ga prihvati.",
     "CLICK_TO_EDIT": "Click to edit",
     "VOICE_INBOX_PICKER": {
       "TITLE": "Choose a voice inbox"
@@ -30,7 +30,7 @@
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "There are no previous conversations associated to this contact.",
       "TITLE": "Previous Conversations",
-      "VIEW_ALL": "View all conversations"
+      "VIEW_ALL": "Prikaži sve razgovore"
     },
     "LABELS": {
       "CONTACT": {
@@ -320,25 +320,6 @@
         "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
         "UNBLOCK_SUCCESS_MESSAGE": "This contact is unblocked successfully",
         "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
-        "IMPORT_CONTACT": {
-          "TITLE": "Import contacts",
-          "DESCRIPTION": "Import contacts through a CSV file.",
-          "DOWNLOAD_LABEL": "Download a sample csv.",
-          "LABEL": "CSV File:",
-          "CHOOSE_FILE": "Choose file",
-          "CHANGE": "Change",
-          "CANCEL": "Odustani",
-          "IMPORT": "Import",
-          "SUCCESS_MESSAGE": "You will be notified via email when the import is complete.",
-          "ERROR_MESSAGE": "Došlo je do pogreške, molimo pokušajte ponovo"
-        },
-        "EXPORT_CONTACT": {
-          "TITLE": "Export contacts",
-          "DESCRIPTION": "Quickly export a csv file with comprehensive details of your contacts",
-          "CONFIRM": "Export",
-          "SUCCESS_MESSAGE": "Export is in progress, You will be notified via email when export file is ready to dowanlod.",
-          "ERROR_MESSAGE": "Došlo je do pogreške, molimo pokušajte ponovo"
-        },
         "SORT_BY": {
           "LABEL": "Poredaj po",
           "OPTIONS": {
@@ -390,7 +371,7 @@
       "IDENTIFIER": "Identifier",
       "COUNTRY": "Country",
       "CITY": "City",
-      "COMPANY": "Company",
+      "COMPANY": "Tvrtka",
       "CREATED_AT": "Kreirano",
       "LAST_ACTIVITY": "Zadnja aktivnost",
       "REFERER_LINK": "Povezica preporuke",
@@ -405,6 +386,8 @@
       },
       "TITLE": "Filter contacts",
       "EDIT_SEGMENT": "Edit segment",
+      "INVALID_SEGMENT": "Ovaj segment sadrži nevaljan filtar. Uredite segment kako biste ga ispravili.",
+      "LOAD_ERROR": "Učitavanje filtriranih kontakata nije uspjelo. Pokušajte ponovno.",
       "SEGMENT": {
         "LABEL": "Segment name",
         "INPUT_PLACEHOLDER": "Enter the name of the segment"
@@ -464,7 +447,7 @@
             "PLACEHOLDER": "Add Instagram"
           },
           "WHATSAPP": {
-            "PLACEHOLDER": "Add WhatsApp"
+            "PLACEHOLDER": "Dodaj WhatsApp"
           },
           "TELEGRAM": {
             "PLACEHOLDER": "Add Telegram"
@@ -515,7 +498,7 @@
         "ATTRIBUTES": "Attributes",
         "HISTORY": "History",
         "NOTES": "Notes",
-        "MEDIA": "Media",
+        "MEDIA": "Mediji",
         "MERGE": "Merge"
       },
       "HISTORY": {
@@ -591,11 +574,11 @@
   },
   "CONTACTS_BULK_ACTIONS": {
     "ASSIGN_LABELS": "Assign Labels",
-    "REMOVE_LABELS": "Remove Labels",
+    "REMOVE_LABELS": "Ukloni oznake",
     "ASSIGN_LABELS_SUCCESS": "Labels assigned successfully.",
     "ASSIGN_LABELS_FAILED": "Failed to assign labels",
-    "REMOVE_LABELS_SUCCESS": "Labels removed successfully.",
-    "REMOVE_LABELS_FAILED": "Failed to remove labels",
+    "REMOVE_LABELS_SUCCESS": "Oznake su uspješno uklonjene.",
+    "REMOVE_LABELS_FAILED": "Uklanjanje oznaka nije uspjelo",
     "DESCRIPTION": "Select the labels you want to add to the selected contacts.",
     "NO_LABELS_FOUND": "No labels available yet.",
     "SELECTED_COUNT": "{count} selected",
@@ -618,7 +601,7 @@
       "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."
     },
     "CONTACT_CREATE": {
-      "ERROR_MESSAGE": "We couldn’t create the contact. Please try again."
+      "ERROR_MESSAGE": "Stvaranje kontakta nije uspjelo. Pokušajte ponovno."
     },
     "FORM": {
       "GO_TO_CONVERSATION": "Pregled",
