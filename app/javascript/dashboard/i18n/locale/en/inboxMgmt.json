@@ -909,6 +909,8 @@
       "CALLING_CUSTOMERS": {
         "TITLE": "Calling customers",
         "DESCRIPTION": "WhatsApp needs the customer's permission before you call them.",
+        "CALLBACK_PERMISSION": "Ask callers for permission to call back",
+        "CALLBACK_PERMISSION_HELP": "After a customer calls, WhatsApp asks if you can call them back. If they allow it, agents can call them without sending a permission request.",
         "PERMISSION_MESSAGE": "Permission request message",
         "PERMISSION_PLACEHOLDER": "Can we call you on WhatsApp about your request?",
         "PERMISSION_HELP": "Sent when an agent calls a customer who hasn't allowed calls yet. Leave empty to use the default."

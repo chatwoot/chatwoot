@@ -12,8 +12,9 @@ import {
 } from 'dashboard/components-next/message/constants';
 import { useWhatsappCallSession } from 'dashboard/composables/useWhatsappCallSession';
 import { useCallsStore } from 'dashboard/stores/calls';
-import { useMapGetter } from 'dashboard/composables/store';
+import { useMapGetter, useFunctionGetter } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { dateFormat } from 'shared/helpers/timeHelper';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useAlert } from 'dashboard/composables';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
@@ -62,9 +63,36 @@ const isCallButtonLoading = computed(() =>
     : !!contactsUiFlags.value?.isInitiatingCall
 );
 
+const contact = useFunctionGetter(
+  'contacts/getContact',
+  computed(() => props.chat?.meta?.sender?.id)
+);
+
+// Saved from the customer's WhatsApp answer; with it, the call connects without a permission request
+const callbackPermission = computed(() => {
+  const attributes =
+    contact.value?.additional_attributes ||
+    props.chat?.meta?.sender?.additional_attributes;
+  return attributes?.whatsapp_call_permissions?.[props.inbox?.id];
+});
+
+const whatsappCallTooltip = computed(() => {
+  const permission = callbackPermission.value;
+  if (permission?.permanent) {
+    return t('CONVERSATION.HEADER.WHATSAPP_CALL_CAN_CALL_BACK');
+  }
+  const expiresAt = Date.parse(permission?.expires_at);
+  if (expiresAt > Date.now()) {
+    return t('CONVERSATION.HEADER.WHATSAPP_CALL_CAN_CALL_BACK_UNTIL', {
+      date: dateFormat(expiresAt / 1000, 'd MMM'),
+    });
+  }
+  return t('CONVERSATION.HEADER.WHATSAPP_CALL');
+});
+
 const callButtonTooltip = computed(() =>
   isWhatsappVoiceInbox.value
-    ? t('CONVERSATION.HEADER.WHATSAPP_CALL')
+    ? whatsappCallTooltip.value
     : t('CONVERSATION.HEADER.VOICE_CALL')
 );
 
