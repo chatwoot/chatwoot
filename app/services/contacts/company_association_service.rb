@@ -14,7 +14,7 @@ class Contacts::CompanyAssociationService
     companies = account.companies
 
     if domain.present?
-      companies.find_or_create_by!(domain: domain) do |company|
+      companies.find_or_create_by!(domain: domain.downcase) do |company|
         company.name = name || company_name_from_domain(company.domain)
       end
     elsif name

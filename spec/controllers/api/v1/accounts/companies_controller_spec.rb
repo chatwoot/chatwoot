@@ -317,6 +317,23 @@ RSpec.describe 'Companies API', type: :request do
         expect(response_body['payload']['domain']).to eq('updated.com')
       end
 
+      it 'updates a legacy company without changing its existing mixed-case domain' do
+        create(:company, account: account, domain: 'acme.example')
+        Company.lease_connection.insert_fixture(
+          { account_id: account.id, name: 'Legacy Acme', domain: 'Acme.EXAMPLE', created_at: Time.current, updated_at: Time.current },
+          'companies'
+        )
+        legacy_company = account.companies.find_by!(name: 'Legacy Acme')
+
+        patch "/api/v1/accounts/#{account.id}/companies/#{legacy_company.id}",
+              params: { company: { name: 'Updated Acme', domain: 'Acme.EXAMPLE' } },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(legacy_company.reload).to have_attributes(name: 'Updated Acme', domain: 'Acme.EXAMPLE')
+      end
+
       it 'merges custom attributes without removing existing attributes' do
         company.update!(custom_attributes: { 'plan' => 'startup', 'region' => 'us' })
 
