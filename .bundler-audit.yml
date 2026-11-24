@@ -22,3 +22,14 @@ ignore:
   # reassess if the supported Ruby runtime changes.
   - CVE-2026-67987
   - CVE-2026-67989
+  # Puma 7.2.2 memory exhaustion with SSL connections. Puma here binds a plain port
+  # (config/puma.rb), and TLS ends at the proxy in front of it, so no SSL connection
+  # reaches Puma. Remove when the upstream sync brings Puma >= 7.2.3.
+  - GHSA-4v6q-hvv7-49h9
+  # rack-protection 4.2.1 (CookieTossing, HostAuthorization, and JsonCsrf/RemoteToken/
+  # RemoteReferrer with a missing Referer). It comes in through omniauth, which uses only
+  # Rack::Protection::AuthenticityToken; none of the affected middlewares is mounted.
+  # Remove when the upstream sync brings rack-protection >= 4.2.2.
+  - GHSA-pf75-2v58-7mxg
+  - GHSA-r29j-38x9-qr26
+  - GHSA-vvhm-j6m8-64cw
