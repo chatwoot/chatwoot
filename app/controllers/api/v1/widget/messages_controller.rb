@@ -1,4 +1,5 @@
 class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
+  before_action :ensure_contact_not_blocked, only: [:create], if: -> { conversation.blank? }
   before_action :prevent_reply_to_resolved_conversation, only: [:create]
   before_action :set_conversation, only: [:create]
   before_action :set_message, only: [:update]

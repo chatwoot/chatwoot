@@ -183,6 +183,7 @@ en:
       csv:
         blank_format_marker: 'Record %{row_number} has a blank %{column} value. Keep %{version} in this column for every row. Import new contacts in a separate CSV without this column.'
     contacts:
+      blocked: 'Contact is blocked'
       import:
         failed: File is blank
       export:
