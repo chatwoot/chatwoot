@@ -61,11 +61,11 @@ RSpec.describe Captain::Tools::Copilot::SearchChatwootDocsService do
       stub_portal('pt_BR')
       stub_search('pt_BR', [search_result('10-pt-a', 'PT A'), search_result('11-pt-b', 'PT B')])
       stub_search('en', [search_result('20-en-a', 'EN A'), search_result('21-en-b', 'EN B')])
-      %w[10-pt-a 20-en-a 11-pt-b].each { |slug| stub_article(slug, "Body of #{slug}") }
+      %w[10-pt-a 20-en-a 11-pt-b 21-en-b].each { |slug| stub_article(slug, "Body of #{slug}") }
 
       titles = service.execute(query: query).scan(/^Title: (.+)$/).flatten
 
-      expect(titles).to eq(['PT A', 'EN A', 'PT B'])
+      expect(titles).to eq(['PT A', 'EN A', 'PT B', 'EN B'])
     end
 
     it 'keeps the default locale results when the account locale has no articles' do
@@ -85,35 +85,37 @@ RSpec.describe Captain::Tools::Copilot::SearchChatwootDocsService do
       expect(service.execute(query: query)).to eq('The Chatwoot docs returned no articles.')
     end
 
-    it 'does not fetch a link outside the configured portal' do
+    it 'drops links outside the configured portal before taking the closest articles' do
+      portal_articles = (1..described_class::MAX_ARTICLES).map { |index| search_result("#{index}-guide", "Guide #{index}") }
       stub_portal('en')
       stub_search('en', [{ title: 'Elsewhere', content: 'Snippet', link: 'https://attacker.example.com/articles/x' },
-                         { title: 'Other portal', content: 'Other snippet', link: '/hc/other/articles/y' }])
+                         { title: 'Other portal', content: 'Other snippet', link: '/hc/other/articles/y' }, *portal_articles])
+      portal_articles.each { |article| stub_article(article[:link].split('/').last, 'Body') }
 
-      result = service.execute(query: query)
+      titles = service.execute(query: query).scan(/^Title: (.+)$/).flatten
 
-      expect(result).to include("Title: Elsewhere\nSummary: Snippet").and include("Title: Other portal\nSummary: Other snippet")
+      expect(titles).to eq(portal_articles.pluck(:title))
       expect(a_request(:get, /attacker|other/)).not_to have_been_made
     end
 
-    it 'logs and returns a clean message when the docs cannot be reached' do
+    it 'logs and returns an error the step shows as failed when the docs cannot be reached' do
       stub_portal('en')
       stub_request(:get, "#{base_url}/en/articles.json").with(query: hash_including({})).to_timeout
       allow(Rails.logger).to receive(:error)
 
-      expect(service.execute(query: query)).to eq(described_class::UNREACHABLE_MESSAGE)
+      expect(service.execute(query: query)).to eq({ error: described_class::UNREACHABLE_MESSAGE })
       expect(Rails.logger).to have_received(:error).with(/search_chatwoot_docs failed/)
     end
 
-    it 'returns the same message when the docs answer with an error or a page that is not JSON' do
+    it 'returns the same error when the docs answer with an error or a page that is not JSON' do
       stub_portal('en')
       stub_request(:get, "#{base_url}/en/articles.json").with(query: hash_including({})).to_return(status: 302)
 
-      expect(service.execute(query: query)).to eq(described_class::UNREACHABLE_MESSAGE)
+      expect(service.execute(query: query)).to eq({ error: described_class::UNREACHABLE_MESSAGE })
 
       stub_request(:get, "#{base_url}/en/articles.json").with(query: hash_including({})).to_return(body: '<html></html>')
 
-      expect(service.execute(query: query)).to eq(described_class::UNREACHABLE_MESSAGE)
+      expect(service.execute(query: query)).to eq({ error: described_class::UNREACHABLE_MESSAGE })
     end
   end
 end

@@ -3,10 +3,13 @@
 # when the search returned a link inside the configured portal.
 class Captain::Tools::Copilot::SearchChatwootDocsService < Captain::Tools::BaseTool
   CONFIG_KEY = 'CAPTAIN_CHATWOOT_DOCS_URL'.freeze
-  MAX_ARTICLES = 3
+  # The search ranks by matching words, so the right article is sometimes fourth or fifth.
+  MAX_ARTICLES = 5
   # Long enough for the longest user guide articles, whose plan and comparison tables often sit near the end.
   MAX_ARTICLE_CHARACTERS = 15_000
-  REQUEST_TIMEOUT = 4
+  # One limit for the whole search. Most help center searches answer within a second, but in a week of production logs
+  # about 1 in 100 took 13 to 15 seconds.
+  SEARCH_TIMEOUT = 20
   UNREACHABLE_MESSAGE = 'Could not reach the Chatwoot docs.'.freeze
   HTTP_ERRORS = [HTTParty::Error, SocketError, Timeout::Error, SystemCallError, OpenSSL::SSL::SSLError, URI::InvalidURIError,
                  JSON::ParserError].freeze
@@ -22,13 +25,11 @@ class Captain::Tools::Copilot::SearchChatwootDocsService < Captain::Tools::BaseT
   parameter :query, type: :string, description: 'What the agent wants to know about using Chatwoot', required: true
 
   def execute(query:)
-    articles = search_results(query).first(MAX_ARTICLES)
-    return 'The Chatwoot docs returned no articles.' if articles.empty?
-
-    articles.map { |article| article_text(article) }.join("\n---\n")
+    Timeout.timeout(SEARCH_TIMEOUT) { docs_text(query) }
   rescue RequestError, *HTTP_ERRORS => e
     Rails.logger.error("[Captain::Copilot] search_chatwoot_docs failed for #{base_url}: #{e.class}: #{e.message}")
-    UNREACHABLE_MESSAGE
+    # An error result marks the step as failed in the panel, and the model still reads the message.
+    { error: UNREACHABLE_MESSAGE }
   end
 
   def active?
@@ -36,6 +37,14 @@ class Captain::Tools::Copilot::SearchChatwootDocsService < Captain::Tools::BaseT
   end
 
   private
+
+  # Articles outside the configured portal are dropped before the cut, so they never take the place of one that can be read.
+  def docs_text(query)
+    articles = search_results(query).select { |article| article_slug(article['link']) }.first(MAX_ARTICLES)
+    return 'The Chatwoot docs returned no articles.' if articles.empty?
+
+    articles.map { |article| article_text(article) }.join("\n---\n")
+  end
 
   def base_url
     @base_url ||= GlobalConfig.get_value(CONFIG_KEY).to_s.strip.delete_suffix('/')
@@ -58,10 +67,7 @@ class Captain::Tools::Copilot::SearchChatwootDocsService < Captain::Tools::BaseT
   end
 
   def article_text(article)
-    slug = article_slug(article['link'])
-    return "Title: #{article['title']}\nSummary: #{article['content']}" if slug.nil?
-
-    url = "#{base_url}/articles/#{ERB::Util.url_encode(slug)}"
+    url = "#{base_url}/articles/#{ERB::Util.url_encode(article_slug(article['link']))}"
     body = get("#{url}.md").to_s.truncate(MAX_ARTICLE_CHARACTERS, separator: ' ')
     "Title: #{article['title']}\nURL: #{url}\n\n#{body}"
   end
@@ -80,7 +86,8 @@ class Captain::Tools::Copilot::SearchChatwootDocsService < Captain::Tools::BaseT
   end
 
   def get(url, query: nil)
-    response = HTTParty.get(url, query: query, timeout: REQUEST_TIMEOUT, follow_redirects: false)
+    # Net::HTTP retries a timed out GET once by default, and the help center keeps running the first search.
+    response = HTTParty.get(url, query: query, timeout: SEARCH_TIMEOUT, max_retries: 0, follow_redirects: false)
     raise RequestError, "#{url} returned #{response.code}" unless response.success?
 
     response.body
