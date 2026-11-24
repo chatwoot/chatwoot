@@ -5,6 +5,24 @@ RSpec.describe SearchIndexing::Conversations do
 
   before { allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(true) }
 
+  it 'shares Alfred connections without changing existing Searchkick queue keys' do
+    key = "searchkick:reindex_queue:#{search_index.name}"
+    Redis::Alfred.with do |connection|
+      connection.redis.lpush(key, [1, 2])
+      connection.set(key, 'unrelated Alfred value')
+      Searchkick.with_redis { |redis| expect(redis).to equal(connection.redis) }
+    end
+
+    expect(reindex_queue.reserve).to eq(%w[1 2])
+    reindex_queue.push([3])
+    Redis::Alfred.with do |connection|
+      expect(connection.redis.lrange(key, 0, -1)).to eq(['3'])
+      expect(connection.get(key)).to eq('unrelated Alfred value')
+    end
+  ensure
+    Redis::Alfred.with { |connection| connection.del(key) }
+  end
+
   it 'uses the native Searchkick drain to deduplicate a page and schedule bulk jobs' do
     reindex_queue.push([1, 1, 2])
     expect do

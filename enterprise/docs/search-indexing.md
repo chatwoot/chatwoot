@@ -17,6 +17,12 @@ Searchkick 5.5.2 owns the Redis ID queue and bulk jobs. Committed writes add IDs
 Searchkick queue if overridden). Queue delay and engine refresh add to visibility
 latency; 30 seconds is a scheduling interval, not a guarantee.
 
+Searchkick shares Alfred's existing Redis connection pool and its size/checkout timeout.
+A small adapter yields the checked-out raw client because Searchkick uses raw commands
+and its own `searchkick:` key prefixes. Alfred's other callers retain their `alfred:`
+namespace. No additional pool or queue-key migration is needed; search queue traffic
+shares the pool's connection capacity with existing Alfred operations.
+
 Inspect pending IDs with `Conversation.search_index.reindex_queue.length`, and
 monitor normal Sidekiq queue latency, retries and dead jobs. There are no custom
 Redis leases, Lua scripts, throughput thresholds or external-version counters.
