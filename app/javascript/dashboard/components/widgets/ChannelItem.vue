@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useAccount } from 'dashboard/composables/useAccount';
 import ChannelSelector from '../ChannelSelector.vue';
 
@@ -15,6 +16,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['channelItemClick']);
+const { t } = useI18n();
 const { isOnChatwootCloud } = useAccount();
 
 const hasFbConfigured = computed(() => {
@@ -76,6 +78,17 @@ const isBeta = computed(() => {
   return ['tiktok', 'voice', 'whatsapp_call'].includes(props.channel.key);
 });
 
+const unavailableReason = computed(() => {
+  if (
+    props.channel.key === 'voice' &&
+    Object.keys(props.enabledFeatures).length > 0 &&
+    !isActive.value
+  ) {
+    return t('INBOX_MGMT.ADD.AUTH.CHANNEL.VOICE.NOT_ENABLED');
+  }
+  return null;
+});
+
 const canRequestTiktokAccess = computed(() => {
   return (
     props.channel.key === 'tiktok' &&
@@ -107,12 +120,14 @@ const onItemClick = () => {
 
 <template>
   <ChannelSelector
+    v-tooltip.top="unavailableReason"
     :title="channel.title"
     :description="channel.description"
     :icon="channel.icon"
     :is-beta="isBeta"
     :has-voice-badge="hasVoiceBadge"
-    :disabled="!isActive && !canRequestTiktokAccess"
+    :disabled="!isActive && !canRequestTiktokAccess && !unavailableReason"
+    :aria-disabled="unavailableReason ? true : undefined"
     @click="onItemClick"
   />
 </template>

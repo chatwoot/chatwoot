@@ -93,16 +93,10 @@ const channelList = computed(() => {
     });
   }
 
-  const voiceUnavailable =
-    Object.keys(enabledFeatures.value).length > 0 &&
-    !enabledFeatures.value.channel_voice;
-
   channels.push({
     key: 'voice',
     title: t('INBOX_MGMT.ADD.AUTH.CHANNEL.VOICE.TITLE'),
-    description: voiceUnavailable
-      ? t('INBOX_MGMT.ADD.AUTH.CHANNEL.VOICE.NOT_ENABLED')
-      : t('INBOX_MGMT.ADD.AUTH.CHANNEL.VOICE.DESCRIPTION'),
+    description: t('INBOX_MGMT.ADD.AUTH.CHANNEL.VOICE.DESCRIPTION'),
     icon: 'i-woot-voice',
   });
 
