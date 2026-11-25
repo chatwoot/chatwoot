@@ -23,6 +23,8 @@ class Captain::Assistant::ResponseRewriter
     raise rewrite_run_result.error || 'Captain response rewrite failed' if rewrite_run_result.failed?
 
     rewritten_model_output = rewritten_response_with_original_citations(rewrite_run_result.output, response_parts)
+    # The rewriter sees only the reply text, so keep the handoff decision the model made with the whole conversation.
+    rewritten_model_output['handoff'] = run_result.output.with_indifferent_access[:handoff]
     replace_final_assistant_output(run_result.context[:conversation_history], rewritten_model_output)
     replace_final_assistant_output(run_result.messages, rewritten_model_output)
     run_result.output = rewritten_model_output

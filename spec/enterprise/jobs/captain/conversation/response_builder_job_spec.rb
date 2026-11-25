@@ -514,6 +514,44 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       end
     end
 
+    context 'when the reply sets the handoff field without calling the handoff tool' do
+      before do
+        allow(account).to receive(:feature_enabled?).and_return(false)
+        allow(account).to receive(:feature_enabled?).with('captain_integration').and_return(true)
+        allow(mock_agent_runner_service).to receive(:generate_response).and_return({
+                                                                                     'response' => 'Connecting you with our team now.',
+                                                                                     'reasoning' => 'Customer asked for a person',
+                                                                                     'handoff' => true,
+                                                                                     'handoff_tool_called' => false
+                                                                                   })
+      end
+
+      it 'hands off with the handoff message instead of the reply, without using a response credit' do
+        expect(Captain::ConversationEvents).to receive(:handed_off)
+          .with(conversation: conversation, assistant: assistant, source: 'reply', reason_category: :customer_request, at: kind_of(Time))
+
+        described_class.perform_now(conversation, assistant)
+
+        expect(account.reload.usage_limits[:captain][:responses][:consumed]).to eq(0)
+        expect(conversation.reload.status).to eq('open')
+        public_messages = conversation.messages.outgoing.where(private: false)
+        expect(public_messages.pluck(:content)).to eq([I18n.t('conversations.captain.handoff')])
+      end
+
+      it 'sends the reply when the handoff field is false' do
+        allow(mock_agent_runner_service).to receive(:generate_response).and_return({
+                                                                                     'response' => 'Our store opens at 9.',
+                                                                                     'handoff' => false,
+                                                                                     'handoff_tool_called' => false
+                                                                                   })
+
+        described_class.perform_now(conversation, assistant)
+
+        expect(conversation.reload.status).to eq('pending')
+        expect(conversation.messages.outgoing.where(private: false).pluck(:content)).to eq(['Our store opens at 9.'])
+      end
+    end
+
     context 'when capturing assistant sessions' do
       let(:run_context) do
         {

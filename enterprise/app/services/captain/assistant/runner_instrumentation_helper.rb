@@ -101,8 +101,13 @@ module Captain::Assistant::RunnerInstrumentationHelper
   end
 
   # A run whose reply leaked tool call text is retried or handed off, so it never consumes a credit.
+  # A reply that sets the handoff field is replaced by the handoff message, so it does not either.
   def credit_used?(result)
-    !@handoff_tool_called && !response_discarded? && !leaked_tool_call?(result)
+    !@handoff_tool_called && !reply_handoff?(result) && !response_discarded? && !leaked_tool_call?(result)
+  end
+
+  def reply_handoff?(result)
+    result.output.is_a?(Hash) && result.output.with_indifferent_access[:handoff] == true
   end
 
   def message_burst_protection_active? = @responding_to_message_id.present?

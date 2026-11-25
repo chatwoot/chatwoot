@@ -692,6 +692,15 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         expect(mock_runner).not_to have_received(:run).with(include('help.example.com'), any_args)
       end
 
+      it 'keeps the handoff decision from the original reply' do
+        mock_result.output['handoff'] = true
+        channel_limit_rewrite[:rewrite_run_result].output['handoff'] = false
+
+        result = service.generate_response(message_history: message_history)
+
+        expect(result['handoff']).to be(true)
+      end
+
       it 'rejects a rewrite that changes the response part citation order' do
         channel_limit_rewrite[:rewrite_run_result].output['response_parts'].reverse!
         allow(ChatwootExceptionTracker).to receive(:new).and_return(
@@ -1269,6 +1278,34 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
       expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.credit_used', 'false')
       run_complete_callback.call('assistant', leaked_result, context_wrapper)
+    end
+
+    it 'sets credit_used=false when the reply sets the handoff field' do
+      service = described_class.new(assistant: assistant, conversation: conversation)
+      runner = instance_double(Agents::AgentRunner)
+      run_complete_callback = nil
+      span_class = Class.new do
+        def set_attribute(*); end
+      end
+      root_span = instance_double(span_class)
+      context_wrapper = Struct.new(:context).new({ __otel_tracing: { root_span: root_span } })
+      handoff_result = instance_double(
+        Agents::RunResult,
+        output: { 'response_parts' => [{ 'text' => 'Connecting you with our team now.', 'citation_indexes' => [] }],
+                  'reasoning' => 'Customer asked for a person', 'handoff' => true }
+      )
+
+      allow(ChatwootApp).to receive(:otel_enabled?).and_return(true)
+      allow(runner).to receive(:on_tool_complete).and_return(runner)
+      allow(runner).to receive(:on_run_complete) do |&block|
+        run_complete_callback = block
+        runner
+      end
+
+      service.send(:add_usage_metadata_callback, runner)
+
+      expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.credit_used', 'false')
+      run_complete_callback.call('assistant', handoff_result, context_wrapper)
     end
 
     it 'marks the trace discarded and does not use credit when a newer message arrived' do

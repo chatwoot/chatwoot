@@ -27,4 +27,15 @@ module Captain::Conversation::V2LifecycleEvents
       at: Time.current
     )
   end
+
+  # The handoff field asks for a transfer only after the customer asked for a person or accepted one.
+  def record_v2_reply_handoff
+    Captain::ConversationEvents.handed_off(
+      conversation: @conversation,
+      assistant: @assistant,
+      source: Captain::ConversationEvents::Sources::REPLY,
+      reason_category: :customer_request,
+      at: Time.current
+    )
+  end
 end
