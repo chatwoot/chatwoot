@@ -65,4 +65,38 @@ RSpec.describe 'Enterprise Super Admin Application Config API', type: :request d
     expect(response).to redirect_to(super_admin_app_config_path(config: 'shopify'))
     expect(flash[:alert]).to include('SHOPIFY_APP_HANDLE must contain only lowercase letters, numbers, and hyphens')
   end
+
+  describe 'DPA signing URL' do
+    let(:config_name) { 'CHATWOOT_DPA_SIGNING_URL' }
+    let(:signing_url) { 'https://app.hellosign.com/s/example' }
+
+    it 'saves the HelloSign URL and allows it to be cleared' do
+      post '/super_admin/app_config?config=internal', params: { app_config: { config_name => signing_url } }
+
+      config = InstallationConfig.find_by!(name: config_name)
+      expect(config.value).to eq(signing_url)
+
+      post '/super_admin/app_config?config=internal', params: { app_config: { config_name => '' } }
+
+      expect(response).to redirect_to(super_admin_app_config_path(config: 'internal'))
+      expect(config.reload.value).to eq('')
+    end
+
+    {
+      'a missing scheme' => 'app.hellosign.com/s/example',
+      'a non-HTTPS scheme' => 'http://app.hellosign.com/s/example',
+      'a different host' => 'https://example.com/s/example',
+      'an invalid URL' => 'https://app.hellosign.com/s/invalid example'
+    }.each do |description, invalid_url|
+      it "rejects #{description} and keeps the saved signing URL" do
+        config = InstallationConfig.create!(name: config_name, value: signing_url)
+
+        post '/super_admin/app_config?config=internal', params: { app_config: { config_name => invalid_url } }
+
+        expect(response).to redirect_to(super_admin_app_config_path(config: 'internal'))
+        expect(flash[:alert]).to eq('DPA Signing URL must be an HTTPS link to app.hellosign.com.')
+        expect(config.reload.value).to eq(signing_url)
+      end
+    end
+  end
 end

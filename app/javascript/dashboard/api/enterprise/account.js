@@ -49,8 +49,8 @@ class EnterpriseAccountAPI extends ApiClient {
     return axios.get(`${this.url}topup_options`);
   }
 
-  getLegalCompliance() {
-    return axios.get(`${this.url}legal_compliance`);
+  getLegalCompliance({ signal } = {}) {
+    return axios.get(`${this.url}legal_compliance`, { signal });
   }
 }
 

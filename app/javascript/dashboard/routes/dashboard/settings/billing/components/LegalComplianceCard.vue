@@ -1,6 +1,7 @@
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onActivated, onDeactivated, onMounted, ref } from 'vue';
 import EnterpriseAccountAPI from 'dashboard/api/enterprise/account';
+import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import { useBranding } from 'shared/composables/useBranding';
 import { LEGAL_COMPLIANCE_LINKS } from 'dashboard/constants/billing';
 
@@ -8,14 +9,20 @@ import BillingHeader from './BillingHeader.vue';
 import ButtonV4 from 'next/button/Button.vue';
 
 const { replaceInstallationName } = useBranding();
+const { run, abort } = useAbortableRequest();
 
 // Configured in Super Admin and served only to cloud administrators.
 const dpaSigningUrl = ref('');
+let needsRefresh = false;
 
 const fetchLegalCompliance = async () => {
   try {
-    const { data } = await EnterpriseAccountAPI.getLegalCompliance();
-    dpaSigningUrl.value = data.dpa_signing_url || '';
+    await run(async signal => {
+      const { data } = await EnterpriseAccountAPI.getLegalCompliance({
+        signal,
+      });
+      if (!signal.aborted) dpaSigningUrl.value = data.dpa_signing_url || '';
+    });
   } catch {
     // Keep the DPA row hidden when the link is unavailable.
     dpaSigningUrl.value = '';
@@ -23,6 +30,19 @@ const fetchLegalCompliance = async () => {
 };
 
 onMounted(fetchLegalCompliance);
+
+onDeactivated(() => {
+  needsRefresh = true;
+  abort();
+  dpaSigningUrl.value = '';
+});
+
+onActivated(() => {
+  if (!needsRefresh) return;
+
+  needsRefresh = false;
+  fetchLegalCompliance();
+});
 
 const openExternalLink = url => {
   window.open(url, '_blank', 'noopener,noreferrer');
