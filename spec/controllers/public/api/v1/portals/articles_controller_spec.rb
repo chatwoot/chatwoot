@@ -147,6 +147,28 @@ RSpec.describe 'Public Articles API', type: :request do
       expect(article.reload.views).to eq 0 # View count should not increment on show
     end
 
+    describe 'canonical URL' do
+      %w[classic documentation].each do |layout|
+        it "keeps the translated article URL without trailing slashes or query strings in the #{layout} layout" do
+          portal.update!(config: portal.config.merge('layout' => layout))
+          path = "/hc/#{portal.slug}/articles/#{translated_article.slug}"
+
+          get "#{path}/", params: { query: 'canales', utm_source: 'newsletter' }
+
+          expect(response).to have_http_status(:ok)
+          page = Nokogiri::HTML5(response.body)
+          canonical_urls = page.css('head link[rel="canonical"]').map { |link| link['href'] }
+          expect(canonical_urls).to eq(["https://www.example.com#{path}"])
+          content = page.at_css('main').text.squish
+
+          get canonical_urls.first
+
+          expect(response).to have_http_status(:ok)
+          expect(Nokogiri::HTML5(response.body).at_css('main').text.squish).to eq(content)
+        end
+      end
+    end
+
     describe 'page metadata' do
       let(:article_path) { "/hc/#{portal.slug}/articles/#{translated_article.slug}" }
       let(:page_head) { Nokogiri::HTML5(response.body).at_css('head') }
@@ -211,6 +233,7 @@ RSpec.describe 'Public Articles API', type: :request do
             expect(response).to have_http_status(:ok)
             expect(metadata).to include('og:title' => translated_article.title, 'twitter:title' => translated_article.title)
             expect(metadata.keys).not_to include('description', 'og:description', 'twitter:description')
+            expect(page_head.css('link[rel="canonical"]')).to be_empty
           end
         end
       end
@@ -284,6 +307,7 @@ RSpec.describe 'Public Articles API', type: :request do
       get "/hc/#{portal.slug}/articles/#{article.slug}", params: { preview_token: article.preview_token }
 
       expect(response.body).not_to include('G-TEST123')
+      expect(Nokogiri::HTML5(response.body).css('head link[rel="canonical"]')).to be_empty
     end
 
     it 'treats a published article with an invalid preview token as a normal public page' do
@@ -303,6 +327,7 @@ RSpec.describe 'Public Articles API', type: :request do
 
       get "/hc/#{portal.slug}/articles/#{draft_article.slug}", params: { preview_token: draft_article.preview_token }
       expect(response.headers['X-Robots-Tag']).to eq('noindex')
+      expect(Nokogiri::HTML5(response.body).css('head link[rel="canonical"]')).to be_empty
 
       get "/hc/#{portal.slug}/articles/#{article.slug}"
       expect(response.headers['X-Robots-Tag']).to be_nil
@@ -477,6 +502,7 @@ RSpec.describe 'Public Articles API', type: :request do
 
       expect(response).to have_http_status(:success)
       expect(Nokogiri::HTML5(response.body).at_css('img[alt="article image"]')['src']).to eq(image_path)
+      expect(Nokogiri::HTML5(response.body).css('head link[rel="canonical"]')).to be_empty
     end
 
     it 'serves the rendered signed image through the Help Center origin' do
@@ -607,6 +633,7 @@ RSpec.describe 'Public Articles API', type: :request do
 
       expect(response).to have_http_status(:success)
       expect(response.headers['X-Robots-Tag']).to eq('noindex')
+      expect(Nokogiri::HTML5(response.body).css('head link[rel="canonical"]')).to be_empty
     end
 
     it 'sends a noindex header for every article when the portal is hidden' do
@@ -615,6 +642,7 @@ RSpec.describe 'Public Articles API', type: :request do
       get "/hc/#{portal.slug}/articles/#{article.slug}"
 
       expect(response.headers['X-Robots-Tag']).to eq('noindex')
+      expect(Nokogiri::HTML5(response.body).css('head link[rel="canonical"]')).to be_empty
     end
   end
 end
