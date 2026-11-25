@@ -8,7 +8,7 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   before_action :validate_token_api_access, if: :authenticate_by_access_token?
   before_action :check_account_mfa_enforcement, if: :authenticate_by_access_token?
   before_action :check_authorization
-  before_action :check_cloud_env, only: [:limits, :toggle_deletion, :topup_options]
+  before_action :check_cloud_env, only: [:limits, :toggle_deletion, :topup_options, :legal_compliance]
   before_action :ensure_shopify_billing_available, only: SHOPIFY_BILLING_ACTIONS
   before_action :ensure_stripe_billing_action, only: STRIPE_ONLY_BILLING_ACTIONS
 
@@ -100,6 +100,10 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   def topup_options
     service = Enterprise::Billing::TopupCheckoutService.new(account: @account)
     render json: { id: @account.id, currency: @account.billing_currency, options: service.available_options }
+  end
+
+  def legal_compliance
+    render json: { dpa_signing_url: InstallationConfig.find_by(name: 'CHATWOOT_DPA_SIGNING_URL')&.value.presence }
   end
 
   private

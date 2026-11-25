@@ -661,6 +661,7 @@ Rails.application.routes.draw do
               post :toggle_deletion
               post :topup_checkout
               get :topup_options
+              get :legal_compliance
             end
           end
         end

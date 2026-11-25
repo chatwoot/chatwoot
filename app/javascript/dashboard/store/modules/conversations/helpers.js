@@ -137,7 +137,12 @@ export const applyRoleFilter = (
   return false;
 };
 
+export const isLastMessageSort = key =>
+  key === 'last_message_at_desc' || key === 'last_message_at_asc';
+
 const SORT_OPTIONS = {
+  last_message_at_asc: ['sortOnLastMessageAt', 'asc'],
+  last_message_at_desc: ['sortOnLastMessageAt', 'desc'],
   last_activity_at_asc: ['sortOnLastActivityAt', 'asc'],
   last_activity_at_desc: ['sortOnLastActivityAt', 'desc'],
   created_at_asc: ['sortOnCreatedAt', 'asc'],
@@ -156,6 +161,15 @@ const getSortOrderFunction = sortOrder =>
   sortOrder === 'asc' ? sortAscending : sortDescending;
 
 const sortConfig = {
+  sortOnLastMessageAt: (a, b, sortDirection) => {
+    const first = a.last_message_at;
+    const second = b.last_message_at;
+    if (first == null && second != null) return 1;
+    if (second == null && first != null) return -1;
+    const compare = getSortOrderFunction(sortDirection);
+    return compare(first, second) || compare(a.id, b.id);
+  },
+
   sortOnLastActivityAt: (a, b, sortDirection) =>
     getSortOrderFunction(sortDirection)(a.last_activity_at, b.last_activity_at),
 

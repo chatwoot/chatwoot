@@ -1174,6 +1174,7 @@ RSpec.describe DataImports::Intercom::Importer do
       described_class.new(data_import: next_data_import).perform
 
       expect(conversation.reload.last_activity_at).to eq(Time.zone.at(1_700_000_300))
+      expect(conversation.last_message_at).to eq(Time.zone.at(1_700_000_300))
       expect(conversation.messages.find_by!(source_id: 'intercom:conversation:conversation_1:part:part_3').content).to eq('Follow-up reply')
     end
   end
@@ -1777,6 +1778,7 @@ RSpec.describe DataImports::Intercom::Importer do
 
         expect(data_import.reload).to be_completed
         expect(account.messages.count).to eq(3)
+        expect(account.conversations.sole.last_message_at).to eq(Time.zone.at(1_700_000_100))
         expect(depths).to eq([original_depth] * 3)
         expect(data_import.mappings.where(source_object_type: 'message').count).to eq(3)
       end

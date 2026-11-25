@@ -83,6 +83,15 @@ describe Conversations::FilterService do
         expect(result[:conversations].map(&:id)).to eq expected.sort_on_last_activity_at.ids
       end
 
+      it 'orders filtered conversations by their public message time before pagination' do
+        account.enable_features!(:last_message_sort)
+        create(:message, account: account, conversation: en_conversation_1)
+        create(:message, account: account, conversation: en_conversation_2, private: true)
+        params.merge!(payload: payload, sort_by: 'last_message_at_asc')
+
+        expect(filter_service.new(params, user_1, account).perform[:conversations]).to eq([en_conversation_1, en_conversation_2])
+      end
+
       it 'sorts by the whitelisted sort_by param' do
         params[:payload] = payload
         params[:sort_by] = 'created_at_desc'
