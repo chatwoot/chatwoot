@@ -52,6 +52,21 @@ RSpec.describe '/api/v1/accounts/{account.id}/groups', type: :request do
         expect(response.parsed_body['error']).to eq('Unavailable')
       end
 
+      # A blank participant reaches the session layer as `@s.whatsapp.net`, which Address
+      # refuses. That is client input, not a provider being down, and it used to leave the
+      # endpoint as the only one in the group family answering a 500 to a bad request.
+      it 'returns 422 when a participant is not an address' do
+        allow(create_service).to receive(:perform)
+          .and_raise(Whatsapp::Session::Errors::InvalidPayload, 'unknown whatsapp jid: @s.whatsapp.net')
+
+        post "/api/v1/accounts/#{account.id}/groups",
+             params: { inbox_id: inbox.id, subject: 'Test Group', participants: [''] },
+             headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to include('@s.whatsapp.net')
+      end
+
       it 'returns 403 when agent does not have inbox access' do
         other_inbox = create(:inbox, account: account)
 

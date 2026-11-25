@@ -2,7 +2,9 @@ import {
   hasPermissions,
   getUserPermissions,
   getCurrentAccount,
+  hasFeatureAccess,
 } from './permissionsHelper';
+import { requiresShopifyBilling } from 'v3/helpers/AuthHelper';
 
 import {
   ROLES,
@@ -48,7 +50,14 @@ const validateActiveAccountRoutes = (to, user) => {
 
   const userPermissions = getUserPermissions(user, to.params.accountId);
 
-  const isAccessible = routeIsAccessibleFor(to, userPermissions);
+  const { permissions, featureAccess } = to.meta || {};
+  // A route gated only by a feature (no native permissions) is decided by the feature alone.
+  const hasNativeAccess =
+    (featureAccess && !permissions) ||
+    routeIsAccessibleFor(to, userPermissions);
+  const isAccessible =
+    hasNativeAccess &&
+    hasFeatureAccess(user, to.params.accountId, featureAccess);
   // If the route is not accessible for the user, return to dashboard screen
   return isAccessible ? null : defaultRedirectPage(to, userPermissions);
 };
@@ -61,14 +70,31 @@ export const validateLoggedInRoutes = (to, user) => {
     return `app/login`;
   }
 
+  const userPermissions = getUserPermissions(user, to.params.accountId);
+  if (requiresShopifyBilling(currentAccount)) {
+    if (userPermissions.includes('administrator')) {
+      return to.name === 'billing_settings_index'
+        ? null
+        : `accounts/${to.params.accountId}/settings/billing`;
+    }
+    return to.name === 'account_suspended'
+      ? null
+      : `accounts/${to.params.accountId}/suspended`;
+  }
+
   const isCurrentAccountActive = currentAccount.status === 'active';
 
   if (isCurrentAccountActive) {
     return validateActiveAccountRoutes(to, user);
   }
 
-  // If the current account is not active, then redirect the user to the suspended screen
-  if (to.name !== 'account_suspended') {
+  // If the current account is not active, only the suspended screen is
+  // reachable; administrators can also access billing to restore the account
+  const accessibleRoutes = userPermissions.includes('administrator')
+    ? ['account_suspended', 'billing_settings_index']
+    : ['account_suspended'];
+
+  if (!accessibleRoutes.includes(to.name)) {
     return `accounts/${to.params.accountId}/suspended`;
   }
 
@@ -142,5 +168,11 @@ export const isAInboxViewRoute = (routeName, includeBase = false) => {
   return routeNames.includes(routeName);
 };
 
-export const isNotificationRoute = routeName =>
-  routeName === 'notifications_index';
+export const isUpgradePageBypassRoute = routeName =>
+  [
+    'billing_settings_index',
+    'settings_inbox_list',
+    'general_settings_index',
+    'security_settings_index',
+    'agent_list',
+  ].includes(routeName);

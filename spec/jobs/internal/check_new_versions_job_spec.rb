@@ -3,96 +3,62 @@ require 'rails_helper'
 RSpec.describe Internal::CheckNewVersionsJob do
   subject(:job) { described_class.perform_now }
 
+  # Every class is loaded before `enterprise?` is stubbed: `prepend_mod_with` asks it when a class
+  # autoloads, and one first loaded under the stub (the job reaches Account and InstallationConfig)
+  # would stay without Enterprise for every spec after this one in the same process. Only the first
+  # call loads anything.
   before do
+    Rails.application.eager_load!
     allow(Rails.env).to receive(:production?).and_return(true)
+    allow(ChatwootApp).to receive(:enterprise?).and_return(false)
     Redis::Alfred.delete(Redis::Alfred::LATEST_CHATWOOT_VERSION)
   end
 
+  context 'when the install runs Enterprise' do
+    subject(:job) { described_class.perform_now(refresh_billing: true) }
+
+    before { allow(ChatwootApp).to receive(:enterprise?).and_return(true) }
+
+    it "syncs with Chatwoot's hub for the plan" do
+      hub = stub_request(:post, ChatwootHub.ping_url).with(body: hash_including('refresh_billing' => true))
+                                                     .to_return(status: 200, body: { version: '9.9.9', plan: 'community' }.to_json)
+
+      expect(job).to be(true)
+      expect(hub).to have_been_requested
+      expect(Redis::Alfred.get(Redis::Alfred::LATEST_CHATWOOT_VERSION)).to be_nil
+    end
+
+    it 'answers false when the hub does not answer, so the refresh reports the failure' do
+      stub_request(:post, ChatwootHub.ping_url).to_return(status: 503)
+
+      expect(job).to be(false)
+    end
+  end
+
   describe '#perform' do
-    context 'when GitHub API returns successful response' do
-      before do
-        stub_request(:get, 'https://api.github.com/repos/fazer-ai/chatwoot/releases/latest')
-          .to_return(
-            status: 200,
-            body: { tag_name: 'v1.2.3' }.to_json,
-            headers: { 'Content-Type' => 'application/json' }
-          )
-      end
-
-      it 'updates the latest chatwoot version in redis with v prefix removed' do
-        job
-        expect(Redis::Alfred.get(Redis::Alfred::LATEST_CHATWOOT_VERSION)).to eq '1.2.3'
-      end
+    it 'never looks up a newer release and answers true' do
+      expect(job).to be(true)
+      expect(a_request(:get, %r{api\.github\.com/repos/.+/releases/latest})).not_to have_been_made
+      expect(a_request(:post, ChatwootHub.ping_url)).not_to have_been_made
     end
 
-    context 'when tag name has no v prefix' do
-      before do
-        stub_request(:get, 'https://api.github.com/repos/fazer-ai/chatwoot/releases/latest')
-          .to_return(
-            status: 200,
-            body: { tag_name: '1.2.3' }.to_json,
-            headers: { 'Content-Type' => 'application/json' }
-          )
-      end
+    it 'clears a version stored by an older build, so no update notice is shown' do
+      Redis::Alfred.set(Redis::Alfred::LATEST_CHATWOOT_VERSION, '4.20.1-fazer-ai.152')
 
-      it 'handles tag names without v prefix' do
-        job
+      job
 
-        expect(Redis::Alfred.get(Redis::Alfred::LATEST_CHATWOOT_VERSION)).to eq '1.2.3'
-      end
-    end
-
-    context 'when GitHub API returns failed response' do
-      before do
-        stub_request(:get, 'https://api.github.com/repos/fazer-ai/chatwoot/releases/latest')
-          .to_return(status: 404)
-        allow(Rails.logger).to receive(:error)
-      end
-
-      it 'does not update redis when response is not successful' do
-        expect { job }.not_to change { Redis::Alfred.get(Redis::Alfred::LATEST_CHATWOOT_VERSION) }.from(nil)
-        expect(Rails.logger).to have_received(:error).with(/Failed to fetch latest GitHub release: HTTP 404 - /)
-      end
-    end
-
-    context 'when GitHub API raises an error' do
-      let(:error_message) { 'Network timeout' }
-
-      before do
-        stub_request(:get, 'https://api.github.com/repos/fazer-ai/chatwoot/releases/latest')
-          .to_raise(StandardError.new(error_message))
-        allow(Rails.logger).to receive(:error)
-      end
-
-      it 'logs the error and does not update redis' do
-        expect { job }.not_to change { Redis::Alfred.get(Redis::Alfred::LATEST_CHATWOOT_VERSION) }.from(nil)
-        expect(Rails.logger).to have_received(:error).with("Failed to fetch latest GitHub release: #{error_message}")
-      end
+      expect(Redis::Alfred.get(Redis::Alfred::LATEST_CHATWOOT_VERSION)).to be_nil
     end
 
     context 'when not in production environment' do
-      before do
-        allow(Rails.env).to receive(:production?).and_return(false)
-      end
+      before { allow(Rails.env).to receive(:production?).and_return(false) }
 
-      it 'does not make any API calls or update redis' do
-        expect { job }.not_to change { Redis::Alfred.get(Redis::Alfred::LATEST_CHATWOOT_VERSION) }.from(nil)
-        expect(a_request(:get, 'https://api.github.com/repos/fazer-ai/chatwoot/releases/latest')).not_to have_been_made
-      end
-    end
+      it 'does nothing' do
+        Redis::Alfred.set(Redis::Alfred::LATEST_CHATWOOT_VERSION, '4.20.1')
 
-    context 'when tag_name is nil' do
-      before do
-        stub_request(:get, 'https://api.github.com/repos/fazer-ai/chatwoot/releases/latest')
-          .to_return(
-            status: 200,
-            body: { tag_name: nil }.to_json,
-            headers: { 'Content-Type' => 'application/json' }
-          )
-      end
+        job
 
-      it 'does not update redis when tag_name is nil' do
-        expect { job }.not_to change { Redis::Alfred.get(Redis::Alfred::LATEST_CHATWOOT_VERSION) }.from(nil)
+        expect(Redis::Alfred.get(Redis::Alfred::LATEST_CHATWOOT_VERSION)).to eq '4.20.1'
       end
     end
   end

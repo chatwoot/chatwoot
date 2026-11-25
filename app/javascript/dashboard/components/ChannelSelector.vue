@@ -24,6 +24,14 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  isLegacy: {
+    type: Boolean,
+    default: false,
+  },
+  hasVoiceBadge: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const { t } = useI18n();
@@ -38,10 +46,18 @@ const { t } = useI18n();
       'cursor-not-allowed disabled:opacity-80': isComingSoon,
     }"
   >
-    <div
-      class="flex size-10 items-center justify-center rounded-full bg-n-alpha-2"
-    >
-      <Icon :icon="icon" class="text-n-slate-10 size-6" />
+    <div class="relative">
+      <div
+        class="flex size-10 items-center justify-center rounded-full bg-n-alpha-2"
+      >
+        <Icon :icon="icon" class="text-n-slate-10 size-6" />
+      </div>
+      <div
+        v-if="hasVoiceBadge"
+        class="absolute -top-1 ltr:-right-1 rtl:-left-1 flex size-4 items-center justify-center rounded-full bg-n-alpha-2 ring-2 ring-n-solid-1"
+      >
+        <Icon icon="i-lucide-audio-lines" class="text-n-slate-10 size-2.5" />
+      </div>
     </div>
 
     <div class="flex flex-col items-start gap-1.5">
@@ -54,6 +70,15 @@ const { t } = useI18n();
           v-tooltip.top="t('GENERAL.BETA_DESCRIPTION')"
           :label="t('GENERAL.BETA')"
           color="blue"
+          compact
+        />
+        <Label
+          v-if="isLegacy && !isComingSoon"
+          v-tooltip.top="
+            t('INBOX_MGMT.ADD.WHATSAPP.LEGACY_PROVIDER.BADGE_DESCRIPTION')
+          "
+          :label="t('INBOX_MGMT.ADD.WHATSAPP.LEGACY_PROVIDER.BADGE')"
+          color="amber"
           compact
         />
       </div>

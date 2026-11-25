@@ -6,6 +6,7 @@ parameters:
   - $ref: '#/components/parameters/account_id'
 description: Get details of portals in an Account
 security:
+  - userBearerAuth: []
   - userApiKey: []
 responses:
   '200':

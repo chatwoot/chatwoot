@@ -10,7 +10,8 @@ class Api::V1::Widget::Integrations::DyteController < Api::V1::Widget::BaseContr
 
     response = dyte_processor_service.add_participant_to_meeting(
       @message.content_attributes['data']['meeting_id'],
-      @conversation.contact
+      @contact,
+      @message
     )
     render_response(response)
   end
@@ -26,7 +27,7 @@ class Api::V1::Widget::Integrations::DyteController < Api::V1::Widget::BaseContr
   end
 
   def set_message
-    @message = @web_widget.inbox.messages.find(permitted_params[:message_id])
+    @message = Message.where(conversation_id: conversations.select(:id)).find(permitted_params[:message_id])
     @conversation = @message.conversation
   end
 

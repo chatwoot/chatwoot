@@ -86,6 +86,10 @@ const draftMessages = computed(() =>
   standaloneMessages.value.filter(message => message.status === 'draft')
 );
 
+const heldMessages = computed(() =>
+  standaloneMessages.value.filter(message => message.status === 'held')
+);
+
 const pendingMessages = computed(() =>
   standaloneMessages.value
     .filter(message => message.status === 'pending')
@@ -99,7 +103,10 @@ const historyMessages = computed(() =>
 );
 
 const hasActiveMessages = computed(
-  () => draftMessages.value.length > 0 || pendingMessages.value.length > 0
+  () =>
+    draftMessages.value.length > 0 ||
+    heldMessages.value.length > 0 ||
+    pendingMessages.value.length > 0
 );
 
 const hasHistory = computed(() => historyMessages.value.length > 0);
@@ -147,6 +154,7 @@ const openEditRecurringModal = recurringMessage => {
     scheduled_at: pendingChild?.scheduled_at || null,
     recurrence_rule: recurringMessage.recurrence_rule,
     recurring_scheduled_message_id: recurringMessage.id,
+    hold_on_reply: recurringMessage.hold_on_reply ?? false,
     template_params: recurringMessage.template_params,
     attachment: recurringMessage.attachment,
     author: recurringMessage.author,
@@ -261,6 +269,27 @@ watch(
           collapsible
           @edit="openEditRecurringModal"
           @stop="stopRecurring"
+        />
+      </template>
+
+      <!-- Held Messages -->
+      <template v-if="heldMessages.length">
+        <div class="flex items-center gap-2 px-4 pt-3 pb-1">
+          <span class="text-xs font-medium text-n-amber-11 uppercase">
+            {{ t('SCHEDULED_MESSAGES.HELD_SECTION') }}
+          </span>
+        </div>
+        <ScheduledMessageItem
+          v-for="message in heldMessages"
+          :key="message.id"
+          class="px-4 py-4"
+          :scheduled-message="message"
+          :written-by="getWrittenBy(message)"
+          allow-edit
+          allow-delete
+          collapsible
+          @edit="openEditModal"
+          @delete="openDeleteConfirm"
         />
       </template>
 

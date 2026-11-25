@@ -18,6 +18,13 @@ const props = defineProps({
   },
 });
 
+const SORT_DIRECTIONS = { asc: 'ascending', desc: 'descending' };
+
+const ariaSort = header => {
+  if (!header.column.getCanSort()) return undefined;
+  return SORT_DIRECTIONS[header.column.getIsSorted()] ?? 'none';
+};
+
 const isRelaxed = computed(() => props.type === 'relaxed');
 const headerClass = computed(() =>
   isRelaxed.value
@@ -42,18 +49,23 @@ const headerClass = computed(() =>
           }"
           class="text-left py-3 px-5 font-medium text-sm text-n-slate-12"
           :class="headerClass"
-          @click="header.column.getCanSort() && header.column.toggleSorting()"
+          :aria-sort="ariaSort(header)"
         >
-          <div
+          <!-- A sortable header is a real button: a click handler on the th
+               alone leaves the control unreachable by keyboard. -->
+          <component
+            :is="header.column.getCanSort() ? 'button' : 'div'"
             v-if="!header.isPlaceholder"
+            :type="header.column.getCanSort() ? 'button' : undefined"
             class="flex place-items-center gap-1"
+            @click="header.column.getCanSort() && header.column.toggleSorting()"
           >
             <FlexRender
               :render="header.column.columnDef.header"
               :props="header.getContext()"
             />
             <SortButton v-if="header.column.getCanSort()" :header="header" />
-          </div>
+          </component>
         </th>
       </tr>
     </thead>

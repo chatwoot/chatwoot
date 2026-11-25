@@ -4,6 +4,15 @@ module OutOfOffisable
   extend ActiveSupport::Concern
 
   OFFISABLE_ATTRS = %w[day_of_week closed_all_day open_hour open_minutes close_hour close_minutes open_all_day].freeze
+  DEFAULT_WORKING_HOURS = [
+    { day_of_week: 0, closed_all_day: true, open_all_day: false },
+    { day_of_week: 1, open_hour: 9, open_minutes: 0, close_hour: 17, close_minutes: 0, open_all_day: false },
+    { day_of_week: 2, open_hour: 9, open_minutes: 0, close_hour: 17, close_minutes: 0, open_all_day: false },
+    { day_of_week: 3, open_hour: 9, open_minutes: 0, close_hour: 17, close_minutes: 0, open_all_day: false },
+    { day_of_week: 4, open_hour: 9, open_minutes: 0, close_hour: 17, close_minutes: 0, open_all_day: false },
+    { day_of_week: 5, open_hour: 9, open_minutes: 0, close_hour: 17, close_minutes: 0, open_all_day: false },
+    { day_of_week: 6, closed_all_day: true, open_all_day: false }
+  ].map(&:freeze).freeze
 
   included do
     has_many :working_hours, dependent: :destroy_async
@@ -52,12 +61,6 @@ module OutOfOffisable
   private
 
   def create_default_working_hours
-    working_hours.create!(day_of_week: 0, closed_all_day: true, open_all_day: false)
-    working_hours.create!(day_of_week: 1, open_hour: 9, open_minutes: 0, close_hour: 17, close_minutes: 0, open_all_day: false)
-    working_hours.create!(day_of_week: 2, open_hour: 9, open_minutes: 0, close_hour: 17, close_minutes: 0, open_all_day: false)
-    working_hours.create!(day_of_week: 3, open_hour: 9, open_minutes: 0, close_hour: 17, close_minutes: 0, open_all_day: false)
-    working_hours.create!(day_of_week: 4, open_hour: 9, open_minutes: 0, close_hour: 17, close_minutes: 0, open_all_day: false)
-    working_hours.create!(day_of_week: 5, open_hour: 9, open_minutes: 0, close_hour: 17, close_minutes: 0, open_all_day: false)
-    working_hours.create!(day_of_week: 6, closed_all_day: true, open_all_day: false)
+    DEFAULT_WORKING_HOURS.each { |attributes| working_hours.create!(attributes) }
   end
 end

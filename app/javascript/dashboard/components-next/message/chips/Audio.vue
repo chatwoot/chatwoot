@@ -38,6 +38,17 @@ const timeStampURL = computed(() => {
   return timeStampAppendedURL(attachment.dataUrl);
 });
 
+const TRANSCRIPT_PREVIEW_LENGTH = 200;
+const isTranscriptExpanded = ref(false);
+const isTranscriptLong = computed(
+  () => (attachment.transcribedText?.length || 0) > TRANSCRIPT_PREVIEW_LENGTH
+);
+const displayedTranscript = computed(() => {
+  const text = attachment.transcribedText || '';
+  if (!isTranscriptLong.value || isTranscriptExpanded.value) return text;
+  return `${text.slice(0, TRANSCRIPT_PREVIEW_LENGTH).trimEnd()}…`;
+});
+
 const audioPlayer = useTemplateRef('audioPlayer');
 
 const isPlaying = ref(false);
@@ -48,11 +59,36 @@ const playbackSpeed = ref(1);
 
 const { uid } = getCurrentInstance();
 
-const onLoadedMetadata = () => {
-  if (audioPlayer.value) {
-    duration.value = audioPlayer.value.duration;
-    audioPlayer.value.playbackRate = playbackSpeed.value;
+// MediaRecorder-produced WebM/Opus blobs lack a Duration header → <audio>.duration
+// resolves to Infinity until we seek past the end, which forces the engine to
+// scan the file and compute the real length. Safe no-op for files with a real
+// duration already (mp3/m4a/etc).
+const resolveStreamingDuration = () => {
+  const el = audioPlayer.value;
+  if (!el) return;
+  const onTimeUpdate = () => {
+    el.removeEventListener('timeupdate', onTimeUpdate);
+    el.currentTime = 0;
+    duration.value = el.duration;
+  };
+  el.addEventListener('timeupdate', onTimeUpdate);
+  try {
+    el.currentTime = Number.MAX_SAFE_INTEGER;
+  } catch {
+    el.removeEventListener('timeupdate', onTimeUpdate);
   }
+};
+
+const onLoadedMetadata = () => {
+  if (!audioPlayer.value) return;
+
+  audioPlayer.value.playbackRate = playbackSpeed.value;
+  const d = audioPlayer.value.duration;
+  if (!Number.isFinite(d)) {
+    resolveStreamingDuration();
+    return;
+  }
+  duration.value = d;
 };
 
 const playbackSpeedLabel = computed(() => {
@@ -208,7 +244,18 @@ const downloadAudio = async () => {
         v-if="attachment.transcribedText && showTranscribedText"
         class="text-n-slate-12 p-3 text-sm bg-n-alpha-1 rounded-lg w-full break-words"
       >
-        {{ attachment.transcribedText }}
+        {{ displayedTranscript }}
+        <button
+          v-if="isTranscriptLong"
+          class="block mt-1 p-0 border-0 bg-transparent text-n-slate-11 hover:text-n-slate-12 font-medium"
+          @click="isTranscriptExpanded = !isTranscriptExpanded"
+        >
+          {{
+            isTranscriptExpanded
+              ? $t('CONVERSATION.VOICE_CALL.TRANSCRIPT_SHOW_LESS')
+              : $t('CONVERSATION.VOICE_CALL.TRANSCRIPT_SHOW_MORE')
+          }}
+        </button>
       </div>
     </div>
   </template>

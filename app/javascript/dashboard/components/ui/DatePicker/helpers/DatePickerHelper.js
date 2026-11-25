@@ -8,7 +8,6 @@ import {
   addYears,
   startOfMonth,
   isSameMonth,
-  format,
   startOfWeek,
   endOfWeek,
   addWeeks,
@@ -18,17 +17,20 @@ import {
   isSameDay,
   isWithinInterval,
 } from 'date-fns';
+import {
+  currentDateLocale,
+  dateTimeFormat,
+  formatLocalized,
+} from 'shared/helpers/localizedDate';
 
 // Constants for calendar and date ranges
-export const calendarWeeks = [
-  { id: 1, label: 'M' },
-  { id: 2, label: 'T' },
-  { id: 3, label: 'W' },
-  { id: 4, label: 'T' },
-  { id: 5, label: 'F' },
-  { id: 6, label: 'S' },
-  { id: 7, label: 'S' },
-];
+// One-letter weekday labels, Monday first, in the app language.
+export const calendarWeeks = () =>
+  [1, 2, 3, 4, 5, 6, 7].map(id => ({
+    id,
+    // 2024-01-01 was a Monday.
+    label: formatLocalized(new Date(2024, 0, id), 'EEEEE'),
+  }));
 
 export const dateRanges = [
   { label: 'DATE_PICKER.DATE_RANGE_OPTIONS.LAST_7_DAYS', value: 'last7days' },
@@ -82,17 +84,31 @@ export const CALENDAR_PERIODS = {
 };
 
 // Utility functions for date operations
-export const monthName = currentDate => format(currentDate, 'MMMM');
-export const yearName = currentDate => format(currentDate, 'yyyy');
+export const monthName = currentDate => formatLocalized(currentDate, 'MMMM');
+export const yearName = currentDate => formatLocalized(currentDate, 'yyyy');
 
-export const getIntlDateFormatForLocale = () => {
+// The typed date field shows and parses a numeric date, so it stays in the
+// Gregorian calendar with Latin digits whatever the language (Thai would
+// otherwise count Buddhist years, Persian would use its own calendar and
+// digits) and only takes the field order and separators from the locale.
+// Bidi marks (Arabic puts one after each field) are dropped, since nobody
+// types them and `parse` would demand them.
+const BIDI_MARKS = /[\u200e\u200f\u061c]/g;
+
+export const formatCalendarInput = (date, locale = currentDateLocale()) =>
+  dateTimeFormat(locale, {
+    calendar: 'gregory',
+    numberingSystem: 'latn',
+  })
+    .format(date)
+    .replace(BIDI_MARKS, '');
+
+export const getIntlDateFormatForLocale = (locale = currentDateLocale()) => {
   const year = 2222;
   const month = 12;
   const day = 15;
   const date = new Date(year, month - 1, day);
-  const formattedDate = new Intl.DateTimeFormat(navigator.language).format(
-    date
-  );
+  const formattedDate = formatCalendarInput(date, locale);
   return formattedDate
     .replace(`${year}`, 'yyyy')
     .replace(`${month}`, 'MM')

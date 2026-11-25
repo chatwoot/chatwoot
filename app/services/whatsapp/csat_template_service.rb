@@ -1,4 +1,6 @@
 class Whatsapp::CsatTemplateService
+  include Whatsapp::GraphRequestOptions
+
   DEFAULT_BUTTON_TEXT = 'Please rate us'.freeze
   DEFAULT_LANGUAGE = 'en'.freeze
   WHATSAPP_API_VERSION = 'v14.0'.freeze
@@ -22,13 +24,14 @@ class Whatsapp::CsatTemplateService
     template_name ||= CsatTemplateNameService.csat_template_name(@whatsapp_channel.inbox.id)
     response = HTTParty.delete(
       "#{business_account_path}/message_templates?name=#{template_name}",
-      headers: api_headers
+      headers: api_headers,
+      **GRAPH_REQUEST_OPTIONS
     )
     { success: response.success?, response_body: response.body }
   end
 
   def get_template_status(template_name)
-    response = HTTParty.get("#{business_account_path}/message_templates?name=#{template_name}", headers: api_headers)
+    response = HTTParty.get("#{business_account_path}/message_templates?name=#{template_name}", headers: api_headers, **GRAPH_REQUEST_OPTIONS)
 
     if response.success? && response['data']&.any?
       template_data = response['data'].first
@@ -141,7 +144,8 @@ class Whatsapp::CsatTemplateService
     HTTParty.post(
       "#{business_account_path}/message_templates",
       headers: api_headers,
-      body: request_body.to_json
+      body: request_body.to_json,
+      **GRAPH_REQUEST_OPTIONS
     )
   end
 

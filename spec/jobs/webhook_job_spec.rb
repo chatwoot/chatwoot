@@ -84,6 +84,53 @@ RSpec.describe WebhookJob do
         expect { perform_enqueued_jobs { job } }.not_to(change { message.reload.status })
       end
 
+      # These drive the REAL Webhooks::Trigger and stub only the HTTP call. Stubbing
+      # `Trigger.execute` (as the examples above do) skips `handle_failure` entirely, so it cannot
+      # tell escalation-on-attempt-1 from escalation-on-exhaustion, which is the whole point here.
+      context 'with the real trigger and a failing transport' do
+        let(:payload) { { event: 'message_created', id: message.id } }
+
+        def stub_fetch_failing(times:)
+          calls = 0
+          allow(SafeFetch).to receive(:fetch) do |*_args|
+            calls += 1
+            raise SafeFetch::HttpError, '404 Not Found' if calls <= times
+
+            nil
+          end
+          -> { calls }
+        end
+
+        it 'does not escalate while attempts remain, so a later attempt still reaches a pending conversation' do
+          calls = stub_fetch_failing(times: 4)
+
+          perform_enqueued_jobs { job }
+
+          expect(calls.call).to eq(5)
+          expect(conversation.reload.status).to eq('pending')
+          expect(conversation.messages.where(message_type: :activity)).to be_empty
+        end
+
+        it 'escalates exactly once when every attempt fails' do
+          stub_fetch_failing(times: 5)
+
+          perform_enqueued_jobs { job }
+
+          expect(conversation.reload.status).to eq('open')
+          expect(conversation.messages.where(message_type: :activity).count).to eq(1)
+        end
+
+        it 'honours keep_pending_on_bot_failure even after the attempts are exhausted' do
+          conversation.account.update!(keep_pending_on_bot_failure: true)
+          stub_fetch_failing(times: 5)
+
+          perform_enqueued_jobs { job }
+
+          expect(conversation.reload.status).to eq('pending')
+          expect(conversation.messages.where(message_type: :activity)).to be_empty
+        end
+      end
+
       context 'when conversation is not pending' do
         before { conversation.update!(status: :open) }
 

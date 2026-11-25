@@ -1,0 +1,51 @@
+{
+  "GENERAL": {
+    "BETA_DESCRIPTION": "Esta función está en fase beta y puede cambiar a medida que la mejoramos."
+  },
+  "CONVERSATION": {
+    "UNSUPPORTED_MESSAGE": "Este mensaje no es compatible. Puede verlo en la aplicación."
+  },
+  "INBOX_MGMT": {
+    "CSAT": {
+      "WHATSAPP_NOTE": "Nota: puede crear una plantilla nueva (que se enviará a WhatsApp para su aprobación como Utilidad, aunque Meta puede clasificarla como Marketing según el contenido) o usar una plantilla ya aprobada de su administrador de plantillas de Meta. Las encuestas se envían una sola vez por conversación, según la regla de la encuesta."
+    }
+  },
+  "AUTOMATION": {
+    "HEADER_BTN_TXT": "Crear automatización",
+    "COUNT": "{n} automatización | {n} automatizaciones",
+    "SEARCH_PLACEHOLDER": "Buscar reglas de automatización...",
+    "NO_RESULTS": "No se encontraron reglas de automatización que coincidan con tu búsqueda",
+    "ACTIONS": {
+      "REMOVE_ASSIGNED_AGENT": "Eliminar agente asignado",
+      "REMOVE_ASSIGNED_TEAM": "Eliminar equipo asignado"
+    },
+    "ADD": {
+      "FORM": {
+        "MONITOR": {
+          "PLACEHOLDER": "Selecciona un monitor activo",
+          "ERROR": "Selecciona un monitor activo",
+          "FETCH_FAILED": "No se pudieron cargar los monitores. Inténtalo de nuevo más tarde.",
+          "API_UNAVAILABLE": "Este monitor ya no está disponible. Selecciona un monitor activo e inténtalo de nuevo.",
+          "EMPTY": "Todavía no hay monitores activos. Crea o reanuda un monitor para usar este evento.",
+          "GO_TO_MONITORS": "Ir a monitores",
+          "UNAVAILABLE": "Monitor no disponible",
+          "UNAVAILABLE_HELP": "Este monitor no está disponible para automatizaciones. Selecciona un monitor activo para activar esta regla.",
+          "HELP": "Se ejecuta una vez cuando el monitor coincide por primera vez con una conversación a partir de actividad nueva en tiempo real. Los análisis del historial no activan acciones."
+        }
+      }
+    },
+    "LIST": {
+      "MONITOR_PAUSED": "Monitor en pausa",
+      "MONITOR_DELETED": "Monitor eliminado",
+      "MONITOR_UNAVAILABLE": "Función de monitores no disponible"
+    },
+    "CONDITION": {
+      "PLACEHOLDERS": {
+        "CAPTAIN": "Describe qué buscar, p. ej. el cliente quiere cancelar"
+      }
+    },
+    "EVENTS": {
+      "MONITOR_MATCHED": "Coincidencia del monitor"
+    }
+  }
+}

@@ -2,7 +2,8 @@ import { useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { DirectUpload } from 'activestorage';
-import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
+import { setDirectUploadAuthHeaders } from 'dashboard/helper/directUploadsHelper';
+import { checkFileSizeLimit, isFileEmpty } from 'shared/helpers/FileHelper';
 import { getMaxUploadSizeByChannel } from '@chatwoot/utils';
 import {
   DEFAULT_MAXIMUM_FILE_UPLOAD_SIZE,
@@ -21,7 +22,6 @@ export const useFileUpload = ({ inbox, attachFile, isPrivateNote = false }) => {
   const { t } = useI18n();
 
   const accountId = useMapGetter('getCurrentAccountId');
-  const currentUser = useMapGetter('getCurrentUser');
   const currentChat = useMapGetter('getSelectedChat');
   const globalConfig = useMapGetter('globalConfig/get');
 
@@ -55,6 +55,8 @@ export const useFileUpload = ({ inbox, attachFile, isPrivateNote = false }) => {
     return Math.min(channelLimit, installationLimit);
   };
 
+  const alertEmptyFile = () => useAlert(t('CONVERSATION.FILE_IS_EMPTY'));
+
   const alertOverLimit = maxSizeMB =>
     useAlert(
       t('CONVERSATION.FILE_SIZE_LIMIT', {
@@ -68,6 +70,11 @@ export const useFileUpload = ({ inbox, attachFile, isPrivateNote = false }) => {
     const mime = file.file?.type || file.type;
     const maxSizeMB = maxSizeFor(mime);
 
+    if (isFileEmpty(file)) {
+      alertEmptyFile();
+      return;
+    }
+
     if (!checkFileSizeLimit(file, maxSizeMB)) {
       alertOverLimit(maxSizeMB);
       return;
@@ -78,10 +85,7 @@ export const useFileUpload = ({ inbox, attachFile, isPrivateNote = false }) => {
       `/api/v1/accounts/${accountId.value}/conversations/${currentChat.value.id}/direct_uploads`,
       {
         directUploadWillCreateBlobWithXHR: xhr => {
-          xhr.setRequestHeader(
-            'api_access_token',
-            currentUser.value.access_token
-          );
+          setDirectUploadAuthHeaders(xhr);
         },
       }
     );
@@ -101,6 +105,11 @@ export const useFileUpload = ({ inbox, attachFile, isPrivateNote = false }) => {
     const mime = file.file?.type || file.type;
     const maxSizeMB = maxSizeFor(mime);
 
+    if (isFileEmpty(file)) {
+      alertEmptyFile();
+      return;
+    }
+
     if (!checkFileSizeLimit(file, maxSizeMB)) {
       alertOverLimit(maxSizeMB);
       return;
@@ -110,7 +119,9 @@ export const useFileUpload = ({ inbox, attachFile, isPrivateNote = false }) => {
   };
 
   const onFileUpload = file => {
-    if (globalConfig.value.directUploadsEnabled) {
+    // The direct upload endpoint needs a conversation, so a file added before
+    // one exists is sent along with the message instead.
+    if (globalConfig.value.directUploadsEnabled && currentChat.value.id) {
       handleDirectFileUpload(file);
     } else {
       handleIndirectFileUpload(file);

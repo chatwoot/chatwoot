@@ -1,0 +1,8 @@
+{
+  "INBOX": {
+    "TYPES_NEXT": {
+      "INTERNAL_CHAT_MENTION": "Mentioned",
+      "INTERNAL_CHAT_NEW_MESSAGE": "Direct message"
+    }
+  }
+}

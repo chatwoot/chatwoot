@@ -1,40 +1,35 @@
 <%
-  # Get all feature names and their display names
-  all_feature_display_names = SuperAdmin::AccountFeaturesHelper.feature_display_names
-  
+  display_names = SuperAdmin::AccountFeaturesHelper.feature_display_names
   # Features that can be manually managed
   premium_features = Internal::Accounts::InternalAttributesService.new(field.resource).valid_feature_list
-  
-  # Get only premium features with display names
-  premium_features_with_display = premium_features.map do |feature|
-    [feature, all_feature_display_names[feature] || feature.humanize]
-  end.sort_by { |_, display_name| display_name }
-  
-  # Get already selected features
+                                                                 .index_with { |feature| display_names[feature] || feature.humanize }
+                                                                 .sort_by { |_feature, display_name| display_name }
   selected_features = field.selected_features
+  icons = SuperAdmin::AccountFeaturesHelper.feature_icons
+  help_urls = SuperAdmin::AccountFeaturesHelper.feature_help_urls
 %>
+<details class="group/field" data-filter-scope>
+  <summary class="flex cursor-pointer list-none items-center justify-between gap-4 px-5 py-4 [&::-webkit-details-marker]:hidden">
+    <span class="min-w-0">
+      <span class="block text-label text-n-slate-12"><%= t("super_admin.accounts.manually_managed_features") %></span>
+      <span class="mt-0.5 block text-label-small text-n-slate-11"><%= t("super_admin.features.manually_managed_hint") %></span>
+    </span>
+    <span class="flex shrink-0 items-center gap-2 text-label-small tabular-nums text-n-slate-11">
+      <span data-check-count="<%= t("super_admin.features.selected_count") %>"></span>
+      <span class="i-lucide-chevron-down size-4 text-n-slate-10 transition-transform group-open/field:rotate-180"></span>
+    </span>
+  </summary>
+  <div class="px-5 pb-5">
+    <%= render "filter_bar", search: false, bulk: true, count: false %>
 
-<div class="field-unit__label">
-  <%= f.label :manually_managed_features %>
-</div>
-<div class="field-unit__field feature-container">
-  <p class="text-gray-400 text-xs italic mb-4">Features that remain enabled even when account plan is downgraded</p>
-  
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-    <% premium_features_with_display.each do |feature_key, display_name| %>
-      <div class="flex items-center justify-between p-3 bg-white rounded-lg shadow-sm outline outline-1 outline-n-container">
-        <span class="text-sm text-slate-700"><%= display_name %></span>
-        <span>
-          <%= check_box_tag "account[manually_managed_features][]", 
-                         feature_key, 
-                         selected_features.include?(feature_key), 
-                         class: "h-4 w-4 rounded border-slate-300 text-violet-600 focus:ring-violet-600" %>
-        </span>
-      </div>
-    <% end %>
+    <div class="grid grid-cols-1 gap-2 sm:grid-cols-2 xl:grid-cols-3">
+      <% premium_features.each do |feature_key, display_name| %>
+        <%= render "check_tile", label: display_name, icon: icons[feature_key], help_url: help_urls[feature_key] do %>
+          <%= check_box_tag "account[manually_managed_features][]", feature_key, selected_features.include?(feature_key),
+                            id: "account_manually_managed_features_#{feature_key}", class: ui(:checkbox) %>
+        <% end %>
+      <% end %>
+    </div>
+    <%= hidden_field_tag "account[manually_managed_features][]", "", id: nil %>
   </div>
-  
-  <hr class="my-8 border-t border-n-weak">
-  
-  <%= hidden_field_tag "account[manually_managed_features][]", "", id: nil %>
-</div>
+</details>

@@ -19,12 +19,18 @@ const props = defineProps({
     type: Array,
     default: null,
   },
+  featureAccess: {
+    type: String,
+    default: null,
+  },
 });
 
-const { shouldShow } = usePolicy();
+const { shouldShow, checkFeatureAccess } = usePolicy();
 
-const show = computed(() =>
-  shouldShow(props.featureFlag, props.permissions, props.installationTypes)
+const show = computed(
+  () =>
+    checkFeatureAccess(props.featureAccess) &&
+    shouldShow(props.featureFlag, props.permissions, props.installationTypes)
 );
 </script>
 

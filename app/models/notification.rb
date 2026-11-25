@@ -43,17 +43,38 @@ class Notification < ApplicationRecord
     participating_conversation_new_message: 5,
     sla_missed_first_response: 6,
     sla_missed_next_response: 7,
-    sla_missed_resolution: 8
+    sla_missed_resolution: 8,
+    internal_chat_mention: 9,
+    internal_chat_new_message: 10,
+    # Upstream ships this as 9, which the fork already holds for internal chat.
+    voice_call_missed: 11
   }.freeze
 
-  enum notification_type: NOTIFICATION_TYPES
+  # Internal chat notifications don't have email mailers/templates yet, so email
+  # delivery is deferred (see #process_notification_delivery).
+  INTERNAL_CHAT_NOTIFICATION_TYPES = %w[internal_chat_mention internal_chat_new_message].freeze
+
+  enum :notification_type, NOTIFICATION_TYPES
 
   before_create :set_last_activity_at
   after_create_commit :process_notification_delivery, :dispatch_create_event
   after_destroy_commit :dispatch_destroy_event
   after_update_commit :dispatch_update_event
 
-  PRIMARY_ACTORS = ['Conversation'].freeze
+  PRIMARY_ACTORS = ['Conversation', 'InternalChat::Channel'].freeze
+
+  # A member without internal chat access keeps their internal chat notifications stored, but they are
+  # not listed, fetched or delivered while the access is off.
+  scope :visible_to, lambda { |account_user|
+    next all if account_user && FeatureAccess.new(account_user.account).allows?(account_user, 'internal_chat.access')
+
+    where.not(notification_type: INTERNAL_CHAT_NOTIFICATION_TYPES)
+  }
+
+  def visible_to_recipient?
+    INTERNAL_CHAT_NOTIFICATION_TYPES.exclude?(notification_type) ||
+      FeatureAccess.new(account).allows?(account.account_users.find_by(user: user), 'internal_chat.access')
+  end
 
   def push_event_data
     # Secondary actor could be nil for cases like system assigning conversation
@@ -81,7 +102,9 @@ class Notification < ApplicationRecord
       notification_type: notification_type,
       primary_actor_id: primary_actor_id,
       primary_actor_type: primary_actor_type,
-      primary_actor: primary_actor.push_event_data.with_indifferent_access.slice('conversation_id', 'id')
+      # channel_type is only present for internal chat channels; conversations omit it
+      primary_actor: primary_actor.push_event_data.with_indifferent_access.slice('conversation_id', 'id', 'channel_type'),
+      account_id: account_id
     }
   end
 
@@ -95,7 +118,9 @@ class Notification < ApplicationRecord
       'conversation_mention' => 'notifications.notification_title.conversation_mention',
       'sla_missed_first_response' => 'notifications.notification_title.sla_missed_first_response',
       'sla_missed_next_response' => 'notifications.notification_title.sla_missed_next_response',
-      'sla_missed_resolution' => 'notifications.notification_title.sla_missed_resolution'
+      'sla_missed_resolution' => 'notifications.notification_title.sla_missed_resolution',
+      'internal_chat_mention' => 'notifications.notification_title.internal_chat_mention',
+      'internal_chat_new_message' => 'notifications.notification_title.internal_chat_new_message'
     }
 
     i18n_key = notification_title_map[notification_type]
@@ -106,6 +131,8 @@ class Notification < ApplicationRecord
     elsif %w[conversation_assignment assigned_conversation_new_message participating_conversation_new_message
              conversation_mention].include?(notification_type)
       I18n.t(i18n_key, display_id: conversation.display_id)
+    elsif INTERNAL_CHAT_NOTIFICATION_TYPES.include?(notification_type)
+      I18n.t(i18n_key, name: internal_chat_actor_name)
     else
       I18n.t(i18n_key, display_id: primary_actor.display_id)
     end
@@ -116,7 +143,8 @@ class Notification < ApplicationRecord
     case notification_type
     when 'conversation_creation', 'sla_missed_first_response'
       message_body(conversation.messages.first)
-    when 'assigned_conversation_new_message', 'participating_conversation_new_message', 'conversation_mention'
+    when 'assigned_conversation_new_message', 'participating_conversation_new_message', 'conversation_mention',
+         'internal_chat_mention', 'internal_chat_new_message'
       message_body(secondary_actor)
     when 'conversation_assignment', 'sla_missed_next_response', 'sla_missed_resolution'
       message_body((conversation.messages.incoming.last || conversation.messages.outgoing.last))
@@ -130,6 +158,15 @@ class Notification < ApplicationRecord
   end
 
   private
+
+  # For internal chat, primary_actor is an InternalChat::Channel. Named channels use
+  # their (#-prefixed) name; DMs have no name, so fall back to the sender's name.
+  def internal_chat_actor_name
+    channel = primary_actor
+    return secondary_actor&.sender&.name.to_s if channel.dm? || channel.name.blank?
+
+    "##{channel.name}"
+  end
 
   def message_body(actor)
     sender_name = sender_name(actor)
@@ -146,10 +183,17 @@ class Notification < ApplicationRecord
     attachments = actor.try(:attachments)
 
     if content.present?
-      transform_user_mention_content(content.truncate_words(10))
+      transform_user_mention_content(strip_internal_chat_mentions(content).truncate_words(10))
     else
       attachments.present? ? I18n.t('notifications.attachment') : I18n.t('notifications.no_content')
     end
+  end
+
+  # Internal chat mentions are stored as bare (mention://user|team/ID/Name); render them as @Name.
+  # Conversation mentions wrap the same URL in a markdown link ([text](mention://...)); the negative
+  # lookbehind skips those so CommonMarker (in transform_user_mention_content) keeps handling them.
+  def strip_internal_chat_mentions(content)
+    content.gsub(%r{(?<!\])\(mention://(?:user|team)/\d+/(.+?)\)}) { "@#{CGI.unescape(Regexp.last_match(1))}" }
   end
 
   def process_notification_delivery
@@ -158,9 +202,14 @@ class Notification < ApplicationRecord
     # Should we do something about the case where user subscribed to both push and email ?
     # In future, we could probably add condition here to enqueue the job for 30 seconds later
     # when push enabled and then check in email job whether notification has been read already.
-    Notification::EmailNotificationJob.perform_later(self) if user_subscribed_to_notification?('email')
+    Notification::EmailNotificationJob.perform_later(self) if email_delivery_supported? && user_subscribed_to_notification?('email')
 
     Notification::RemoveDuplicateNotificationJob.perform_later(self)
+  end
+
+  # Internal chat types have no email mailer/templates yet (deferred), so skip email delivery.
+  def email_delivery_supported?
+    INTERNAL_CHAT_NOTIFICATION_TYPES.exclude?(notification_type)
   end
 
   def user_subscribed_to_notification?(delivery_type)
@@ -206,3 +255,5 @@ class Notification < ApplicationRecord
     }
   end
 end
+
+Notification.prepend_mod_with('Notification')

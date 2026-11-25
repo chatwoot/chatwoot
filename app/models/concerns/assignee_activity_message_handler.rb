@@ -4,6 +4,12 @@ module AssigneeActivityMessageHandler
   private
 
   def create_assignee_change_activity(user_name)
+    if reopen_team_unassignment?
+      create_reopen_team_unassignment_activity
+      # The legacy auto-assignment can hand the reopened conversation to a team member in the same save.
+      return if assignee_id.blank?
+    end
+
     user_name = activity_message_owner(user_name)
 
     return unless user_name

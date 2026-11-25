@@ -1,0 +1,16 @@
+{
+  "AGENT_BOTS": {
+    "OBSERVERS": {
+      "TITLE": "Bots observadores",
+      "DESC": "Los observadores reciben todos los eventos de esta bandeja de entrada, pero nunca la responden ni se hacen cargo de una conversación. Úsalos para bots que clasifican, revisan o miden las conversaciones que atiende tu equipo u otro bot.",
+      "ADD": "Agregar observador",
+      "REMOVE": "Quitar",
+      "EMPTY": "Ningún bot observador en esta bandeja de entrada.",
+      "SELECT_PLACEHOLDER": "Seleccionar bot",
+      "ADD_SUCCESS": "Observador agregado.",
+      "ADD_ERROR": "No se pudo agregar el observador. Inténtalo de nuevo.",
+      "REMOVE_SUCCESS": "Observador quitado.",
+      "REMOVE_ERROR": "No se pudo quitar el observador. Inténtalo de nuevo."
+    }
+  }
+}

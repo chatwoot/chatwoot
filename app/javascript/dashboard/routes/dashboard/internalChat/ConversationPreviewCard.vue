@@ -2,8 +2,8 @@
 import { ref, onMounted, computed } from 'vue';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { formatDistanceToNow, fromUnixTime } from 'date-fns';
-import { enUS, ptBR } from 'date-fns/locale';
+import { fromUnixTime } from 'date-fns';
+import { formatRelative } from 'shared/helpers/localizedDate';
 import { useMapGetter } from 'dashboard/composables/store';
 import { getContrastingTextColor } from '@chatwoot/utils';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
@@ -22,12 +22,10 @@ const props = defineProps({
   },
 });
 
-const { t, locale } = useI18n();
+const { t } = useI18n();
 const router = useRouter();
 const allLabels = useMapGetter('labels/getLabels');
 const allInboxes = useMapGetter('inboxes/getInboxes');
-
-const dateFnsLocales = { pt_BR: ptBR };
 
 // Module-level cache shared across all instances
 const conversationCache = new Map();
@@ -53,10 +51,7 @@ const status = computed(() => conversation.value?.status || '');
 const lastActivityAt = computed(() => {
   const ts = conversation.value?.last_activity_at;
   if (!ts) return '';
-  return formatDistanceToNow(fromUnixTime(ts), {
-    addSuffix: true,
-    locale: dateFnsLocales[locale.value] || enUS,
-  });
+  return formatRelative(fromUnixTime(ts));
 });
 const lastMessageObj = computed(() => {
   return (

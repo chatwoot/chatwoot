@@ -1,11 +1,12 @@
 import { shallowMount } from '@vue/test-utils';
 import { useAlert } from 'dashboard/composables';
 import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
-import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
+import { checkFileSizeLimit, isFileEmpty } from 'shared/helpers/FileHelper';
 import { reactive } from 'vue';
 
 vi.mock('shared/helpers/FileHelper', () => ({
   checkFileSizeLimit: vi.fn(),
+  isFileEmpty: vi.fn(),
   resolveMaximumFileUploadSize: vi.fn(value => Number(value) || 40),
   DEFAULT_MAXIMUM_FILE_UPLOAD_SIZE: 40,
 }));
@@ -57,6 +58,9 @@ describe('FileUploadMixin', () => {
       },
       template: '<div />',
     });
+
+    checkFileSizeLimit.mockReturnValue(true);
+    isFileEmpty.mockReturnValue(false);
   });
 
   it('should call onDirectFileUpload when direct uploads are enabled', () => {
@@ -70,6 +74,28 @@ describe('FileUploadMixin', () => {
     wrapper.vm.onIndirectFileUpload = vi.fn();
     wrapper.vm.onFileUpload({});
     expect(wrapper.vm.onIndirectFileUpload).toHaveBeenCalledWith({});
+  });
+
+  // Same reason as in the composable: without this the refusal reaches the agent only as a
+  // message that looked sent and failed later.
+  describe('an empty file', () => {
+    beforeEach(() => {
+      isFileEmpty.mockReturnValue(true);
+    });
+
+    it('is refused with a readable reason on the direct upload path', () => {
+      wrapper.vm.onDirectFileUpload({ size: 0 });
+
+      expect(useAlert).toHaveBeenCalledWith('CONVERSATION.FILE_IS_EMPTY');
+      expect(checkFileSizeLimit).not.toHaveBeenCalled();
+    });
+
+    it('is refused on the indirect upload path too', () => {
+      wrapper.vm.onIndirectFileUpload({ size: 0 });
+
+      expect(useAlert).toHaveBeenCalledWith('CONVERSATION.FILE_IS_EMPTY');
+      expect(checkFileSizeLimit).not.toHaveBeenCalled();
+    });
   });
 
   describe('onDirectFileUpload', () => {

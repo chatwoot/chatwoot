@@ -1,7 +1,9 @@
 <script setup>
 import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { vOnClickOutside } from '@vueuse/components';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import { QUICK_EMOJIS, findOwnReaction } from './reactions';
 
 const props = defineProps({
   reactions: {
@@ -16,16 +18,7 @@ const props = defineProps({
 
 const emit = defineEmits(['select', 'remove', 'close']);
 
-const QUICK_EMOJIS = [
-  { emoji: '\uD83D\uDC4D', label: 'thumbs up' },
-  { emoji: '\u2764\uFE0F', label: 'heart' },
-  { emoji: '\uD83D\uDE02', label: 'joy' },
-  { emoji: '\uD83D\uDE2E', label: 'surprised' },
-  { emoji: '\uD83D\uDE22', label: 'sad' },
-  { emoji: '\uD83D\uDE4F', label: 'pray' },
-  { emoji: '\uD83D\uDD25', label: 'fire' },
-  { emoji: '\uD83C\uDF89', label: 'party' },
-];
+const { t } = useI18n();
 
 const isOpen = ref(false);
 
@@ -34,8 +27,10 @@ function toggle() {
 }
 
 function selectEmoji(emoji) {
-  const existingReaction = props.reactions.find(
-    r => r.emoji === emoji && r.user_id === props.currentUserId
+  const existingReaction = findOwnReaction(
+    props.reactions,
+    emoji,
+    props.currentUserId
   );
   if (existingReaction) {
     emit('remove', existingReaction.id);
@@ -66,9 +61,9 @@ function close() {
     >
       <button
         v-for="item in QUICK_EMOJIS"
-        :key="item.label"
+        :key="item.labelKey"
         class="flex items-center justify-center rounded p-1 text-base hover:bg-n-alpha-2"
-        :title="item.label"
+        :title="t(`INTERNAL_CHAT.REACTIONS.${item.labelKey}`)"
         @click="selectEmoji(item.emoji)"
       >
         {{ item.emoji }}

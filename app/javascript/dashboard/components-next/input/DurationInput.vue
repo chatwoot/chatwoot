@@ -1,5 +1,5 @@
 <script setup>
-import { computed, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import Input from './Input.vue';
 import { useI18n } from 'vue-i18n';
 import { DURATION_UNITS } from './constants';
@@ -30,6 +30,9 @@ const convertToMinutes = newValue => {
   return Math.floor(newValue) * 24 * 60;
 };
 
+// Which bound a picked unit ran into, so the adjustment is said next to the field.
+const adjustedTo = ref(null);
+
 const transformedValue = computed({
   get() {
     if (duration.value == null) return null;
@@ -42,25 +45,62 @@ const transformedValue = computed({
     return 0;
   },
   set(newValue) {
+    adjustedTo.value = null;
     if (newValue == null || newValue === '') {
       duration.value = null;
       return;
     }
-    let minuteValue = convertToMinutes(newValue);
-
-    duration.value = Math.min(Math.max(minuteValue, props.min), props.max);
+    duration.value = convertToMinutes(newValue);
   },
 });
 
-// when unit is changed set the nearest value to that unit
-// so if the minute is set to 900, and the user changes the unit to "days"
-// the transformed value will show 0, but the real value will still be 900
-// this might create some confusion, especially when saving
-// this watcher fixes it by rounding the duration basically, to the nearest unit value
-watch(unit, () => {
+const normalizeDuration = () => {
   if (duration.value == null) return;
+
+  duration.value = Math.min(Math.max(duration.value, props.min), props.max);
+};
+
+// A unit the user picks keeps the number on screen: "2" hours becomes "2" days. Converting the
+// duration instead reads as 0 days and then snaps to the minimum, so the field shows a number
+// nobody typed. When the kept number falls outside the range it is brought to the bound, since not
+// every form validates the range before saving, and the field says so instead of passing the bound
+// off as what the user typed.
+let countToKeep = null;
+const onUnitSelected = event => {
+  countToKeep = transformedValue.value;
+  unit.value = event.target.value;
+};
+
+// A unit set by the parent (to show a saved value in its largest whole unit) keeps the duration
+// and rounds it to the new unit, so if the minute is set to 900 and the unit becomes "days" the
+// field does not show 0 while 900 is what gets saved.
+watch(unit, () => {
+  const keptCount = countToKeep;
+  countToKeep = null;
+  adjustedTo.value = null;
+  if (duration.value == null) return;
+  if (keptCount != null) {
+    const kept = convertToMinutes(keptCount);
+    duration.value = Math.min(Math.max(kept, props.min), props.max);
+    if (kept > props.max) adjustedTo.value = 'MAX';
+    else if (kept < props.min) adjustedTo.value = 'MIN';
+    return;
+  }
   let adjustedValue = convertToMinutes(transformedValue.value);
   duration.value = Math.min(Math.max(adjustedValue, props.min), props.max);
+});
+const unitLabels = computed(() => ({
+  [DURATION_UNITS.MINUTES]: t('DURATION_INPUT.MINUTES'),
+  [DURATION_UNITS.HOURS]: t('DURATION_INPUT.HOURS'),
+  [DURATION_UNITS.DAYS]: t('DURATION_INPUT.DAYS'),
+}));
+
+const adjustedMessage = computed(() => {
+  if (!adjustedTo.value) return '';
+  return t(`DURATION_INPUT.ADJUSTED_TO_${adjustedTo.value}`, {
+    value: transformedValue.value,
+    unit: unitLabels.value[unit.value].toLowerCase(),
+  });
 });
 </script>
 
@@ -71,12 +111,16 @@ watch(unit, () => {
     autocomplete="off"
     :disabled="disabled"
     :placeholder="t('DURATION_INPUT.PLACEHOLDER')"
+    :message="adjustedMessage"
     class="flex-grow w-full disabled:"
+    @blur="normalizeDuration"
+    @keydown.enter="normalizeDuration"
   />
   <select
-    v-model="unit"
+    :value="unit"
     :disabled="disabled"
     class="mb-0 text-sm disabled:outline-n-weak disabled:opacity-40"
+    @change="onUnitSelected"
   >
     <option :value="DURATION_UNITS.MINUTES">
       {{ t('DURATION_INPUT.MINUTES') }}

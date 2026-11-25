@@ -1,19 +1,23 @@
-// Constants
+import { url } from '@vuelidate/validators';
+import {
+  processVariable,
+  buildWhatsAppProcessedParams,
+  findComponentByType,
+  COMPONENT_TYPES,
+} from '@chatwoot/utils';
+
+// Constants and pure template helpers are shared with the mobile app via
+// @chatwoot/utils so the logic lives in one place.
+export {
+  MEDIA_FORMATS,
+  COMPONENT_TYPES,
+  findComponentByType,
+  processVariable,
+  renderTemplatePreview,
+} from '@chatwoot/utils';
+
 export const DEFAULT_LANGUAGE = 'en';
 export const DEFAULT_CATEGORY = 'UTILITY';
-export const COMPONENT_TYPES = {
-  HEADER: 'HEADER',
-  BODY: 'BODY',
-  BUTTONS: 'BUTTONS',
-};
-export const MEDIA_FORMATS = ['IMAGE', 'VIDEO', 'DOCUMENT'];
-
-export const findComponentByType = (template, type) =>
-  template.components?.find(component => component.type === type);
-
-export const processVariable = str => {
-  return str.replace(/{{|}}/g, '');
-};
 
 export const allKeysRequired = value => {
   const keys = Object.keys(value);
@@ -27,70 +31,54 @@ export const replaceTemplateVariables = (templateText, processedParams) => {
   });
 };
 
-export const buildTemplateParameters = (template, hasMediaHeaderValue) => {
-  const allVariables = {};
+// The media-header flag is derived from the template inside the shared helper;
+// the second argument is kept for backwards-compatible call sites.
+export const buildTemplateParameters = template => {
+  const params = buildWhatsAppProcessedParams(template);
 
-  const bodyComponent = findComponentByType(template, COMPONENT_TYPES.BODY);
-  const headerComponent = findComponentByType(template, COMPONENT_TYPES.HEADER);
-
-  if (!bodyComponent) return allVariables;
-
-  const templateString = bodyComponent.text;
-
-  // Process body variables
-  const matchedVariables = templateString.match(/{{([^}]+)}}/g);
-  if (matchedVariables) {
-    allVariables.body = {};
-    matchedVariables.forEach(variable => {
-      const key = processVariable(variable);
-      allVariables.body[key] = '';
-    });
+  if (params.header) {
+    // Pre-fill with the sample media URL that ships with the template
+    // (components[].example.header_handle[0]) so the agent doesn't have to
+    // paste it manually. The field stays editable in the parser.
+    const headerComponent = findComponentByType(
+      template,
+      COMPONENT_TYPES.HEADER
+    );
+    params.header.media_url =
+      headerComponent?.example?.header_handle?.[0] || '';
   }
 
-  if (hasMediaHeaderValue) {
-    if (!allVariables.header) allVariables.header = {};
-    allVariables.header.media_url = '';
-    allVariables.header.media_type = headerComponent.format.toLowerCase();
+  return params;
+};
 
-    // For document templates, include media_name field for filename support
-    if (headerComponent.format.toLowerCase() === 'document') {
-      allVariables.header.media_name = '';
-    }
+// 360dialog templates may not have a provider ID.
+export const getTemplateKey = template =>
+  template.id ?? `${template.name}:${template.language}`;
+
+export const isValidTemplateMediaUrl = value =>
+  !value || (/^https?:\/\//i.test(value) && url.$validator(value));
+
+// Match the legacy body-only formats still supported by TemplateParameterConverterService.
+export const normalizeTemplateParameters = (params = {}) => {
+  const componentKeys = ['body', 'header', 'footer', 'buttons'];
+  const isParameterMap = value =>
+    value == null || (typeof value === 'object' && !Array.isArray(value));
+  const validButtons =
+    params.buttons == null ||
+    (Array.isArray(params.buttons) &&
+      params.buttons.every(
+        button => button == null || (isParameterMap(button) && button.type)
+      ));
+  if (
+    componentKeys.some(key => key in params) &&
+    isParameterMap(params.body) &&
+    isParameterMap(params.header) &&
+    validButtons
+  ) {
+    return params;
   }
-
-  // Process button variables
-  const buttonComponents = template.components.filter(
-    component => component.type === COMPONENT_TYPES.BUTTONS
-  );
-
-  buttonComponents.forEach(buttonComponent => {
-    if (buttonComponent.buttons) {
-      buttonComponent.buttons.forEach((button, index) => {
-        // Handle URL buttons with variables
-        if (button.type === 'URL' && button.url && button.url.includes('{{')) {
-          const buttonVars = button.url.match(/{{([^}]+)}}/g) || [];
-          if (buttonVars.length > 0) {
-            if (!allVariables.buttons) allVariables.buttons = [];
-            allVariables.buttons[index] = {
-              type: 'url',
-              parameter: '',
-              url: button.url,
-              variables: buttonVars.map(v => processVariable(v)),
-            };
-          }
-        }
-
-        // Handle copy code buttons
-        if (button.type === 'COPY_CODE') {
-          if (!allVariables.buttons) allVariables.buttons = [];
-          allVariables.buttons[index] = {
-            type: 'copy_code',
-            parameter: '',
-          };
-        }
-      });
-    }
-  });
-
-  return allVariables;
+  const entries = Array.isArray(params)
+    ? params.map((value, index) => [String(index + 1), String(value ?? '')])
+    : Object.entries(params).map(([key, value]) => [key, String(value ?? '')]);
+  return entries.length ? { body: Object.fromEntries(entries) } : {};
 };

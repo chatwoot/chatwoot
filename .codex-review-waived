@@ -1,0 +1,243 @@
+app/javascript/dashboard/store/modules/conversationPins.js: Reset offset pagination after unpinning  # PR#366
+app/javascript/dashboard/store/modules/conversationPins.js: Prevent delayed pin events from surviving a newer snapshot  # PR#366
+app/javascript/dashboard/helper/actionCable.js: Fetch missing conversations when a remote pin arrives  # PR#366
+app/models/conversation.rb: Defer fan-out when resolving a heavily pinned conversation  # PR#366
+app/javascript/dashboard/components/widgets/conversation/MoreActions.vue: Hide pin controls for conversations outside the list  # PR#366
+app/javascript/dashboard/helper/actionCable.js: Refresh cached permissions before applying this gate  # PR#367
+app/javascript/dashboard/helper/actionCable.js: Upsert conversations when assignment grants access  # PR#367
+# PR#372: the redelivery half of fazer-ai/chatwoot#373, still deliberately not answered.
+# Slice 6 settled the ordering half and left this one open: nothing claims an event id
+# before a handler runs, so a webhook the provider redelivers (a timeout on our 200, a
+# retry of its own) writes a second activity row for a group change. A claim needs a key,
+# and the capture showed the only id this provider sends rides on `connection` events.
+# Removing this waiver does not close the issue.
+app/services/whatsapp/session/inbound/dispatcher.rb: Deduplicate events before invoking non-idempotent handlers  # PR#372
+# PR#377: not a defect. A reaction stored with only `in_reply_to_external_id` gets its
+# `in_reply_to` filled in by Message's own `before_save :ensure_in_reply_to`, which runs
+# InReplyToMessageBuilder and resolves the target by source_id within the conversation. The
+# row id is therefore always there by the time a send reads it, and resolving it again here
+# would duplicate the model's guarantee. Covered by "reacts to a target a phone-originated
+# reaction knows only by its WhatsApp id" in message_sender_spec.
+app/services/whatsapp/session/outbound/message_sender.rb: Resolve phone-originated reactions by external target ID  # PR#377
+# PR#377: real, and deliberately left open. A logout retry that passes the quarantine
+# check and is still inside its provider call when the operator connects again can end the
+# replacement session. Closing it needs the logout to name the session it is meant to end,
+# which the contract does not have: `session.logout` addresses whatever session the inbox
+# holds now. The alternative, a distributed lock held across both provider calls, buys a
+# very rare and self-healing case (the operator scans again) at the price of a lock on the
+# connect path. The operator-driven sequence is already covered: `Facade#setup_channel_provider`
+# ends the wrong account inline before connecting and the retry then stands down. Revisit
+# with the session-scoped logout in the connector slice.
+app/jobs/whatsapp/session/logout_job.rb: Serialize stale logout checks with reconnects  # PR#377
+# PR#377: half fixed, half refused. The claim being refused after a conversion is fixed:
+# setup returns without asking the old provider, so no session is left behind. Serializing
+# the provider call itself against a second connect is not, and it is the same question as
+# the logout above: it needs a lock held across the connect. A provider answering two
+# overlapping connects converges on one pairing (both `POST /instance/connect` and
+# `session.connect` return the pairing in progress), and where it does not, the next QR
+# rotation arrives as an event and corrects the screen within ~20s.
+app/services/whatsapp/session/facade.rb: Fence the provider call against superseded setup attempts  # PR#377
+# PR#377: not a defect. The window named is between two lines of one synchronous call
+# chain: SendReplyJob -> SendOnChannelService#invalid_message? -> channel.send_message ->
+# this sender, with no I/O in between. The window that is actually open is the provider
+# call itself, and that one is already covered: `SourceIdReservation.assign` returns
+# `:revoke` when it fills source_id on a message deleted meanwhile, and the sender enqueues
+# Messages::DeleteOnChannelJob after the lock commits. A second deletion check could not
+# close that window either, since deletion can always commit after the last check.
+app/services/whatsapp/session/outbound/message_sender.rb: Recheck deletion before sending the command  # PR#377
+# PR#379: half fixed, half refused. The half that was a real defect is fixed: a cursor
+# write that failed used to send the entry back through the retry ladder and re-run a
+# handler that had already committed, which turned a Redis hiccup into a certain
+# duplicate rather than a possible one. Making the cursor atomic with the handler is the
+# refused half. It cannot be done: the acknowledgement is a Redis call either way, so a
+# database transaction cannot contain it, and the handler this finding names as the
+# victim, Raw, writes nothing to the database at all, so there is no transaction for a
+# cursor to join. Delivery over a stream is at least once, and this layer answers that
+# where the answer belongs, in the handlers: a message is deduped by its source id, a
+# status only moves forwards, and group and connection state is last write wins. What is
+# left is a repeated PROVIDER_EVENT_RECEIVED webhook after a crash in the window between
+# a commit and a SET, and a processed-events table to prevent it would cost a write per
+# event on the ordering-critical path.
+app/services/whatsapp/connector/consumer/shard_worker.rb: Commit event progress atomically with handler effects  # PR#379
+# PR#380: real, known and not what this slice can fix. The webhook transport carries no
+# ordering, which is what fazer-ai/chatwoot#373 records and what the job this finding
+# names documents at its top: the payloads have nothing monotonic to rebuild an order
+# from, so the only thing on offer is waiting, and waiting is what `:deferred` does for
+# the case a target that is not stored yet. The remedy asked for here, serializing every
+# event of a session or a chat, is a different inbound design (one queue per session, or
+# a per-chat cursor with something to compare), not a change to this job. The reaction
+# sub-case has a cheaper answer that is worse: deferring a removal that finds no active
+# reaction would spend the whole retry ladder on every stray removal, which is the
+# ordinary shape (a reaction taken back on a message from before the inbox was connected)
+# in exchange for a race between two webhooks that are usually seconds apart.
+app/jobs/webhooks/whatsapp_session_events_job.rb: Preserve order for dependent webhook events  # PR#380
+# PR#380: the deployment this describes cannot have happened. `origin/main` carries no
+# file under `whatsapp/session` at all: the layer is unreleased, and this job has never
+# run anywhere, so no queue holds one of its entries under the previous keywords. A shim
+# accepting them would be unreachable on the day it was written. Worth remembering once
+# the layer does ship, because from then on a signature change to a queued job does have
+# to survive a rolling deploy.
+app/jobs/whatsapp/session/pairing_poll_job.rb: Preserve compatibility with queued pairing polls  # PR#380
+
+# Pre-existing and tracked as #385, not caused by this change. Collapsing the two
+# provider booleans into one session flag widened who sees the compose modal's attach
+# button, but the button was already there for Baileys and Z-API, and every WhatsApp
+# sender has always taken `attachments.first` because WhatsApp has no multi-media
+# message. The reply box splits into one message per attachment (the #277 fix); the
+# new-conversation composer never did. Fixing it means touching a helper shared with
+# email and the web widget, where one message carrying several files is correct.
+app/javascript/dashboard/components-next/NewConversation/components/ActionButtons.vue: Split multiple session attachments before sending  # PR#383
+
+# Tracked as #388, and a missing half rather than a defect: no button offers code
+# pairing, so nothing promises the user something that fails. Withdrawing the capability
+# instead would make backends refuse `request_pairing_code`, which both of them serve.
+app/services/whatsapp/session/registry.rb: Add a reachable pairing-code flow  # PR#387 → #388
+
+# Tracked as #389, and present on origin/main unchanged: `Contact#group_channel` is
+# `contact_inboxes.first`, every group controller has always resolved its channel that
+# way, and this branch neither introduces nor touches it. Same family as #374.
+app/javascript/dashboard/routes/dashboard/conversation/contact/GroupContactInfo.vue: Scope group commands to the selected inbox  # PR#387 → #389
+app/services/whatsapp/session/inbound/handlers/message_revoked.rb: Preserve the message author's inbox identity  # PR#493 → #494
+
+# PR#412: real, pre-existing, and bigger than this PR. `InboxPolicy::Scope` resolves to
+# `user.assigned_inboxes`, so an Enterprise custom role with `report_manage` already sees
+# only its own inboxes in the Inboxes overview itself, whose rows come from the same
+# `inboxes/getInboxes` this filter reads. Admins are unaffected (`assigned_inboxes` returns
+# every account inbox for them), and nothing is exposed either way: the summary endpoints
+# already return metrics for every account inbox to anyone who passes `ReportPolicy#view?`,
+# so only the names are scoped. Closing it means either widening `InboxPolicy::Scope`, which
+# changes every inbox picker in the app for those users, or a report-scoped inbox endpoint.
+# Neither belongs in a reports PR.
+app/javascript/dashboard/routes/dashboard/settings/reports/components/OverviewReportFilters.vue: Load all report-visible inboxes for the filter  # PR#412
+# PR#418: not a defect, and the remedy would make the payload worse. The mechanism is
+# real — `WebhookListener` runs at job time and rebuilds `webhook_data` from a row it just
+# reloaded through the GlobalID — but it is not this column's. Measured on a running
+# instance, in a rolled-back transaction: with the row at origin=77/priority=low/status=open
+# at enqueue and moved to 91/urgent/resolved before the perform, the payload carried
+# 91/"urgent"/"resolved". `priority` and `status` were in `list_of_keys` long before this
+# change and drift by exactly the same amount. Snapshotting only the pairing would make it
+# the one key in the account webhook whose value is event-time while everything beside it in
+# the same object is delivery-time, and a consumer reading two of them would be reading two
+# instants with no way to tell. The account webhook is a state snapshot at delivery; a
+# consumer that acts on it fences it as state, which is what fazer-ai/agents#355 does with a
+# version mark of its own.
+app/controllers/api/v1/widget/redirect_tokens_controller.rb: Snapshot the origin in async event payloads  # PR#418
+# PR#418: real, upstream, and not this change's to make. AgentBotListener handles
+# conversation_resolved / opened / status_changed / updated / message_created / message_updated /
+# webwidget_triggered and no conversation_created, so a message-less token that CREATES the
+# conversation delivers an empty list of bot events. Measured, and pinned by "delivers no bot event
+# on creation, and names the origin on the first one that follows" in the controller spec. Nothing is
+# lost by it: the pairing is on the row from the insert, so the first event a bot does receive
+# carries it, and until a message exists there is no episode for a consumer to act on. Making
+# creation bot-visible changes the agent-bot contract for every inbox in the account.
+app/controllers/api/v1/widget/redirect_tokens_controller.rb: Notify the agent bot on the first message-less redirect  # PR#418
+# PR#448: the rule is real and this is not what it is about. AGENTS.md bans inline styles
+# so that appearance lives in Tailwind, and every colour, radius, height and state here is
+# a utility class. What `:style` carries is one data-driven length, which no utility can
+# express: a bar is 25.9% wide because an agent holds 25.9% of the period. The repo already
+# does exactly this wherever a proportion is drawn — BillingMeter.vue, ImportProgress.vue,
+# KnowledgeCard.vue, PollDisplay.vue — and the alternatives are worse: snapping to w-1/12
+# steps lies about the number, and an SVG rect moves fill and radius out of Tailwind to
+# avoid a single width.
+app/javascript/dashboard/routes/dashboard/settings/reports/components/SummaryDistribution.vue: Render distribution widths without inline styles  # PR#448
+# PR#470: real, marginal, and the fourth position in a circle. Round 2 refused a map for
+# growing without bound, round 4 refused a bounded structure, round 7 refused the scalar
+# that replaced it, round 8 refused holding that scalar, and this refuses the cap that
+# answers round 8. Every answer short of tracking in-flight uploads is rejected for the case
+# it approximates away, and tracking them is not something this component can do honestly:
+# `stageFile` is wired to the uploader's `input-file`, which re-fires on every progress
+# update, and `attachFile` does not run at all when an upload fails, so a pending set would
+# both over-count and leak -- which is the stale-marker complaint of round 8 arriving by a
+# longer road. What is left uncovered is an upload still running while the agent toggles
+# note and reply more than five times, and it costs silence, which is what every discard did
+# before this PR. Revisit if the alert proves it earns more machinery.
+app/javascript/dashboard/components/widgets/conversation/ReplyBox.vue: Retain markers for uploads that are still pending  # PR#470
+# PR#472: real, pre-existing, and wider than these two keys. `syncCustomAttributeTypes` resolves a
+# condition with `filterTypes.find(ft => ft.attributeKey === condition.attribute_key)` and
+# `manifestCustomAttributes` puts the standard conditions first, so an account attribute whose key
+# matches a standard one resolves to the standard entry and has its `custom_attribute_type` cleared on
+# save. `CustomAttributeDefinition::STANDARD_ATTRIBUTES` reserves only conversation and contact names,
+# so `content`, `message_type` and `private_note` have carried this exposure for as long as they have
+# existed; `sender_id` and `sender_type` add two names to it and change nothing else. Closing it means
+# keying options by (attributeKey, attributeModel) through FilterSelect and ConditionRow, which the
+# conversation filters share, and there is no cheap half: preserving an existing `custom_attribute_type`
+# on save would still clear it the first time the user picks the attribute. The backend half is fixed
+# in this PR, so a condition that reaches the API with its model declared is now resolved by it.
+app/javascript/dashboard/routes/dashboard/settings/automation/constants.js: Preserve custom attributes that use the new sender keys  # PR#472
+# PR#453: real, upstream, and not this binding's to change. A bot with `account_id` has had the
+# whole account's API since long before this PR (`account_accessible_for_bot?`), whether or not it
+# is set on any inbox: it can post, resolve and assign anywhere. The observer binding widens
+# nothing there — it changes what the fork DELIVERS and what conversations start as (`pending`,
+# assigned), which is the role's promise. Gating reply/ownership calls on "does this bot serve
+# this conversation" is a per-conversation authorization scheme bots do not have today, for
+# every account bot (Captain included), and belongs to its own issue.
+app/controllers/api/v1/accounts/inboxes/agent_bot_observers_controller.rb: Enforce the observer role on bot API mutations  # PR#453
+app/views/survey/responses/show.html.erb: Use the project's Tailwind theming mechanism  # PR#482
+
+# Os quatro abaixo são da main, não deste merge: os arquivos são byte a byte idênticos
+# aos de origin/main, que o PR #500 apenas atravessa. Cada um foi verificado, é real, e
+# tem issue própria. Consertá-los dentro de um merge misturaria o reparo de ancestralidade
+# com correção de comportamento em produção, que é o que torna um merge difícil de reverter.
+app/finders/message_finder.rb: Use the same tie-breaker when ordering message pages  # PR#500 → #502
+app/services/whatsapp/baileys_handlers/messaging_history_set.rb: Resolve exhausted chats through phone and LID aliases  # PR#500 → #503
+app/jobs/avatar/avatar_from_url_job.rb: Do not stamp markers for superseded avatar jobs  # PR#500 → #504
+app/controllers/concerns/group_channel_resolver.rb: Handle zero accessible group inboxes explicitly  # PR#500 → #505
+
+# PR#658: os dois achados da rodada 3 são adjacentes, não defeitos desta entrega, e cada um
+# tem issue com a medição e o custo. O do Telegram é `Telegram::UpdateMessageService`, que
+# escreve o corpo sem marcar `is_edited` e é arquivo do upstream sem nenhuma divergência
+# nossa: marcar ali abre superfície de conflito nova e muda o que a caixa do Telegram mostra,
+# que ninguém pediu (fazer-ai/chatwoot#659). O da gravação otimista é o resto do desenho do
+# `edit_content`, que grava antes de o canal aceitar: a #648 tirou o anúncio de cima dessa
+# gravação, e o que sobra é um job em fila ler a linha enquanto uma segunda edição está
+# pendente. Consertar de raiz é pedir ao canal antes de gravar, o que muda a tela do agente
+# (fazer-ai/chatwoot#660).
+app/models/message.rb: Include Telegram edits in the new trigger  # PR#658
+app/controllers/api/v1/accounts/conversations/messages_controller.rb: Keep pending edits out of queued automation evaluations  # PR#658
+# O relógio de uma reação é o `external_created_at`, em segundos, em todo o caminho de reações
+# (o stale? da troca de emoji já compara assim, e empate no mesmo segundo passa por desenho).
+# Reordenar dentro do mesmo segundo exigiria outra coluna de milissegundos só para isto.
+app/services/whatsapp/session/inbound/reaction_store.rb: Preserve subsecond ordering when comparing reaction removals  # PR#772
+app/javascript/dashboard/routes/dashboard/settings/inbox/settingsPage/WhatsappAppSecret.vue: Allow the token and app secret to be replaced together  # GHSA-xwhx PR#1
+app/models/message.rb: Clear the flag for receipts on already-delivered echoes  # PR#878
+app/models/concerns/assignment_handler.rb: Enforce working hours on initial human assignments  # PR#933
+app/javascript/dashboard/composables/useWhatsappCallSession.js: Release the call session before awaiting its recording upload  # PR#940
+app/javascript/dashboard/helper/actionCable.js: Preserve early lifecycle events for Cloud calls  # PR#940
+# PR#939: the history slot is a lease, not a hard cap, by design. It is the chat lock's TTL, the
+# time a history import batch is allowed to run, and an import batch has the same exposure. A
+# drain run checks its one-minute budget between files, and one file is at most MAX_MEDIA_BYTES
+# (100 MB): only a download slower than ~330 KB/s outlives the lease, and then one more history
+# job can start until it ends. Renewing the lease would need a token API on ImportSlots for that.
+app/jobs/whatsapp/session/history_media_job.rb: Keep downloads within the history-slot lease  # PR#939
+.bundler-audit.yml: Mitigate slow-client attacks before suppressing the advisories  # PR#991, user accepted the reachable DoS until the upstream sync
+app/models/attachment.rb: Reserve the video-note flag for provider-confirmed notes  # PR#1013 r2→r3: attachment metadata is caller-shaped by design in MessageBuilder; reading direction instead dropped the phone's own notes
+app/javascript/dashboard/components-next/message/bubbles/VideoNote.vue: Make video-note playback available before metadata loads  # PR#1013 r5: the same useLoadWithRetry gate upstream's Video bubble puts on every video in the dashboard
+# PR#1018: the note is tagged by the message builder when the message is composed, and that is
+# where the caption and one-file rules run. Changing it afterwards takes an attachment meta write
+# through AttachmentsController#update or an edit of the text before a queued send leaves, neither
+# of which any client does to a note; the connector still refuses the result, so the message turns
+# red instead of going out wrong.
+app/models/concerns/composed_attachment_checks.rb: Enforce the caption rule when an outbound message is updated  # PR#1018
+# PR#1018: swagger/ is upstream's file, byte-identical to the release we track, and the fork's other
+# message flags (is_voice_message, attachments_metadata) are not in it either. Documenting a fork
+# parameter there is a conflict in every sync; the PR body documents it.
+app/builders/messages/message_builder.rb: Expose the video-note flag in the messages API schema  # PR#1018
+# PR#1018: a connector older than 1.1.0 deployed on its own ignores the field and delivers an
+# ordinary video, so nothing is lost and nothing fails; the image ships 1.1.0 pinned, and a separate
+# deployment is told to keep the connector current for the rest of the channel anyway.
+app/builders/messages/message_builder.rb: Check connector support before sending a video note  # PR#1018
+# PR#1018: `is_video_note[]=false` is a malformed request, and the repo rule is to fix the client
+# rather than add coercions; the sibling `is_voice_message` casts the same way.
+app/builders/messages/message_builder.rb: Reject non-scalar video-note flags before casting  # PR#1018
+# PR#1018: a codec-qualified MIME (`video/mp4; codecs=avc1`) is classified as a document by
+# FileTypeHelper for every video upload, with or without this flag. Pre-existing, and the
+# classifier's to fix, not this PR's.
+app/builders/messages/message_builder.rb: Recognize video MIME types with codec parameters  # PR#1018
+# PR#1018: it takes a note recorded with its WhatsApp id and a text, then reported failed by
+# WhatsApp, then retried by an agent. Even then the connector refuses the caption and the message
+# turns red with the reason; nothing wrong reaches the contact.
+app/models/concerns/composed_attachment_checks.rb: Check recorded video notes before retrying delivery  # PR#1018
+# PR#1018: a web widget reply that a caller sends with both a source_id and is_video_note is a
+# combination no client produces; the worst case is a circle in the dashboard for a video the
+# widget plays as a rectangle.
+app/builders/messages/message_builder.rb: Keep source-ID-tagged widget replies as ordinary videos  # PR#1018

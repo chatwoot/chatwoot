@@ -25,7 +25,7 @@ class Conversations::MessageWindowService
     when 'Channel::Tiktok'
       tiktok_messaging_window
     when 'Channel::Whatsapp'
-      return if %w[baileys zapi].include?(@conversation.inbox.channel.provider)
+      return if @conversation.inbox.channel.session_family?
 
       MESSAGING_WINDOW_24_HOURS
     when 'Channel::TwilioSms'

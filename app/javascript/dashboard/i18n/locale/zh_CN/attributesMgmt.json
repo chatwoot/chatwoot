@@ -5,9 +5,9 @@
     "LOADING": "正在获取自定义属性",
     "DESCRIPTION": "自定义属性可跟踪有关您的联系人或对话的其他详细信息——例如订阅计划或首次购买日期。您可以添加不同类型的自定义属性，如文本、列表或数字，以捕获您需要的特定信息。",
     "LEARN_MORE": "自定义属性说明",
-    "COUNT": "{n} attribute | {n} attributes",
+    "COUNT": "{n} 个属性",
     "SEARCH_PLACEHOLDER": "搜索属性...",
-    "NO_RESULTS": "No attributes found matching your search",
+    "NO_RESULTS": "未找到符合搜索条件的属性",
     "ATTRIBUTE_MODELS": {
       "CONVERSATION": "会话",
       "CONTACT": "联系人",
@@ -17,7 +17,7 @@
       "TEXT": "文本",
       "NUMBER": "号码",
       "LINK": "链接",
-      "DATE": "Date",
+      "DATE": "日期",
       "LIST": "列表",
       "CHECKBOX": "复选框"
     },
@@ -69,8 +69,8 @@
           "LABEL": "启用正则表达式验证"
         },
         "BADGES": {
-          "PRE_CHAT": "Pre-chat",
-          "RESOLUTION": "Resolution"
+          "PRE_CHAT": "对话前",
+          "RESOLUTION": "解决"
         }
       },
       "API": {
@@ -140,8 +140,8 @@
       }
     },
     "BADGES": {
-      "PRE_CHAT": "Pre-chat",
-      "RESOLUTION": "Resolution"
+      "PRE_CHAT": "对话前",
+      "RESOLUTION": "解决"
     }
   }
 }

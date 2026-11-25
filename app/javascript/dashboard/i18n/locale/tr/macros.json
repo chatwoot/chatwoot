@@ -82,7 +82,8 @@
     "EXECUTE": {
       "BUTTON_TOOLTIP": "Çalıştır",
       "PREVIEW": "Kısayol Ön İzlemesi",
-      "EXECUTED_SUCCESSFULLY": "Kısayol başarıyla çalıştırıldı"
+      "EXECUTED_SUCCESSFULLY": "Kısayol başarıyla çalıştırıldı",
+      "EXECUTED_WITHOUT_RESOLVING": "Macro executed. The conversation was not resolved because required attributes are missing."
     },
     "ERRORS": {
       "ATTRIBUTE_KEY_REQUIRED": "Özellik anahtarı gereklidir",
@@ -104,6 +105,7 @@
       "MUTE_CONVERSATION": "Konuşmayı Sessize Al",
       "SNOOZE_CONVERSATION": "Konuşmayı Ertele",
       "RESOLVE_CONVERSATION": "Görüşmeyi çöz",
+      "CHANGE_STATUS": "Change Status",
       "SEND_ATTACHMENT": "Ek Gönder",
       "SEND_MESSAGE": "Mesaj Gönder",
       "CHANGE_PRIORITY": "Önceliği Değiştir",

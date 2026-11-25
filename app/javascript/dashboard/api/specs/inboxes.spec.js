@@ -12,13 +12,18 @@ describe('#InboxesAPI', () => {
     expect(inboxesAPI).toHaveProperty('getCampaigns');
     expect(inboxesAPI).toHaveProperty('getAgentBot');
     expect(inboxesAPI).toHaveProperty('setAgentBot');
+    expect(inboxesAPI).toHaveProperty('getAgentBotObservers');
+    expect(inboxesAPI).toHaveProperty('addAgentBotObserver');
+    expect(inboxesAPI).toHaveProperty('removeAgentBotObserver');
     expect(inboxesAPI).toHaveProperty('syncTemplates');
+    expect(inboxesAPI).toHaveProperty('getMessageTemplates');
   });
 
   describe('API calls', () => {
     const originalAxios = window.axios;
     const axiosMock = {
       post: vi.fn(() => Promise.resolve()),
+      put: vi.fn(() => Promise.resolve()),
       get: vi.fn(() => Promise.resolve()),
       patch: vi.fn(() => Promise.resolve()),
       delete: vi.fn(() => Promise.resolve()),
@@ -37,15 +42,75 @@ describe('#InboxesAPI', () => {
       expect(axiosMock.get).toHaveBeenCalledWith('/api/v1/inboxes/2/campaigns');
     });
 
+    // The compose warning only shows a hint, so the server must give up early.
+    it('#onWhatsapp asks as an advisory lookup', () => {
+      inboxesAPI.onWhatsapp(2, '+5585988246590');
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        '/api/v1/inboxes/2/on_whatsapp',
+        {
+          phone_number: '+5585988246590',
+          advisory: true,
+        }
+      );
+    });
+
     it('#deleteInboxAvatar', () => {
       inboxesAPI.deleteInboxAvatar(2);
       expect(axiosMock.delete).toHaveBeenCalledWith('/api/v1/inboxes/2/avatar');
+    });
+
+    it('#getAgentBotObservers', () => {
+      inboxesAPI.getAgentBotObservers(2);
+      expect(axiosMock.get).toHaveBeenCalledWith(
+        '/api/v1/inboxes/2/agent_bot_observers'
+      );
+    });
+
+    it('#addAgentBotObserver', () => {
+      inboxesAPI.addAgentBotObserver(2, 7);
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        '/api/v1/inboxes/2/agent_bot_observers',
+        { agent_bot: 7 }
+      );
+    });
+
+    it('#removeAgentBotObserver', () => {
+      inboxesAPI.removeAgentBotObserver(2, 7);
+      expect(axiosMock.delete).toHaveBeenCalledWith(
+        '/api/v1/inboxes/2/agent_bot_observers/7'
+      );
     });
 
     it('#syncTemplates', () => {
       inboxesAPI.syncTemplates(2);
       expect(axiosMock.post).toHaveBeenCalledWith(
         '/api/v1/inboxes/2/sync_templates'
+      );
+    });
+
+    it('#getMessageTemplates', () => {
+      const controller = new AbortController();
+
+      inboxesAPI.getMessageTemplates(
+        2,
+        { name: 'welcome' },
+        { signal: controller.signal }
+      );
+
+      expect(axiosMock.get).toHaveBeenCalledWith(
+        '/api/v1/inboxes/2/message_templates',
+        {
+          signal: controller.signal,
+          params: { name: 'welcome' },
+        }
+      );
+    });
+
+    it('#updateWhatsappBusinessManagementToken', () => {
+      inboxesAPI.updateWhatsappBusinessManagementToken(2, 'business-token');
+      expect(axiosMock.put).toHaveBeenCalledWith(
+        '/api/v1/inboxes/2/whatsapp_business_management_token',
+        { business_management_token: 'business-token' }
       );
     });
   });

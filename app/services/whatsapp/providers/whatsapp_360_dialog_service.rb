@@ -1,4 +1,8 @@
 class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseService
+  include Whatsapp::TransportFailure
+  include Whatsapp::CredentialCheck
+  include Whatsapp::Dialog360RequestOptions
+
   def send_message(phone_number, message)
     @message = message
     if message.attachments.present?
@@ -11,7 +15,7 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
   end
 
   def send_template(phone_number, template_info, message)
-    response = HTTParty.post(
+    response = post_outgoing(
       "#{api_base_path}/messages",
       headers: api_headers,
       body: {
@@ -27,18 +31,17 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
   def sync_templates
     # ensuring that channels with wrong provider config wouldn't keep trying to sync templates
     whatsapp_channel.mark_message_templates_updated
-    response = HTTParty.get("#{api_base_path}/configs/templates", headers: api_headers)
+    response = HTTParty.get("#{api_base_path}/configs/templates", headers: api_headers, **DIALOG360_REQUEST_OPTIONS)
     whatsapp_channel.update!(message_templates: response['waba_templates'], message_templates_last_updated: Time.now.utc) if response.success?
   end
 
   def validate_provider_config?
-    response = HTTParty.post(
-      "#{api_base_path}/configs/webhook",
-      headers: { 'D360-API-KEY': whatsapp_channel.provider_config['api_key'], 'Content-Type': 'application/json' },
-      body: {
-        url: "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/whatsapp/#{whatsapp_channel.phone_number}"
-      }.to_json
-    )
+    url = "#{api_base_path}/configs/webhook"
+    headers = { 'D360-API-KEY': whatsapp_channel.provider_config['api_key'], 'Content-Type': 'application/json' }
+    body = { url: "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/whatsapp/#{whatsapp_channel.phone_number}" \
+                  "?webhook_token=#{whatsapp_channel.provider_config['webhook_token']}" }.to_json
+    response = credential_check_request { HTTParty.post(url, headers: headers, body: body, **DIALOG360_REQUEST_OPTIONS) }
+    ensure_credential_verdict!(response)
     response.success?
   end
 
@@ -58,7 +61,7 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
   end
 
   def send_text_message(phone_number, message)
-    response = HTTParty.post(
+    response = post_outgoing(
       "#{api_base_path}/messages",
       headers: api_headers,
       body: {
@@ -80,7 +83,7 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
     type_content['caption'] = message.outgoing_content unless %w[audio sticker].include?(type)
     type_content['filename'] = attachment.file.filename if type == 'document'
 
-    response = HTTParty.post(
+    response = post_outgoing(
       "#{api_base_path}/messages",
       headers: api_headers,
       body: {
@@ -113,7 +116,7 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
   def send_interactive_text_message(phone_number, message)
     payload = create_payload_based_on_items(message)
 
-    response = HTTParty.post(
+    response = post_outgoing(
       "#{api_base_path}/messages",
       headers: api_headers,
       body: {
@@ -124,5 +127,13 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
     )
 
     process_response(response, message)
+  end
+
+  # Every HTTP call that puts a message on its way out goes through here, and nothing else does.
+  # One line inside the `rescue`, on purpose: see Whatsapp::TransportFailure.
+  def post_outgoing(url, **)
+    HTTParty.post(url, **, **DIALOG360_REQUEST_OPTIONS)
+  rescue StandardError => e
+    raise_transport_failure(e)
   end
 end

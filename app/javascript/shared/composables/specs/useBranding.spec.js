@@ -73,13 +73,13 @@ describe('useBranding', () => {
       expect(result).toBe('Welcome to our platform');
     });
 
-    it('should be case-sensitive for "Chatwoot"', () => {
+    it('should replace "Chatwoot" regardless of casing', () => {
       const { replaceInstallationName } = useBranding();
       const result = replaceInstallationName(
-        'Welcome to chatwoot and CHATWOOT'
+        'Welcome to chatwoot, Chatwoot and CHATWOOT'
       );
 
-      expect(result).toBe('Welcome to chatwoot and CHATWOOT');
+      expect(result).toBe('Welcome to MyCompany, MyCompany and MyCompany');
     });
 
     it('should handle special characters in installation name', () => {
@@ -91,6 +91,15 @@ describe('useBranding', () => {
       const result = replaceInstallationName('Welcome to Chatwoot');
 
       expect(result).toBe('Welcome to My-Company & Co.');
+    });
+    it('inserts an installation name containing replacement syntax literally', () => {
+      mockGlobalConfig.value = { installationName: 'ACME $$' };
+
+      const { replaceInstallationName } = useBranding();
+
+      expect(replaceInstallationName('Powered by Chatwoot')).toBe(
+        'Powered by ACME $$'
+      );
     });
   });
 });

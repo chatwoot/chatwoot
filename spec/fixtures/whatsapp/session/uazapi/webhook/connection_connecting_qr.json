@@ -1,0 +1,13 @@
+{
+  "BaseUrl": "https://free.uazapi.com",
+  "EventType": "connection",
+  "event_id": "00000000-0000-4000-8000-000000000003",
+  "instance": {
+    "name": "testes-chatwoot",
+    "qrcode": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==",
+    "status": "connecting"
+  },
+  "instanceName": "testes-chatwoot",
+  "owner": "5511999990001",
+  "token": "00000000-0000-4000-8000-000000000001"
+}

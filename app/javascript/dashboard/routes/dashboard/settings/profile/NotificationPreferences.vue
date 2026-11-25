@@ -40,15 +40,44 @@ export default {
     isSLAEnabled() {
       return this.isFeatureEnabledonAccount(this.accountId, FEATURE_FLAGS.SLA);
     },
+    // Missed-call notifications are produced only where phones are rung for calls
+    isMissedCallNotificationEnabled() {
+      return (
+        this.isFeatureEnabledonAccount(
+          this.accountId,
+          FEATURE_FLAGS.CHANNEL_VOICE
+        ) &&
+        this.isFeatureEnabledonAccount(
+          this.accountId,
+          FEATURE_FLAGS.MOBILE_VOICE_PUSH
+        )
+      );
+    },
     filteredNotificationTypes() {
-      return this.notificationTypes.filter(notification =>
-        this.isSLAEnabled
-          ? true
-          : ![
-              'sla_missed_first_response',
-              'sla_missed_next_response',
-              'sla_missed_resolution',
-            ].includes(notification.value)
+      return this.notificationTypes.filter(notification => {
+        if (
+          !this.isSLAEnabled &&
+          [
+            'sla_missed_first_response',
+            'sla_missed_next_response',
+            'sla_missed_resolution',
+          ].includes(notification.value)
+        ) {
+          return false;
+        }
+        if (
+          !this.isMissedCallNotificationEnabled &&
+          notification.value === 'voice_call_missed'
+        ) {
+          return false;
+        }
+        return true;
+      });
+    },
+    // Some types (e.g. internal chat) don't support email delivery yet
+    emailNotificationTypes() {
+      return this.filteredNotificationTypes.filter(
+        notification => !notification.pushOnly
       );
     },
   },
@@ -213,6 +242,7 @@ export default {
             :class="`col-span-${type === 'push' ? 3 : 2}`"
           >
             <CheckBox
+              v-if="!(type === 'email' && notification.pushOnly)"
               :value="`${type}_${notification.value}`"
               :is-checked="
                 checkFlagStatus(type, notification.value, selectedPushFlags)
@@ -230,7 +260,7 @@ export default {
       </span>
       <div class="flex flex-col gap-4">
         <div
-          v-for="(notification, index) in filteredNotificationTypes"
+          v-for="(notification, index) in emailNotificationTypes"
           :key="index"
           class="flex flex-row items-start gap-2"
         >

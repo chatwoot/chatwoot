@@ -65,6 +65,11 @@ RSpec.describe Contact do
       expect { contact.update!(phone_number: '123456789') }.to raise_error(ActiveRecord::RecordInvalid)
     end
 
+    it 'will throw error when text is prefixed to a valid phone number' do
+      contact = create(:contact)
+      expect { contact.update!(phone_number: 'abc+12312312321') }.to raise_error(ActiveRecord::RecordInvalid)
+    end
+
     it 'updates phone number when adding valid phone number' do
       contact = create(:contact)
       expect(contact.update!(phone_number: '+12312312321')).to be true
@@ -107,6 +112,23 @@ RSpec.describe Contact do
     it 'has contact type "lead" when contacted through a social channel' do
       contact = create(:contact, additional_attributes: { social_facebook_user_id: '123' })
       expect(contact.contact_type).to eq 'lead'
+    end
+  end
+
+  describe '#webhook_data and #push_event_data' do
+    it 'carry the contact type, so a changed contact_type can be read from the event itself' do
+      contact = create(:contact, email: 'lead@example.com')
+
+      expect(contact.webhook_data[:contact_type]).to eq('lead')
+      expect(contact.push_event_data[:contact_type]).to eq('lead')
+    end
+  end
+
+  describe '#widget_presence_data' do
+    it 'returns which details the contact has without their values' do
+      contact = create(:contact, name: 'Jane', email: 'jane@example.com', phone_number: nil)
+
+      expect(contact.widget_presence_data).to eq(has_email: true, has_name: true, has_phone_number: false)
     end
   end
 
@@ -201,6 +223,36 @@ RSpec.describe Contact do
         expect(resolved_new).to include(lead_with_email, lead_without_email)
         expect(resolved_new).not_to include(visitor_contact, customer_contact)
       end
+    end
+  end
+
+  describe 'payload clock' do
+    # A consumer that mirrors the contact orders writes by this value across deliveries of different
+    # conversations, so it must be the row's own clock, sub-second, and move on a custom attribute edit.
+    it 'ships the contact updated_at as sub-second float seconds that move on a custom attribute edit' do
+      contact = create(:contact, custom_attributes: { 'plano' => 'ouro' })
+      first = contact.push_event_data[:updated_at]
+
+      contact.update!(custom_attributes: { 'plano' => 'prata' })
+
+      [contact.push_event_data, contact.webhook_data].each do |payload|
+        expect(payload[:updated_at]).to be_a(Float)
+        expect(payload[:updated_at]).to be > first
+        expect(payload[:updated_at]).to eq(contact.reload.updated_at.to_f)
+      end
+    end
+
+    # Postgres keeps microseconds, while the record that was just saved keeps whatever the clock gave it
+    # (nanoseconds on Linux). A consumer compares this value for equality as the row's version, so the
+    # payload built from the record in memory must name the instant the row stores.
+    it 'ships the instant the database stores, not the sub-microsecond clock of the record in memory' do
+      contact = create(:contact)
+      contact.update!(updated_at: Time.zone.at(1_791_823_361, 121_236_812, :nsec))
+
+      stored = described_class.find(contact.id).updated_at.to_f
+      expect(stored).to eq(Time.zone.at(1_791_823_361, 121_236, :usec).to_f)
+      expect(contact.push_event_data[:updated_at]).to eq(stored)
+      expect(contact.webhook_data[:updated_at]).to eq(stored)
     end
   end
 

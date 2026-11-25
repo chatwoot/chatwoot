@@ -1,4 +1,36 @@
 class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
+  GENERAL_CONFIGS = %w[ENABLE_ACCOUNT_SIGNUP FIREBASE_PROJECT_ID FIREBASE_CREDENTIALS WEBHOOK_TIMEOUT MAXIMUM_FILE_UPLOAD_SIZE
+                       WIDGET_TOKEN_EXPIRY MESSAGE_SEARCH_MIN_QUERY_LENGTH MOBILE_APP_MIN_IOS_VERSION
+                       MOBILE_APP_MIN_ANDROID_VERSION].freeze
+  META_INCIDENT_CONFIGS = %w[DISABLE_META_INBOX_CREATION DISABLE_META_MESSAGE_SENDING].freeze
+  INSTAGRAM_CONFIGS = %w[
+    INSTAGRAM_LOGIN_METHOD INSTAGRAM_APP_NAME INSTAGRAM_APP_ID INSTAGRAM_APP_SECRET
+    INSTAGRAM_UNIFIED_APP_NAME INSTAGRAM_UNIFIED_APP_ID INSTAGRAM_UNIFIED_APP_SECRET INSTAGRAM_CONFIGURATION_ID
+    INSTAGRAM_VERIFY_TOKEN INSTAGRAM_API_VERSION ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT
+  ].freeze
+  SHOPIFY_CONFIGS = %w[
+    ENABLE_SHOPIFY_INTEGRATION
+    SHOPIFY_CLIENT_ID
+    SHOPIFY_CLIENT_SECRET
+    SHOPIFY_APP_STORE_URL
+    SHOPIFY_PARTNER_ORGANIZATION_ID
+    SHOPIFY_PARTNER_APP_ID
+    SHOPIFY_PARTNER_ACCESS_TOKEN
+    SHOPIFY_PARTNER_API_VERSION
+  ].freeze
+  # The installation's brand, edited here on a Community install. Enterprise brings its own page
+  # for these keys and puts them back to their defaults on its community plan, so the page is
+  # offered only without enterprise/. What is saved here is what the installation shows: once
+  # the page is saved, BRANDING_EDITED_IN_SUPER_ADMIN tells `branding:update` to leave the
+  # brand alone (CUSTOM_BRANDING.md).
+  BRANDING_CONFIGS = %w[
+    INSTALLATION_NAME LOGO_THUMBNAIL LOGO LOGO_DARK LOGO_EMAIL BRAND_NAME BRAND_URL WIDGET_BRAND_URL
+    BRAND_COLOR TERMS_URL PRIVACY_URL DISPLAY_MANIFEST
+  ].freeze
+  BRAND_COLOR_FORMAT = /\A#(?:\h{3}|\h{6})\z/
+  NON_NEGATIVE_INTEGER_FORMAT = /\A\d+\z/
+  BRANDING_EDITED_FLAG = 'BRANDING_EDITED_IN_SUPER_ADMIN'.freeze
+
   before_action :set_config
   before_action :allowed_configs
   def show
@@ -9,54 +41,107 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
                                     .map { |name, serialized_value| [name, serialized_value['value']] }
                                     .to_h
     # rubocop:enable Style/HashTransformValues
+    @app_config['INSTAGRAM_LOGIN_METHOD'] = Instagram::LoginConfiguration.login_method if @config == 'instagram'
     @installation_configs = ConfigLoader.new.general_configs.each_with_object({}) do |config_hash, result|
       result[config_hash['name']] = config_hash.except('name')
     end
   end
 
   def create
-    errors = []
+    errors = submitted_config_errors
     params['app_config'].each do |key, value|
+      break if errors.any?
       next unless @allowed_configs.include?(key)
 
       i = InstallationConfig.where(name: key).first_or_create!(value: value, locked: false)
       i.value = value
       errors.concat(i.errors.full_messages) unless i.save
     end
+    mark_branding_edited if errors.empty?
 
-    if errors.any?
-      redirect_to super_admin_app_config_path(config: @config), alert: errors.join(', ')
-    else
-      redirect_to super_admin_settings_path, flash: success_flash
-    end
+    redirect_to super_admin_app_config_path(config: @config), flash: errors.any? ? { alert: errors.join(', ') } : success_flash
   end
 
   private
+
+  def submitted_config_errors
+    shopify_partner_config_errors + stripe_config_errors + branding_config_errors + message_search_config_errors
+  end
+
+  def stripe_config_errors
+    return [] unless @config == 'stripe'
+
+    values = InstallationConfig.where(name: @allowed_configs).to_h { |config| [config.name, config.value] }
+    values.merge!(params.fetch('app_config', {}).permit(*@allowed_configs).to_h)
+    Integrations::Stripe::Oauth.configuration_errors(url: values['STRIPE_APP_AUTHORIZE_URL'], key: values['STRIPE_APP_SECRET_KEY'])
+  end
+
+  # SearchService reads the minimum with to_i and the dashboard with parseInt, so anything but a
+  # whole number would be read differently on each side. Blank means no minimum.
+  def message_search_config_errors
+    value = params.dig('app_config', 'MESSAGE_SEARCH_MIN_QUERY_LENGTH')
+    return [] if value.blank? || value.to_s.strip.match?(NON_NEGATIVE_INTEGER_FORMAT)
+
+    [I18n.t('super_admin.app_configs.general.invalid_message_search_min_query_length')]
+  end
+
+  # Emails and the PWA manifest put the colour straight into CSS and HTML attributes.
+  def branding_config_errors
+    return [] unless @config == 'branding'
+
+    color = params.dig('app_config', 'BRAND_COLOR')
+    return [] if color.blank? || color.match?(BRAND_COLOR_FORMAT)
+
+    [I18n.t('super_admin.app_configs.branding.invalid_color')]
+  end
+
+  # The whole page, and not the keys that changed: the form submits every key, and a value the
+  # operator saved equal to its default is as much theirs as any other.
+  def mark_branding_edited
+    return unless @config == 'branding'
+
+    InstallationConfig.where(name: BRANDING_EDITED_FLAG).first_or_create!(value: true, locked: false).update!(value: true)
+  end
 
   def set_config
     @config = params[:config] || 'general'
   end
 
   def allowed_configs
+    general_configs = GENERAL_CONFIGS + (ChatwootApp.chatwoot_cloud? ? META_INCIDENT_CONFIGS : [])
+
     mapping = {
       'facebook' => %w[FB_APP_ID FB_VERIFY_TOKEN FB_APP_SECRET IG_VERIFY_TOKEN FACEBOOK_API_VERSION ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT],
-      'shopify' => %w[SHOPIFY_CLIENT_ID SHOPIFY_CLIENT_SECRET],
+      'shopify' => SHOPIFY_CONFIGS,
       'microsoft' => %w[AZURE_APP_ID AZURE_APP_SECRET],
       'email' => %w[MAILER_INBOUND_EMAIL_DOMAIN ACCOUNT_EMAILS_LIMIT ACCOUNT_EMAILS_PLAN_LIMITS],
       'linear' => %w[LINEAR_CLIENT_ID LINEAR_CLIENT_SECRET],
-      'slack' => %w[SLACK_CLIENT_ID SLACK_CLIENT_SECRET],
-      'instagram' => %w[INSTAGRAM_APP_ID INSTAGRAM_APP_SECRET INSTAGRAM_VERIFY_TOKEN INSTAGRAM_API_VERSION ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT],
+      'stripe' => %w[STRIPE_APP_AUTHORIZE_URL STRIPE_APP_SECRET_KEY STRIPE_APP_WEBHOOK_SECRET],
+      'slack' => %w[SLACK_CLIENT_ID SLACK_CLIENT_SECRET SLACK_SIGNING_SECRET],
+      'instagram' => INSTAGRAM_CONFIGS,
       'tiktok' => %w[TIKTOK_APP_ID TIKTOK_APP_SECRET TIKTOK_API_VERSION],
       'whatsapp_embedded' => %w[WHATSAPP_APP_ID WHATSAPP_APP_SECRET WHATSAPP_CONFIGURATION_ID WHATSAPP_API_VERSION],
       'notion' => %w[NOTION_CLIENT_ID NOTION_CLIENT_SECRET],
       'google' => %w[GOOGLE_OAUTH_CLIENT_ID GOOGLE_OAUTH_CLIENT_SECRET GOOGLE_OAUTH_REDIRECT_URI ENABLE_GOOGLE_OAUTH_LOGIN],
-      'captain' => %w[CAPTAIN_OPEN_AI_API_KEY CAPTAIN_OPEN_AI_MODEL CAPTAIN_OPEN_AI_ENDPOINT]
+      'captain' => %w[CAPTAIN_OPEN_AI_API_KEY CAPTAIN_OPEN_AI_MODEL CAPTAIN_OPEN_AI_ENDPOINT
+                      CAPTAIN_OPENROUTER_API_KEY CAPTAIN_OPENROUTER_DECISION_MODEL_ENDPOINT]
     }
+    mapping['branding'] = BRANDING_CONFIGS unless ChatwootApp.enterprise?
 
-    @allowed_configs = mapping.fetch(
-      @config,
-      %w[ENABLE_ACCOUNT_SIGNUP FIREBASE_PROJECT_ID FIREBASE_CREDENTIALS WEBHOOK_TIMEOUT MAXIMUM_FILE_UPLOAD_SIZE WIDGET_TOKEN_EXPIRY]
-    )
+    @allowed_configs = mapping.fetch(@config, general_configs)
+  end
+
+  def shopify_partner_config_errors
+    return [] unless @config == 'shopify'
+
+    saved_values = InstallationConfig.where(name: Shopify::PartnerConfiguration::KEYS).each_with_object({}) do |config, values|
+      values[config.name] = config.value
+    end
+    submitted_values = params.fetch('app_config', {}).permit(*SHOPIFY_CONFIGS).to_h
+    Shopify::PartnerConfiguration.validate_for_save!(saved_values.merge(submitted_values))
+    []
+  rescue Shopify::PartnerClient::ConfigurationError => e
+    [e.message]
   end
 
   def success_notice

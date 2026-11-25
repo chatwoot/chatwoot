@@ -1,0 +1,29 @@
+tags:
+  - Conversations
+operationId: list-pinned-conversations
+summary: List Pinned Conversations
+description: Lists the conversations the current agent pinned in this account
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: array
+          items:
+            type: object
+            properties:
+              conversation_id:
+                type: number
+                description: 'The display id of the pinned conversation'
+              pinned_at:
+                type: number
+                description: 'Unix timestamp of when the conversation was pinned'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

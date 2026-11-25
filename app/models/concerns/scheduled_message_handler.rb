@@ -3,6 +3,7 @@ module ScheduledMessageHandler
 
   included do
     after_update_commit :update_scheduled_message_status, if: :should_update_scheduled_message?
+    after_create_commit :hold_pending_scheduled_messages, if: :should_hold_scheduled_messages?
   end
 
   private
@@ -34,6 +35,37 @@ module ScheduledMessageHandler
     when 'failed'
       :failed
     end
+  end
+
+  def should_hold_scheduled_messages?
+    incoming? && !private? && !reaction?
+  end
+
+  def hold_pending_scheduled_messages
+    cutoff = created_at || Time.current
+    conversation.scheduled_messages
+                .pending
+                .where(hold_on_reply: true)
+                .where('scheduled_at > ?', cutoff)
+                .find_each do |sm|
+      sm.update!(status: :held)
+      advance_recurring_series(sm) if sm.recurring_scheduled_message_id.present?
+      dispatch_scheduled_message_update(sm)
+    end
+  end
+
+  def advance_recurring_series(scheduled_message)
+    recurring = scheduled_message.recurring_scheduled_message
+    return unless recurring&.active?
+
+    RecurringScheduledMessages::CreateNextOccurrenceService.new(
+      recurring_scheduled_message: recurring,
+      previous_scheduled_message: scheduled_message,
+      skip_increment: true
+    ).perform
+
+    # Detach from the series so the agent can reschedule/resend without advancing it again
+    scheduled_message.update_column(:recurring_scheduled_message_id, nil) # rubocop:disable Rails/SkipsModelValidations
   end
 
   def dispatch_scheduled_message_update(scheduled_message)

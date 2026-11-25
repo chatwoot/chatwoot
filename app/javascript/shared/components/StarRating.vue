@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineProps, defineEmits } from 'vue';
+import { ref } from 'vue';
 
 const props = defineProps({
   selectedRating: {
@@ -34,8 +34,11 @@ const getStarClass = value => {
       hoveredRating.value >= value) ||
     props.selectedRating >= value;
 
+  // A cor sai de --survey-brand quando a pagina define a variavel (so a survey define), e
+  // cai no token do design system em qualquer outro lugar. Sem prop nova, e o widget que
+  // compartilha este componente nao muda.
   const starTypeClass = isStarActive
-    ? 'i-ri-star-fill text-n-amber-9'
+    ? 'i-ri-star-fill text-[color:var(--survey-brand,rgb(var(--amber-9)))]'
     : 'i-ri-star-line text-n-slate-10';
 
   return starTypeClass;
@@ -48,7 +51,7 @@ const getStarClass = value => {
       v-for="value in starRatings"
       :key="value"
       type="button"
-      class="rounded-full p-1 transition-all duration-200 focus:enabled:scale-[1.2] focus-within:enabled:scale-[1.2] hover:enabled:scale-[1.2] focus:outline-none flex items-center flex-shrink-0"
+      class="rounded-full p-1 transition-all duration-200 focus:enabled:scale-[1.2] focus-within:enabled:scale-[1.2] hover:enabled:scale-[1.2] focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--survey-brand,rgb(var(--slate-9)))] flex items-center flex-shrink-0"
       :class="{ 'cursor-not-allowed opacity-50': isDisabled }"
       :disabled="isDisabled"
       :aria-label="'Star ' + value"

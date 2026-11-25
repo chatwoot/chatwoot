@@ -1,4 +1,9 @@
 import { INBOX_TYPES, isVoiceCallEnabled } from 'dashboard/helper/inbox';
+import {
+  hasCapability,
+  inboxCapabilities as capabilitiesOf,
+  isSessionProvider,
+} from 'dashboard/helper/whatsappSession';
 
 export const INBOX_FEATURES = {
   REPLY_TO: 'replyTo',
@@ -103,6 +108,18 @@ export default {
         this.whatsAppAPIProvider === 'zapi'
       );
     },
+    // A WhatsApp inbox paired to a phone, whichever provider drives the session. Use
+    // this for what follows from pairing (no 24-hour window, a connection that can drop,
+    // group threads) and `hasInboxCapability` for anything a provider may not implement.
+    isASessionWhatsAppChannel() {
+      return (
+        this.channelType === INBOX_TYPES.WHATSAPP &&
+        isSessionProvider(this.whatsAppAPIProvider)
+      );
+    },
+    inboxCapabilities() {
+      return capabilitiesOf(this.inbox);
+    },
     chatAdditionalAttributes() {
       const { additional_attributes: additionalAttributes } = this.chat || {};
       return additionalAttributes || {};
@@ -150,6 +167,10 @@ export default {
   methods: {
     inboxHasFeature(feature) {
       return INBOX_FEATURE_MAP[feature]?.includes(this.channelType) ?? false;
+    },
+    // @param {string} capability - one of CAPABILITIES in helper/whatsappSession
+    hasInboxCapability(capability) {
+      return hasCapability(this.inbox, capability);
     },
   },
 };

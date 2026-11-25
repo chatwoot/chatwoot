@@ -1,0 +1,35 @@
+{
+  "INTEGRATION_SETTINGS": {
+    "WEBHOOK": {
+      "FORM": {
+        "SUBSCRIPTIONS": {
+          "EVENTS": {
+            "MESSAGE_INCOMING": "Incoming message",
+            "MESSAGE_OUTGOING": "Outgoing message",
+            "CONVERSATION_RECORDING": "Conversation Recording Audio",
+            "PROVIDER_EVENT_RECEIVED": "Provider Event Received",
+            "INTERNAL_CHAT_MESSAGE_CREATED": "Internal chat message created",
+            "INTERNAL_CHAT_MESSAGE_UPDATED": "Internal chat message updated",
+            "INTERNAL_CHAT_MESSAGE_DELETED": "Internal chat message deleted",
+            "INTERNAL_CHAT_CHANNEL_UPDATED": "Internal chat channel updated"
+          }
+        },
+        "INBOX": {
+          "LABEL": "Inbox",
+          "TITLE": "Select the inbox",
+          "PLACEHOLDER": "All Inboxes",
+          "NO_RESULTS": "No inboxes found",
+          "INPUT_PLACEHOLDER": "Search inbox"
+        }
+      }
+    },
+    "DASHBOARD_APPS": {
+      "VIEW": {
+        "NOT_FOUND": "We couldn't find that dashboard app."
+      },
+      "FORM": {
+        "SHOW_ON_SIDEBAR_LABEL": "Show on sidebar"
+      }
+    }
+  }
+}

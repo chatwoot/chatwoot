@@ -20,6 +20,68 @@ RSpec.describe Article do
       expect(article).not_to be_valid
       expect(article.errors[:content]).to include("can't be blank")
     end
+
+    it 'rejects reserved slugs that collide with help center routes' do
+      Article::RESERVED_SLUGS.each do |reserved_slug|
+        article = build(:article, portal_id: portal_1.id, author_id: user.id, category_id: category_1.id,
+                                  title: reserved_slug, slug: reserved_slug, content: 'content')
+        expect(article).not_to be_valid
+        expect(article.errors[:slug]).to include('is reserved')
+      end
+    end
+  end
+
+  describe 'translation families' do
+    let(:original) { create(:article, portal: portal_1, author: user, locale: 'en') }
+    let(:translation) { create(:article, portal: portal_1, author: user, locale: 'es', status: :draft, associated_article_id: original.id) }
+
+    %i[draft published].each do |status|
+      it "rejects a #{status} article in the original's locale" do
+        duplicate = build(:article, portal: portal_1, author: user, locale: 'en', status: status, associated_article_id: original.id)
+
+        expect(duplicate).not_to be_valid
+        expect(duplicate.errors[:locale]).to include('has already been taken')
+      end
+
+      it "rejects a #{status} article in an existing draft translation's locale" do
+        translation
+        duplicate = build(:article, portal: portal_1, author: user, locale: 'es', status: status, associated_article_id: original.id)
+
+        expect(duplicate).not_to be_valid
+        expect(duplicate.errors[:locale]).to include('has already been taken')
+      end
+    end
+
+    it 'rejects linking an original with translations to another family' do
+      translation
+      other_original = create(:article, portal: portal_1, author: user, locale: 'es')
+
+      expect(original.update(associated_article_id: other_original.id)).to be false
+      expect(original.errors[:associated_article_id]).to include('is invalid')
+      expect(original.reload.associated_article_id).to be_nil
+      expect(translation.reload.associated_article_id).to eq(original.id)
+    end
+
+    it 'rejects changing a translation to a category whose locale is already in the family' do
+      expect(translation.update(category: category_1)).to be false
+      expect(translation.errors[:locale]).to include('has already been taken')
+      expect(translation.reload.locale).to eq('es')
+    end
+
+    it 'allows unrelated originals in the same locale' do
+      original
+      other_original = build(:article, portal: portal_1, author: user, locale: 'en', status: :draft)
+
+      expect(other_original).to be_valid
+    end
+
+    it 'allows editing and publishing an existing translation' do
+      translation.update!(title: 'Updated translation', content: 'Updated content', status: :published)
+      translation.update!(draft_title: 'Unpublished title', draft_content: 'Unpublished content')
+
+      expect(translation.reload).to have_attributes(title: 'Updated translation', status: 'published',
+                                                    draft_title: 'Unpublished title', draft_content: 'Unpublished content')
+    end
   end
 
   describe 'associations' do
@@ -44,6 +106,19 @@ RSpec.describe Article do
         article.content = 'a' * 70_000
         article.valid?
         expect(article.errors[:content]).to include('is too long (maximum is 65535 characters)')
+      end
+    end
+
+    context 'when it validates draft_content length' do
+      it 'valid above the generic text column limit' do
+        article.draft_content = 'a' * 30_000
+        expect(article.valid?).to be true
+      end
+
+      it 'invalid when crossed the limit' do
+        article.draft_content = 'a' * 65_536
+        article.valid?
+        expect(article.errors[:draft_content]).to include('is too long (maximum is 65535 characters)')
       end
     end
   end
@@ -177,6 +252,8 @@ RSpec.describe Article do
   end
 
   describe '#to_llm_text' do
+    around { |example| with_modified_env(FRONTEND_URL: 'https://app.example.com') { example.run } }
+
     it 'returns formatted article text' do
       category = create(:category, name: 'Test Category', slug: 'test_category', portal_id: portal_1.id)
       article = create(:article, title: 'Test Article', category_id: category.id, content: 'This is the content', portal_id: portal_1.id,
@@ -185,6 +262,7 @@ RSpec.describe Article do
         Title: #{article.title}
         ID: #{article.id}
         Status: #{article.status}
+        Public URL: https://app.example.com/hc/#{portal_1.slug}/articles/#{article.slug}
         Category: #{category.name}
         Author: #{user.name}
         Views: #{article.views}
@@ -195,6 +273,60 @@ RSpec.describe Article do
       TEXT
 
       expect(article.to_llm_text).to eq(expected_output)
+    end
+  end
+
+  describe '.update_positions' do
+    let!(:article_a) { create(:article, portal: portal_1, category: category_1, author: user, position: 10) }
+    let!(:article_b) { create(:article, portal: portal_1, category: category_1, author: user, position: 11) }
+    let!(:article_c) { create(:article, portal: portal_1, category: category_1, author: user, position: 30) }
+
+    it 're-spaces the category to clean gaps and places a collided move after its tie' do
+      # Dropping C into the tight 10/11 gap gives a floored midpoint of 10, colliding with A
+      positions = described_class.update_positions(portal: portal_1, positions_hash: { article_c.id => 10 })
+
+      expect(article_a.reload.position).to eq(10)
+      expect(article_c.reload.position).to eq(20)
+      expect(article_b.reload.position).to eq(30)
+      expect(positions).to eq(article_a.id => 10, article_c.id => 20, article_b.id => 30)
+    end
+
+    it 'leaves a lone article untouched and returns nothing to sync' do
+      lone = create(:article, portal: portal_1, category: create(:category, portal_id: portal_1.id), author: user, position: 20)
+
+      positions = described_class.update_positions(portal: portal_1, positions_hash: { lone.id => 20 })
+
+      expect(lone.reload.position).to eq(20)
+      expect(positions).to be_empty
+    end
+  end
+
+  describe '#noindex?' do
+    let(:article) { build(:article, portal: portal_1, category: category_1, author: user, account: account) }
+
+    it 'is true only when meta noindex is true' do
+      expect(article.noindex?).to be(false)
+
+      article.meta = { 'noindex' => true }
+      expect(article.noindex?).to be(true)
+    end
+  end
+
+  describe 'noindex validation' do
+    let(:article) { build(:article, portal: portal_1, category: category_1, author: user, account: account) }
+
+    it 'accepts a boolean or a missing value' do
+      [true, false, nil].each do |value|
+        article.meta = { 'noindex' => value }
+        expect(article).to be_valid
+      end
+    end
+
+    it 'rejects non-boolean values' do
+      article.meta = { 'noindex' => 'true' }
+
+      expect(article).not_to be_valid
+      expect(article.errors[:meta]).to include('noindex must be true or false')
     end
   end
 end

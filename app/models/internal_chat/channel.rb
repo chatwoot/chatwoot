@@ -30,7 +30,7 @@
 # Foreign Keys
 #
 #  fk_rails_...  (category_id => internal_chat_categories.id)
-#  fk_rails_...  (created_by_id => users.id)
+#  fk_rails_...  (created_by_id => users.id) ON DELETE => nullify
 #
 class InternalChat::Channel < ApplicationRecord
   self.table_name = 'internal_chat_channels'
@@ -79,6 +79,17 @@ class InternalChat::Channel < ApplicationRecord
 
   def dm?
     channel_type_dm?
+  end
+
+  def push_event_data
+    {
+      id: id,
+      uuid: uuid,
+      name: name,
+      channel_type: channel_type,
+      account_id: account_id,
+      meta: {}
+    }
   end
 
   private

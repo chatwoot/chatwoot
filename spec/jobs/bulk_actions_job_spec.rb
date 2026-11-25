@@ -62,6 +62,59 @@ RSpec.describe BulkActionsJob do
       expect(conversation_3.reload.assignee_id).to eq(agent.id)
     end
 
+    it 'skips conversations another agent already owns and updates the rest' do
+      owner = create(:user, account: account, role: :agent)
+      create(:inbox_member, inbox: conversation_1.inbox, user: owner)
+      conversation_1.update!(assignee: owner)
+      conversation_1.inbox.update!(prevent_assignment_takeover: true)
+      params = {
+        type: 'Conversation',
+        fields: { assignee_id: agent.id },
+        ids: conversation_ids
+      }
+
+      expect { described_class.perform_now(account: account, params: params, user: agent) }.not_to raise_error
+
+      expect(conversation_1.reload.assignee).to eq(owner)
+      expect(conversation_2.reload.assignee).to eq(agent)
+      expect(conversation_3.reload.assignee).to eq(agent)
+    end
+
+    it 'skips conversations of an inbox outside its business hours and assigns the rest' do
+      conversation_1.update!(assignee: nil)
+      conversation_1.inbox.update!(working_hours_enabled: true, restrict_assignment_to_working_hours: true)
+      params = {
+        type: 'Conversation',
+        fields: { assignee_id: agent.id },
+        ids: conversation_ids
+      }
+
+      travel_to(Time.utc(2026, 11, 8, 12)) do
+        expect { described_class.perform_now(account: account, params: params, user: agent) }.not_to raise_error
+      end
+
+      expect(conversation_1.reload.assignee).to be_nil
+      expect(conversation_2.reload.assignee).to eq(agent)
+      expect(conversation_3.reload.assignee).to eq(agent)
+    end
+
+    it 'clears AgentBot ownership when bulk reopening conversations' do
+      agent_bot = create(:agent_bot, account: account)
+      conversations = [conversation_1, conversation_2, conversation_3]
+      conversations.zip(%w[pending resolved snoozed]).each do |conversation, status|
+        conversation.update!(status: status, ai_assignee: agent_bot)
+      end
+      params = { type: 'Conversation', fields: { status: 'open' }, ids: conversation_ids }
+
+      described_class.perform_now(account: account, params: params, user: agent)
+
+      conversations.each do |conversation|
+        expect(conversation.reload).to have_attributes(
+          status: 'open', assignee_id: nil, ai_assignee_type: nil, assignee_agent_bot_id: nil
+        )
+      end
+    end
+
     it 'bulk updates the snoozed_until' do
       params = {
         type: 'Conversation',

@@ -87,6 +87,7 @@ ENV PATH="/home/vscode/.rbenv/bin:/home/vscode/.rbenv/shims:$PATH"
 
 # Copy dependency files first for better caching
 COPY --chown=vscode:vscode Gemfile Gemfile.lock package.json pnpm-lock.yaml ./
+COPY --chown=vscode:vscode patches ./patches
 
 # Install dependencies as vscode user
 RUN eval "$(rbenv init -)" \

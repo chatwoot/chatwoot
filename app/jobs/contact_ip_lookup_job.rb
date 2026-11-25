@@ -13,11 +13,16 @@ class ContactIpLookupJob < ApplicationJob
     geocoder_result = IpLookupService.new.perform(get_contact_ip(contact))
     return unless geocoder_result
 
-    contact.additional_attributes ||= {}
-    contact.additional_attributes['city'] = geocoder_result.city
-    contact.additional_attributes['country'] = geocoder_result.country
-    contact.additional_attributes['country_code'] = geocoder_result.country_code
-    contact.save!
+    # The lookup is a network call and this object was read before it, so the three keys go in
+    # against the row as it is now rather than against a copy that predates the call.
+    contact.merge_json_column!(
+      :additional_attributes,
+      merge: {
+        'city' => geocoder_result.city,
+        'country' => geocoder_result.country,
+        'country_code' => geocoder_result.country_code
+      }
+    )
   end
 
   def get_contact_ip(contact)

@@ -1,4 +1,10 @@
 class Tiktok::AuthClient
+  # `extend` and not `include`: every call in this class runs on the singleton, inside
+  # `class << self`, and a module included into the class is not in the singleton's
+  # ancestors, so the constant does not resolve there. It raises `NameError` at the call,
+  # which no count of the constant in the source can notice.
+  extend Tiktok::RequestOptions
+
   REQUIRED_SCOPES = %w[user.info.basic user.info.username user.info.stats user.info.profile user.account.type user.insights message.list.read
                        message.list.send message.list.manage].freeze
 
@@ -40,7 +46,8 @@ class Tiktok::AuthClient
       response = HTTParty.post(
         endpoint,
         body: body.to_json,
-        headers: headers
+        headers: headers,
+        **TIKTOK_REQUEST_OPTIONS
       )
 
       json = process_json_response(response, 'Failed to obtain TikTok short-term access token')
@@ -68,7 +75,8 @@ class Tiktok::AuthClient
       response = HTTParty.post(
         endpoint,
         body: body.to_json,
-        headers: headers
+        headers: headers,
+        **TIKTOK_REQUEST_OPTIONS
       )
 
       json = process_json_response(response, 'Failed to renew TikTok short-term access token')
@@ -89,7 +97,7 @@ class Tiktok::AuthClient
         secret: client_secret,
         event_type: 'DIRECT_MESSAGE'
       }
-      response = HTTParty.get(endpoint, query: params, headers: headers)
+      response = HTTParty.get(endpoint, query: params, headers: headers, **TIKTOK_REQUEST_OPTIONS)
 
       process_json_response(response, 'Failed to fetch TikTok webhook callback')
     end
@@ -103,7 +111,7 @@ class Tiktok::AuthClient
         event_type: 'DIRECT_MESSAGE',
         callback_url: webhook_url
       }
-      response = HTTParty.post(endpoint, body: body.to_json, headers: headers)
+      response = HTTParty.post(endpoint, body: body.to_json, headers: headers, **TIKTOK_REQUEST_OPTIONS)
 
       process_json_response(response, 'Failed to update TikTok webhook callback')
     end

@@ -218,6 +218,55 @@ describe Webhooks::InstagramEventsJob do
         expect(instagram_messenger_inbox.messages.count).to be 1
         expect(instagram_messenger_inbox.messages.last.content_attributes['is_unsupported']).to be true
       end
+
+      context 'when a single webhook batch carries more than one event' do
+        let(:read_messaging) { build(:messaging_seen_event).with_indifferent_access[:entry][0][:messaging][0] }
+        let(:dm_messaging) { build(:instagram_message_create_event).with_indifferent_access[:entry][0][:messaging][0] }
+
+        before do
+          allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+          allow(fb_object).to receive(:get_object).and_return(
+            return_object_for(dm_messaging[:sender][:id]).with_indifferent_access
+          )
+        end
+
+        it 'routes each event to its own handler when the read event comes first' do
+          entry = { id: 'ig-entry-id', time: '2021-09-08T06:34:04+0000', messaging: [read_messaging, dm_messaging] }
+
+          expect(Instagram::ReadStatusService).to receive(:new).with(params: read_messaging,
+                                                                     channel: instagram_messenger_inbox.channel).and_call_original
+          instagram_webhook.perform_now([entry])
+
+          expect(instagram_messenger_inbox.messages.count).to eq 1
+        end
+
+        it 'routes each event to its own handler when the message event comes first' do
+          entry = { id: 'ig-entry-id', time: '2021-09-08T06:34:04+0000', messaging: [dm_messaging, read_messaging] }
+
+          expect(Instagram::ReadStatusService).to receive(:new).with(params: read_messaging,
+                                                                     channel: instagram_messenger_inbox.channel).and_call_original
+          instagram_webhook.perform_now([entry])
+
+          expect(instagram_messenger_inbox.messages.count).to eq 1
+        end
+      end
+
+      it 'handles instagram postback event and creates a message with the postback title' do
+        postback_event = build(:instagram_postback_event).with_indifferent_access
+        sender_id = postback_event[:entry][0][:messaging][0][:sender][:id]
+
+        allow(Koala::Facebook::API).to receive(:new).and_return(fb_object)
+        allow(fb_object).to receive(:get_object).and_return(
+          return_object_for(sender_id).with_indifferent_access
+        )
+
+        instagram_webhook.perform_now(postback_event[:entry])
+
+        expect(instagram_messenger_inbox.contacts.count).to be 1
+        expect(instagram_messenger_inbox.conversations.count).to be 1
+        expect(instagram_messenger_inbox.messages.count).to be 1
+        expect(instagram_messenger_inbox.messages.last.content).to eq 'Buy Now'
+      end
     end
 
     context 'when handling messaging events for Instagram via Instagram login' do
@@ -381,6 +430,63 @@ describe Webhooks::InstagramEventsJob do
         expect(instagram_inbox.conversations.count).to eq 1
         expect(instagram_inbox.messages.count).to eq 1
         expect(instagram_inbox.messages.last.content_attributes['is_unsupported']).to be_nil
+      end
+
+      context 'when a single webhook batch carries more than one event' do
+        let(:read_messaging) { build(:messaging_seen_event).with_indifferent_access[:entry][0][:messaging][0] }
+        let(:dm_messaging) { build(:instagram_message_create_event).with_indifferent_access[:entry][0][:messaging][0] }
+
+        it 'routes each event to its own handler when the read event comes first' do
+          entry = { id: 'ig-entry-id', time: '2021-09-08T06:34:04+0000', messaging: [read_messaging, dm_messaging] }
+
+          expect(Instagram::ReadStatusService).to receive(:new).with(params: read_messaging,
+                                                                     channel: instagram_inbox.channel).and_call_original
+          instagram_webhook.perform_now([entry])
+
+          expect(instagram_inbox.messages.count).to eq 1
+        end
+
+        it 'routes each event to its own handler when the message event comes first' do
+          entry = { id: 'ig-entry-id', time: '2021-09-08T06:34:04+0000', messaging: [dm_messaging, read_messaging] }
+
+          expect(Instagram::ReadStatusService).to receive(:new).with(params: read_messaging,
+                                                                     channel: instagram_inbox.channel).and_call_original
+          instagram_webhook.perform_now([entry])
+
+          expect(instagram_inbox.messages.count).to eq 1
+        end
+
+        it 'routes each event to its own handler when they arrive in separate entries' do
+          read_entry = { id: 'ig-entry-id-1', time: '2021-09-08T06:34:04+0000', messaging: [read_messaging] }
+          dm_entry = { id: 'ig-entry-id-2', time: '2021-09-08T06:34:05+0000', messaging: [dm_messaging] }
+
+          expect(Instagram::ReadStatusService).to receive(:new).with(params: read_messaging,
+                                                                     channel: instagram_inbox.channel).and_call_original
+          instagram_webhook.perform_now([read_entry, dm_entry])
+
+          expect(instagram_inbox.messages.count).to eq 1
+        end
+      end
+
+      it 'skips a messaging payload without a recipient instead of matching an unrelated channel' do
+        # channel_facebook_pages.instagram_id is nullable, so a blank lookup would match an arbitrary page
+        create(:channel_facebook_page, account: create(:account))
+        read_messaging = build(:messaging_seen_event).with_indifferent_access[:entry][0][:messaging][0].except('recipient')
+        entry = { id: 'ig-entry-id', time: '2021-09-08T06:34:04+0000', messaging: [read_messaging] }
+
+        expect(Instagram::ReadStatusService).not_to receive(:new)
+        expect { instagram_webhook.perform_now([entry]) }.not_to raise_error
+      end
+
+      it 'handles instagram postback event and creates a message with the postback title' do
+        postback_event = build(:instagram_postback_event).with_indifferent_access
+
+        instagram_webhook.perform_now(postback_event[:entry])
+
+        expect(instagram_inbox.contacts.count).to be 1
+        expect(instagram_inbox.conversations.count).to be 1
+        expect(instagram_inbox.messages.count).to be 1
+        expect(instagram_inbox.messages.last.content).to eq 'Buy Now'
       end
     end
   end

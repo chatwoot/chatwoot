@@ -2,6 +2,13 @@ import InternalChatChannelsAPI from '../../../api/internalChatChannels';
 import { throwErrorMessage } from 'dashboard/store/utils/api';
 
 export const actions = {
+  // Drops everything the module holds, for a member who just lost access to internal chat.
+  reset({ commit }) {
+    commit('RESET');
+    commit('messages/RESET');
+    commit('drafts/RESET');
+    commit('search/RESET');
+  },
   get: async ({ commit }) => {
     commit('SET_UI_FLAG', { isFetching: true });
     try {

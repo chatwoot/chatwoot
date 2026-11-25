@@ -1,16 +1,51 @@
-import { CONTENT_TYPES } from 'dashboard/components-next/message/constants';
+import {
+  CONTENT_TYPES,
+  VOICE_CALL_DIRECTION,
+  VOICE_CALL_STATUS,
+} from 'dashboard/components-next/message/constants';
+import CallsAPI from 'dashboard/api/calls';
+import { MESSAGE_TYPE } from 'shared/constants/messages';
 import { useCallsStore } from 'dashboard/stores/calls';
+import { isLocalWhatsappCall } from 'dashboard/composables/useWhatsappCallSession';
 import types from 'dashboard/store/mutation-types';
 
 export const TERMINAL_STATUSES = [
   'completed',
   'busy',
   'failed',
+  'rejected',
   'no-answer',
   'canceled',
   'missed',
   'ended',
 ];
+
+// A message.created for a ringing call is queued through ActionCableBroadcastJob and can
+// be delivered after the call has already been accepted/ended via a synchronous broadcast.
+// Track dismissed call sids at module scope so that late, stale "ringing" snapshot doesn't
+// resurrect a card every caller of handleVoiceCallCreated (hydration and real-time alike)
+// has already cleared.
+const dismissedCallSids = new Set();
+export const markCallDismissed = callSid => {
+  if (callSid) dismissedCallSids.add(callSid);
+};
+
+// Which Twilio call (if any) this tab is actively joining/owns. Must be set
+// synchronously BEFORE the join API call — mirrors useWhatsappCallSession's
+// activeCallId — so the account-wide voice_call.accepted broadcast (which can
+// arrive before the join promise resolves) doesn't mistake this tab's own
+// call for a sibling tab's and tear it down mid-join.
+let localCallSid = null;
+export const markLocalCall = callSid => {
+  localCallSid = callSid || null;
+};
+export const isLocalCall = callSid =>
+  !!callSid && localCallSid != null && callSid === localCallSid;
+export const clearLocalCall = callSid => {
+  if (localCallSid === callSid) localCallSid = null;
+};
+const isThisTabsCall = (callSid, callId) =>
+  isLocalCall(callSid) || isLocalWhatsappCall(callId);
 
 export const isInbound = direction => direction === 'inbound';
 
@@ -31,37 +66,101 @@ const isAssignedToAnotherAgent = (assigneeId, currentUserId) => {
   return !!assigneeId && assigneeId !== currentUserId;
 };
 
+// The server picks the agents an inbound call rings and names them on the
+// call's message, so its assignee no longer decides who sees the ringing card.
+const isRoutedCall = callDirection =>
+  callDirection === VOICE_CALL_DIRECTION.INBOUND;
+
 const shouldShowCall = ({
   callDirection,
   senderId,
   assigneeId,
   currentUserId,
+  status,
+  ringUserIds,
 }) => {
   if (shouldSkipCall(callDirection, senderId, currentUserId)) return false;
   // Outbound calls are scoped to the initiator via shouldSkipCall; the
   // conversation may be auto-assigned to a different agent on creation, so
   // skip the assignee filter for outbound to avoid hiding the caller's own widget.
   if (callDirection === 'outbound') return true;
+  // Once the ring is over the accepted/ended broadcasts decide what each tab keeps
+  if (isRoutedCall(callDirection)) {
+    return (
+      status !== VOICE_CALL_STATUS.RINGING ||
+      (ringUserIds || []).includes(currentUserId)
+    );
+  }
   return !isAssignedToAnotherAgent(assigneeId, currentUserId);
 };
+
+// Agents who are not online or have turned calls off get no ringing popup for
+// inbound calls, but outbound calls always belong to the initiator, and existing
+// (already-surfaced) calls keep going so a status change mid-call doesn't yank
+// away an active widget.
+const shouldRingInbound = (callDirection, receivesCalls) => {
+  if (callDirection === 'outbound') return true;
+  return receivesCalls;
+};
+
+function extractCallerSnapshot(message) {
+  // Snapshot caller info from the message at add-time so the widget can keep
+  // rendering it after the user navigates away from a conversation list that
+  // had the conversation hydrated (and Vuex evicts it from the store).
+  // Only incoming messages carry the contact as the sender; on outbound calls
+  // the sender is the initiating agent, so skip the snapshot and let the widget
+  // fall back to the conversation's contact (conversation.meta.sender).
+  if (message?.message_type !== MESSAGE_TYPE.INCOMING) return null;
+  const sender = message?.sender;
+  if (!sender) return null;
+  return {
+    name: sender.name,
+    phone: sender.phone_number,
+    avatar: sender.avatar || sender.thumbnail,
+    additionalAttributes: sender.additional_attributes || {},
+  };
+}
 
 function extractCallData(message) {
   const call = message?.call || {};
   return {
     callSid: call.provider_call_id,
+    callId: call.id,
+    provider: call.provider,
     status: call.status,
     callDirection: call.direction === 'outgoing' ? 'outbound' : 'inbound',
     conversationId: message?.conversation_id,
+    inboxId: message?.inbox_id ?? message?.conversation?.inbox_id,
     assigneeId: extractAssigneeId(message?.conversation),
     senderId: message?.sender?.id,
+    ringUserIds: message?.content_attributes?.data?.ring_user_ids,
+    dismissedUserIds: message?.content_attributes?.data?.dismissed_user_ids,
+    caller: extractCallerSnapshot(message),
   };
 }
 
-export function handleVoiceCallCreated(message, currentUserId) {
+export function handleVoiceCallCreated(message, currentUserId, receivesCalls) {
   if (!isVoiceCallMessage(message)) return;
 
-  const { callSid, callDirection, conversationId, assigneeId, senderId } =
-    extractCallData(message);
+  const {
+    callSid,
+    callId,
+    provider,
+    status,
+    callDirection,
+    conversationId,
+    inboxId,
+    assigneeId,
+    senderId,
+    ringUserIds,
+  } = extractCallData(message);
+
+  if (callSid && dismissedCallSids.has(callSid)) return;
+
+  // A voice_call message can be created already terminal when the caller hangs
+  // up before connect. Only ring while the call is actually ringing; mirrors the
+  // guard in seedCallsFromHydratedMessages.
+  if (status !== VOICE_CALL_STATUS.RINGING) return;
 
   if (
     !shouldShowCall({
@@ -69,33 +168,101 @@ export function handleVoiceCallCreated(message, currentUserId) {
       senderId,
       assigneeId,
       currentUserId,
+      status,
+      ringUserIds,
     })
   ) {
     return;
   }
 
+  if (!shouldRingInbound(callDirection, receivesCalls)) return;
+
   const callsStore = useCallsStore();
   callsStore.addCall({
     callSid,
+    callId,
+    provider,
     conversationId,
+    inboxId,
     callDirection,
     senderId,
+    caller: extractCallerSnapshot(message),
   });
 }
 
-export function handleVoiceCallUpdated(commit, message, currentUserId) {
+// Pages of 25 the ring recovery reads at most, well past the calls one agent can have ringing
+const MAX_RINGING_CALL_PAGES = 4;
+
+// A routed call rings agents whose conversation list may not hold its conversation, and the
+// call widget mounts only once a call is in the store, so a page load asks the server for the
+// calls ringing for this agent. A call this agent claimed stays ringing until their
+// connection joins, and only they can retry it, so it is restored as well.
+export async function loadRingingCalls(currentUserId) {
+  const callsStore = useCallsStore();
+  let page = 1;
+  let totalPages;
+  do {
+    // eslint-disable-next-line no-await-in-loop
+    const { data } = await CallsAPI.get({
+      status: VOICE_CALL_STATUS.RINGING,
+      direction: VOICE_CALL_DIRECTION.INBOUND,
+      page,
+    });
+    data.payload
+      .filter(
+        call =>
+          isRoutedCall(call.direction) &&
+          (!call.agent || call.agent.id === currentUserId) &&
+          !dismissedCallSids.has(call.call_id)
+      )
+      .forEach(call => {
+        callsStore.addCall({
+          callSid: call.call_id,
+          callId: call.id,
+          provider: call.provider,
+          conversationId: call.conversation.display_id,
+          inboxId: call.inbox.id,
+          callDirection: call.direction,
+          caller: call.contact && {
+            name: call.contact.name,
+            phone: call.contact.phone_number,
+            avatar: call.contact.avatar,
+            additionalAttributes: {},
+          },
+        });
+      });
+    totalPages = data.meta.total_pages;
+    page += 1;
+  } while (page <= Math.min(totalPages, MAX_RINGING_CALL_PAGES));
+}
+
+export function handleVoiceCallUpdated(
+  commit,
+  message,
+  currentUserId,
+  receivesCalls
+) {
   if (!isVoiceCallMessage(message)) return;
 
   const {
     callSid,
+    callId,
+    provider,
     status,
     callDirection,
     conversationId,
+    inboxId,
     assigneeId,
     senderId,
+    ringUserIds,
+    dismissedUserIds,
   } = extractCallData(message);
 
   const callsStore = useCallsStore();
+
+  // Guard against a still-queued ringing message.created arriving after this
+  // terminal update, same as the accepted/ended broadcast handlers.
+  if (TERMINAL_STATUSES.includes(status)) markCallDismissed(callSid);
 
   callsStore.handleCallStatusChanged({ callSid, status, conversationId });
 
@@ -111,26 +278,70 @@ export function handleVoiceCallUpdated(commit, message, currentUserId) {
       senderId,
       assigneeId,
       currentUserId,
+      status,
+      ringUserIds,
     })
   ) {
+    // Out of the ring: dismissed, perhaps from another tab, or not reached yet, which only a
+    // dismiss keeps closed. The call this tab is joining or on stays, as for the accepted broadcast.
+    if (isRoutedCall(callDirection)) {
+      if (isThisTabsCall(callSid, callId)) return;
+      if ((dismissedUserIds || []).includes(currentUserId))
+        markCallDismissed(callSid);
+    }
     callsStore.removeCall(callSid);
     return;
   }
 
   if (status === 'ringing') {
+    // A ring that reached another agent re-sends the call, which a dismiss here must survive
+    if (isRoutedCall(callDirection) && dismissedCallSids.has(callSid)) return;
+    if (!shouldRingInbound(callDirection, receivesCalls)) return;
+
     callsStore.addCall({
       callSid,
+      callId,
+      provider,
       conversationId,
+      inboxId,
       callDirection,
       senderId,
+      caller: extractCallerSnapshot(message),
     });
   }
 }
 
-export function syncConversationCallVisibility(conversation, currentUserId) {
+// `canOpenConversation` turns false once the agent's role no longer reaches the conversation,
+// which also blocks joining or dismissing a call that still rings for them. The call this tab
+// is joining or on stays: removing it would hang it up.
+export function syncConversationCallVisibility(
+  conversation,
+  currentUserId,
+  canOpenConversation = () => true
+) {
   const assigneeId = extractAssigneeId(conversation);
   if (!isAssignedToAnotherAgent(assigneeId, currentUserId)) return;
 
+  // Outbound calls belong to the initiator regardless of who the conversation
+  // is currently assigned to (auto-assignment may flip mid-call). Mirror
+  // shouldShowCall's outbound exception so an in-progress outbound call isn't
+  // ripped out from under the caller when the conversation reassigns.
   const callsStore = useCallsStore();
-  callsStore.removeCallsForConversation(conversation.id);
+  const callsToRemove = callsStore.calls.filter(
+    call =>
+      call.conversationId === conversation.id &&
+      (isRoutedCall(call.callDirection)
+        ? !isThisTabsCall(call.callSid, call.callId) && !canOpenConversation()
+        : !shouldShowCall({
+            callDirection: call.callDirection,
+            senderId: call.senderId,
+            assigneeId,
+            currentUserId,
+          }))
+  );
+  callsToRemove.forEach(call => {
+    // A later re-send of the ring would otherwise bring back a card the agent cannot act on
+    if (isRoutedCall(call.callDirection)) markCallDismissed(call.callSid);
+    callsStore.removeCall(call.callSid);
+  });
 }

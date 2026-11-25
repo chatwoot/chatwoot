@@ -8,6 +8,7 @@ export const buildScheduledMessagePayload = ({
   templateParams,
   attachment,
   removeAttachment,
+  holdOnReply,
 } = {}) => {
   if (!attachment) {
     return {
@@ -16,6 +17,7 @@ export const buildScheduledMessagePayload = ({
       scheduled_at: scheduledAt,
       template_params: templateParams,
       remove_attachment: removeAttachment || undefined,
+      hold_on_reply: holdOnReply,
     };
   }
 
@@ -26,6 +28,9 @@ export const buildScheduledMessagePayload = ({
   payload.append('attachment', attachment);
   if (templateParams) {
     payload.append('template_params', JSON.stringify(templateParams));
+  }
+  if (holdOnReply !== undefined) {
+    payload.append('hold_on_reply', holdOnReply);
   }
 
   return payload;

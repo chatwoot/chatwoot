@@ -1,0 +1,43 @@
+type: object
+title: SMS channel
+required:
+  - type
+  - phone_number
+  - provider_config
+properties:
+  type:
+    type: string
+    enum: ['sms']
+    example: sms
+  phone_number:
+    type: string
+    description: SMS phone number
+    example: '+15551234567'
+  provider_config:
+    type: object
+    description: Bandwidth OAuth configuration. New SMS inboxes require client credentials.
+    required:
+      - account_id
+      - application_id
+      - client_id
+      - client_secret
+    additionalProperties: false
+    properties:
+      account_id:
+        type: string
+        minLength: 1
+      application_id:
+        type: string
+        minLength: 1
+      client_id:
+        type: string
+        minLength: 1
+      client_secret:
+        type: string
+        minLength: 1
+        writeOnly: true
+    example:
+      account_id: your-account-id
+      application_id: your-application-id
+      client_id: your-client-id
+      client_secret: your-client-secret

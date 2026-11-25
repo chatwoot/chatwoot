@@ -22,7 +22,7 @@ class Twilio::VoiceTeardownService
 
     channel.client
            .incoming_phone_numbers(numbers.first.sid)
-           .update(voice_url: '', status_callback: '') # rubocop:disable Rails/SaveBang
+           .update(voice_url: '', status_callback: '')
   rescue StandardError => e
     Rails.logger.error("TWILIO_VOICE_TEARDOWN_WEBHOOK_ERROR: #{e.class} #{e.message} phone=#{channel.phone_number} account=#{channel.account_id}")
   end

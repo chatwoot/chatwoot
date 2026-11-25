@@ -1,0 +1,22 @@
+tags:
+  - Conversations
+operationId: unpin-a-conversation
+summary: Unpin Conversation
+description: Removes the current agent's pin from the conversation
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Success
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: Conversation not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

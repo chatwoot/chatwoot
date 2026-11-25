@@ -17,6 +17,7 @@ import DropdownBody from 'next/dropdown-menu/base/DropdownBody.vue';
 import DropdownSection from 'next/dropdown-menu/base/DropdownSection.vue';
 import DropdownItem from 'next/dropdown-menu/base/DropdownItem.vue';
 import WhatsappTemplates from 'dashboard/components/widgets/conversation/WhatsappTemplates/Modal.vue';
+import Switch from 'dashboard/components-next/switch/Switch.vue';
 import ScheduleDateShortcuts from './ScheduleDateShortcuts.vue';
 import RecurrenceDropdown from './RecurrenceDropdown.vue';
 import RecurrenceCustomModal from './RecurrenceCustomModal.vue';
@@ -87,11 +88,13 @@ const contentLengthError = ref(false);
 const dateTimeError = ref('');
 const recurrenceRule = ref(null);
 const showRecurrenceCustomModal = ref(false);
+const holdOnReply = ref(false);
 
 // Original values for change detection
 const originalContent = ref('');
 const originalScheduledAt = ref(null);
 const originalHasAttachment = ref(false);
+const originalHoldOnReply = ref(false);
 
 // NOTE: Local ref to control modal visibility, prevents auto-close when unsaved changes exist
 const localShowModal = ref(false);
@@ -108,10 +111,12 @@ const resetForm = () => {
   contentError.value = false;
   dateTimeError.value = '';
   recurrenceRule.value = null;
+  holdOnReply.value = false;
   // Reset original values
   originalContent.value = '';
   originalScheduledAt.value = null;
   originalHasAttachment.value = false;
+  originalHoldOnReply.value = false;
 };
 
 const setFormFromMessage = scheduledMessage => {
@@ -125,6 +130,7 @@ const setFormFromMessage = scheduledMessage => {
   existingAttachment.value = scheduledMessage.attachment || null;
   attachments.value = [];
   recurrenceRule.value = scheduledMessage.recurrence_rule || null;
+  holdOnReply.value = scheduledMessage.hold_on_reply || false;
 
   if (scheduledMessage.scheduled_at) {
     const dateValue = new Date(scheduledMessage.scheduled_at * 1000);
@@ -140,6 +146,7 @@ const setFormFromMessage = scheduledMessage => {
     ? new Date(scheduledDateTime.value)
     : null;
   originalHasAttachment.value = !!existingAttachment.value;
+  originalHoldOnReply.value = holdOnReply.value;
 };
 
 const { onFileUpload } = useFileUpload({
@@ -260,8 +267,11 @@ const hasUnsavedChanges = computed(() => {
   const attachmentChanged =
     hasNewAttachment.value ||
     (originalHasAttachment.value && !hasExistingAttachment.value);
+  const holdOnReplyChanged = holdOnReply.value !== originalHoldOnReply.value;
 
-  return contentChanged || dateChanged || attachmentChanged;
+  return (
+    contentChanged || dateChanged || attachmentChanged || holdOnReplyChanged
+  );
 });
 
 const showModal = computed({
@@ -361,6 +371,7 @@ const buildPayload = status => {
     content: messageContent.value,
     status,
     scheduledAt: scheduledAt.value ? scheduledAt.value.toISOString() : null,
+    holdOnReply: holdOnReply.value,
     private: false,
   };
 
@@ -416,6 +427,7 @@ const submit = async status => {
         recurrenceRule: recurrenceRule.value,
         attachment: resolveAttachmentPayload(),
         templateParams: templateParams.value,
+        holdOnReply: holdOnReply.value,
         status: 'active',
       };
 
@@ -663,6 +675,20 @@ watch(
         @update:model-value="recurrenceRule = $event"
         @close="showRecurrenceCustomModal = false"
       />
+
+      <div
+        class="flex items-start gap-3 rounded-xl border border-n-slate-4 bg-n-slate-2 px-4 py-3"
+      >
+        <Switch v-model="holdOnReply" class="mt-0.5 shrink-0" />
+        <div class="flex flex-col gap-0.5">
+          <span class="text-sm font-medium text-n-slate-12">
+            {{ t('SCHEDULED_MESSAGES.MODAL.HOLD_ON_REPLY_LABEL') }}
+          </span>
+          <span class="text-xs text-n-slate-11">
+            {{ t('SCHEDULED_MESSAGES.MODAL.HOLD_ON_REPLY_DESCRIPTION') }}
+          </span>
+        </div>
+      </div>
 
       <div class="flex items-center justify-end gap-3">
         <NextButton

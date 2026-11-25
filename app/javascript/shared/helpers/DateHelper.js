@@ -1,19 +1,19 @@
 import fromUnixTime from 'date-fns/fromUnixTime';
-import format from 'date-fns/format';
 import isToday from 'date-fns/isToday';
 import isYesterday from 'date-fns/isYesterday';
 import { endOfDay, getUnixTime, startOfDay } from 'date-fns';
+import { formatFixed, formatLocalized } from './localizedDate';
 
 export const formatUnixDate = (date, dateFormat = 'MMM dd, yyyy') => {
-  const unixDate = fromUnixTime(date);
-  return format(unixDate, dateFormat);
+  // A grouping key that `formatDate` parses back, so it stays in English.
+  return formatFixed(fromUnixTime(date), dateFormat);
 };
 
 export const formatDate = ({ date, todayText, yesterdayText }) => {
   const dateValue = new Date(date);
   if (isToday(dateValue)) return todayText;
   if (isYesterday(dateValue)) return yesterdayText;
-  return date;
+  return formatLocalized(dateValue, 'MMM dd, yyyy');
 };
 
 export const isTimeAfter = (h1, m1, h2, m2) => {

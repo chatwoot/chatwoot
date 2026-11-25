@@ -8,6 +8,18 @@ describe Sms::SendOnSmsService do
       let!(:contact_inbox) { create(:contact_inbox, inbox: sms_channel.inbox, source_id: '+123456789') }
       let!(:conversation) { create(:conversation, contact_inbox: contact_inbox, inbox: sms_channel.inbox) }
 
+      it 'propagates transient token failures so the reply job can retry' do
+        sms_channel.update!(provider_config: sms_channel.provider_config.merge('client_id' => 'client', 'client_secret' => 'secret'))
+        message = create(:message, message_type: :outgoing, content: 'test', conversation: conversation)
+        token_service = instance_double(Sms::BandwidthTokenService)
+        allow(Sms::BandwidthTokenService).to receive(:new).and_return(token_service)
+        allow(token_service).to receive(:token).and_raise(CustomExceptions::Bandwidth::TokenRequestError.new)
+
+        expect { SendReplyJob.perform_now(message.id) }.to raise_error(CustomExceptions::Bandwidth::TokenRequestError)
+        expect(message.reload).not_to be_failed
+        expect(message.source_id).to be_nil
+      end
+
       it 'calls channel.send_message' do
         message = create(:message, message_type: :outgoing, content: 'test',
                                    conversation: conversation)
@@ -18,7 +30,9 @@ describe Sms::SendOnSmsService do
           'https://messaging.bandwidth.com/api/v2/users/1/messages',
           basic_auth: { username: '1', password: '1' },
           headers: { 'Content-Type' => 'application/json' },
-          body: { 'to' => '+123456789', 'from' => sms_channel.phone_number, 'text' => 'test', 'applicationId' => '1' }.to_json
+          body: { 'to' => '+123456789', 'from' => sms_channel.phone_number, 'text' => 'test', 'applicationId' => '1' }.to_json,
+          timeout: 90,
+          max_retries: 0
         )
         described_class.new(message: message).perform
         expect(message.reload.source_id).to eq('123456789')
@@ -43,7 +57,9 @@ describe Sms::SendOnSmsService do
           basic_auth: { username: '1', password: '1' },
           headers: { 'Content-Type' => 'application/json' },
           body: { 'to' => '+123456789', 'from' => sms_channel.phone_number, 'text' => 'test', 'applicationId' => '1',
-                  'media' => %w[url1 url2] }.to_json
+                  'media' => %w[url1 url2] }.to_json,
+          timeout: 90,
+          max_retries: 0
         )
         described_class.new(message: message).perform
         expect(message.reload.source_id).to eq('123456789')

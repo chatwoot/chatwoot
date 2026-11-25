@@ -2,6 +2,11 @@
 
 set -x
 
+# enterprise/ arrives at boot (see docker/entrypoints/helpers/enterprise.sh). This script is
+# also used as an entrypoint of its own, so it cannot count on docker-entrypoint.sh having
+# done it, and it has to happen before db:chatwoot_prepare boots Rails.
+docker/entrypoints/helpers/enterprise.sh ensure || exit 1
+
 # Remove a potentially pre-existing server.pid for Rails.
 rm -rf /app/tmp/pids/server.pid
 rm -rf /app/tmp/cache/*

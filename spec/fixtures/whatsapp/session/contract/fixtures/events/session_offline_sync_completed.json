@@ -1,0 +1,13 @@
+{
+  "v": 1,
+  "id": "01920000-0000-7000-8000-00000000002b",
+  "type": "session.offline_sync_completed",
+  "sid": "9f1c0f4e-6a2b-4c8e-9d1a-2b3c4d5e6f70",
+  "epoch": 8,
+  "seq": 51,
+  "ts": 1755440507400,
+  "inst": "connector-a1b2c3",
+  "payload": {
+    "count": 47
+  }
+}

@@ -33,6 +33,7 @@ const toggleContextMenu = inject('toggleContextMenu');
 const markAsUnread = inject('markAsUnread');
 const markAsRead = inject('markAsRead');
 const assignPriority = inject('assignPriority');
+const togglePin = inject('togglePin');
 const isConversationSelected = inject('isConversationSelected');
 const deleteConversation = inject('deleteConversation');
 
@@ -58,6 +59,7 @@ const currentChat = useMapGetter('getSelectedChat');
 const inboxesList = useMapGetter('inboxes/getInboxes');
 const activeInbox = useMapGetter('getSelectedInbox');
 const accountId = useMapGetter('getCurrentAccountId');
+const isPinned = useMapGetter('conversationPins/isPinned');
 const globalConfig = useMapGetter('globalConfig/get');
 
 const chatMetadata = computed(() => props.source.meta || {});
@@ -145,7 +147,7 @@ const onExpandedSelect = checked => {
   if (checked) {
     selectConversation(props.source.id, inbox.value.id);
   } else {
-    deSelectConversation(props.source.id, inbox.value.id);
+    deSelectConversation(props.source.id);
   }
 };
 
@@ -206,6 +208,11 @@ const onDeleteConversation = () => {
   deleteConversation(props.source.id);
   closeContextMenu();
 };
+
+const onTogglePin = () => {
+  togglePin(props.source.id);
+  closeContextMenu();
+};
 </script>
 
 <template>
@@ -221,6 +228,7 @@ const onDeleteConversation = () => {
     :show-assignee="showAssigneeForExpandedCard"
     :show-inbox-name="showInboxName"
     :is-inbox-view="isInboxView"
+    :is-pinned="isPinned(source.id)"
     @select-conversation="onExpandedSelect"
     @de-select-conversation="onExpandedSelect"
     @click="onCardClick"
@@ -240,6 +248,7 @@ const onDeleteConversation = () => {
     :show-inbox-name="showInboxName"
     :typing-preview="typingPreviewText"
     :has-group-activity="hasGroupActivity"
+    :is-pinned="isPinned(source.id)"
     @click="onCardClick"
     @contextmenu="openContextMenu"
     @select-conversation="selectConversation"
@@ -259,6 +268,7 @@ const onDeleteConversation = () => {
       :priority="source.priority"
       :chat-id="source.id"
       :has-unread-messages="source.unread_count > 0"
+      :is-pinned="isPinned(source.id)"
       :conversation-labels="source.labels"
       :conversation-url="conversationPath"
       @update-conversation="onUpdateConversation"
@@ -268,6 +278,7 @@ const onDeleteConversation = () => {
       @assign-team="onAssignTeam"
       @mark-as-unread="onMarkAsUnread"
       @mark-as-read="onMarkAsRead"
+      @toggle-pin="onTogglePin"
       @assign-priority="onAssignPriority"
       @delete-conversation="onDeleteConversation"
       @close="closeContextMenu"

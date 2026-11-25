@@ -10,6 +10,8 @@ description: |-
   of the value provided, snoozed conversations always reopen on the next
   reply from the contact.
 security:
+  - userBearerAuth: []
+  - agentBotBearerAuth: []
   - userApiKey: []
   - agentBotApiKey: []
 requestBody:
@@ -33,6 +35,13 @@ requestBody:
               customer reply. The conversation always reopens when the
               customer replies.
             example: 1757506877
+          expected_status:
+            type: string
+            enum: ['open', 'resolved', 'pending', 'snoozed']
+            description: The status the caller read before deciding. When given, the change applies only
+              if the conversation still holds this status; otherwise nothing changes and the answer is
+              409 with the current status.
+            example: pending
 responses:
   '200':
     description: Success
@@ -53,6 +62,18 @@ responses:
                   enum: ['open', 'resolved', 'pending', 'snoozed']
                 conversation_id:
                   type: number
+  '409':
+    description: The conversation no longer holds `expected_status`; nothing was changed
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            error:
+              type: string
+            current_status:
+              type: string
+              enum: ['open', 'resolved', 'pending', 'snoozed']
   '404':
     description: Conversation not found
     content:

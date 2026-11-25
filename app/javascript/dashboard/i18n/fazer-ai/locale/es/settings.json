@@ -1,0 +1,66 @@
+{
+  "PROFILE_SETTINGS": {
+    "FORM": {
+      "MESSAGE_SIGNATURE_SECTION": {
+        "RESET_TO_DEFAULT": "Restablecer los valores predeterminados",
+        "RESET_SUCCESS": "Firma de la bandeja de entrada eliminada, se usará la firma predeterminada",
+        "INBOX_SELECTOR": {
+          "LABEL": "Bandeja de entrada",
+          "DEFAULT": "Predeterminada (todas las bandejas de entrada)",
+          "CUSTOM": "Personalizada"
+        },
+        "SIGNATURE_POSITION": {
+          "LABEL": "Posición de la firma",
+          "OPTIONS": {
+            "TOP": "Al principio del mensaje",
+            "BOTTOM": "Al final del mensaje"
+          }
+        },
+        "SIGNATURE_SEPARATOR": {
+          "LABEL": "Separador de la firma",
+          "OPTIONS": {
+            "BLANK": "Línea en blanco",
+            "HORIZONTAL_LINE": "Línea horizontal (--)",
+            "NONE": "Sin línea en blanco"
+          }
+        },
+        "PREVIEW": {
+          "TITLE": "Vista previa de la firma",
+          "NOTE": "Así se verá su firma en los mensajes",
+          "EMPTY": "Escriba una firma arriba para ver la vista previa",
+          "SAMPLE_MESSAGE": "¡Hola! Gracias por contactarnos. ¿En qué puedo ayudarle hoy?"
+        }
+      },
+      "NOTIFICATIONS": {
+        "TYPES": {
+          "INTERNAL_CHAT_MENTION": "Le mencionan en el chat interno",
+          "INTERNAL_CHAT_NEW_MESSAGE": "Un nuevo mensaje directo en el chat interno"
+        }
+      }
+    },
+    "EMAIL_CONFIRMATION_PENDING": "Enviamos un enlace de confirmación a {email}. Tu correo actual sigue funcionando hasta que hagas clic en él."
+  },
+  "COMPONENTS": {
+    "REFERRAL_CARD": {
+      "AD_LABEL": "Desde un anuncio",
+      "VIEW_AD": "Ver anuncio"
+    },
+    "MEDIA": {
+      "AUDIO_UNAVAILABLE": "Este audio ya no está disponible.",
+      "VIDEO_UNAVAILABLE": "Este video ya no está disponible.",
+      "PLAY_VIDEO_NOTE": "Reproducir videomensaje",
+      "PAUSE_VIDEO_NOTE": "Pausar videomensaje",
+      "OPEN_VIDEO_NOTE": "Abrir videomensaje"
+    }
+  },
+  "SIDEBAR": {
+    "INTERNAL_CHAT": "Chat interno",
+    "KANBAN": "Kanban",
+    "APPS": "Apps"
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TITLE": {
+      "PIN_CONVERSATION": "Fijar / dejar de fijar la conversación"
+    }
+  }
+}

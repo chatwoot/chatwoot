@@ -4,6 +4,7 @@ operationId: get-details-of-a-user
 summary: Get an user details
 description: Get the details of an user
 security:
+  - platformAppBearerAuth: []
   - platformAppApiKey: []
 responses:
   '200':

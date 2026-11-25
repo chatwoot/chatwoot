@@ -1,0 +1,18 @@
+{
+  "v": 1,
+  "id": "01920000-0000-7000-8000-000000000036",
+  "type": "contact.identity_changed",
+  "sid": "9f1c0f4e-6a2b-4c8e-9d1a-2b3c4d5e6f70",
+  "epoch": 7,
+  "seq": 36,
+  "ts": 1755440000123,
+  "inst": "connector-a1b2c3",
+  "payload": {
+    "party": {
+      "phone": "5541999990000",
+      "lid": "182736451928374",
+      "push_name": "Ana Souza"
+    },
+    "timestamp": 1755440000123
+  }
+}

@@ -30,14 +30,20 @@ import { domPurifyConfig } from 'shared/helpers/HTMLSanitizer.js';
 
 import { vResizeObserver } from '@vueuse/components';
 import { directive as onClickaway } from 'vue3-click-away';
+import { bindDateLocale } from 'shared/helpers/localizedDate';
+import { bindDatePickerLocale } from 'dashboard/helper/datePickerLocale';
 
 import 'floating-vue/dist/style.css';
+import '@chatwoot/viz/style.css';
 
 const i18n = createI18n({
   legacy: false, // https://github.com/intlify/vue-i18n/issues/1902
   locale: 'en',
+  fallbackLocale: 'en',
   messages: i18nMessages,
 });
+bindDateLocale(i18n);
+bindDatePickerLocale();
 
 sync(store, router);
 
@@ -88,7 +94,19 @@ app.use(FloatingVue, {
   instantMove: true,
   arrowOverflow: false,
   disposeTimeout: 5000000,
+  // Append poppers to the app root instead of the body so they inherit its
+  // `dir`, the way `TeleportWithDirection` does for teleported components.
+  // Without it an RTL popper is laid out in an LTR paragraph and reordered.
+  // The layout wraps the app in its own `#app` element, so match on `[dir]`.
+  container: '#app[dir]',
+  // Use the `fixed` strategy so tooltips are positioned relative to the viewport.
+  // With the default `absolute` strategy, a hidden tooltip lingers at a stale offset
+  // and adds to the page's scroll height, letting the whole dashboard over-scroll.
+  // Fixed elements never affect scroll height, so this can't happen.
   themes: {
+    tooltip: {
+      strategy: 'fixed',
+    },
     'naked-popover': {
       $extend: 'dropdown',
       $resetCss: true,

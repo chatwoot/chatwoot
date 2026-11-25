@@ -6,6 +6,11 @@ import {
   isVoiceCallEnabled,
   getVoiceCallProvider,
 } from 'dashboard/helper/inbox';
+import {
+  hasCapability,
+  inboxCapabilities as capabilitiesOf,
+  isSessionProvider,
+} from 'dashboard/helper/whatsappSession';
 
 export const INBOX_FEATURES = {
   REPLY_TO: 'replyTo',
@@ -137,6 +142,22 @@ export const useInbox = (inboxId = null) => {
     );
   });
 
+  // A WhatsApp inbox paired to a phone, whichever provider drives the session. Use this
+  // for what follows from pairing (no 24-hour window, a connection that can drop, group
+  // threads) and `hasInboxCapability` for anything a provider may not implement.
+  const isASessionWhatsAppChannel = computed(() => {
+    return (
+      channelType.value === INBOX_TYPES.WHATSAPP &&
+      isSessionProvider(whatsAppAPIProvider.value)
+    );
+  });
+
+  const inboxCapabilities = computed(() => capabilitiesOf(inbox.value));
+
+  // @param {string} capability - one of CAPABILITIES in helper/whatsappSession
+  const hasInboxCapability = capability =>
+    hasCapability(inbox.value, capability);
+
   const isAWhatsAppChannel = computed(() => {
     return (
       channelType.value === INBOX_TYPES.WHATSAPP ||
@@ -164,6 +185,7 @@ export const useInbox = (inboxId = null) => {
     isASmsInbox,
     isATelegramChannel,
     isATwilioChannel,
+    isATwilioSMSChannel,
     isAWebWidgetInbox,
     isAWhatsAppChannel,
     isAMicrosoftInbox,
@@ -173,6 +195,9 @@ export const useInbox = (inboxId = null) => {
     is360DialogWhatsAppChannel,
     isAWhatsAppBaileysChannel,
     isAWhatsAppZapiChannel,
+    isASessionWhatsAppChannel,
+    inboxCapabilities,
+    hasInboxCapability,
     isAnEmailChannel,
     isAnInstagramChannel,
     isATiktokChannel,

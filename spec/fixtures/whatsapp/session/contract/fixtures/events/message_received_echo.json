@@ -1,0 +1,26 @@
+{
+  "v": 1,
+  "id": "01920000-0000-7000-8000-000000000012",
+  "type": "message.received",
+  "sid": "9f1c0f4e-6a2b-4c8e-9d1a-2b3c4d5e6f70",
+  "epoch": 7,
+  "seq": 12,
+  "ts": 1755440000123,
+  "inst": "connector-a1b2c3",
+  "payload": {
+    "message": {
+      "id": "3EB0A1B2C3D4E5F60729",
+      "chat": {
+        "kind": "phone",
+        "id": "5541999990000"
+      },
+      "sender": null,
+      "from_me": true,
+      "timestamp": 1755440000123,
+      "content": {
+        "type": "text",
+        "body": "resposta enviada pelo celular"
+      }
+    }
+  }
+}

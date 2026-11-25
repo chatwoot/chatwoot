@@ -16,7 +16,11 @@ module Enterprise::Api::V1::Accounts::ConversationsController
   end
 
   def permitted_update_params
-    super.merge(params.permit(:sla_policy_id))
+    permitted = super
+    # SLA is a premium feature; only accept sla_policy_id assignment when it is enabled for the account.
+    permitted = permitted.merge(params.permit(:sla_policy_id)) if Current.account.feature_enabled?('sla')
+    permitted = permitted.merge(params.permit(:auto_translate_disabled)) if Current.account.auto_translate_enabled?
+    permitted
   end
 
   private

@@ -3,13 +3,17 @@ import { mapGetters } from 'vuex';
 import LoadingState from './components/widgets/LoadingState.vue';
 import NetworkNotification from './components/NetworkNotification.vue';
 import UpdateBanner from './components/app/UpdateBanner.vue';
+import ImpersonationBanner from './components/app/ImpersonationBanner.vue';
 import StatusBanner from './components/app/StatusBanner.vue';
 import PaymentPendingBanner from './components/app/PaymentPendingBanner.vue';
 import PendingEmailVerificationBanner from './components/app/PendingEmailVerificationBanner.vue';
+import LowBackupCodesBanner from './components/app/LowBackupCodesBanner.vue';
+import FeatureAnnouncement from './components-next/feature-announcement/FeatureAnnouncement.vue';
 import vueActionCable from './helper/actionCable';
 import { useRouter } from 'vue-router';
 import { useStore } from 'dashboard/composables/store';
 import WootSnackbarBox from './components/SnackbarContainer.vue';
+import AssignmentConflictDialog from './components/AssignmentConflictDialog.vue';
 import { setColorTheme } from './helper/themeHelper';
 import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
 import { useAccount } from 'dashboard/composables/useAccount';
@@ -27,11 +31,15 @@ export default {
   components: {
     LoadingState,
     NetworkNotification,
+    ImpersonationBanner,
     UpdateBanner,
     StatusBanner,
     PaymentPendingBanner,
     WootSnackbarBox,
+    AssignmentConflictDialog,
     PendingEmailVerificationBanner,
+    LowBackupCodesBanner,
+    FeatureAnnouncement,
   },
   setup() {
     const router = useRouter();
@@ -138,11 +146,14 @@ export default {
     class="flex flex-col w-full h-screen min-h-0 bg-n-background"
     :dir="isRTL ? 'rtl' : 'ltr'"
   >
+    <ImpersonationBanner />
     <UpdateBanner :latest-chatwoot-version="latestChatwootVersion" />
     <StatusBanner />
     <template v-if="currentAccountId">
       <PendingEmailVerificationBanner v-if="hideOnOnboardingView" />
       <PaymentPendingBanner v-if="hideOnOnboardingView" />
+      <LowBackupCodesBanner v-if="hideOnOnboardingView" />
+      <FeatureAnnouncement v-if="hideOnOnboardingView" />
     </template>
     <router-view v-slot="{ Component }">
       <transition name="fade" mode="out-in">
@@ -150,6 +161,7 @@ export default {
       </transition>
     </router-view>
     <WootSnackbarBox />
+    <AssignmentConflictDialog />
     <NetworkNotification />
   </div>
   <LoadingState v-else />

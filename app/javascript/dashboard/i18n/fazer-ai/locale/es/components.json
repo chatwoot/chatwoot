@@ -1,0 +1,6 @@
+{
+  "DURATION_INPUT": {
+    "ADJUSTED_TO_MAX": "Máximo: {value} {unit}",
+    "ADJUSTED_TO_MIN": "Mínimo: {value} {unit}"
+  }
+}

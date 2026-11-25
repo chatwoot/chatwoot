@@ -1,0 +1,21 @@
+{
+  "v": 1,
+  "id": "cmd_000031",
+  "type": "history.request",
+  "sid": "9f1c0f4e-6a2b-4c8e-9d1a-2b3c4d5e6f70",
+  "ts": 1755440000123,
+  "payload": {
+    "chat": {
+      "kind": "phone",
+      "id": "5541999990000"
+    },
+    "count": 50,
+    "before": {
+      "id": "3EB0A1B2C3D4E5F60720",
+      "timestamp": 1755439000123,
+      "from_me": false
+    }
+  },
+  "reply_to": "wa:reply:cmd_000031",
+  "deadline": 1755440015123
+}

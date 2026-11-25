@@ -1,0 +1,31 @@
+{
+  "v": 1,
+  "id": "cmd_000007",
+  "type": "message.send",
+  "sid": "9f1c0f4e-6a2b-4c8e-9d1a-2b3c4d5e6f70",
+  "ts": 1755440000123,
+  "payload": {
+    "message_id": "3EB0A1B2C3D4E5F60802",
+    "to": {
+      "kind": "phone",
+      "id": "5541999990000"
+    },
+    "content": {
+      "type": "media",
+      "kind": "document",
+      "mime": "application/pdf",
+      "filename": "proposta.pdf",
+      "caption": "segue a proposta",
+      "voice_note": false,
+      "size": 234567,
+      "ref": {
+        "kind": "url",
+        "url": "http://rails:3000/rails/active_storage/blobs/proxy/abc/proposta.pdf",
+        "size": 234567,
+        "mime": "application/pdf"
+      }
+    }
+  },
+  "reply_to": "wa:reply:cmd_000007",
+  "deadline": 1755440015123
+}

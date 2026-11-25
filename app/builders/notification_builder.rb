@@ -26,7 +26,7 @@ class NotificationBuilder
     # Create conversation_creation notification only if user is subscribed to it
     return if notification_type == 'conversation_creation' && !user_subscribed_to_notification?
     # skip notifications for blocked conversations except for user mentions
-    return if primary_actor.contact.blocked? && notification_type != 'conversation_mention'
+    return if blocked_conversation?
     # respect conversation access (inbox/team membership and custom-role permissions)
     return unless user_can_access_conversation?
 
@@ -37,6 +37,16 @@ class NotificationBuilder
       # secondary_actor is secondary_actor if present, else current_user
       secondary_actor: secondary_actor || current_user
     )
+  end
+
+  # Resolve the conversation the same way user_can_access_conversation? does, so message actors
+  # from blocked contacts stay suppressed. Non-conversation actors (e.g. internal chat channels)
+  # have no conversation/contact to block.
+  def blocked_conversation?
+    conversation = primary_actor.is_a?(Conversation) ? primary_actor : primary_actor.try(:conversation)
+    return false if conversation.blank?
+
+    conversation.contact.blocked? && notification_type != 'conversation_mention'
   end
 
   def user_can_access_conversation?

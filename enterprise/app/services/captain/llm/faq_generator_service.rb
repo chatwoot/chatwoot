@@ -2,7 +2,7 @@ class Captain::Llm::FaqGeneratorService < Llm::BaseAiService
   include Integrations::LlmInstrumentation
 
   def initialize(document:)
-    super()
+    super(feature: 'document_faq_generation', account: document.account)
     @document = document
     @content = document.content
     @language = document.account.locale_english_name
@@ -11,8 +11,7 @@ class Captain::Llm::FaqGeneratorService < Llm::BaseAiService
 
   def generate
     response = instrument_llm_call(instrumentation_params) do
-      chat
-        .with_params(response_format: { type: 'json_object' })
+      json_chat
         .with_instructions(system_prompt)
         .ask(@content)
     end

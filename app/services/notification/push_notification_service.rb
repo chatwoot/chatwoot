@@ -26,20 +26,38 @@ class Notification::PushNotificationService
     false
   end
 
-  def conversation
-    @conversation ||= notification.conversation
+  def primary_actor
+    @primary_actor ||= notification.primary_actor
+  end
+
+  def internal_chat?
+    Notification::INTERNAL_CHAT_NOTIFICATION_TYPES.include?(notification.notification_type)
   end
 
   def push_message
     {
       title: notification.push_message_title,
-      tag: "#{notification.notification_type}_#{conversation.display_id}_#{notification.id}",
+      tag: "#{notification.notification_type}_#{push_actor_id}_#{notification.id}",
       url: push_url
     }
   end
 
+  # The dashboard addresses conversations by display_id and internal chat channels by id.
+  def push_actor_id
+    internal_chat? ? primary_actor.id : primary_actor.display_id
+  end
+
   def push_url
-    app_account_conversation_url(account_id: conversation.account_id, id: conversation.display_id)
+    return internal_chat_url if internal_chat?
+
+    app_account_conversation_url(account_id: primary_actor.account_id, id: primary_actor.display_id)
+  end
+
+  # Internal chat has no named Rails route (the dashboard serves it from the /app catch-all),
+  # so the deep link is built like the other frontend links in the codebase.
+  def internal_chat_url
+    segment = primary_actor.dm? ? 'dm' : 'channels'
+    "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{primary_actor.account_id}/internal-chat/#{segment}/#{primary_actor.id}"
   end
 
   def can_send_browser_push?(subscription)

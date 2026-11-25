@@ -1,0 +1,33 @@
+{
+  "v": 1,
+  "id": "cmd_000008",
+  "type": "message.send",
+  "sid": "9f1c0f4e-6a2b-4c8e-9d1a-2b3c4d5e6f70",
+  "ts": 1755440000123,
+  "payload": {
+    "message_id": "3EB0A1B2C3D4E5F60803",
+    "to": {
+      "kind": "phone",
+      "id": "5541999990000"
+    },
+    "content": {
+      "type": "media",
+      "kind": "audio",
+      "mime": "audio/ogg; codecs=opus",
+      "voice_note": true,
+      "duration": 5,
+      "waveform": [
+        0, 16, 11, 4, 29, 39, 11, 14, 53, 44, 8, 33, 71, 37, 9, 56,
+        77, 24, 19, 79, 71, 13, 39, 94, 54, 10, 63, 96, 34, 18, 85, 84,
+        17, 35, 97, 63, 10, 57, 96, 39, 14, 74, 82, 19, 26, 82, 59, 9,
+        41, 77, 35, 9, 50, 60, 16, 14, 48, 37, 6, 17, 32, 13, 2, 0
+      ],
+      "ref": {
+        "kind": "url",
+        "url": "http://rails:3000/rails/active_storage/blobs/proxy/def/audio.ogg"
+      }
+    }
+  },
+  "reply_to": "wa:reply:cmd_000008",
+  "deadline": 1755440015123
+}

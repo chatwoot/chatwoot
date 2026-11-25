@@ -18,6 +18,32 @@ describe MessageTemplates::Template::CsatSurvey do
       end
     end
 
+    context 'when the inbox has no configured message' do
+      before { inbox.update!(csat_config: {}) }
+
+      # The job that resolves a conversation runs with the process default locale, not the
+      # account's, so this reproduces the Sidekiq condition rather than the request one.
+      it 'translates the fallback into the locale of the account' do
+        account.update!(locale: 'pt_BR')
+
+        I18n.with_locale(:en) { service.perform }
+
+        expect(conversation.messages.template.last.content)
+          .to eq(I18n.t('conversations.templates.csat_input_message_body', locale: :pt_BR))
+      end
+
+      # Account#locale is an enum over LANGUAGES_CONFIG, which is a wider list than the
+      # locale files the installation actually loads. I18n.with_locale raises on the gap.
+      it 'falls back to the default locale when the installation did not load the account language' do
+        account.update!(locale: 'pt_BR')
+        allow(I18n).to receive(:available_locales).and_return([:en])
+
+        expect { service.perform }.not_to raise_error
+        expect(conversation.messages.template.last.content)
+          .to eq(I18n.t('conversations.templates.csat_input_message_body', locale: :en))
+      end
+    end
+
     context 'when csat config is provided' do
       let(:csat_config) do
         {

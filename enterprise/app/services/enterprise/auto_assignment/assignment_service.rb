@@ -13,6 +13,11 @@ module Enterprise::AutoAssignment::AssignmentService
     }.compact
   end
 
+  # A run's batch can predate the call, so a conversation is rechecked before it is claimed
+  def assignable?(conversation)
+    super && !(inbox.rings_for_calls? && conversation.calls.holding_assignment.exists?)
+  end
+
   # Extend agent finding to add capacity checks
   def find_available_agent(conversation = nil)
     agents = filter_agents_by_team(inbox.available_agents, conversation)
@@ -59,8 +64,14 @@ module Enterprise::AutoAssignment::AssignmentService
   def unassigned_conversations(limit)
     scope = inbox.conversations.unassigned.open
 
-    # Apply exclusion rules from capacity policy or assignment policy
+    # First apply the assignment policy's age exclusion (defaults to 7 days)
+    scope = apply_age_exclusions(scope, age_exclusion_hours(policy))
+
+    # Then apply the capacity policy's exclusion rules (labels and age)
     scope = apply_exclusion_rules(scope)
+
+    # A conversation whose inbound call is ringing waits for the agent who answers
+    scope = scope.where.not(id: inbox.calls.holding_assignment.select(:conversation_id)) if inbox.rings_for_calls?
 
     # Apply conversation priority using enum methods if policy exists
     scope = if policy&.longest_waiting?
@@ -85,14 +96,5 @@ module Enterprise::AutoAssignment::AssignmentService
     return scope if excluded_labels.blank?
 
     scope.tagged_with(excluded_labels, exclude: true, on: :labels)
-  end
-
-  def apply_age_exclusions(scope, hours_threshold)
-    return scope if hours_threshold.blank?
-
-    hours = hours_threshold.to_i
-    return scope unless hours.positive?
-
-    scope.where('conversations.created_at >= ?', hours.hours.ago)
   end
 end

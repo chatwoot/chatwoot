@@ -92,4 +92,10 @@ export const SHORTCUT_KEYS = [
     displayKeys: [KEYS.ALT, 'M'],
     keySet: ['Alt+KeyM'],
   },
+  {
+    id: 15,
+    label: 'PIN_CONVERSATION',
+    displayKeys: [KEYS.ALT, 'I'],
+    keySet: ['Alt+KeyI'],
+  },
 ];

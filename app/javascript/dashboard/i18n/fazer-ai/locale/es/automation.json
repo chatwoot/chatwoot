@@ -1,0 +1,41 @@
+{
+  "AUTOMATION": {
+    "ACTION": {
+      "SCHEDULED_MESSAGE_DELAY_LABEL": "Retraso",
+      "ATTACHMENT_ADD": "Añadir archivo adjunto",
+      "TEMPLATE_SELECT": "Usar plantilla",
+      "TEMPLATE_SELECTED": "Plantilla: {name}",
+      "TEMPLATE_USE": "Usar esta plantilla"
+    },
+    "ACTIONS": {
+      "CREATE_SCHEDULED_MESSAGE": "Crear mensaje programado",
+      "REMOVE_CUSTOM_ATTRIBUTE": "Eliminar atributo personalizado"
+    },
+    "ATTRIBUTES": {
+      "SENDER": "Remitente",
+      "SENDER_TYPE": "Tipo de remitente"
+    },
+    "SENDER_TYPES": {
+      "CONTACT": "Contacto",
+      "USER": "Agente",
+      "AGENT_BOT": "Bot",
+      "CAPTAIN": "Capitán"
+    },
+    "EVENTS": {
+      "MESSAGE_EDITED": "Mensaje editado"
+    },
+    "ADD": {
+      "FORM": {
+        "WAIT": {
+          "OPTIONS": {
+            "CONVERSATION_INACTIVE": "La conversación queda detenida"
+          },
+          "EXPLANATION": {
+            "CONVERSATION_INACTIVE": "El conteo empieza en la última actividad de la conversación. Si no ocurre nada en ella durante {duration}, se ejecutarán las acciones de abajo. Cualquier actividad nueva reinicia el conteo."
+          },
+          "INBOX_ERROR": "Elige al menos una bandeja de entrada para esta espera."
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "BaseUrl": "https://free.uazapi.com",
+  "EventType": "presence",
+  "event": {
+    "AddressingMode": "",
+    "BroadcastListOwner": "",
+    "BroadcastRecipients": null,
+    "Chat": "5511999990001@s.whatsapp.net",
+    "IsFromMe": true,
+    "IsGroup": false,
+    "Media": "",
+    "RecipientAlt": "",
+    "Sender": "5511999990001@s.whatsapp.net",
+    "SenderAlt": "",
+    "State": "paused",
+    "chatid": "5511999990001@s.whatsapp.net",
+    "chatlid": "90000020000000@lid",
+    "sender_lid": "90000020000000@lid",
+    "sender_pn": "5511999990001@s.whatsapp.net"
+  },
+  "instanceName": "testes-chatwoot",
+  "owner": "5511999990001",
+  "token": "00000000-0000-4000-8000-000000000001",
+  "type": "presence"
+}

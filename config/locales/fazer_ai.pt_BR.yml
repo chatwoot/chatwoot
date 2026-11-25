@@ -1,0 +1,255 @@
+# fazer.ai fork translations.
+#
+# Rails deep-merges every config/locales/*.yml, so these keys land on top of
+# upstream's <locale>.yml without touching it. Keys for our own features go
+# here; upstream copy we merely translate does not.
+#
+# Adding a language means adding fazer_ai.<locale>.yml. Nothing else changes.
+pt_BR:
+  whatsapp_catalog:
+    price: '%{unit} %{number}'
+    separator: ','
+    delimiter: '.'
+    product_unreadable: Mensagem com um produto do catálogo. Veja no WhatsApp.
+    order_title: Pedido %{id}
+    item_count:
+      one: 1 item
+      other: '%{count} itens'
+    estimated_total: '%{total} (total estimado)'
+  internal_chat:
+    default_category_name: Canais
+    default_channel_name: Geral
+    messages:
+      deleted: Esta mensagem foi excluída
+  errors:
+    attachments:
+      video_note:
+        with_text: O vídeo recado não leva texto. Envie o texto numa mensagem separada.
+        not_alone: O vídeo recado vai sozinho. Envie os outros arquivos em mensagens separadas.
+    articles:
+      invalid_sort: Ordenação de artigos desconhecida. Use updated_at, created_at, title ou views, com - na frente para ordem decrescente.
+    request:
+      unexpected: Não foi possível completar a requisição.
+    account:
+      brand_name:
+        invalid: não pode conter < ou >
+      brand_url:
+        invalid: precisa começar com http:// ou https://
+      brand_logo_email:
+        too_big: tem mais de 2 MB
+        invalid_format: precisa ser PNG, JPG ou GIF
+    automation:
+      scheduled_message:
+        delay_out_of_range: O atraso deve ser entre 1 minuto e 999 dias
+        content_attachment_or_template_required: A mensagem agendada deve ter conteúdo, anexo ou template
+    scheduled_messages:
+      cannot_delete_processed: Não é possível excluir uma mensagem agendada que já foi enviada ou falhou
+    conversations:
+      already_assigned: "%{agent_name} já está atendendo esta conversa."
+      outside_working_hours: "Esta caixa está fora do horário de funcionamento, então as conversas dela não podem ser atribuídas agora."
+    conversation_pins:
+      limit_reached: Você pode fixar no máximo %{limit} conversas.
+      conversation_resolved: Não é possível fixar uma conversa resolvida.
+      conversation_not_visible: Esta conversa não está na sua lista, então não pode ser fixada.
+    meta:
+      send_failed: Algo deu errado ao enviar esta mensagem e não foi possível confirmar a entrega. Confira a conversa antes de enviar novamente.
+      messaging_window_closed: A janela de resposta da Meta para este contato fechou. Ela reabre quando o contato enviar uma nova mensagem.
+      messaging_window_closed_for_automation: A Meta só aceita resposta automática até 24 horas depois da última mensagem do contato. Assuma a conversa para responder como agente.
+    whatsapp:
+      group_announcement_only: Somente administradores podem enviar mensagens neste grupo
+      group_description_cannot_be_removed: O WhatsApp não permite remover a descrição de um grupo depois que ela existe. Substitua o texto em vez de apagá-lo.
+    inboxes:
+      channel:
+        provider_unavailable: Este provedor de WhatsApp ainda não está disponível nesta instalação.
+        invalid_provider_config: 'Configuração inválida em: %{keys}'
+        credential_check_unavailable: não pôde ser conferida com o provedor agora, então nada foi salvo. Tente de novo em instantes.
+        provider_not_enabled_for_account: Este provedor de WhatsApp está desativado para esta conta.
+        provider_withdrawn: Este provedor de WhatsApp não é mais oferecido para novas caixas de entrada. As caixas que já usam ele continuam funcionando.
+        cannot_unpair: Este provedor não consegue desvincular a conta do WhatsApp pareada com ele, então conectar de novo retomaria a mesma conta. Reinicie a instância no provedor, aponte esta caixa de entrada para outra, ou corrija o número configurado aqui.
+        code_pairing_unsupported: Este provedor do WhatsApp não consegue parear com código. Escaneie o QR Code no lugar.
+        history_sync_unsupported: Este provedor do WhatsApp não consegue buscar o histórico de uma conversa.
+        outgoing:
+          provider_error: O WhatsApp não conseguiu enviar esta mensagem no momento.
+          provider_unreachable: Não foi possível alcançar o provedor do WhatsApp.
+          disconnect_refused: O provedor não encerrou a sessão.
+          disconnect_unreachable: Não foi possível alcançar o provedor para encerrar a sessão.
+          send_timed_out: O envio excedeu o tempo limite; pode ou não ter chegado ao WhatsApp.
+          send_outcome_unknown: O envio excedeu o tempo limite e pode ter sido concluído. Confira a conversa no WhatsApp antes de enviar novamente.
+          send_stalled: A conexão com o WhatsApp não está aceitando envios no momento.
+          media_too_large: O anexo é grande demais para ser enviado.
+          invalid_payload: O WhatsApp recusou o conteúdo da mensagem.
+          still_processing: A mensagem ainda estava sendo enviada em outro lugar e não foi possível confirmar.
+          send_failed_after_retries: Não foi possível enviar a mensagem depois de várias tentativas. Envie novamente.
+        provider_connection:
+          wrong_phone_number: O número de telefone que você está tentando conectar não é o mesmo que o configurado. Certifique-se de que o número está correto antes de escanear o QR code.
+          reconnect_loop_detected: Não foi possível restabelecer a conexão após várias tentativas. Novas tentativas automáticas continuam em intervalos crescentes. Se o problema persistir, desconecte a caixa de entrada e conecte novamente escaneando um novo QR code.
+          send_stall_detected: Esta conexão está recebendo mensagens, mas não consegue enviá-las. Se não se resolver sozinha em alguns minutos, desconecte a caixa de entrada e conecte novamente escaneando um novo QR code.
+          invalid_credentials: O provedor recusou as credenciais desta caixa de entrada. Confira o endereço e o token e tente novamente.
+          logged_out: Este dispositivo foi desconectado do WhatsApp pelo celular. Conecte novamente para continuar recebendo mensagens.
+          logged_out_by_request: Esta caixa de entrada foi desconectada do WhatsApp aqui mesmo. Conecte novamente para continuar recebendo mensagens.
+          stream_replaced: Esta sessão foi substituída por outra conexão da mesma conta do WhatsApp. Conecte novamente para usar aqui.
+          temporary_ban: O WhatsApp bloqueou temporariamente este número. Aguarde o fim do bloqueio antes de conectar novamente.
+          client_outdated: O conector do WhatsApp está desatualizado e não consegue mais conectar. Atualize-o para restabelecer a conexão.
+          quarantined: Muitas tentativas de reconexão falharam seguidas. Novas tentativas continuam em intervalos crescentes.
+          connector_unavailable: O conector do WhatsApp não está respondendo. As mensagens só voltarão a ser enviadas quando ele retornar.
+          connector_incompatible: A versão do conector do WhatsApp é incompatível com esta versão do Chatwoot. Atualize o conector.
+          connect_failure: O WhatsApp recusou a conexão. Novas tentativas continuam automaticamente.
+          pairing_timed_out: O código expirou antes de o telefone concluir o pareamento. Inicie a conexão novamente para obter um novo.
+          pairing_pair_error: O WhatsApp aceitou o código mas não concluiu a conexão do dispositivo. Inicie a conexão novamente.
+          pairing_err-scanned-without-multidevice: Esta conta do WhatsApp precisa ativar o multidispositivo antes de poder ser conectada.
+          pairing_code_refused: O WhatsApp não quis enviar um código de pareamento para este número. Conecte o dispositivo pelo QR code.
+          pairing_connect_failed: O conector não conseguiu falar com o WhatsApp para iniciar o pareamento. Tente novamente.
+          connect_failed: O conector não conseguiu falar com o WhatsApp. Novas tentativas continuam automaticamente.
+          disconnect_requested: 'Esta conexão foi encerrada aqui. O pareamento continua válido: conecte novamente para retomá-la.'
+          disconnected: A conexão com o WhatsApp caiu. Novas tentativas continuam automaticamente.
+          proxy_unreachable: A conexão com o WhatsApp não está passando pelo proxy desta caixa de entrada. Confira o endereço do proxy nas configurações da caixa de entrada, ou remova-o para conectar direto. Novas tentativas continuam automaticamente.
+  notifications:
+    notification_title:
+      internal_chat_mention: Você foi mencionado em %{name}
+      internal_chat_new_message: Nova mensagem de %{name}
+  conversations:
+    activity:
+      group_participants:
+        add:
+          single: "%{author_name} adicionou %{contact_name} ao grupo"
+          multiple: "%{author_name} adicionou %{contact_names} e %{last_contact_name} ao grupo"
+        join: "%{contact_name} entrou usando o link do grupo"
+        leave: "%{contact_name} saiu do grupo"
+        remove:
+          single: "%{author_name} removeu %{contact_name} do grupo"
+          multiple: "%{author_name} removeu %{contact_names} e %{last_contact_name} do grupo"
+        promote:
+          single: "%{author_name} promoveu %{contact_name} a admin"
+          multiple: "%{author_name} promoveu %{contact_names} e %{last_contact_name} a admin"
+        demote:
+          single: "%{author_name} rebaixou %{contact_name} a membro"
+          multiple: "%{author_name} rebaixou %{contact_names} e %{last_contact_name} a membro"
+      whatsapp_call:
+        voice: "%{contact_name} ligou pelo WhatsApp"
+        video: "%{contact_name} fez uma chamada de vídeo pelo WhatsApp"
+      groups_update:
+        subject_changed: '%{author_name} alterou o nome do grupo para "%{value}"'
+        description_changed: "%{author_name} alterou a descrição do grupo"
+        description_removed: "%{author_name} removeu a descrição do grupo"
+        restrict_enabled: "%{author_name} mudou as configurações para permitir que somente admins editem as configurações do grupo"
+        restrict_disabled: "%{author_name} mudou as configurações para permitir que todos os membros editem as configurações do grupo"
+        announce_enabled: "%{author_name} mudou as configurações desse grupo para permitir que somente admins enviem mensagens ao grupo"
+        announce_disabled: "%{author_name} mudou as configurações do grupo para permitir que todos os membros enviem mensagens"
+        member_add_mode_enabled: "%{author_name} mudou as configurações do grupo para permitir que todos os membros adicionem outras pessoas"
+        member_add_mode_disabled: "%{author_name} mudou as configurações deste grupo para permitir que somente admins adicionem outras pessoas ao grupo"
+        join_approval_mode_enabled: "%{author_name} ativou a autorização de admins para entrar neste grupo"
+        join_approval_mode_disabled: "%{author_name} desativou a autorização de admins para entrar neste grupo"
+        invite_link_reset: "%{author_name} redefiniu o link do grupo para convidar outras pessoas"
+        unknown_author: Alguém
+        membership_request_created: "%{contact_name} deseja entrar no grupo"
+        membership_request_revoked: "%{contact_name} não deseja mais fazer parte do grupo"
+        icon_changed: "%{author_name} alterou a imagem do grupo"
+      recurring_message_failed: Mensagem agendada recorrente falhou ao enviar. Próxima ocorrência agendada para %{next_date}.
+      recurring_message_completed: Série de mensagem agendada recorrente concluída após %{count} ocorrências.
+      recurring_message_cancelled: Recorrência de mensagem agendada foi interrompida por %{agent}.
+      unknown_agent: Desconhecido
+      assignee:
+        removed_not_in_conversation_team: "Conversa desatribuída de %{assignee_name} porque não é membro do time da conversa, %{team_name}"
+        handed_to_agent_bot_on_reopen: "Conversa passada de %{assignee_name} para %{bot_name} porque o cliente escreveu de novo"
+  contacts:
+    group:
+      inbox_id_required: Este grupo está em mais de uma caixa de entrada. Diga por qual delas a ação vale enviando inbox_id.
+    sync_group:
+      not_a_group: O contato não é um grupo
+      no_identifier: O contato não possui um identificador de grupo
+      no_supported_inbox: Nenhuma caixa de entrada com suporte a sincronização de grupo encontrada para este contato
+      metadata_unavailable: Não foi possível obter os metadados do grupo do provedor
+  recurring_scheduled_messages:
+    description:
+      daily:
+        one: Todos os dias
+        other: A cada %{count} dias
+      weekly:
+        one: Semanal
+        other: A cada %{count} semanas
+      weekly_on: "%{prefix}: %{days}"
+      monthly:
+        one: Mensal
+        other: A cada %{count} meses
+      monthly_on_weekday: "%{prefix} no(a) %{ordinal} %{weekday}"
+      yearly:
+        one: Anual
+        other: A cada %{count} anos
+      until_date: até %{date}
+      after_count:
+        one: "%{count} ocorrência"
+        other: "%{count} ocorrências"
+      ordinals:
+        first: primeiro(a)
+        second: segundo(a)
+        third: terceiro(a)
+        fourth: quarto(a)
+        fifth: quinto(a)
+        last: último(a)
+  reports:
+    agent_csv:
+      handled_count: Conversas atendidas
+    team_csv:
+      handled_count: Conversas atendidas
+    inbox_csv:
+      handled_count: Conversas atendidas
+      avg_customer_waiting_time: Tempo médio de espera do cliente
+      resolution_count: Contagem de Resolução
+  super_admin:
+    instance_status:
+      whatsapp_connector:
+        label: 'Conector do WhatsApp (nativo)'
+        running: 'rodando'
+        not_running: 'parado'
+        unreachable: 'não foi possível ler: %{error}'
+        instance: 'Conector do WhatsApp %{id}'
+        start_error: 'Erro ao iniciar o conector do WhatsApp (%{instance})'
+    accounts:
+      agent_restrictions: 'Restrições de agente'
+      agent_restrictions_hint: 'Salvas junto com o formulário acima.'
+    settings:
+      pages:
+        branding: 'Marca'
+        branding_description: 'O nome, os logos e os links que esta instalação mostra. Salvos aqui, eles têm prioridade sobre as variáveis de marca do ambiente.'
+    app_configs:
+      branding:
+        invalid_color: 'A cor da marca precisa ser uma cor hexadecimal, como #1f93ff.'
+      general:
+        invalid_message_search_min_query_length: 'O tamanho mínimo do termo na busca de mensagens precisa ser um número inteiro, 0 ou maior.'
+      fields:
+        INSTALLATION_NAME:
+          title: 'Nome da instalação'
+          description: 'O nome mostrado no painel, no título da página e nos e-mails.'
+        LOGO_THUMBNAIL:
+          title: 'Miniatura do logo'
+          description: 'A imagem quadrada usada como favicon (512 × 512 px).'
+        LOGO:
+          title: 'Logo'
+          description: 'O logo do painel e da tela de login.'
+        LOGO_DARK:
+          title: 'Logo para o modo escuro'
+          description: 'O logo do painel e da tela de login no modo escuro.'
+        LOGO_EMAIL:
+          title: 'Logo dos e-mails'
+          description: 'O logo no topo dos e-mails enviados. Só PNG, JPG ou GIF: os clientes de e-mail não exibem SVG. Se ficar vazio, usa o logo acima quando ele estiver num desses formatos.'
+        BRAND_NAME:
+          title: 'Nome da marca'
+          description: 'O nome usado nos e-mails e no widget.'
+        BRAND_URL:
+          title: 'URL da marca'
+          description: 'Para onde aponta a linha "Powered by" dos e-mails.'
+        WIDGET_BRAND_URL:
+          title: 'URL da marca no widget'
+          description: 'Para onde aponta a linha "Powered by" do widget.'
+        BRAND_COLOR:
+          title: 'Cor da marca'
+          description: 'Cor hexadecimal usada nos e-mails e no tema do app, como #1f93ff.'
+        TERMS_URL:
+          title: 'URL dos termos de uso'
+          description: 'Aparece na tela de cadastro.'
+        PRIVACY_URL:
+          title: 'URL da política de privacidade'
+          description: 'Aparece no app.'
+        DISPLAY_MANIFEST:
+          title: 'Metadados do Chatwoot'
+          description: 'Mostra os favicons padrão do Chatwoot e os avisos de atualização.'

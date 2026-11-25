@@ -18,6 +18,8 @@ class InternalChatMessagesAPI extends ApiClient {
     if (data.content) formData.append('content', data.content);
     if (data.parent_id) formData.append('parent_id', data.parent_id);
     if (data.echo_id) formData.append('echo_id', data.echo_id);
+    if (data.also_send_in_channel)
+      formData.append('also_send_in_channel', data.also_send_in_channel);
     files.forEach(file => {
       formData.append('attachments[][file]', file);
     });

@@ -5,13 +5,15 @@
       <%= @global_config['INSTALLATION_NAME'] %>
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, user-scalable=0"/>
-    <meta name="generator" content="fazer.ai"/>
     <meta name="theme-color" content="<%= @global_config['BRAND_COLOR'] %>">
     <meta name="apple-mobile-web-app-title" content="<%= @global_config['INSTALLATION_NAME'] %>">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <link rel="apple-touch-icon" href="<%= @global_config['LOGO_THUMBNAIL'] %>">
     <link rel="manifest" href="/manifest.json">
+    <% unless ChatwootApp.chatwoot_cloud? %>
+      <meta name="robots" content="noindex">
+    <% end %>
     <% if @global_config['DISPLAY_MANIFEST'] %>
       <meta name="msapplication-TileColor" content="<%= @global_config['BRAND_COLOR'] %>">
       <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
@@ -60,6 +62,9 @@
         <% end %>
         enabledLanguages: <%= available_locales_with_name.to_json.html_safe %>,
         helpUrls: <%= feature_help_urls.to_json.html_safe %>,
+        inboxEventsEnabled: '<%= ENV['ENABLE_INBOX_EVENTS'].present? %>',
+        searchTimeRangeLimitDays: <%= Limits.search_time_range_limit_days %>,
+        autoResolveMinMinutes: <%= Limits.auto_resolve_min_minutes %>,
         selectedLocale: '<%= I18n.locale %>'
       }
       window.globalConfig = <%= raw @global_config.to_json %>

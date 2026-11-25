@@ -23,7 +23,7 @@ class Label < ApplicationRecord
   belongs_to :account
 
   validates :title,
-            presence: { message: I18n.t('errors.validations.presence') },
+            presence: { message: ->(*) { I18n.t('errors.validations.presence') } },
             format: { with: UNICODE_CHARACTER_NUMBER_HYPHEN_UNDERSCORE },
             uniqueness: { scope: :account_id }
 

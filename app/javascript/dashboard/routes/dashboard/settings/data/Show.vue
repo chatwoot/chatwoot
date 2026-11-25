@@ -1,0 +1,339 @@
+<script setup>
+import {
+  computed,
+  onActivated,
+  onBeforeUnmount,
+  onDeactivated,
+  ref,
+} from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
+import { useAlert } from 'dashboard/composables';
+
+import DataImportsAPI from 'dashboard/api/dataImports';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
+import Banner from 'dashboard/components-next/banner/Banner.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
+import { POLL_INTERVAL_MS, isActiveImport } from './importStatus';
+import SettingsLayout from '../SettingsLayout.vue';
+import ImportDetailHeader from './components/ImportDetailHeader.vue';
+import ImportSummaryTiles from './components/ImportSummaryTiles.vue';
+import ImportProgress from './components/ImportProgress.vue';
+import ImportErrorsSection from './components/ImportErrorsSection.vue';
+import ImportSkipLogsSection from './components/ImportSkipLogsSection.vue';
+
+const { t } = useI18n();
+const route = useRoute();
+
+const dataImport = ref(null);
+const isLoading = ref(true);
+const isRefreshing = ref(false);
+const isPolling = ref(false);
+const isRetrying = ref(false);
+const isAbandoning = ref(false);
+const isDownloadingErrorLogs = ref(false);
+const isDownloadingSkipLogs = ref(false);
+const isChangingSkipLogsType = ref(false);
+const selectedSkipLogsType = ref('');
+const errorsOpen = ref(true);
+const skipLogsOpen = ref(true);
+let pollTimer;
+let isPageActive = false;
+let importRequestVersion = 0;
+
+const hasActiveImport = computed(() => isActiveImport(dataImport.value));
+
+const stopPolling = () => {
+  if (!pollTimer) return;
+
+  window.clearInterval(pollTimer);
+  pollTimer = null;
+};
+
+const fetchImport = async ({
+  showLoader = false,
+  manual = false,
+  requestedSkipLogsType = selectedSkipLogsType.value,
+} = {}) => {
+  const requestVersion = importRequestVersion;
+  if (showLoader) {
+    isLoading.value = true;
+  } else if (manual) {
+    isRefreshing.value = true;
+  }
+
+  try {
+    const response = await DataImportsAPI.show(route.params.dataImportId, {
+      skip_logs_type: requestedSkipLogsType || undefined,
+    });
+    if (requestVersion !== importRequestVersion) return;
+
+    dataImport.value = response.data;
+    selectedSkipLogsType.value =
+      response.data.skip_logs_filters?.selected_source_object_type ||
+      requestedSkipLogsType ||
+      '';
+  } finally {
+    if (showLoader) isLoading.value = false;
+    if (manual) isRefreshing.value = false;
+    if (!hasActiveImport.value) stopPolling();
+  }
+};
+
+const changeSkipLogsType = async type => {
+  if (type === selectedSkipLogsType.value || isChangingSkipLogsType.value) {
+    return;
+  }
+
+  selectedSkipLogsType.value = type;
+  isChangingSkipLogsType.value = true;
+  try {
+    await fetchImport({ requestedSkipLogsType: type });
+  } finally {
+    isChangingSkipLogsType.value = false;
+  }
+};
+
+const refreshImportInBackground = async () => {
+  if (
+    !isPageActive ||
+    isPolling.value ||
+    !hasActiveImport.value ||
+    document.hidden
+  ) {
+    return;
+  }
+
+  isPolling.value = true;
+  try {
+    await fetchImport();
+  } finally {
+    isPolling.value = false;
+    if (!hasActiveImport.value) stopPolling();
+  }
+};
+
+const startPolling = () => {
+  stopPolling();
+  if (!isPageActive || !hasActiveImport.value) return;
+
+  pollTimer = window.setInterval(refreshImportInBackground, POLL_INTERVAL_MS);
+};
+
+const abandonImport = async () => {
+  isAbandoning.value = true;
+  importRequestVersion += 1;
+  try {
+    const response = await DataImportsAPI.abandon(dataImport.value.id);
+    dataImport.value = response.data;
+    stopPolling();
+    useAlert(t('DATA_IMPORTS.ALERTS.IMPORT_ABANDONED'));
+  } catch {
+    useAlert(t('DATA_IMPORTS.ALERTS.IMPORT_FAILED'));
+  } finally {
+    isAbandoning.value = false;
+  }
+};
+
+const retryImport = async (resume = false) => {
+  isRetrying.value = true;
+  importRequestVersion += 1;
+  stopPolling();
+  try {
+    const response = resume
+      ? await DataImportsAPI.start(dataImport.value.id)
+      : await DataImportsAPI.retry(dataImport.value.id);
+    dataImport.value = response.data;
+    useAlert(t('DATA_IMPORTS.ALERTS.IMPORT_RETRIED'));
+  } catch (error) {
+    useAlert(
+      error?.response?.data?.message ||
+        t('DATA_IMPORTS.ALERTS.IMPORT_RETRY_FAILED')
+    );
+  } finally {
+    isRetrying.value = false;
+    if (hasActiveImport.value) startPolling();
+  }
+};
+
+const downloadRejectedRows = async () => {
+  try {
+    const response = await DataImportsAPI.downloadRejectedRows(
+      dataImport.value.id
+    );
+    window.location.assign(response.data.download_url);
+  } catch {
+    useAlert(t('DATA_EXPORTS.DOWNLOAD_ERROR'));
+  }
+};
+
+const downloadCsv = (response, filename) => {
+  const url = window.URL.createObjectURL(
+    new Blob([response.data], { type: 'text/csv' })
+  );
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  link.click();
+  window.URL.revokeObjectURL(url);
+};
+
+const downloadErrorLogs = async () => {
+  isDownloadingErrorLogs.value = true;
+  try {
+    const response = await DataImportsAPI.downloadErrorLogs(
+      dataImport.value.id
+    );
+    downloadCsv(response, `data-import-${dataImport.value.id}-error-logs.csv`);
+  } finally {
+    isDownloadingErrorLogs.value = false;
+  }
+};
+
+const downloadSkipLogs = async () => {
+  isDownloadingSkipLogs.value = true;
+  try {
+    const response = await DataImportsAPI.downloadSkipLogs(dataImport.value.id);
+    downloadCsv(response, `data-import-${dataImport.value.id}-skip-logs.csv`);
+  } finally {
+    isDownloadingSkipLogs.value = false;
+  }
+};
+
+const handleVisibilityChange = () => {
+  if (isPageActive && !document.hidden && hasActiveImport.value) {
+    refreshImportInBackground();
+  }
+};
+
+onActivated(async () => {
+  isPageActive = true;
+  await fetchImport({ showLoader: true });
+  if (!isPageActive) return;
+
+  // Collapse empty sections by default; expand the ones with records.
+  errorsOpen.value = Boolean(dataImport.value?.import_errors_count);
+  skipLogsOpen.value = Boolean(dataImport.value?.skip_logs_count);
+  startPolling();
+  document.addEventListener('visibilitychange', handleVisibilityChange);
+});
+
+onDeactivated(() => {
+  importRequestVersion += 1;
+  isPageActive = false;
+  stopPolling();
+  document.removeEventListener('visibilitychange', handleVisibilityChange);
+});
+
+onBeforeUnmount(() => {
+  importRequestVersion += 1;
+  isPageActive = false;
+  stopPolling();
+  document.removeEventListener('visibilitychange', handleVisibilityChange);
+});
+</script>
+
+<template>
+  <SettingsLayout
+    :is-loading="isLoading"
+    :loading-message="$t('DATA_IMPORTS.LOADING')"
+  >
+    <template #header>
+      <ImportDetailHeader
+        :data-import="dataImport"
+        :is-refreshing="isRefreshing"
+        :is-retrying="isRetrying"
+        :is-abandoning="isAbandoning"
+        :is-polling="isPolling"
+        @refresh="fetchImport({ manual: true })"
+        @retry="retryImport(false)"
+        @start="retryImport(true)"
+        @abandon="abandonImport"
+      />
+    </template>
+
+    <template #body>
+      <div v-if="dataImport" class="flex flex-col gap-4">
+        <ImportSummaryTiles :data-import="dataImport" />
+        <div
+          v-if="dataImport.source_provider === 'csv'"
+          class="flex items-center gap-3 rounded-xl border border-n-weak bg-n-solid-1 px-5 py-4"
+        >
+          <span
+            class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-n-alpha-2"
+          >
+            <Icon icon="i-lucide-file-text" class="size-5 text-n-slate-11" />
+          </span>
+          <div class="flex min-w-0 flex-col gap-1">
+            <span class="text-label-small text-n-slate-11">{{
+              $t('DATA_IMPORTS.CSV.FILE')
+            }}</span>
+            <span
+              v-if="dataImport.artifacts_expired_at"
+              class="text-body-main text-n-slate-11"
+            >
+              {{ $t('DATA_IMPORTS.CSV.FILE_REMOVED') }}
+            </span>
+            <span v-else class="break-words text-heading-3 text-n-slate-12">{{
+              dataImport.file_name
+            }}</span>
+          </div>
+        </div>
+
+        <ImportProgress
+          v-if="dataImport.import_types?.length"
+          :data-import="dataImport"
+          :title="$t('DATA_IMPORTS.DETAIL.PROGRESS')"
+        />
+
+        <Banner v-if="dataImport.artifacts_expired_at" color="amber">
+          {{ $t('DATA_IMPORTS.CSV.EXPIRED') }}
+        </Banner>
+        <div
+          v-else-if="dataImport.rejected_rows_available"
+          class="flex flex-col items-start gap-4 rounded-xl border border-n-amber-5 bg-n-amber-2 px-5 py-4 sm:flex-row sm:items-center sm:justify-between"
+        >
+          <div class="flex min-w-0 flex-1 flex-col gap-1">
+            <h2 class="text-heading-3 text-n-slate-12">
+              {{ $t('DATA_IMPORTS.CSV.REJECTED_TITLE') }}
+            </h2>
+            <p class="text-body-main text-n-slate-11">
+              {{ $t('DATA_IMPORTS.CSV.REJECTED_HELP') }}
+            </p>
+          </div>
+          <Button
+            slate
+            outline
+            size="sm"
+            icon="i-lucide-download"
+            :label="$t('DATA_IMPORTS.CSV.DOWNLOAD_REJECTED')"
+            @click="downloadRejectedRows"
+          />
+        </div>
+
+        <ImportErrorsSection
+          v-if="
+            dataImport.source_provider !== 'csv' ||
+            dataImport.import_errors_count
+          "
+          :data-import="dataImport"
+          :is-open="errorsOpen"
+          :is-downloading="isDownloadingErrorLogs"
+          @toggle="errorsOpen = !errorsOpen"
+          @download="downloadErrorLogs"
+        />
+
+        <ImportSkipLogsSection
+          :data-import="dataImport"
+          :is-open="skipLogsOpen"
+          :is-downloading="isDownloadingSkipLogs"
+          :selected-type="selectedSkipLogsType"
+          :is-changing-type="isChangingSkipLogsType"
+          @toggle="skipLogsOpen = !skipLogsOpen"
+          @download="downloadSkipLogs"
+          @change-type="changeSkipLogsType"
+        />
+      </div>
+    </template>
+  </SettingsLayout>
+</template>

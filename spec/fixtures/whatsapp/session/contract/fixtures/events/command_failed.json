@@ -1,0 +1,20 @@
+{
+  "v": 1,
+  "id": "01920000-0000-7000-8000-000000000043",
+  "type": "command.failed",
+  "sid": "9f1c0f4e-6a2b-4c8e-9d1a-2b3c4d5e6f70",
+  "epoch": 7,
+  "seq": 43,
+  "ts": 1755440000123,
+  "inst": "connector-a1b2c3",
+  "payload": {
+    "command_id": "cmd_000012",
+    "command_type": "message.send",
+    "message_id": "3EB0A1B2C3D4E5F60750",
+    "error": {
+      "code": "media_too_large",
+      "message": "video exceeds 16 MiB",
+      "retryable": false
+    }
+  }
+}

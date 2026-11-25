@@ -94,4 +94,19 @@ RSpec.describe NotificationFinder do
       end
     end
   end
+
+  context 'when the user lacks internal_chat.access' do
+    let(:params) { {} }
+
+    it 'leaves internal chat notifications out of the list and the counts' do
+      channel = create(:internal_chat_channel, :dm, account: account)
+      message = create(:internal_chat_message, account: account, channel: channel, sender: create(:user, account: account))
+      create(:notification, account: account, user: user, notification_type: 'internal_chat_new_message',
+                            primary_actor: channel, secondary_actor: message)
+      stub_const('FeatureAccess::CAPABILITIES', { 'internal_chat.access' => { agent_default: false } })
+
+      expect(notification_finder.notifications.map(&:notification_type)).not_to include('internal_chat_new_message')
+      expect(notification_finder.unread_count).to eq(3)
+    end
+  end
 end

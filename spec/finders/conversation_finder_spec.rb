@@ -80,10 +80,14 @@ describe ConversationFinder do
 
     context 'with assignee_type unassigned' do
       let(:params) { { assignee_type: 'unassigned' } }
+      let!(:agent_bot_conversation) do
+        create(:conversation, account: account, inbox: inbox, ai_assignee: create(:agent_bot, account: account))
+      end
 
       it 'filter conversations by assignee type unassigned' do
         result = conversation_finder.perform
         expect(result[:conversations].length).to be 1
+        expect(result[:conversations]).not_to include(agent_bot_conversation)
       end
     end
 
@@ -96,21 +100,86 @@ describe ConversationFinder do
       end
     end
 
+    context 'with unread sort' do
+      let(:params) { { status: 'open', sort_by: 'unread' } }
+
+      it 'returns all conversations matching the selected status with the highest unread count first' do
+        most_unread_conversation = create(:conversation, account: account, inbox: inbox,
+                                                         agent_last_seen_at: 1.hour.ago)
+        unread_conversation = create(:conversation, account: account, inbox: inbox,
+                                                    agent_last_seen_at: 1.hour.ago)
+        read_conversation = create(:conversation, account: account, inbox: inbox,
+                                                  agent_last_seen_at: 1.minute.from_now)
+        resolved_unread_conversation = create(:conversation, account: account, inbox: inbox, status: 'resolved',
+                                                             agent_last_seen_at: 1.hour.ago)
+
+        [most_unread_conversation, unread_conversation, read_conversation, resolved_unread_conversation].each do |conversation|
+          create(:message, account: account, inbox: inbox, conversation: conversation,
+                           message_type: :incoming, created_at: 5.minutes.ago)
+        end
+        create(:message, account: account, inbox: inbox, conversation: most_unread_conversation,
+                         message_type: :incoming, created_at: 4.minutes.ago)
+        resolved_unread_conversation.update!(status: 'resolved')
+        read_conversation.update!(last_activity_at: 1.minute.from_now)
+        unread_conversation.update!(last_activity_at: 2.minutes.from_now)
+
+        result = conversation_finder.perform
+        conversation_ids = result[:conversations].map(&:id)
+
+        expect(conversation_ids).to include(most_unread_conversation.id, unread_conversation.id, read_conversation.id)
+        expect(conversation_ids).not_to include(resolved_unread_conversation.id)
+        expect(conversation_ids.index(most_unread_conversation.id)).to be < conversation_ids.index(unread_conversation.id)
+        expect(conversation_ids.index(unread_conversation.id)).to be < conversation_ids.index(read_conversation.id)
+      end
+
+      it 'includes private incoming messages in unread counts used for ordering' do
+        private_unread_conversation = create(:conversation, account: account, inbox: inbox,
+                                                            agent_last_seen_at: 1.hour.ago)
+        unread_conversation = create(:conversation, account: account, inbox: inbox,
+                                                    agent_last_seen_at: 1.hour.ago)
+        read_conversation = create(:conversation, account: account, inbox: inbox,
+                                                  agent_last_seen_at: 1.minute.from_now)
+
+        2.times do
+          create(:message, account: account, inbox: inbox, conversation: private_unread_conversation,
+                           message_type: :incoming, private: true, created_at: 5.minutes.ago)
+        end
+        create(:message, account: account, inbox: inbox, conversation: unread_conversation,
+                         message_type: :incoming, created_at: 5.minutes.ago)
+        create(:message, account: account, inbox: inbox, conversation: read_conversation,
+                         message_type: :incoming, created_at: 5.minutes.ago)
+        private_unread_conversation.update!(last_activity_at: 10.minutes.ago)
+        unread_conversation.update!(last_activity_at: 2.minutes.from_now)
+        read_conversation.update!(last_activity_at: 1.minute.from_now)
+
+        result = conversation_finder.perform
+        conversation_ids = result[:conversations].map(&:id)
+
+        expect(private_unread_conversation.unread_incoming_messages.count).to eq 2
+        expect(conversation_ids.index(private_unread_conversation.id)).to be < conversation_ids.index(unread_conversation.id)
+        expect(conversation_ids.index(unread_conversation.id)).to be < conversation_ids.index(read_conversation.id)
+      end
+    end
+
     context 'with assignee_type assigned' do
       let(:params) { { assignee_type: 'assigned' } }
+      let!(:agent_bot_conversation) do
+        create(:conversation, account: account, inbox: inbox, ai_assignee: create(:agent_bot, account: account))
+      end
 
       it 'filter conversations by assignee type assigned' do
         result = conversation_finder.perform
-        expect(result[:conversations].length).to be 3
+        expect(result[:conversations].length).to be 4
+        expect(result[:conversations]).to include(agent_bot_conversation)
       end
 
       it 'returns the correct meta' do
         result = conversation_finder.perform
         expect(result[:count]).to eq({
                                        mine_count: 2,
-                                       assigned_count: 3,
+                                       assigned_count: 4,
                                        unassigned_count: 1,
-                                       all_count: 4
+                                       all_count: 5
                                      })
       end
     end
@@ -180,6 +249,81 @@ describe ConversationFinder do
       end
     end
 
+    context 'with pinned conversations' do
+      let(:params) { { status: 'all', assignee_type: 'all' } }
+      let(:pinned_conversation) { inbox.conversations.order(:created_at).first }
+
+      before do
+        # Oldest conversation gets the oldest activity, so without a pin it always sorts last.
+        conversations = inbox.conversations.order(:created_at).to_a
+        conversations.each_with_index do |conversation, index|
+          conversation.update_columns(last_activity_at: (conversations.length - index).minutes.ago) # rubocop:disable Rails/SkipsModelValidations
+        end
+        create(:conversation_pin, conversation: pinned_conversation, user: user_1, account: account)
+      end
+
+      it 'puts the pinned conversation first for the agent who pinned it' do
+        result = described_class.new(user_1, params).perform
+
+        expect(result[:conversations].first.id).to eq(pinned_conversation.id)
+      end
+
+      it 'keeps the default order for every other agent' do
+        result = described_class.new(user_2, params).perform
+
+        expect(result[:conversations].last.id).to eq(pinned_conversation.id)
+      end
+
+      it 'combines with the search and source_id filters, which select distinct rows' do
+        Conversations::SortService::SORT_OPTIONS.each_key do |sort_by|
+          expect { described_class.new(user_1, params.merge(q: 'hello', sort_by: sort_by)).perform[:conversations].to_a }
+            .not_to raise_error, "failed for q with sort_by=#{sort_by}"
+          expect do
+            described_class.new(user_1, params.merge(source_id: 'testing_source_id', sort_by: sort_by)).perform[:conversations].to_a
+          end.not_to raise_error, "failed for source_id with sort_by=#{sort_by}"
+        end
+      end
+
+      it 'puts the pinned conversation first on every sort option' do
+        Conversations::SortService::SORT_OPTIONS.each_key do |sort_by|
+          result = described_class.new(user_1, params.merge(sort_by: sort_by)).perform
+
+          expect(result[:conversations].first.id).to eq(pinned_conversation.id), "failed for sort_by=#{sort_by}"
+        end
+      end
+
+      it 'puts the most recently pinned conversation on top' do
+        latest_pinned = inbox.conversations.order(:created_at).last
+        create(:conversation_pin, conversation: latest_pinned, user: user_1, account: account)
+
+        result = described_class.new(user_1, params).perform
+
+        expect(result[:conversations].map(&:id).first(2)).to eq([latest_pinned.id, pinned_conversation.id])
+      end
+
+      it 'does not change the conversation counts' do
+        counts_with_pin = described_class.new(user_1, params).perform[:count]
+        ConversationPin.destroy_all
+
+        expect(described_class.new(user_1, params).perform[:count]).to eq(counts_with_pin)
+      end
+
+      it 'filters conversations by labels' do
+        pinned_conversation.update_labels('resolved')
+
+        result = described_class.new(user_1, params.merge(labels: ['resolved'])).perform
+
+        expect(result[:conversations].map(&:id)).to eq([pinned_conversation.id])
+      end
+
+      it 'returns all conversations in range with updated_within' do
+        result = described_class.new(user_1, params.merge(updated_within: 3600)).perform
+
+        expect(result[:conversations].first.id).to eq(pinned_conversation.id)
+        expect(result[:conversations].length).to eq(inbox.conversations.count)
+      end
+    end
+
     context 'with pagination' do
       let(:params) { { status: 'open', assignee_type: 'me', page: 1 } }
 
@@ -187,6 +331,35 @@ describe ConversationFinder do
         create_list(:conversation, 50, account: account, inbox: inbox, assignee: user_1)
         result = conversation_finder.perform
         expect(result[:conversations].length).to be 25
+      end
+    end
+
+    context 'when paging through conversations that tie on every sort key' do
+      let(:params) { { status: 'open', assignee_type: 'all' } }
+      let(:page_size) { 5 }
+      let(:tied_at) { Time.zone.parse('2026-01-01 12:00:00.123456') }
+
+      before do
+        allow(ENV).to receive(:fetch).and_call_original
+        allow(ENV).to receive(:fetch).with('CONVERSATION_RESULTS_PER_PAGE', '25').and_return(page_size.to_s)
+        create_list(:conversation, 18, account: account, inbox: inbox)
+        # rubocop:disable Rails/SkipsModelValidations
+        account.conversations.update_all(last_activity_at: tied_at, created_at: tied_at, waiting_since: tied_at, priority: nil,
+                                         status: :open)
+        # rubocop:enable Rails/SkipsModelValidations
+      end
+
+      it 'returns every conversation exactly once across the pages, for every sort option', :aggregate_failures do
+        expected = account.conversations.pluck(:id).sort
+        pages = (expected.length.to_f / page_size).ceil
+
+        Conversations::SortService::SORT_OPTIONS.each_key do |sort_by|
+          seen = (1..pages).flat_map do |page|
+            described_class.new(user_1, params.merge(sort_by: sort_by, page: page)).perform[:conversations].map(&:id)
+          end
+          expect(seen.sort).to eq(expected), "sort_by=#{sort_by} returned #{seen.tally.select { |_, n| n > 1 }.keys} twice " \
+                                             "and missed #{expected - seen}"
+        end
       end
     end
 
@@ -227,6 +400,36 @@ describe ConversationFinder do
 
         result = conversation_finder.perform
         expect(result[:conversations].length).to be 2
+      end
+    end
+
+    context 'with participating' do
+      let(:params) { { status: 'open', assignee_type: 'all', conversation_type: 'participating' } }
+
+      it 'excludes participating conversations from inboxes the user no longer has access to' do
+        accessible_conversation = create(:conversation, account: account, inbox: inbox)
+        revoked_conversation = create(:conversation, account: account, inbox: restricted_inbox)
+        revoked_membership = create(:inbox_member, user: user_1, inbox: restricted_inbox)
+        create(:conversation_participant, user: user_1, conversation: accessible_conversation, account: account)
+        create(:conversation_participant, user: user_1, conversation: revoked_conversation, account: account)
+        revoked_membership.destroy!
+
+        result = conversation_finder.perform
+
+        expect(result[:conversations].map(&:id)).to contain_exactly(accessible_conversation.id)
+      end
+
+      it 'excludes the inaccessible conversation from the meta counts too' do
+        accessible_conversation = create(:conversation, account: account, inbox: inbox)
+        revoked_conversation = create(:conversation, account: account, inbox: restricted_inbox)
+        revoked_membership = create(:inbox_member, user: user_1, inbox: restricted_inbox)
+        create(:conversation_participant, user: user_1, conversation: accessible_conversation, account: account)
+        create(:conversation_participant, user: user_1, conversation: revoked_conversation, account: account)
+        revoked_membership.destroy!
+
+        result = conversation_finder.perform_meta_only
+
+        expect(result[:count][:all_count]).to eq 1
       end
     end
   end

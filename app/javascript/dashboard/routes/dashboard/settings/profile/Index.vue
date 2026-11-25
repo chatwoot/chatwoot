@@ -14,7 +14,6 @@ import UserBasicDetails from './UserBasicDetails.vue';
 import MessageSignature from './MessageSignature.vue';
 import FontSize from './FontSize.vue';
 import UserLanguageSelect from './UserLanguageSelect.vue';
-import HotKeyCard from './HotKeyCard.vue';
 import ChangePassword from './ChangePassword.vue';
 import NotificationPreferences from './NotificationPreferences.vue';
 import AudioNotifications from './AudioNotifications.vue';
@@ -22,7 +21,10 @@ import SectionLayout from '../account/components/SectionLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import AccessToken from './AccessToken.vue';
 import MfaSettingsCard from './MfaSettingsCard.vue';
+import ActiveSessions from './ActiveSessions.vue';
 import Policy from 'dashboard/components/policy.vue';
+import RadioCard from 'dashboard/components-next/radioCard/RadioCard.vue';
+import { DEFAULT_SIGNATURE_SEPARATOR } from 'dashboard/constants/signatureSeparators';
 import {
   ROLES,
   CONVERSATION_PERMISSIONS,
@@ -37,12 +39,13 @@ export default {
     UserProfilePicture,
     Policy,
     UserBasicDetails,
-    HotKeyCard,
+    RadioCard,
     ChangePassword,
     NotificationPreferences,
     AudioNotifications,
     AccessToken,
     MfaSettingsCard,
+    ActiveSessions,
     BaseSettingsHeader,
   },
   setup() {
@@ -108,7 +111,24 @@ export default {
       currentUser: 'getCurrentUser',
       currentUserId: 'getCurrentUserID',
       globalConfig: 'globalConfig/get',
+      isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
     }),
+    apiAndWebhooksEnabled() {
+      if (!this.isOnChatwootCloud) return true;
+
+      return this.currentUser.accounts.some(
+        account => account.api_and_webhooks
+      );
+    },
+    accessTokenDescription() {
+      if (!this.apiAndWebhooksEnabled) {
+        return this.$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.PAID_PLAN_NOTE');
+      }
+
+      return this.replaceInstallationName(
+        this.$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.NOTE')
+      );
+    },
     isMfaEnabled() {
       return parseBoolean(window.chatwootConfig?.isMfaEnabled);
     },
@@ -129,13 +149,17 @@ export default {
       const { signature_position, signature_separator } =
         this.currentUser.ui_settings || {};
       this.signaturePosition = signature_position || 'top';
-      this.signatureSeparator = signature_separator || 'blank';
+      this.signatureSeparator =
+        signature_separator || DEFAULT_SIGNATURE_SEPARATOR;
     },
     async dispatchUpdate(payload, successMessage, errorMessage) {
       let alertMessage = '';
       try {
         await this.$store.dispatch('updateProfile', payload);
-        alertMessage = successMessage;
+        alertMessage =
+          typeof successMessage === 'function'
+            ? successMessage()
+            : successMessage;
 
         return true; // return the value so that the status can be known
       } catch (error) {
@@ -147,28 +171,48 @@ export default {
       }
     },
     async updateProfile(userAttributes) {
-      const { name, email, displayName } = userAttributes;
-      const hasEmailChanged = this.currentUser.email !== email;
+      const { name, email, displayName, currentPassword } = userAttributes;
+      // Taken before the request and compared as Devise stores them (downcased and
+      // stripped), so a second save in flight or a change of case alone cannot read as
+      // a new address.
+      const previousEmail = this.currentUser.email;
+      const normalizeEmail = value => (value || '').trim().toLowerCase();
       this.name = name || this.name;
       this.email = email || this.email;
       this.displayName = displayName || this.displayName;
+      const submittedEmail = this.email;
+      const hasEmailChanged =
+        normalizeEmail(submittedEmail) !== normalizeEmail(previousEmail);
 
       const updatePayload = {
         name: this.name,
-        email: this.email,
+        email: submittedEmail,
         displayName: this.displayName,
         avatar: this.avatarFile,
+        current_password: hasEmailChanged ? currentPassword : undefined,
       };
 
+      // With Devise's reconfirmable on, the current email stays in effect until the link
+      // mailed to the new one is clicked, so the saved profile comes back with the old
+      // address and the session is still valid.
+      const isEmailInEffect = () => this.currentUser.email !== previousEmail;
       const success = await this.dispatchUpdate(
         updatePayload,
-        hasEmailChanged
-          ? this.$t('PROFILE_SETTINGS.AFTER_EMAIL_CHANGED')
-          : this.$t('PROFILE_SETTINGS.UPDATE_SUCCESS'),
+        () => {
+          if (!hasEmailChanged)
+            return this.$t('PROFILE_SETTINGS.UPDATE_SUCCESS');
+          if (isEmailInEffect())
+            return this.$t('PROFILE_SETTINGS.AFTER_EMAIL_CHANGED');
+          return this.$t('PROFILE_SETTINGS.EMAIL_CONFIRMATION_PENDING', {
+            email: submittedEmail,
+          });
+        },
         this.$t('RESET_PASSWORD.API.ERROR_MESSAGE')
       );
 
-      if (hasEmailChanged && success) clearCookiesOnLogout();
+      if (!success) return;
+      if (hasEmailChanged && isEmailInEffect()) clearCookiesOnLogout();
+      else this.email = this.currentUser.email;
     },
     async updateSignature(signature, signaturePosition, signatureSeparator) {
       try {
@@ -247,10 +291,14 @@ export default {
       useAlert(this.$t('PROFILE_SETTINGS.FORM.SEND_MESSAGE.UPDATE_SUCCESS'));
     },
     async onCopyToken(value) {
+      if (!this.apiAndWebhooksEnabled) return;
+
       await copyTextToClipboard(value);
       useAlert(this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
     },
     async resetAccessToken() {
+      if (!this.apiAndWebhooksEnabled) return;
+
       const success = await this.$store.dispatch('resetAccessToken');
       if (success) {
         useAlert(this.$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.RESET_SUCCESS'));
@@ -330,26 +378,27 @@ export default {
       <div
         class="flex flex-col justify-between w-full gap-5 sm:gap-4 sm:flex-row"
       >
-        <button
+        <RadioCard
           v-for="hotKey in hotKeys"
+          :id="hotKey.key"
           :key="hotKey.key"
-          class="px-0 reset-base w-full sm:flex-1 rounded-xl outline-1 outline"
-          :class="
-            isEditorHotKeyEnabled(hotKey.key)
-              ? 'outline-n-brand/30'
-              : 'outline-n-weak'
-          "
+          :label="hotKey.title"
+          :description="hotKey.description"
+          :is-active="isEditorHotKeyEnabled(hotKey.key)"
+          class="sm:flex-1"
+          @select="toggleHotKey"
         >
-          <HotKeyCard
-            :key="hotKey.title"
-            :title="hotKey.title"
-            :description="hotKey.description"
-            :light-image="hotKey.lightImage"
-            :dark-image="hotKey.darkImage"
-            :active="isEditorHotKeyEnabled(hotKey.key)"
-            @click="toggleHotKey(hotKey.key)"
+          <img
+            :src="hotKey.lightImage"
+            :alt="`Light themed image for ${hotKey.title}`"
+            class="block object-cover w-full dark:hidden"
           />
-        </button>
+          <img
+            :src="hotKey.darkImage"
+            :alt="`Dark themed image for ${hotKey.title}`"
+            class="hidden object-cover w-full dark:block"
+          />
+        </RadioCard>
       </div>
     </SectionLayout>
     <SectionLayout
@@ -367,6 +416,13 @@ export default {
       :description="$t('PROFILE_SETTINGS.FORM.SECURITY_SECTION.NOTE')"
     >
       <MfaSettingsCard />
+    </SectionLayout>
+    <SectionLayout
+      with-border
+      :title="$t('PROFILE_SETTINGS.FORM.SESSIONS_SECTION.TITLE')"
+      :description="$t('PROFILE_SETTINGS.FORM.SESSIONS_SECTION.NOTE')"
+    >
+      <ActiveSessions />
     </SectionLayout>
     <Policy :permissions="audioNotificationPermissions">
       <SectionLayout
@@ -391,12 +447,11 @@ export default {
     <SectionLayout
       with-border
       :title="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.TITLE')"
-      :description="
-        replaceInstallationName($t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.NOTE'))
-      "
+      :description="accessTokenDescription"
     >
       <AccessToken
         :value="currentUser.access_token"
+        :disabled="!apiAndWebhooksEnabled"
         @on-copy="onCopyToken"
         @on-reset="resetAccessToken"
       />

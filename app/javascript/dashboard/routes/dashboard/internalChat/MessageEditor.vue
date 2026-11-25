@@ -3,6 +3,11 @@ import { ref, computed, watch, onBeforeUnmount } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import WootWriter from 'dashboard/components/widgets/WootWriter/Editor.vue';
+import { useAlert } from 'dashboard/composables';
+import {
+  splitFilesBySize,
+  usableFilesFromTransfer,
+} from 'dashboard/helper/pastedFiles';
 
 const props = defineProps({
   disabled: {
@@ -35,7 +40,7 @@ const emit = defineEmits([
   'send',
   'typing',
   'draftUpdate',
-  'create-poll',
+  'createPoll',
   'cancelEdit',
 ]);
 
@@ -140,7 +145,13 @@ function openFilePicker() {
 }
 
 function handleFileChange(event) {
-  const files = Array.from(event.target.files || []);
+  // A file chosen in the picker was chosen on purpose, so an empty one is always worth a word:
+  // there is no rich-copy artifact to confuse it with, and this was the one path that attached
+  // a zero-byte file and let the send carry it (internal chat builds attachments outside
+  // Messages::MessageBuilder, so nothing refuses it on the server either).
+  const { files, empty } = splitFilesBySize(event.target.files);
+  if (empty.length) useAlert(t('CONVERSATION.FILE_IS_EMPTY'));
+
   attachedFiles.value = [...attachedFiles.value, ...files];
   if (fileInputRef.value) fileInputRef.value.value = '';
 }
@@ -149,17 +160,28 @@ function removeFile(index) {
   attachedFiles.value.splice(index, 1);
 }
 
-function addFiles(fileList) {
-  const files = Array.from(fileList || []).filter(f => f && f.size > 0);
-  if (!files.length) return;
+// Paste and drop share the rule with the conversation composer: empty files are dropped, and
+// the refusal is said out loud only when the transfer carried no text, which is what tells a
+// genuine empty file apart from the invalid zero-byte attachment a rich copy brings along.
+// Returns what it took, so a caller can tell "I handled this" from "there was nothing to take".
+function addFiles(transfer) {
+  const { files, shouldAlertEmpty } = usableFilesFromTransfer(transfer);
+  if (shouldAlertEmpty) useAlert(t('CONVERSATION.FILE_IS_EMPTY'));
+  if (!files.length) return false;
+
   attachedFiles.value = [...attachedFiles.value, ...files];
+  return true;
 }
 
+// The paste is taken over only when something is actually attached. A rich copy carries its
+// zero-byte artifact beside the text the person meant to paste, and cancelling the paste for
+// that artifact attaches nothing in its place. The text still arrives today because the editor's
+// own handler runs before this one, which is ordering rather than a decision made here.
 function handlePaste(event) {
-  const files = event.clipboardData?.files;
-  if (!files?.length) return;
+  if (!event.clipboardData?.files?.length) return;
+  if (!addFiles(event.clipboardData)) return;
+
   event.preventDefault();
-  addFiles(files);
 }
 
 function hasFileDrag(event) {
@@ -193,7 +215,7 @@ function handleDrop(event) {
   event.preventDefault();
   dragCounter = 0;
   isDragging.value = false;
-  addFiles(event.dataTransfer?.files);
+  addFiles(event.dataTransfer);
 }
 
 function filePreviewUrl(file) {
@@ -281,7 +303,7 @@ defineExpose({ focus, setContent, getContent });
       <div
         v-for="(file, index) in attachedFiles"
         :key="index"
-        class="flex w-60 items-center gap-1.5 rounded-md bg-n-slate-3 p-1.5"
+        class="flex w-full items-center gap-1.5 rounded-md bg-n-slate-3 p-1.5 sm:w-60"
       >
         <div class="flex-shrink-0">
           <img
@@ -343,15 +365,18 @@ defineExpose({ focus, setContent, getContent });
       />
       <button
         type="button"
-        class="flex-shrink-0 flex items-center justify-center rounded-lg p-1.5 text-n-slate-11 hover:bg-n-alpha-2 hover:text-n-slate-12 transition-colors"
+        class="flex-shrink-0 flex items-center justify-center rounded-lg p-2 md:p-1.5 text-n-slate-11 hover:bg-n-alpha-2 hover:text-n-slate-12 transition-colors"
         :title="t('INTERNAL_CHAT.MESSAGE.UPLOAD_FILE')"
         @click="openFilePicker"
       >
         <Icon icon="i-lucide-paperclip" class="size-4" />
       </button>
+      <!-- Mention shortcuts are hidden on the narrowest screens: they only type
+      a character the on-screen keyboard already offers, and the room they take
+      is worth more to the editor itself. -->
       <button
         type="button"
-        class="flex-shrink-0 flex items-center justify-center rounded-lg p-1.5 text-n-slate-11 hover:bg-n-alpha-2 hover:text-n-slate-12 transition-colors"
+        class="flex-shrink-0 hidden sm:flex items-center justify-center rounded-lg p-2 md:p-1.5 text-n-slate-11 hover:bg-n-alpha-2 hover:text-n-slate-12 transition-colors"
         :title="t('INTERNAL_CHAT.MESSAGE.MENTION_USER')"
         @click="insertMentionTrigger('@')"
       >
@@ -359,7 +384,7 @@ defineExpose({ focus, setContent, getContent });
       </button>
       <button
         type="button"
-        class="flex-shrink-0 flex items-center justify-center rounded-lg p-1.5 text-n-slate-11 hover:bg-n-alpha-2 hover:text-n-slate-12 transition-colors"
+        class="flex-shrink-0 hidden sm:flex items-center justify-center rounded-lg p-2 md:p-1.5 text-n-slate-11 hover:bg-n-alpha-2 hover:text-n-slate-12 transition-colors"
         :title="t('INTERNAL_CHAT.MESSAGE.MENTION_CONVERSATION')"
         @click="insertMentionTrigger('#')"
       >
@@ -368,15 +393,15 @@ defineExpose({ focus, setContent, getContent });
       <button
         v-if="showPoll"
         type="button"
-        class="flex-shrink-0 flex items-center justify-center rounded-lg p-1.5 text-n-slate-11 hover:bg-n-alpha-2 hover:text-n-slate-12 transition-colors"
+        class="flex-shrink-0 flex items-center justify-center rounded-lg p-2 md:p-1.5 text-n-slate-11 hover:bg-n-alpha-2 hover:text-n-slate-12 transition-colors"
         :title="t('INTERNAL_CHAT.POLL.CREATE')"
-        @click="emit('create-poll')"
+        @click="emit('createPoll')"
       >
         <Icon icon="i-lucide-bar-chart-2" class="size-4" />
       </button>
       <button
         type="button"
-        class="flex-shrink-0 flex items-center justify-center rounded-lg p-1.5 transition-colors"
+        class="flex-shrink-0 flex items-center justify-center rounded-lg p-2 md:p-1.5 transition-colors"
         :class="
           canSend
             ? 'bg-n-brand text-white hover:opacity-90'

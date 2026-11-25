@@ -55,6 +55,7 @@ class RecurringScheduledMessages::CreateNextOccurrenceService
       template_params: @recurring.template_params,
       scheduled_at: next_date,
       status: :pending,
+      hold_on_reply: @recurring.hold_on_reply,
       account: @recurring.account,
       conversation: @recurring.conversation,
       inbox: @recurring.inbox,

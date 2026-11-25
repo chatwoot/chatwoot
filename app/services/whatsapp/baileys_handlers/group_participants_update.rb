@@ -97,16 +97,11 @@ module Whatsapp::BaileysHandlers::GroupParticipantsUpdate
     effective_action = resolve_effective_action(action, author_jid, contacts)
     return unless effective_action.in?(%w[leave remove])
 
-    mark_group_as_left(group_contact_inbox.contact)
+    group_contact_inbox.mark_group_left!
 
     group_contact_inbox.conversations.where(status: %i[open pending]).find_each do |conversation|
       conversation.update!(status: :resolved)
     end
-  end
-
-  def mark_group_as_left(group_contact)
-    new_attrs = (group_contact.additional_attributes || {}).merge('group_left' => true)
-    group_contact.update!(additional_attributes: new_attrs) if new_attrs != group_contact.additional_attributes
   end
 
   def inbox_phone_in_participants?(contacts)

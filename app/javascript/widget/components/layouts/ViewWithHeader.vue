@@ -38,10 +38,17 @@ export default {
       }
       return !this.isOnHomeView;
     },
-    hasIntroText() {
+    // The page's SDK settings win over the inbox's own welcome texts.
+    introHeading() {
+      return this.appConfig.welcomeTitle || this.channelConfig.welcomeTitle;
+    },
+    introBody() {
       return (
-        this.channelConfig.welcomeTitle || this.channelConfig.welcomeTagline
+        this.appConfig.welcomeDescription || this.channelConfig.welcomeTagline
       );
+    },
+    hasIntroText() {
+      return this.introHeading || this.introBody;
     },
     showBackButton() {
       return ['article-viewer', 'messages', 'prechat-form'].includes(
@@ -119,10 +126,8 @@ export default {
       >
         <ChatHeaderExpanded
           v-if="!isHeaderCollapsed"
-          :intro-heading="appConfig.welcomeTitle || channelConfig.welcomeTitle"
-          :intro-body="
-            appConfig.welcomeDescription || channelConfig.welcomeTagline
-          "
+          :intro-heading="introHeading"
+          :intro-body="introBody"
           :avatar-url="channelConfig.avatarUrl"
           :show-popout-button="appConfig.showPopoutButton"
         />

@@ -1,0 +1,7 @@
+{
+  "RECORDING": {
+    "ONE": "{user} está grabando audio",
+    "TWO": "{user} y {secondUser} están grabando audio",
+    "MULTIPLE": "{user} y {count} más están grabando audio"
+  }
+}

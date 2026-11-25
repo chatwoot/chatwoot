@@ -1,0 +1,169 @@
+{
+  "SCHEDULED_MESSAGES": {
+    "NEW_BUTTON": "Programar mensaje",
+    "PAST_MESSAGES_SECTION": "Enviados",
+    "EMPTY_STATE": "Todavía no hay mensajes programados.",
+    "STATUS": {
+      "DRAFT": "Borrador",
+      "PENDING": "Pendiente",
+      "SENT": "Enviado",
+      "FAILED": "Fallido",
+      "HELD": "Retenido"
+    },
+    "HELD_SECTION": "Retenidos",
+    "ITEM": {
+      "SCHEDULED_FOR": "Programado para {time}",
+      "NO_SCHEDULE": "Sin programación",
+      "TEMPLATE_PREVIEW": "Plantilla: {name}",
+      "TEMPLATE_LABEL": "Plantilla: {name}",
+      "ATTACHMENT_PREVIEW": "Archivo adjunto: {filename}",
+      "ATTACHMENT_LABEL": "Archivo adjunto: {filename}",
+      "EMPTY_PREVIEW": "Sin contenido",
+      "EXPAND": "Expandir",
+      "COLLAPSE": "Contraer",
+      "GO_TO_MESSAGE": "Ir al mensaje",
+      "SEARCHING_MESSAGE": "Buscando el mensaje...",
+      "MESSAGE_NOT_FOUND": "No se encontró el mensaje vinculado. Es posible que se haya eliminado.",
+      "HELD_REASON": "Retenido porque el cliente respondió antes de que se enviara este mensaje."
+    },
+    "MODAL": {
+      "TITLE_NEW": "Programar un mensaje",
+      "TITLE_EDIT": "Editar el mensaje programado",
+      "MESSAGE_LABEL": "Mensaje",
+      "MESSAGE_PLACEHOLDER": "Escriba su mensaje...",
+      "DATETIME_LABEL": "Fecha y hora de envío",
+      "ATTACHMENT_LABEL": "Archivo adjunto",
+      "ATTACHMENT_ADD": "Adjuntar archivo",
+      "ATTACHMENT_CURRENT": "Archivo adjunto actual: {filename}",
+      "TEMPLATE_SELECT": "Usar plantilla",
+      "TEMPLATE_SELECTED": "Plantilla: {name}",
+      "TEMPLATE_ACTION": "Programar mensaje",
+      "CANCEL": "Cancelar",
+      "SAVE_DRAFT": "Guardar como borrador",
+      "SCHEDULE": "Programar",
+      "HOLD_ON_REPLY_LABEL": "Retener si el cliente responde antes",
+      "HOLD_ON_REPLY_DESCRIPTION": "Si el cliente envía un mensaje antes de que se envíe este, el mensaje se retendrá para revisión en lugar de enviarse automáticamente.",
+      "SHORTCUTS": {
+        "TOMORROW_MORNING": "Mañana por la mañana",
+        "TOMORROW_AFTERNOON": "Mañana por la tarde",
+        "MONDAY_MORNING": "El lunes por la mañana",
+        "CUSTOM": "Escriba una fecha y una hora"
+      },
+      "CUSTOM_INPUT_PLACEHOLDER": "p. ej. mañana a las 14, el viernes por la mañana",
+      "CUSTOM_INPUT_HINT": "Pruebe: mañana a las 15, el próximo lunes, en 2 horas",
+      "PARSED_DATE_IN_PAST": "Esta fecha ya pasó",
+      "DATEPICKER_TOOLTIP": "Elegir en el calendario",
+      "SCHEDULE_LABEL": "Programar envío"
+    },
+    "CONFIRM_CLOSE": {
+      "TITLE": "Cambios sin guardar",
+      "MESSAGE": "Tiene contenido sin guardar. ¿Desea descartar los cambios?",
+      "CONTINUE_EDITING": "Seguir editando",
+      "DISCARD": "Descartar",
+      "CANCEL": "Cancelar"
+    },
+    "CONFIRM_DELETE": {
+      "TITLE": "Eliminar el mensaje programado",
+      "MESSAGE": "¿Seguro que desea eliminar este mensaje programado? Esta acción no se puede deshacer.",
+      "CANCEL": "Cancelar",
+      "DELETE": "Eliminar"
+    },
+    "META": {
+      "TOOLTIP": "Programado a las {time} por {author}",
+      "YOU": "Usted",
+      "AUTHOR_YOU": "{name} (usted)",
+      "AUTOMATION": "Automatización",
+      "UNKNOWN_AUTHOR": "Desconocido"
+    },
+    "ERRORS": {
+      "CONTENT_REQUIRED": "Añada un mensaje, una plantilla o un archivo adjunto antes de guardar.",
+      "CONTENT_TOO_LONG": "El mensaje es demasiado largo. Se permiten {maxLength} caracteres como máximo.",
+      "DATETIME_REQUIRED": "Seleccione la fecha y la hora para programar el mensaje.",
+      "SCHEDULE_IN_PAST": "La hora programada debe ser futura.",
+      "SAVE_FAILED": "No se pudo guardar el mensaje programado. Inténtelo de nuevo.",
+      "DELETE_FAILED": "No se pudo eliminar el mensaje programado. Inténtelo de nuevo."
+    },
+    "RECURRENCE": {
+      "SECTION_TITLE": "Repeticiones",
+      "NO_REPEAT": "No se repite",
+      "DAILY": "Todos los días",
+      "WEEKLY": "Cada semana el {day}",
+      "MONTHLY_NTH": "Cada mes el {nth} {day}",
+      "MONTHLY_LAST": "Cada mes el último {day}",
+      "YEARLY": "Cada año el {dayNum} de {month}",
+      "WEEKDAYS": "Todos los días laborables (lun-vie)",
+      "CUSTOM": "Personalizada...",
+      "CUSTOM_MODAL": {
+        "TITLE": "Repetición personalizada",
+        "REPEAT_EVERY": "Repetir cada",
+        "FREQ_DAILY": "día(s)",
+        "FREQ_WEEKLY": "semana(s)",
+        "FREQ_MONTHLY": "mes(es)",
+        "FREQ_YEARLY": "año(s)",
+        "UNIT_DAY": "día | días",
+        "UNIT_WEEK": "semana | semanas",
+        "UNIT_MONTH": "mes | meses",
+        "UNIT_YEAR": "año | años",
+        "REPEAT_ON": "Repetir el",
+        "MONTHLY_ON_DAY": "Día del mes",
+        "MONTHLY_ON_WEEKDAY": "Día de la semana",
+        "ENDS": "Termina",
+        "ENDS_NEVER": "Nunca",
+        "ENDS_ON_DATE": "En la fecha",
+        "ENDS_AFTER": "Después de",
+        "ENDS_OCCURRENCES": "repeticiones",
+        "DONE": "Listo",
+        "CANCEL": "Cancelar"
+      },
+      "STATUS_ACTIVE": "Activa",
+      "STATUS_DRAFT": "Borrador",
+      "STATUS_COMPLETED": "Completada",
+      "STATUS_CANCELLED": "Cancelada",
+      "OCCURRENCES_SENT": "{count} enviados",
+      "NEXT_SEND": "Siguiente: {time}",
+      "EXPAND": "Ver el historial",
+      "COLLAPSE": "Ocultar el historial",
+      "STOP": "Detener la repetición",
+      "STOP_CONFIRM": {
+        "TITLE": "Detener la repetición",
+        "MESSAGE": "El mensaje pendiente se eliminará y la repetición se detendrá de forma permanente.",
+        "CONFIRM": "Detener",
+        "CANCEL": "Cancelar"
+      },
+      "EDIT": "Editar la repetición",
+      "EDIT_WARNING": "Siguiente envío: {oldDate} → {newDate}",
+      "WEEKDAYS_SHORT": {
+        "SUN": "D",
+        "MON": "L",
+        "TUE": "M",
+        "WED": "X",
+        "THU": "J",
+        "FRI": "V",
+        "SAT": "S"
+      },
+      "ORDINALS": {
+        "FIRST": "primer",
+        "SECOND": "segundo",
+        "THIRD": "tercer",
+        "FOURTH": "cuarto",
+        "FIFTH": "quinto",
+        "LAST": "último"
+      },
+      "DESCRIPTION": {
+        "DAILY_ONE": "Todos los días",
+        "DAILY_OTHER": "Cada {count} días",
+        "WEEKLY_ONE": "Cada semana",
+        "WEEKLY_OTHER": "Cada {count} semanas",
+        "WEEKLY_ON": "{prefix}: {days}",
+        "MONTHLY_ONE": "Cada mes",
+        "MONTHLY_OTHER": "Cada {count} meses",
+        "MONTHLY_ON_WEEKDAY": "{prefix} el {ordinal} {weekday}",
+        "YEARLY_ONE": "Cada año",
+        "YEARLY_OTHER": "Cada {count} años",
+        "UNTIL_DATE": "hasta el {date}",
+        "AFTER_COUNT": "{count} repeticiones"
+      },
+      "RESOLVED_WARNING": "Los mensajes programados no se enviarán mientras la conversación esté resuelta. Reabra la conversación para reanudar los envíos."
+    }
+  }
+}

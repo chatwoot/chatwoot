@@ -145,6 +145,12 @@
     --black-alpha-2: 0, 0, 0, 0.04;
     --border-blue: 39, 129, 246, 0.5;
     --white-alpha: 255, 255, 255, 0.8;
+
+    // Voice call widget - light mode
+    --call-widget: 33, 34, 38, 0.95;
+    --call-widget-border: 255, 255, 255, 0.1;
+    --call-widget-text: 237, 238, 240, 1;
+    --call-widget-sub-text: 173, 177, 184, 1;
   }
 
   .dark {
@@ -291,6 +297,12 @@
     --border-blue: 39, 129, 246, 0.5;
     --border-container: 255, 255, 255, 0;
     --white-alpha: 255, 255, 255, 0.1;
+
+    // Voice call widget - dark mode
+    --call-widget: 50, 53, 61, 1;
+    --call-widget-border: 255, 255, 255, 0.07;
+    --call-widget-text: 237, 238, 240, 1;
+    --call-widget-sub-text: 173, 177, 184, 1;
   }
 }
 // NEXT COLORS END

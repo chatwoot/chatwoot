@@ -67,6 +67,45 @@ describe('#actions', () => {
     });
   });
 
+  describe('#resolveRedirect', () => {
+    it('updates the auth token and refreshes the conversation on success', async () => {
+      vi.spyOn(API, 'post').mockResolvedValue({
+        data: { widget_auth_token: 'token' },
+      });
+      const result = await actions.resolveRedirect(
+        { dispatch },
+        'redirect-token'
+      );
+      expect(result).toBe(true);
+      expect(sendMessage.mock.calls).toEqual([
+        [{ data: { widgetAuthToken: 'token' }, event: 'setAuthCookie' }],
+      ]);
+      expect(dispatch.mock.calls).toEqual([
+        ['get'],
+        ['conversation/clearConversations', {}, { root: true }],
+        ['conversation/fetchOldConversations', {}, { root: true }],
+        ['conversationAttributes/getAttributes', {}, { root: true }],
+      ]);
+    });
+
+    it('surfaces the error and returns false on failure', async () => {
+      vi.spyOn(API, 'post').mockRejectedValue({
+        response: { data: { error: 'invalid_token' } },
+      });
+      const result = await actions.resolveRedirect({ dispatch }, 'bad-token');
+      expect(result).toBe(false);
+      expect(sendMessage.mock.calls).toEqual([
+        [
+          {
+            event: 'error',
+            errorType: 'RESOLVE_REDIRECT_ERROR',
+            data: { error: 'invalid_token' },
+          },
+        ],
+      ]);
+    });
+  });
+
   describe('#update', () => {
     it('sends correct actions', async () => {
       const user = {

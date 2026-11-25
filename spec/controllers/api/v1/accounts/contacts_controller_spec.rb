@@ -6,8 +6,8 @@ RSpec.describe 'Contacts API', type: :request do
     {
       attribute_key: 'email',
       filter_operator: 'contains',
-      values: 'looped',
-      query_operator: 'and',
+      values: ['looped'],
+      query_operator: nil,
       attribute_model: 'standard',
       custom_attribute_type: ''
     }
@@ -112,15 +112,15 @@ RSpec.describe 'Contacts API', type: :request do
       end
 
       it 'returns all contacts with company name asc order with null values at last' do
+        contact_3
         get "/api/v1/accounts/#{account.id}/contacts?include_contact_inboxes=false&sort=-company_name",
             headers: admin.create_new_auth_token,
             as: :json
 
         expect(response).to have_http_status(:success)
         response_body = response.parsed_body
-        expect(response_body['payload'].first['email']).to eq(contact_1.email)
-        expect(response_body['payload'].first['id']).to eq(contact_1.id)
-        expect(response_body['payload'].last['email']).to eq(contact_4.email)
+        expect(response_body['payload'].first(2).pluck('id')).to contain_exactly(contact.id, contact_1.id)
+        expect(response_body['payload'].last(2).pluck('id')).to contain_exactly(contact_3.id, contact_4.id)
       end
 
       it 'returns all contacts with country name desc order with null values at last' do
@@ -241,7 +241,7 @@ RSpec.describe 'Contacts API', type: :request do
       let(:admin) { create(:user, account: account, role: :administrator) }
 
       it 'enqueues a contact export job' do
-        expect(Account::ContactsExportJob).to receive(:perform_later).with(account.id, admin.id, nil, { :payload => nil, :label => nil }).once
+        expect(DataExports::ContactsJob).to receive(:perform_later).with(instance_of(DataExport), kind_of(String)).once
 
         post "/api/v1/accounts/#{account.id}/contacts/export",
              headers: admin.create_new_auth_token
@@ -250,28 +250,25 @@ RSpec.describe 'Contacts API', type: :request do
       end
 
       it 'enqueues a contact export job with sent_columns' do
-        expect(Account::ContactsExportJob).to receive(:perform_later).with(account.id, admin.id, %w[phone_number email],
-                                                                           { :payload => nil, :label => nil }).once
+        expect(DataExports::ContactsJob).to receive(:perform_later).with(instance_of(DataExport), kind_of(String)).once
 
         post "/api/v1/accounts/#{account.id}/contacts/export",
              headers: admin.create_new_auth_token,
              params: { column_names: %w[phone_number email] }
 
         expect(response).to have_http_status(:success)
+        expect(account.data_exports.last.export_options['column_names']).to eq(%w[phone_number email])
       end
 
       it 'enqueues a contact export job with payload' do
-        expect(Account::ContactsExportJob).to receive(:perform_later).with(account.id, admin.id, nil,
-                                                                           {
-                                                                             :payload => [ActionController::Parameters.new(email_filter).permit!],
-                                                                             :label => nil
-                                                                           }).once
+        expect(DataExports::ContactsJob).to receive(:perform_later).with(instance_of(DataExport), kind_of(String)).once
 
         post "/api/v1/accounts/#{account.id}/contacts/export",
              headers: admin.create_new_auth_token,
              params: { payload: [email_filter] }
 
         expect(response).to have_http_status(:success)
+        expect(account.data_exports.last.export_options['payload']).to eq([email_filter.stringify_keys])
       end
     end
   end
@@ -464,6 +461,21 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response.body).to include('Invalid operator. The allowed operators for country_code are [equal_to,not_equal_to]')
       end
 
+      %w[contains does_not_contain].each do |operator|
+        it "rejects #{operator} for a numeric custom attribute" do
+          create(:custom_attribute_definition, account: account, attribute_model: :contact_attribute,
+                                               attribute_display_type: :number, attribute_key: 'contract_count')
+
+          post "/api/v1/accounts/#{account.id}/contacts/filter",
+               params: { payload: [{ attribute_key: 'contract_count', filter_operator: operator, values: ['12'] }] },
+               headers: admin.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body['error']).to start_with('Invalid operator. The allowed operators for contract_count are')
+        end
+      end
+
       it 'returns error the query value is invalid' do
         post "/api/v1/accounts/#{account.id}/contacts/filter",
              params: { payload: [
@@ -572,6 +584,13 @@ RSpec.describe 'Contacts API', type: :request do
         # custom attributes are updated
         json_response = response.parsed_body
         expect(json_response['payload']['contact']['custom_attributes']).to eq({ 'test' => 'test', 'test1' => 'test1' })
+      end
+
+      it 'creates the contact as a lead' do
+        post "/api/v1/accounts/#{account.id}/contacts", headers: admin.create_new_auth_token,
+                                                        params: valid_params
+
+        expect(account.contacts.last).to be_lead
       end
 
       it 'does not create the contact' do
@@ -802,13 +821,85 @@ RSpec.describe 'Contacts API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      it 'enqueues SyncGroupJob and returns accepted' do
+      # The refresh runs through a session, so the inbox it runs as is the agent's own.
+      it 'enqueues SyncGroupJob as the inbox the agent is on and returns accepted' do
+        whatsapp_channel = create(:channel_whatsapp, account: account, validate_provider_config: false, sync_templates: false)
+        create(:contact_inbox, contact: contact, inbox: whatsapp_channel.inbox, source_id: '12345678901234567890')
+        create(:inbox_member, user: agent, inbox: whatsapp_channel.inbox)
+
         post "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/sync_group",
              headers: agent.create_new_auth_token,
              as: :json
 
         expect(response).to have_http_status(:accepted)
-        expect(Contacts::SyncGroupJob).to have_been_enqueued.with(contact)
+        expect(Contacts::SyncGroupJob).to have_been_enqueued.with(contact, channel: whatsapp_channel)
+      end
+
+      # An agent with no claim to any inbox this group is in is refused, the same way the
+      # group endpoints refuse an inbox the group is not in. Before, the job was queued with
+      # no channel and the service picked the group's first contact inbox, so the refresh ran
+      # over a session the caller has no claim to -- and for a group in no inbox at all, over
+      # nothing.
+      it 'refuses a group it can reach no inbox of the agent for' do
+        post "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/sync_group",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:not_found)
+        expect(Contacts::SyncGroupJob).not_to have_been_enqueued
+      end
+
+      # A group contact is account-scoped, so the same WhatsApp group can sit in two
+      # inboxes. Syncing through whichever came first can run the refresh over a session
+      # that is not even connected, and it is not the one the agent is looking at.
+      context 'when the group is in two inboxes' do
+        let(:first) { create(:channel_whatsapp, account: account, validate_provider_config: false, sync_templates: false) }
+        let(:second) { create(:channel_whatsapp, account: account, validate_provider_config: false, sync_templates: false) }
+
+        before do
+          create(:contact_inbox, contact: contact, inbox: first.inbox, source_id: '12345678901234567890')
+          create(:contact_inbox, contact: contact, inbox: second.inbox, source_id: '12345678901234567890')
+          create(:inbox_member, user: agent, inbox: first.inbox)
+          create(:inbox_member, user: agent, inbox: second.inbox)
+        end
+
+        it 'syncs through the inbox the caller named' do
+          post "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/sync_group",
+               params: { inbox_id: second.inbox.id }, headers: agent.create_new_auth_token, as: :json
+
+          expect(response).to have_http_status(:accepted)
+          expect(Contacts::SyncGroupJob).to have_been_enqueued.with(contact, channel: second)
+        end
+
+        it 'refuses to guess when the caller names none' do
+          post "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/sync_group",
+               headers: agent.create_new_auth_token, as: :json
+
+          expect(response).to have_http_status(:bad_request)
+          expect(Contacts::SyncGroupJob).not_to have_been_enqueued
+        end
+
+        # An agent on one of the two inboxes has no ambiguity to resolve: the other one
+        # is not theirs to act as, named or not.
+        it 'syncs an agent on one of them through their own inbox, unasked' do
+          InboxMember.find_by(user: agent, inbox: second.inbox).destroy!
+
+          post "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/sync_group",
+               headers: agent.create_new_auth_token, as: :json
+
+          expect(response).to have_http_status(:accepted)
+          expect(Contacts::SyncGroupJob).to have_been_enqueued.with(contact, channel: first)
+        end
+
+        it 'refuses an inbox the agent is not on' do
+          InboxMember.find_by(user: agent, inbox: second.inbox).destroy!
+
+          post "/api/v1/accounts/#{account.id}/contacts/#{contact.id}/sync_group",
+               params: { inbox_id: second.inbox.id }, headers: agent.create_new_auth_token, as: :json
+
+          expect(response).to have_http_status(:not_found)
+          expect(Contacts::SyncGroupJob).not_to have_been_enqueued
+        end
       end
 
       it 'returns bad request when contact is not a group' do

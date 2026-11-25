@@ -2,35 +2,59 @@ import articlesAPI from 'dashboard/api/helpCenter/articles';
 import { uploadExternalImage, uploadFile } from 'dashboard/helper/uploadHelper';
 import { throwErrorMessage } from 'dashboard/store/utils/api';
 import camelcaseKeys from 'camelcase-keys';
+import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 
 import types from '../../mutation-types';
+
+const articleListRequest = useAbortableRequest();
+
 export const actions = {
   index: async (
     { commit },
-    { pageNumber, portalSlug, locale, status, authorId, categorySlug }
+    {
+      pageNumber,
+      portalSlug,
+      locale,
+      status,
+      authorId,
+      categorySlug,
+      sort,
+      query,
+    }
   ) => {
     try {
       commit(types.SET_UI_FLAG, { isFetching: true });
-      const { data } = await articlesAPI.getArticles({
-        pageNumber,
-        portalSlug,
-        locale,
-        status,
-        authorId,
-        categorySlug,
+      return await articleListRequest.run(async signal => {
+        try {
+          const { data } = await articlesAPI.getArticles({
+            pageNumber,
+            portalSlug,
+            locale,
+            status,
+            authorId,
+            categorySlug,
+            sort,
+            query,
+            signal,
+          });
+          if (signal.aborted) return null;
+
+          const payload = camelcaseKeys(data.payload);
+          const meta = camelcaseKeys(data.meta);
+          const articleIds = payload.map(article => article.id);
+          commit(types.CLEAR_ARTICLES);
+          commit(types.ADD_MANY_ARTICLES, payload);
+          commit(types.SET_ARTICLES_META, meta);
+          commit(types.ADD_MANY_ARTICLES_ID, articleIds);
+          return articleIds;
+        } finally {
+          if (!signal.aborted) {
+            commit(types.SET_UI_FLAG, { isFetching: false });
+          }
+        }
       });
-      const payload = camelcaseKeys(data.payload);
-      const meta = camelcaseKeys(data.meta);
-      const articleIds = payload.map(article => article.id);
-      commit(types.CLEAR_ARTICLES);
-      commit(types.ADD_MANY_ARTICLES, payload);
-      commit(types.SET_ARTICLES_META, meta);
-      commit(types.ADD_MANY_ARTICLES_ID, articleIds);
-      return articleIds;
     } catch (error) {
       return throwErrorMessage(error);
-    } finally {
-      commit(types.SET_UI_FLAG, { isFetching: false });
     }
   },
 
@@ -64,8 +88,10 @@ export const actions = {
       commit(types.ADD_ARTICLE, payload);
       commit(types.ADD_ARTICLE_ID, articleId);
       commit(types.SET_UI_FLAG, { isFetching: false });
+      return articleId;
     } catch (error) {
       commit(types.SET_UI_FLAG, { isFetching: false });
+      return null;
     }
   },
 
@@ -95,20 +121,31 @@ export const actions = {
     }
   },
 
-  updateArticleMeta: async ({ commit }, { portalSlug, locale }) => {
-    try {
-      const { data } = await articlesAPI.getArticles({
-        pageNumber: 1,
-        portalSlug,
-        locale,
-      });
-      const meta = camelcaseKeys(data.meta);
-      const { currentPage, ...metaWithoutCurrentPage } = meta;
-      commit(types.SET_ARTICLES_META, metaWithoutCurrentPage);
-    } catch (error) {
-      throwErrorMessage(error);
-    }
+  // Push the draft to live and clear it, optionally changing status in the same
+  // update. Only edited fields are sent so an untouched live value survives.
+  publishDraft: ({ dispatch, state }, { portalSlug, articleId, status }) => {
+    const article = state.articles.byId[articleId];
+    const payload = {
+      portalSlug,
+      articleId,
+      status,
+      draft_title: null,
+      draft_content: null,
+    };
+    if (article?.draftTitle != null) payload.title = article.draftTitle;
+    if (article?.draftContent != null) payload.content = article.draftContent;
+    return dispatch('update', payload);
   },
+
+  // Clear the draft (optionally changing status); live content is left untouched.
+  discardDraft: ({ dispatch }, { portalSlug, articleId, status }) =>
+    dispatch('update', {
+      portalSlug,
+      articleId,
+      status,
+      draft_title: null,
+      draft_content: null,
+    }),
 
   delete: async ({ commit }, { portalSlug, articleId }) => {
     commit(types.UPDATE_ARTICLE_FLAG, {
@@ -134,13 +171,13 @@ export const actions = {
     }
   },
 
-  attachImage: async (_, { file }) => {
-    const { fileUrl } = await uploadFile(file);
+  attachImage: async (_, { file, onProgress, signal }) => {
+    const { fileUrl } = await uploadFile(file, undefined, onProgress, signal);
     return fileUrl;
   },
 
-  uploadExternalImage: async (_, { url }) => {
-    const { fileUrl } = await uploadExternalImage(url);
+  uploadExternalImage: async (_, { url, signal }) => {
+    const { fileUrl } = await uploadExternalImage(url, undefined, signal);
     return fileUrl;
   },
 
@@ -156,11 +193,13 @@ export const actions = {
     // Update positions in the store immediately so subsequent mutations preserve correct positions
     commit(types.SET_ARTICLE_POSITIONS, reorderedGroup);
     try {
-      await articlesAPI.reorderArticles({
+      const { data } = await articlesAPI.reorderArticles({
         portalSlug,
         reorderedGroup,
         categorySlug,
       });
+      // Adopt the backend's re-spaced positions so the next reorder isn't computed from stale local values.
+      if (data?.positions) commit(types.SET_ARTICLE_POSITIONS, data.positions);
     } catch (error) {
       commit(types.SET_ARTICLE_POSITIONS, oldPositions);
       throw error;

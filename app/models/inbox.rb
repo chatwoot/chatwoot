@@ -4,29 +4,34 @@
 #
 # Table name: inboxes
 #
-#  id                            :integer          not null, primary key
-#  allow_messages_after_resolved :boolean          default(TRUE)
-#  auto_assignment_config        :jsonb
-#  business_name                 :string
-#  channel_type                  :string
-#  csat_config                   :jsonb            not null
-#  csat_survey_enabled           :boolean          default(FALSE)
-#  email_address                 :string
-#  enable_auto_assignment        :boolean          default(TRUE)
-#  enable_email_collect          :boolean          default(TRUE)
-#  greeting_enabled              :boolean          default(FALSE)
-#  greeting_message              :string
-#  lock_to_single_conversation   :boolean          default(FALSE), not null
-#  name                          :string           not null
-#  out_of_office_message         :string
-#  sender_name_type              :integer          default("friendly"), not null
-#  timezone                      :string           default("UTC")
-#  working_hours_enabled         :boolean          default(FALSE)
-#  created_at                    :datetime         not null
-#  updated_at                    :datetime         not null
-#  account_id                    :integer          not null
-#  channel_id                    :integer          not null
-#  portal_id                     :bigint
+#  id                                   :integer          not null, primary key
+#  allow_messages_after_resolved        :boolean          default(TRUE)
+#  auto_assignment_config               :jsonb
+#  business_name                        :string
+#  channel_type                         :string
+#  csat_config                          :jsonb            not null
+#  csat_survey_enabled                  :boolean          default(FALSE)
+#  drop_assignee_outside_team_on_reopen :boolean          default(FALSE), not null
+#  email_address                        :string
+#  enable_auto_assignment               :boolean          default(TRUE)
+#  enable_email_collect                 :boolean          default(TRUE)
+#  greeting_enabled                     :boolean          default(FALSE)
+#  greeting_message                     :string
+#  lock_to_single_conversation          :boolean          default(FALSE), not null
+#  name                                 :string           not null
+#  out_of_office_message                :string
+#  prevent_assignment_takeover          :boolean          default(FALSE), not null
+#  reopen_owner                         :integer          default(0), not null
+#  reopen_owner_window_hours            :integer
+#  restrict_assignment_to_working_hours :boolean          default(FALSE), not null
+#  sender_name_type                     :integer          default("friendly"), not null
+#  timezone                             :string           default("UTC")
+#  working_hours_enabled                :boolean          default(FALSE)
+#  created_at                           :datetime         not null
+#  updated_at                           :datetime         not null
+#  account_id                           :integer          not null
+#  channel_id                           :integer          not null
+#  portal_id                            :bigint
 #
 # Indexes
 #
@@ -45,6 +50,9 @@ class Inbox < ApplicationRecord
   include OutOfOffisable
   include AccountCacheRevalidator
   include InboxAgentAvailability
+  include InboxBrandedEmailLayoutable
+  include InboxBotStatus
+  include InboxReopenOwner
 
   # Not allowing characters:
   validates :name, presence: true
@@ -70,20 +78,31 @@ class Inbox < ApplicationRecord
   has_many :messages, dependent: :destroy_async
   has_many :scheduled_messages, dependent: :destroy_async
   has_many :recurring_scheduled_messages, dependent: :destroy_async
+  has_many :email_templates, dependent: :destroy_async
 
   has_one :inbox_assignment_policy, dependent: :destroy
   has_one :assignment_policy, through: :inbox_assignment_policy
+
+  # Round-robin inboxes that hold assignment while closed but have no assignment policy,
+  # which the periodic job would otherwise skip, leaving what arrived while closed unassigned.
+  scope :holding_assignment_without_policy, lambda {
+    where(restrict_assignment_to_working_hours: true, enable_auto_assignment: true).where.missing(:inbox_assignment_policy)
+  }
   has_one :agent_bot_inbox, dependent: :destroy_async
   has_one :agent_bot, through: :agent_bot_inbox
+  has_many :agent_bot_observers, dependent: :destroy_async
+  has_many :observer_agent_bots, through: :agent_bot_observers, source: :agent_bot
   has_many :webhooks, dependent: :destroy_async
   has_many :hooks, dependent: :destroy_async, class_name: 'Integrations::Hook'
 
-  enum sender_name_type: { friendly: 0, professional: 1 }
+  enum :sender_name_type, { friendly: 0, professional: 1 }
 
+  before_destroy :capture_filtered_unread_count_user_ids, prepend: true
   after_destroy :delete_round_robin_agents
 
   after_create_commit :dispatch_create_event
   after_update_commit :dispatch_update_event
+  after_destroy_commit :invalidate_filtered_unread_counts_after_destroy
 
   scope :order_by_name, -> { order('lower(name) ASC') }
 
@@ -91,16 +110,16 @@ class Inbox < ApplicationRecord
   # @param user_ids [Array<Integer>] Array of user IDs to add as members
   # @return [void]
   def add_members(user_ids)
-    inbox_members.create!(user_ids.map { |user_id| { user_id: user_id } })
-    update_account_cache
+    created_members = inbox_members.create!(user_ids.map { |user_id| { user_id: user_id } })
+    update_account_cache if created_members.any?
   end
 
   # Removes multiple members from the inbox
   # @param user_ids [Array<Integer>] Array of user IDs to remove
   # @return [void]
   def remove_members(user_ids)
-    inbox_members.where(user_id: user_ids).destroy_all
-    update_account_cache
+    removed_members = inbox_members.where(user_id: user_ids).destroy_all
+    update_account_cache if removed_members.any?
   end
 
   # Sanitizes inbox name for balanced email provider compatibility
@@ -173,11 +192,6 @@ class Inbox < ApplicationRecord
     (account.users.where(id: members.select(:user_id)) + account.administrators).uniq
   end
 
-  def active_bot?
-    agent_bot_inbox&.active? || hooks.where(app_id: %w[dialogflow],
-                                            status: 'enabled').count.positive?
-  end
-
   def inbox_type
     channel.name
   end
@@ -185,7 +199,8 @@ class Inbox < ApplicationRecord
   def webhook_data
     {
       id: id,
-      name: name
+      name: name,
+      updated_at: updated_at&.floor(6).to_f
     }
   end
 
@@ -210,6 +225,21 @@ class Inbox < ApplicationRecord
 
   def auto_assignment_v2_enabled?
     account.feature_enabled?('assignment_v2')
+  end
+
+  # Closed by the weekly schedule, with the inbox set to hold assignment until it opens.
+  # `out_of_office?` is already false whenever business hours are off.
+  def assignment_closed?
+    restrict_assignment_to_working_hours? && out_of_office?
+  end
+
+  # Callers (Reauthorizable) only invoke this on a real transition, so the previous
+  # value is always the inverse of the new boolean value.
+  def dispatch_reauthorization_event(reauthorization_required)
+    return if ENV['ENABLE_INBOX_EVENTS'].blank?
+
+    changed_attributes = { reauthorization_required: [!reauthorization_required, reauthorization_required] }
+    Rails.configuration.dispatcher.dispatch(INBOX_UPDATED, Time.zone.now, inbox: self, changed_attributes: changed_attributes)
   end
 
   private
@@ -255,6 +285,18 @@ class Inbox < ApplicationRecord
 
   def delete_round_robin_agents
     ::AutoAssignment::InboxRoundRobinService.new(inbox: self).clear_queue
+  end
+
+  def capture_filtered_unread_count_user_ids
+    return if account.blank?
+
+    @filtered_unread_count_user_ids = (inbox_members.pluck(:user_id) + account.account_users.administrator.pluck(:user_id)).uniq
+  end
+
+  def invalidate_filtered_unread_counts_after_destroy
+    invalidator = ::Conversations::UnreadCounts::FilteredCountInvalidator.new(account)
+    invalidator.conversation_changed!
+    invalidator.users_visibility_changed!(user_ids: @filtered_unread_count_user_ids)
   end
 
   def check_channel_type?

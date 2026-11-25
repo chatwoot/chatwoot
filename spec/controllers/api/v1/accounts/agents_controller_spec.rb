@@ -177,6 +177,22 @@ RSpec.describe 'Agents API', type: :request do
         expect(response.parsed_body['email']).to eq(params[:email])
         expect(account.users.last.name).to eq('NewUser')
       end
+
+      context 'when the account email limit is exhausted' do
+        before do
+          allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+          account.update!(limits: { 'emails' => 0 })
+        end
+
+        it 'does not create an agent' do
+          expect do
+            post "/api/v1/accounts/#{account.id}/agents", params: params, headers: admin.create_new_auth_token, as: :json
+          end.not_to change(User, :count)
+
+          expect(response).to have_http_status(:too_many_requests)
+          expect(response.parsed_body['error']).to eq('The daily email limit for this account has been reached')
+        end
+      end
     end
   end
 
@@ -210,6 +226,71 @@ RSpec.describe 'Agents API', type: :request do
         end.to change(User, :count).by(2)
 
         expect(response).to have_http_status(:ok)
+      end
+
+      context 'when the account email limit is exhausted' do
+        before do
+          allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+          account.update!(limits: { 'emails' => 0 })
+        end
+
+        it 'does not create new agents' do
+          expect do
+            post "/api/v1/accounts/#{account.id}/agents/bulk_create", params: bulk_create_params, headers: admin.create_new_auth_token
+          end.not_to change(User, :count)
+
+          expect(response).to have_http_status(:too_many_requests)
+          expect(response.parsed_body['error']).to eq('The daily email limit for this account has been reached')
+        end
+
+        it 'adds existing users and continues processing after a rejected invitation' do
+          first_existing_user = create(:user, email: 'first-existing@example.com')
+          second_existing_user = create(:user, email: 'second-existing@example.com')
+          params = {
+            emails: [
+              first_existing_user.email,
+              'rejected-invitation@example.com',
+              second_existing_user.email
+            ]
+          }
+
+          expect do
+            post "/api/v1/accounts/#{account.id}/agents/bulk_create", params: params, headers: admin.create_new_auth_token
+          end.not_to change(User, :count)
+
+          expect(response).to have_http_status(:too_many_requests)
+          expect(account.reload.users).to include(first_existing_user, second_existing_user)
+          expect(User.from_email('rejected-invitation@example.com')).to be_nil
+          expect(account.emails_sent_today).to eq(0)
+        end
+
+        it 'keeps the onboarding step when an invitation is rejected' do
+          account.update!(custom_attributes: { onboarding_step: 'completed' })
+
+          post "/api/v1/accounts/#{account.id}/agents/bulk_create", params: bulk_create_params, headers: admin.create_new_auth_token
+
+          expect(response).to have_http_status(:too_many_requests)
+          expect(account.reload.custom_attributes['onboarding_step']).to eq('completed')
+        end
+      end
+
+      context 'when the account has capacity for only part of the batch' do
+        before do
+          allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+          account.update!(limits: { 'emails' => 1 })
+        end
+
+        it 'persists the successful invitation without leaking email capacity' do
+          expect do
+            post "/api/v1/accounts/#{account.id}/agents/bulk_create", params: bulk_create_params, headers: admin.create_new_auth_token
+          end.to change(User, :count).by(1)
+
+          expect(response).to have_http_status(:too_many_requests)
+          expect(User.from_email(emails.first)).to be_present
+          expect(User.from_email(emails.second)).to be_nil
+          expect(User.from_email(emails.third)).to be_nil
+          expect(account.emails_sent_today).to eq(1)
+        end
       end
     end
   end

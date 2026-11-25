@@ -187,4 +187,73 @@ describe('#actions', () => {
       expect(result).toBe(mockResponse.data);
     });
   });
+
+  describe('#fetchAgentBotObservers', () => {
+    it('stores the observer ids of the inbox', async () => {
+      axios.get.mockResolvedValue({ data: agentBotRecords });
+      await actions.fetchAgentBotObservers({ commit }, 5);
+      expect(commit.mock.calls).toEqual([
+        [types.SET_AGENT_BOT_UI_FLAG, { isFetchingObservers: true }],
+        [types.SET_AGENT_BOT_OBSERVERS, { inboxId: 5, agentBotIds: [11, 12] }],
+        [types.SET_AGENT_BOT_UI_FLAG, { isFetchingObservers: false }],
+      ]);
+    });
+
+    it('sends correct actions if API is error', async () => {
+      axios.get.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(
+        actions.fetchAgentBotObservers({ commit }, 5)
+      ).rejects.toThrow(Error);
+      expect(commit.mock.calls).toEqual([
+        [types.SET_AGENT_BOT_UI_FLAG, { isFetchingObservers: true }],
+        [types.SET_AGENT_BOT_UI_FLAG, { isFetchingObservers: false }],
+      ]);
+    });
+  });
+
+  describe('#addAgentBotObserver', () => {
+    it('appends the bot to the inbox observers', async () => {
+      axios.post.mockResolvedValue({ data: agentBotRecords[1] });
+      const state = { agentBotObservers: { 5: [11] } };
+      await actions.addAgentBotObserver(
+        { commit, state },
+        { inboxId: 5, botId: 12 }
+      );
+      expect(commit.mock.calls).toEqual([
+        [types.SET_AGENT_BOT_UI_FLAG, { isUpdatingObservers: true }],
+        [types.SET_AGENT_BOT_OBSERVERS, { inboxId: 5, agentBotIds: [11, 12] }],
+        [types.SET_AGENT_BOT_UI_FLAG, { isUpdatingObservers: false }],
+      ]);
+    });
+
+    it('sends correct actions if API is error', async () => {
+      axios.post.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(
+        actions.addAgentBotObserver(
+          { commit, state: { agentBotObservers: {} } },
+          { inboxId: 5, botId: 12 }
+        )
+      ).rejects.toThrow(Error);
+      expect(commit.mock.calls).toEqual([
+        [types.SET_AGENT_BOT_UI_FLAG, { isUpdatingObservers: true }],
+        [types.SET_AGENT_BOT_UI_FLAG, { isUpdatingObservers: false }],
+      ]);
+    });
+  });
+
+  describe('#removeAgentBotObserver', () => {
+    it('drops the bot from the inbox observers', async () => {
+      axios.delete.mockResolvedValue({});
+      const state = { agentBotObservers: { 5: [11, 12] } };
+      await actions.removeAgentBotObserver(
+        { commit, state },
+        { inboxId: 5, botId: 11 }
+      );
+      expect(commit.mock.calls).toEqual([
+        [types.SET_AGENT_BOT_UI_FLAG, { isUpdatingObservers: true }],
+        [types.SET_AGENT_BOT_OBSERVERS, { inboxId: 5, agentBotIds: [12] }],
+        [types.SET_AGENT_BOT_UI_FLAG, { isUpdatingObservers: false }],
+      ]);
+    });
+  });
 });

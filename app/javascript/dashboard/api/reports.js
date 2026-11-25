@@ -31,6 +31,42 @@ class ReportsAPI extends ApiClient {
     });
   }
 
+  getDrilldown({
+    metric,
+    bucketTimestamp,
+    from,
+    to,
+    type = 'account',
+    id,
+    groupBy,
+    businessHours,
+    page,
+    perPage,
+    signal,
+  }) {
+    const requestConfig = {
+      params: {
+        metric,
+        bucket_timestamp: bucketTimestamp,
+        since: from,
+        until: to,
+        type,
+        id,
+        group_by: groupBy,
+        business_hours: businessHours,
+        timezone_offset: getTimeOffset(),
+        page,
+        per_page: perPage,
+      },
+    };
+
+    if (signal) {
+      requestConfig.signal = signal;
+    }
+
+    return axios.get(`${this.url}/drilldown`, requestConfig);
+  }
+
   // eslint-disable-next-line default-param-last
   getSummary(since, until, type = 'account', id, groupBy, businessHours) {
     return axios.get(`${this.url}/summary`, {
@@ -55,9 +91,14 @@ class ReportsAPI extends ApiClient {
     });
   }
 
-  getAgentReports({ from: since, to: until, businessHours }) {
+  getAgentReports({ from: since, to: until, businessHours, inboxId }) {
     return axios.get(`${this.url}/agents`, {
-      params: { since, until, business_hours: businessHours },
+      params: {
+        since,
+        until,
+        business_hours: businessHours,
+        inbox_id: inboxId,
+      },
     });
   }
 
@@ -79,9 +120,9 @@ class ReportsAPI extends ApiClient {
     });
   }
 
-  getInboxReports({ from: since, to: until, businessHours }) {
+  getInboxReports({ from: since, to: until, businessHours, userId }) {
     return axios.get(`${this.url}/inboxes`, {
-      params: { since, until, business_hours: businessHours },
+      params: { since, until, business_hours: businessHours, user_id: userId },
     });
   }
 

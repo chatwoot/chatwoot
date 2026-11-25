@@ -26,6 +26,14 @@ const isConversationRoute = computed(() => {
     'conversation_through_unattended',
     'conversation_through_participating',
     'inbox_view_conversation',
+    // Internal chat mirrors the conversation layout on small screens: an open
+    // channel is a screen of its own with a back button, so the launcher would
+    // just float over the composer. It stays visible on internal_chat_home,
+    // which is the list screen and the way back to the global menu.
+    'internal_chat_channel',
+    'internal_chat_dm',
+    'internal_chat_thread',
+    'internal_chat_drafts',
   ];
   return CONVERSATION_ROUTES.includes(route.name);
 });

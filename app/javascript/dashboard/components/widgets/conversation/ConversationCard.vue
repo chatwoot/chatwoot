@@ -2,11 +2,13 @@
 import { computed, ref, watch } from 'vue';
 import { getLastMessage } from 'dashboard/helper/conversationHelper';
 import Avatar from 'next/avatar/Avatar.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import MessagePreview from './MessagePreview.vue';
 import InboxName from '../InboxName.vue';
 import TimeAgo from 'dashboard/components/ui/TimeAgo.vue';
 import CardLabels from './conversationCardComponents/CardLabels.vue';
 import CardPriorityIcon from 'dashboard/components-next/Conversation/ConversationCard/CardPriorityIcon.vue';
+import CardPinIcon from 'dashboard/components-next/Conversation/ConversationCard/CardPinIcon.vue';
 import UnreadBadge from 'dashboard/components-next/Conversation/ConversationCard/UnreadBadge.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
 import VoiceCallStatus from './VoiceCallStatus.vue';
@@ -25,6 +27,7 @@ const props = defineProps({
   compact: { type: Boolean, default: false },
   typingPreview: { type: String, default: '' },
   hasGroupActivity: { type: Boolean, default: false },
+  isPinned: { type: Boolean, default: false },
 });
 
 const emit = defineEmits([
@@ -56,7 +59,13 @@ const showMetaSection = computed(() => {
   );
 });
 
-const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
+const isAIAssignee = computed(() =>
+  ['AgentBot', 'Captain::Assistant'].includes(props.chat?.meta?.assignee_type)
+);
+
+const hasSlaPolicyId = computed(
+  () => props.chat?.applied_sla?.id && !props.currentContact?.blocked
+);
 
 const showLabelsSection = computed(() => {
   return props.chat.labels?.length > 0 || hasSlaPolicyId.value;
@@ -84,7 +93,7 @@ const onSelectConversation = checked => {
   if (checked) {
     emit('selectConversation', props.chat.id, props.inbox.id);
   } else {
-    emit('deSelectConversation', props.chat.id, props.inbox.id);
+    emit('deSelectConversation', props.chat.id);
   }
 };
 
@@ -158,10 +167,13 @@ watch(
         >
           <span
             v-if="showAssignee && assignee.name"
-            class="text-n-slate-11 text-xs font-medium leading-3 py-0.5 px-0 inline-flex items-center truncate"
+            class="text-n-slate-11 text-xs font-medium leading-3 py-0.5 px-0 inline-flex items-center gap-px truncate"
           >
-            <fluent-icon icon="person" size="12" class="text-n-slate-11" />
-            {{ assignee.name }}
+            <Icon
+              :icon="isAIAssignee ? 'i-lucide-bot' : 'i-lucide-user-round'"
+              class="size-3 text-n-slate-11 flex-shrink-0"
+            />
+            <span class="truncate">{{ assignee.name }}</span>
           </span>
           <CardPriorityIcon
             :priority="chat.priority"
@@ -232,6 +244,7 @@ watch(
           v-else-if="hasGroupActivity"
           class="shadow-lg rounded-full ltr:ml-auto rtl:mr-auto mt-1 size-2 bg-n-teal-9"
         />
+        <CardPinIcon v-if="isPinned" class="ltr:ml-auto rtl:mr-auto mt-1" />
       </div>
       <CardLabels
         v-if="showLabelsSection"

@@ -31,5 +31,6 @@ const onDownloadClick = () => {
     fetch-items-key="inboxes/get"
     summary-key="summaryReports/getInboxSummaryReports"
     type="inbox"
+    cross-filter-type="agents"
   />
 </template>

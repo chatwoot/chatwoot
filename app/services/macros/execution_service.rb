@@ -13,6 +13,12 @@ class Macros::ExecutionService < ActionService
       begin
         send(action[:action_name], action[:action_params])
       rescue StandardError => e
+        # Drop whatever the failed action staged on the record. `update!` leaves
+        # its attributes dirty when the save is refused, and the next action
+        # would save them too and fail for a reason its own params never asked
+        # for. An inbox with `prevent_assignment_takeover` is one way to get
+        # here; any rejected save is another.
+        @conversation.reload
         ChatwootExceptionTracker.new(e, account: @account).capture_exception
       end
     end
@@ -50,9 +56,7 @@ class Macros::ExecutionService < ActionService
   def send_attachment(blob_ids)
     return if conversation_a_tweet?
 
-    return unless @macro.files.attached?
-
-    blobs = ActiveStorage::Blob.where(id: blob_ids)
+    blobs = @macro.files.blobs.where(id: blob_ids)
 
     return if blobs.blank?
 
@@ -64,7 +68,19 @@ class Macros::ExecutionService < ActionService
   end
 
   def send_webhook_event(webhook_url)
-    payload = @conversation.webhook_data.merge(event: 'macro.executed')
+    payload = webhook_conversation_data.merge(
+      event: 'macro.executed',
+      macro: { id: @macro.id, name: @macro.name },
+      executed_by: @user&.webhook_data
+    )
     WebhookJob.perform_later(webhook_url.first, payload)
   end
+
+  # The conversation as this macro's webhook sends it. A personal macro is set up by whoever runs
+  # it, so an extension can narrow what that person could not read otherwise.
+  def webhook_conversation_data
+    @conversation.webhook_data
+  end
 end
+
+Macros::ExecutionService.include_mod_with('Macros::ExecutionService')

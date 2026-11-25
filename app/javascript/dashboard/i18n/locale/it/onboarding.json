@@ -30,5 +30,63 @@
     "VALIDATION_ERROR": "Per favore compila tutti i campi obbligatori",
     "SUCCESS": "Dati salvati correttamente",
     "ERROR": "Impossibile salvare i dati. Per favore riprova."
+  },
+  "ONBOARDING_INBOX_SETUP": {
+    "GREETING": "Configuriamo alcune cose",
+    "SUBTITLE": "Così partirai avvantaggiato nel tuo spazio di lavoro",
+    "CONTINUE": "Continua",
+    "SKIP": "Salta",
+    "ERROR": "Qualcosa è andato storto. Per favore, riprova.",
+    "WHATSAPP_CONNECTED": "WhatsApp collegato",
+    "FACEBOOK_CONNECTED": "Facebook collegato",
+    "META_RESTRICTION": {
+      "MESSAGE": "La configurazione delle caselle Facebook, Instagram e WhatsApp non è disponibile temporaneamente per un problema delle API di Meta, non di Chatwoot. Stiamo lavorando con Meta per risolverlo il prima possibile.",
+      "STATUS_LINK": "Vedi gli aggiornamenti di stato"
+    },
+    "CREATED_FOR_YOU": {
+      "TITLE": "Abbiamo creato per te quanto segue",
+      "LIVE_CHAT": "Widget di chat dal vivo",
+      "LIVE_CHAT_DESCRIPTION": "Messenger istantaneo per il tuo sito",
+      "LIVE_CHAT_STATUS": "Quasi fatto…",
+      "LIVE_CHAT_READY": "Pronto",
+      "HELP_CENTER": "Help Center",
+      "HELP_CENTER_DESCRIPTION": "La tua enciclopedia digitale",
+      "HELP_CENTER_GENERATING": "Creazione del centro assistenza…",
+      "HELP_CENTER_ANALYZING_WEBSITE": "Analisi del tuo sito…",
+      "HELP_CENTER_SETTING_UP_CATEGORIES": "Impostazione delle categorie…",
+      "HELP_CENTER_CURATING_ARTICLES": "Selezione degli articoli…",
+      "HELP_CENTER_ARTICLES": "Creato {count} articolo | Creati {count} articoli",
+      "HELP_CENTER_CATEGORIES": "{count} categoria | {count} categorie",
+      "HELP_CENTER_SUMMARY": "Creato {count} articolo in {categories} | Creati {count} articoli in {categories}"
+    },
+    "CHANNELS": {
+      "TITLE": "Collega tutti i tuoi canali di conversazione",
+      "HEADER": "Abbiamo trovato alcuni canali che puoi collegare",
+      "CONNECT": "Connetti",
+      "CONNECTED": "Collegato",
+      "MORE_CHANNELS_NOTE": "Configura i canali {email} e {voice} più tardi dall'app",
+      "MORE_CHANNELS_EMAIL": "Email",
+      "MORE_CHANNELS_VOICE": "Voce",
+      "VIEW_ALL": "Vedi tutti",
+      "GMAIL": "Gmail",
+      "OUTLOOK": "Outlook",
+      "OTHER_EMAIL": "Altri provider email"
+    },
+    "CHANNELS_DIALOG": {
+      "TITLE": "Collega subito tutti i tuoi canali",
+      "SUBTITLE": "Gestiscili tutti da un'unica dashboard. Puoi anche configurare e modificare le caselle più tardi dall'app.",
+      "NOTE": "SMS, API, voce e altri provider email si possono configurare più tardi dalla dashboard.",
+      "CONNECT_TITLE": "Collega il tuo account {name}",
+      "CONNECT_SUBTITLE": "Compila questi pochi dati",
+      "CONNECT": "Connetti",
+      "BACK": "Indietro",
+      "SETUP_LATER": "Configura più tardi nell'app",
+      "FACEBOOK_SUBTITLE": "Autorizza l'accesso e scegli una Pagina da collegare.",
+      "FACEBOOK_LAUNCH": "Continua con Facebook",
+      "FACEBOOK_SELECT_PAGE": "Seleziona una Pagina da collegare",
+      "FACEBOOK_LOADING": "Caricamento delle tue Pagine Facebook…",
+      "FACEBOOK_NO_PAGES": "Nessuna Pagina collegabile trovata. Tutte le tue Pagine sono già collegate.",
+      "FACEBOOK_ERROR": "Impossibile collegarsi a Facebook. Riprova."
+    }
   }
 }

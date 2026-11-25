@@ -52,3 +52,5 @@ class InternalChat::MessagePolicy < ApplicationPolicy
     channel.channel_members.exists?(user_id: @user.id, role: :admin)
   end
 end
+
+InternalChat::MessagePolicy.prepend_mod_with('InternalChat::MessagePolicy')

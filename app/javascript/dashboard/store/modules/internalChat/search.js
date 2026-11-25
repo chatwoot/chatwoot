@@ -1,6 +1,6 @@
 import InternalChatChannelsAPI from 'dashboard/api/internalChatChannels';
 
-const state = {
+const initialState = () => ({
   query: '',
   channels: [],
   dms: [],
@@ -11,7 +11,9 @@ const state = {
     hasMoreMessages: false,
     currentPage: 1,
   },
-};
+});
+
+const state = initialState();
 
 const getters = {
   getQuery: _state => _state.query,
@@ -53,6 +55,9 @@ const actions = {
 };
 
 const mutations = {
+  RESET(_state) {
+    Object.assign(_state, initialState());
+  },
   SET_QUERY(_state, query) {
     _state.query = query;
   },

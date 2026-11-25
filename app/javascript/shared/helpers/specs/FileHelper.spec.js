@@ -5,6 +5,7 @@ import {
   checkFileSizeLimit,
   resolveMaximumFileUploadSize,
   isFileTypeAllowedForChannel,
+  isFileEmpty,
 } from '../FileHelper';
 
 describe('#File Helpers', () => {
@@ -29,6 +30,23 @@ describe('#File Helpers', () => {
     });
     it('should return 19.07 if 20000000 is passed', () => {
       expect(fileSizeInMegaBytes(20000000)).toBeCloseTo(19.07, 2);
+    });
+  });
+
+  describe('isFileEmpty', () => {
+    it('should return true for a zero-byte file in either shape', () => {
+      expect(isFileEmpty({ file: { size: 0 } })).toBe(true);
+      expect(isFileEmpty({ size: 0 })).toBe(true);
+    });
+    it('should return false for a file that carries bytes', () => {
+      expect(isFileEmpty({ file: { size: 1 } })).toBe(false);
+      expect(isFileEmpty({ size: 199154 })).toBe(false);
+    });
+    // An unknown size is not the same as an empty file, and refusing it would block uploads
+    // whose size the browser never reported.
+    it('should return false when the size is unknown', () => {
+      expect(isFileEmpty({})).toBe(false);
+      expect(isFileEmpty(undefined)).toBe(false);
     });
   });
 

@@ -8,6 +8,8 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
   include Whatsapp::BaileysHandlers::GroupsUpdate
   include Whatsapp::BaileysHandlers::GroupsActivity
   include Whatsapp::BaileysHandlers::PresenceUpdate
+  include Whatsapp::BaileysHandlers::MessageCappingUpdate
+  include Whatsapp::BaileysHandlers::MessagingHistorySet
 
   class InvalidWebhookVerifyToken < StandardError; end
 

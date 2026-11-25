@@ -1,0 +1,27 @@
+Chatwoot fazer.ai
+Copyright (c) 2025-2026 FAZER.AI LTDA
+
+This product is a fork of Chatwoot, developed by Chatwoot Inc.
+(https://github.com/chatwoot/chatwoot).
+
+  Chatwoot
+  Copyright (c) 2017-2026 Chatwoot Inc.
+  Licensed under the MIT Expat license, except for content under the
+  "enterprise/" directory, which is licensed under the terms defined in
+  "enterprise/LICENSE".
+
+Modifications and additions made in this fork are Copyright (c) 2025-2026
+FAZER.AI LTDA, and are released under the same terms as the code they extend:
+the MIT Expat license for everything outside "enterprise/".
+
+Subsystems originally written for this fork include the WhatsApp integration
+via Baileys, which does not exist in upstream Chatwoot. It spans, among other
+files, app/services/whatsapp/baileys_handlers/,
+app/services/whatsapp/providers/whatsapp_baileys_service.rb,
+app/services/whatsapp/incoming_message_baileys_service.rb,
+app/helpers/baileys_helper.rb, and the related jobs and frontend components.
+
+If you redistribute this software, or substantial portions of it, the MIT
+Expat license requires that you include both copyright notices above and the
+permission notice found in LICENSE. This applies to copies of individual
+files as well as to the repository as a whole.

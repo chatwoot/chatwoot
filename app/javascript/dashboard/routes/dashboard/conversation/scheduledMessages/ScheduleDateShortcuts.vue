@@ -3,6 +3,7 @@ import { computed, ref, watch, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
 import addDays from 'date-fns/addDays';
 import DatePicker from 'vue-datepicker-next';
+import { currentDatePickerLang } from 'dashboard/helper/datePickerLocale';
 import {
   SHORTCUT_KEYS,
   getScheduleShortcuts,
@@ -24,6 +25,7 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue']);
 
 const { t, locale } = useI18n();
+const pickerLang = computed(() => currentDatePickerLang());
 
 const selectedKey = ref('');
 const customText = ref('');
@@ -190,6 +192,7 @@ watch(
                 v-model:value="datePickerValue"
                 v-model:open="datePickerOpen"
                 type="datetime"
+                :lang="pickerLang"
                 confirm
                 :clearable="false"
                 :editable="false"

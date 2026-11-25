@@ -1,8 +1,9 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useRoute, useRouter } from 'vue-router';
-import { useMapGetter, useStore } from 'dashboard/composables/store.js';
+import { useRoute } from 'vue-router';
+import { useMapGetter } from 'dashboard/composables/store.js';
+import { useAssistantSwitcher } from './useAssistantSwitcher';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
@@ -11,8 +12,7 @@ const emit = defineEmits(['close', 'createAssistant']);
 
 const { t } = useI18n();
 const route = useRoute();
-const router = useRouter();
-const store = useStore();
+const { switchAssistant } = useAssistantSwitcher();
 
 const assistants = useMapGetter('captainAssistants/getRecords');
 
@@ -22,60 +22,10 @@ const isAssistantActive = assistant => {
   return assistant.id === Number(currentAssistantId.value);
 };
 
-const fetchDataForRoute = async (routeName, assistantId) => {
-  const dataFetchMap = {
-    captain_assistants_responses_index: async () => {
-      await store.dispatch('captainResponses/get', { assistantId });
-      await store.dispatch('captainResponses/fetchPendingCount', assistantId);
-    },
-    captain_assistants_responses_pending: async () => {
-      await store.dispatch('captainResponses/get', {
-        assistantId,
-        status: 'pending',
-      });
-    },
-    captain_assistants_documents_index: async () => {
-      await store.dispatch('captainDocuments/get', { assistantId });
-    },
-    captain_assistants_scenarios_index: async () => {
-      await store.dispatch('captainScenarios/get', { assistantId });
-    },
-    captain_assistants_playground_index: () => {
-      // Playground doesn't need pre-fetching, it loads on interaction
-    },
-    captain_assistants_inboxes_index: async () => {
-      await store.dispatch('captainInboxes/get', { assistantId });
-    },
-    captain_tools_index: async () => {
-      await store.dispatch('captainCustomTools/get', { page: 1 });
-    },
-    captain_assistants_settings_index: async () => {
-      await store.dispatch('captainAssistants/show', assistantId);
-    },
-  };
-
-  const fetchFn = dataFetchMap[routeName];
-  if (fetchFn) {
-    await fetchFn();
-  }
-};
-
 const handleAssistantChange = async assistant => {
   if (isAssistantActive(assistant)) return;
 
-  const currentRouteName = route.name;
-  const targetRouteName =
-    currentRouteName || 'captain_assistants_responses_index';
-
-  await fetchDataForRoute(targetRouteName, assistant.id);
-
-  await router.push({
-    name: targetRouteName,
-    params: {
-      accountId: route.params.accountId,
-      assistantId: assistant.id,
-    },
-  });
+  await switchAssistant(assistant);
 
   emit('close');
 };
@@ -88,7 +38,7 @@ const openCreateAssistantDialog = () => {
 
 <template>
   <div
-    class="pt-5 pb-3 bg-n-alpha-3 backdrop-blur-[100px] outline outline-n-container outline-1 z-50 absolute w-[27.5rem] rounded-xl shadow-md flex flex-col gap-4"
+    class="pt-5 bg-n-alpha-3 backdrop-blur-[100px] outline outline-n-container outline-1 z-50 absolute w-[27.5rem] max-h-96 rounded-xl shadow-md flex flex-col gap-4"
   >
     <div
       class="flex items-center justify-between gap-4 px-6 pb-3 border-b border-n-alpha-2"
@@ -114,7 +64,10 @@ const openCreateAssistantDialog = () => {
         @click="openCreateAssistantDialog"
       />
     </div>
-    <div v-if="assistants.length > 0" class="flex flex-col gap-2 px-4">
+    <div
+      v-if="assistants.length > 0"
+      class="flex flex-col flex-1 min-h-0 gap-2 px-4 pb-3 overflow-y-auto overscroll-contain"
+    >
       <Button
         v-for="assistant in assistants"
         :key="assistant.id"
@@ -132,10 +85,10 @@ const openCreateAssistantDialog = () => {
         </span>
         <Avatar
           v-if="assistant"
+          :src="assistant.avatar_url"
           :name="assistant.name"
           :size="20"
-          icon-name="i-lucide-bot"
-          rounded-full
+          icon-name="i-woot-captain"
         />
       </Button>
     </div>

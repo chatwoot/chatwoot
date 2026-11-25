@@ -60,6 +60,30 @@ RSpec.describe ConversationReplyMailer do
         expect(mail.subject).to eq('Re: Mail Subject')
       end
 
+      it 'sends a long subject whole, so the thread is not split' do
+        # A subject the conversation is allowed to hold goes out verbatim. Cutting it here would
+        # change the normalized subject that Gmail and Outlook thread on, and would also send a
+        # different base subject on the first message than on the replies, because the `Re: `
+        # prefix eats into any budget applied to the finished header.
+        long_subject = (['palavra'] * 400).join(' ')
+        conversation.additional_attributes = { 'mail_subject': long_subject }
+        conversation.save!
+        new_message.save!
+
+        expect(mail.subject).to eq("Re: #{long_subject}")
+      end
+
+      it 'folds a long subject inside the RFC 5322 line limit' do
+        # Length is a line problem, not a subject problem: Mail folds an unstructured header at
+        # whitespace, so prose of any length stays inside 998 octets per physical line.
+        conversation.additional_attributes = { 'mail_subject': (['palavra'] * 400).join(' ') }
+        conversation.save!
+        new_message.save!
+
+        longest_line = mail.to_s.lines.map { |line| line.chomp.bytesize }.max
+        expect(longest_line).to be <= 998
+      end
+
       it 'not have private notes' do
         # make the message private
         private_message.private = true
@@ -78,6 +102,38 @@ RSpec.describe ConversationReplyMailer do
       it 'will send email to cc and bcc email addresses' do
         expect(cc_mail.cc.first).to eq(cc_message.content_attributes[:cc_emails])
         expect(cc_mail.bcc.first).to eq(cc_message.content_attributes[:bcc_emails])
+      end
+
+      context 'when the summary carries a CSAT survey' do
+        # MessageTemplates::Template::CsatSurvey creates the survey with no sender; the factory
+        # always assigns one, so it is cleared here to match what production actually stores.
+        let!(:csat_message) do
+          create(:message, conversation: conversation, account: account, message_type: 'template',
+                           content_type: 'input_csat', content: 'How would you rate our support?',
+                           content_attributes: { display_type: 'emoji' }).tap { |message| message.update!(sender: nil) }
+        end
+
+        it 'renders the rating scale instead of a link to the survey page' do
+          with_modified_env 'FRONTEND_URL' => 'https://app.chatwoot.com' do
+            survey_url = "https://app.chatwoot.com/survey/responses/#{conversation.uuid}"
+
+            CsatRatings::VALUES.each do |value|
+              expect(mail.body.decoded).to include "#{survey_url}?rating=#{value}"
+            end
+            expect(mail.body.decoded).to include csat_message.content
+            expect(mail.body.decoded).not_to include 'to rate the conversation'
+          end
+        end
+      end
+
+      it 'renders the greeting and sender labels' do
+        create(:message, message_type: 'outgoing', account: account, conversation: conversation, sender: agent)
+
+        body = mail.body.decoded
+        expect(body).to include("Hi #{conversation.contact.name},")
+        expect(body).to include('You have new messages on your conversation.')
+        expect(body).to include('<b>You</b>')
+        expect(body).to include("<b>#{agent.available_name}</b>")
       end
     end
 
@@ -134,6 +190,66 @@ RSpec.describe ConversationReplyMailer do
         create(:message, message_type: 'outgoing', account: account, conversation: conversation)
         conversation.update!(contact_last_seen_at: Time.zone.now)
         expect(mail).to be_nil
+      end
+
+      context 'when the message is a CSAT survey' do
+        let(:csat_message) do
+          create(:message, conversation: conversation, account: account, message_type: 'template',
+                           content_type: 'input_csat', content: 'How would you rate our support?',
+                           content_attributes: { display_type: 'emoji' })
+        end
+        let(:mail) { described_class.reply_without_summary(conversation, csat_message.id).deliver_now }
+
+        it 'renders the rating scale' do
+          with_modified_env 'FRONTEND_URL' => 'https://app.chatwoot.com' do
+            CsatRatings::VALUES.each do |value|
+              expect(mail.body.decoded).to include "https://app.chatwoot.com/survey/responses/#{conversation.uuid}?rating=#{value}"
+            end
+          end
+        end
+
+        # The debounce window can close on a plain reply and the survey together, and the
+        # branding the survey depends on has to survive that batch.
+        it 'keeps the branded layout when the batch also carries a plain reply' do
+          reply = create(:message, conversation: conversation, account: account, message_type: 'outgoing',
+                                   content: 'Sure, here is the answer.')
+          csat_message.update!(created_at: reply.created_at + 1.second)
+
+          with_modified_env 'FRONTEND_URL' => 'https://app.chatwoot.com' do
+            body = described_class.reply_without_summary(conversation, reply.id).deliver_now.body.decoded
+
+            expect(body).to include 'accent-bar'
+            expect(body).to include "#{conversation.uuid}?rating=5"
+          end
+        end
+      end
+    end
+
+    context 'without summary for a non-email inbox' do
+      let(:inbox) { create(:inbox, account: account, channel: create(:channel_widget, account: account)) }
+      let(:conversation) { create(:conversation, assignee: agent, account: account, inbox: inbox) }
+      let!(:incoming_email_message) do
+        create(:message, conversation: conversation, account: account, message_type: :incoming, content_type: :incoming_email)
+      end
+      let!(:outgoing_message) do
+        create(:message, conversation: conversation, account: account, message_type: :outgoing, content: 'Outgoing email reply')
+      end
+      let(:mail) { described_class.reply_without_summary(conversation, incoming_email_message.id).deliver_now }
+
+      it 'applies the account branded email layout' do
+        account.enable_features!(:branded_email_templates)
+        create(:email_template, :layout, account: account, body: '<html><body>Account Brand {{ content_for_layout }}</body></html>')
+
+        expect(mail.decoded).to include('Account Brand')
+        expect(mail.decoded).to include(outgoing_message.content)
+      end
+
+      it 'does not apply an installation layout without an account override' do
+        account.enable_features!(:branded_email_templates)
+        create(:email_template, :layout, body: '<html><body>Installation Brand {{ content_for_layout }}</body></html>')
+
+        expect(mail.decoded).not_to include('Installation Brand')
+        expect(mail.decoded).to include(outgoing_message.content)
       end
     end
 
@@ -243,27 +359,171 @@ RSpec.describe ConversationReplyMailer do
         expect(mail.decoded).to include message.content
       end
 
+      it 'does not apply branded email layout when feature is disabled' do
+        create(
+          :email_template,
+          :layout,
+          account: account,
+          inbox: conversation.inbox,
+          body: '<html><body>Inbox Brand {{ content_for_layout }}</body></html>'
+        )
+
+        expect(mail.decoded).not_to include('Inbox Brand')
+        expect(mail.decoded).to include(message.content)
+      end
+
+      it 'exposes the reply sender in inbox branded email layouts' do
+        account.enable_features!(:branded_email_templates)
+        conversation.inbox.update!(business_name: 'Acme Support')
+        create(
+          :email_template,
+          :layout,
+          account: account,
+          inbox: conversation.inbox,
+          body: [
+            '<html><body><header>{{ inbox.business_name }}</header>',
+            '{{ content_for_layout }}',
+            '<span>{{ agent.email }}</span>',
+            '<footer>{{ message.sender_display_name }}</footer></body></html>'
+          ].join
+        )
+
+        expect(mail.decoded).to include('Acme Support')
+        expect(mail.decoded).to include(message.content)
+        expect(message.sender).not_to eq(agent)
+        expect(mail.decoded).to include(message.sender.email)
+        expect(mail.decoded).to include(message.sender.available_name)
+      end
+
+      it 'falls back to account branded email layout when inbox layout is absent' do
+        account.enable_features!(:branded_email_templates)
+        create(
+          :email_template,
+          :layout,
+          account: account,
+          body: '<html><body>Account Brand {{ content_for_layout }}</body></html>'
+        )
+
+        expect(mail.decoded).to include('Account Brand')
+        expect(mail.decoded).to include(message.content)
+      end
+
+      it 'applies inbox branded email layout to template messages' do
+        account.enable_features!(:branded_email_templates)
+        create(
+          :email_template,
+          :layout,
+          account: account,
+          inbox: conversation.inbox,
+          body: '<html><body>Template Brand {{ content_for_layout }}</body></html>'
+        )
+        template_message = create(:message, conversation: conversation, account: account, message_type: :template, content_type: :text,
+                                            content: 'Automation template response', sender: agent)
+
+        template_mail = described_class.email_reply(template_message).deliver_now
+
+        expect(template_mail.decoded).to include('Template Brand')
+        expect(template_mail.decoded).to include('Automation template response')
+      end
+
       it 'builds messageID properly' do
         expect(mail.message_id).to eq("conversation/#{conversation.uuid}/messages/#{message.id}@#{conversation.account.domain}")
+      end
+
+      context 'when a newer outgoing message exists in the conversation' do
+        let!(:message) do
+          create(:message, conversation: conversation, account: account, message_type: 'outgoing', content: 'Looping in the vendor',
+                           content_attributes: { to_emails: ['customer@example.com'], cc_emails: ['vendor@example.com'],
+                                                 bcc_emails: ['audit@example.com'] })
+        end
+
+        it 'sends to the recipients of the message being delivered' do
+          # a private note added right after the reply carries empty recipient lists
+          create(:message, conversation: conversation, account: account, message_type: 'outgoing', private: true,
+                           content: 'Vendor has been looped in',
+                           content_attributes: { to_emails: [], cc_emails: [], bcc_emails: [] })
+
+          expect(mail.to).to eq(message.content_attributes[:to_emails])
+          expect(mail.cc).to eq(message.content_attributes[:cc_emails])
+          expect(mail.bcc).to eq(message.content_attributes[:bcc_emails])
+        end
       end
 
       context 'when message is a CSAT survey' do
         let(:csat_message) do
           create(:message, conversation: conversation, account: account, message_type: 'template',
-                           content_type: 'input_csat', content: 'How would you rate our support?', sender: agent)
+                           content_type: 'input_csat', content: 'How would you rate our support?', sender: agent,
+                           content_attributes: { display_type: display_type })
         end
+        let(:display_type) { 'emoji' }
+        let(:survey_url) { "https://app.chatwoot.com/survey/responses/#{conversation.uuid}" }
 
-        it 'includes CSAT survey URL in outgoing_content' do
+        it 'renders one link per rating so the contact answers from the email' do
           with_modified_env 'FRONTEND_URL' => 'https://app.chatwoot.com' do
             mail = described_class.email_reply(csat_message).deliver_now
-            expect(mail.decoded).to include "https://app.chatwoot.com/survey/responses/#{conversation.uuid}"
+
+            CsatRatings::VALUES.each do |value|
+              expect(mail.decoded).to include "#{survey_url}?rating=#{value}"
+            end
           end
         end
 
-        it 'uses outgoing_content for CSAT message body' do
+        it 'renders the emoji scale with its labels' do
           with_modified_env 'FRONTEND_URL' => 'https://app.chatwoot.com' do
             mail = described_class.email_reply(csat_message).deliver_now
-            expect(mail.decoded).to include csat_message.outgoing_content
+
+            expect(mail.decoded).to include '😞'
+            expect(mail.decoded).to include '😍'
+            expect(mail.decoded).to include 'Excellent'
+            expect(mail.decoded).not_to include CsatRatings::STAR_GLYPH
+          end
+        end
+
+        it 'renders stars instead of emoji when the inbox asks for a star scale' do
+          csat_message.update!(content_attributes: { display_type: 'star' })
+
+          with_modified_env 'FRONTEND_URL' => 'https://app.chatwoot.com' do
+            mail = described_class.email_reply(csat_message).deliver_now
+
+            expect(mail.decoded).to include CsatRatings::STAR_GLYPH
+            expect(mail.decoded).not_to include '😞'
+            expect(mail.decoded).to include "#{survey_url}?rating=5"
+          end
+        end
+
+        it 'wraps the survey in the branded layout, unlike the replies around it' do
+          with_modified_env 'FRONTEND_URL' => 'https://app.chatwoot.com' do
+            expect(described_class.email_reply(csat_message).deliver_now.body.decoded).to include 'accent-bar'
+          end
+        end
+
+        # The layout drops content_for_layout inside a <table>, so flow content there is
+        # fostered into the surrounding cell -- the same treatment upstream's own <p> gets.
+        # What has to hold is that the scale lands inside the card, whichever level it ends
+        # up on, because a parser is free to move it further than that.
+        it 'lands inside the branded card rather than outside it' do
+          with_modified_env 'FRONTEND_URL' => 'https://app.chatwoot.com' do
+            body = described_class.email_reply(csat_message).deliver_now.body.decoded
+            # HTML5, not HTML: only the spec-compliant parser foster-parents the way a browser
+            # and a mail client do, and that relocation is the whole point of this example.
+            card = Nokogiri::HTML5(body).at_css('td.content-wrap')
+
+            expect(card.css('a').map { |a| a['href'] }).to include(/rating=5/)
+          end
+        end
+
+        it 'still sends an ordinary reply bare' do
+          reply = create(:message, conversation: conversation, account: account, message_type: 'outgoing',
+                                   content: 'Sure, here is the answer.', sender: agent)
+
+          expect(described_class.email_reply(reply).deliver_now.body.decoded).not_to include 'accent-bar'
+        end
+
+        it 'drops the bare survey link the presenter appends for the other channels' do
+          with_modified_env 'FRONTEND_URL' => 'https://app.chatwoot.com' do
+            mail = described_class.email_reply(csat_message).deliver_now
+
+            expect(mail.decoded).not_to include "#{csat_message.content} #{survey_url}"
           end
         end
       end
@@ -333,6 +593,74 @@ RSpec.describe ConversationReplyMailer do
           expect(mail.body.encoded).to match(%r{<a [^>]*>large_file\.pdf</a>})
           # Small file should not be rendered as a link in the body
           expect(mail.body.encoded).not_to match(%r{<a [^>]*>avatar\.png</a>})
+        end
+      end
+
+      context 'when the conversation has a subject' do
+        before do
+          conversation.update!(additional_attributes: { 'mail_subject': 'Mail Subject' })
+          create(:message, conversation: conversation, account: account, message_type: 'incoming',
+                           content_attributes: { email: { subject: 'Mail Subject' } })
+        end
+
+        it 'replies with the conversation subject when the message has no subject' do
+          expect(mail.subject).to eq 'Re: Mail Subject'
+        end
+
+        it 'uses the subject of the message as is when it has one' do
+          message.update!(content_attributes: { email: { subject: 'Refund approved' } })
+
+          expect(mail.subject).to eq 'Refund approved'
+        end
+      end
+
+      context 'when forwarding an email' do
+        let(:forwarded_message) do
+          create(:message, conversation: conversation, account: account, message_type: 'incoming',
+                           content_attributes: { email: { message_id: 'original@example.com' } })
+        end
+        let(:forward) do
+          create(:message, conversation: conversation, account: account, message_type: 'outgoing', content: 'Forwarding this',
+                           content_attributes: { forwarded_message_id: forwarded_message.id, to_emails: ['vendor@example.com'] })
+        end
+        let(:mail) { described_class.email_reply(forward).deliver_now }
+
+        before do
+          conversation.additional_attributes = { 'mail_subject': 'Mail Subject' }
+          conversation.save!
+        end
+
+        it 'sends to the forward recipients with a forward subject and no threading headers' do
+          expect(mail.to).to eq ['vendor@example.com']
+          expect(mail.subject).to eq 'Fwd: Mail Subject'
+          expect(mail.in_reply_to).to be_nil
+          expect(mail.references).to be_nil
+        end
+
+        it 'uses the subject of the forwarded message when it has one' do
+          forwarded_message.update!(content_attributes: { email: { message_id: 'original@example.com', subject: 'Changed subject' } })
+
+          expect(mail.subject).to eq 'Fwd: Changed subject'
+        end
+
+        it 'uses the subject of the forwarded message when the conversation has none' do
+          conversation.update!(additional_attributes: {})
+          forwarded_message.update!(content_attributes: { email: { message_id: 'original@example.com', subject: 'Later subject' } })
+
+          expect(mail.subject).to eq 'Fwd: Later subject'
+        end
+
+        it 'keeps replies from the forward recipient out of the conversation' do
+          expect(mail.message_id).to start_with("forward/#{forward.id}@")
+          expect(mail.message_id).not_to include(conversation.uuid)
+          expect(mail.reply_to).to eq [email_channel.email]
+        end
+
+        it 'leaves the forward out of the conversation transcript' do
+          forward
+          transcript = described_class.conversation_transcript(conversation, 'customer@example.com').deliver_now
+
+          expect(transcript.decoded).not_to include('Forwarding this')
         end
       end
 
@@ -462,6 +790,26 @@ RSpec.describe ConversationReplyMailer do
         expect(mail.delivery_method.settings.empty?).to be false
         expect(mail.delivery_method.settings[:address]).to eq 'smtp.gmail.com'
         expect(mail.delivery_method.settings[:port]).to eq 587
+        expect(mail.delivery_method.settings[:open_timeout]).to eq 15
+        expect(mail.delivery_method.settings[:read_timeout]).to eq 30
+      end
+
+      it 'uses configured smtp timeout values' do
+        with_modified_env SMTP_OPEN_TIMEOUT: '10', SMTP_READ_TIMEOUT: '30' do
+          mail = described_class.email_reply(message)
+
+          expect(mail.delivery_method.settings[:open_timeout]).to eq 10
+          expect(mail.delivery_method.settings[:read_timeout]).to eq 30
+        end
+      end
+
+      it 'uses default smtp timeout values when env values are blank' do
+        with_modified_env SMTP_OPEN_TIMEOUT: '', SMTP_READ_TIMEOUT: '' do
+          mail = described_class.email_reply(message)
+
+          expect(mail.delivery_method.settings[:open_timeout]).to eq 15
+          expect(mail.delivery_method.settings[:read_timeout]).to eq 30
+        end
       end
 
       it 'renders sender name in the from address' do
@@ -532,6 +880,31 @@ RSpec.describe ConversationReplyMailer do
           mail = described_class.email_reply(message)
           expect(mail['from'].value).to eq "#{agent_2.available_name} from #{conversation.inbox.business_name} <#{smtp_channel.email}>"
         end
+
+        it 'uses the sender locale for the friendly name' do
+          message.sender.update!(ui_settings: { 'locale' => 'de' })
+
+          mail = described_class.email_reply(message)
+
+          expect(mail['from'].value).to eq "#{message.sender.available_name} von #{conversation.inbox.business_name} <#{smtp_channel.email}>"
+        end
+
+        it 'falls back to the account locale when the sender locale is not set' do
+          account.update!(locale: :de)
+
+          mail = described_class.email_reply(message)
+
+          expect(mail['from'].value).to eq "#{message.sender.available_name} von #{conversation.inbox.business_name} <#{smtp_channel.email}>"
+        end
+
+        it 'uses the account locale when the sender is not a user' do
+          account.update!(locale: :de)
+          message.update!(sender_id: nil)
+
+          mail = described_class.email_reply(message)
+
+          expect(mail['from'].value).to eq "#{conversation.assignee.available_name} von #{conversation.inbox.business_name} <#{smtp_channel.email}>"
+        end
       end
 
       context 'when friendly name disabled' do
@@ -557,6 +930,15 @@ RSpec.describe ConversationReplyMailer do
           mail = described_class.email_reply(message)
 
           expect(mail['from'].value).to eq "#{conversation.inbox.business_name} <#{smtp_channel.email}>"
+        end
+
+        it 'quotes a business_name containing a comma so the sender parses to a single address' do
+          conversation.inbox.update!(business_name: 'Care Team, Billing')
+
+          mail = described_class.email_reply(message)
+
+          expect(mail['from'].value).to eq "\"Care Team, Billing\" <#{smtp_channel.email}>"
+          expect(mail.smtp_envelope_from).to eq smtp_channel.email
         end
       end
     end
@@ -715,6 +1097,22 @@ RSpec.describe ConversationReplyMailer do
 
       it 'sets the correct in reply to id' do
         expect(mail.in_reply_to).to eq("account/#{conversation.account.id}/conversation/#{conversation.uuid}@#{domain}")
+      end
+
+      it 'applies inbox branded email layout to conversation transcript' do
+        new_account.enable_features!(:branded_email_templates)
+        create(
+          :email_template,
+          :layout,
+          account: new_account,
+          inbox: conversation.inbox,
+          body: '<html><body>Transcript Brand {{ content_for_layout }}</body></html>'
+        )
+
+        transcript = described_class.conversation_transcript(conversation, 'customer@example.com').deliver_now
+
+        expect(transcript.decoded).to include('Transcript Brand')
+        expect(transcript.decoded).to include(message.content)
       end
     end
   end

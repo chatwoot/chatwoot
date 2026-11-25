@@ -1,4 +1,9 @@
 class ChatwootCaptcha
+  # This sits in front of signup and login, so the ceiling is short on purpose: every
+  # second here is a second the person is looking at a form that has not answered. Five is
+  # already generous for a call that only checks a token.
+  HCAPTCHA_REQUEST_OPTIONS = { timeout: 5, max_retries: 0 }.freeze
+
   def initialize(client_response)
     @client_response = client_response
     @server_key = GlobalConfigService.load('HCAPTCHA_SERVER_KEY', '')
@@ -16,7 +21,8 @@ class ChatwootCaptcha
                              body: {
                                response: @client_response,
                                secret: @server_key
-                             })
+                             },
+                             **HCAPTCHA_REQUEST_OPTIONS)
 
     return false unless response.success?
 

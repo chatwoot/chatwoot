@@ -5,6 +5,7 @@
 #  id               :bigint           not null, primary key
 #  author_type      :string           not null
 #  content          :text
+#  hold_on_reply    :boolean          default(FALSE), not null
 #  occurrences_sent :integer          default(0), not null
 #  recurrence_rule  :jsonb            not null
 #  status           :integer          default("draft"), not null
@@ -47,7 +48,7 @@ class RecurringScheduledMessage < ApplicationRecord
   has_many :scheduled_messages, dependent: :destroy
   has_one_attached :attachment
 
-  enum status: { draft: 0, active: 1, completed: 2, cancelled: 3 }
+  enum :status, { draft: 0, active: 1, completed: 2, cancelled: 3 }
 
   validates :author_type, inclusion: { in: ['User'] }
   validates :content, presence: true, unless: :content_optional?
@@ -91,6 +92,7 @@ class RecurringScheduledMessage < ApplicationRecord
       status: status, template_params: template_params,
       recurrence_rule: recurrence_rule, recurrence_description: recurrence_description,
       occurrences_sent: occurrences_sent, author_id: author_id, author_type: author_type,
+      hold_on_reply: hold_on_reply,
       created_at: created_at.to_i, updated_at: updated_at.to_i
     }
   end

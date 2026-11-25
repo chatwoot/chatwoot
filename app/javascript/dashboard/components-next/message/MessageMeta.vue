@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { messageTimestamp } from 'shared/helpers/timeHelper';
 import { useI18n } from 'vue-i18n';
 import { useFunctionGetter } from 'dashboard/composables/store';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 
 import MessageStatus from './MessageStatus.vue';
 import Icon from 'next/icon/Icon.vue';
@@ -10,6 +11,12 @@ import { useInbox } from 'dashboard/composables/useInbox';
 import { useMessageContext } from './provider.js';
 
 import { MESSAGE_STATUS, MESSAGE_TYPES } from './constants';
+import {
+  currentDateLocale,
+  dateTimeFormat,
+} from 'shared/helpers/localizedDate';
+
+const exactTimestamp = useExactTimestamp();
 
 const {
   isAFacebookInbox,
@@ -25,7 +32,7 @@ const {
   isATiktokChannel,
 } = useInbox();
 
-const { t, locale } = useI18n();
+const { t } = useI18n();
 
 const {
   status,
@@ -91,7 +98,7 @@ const scheduledAtLabel = computed(() => {
     options.year = 'numeric';
   }
 
-  return date.toLocaleString(locale.value.replace('_', '-'), options);
+  return dateTimeFormat(currentDateLocale(), options).format(date);
 });
 
 const scheduledByLabel = computed(() => {
@@ -123,6 +130,7 @@ const scheduledTooltip = computed(() => {
     author: scheduledByLabel.value,
   });
 });
+const exactTime = computed(() => exactTimestamp(createdAt.value));
 
 const showStatusIndicator = computed(() => {
   if (isPrivate.value) return false;
@@ -225,12 +233,24 @@ const isEdited = computed(() => {
 const previousContent = computed(() => {
   return contentAttributes.value?.previousContent || '';
 });
+
+const deletedByContact = computed(() => {
+  return contentAttributes.value?.deletedByContact === true;
+});
 </script>
 
 <template>
   <div class="text-xs flex items-center gap-1.5">
     <div class="inline">
-      <time class="inline">{{ readableTime }}</time>
+      <time
+        v-tooltip.top="{
+          content: exactTime,
+          delay: { show: 500, hide: 0 },
+        }"
+        class="inline"
+      >
+        {{ readableTime }}
+      </time>
     </div>
     <span
       v-if="isScheduledMessage"
@@ -251,6 +271,16 @@ const previousContent = computed(() => {
       class="inline-flex items-center gap-0.5"
     >
       <Icon icon="i-lucide-pencil" class="size-3" />
+    </span>
+    <span
+      v-if="deletedByContact"
+      v-tooltip.top="{
+        content: t('CONVERSATION.MESSAGE_DELETED_BY_CONTACT'),
+        delay: { show: 300, hide: 0 },
+      }"
+      class="inline-flex items-center gap-0.5"
+    >
+      <Icon icon="i-lucide-trash-2" class="size-3" />
     </span>
     <Icon v-if="isPrivate" icon="i-lucide-lock-keyhole" class="size-3" />
     <MessageStatus v-if="showStatusIndicator" :status="statusToShow" />

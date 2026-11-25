@@ -3,10 +3,23 @@ module AutoAssignmentHandler
   include Events::Types
 
   included do
+    before_save :run_legacy_auto_assignment, unless: :new_record?
     after_save :run_auto_assignment
   end
 
   private
+
+  # Legacy (V1) assignment for status changes runs inside the same save, so status and
+  # assignee commit as one change-set; a follow-up save would reset saved_changes and
+  # hide the status change from the after_commit callbacks (no conversation.opened).
+  def run_legacy_auto_assignment
+    return unless status_changed? && open?
+    return if inbox.auto_assignment_v2_enabled?
+    return if will_save_change_to_assignee_id? && assignee_id.present?
+    return unless should_run_auto_assignment?
+
+    AutoAssignment::AgentAssignmentService.new(conversation: self, allowed_agent_ids: legacy_allowed_agent_ids).assign_under_lock
+  end
 
   def run_auto_assignment
     # Assignment V2: Also trigger assignment when conversation is resolved or snoozed,
@@ -15,14 +28,21 @@ module AutoAssignmentHandler
     return unless should_run_auto_assignment?
 
     if inbox.auto_assignment_v2_enabled?
-      # Use new assignment system
-      AutoAssignment::AssignmentJob.perform_later(inbox_id: inbox.id)
-    else
-      # Use legacy assignment system
-      # If conversation has a team, only consider team members for assignment
-      allowed_agent_ids = team_id.present? ? team_member_ids_with_capacity : inbox.member_ids_with_assignment_capacity
-      AutoAssignment::AgentAssignmentService.new(conversation: self, allowed_agent_ids: allowed_agent_ids).perform
+      # Enqueue after commit so the job's scan can see this conversation.
+      inbox_id = inbox.id
+      ActiveRecord.after_all_transactions_commit do
+        AutoAssignment::AssignmentJob.enqueue_for_inbox(inbox_id)
+      end
+    elsif saved_change_to_id?
+      # Legacy (V1) assignment for new conversations stays post-save: their status is only
+      # finalized by before_create callbacks, which run after before_save.
+      AutoAssignment::AgentAssignmentService.new(conversation: self, allowed_agent_ids: legacy_allowed_agent_ids).perform
     end
+  end
+
+  def legacy_allowed_agent_ids
+    # If conversation has a team, only consider team members for assignment
+    team_id.present? ? team_member_ids_with_capacity : inbox.member_ids_with_assignment_capacity
   end
 
   def conversation_status_changed_to_resolved_or_snoozed?
@@ -37,9 +57,13 @@ module AutoAssignmentHandler
 
   def should_run_auto_assignment?
     return false unless inbox.enable_auto_assignment?
+    # Legacy (V1) assignment has no catch-up when the inbox opens, the same as when no
+    # agent is online: what arrived while closed waits in the unassigned list.
+    return false if inbox.assignment_closed?
     # Assignment V2: Resolved/snoozed conversations still have an assignee, so bypass the
     # assignee-blank check below. The AssignmentJob needs to run to rebalance assignments.
     return true if conversation_status_changed_to_resolved_or_snoozed?
+    return false if assignee_agent_bot_id.present?
 
     # run only if assignee is blank or doesn't have access to inbox
     assignee.blank? || inbox.members.exclude?(assignee)

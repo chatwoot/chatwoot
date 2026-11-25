@@ -5,7 +5,7 @@ describe Whatsapp::ContactInboxConsolidationService do
     create(:channel_whatsapp, provider: 'baileys', validate_provider_config: false)
   end
   let(:inbox) { whatsapp_channel.inbox }
-  let(:phone) { '5511912345678' }
+  let(:phone) { '5511998765432' }
   let(:lid) { '12345678' }
   let(:identifier) { "#{lid}@lid" }
 
@@ -270,6 +270,96 @@ describe Whatsapp::ContactInboxConsolidationService do
           expect(contact.reload.identifier).to eq(identifier)
           expect(conflicting_contact.reload.identifier).to be_nil
         end
+      end
+    end
+
+    context 'when the stored phone carries the Brazilian ninth digit and the webhook delivers the canonical number without it' do
+      let(:phone) { '551198765432' }
+      let(:stored_phone) { '5511998765432' }
+
+      context 'when a phone-based contact_inbox exists under the other variant' do
+        let!(:contact) { create(:contact, account: inbox.account, phone_number: "+#{stored_phone}") }
+        let!(:phone_contact_inbox) { create(:contact_inbox, inbox: inbox, contact: contact, source_id: stored_phone) }
+
+        it 'migrates the contact_inbox to lid and aligns the phone to the canonical number' do
+          service = described_class.new(inbox: inbox, phone: phone, lid: lid, identifier: identifier)
+
+          expect { service.perform }.not_to change(ContactInbox, :count)
+
+          expect(phone_contact_inbox.reload.source_id).to eq(lid)
+          expect(contact.reload.identifier).to eq(identifier)
+          expect(contact.phone_number).to eq("+#{phone}")
+        end
+
+        it 'prefers an exact source_id match over a variant' do
+          exact_contact = create(:contact, account: inbox.account, phone_number: "+#{phone}")
+          exact_contact_inbox = create(:contact_inbox, inbox: inbox, contact: exact_contact, source_id: phone)
+
+          described_class.new(inbox: inbox, phone: phone, lid: lid, identifier: identifier).perform
+
+          expect(exact_contact_inbox.reload.source_id).to eq(lid)
+          expect(phone_contact_inbox.reload.source_id).to eq(stored_phone)
+        end
+
+        it 'merges a duplicate lid contact created by a previous reply back into the variant phone contact' do
+          lid_contact = create(:contact, account: inbox.account, phone_number: "+#{phone}", identifier: identifier, name: lid)
+          lid_contact_inbox = create(:contact_inbox, inbox: inbox, contact: lid_contact, source_id: lid)
+          lid_conversation = create(:conversation, inbox: inbox, contact: lid_contact, contact_inbox: lid_contact_inbox)
+
+          described_class.new(inbox: inbox, phone: phone, lid: lid, identifier: identifier).perform
+
+          expect(ContactInbox.exists?(lid_contact_inbox.id)).to be(false)
+          expect(Contact.exists?(lid_contact.id)).to be(false)
+          expect(phone_contact_inbox.reload.source_id).to eq(lid)
+          expect(contact.reload.identifier).to eq(identifier)
+          expect(contact.phone_number).to eq("+#{phone}")
+          expect(lid_conversation.reload.contact_id).to eq(contact.id)
+          expect(lid_conversation.contact_inbox_id).to eq(phone_contact_inbox.id)
+        end
+      end
+
+      context 'when the contact exists under the other variant without a phone-based contact_inbox' do
+        let!(:contact) { create(:contact, account: inbox.account, phone_number: "+#{stored_phone}") }
+        let!(:old_contact_inbox) { create(:contact_inbox, inbox: inbox, contact: contact, source_id: '999999999') }
+
+        it 'updates the existing contact_inbox source_id to lid' do
+          described_class.new(inbox: inbox, phone: phone, lid: lid, identifier: identifier).perform
+
+          expect(old_contact_inbox.reload.source_id).to eq(lid)
+          expect(contact.reload.identifier).to eq(identifier)
+        end
+      end
+    end
+
+    context 'when the stored phone misses the Brazilian ninth digit and the webhook delivers it' do
+      let(:phone) { '5511998765432' }
+      let(:stored_phone) { '551198765432' }
+
+      let!(:contact) { create(:contact, account: inbox.account, phone_number: "+#{stored_phone}") }
+      let!(:phone_contact_inbox) { create(:contact_inbox, inbox: inbox, contact: contact, source_id: stored_phone) }
+
+      it 'migrates the contact_inbox to lid and aligns the phone to the canonical number' do
+        described_class.new(inbox: inbox, phone: phone, lid: lid, identifier: identifier).perform
+
+        expect(phone_contact_inbox.reload.source_id).to eq(lid)
+        expect(contact.reload.phone_number).to eq("+#{phone}")
+      end
+    end
+
+    context 'when the stored phone is the Argentinian mobile form and the webhook delivers the number without the 9' do
+      let(:phone) { '541112345678' }
+      let(:stored_phone) { '5491112345678' }
+
+      let!(:contact) { create(:contact, account: inbox.account, phone_number: "+#{stored_phone}") }
+      let!(:phone_contact_inbox) { create(:contact_inbox, inbox: inbox, contact: contact, source_id: stored_phone) }
+
+      # A 54 number without the 9 is a valid landline of its own, so the two forms are not one line:
+      # synthesizing the 549 alias here could answer a landline through a different subscriber's thread.
+      it 'leaves the contact stored under the mobile form alone' do
+        described_class.new(inbox: inbox, phone: phone, lid: lid, identifier: identifier).perform
+
+        expect(phone_contact_inbox.reload.source_id).to eq(stored_phone)
+        expect(contact.reload.phone_number).to eq("+#{stored_phone}")
       end
     end
   end

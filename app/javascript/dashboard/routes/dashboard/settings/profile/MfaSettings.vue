@@ -5,6 +5,8 @@ import { useRouter, useRoute } from 'vue-router';
 import { parseBoolean } from '@chatwoot/utils';
 import mfaAPI from 'dashboard/api/mfa';
 import { useAlert } from 'dashboard/composables';
+import { emitter } from 'shared/helpers/mitt';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 import MfaStatusCard from './MfaStatusCard.vue';
 import MfaSetupWizard from './MfaSetupWizard.vue';
 import MfaManagementActions from './MfaManagementActions.vue';
@@ -16,6 +18,7 @@ const route = useRoute();
 
 // State
 const mfaEnabled = ref(false);
+const mfaEnforced = ref(false);
 const backupCodesGenerated = ref(false);
 const showSetup = ref(false);
 const provisioningUri = ref('');
@@ -44,6 +47,7 @@ onMounted(async () => {
   try {
     const response = await mfaAPI.get();
     mfaEnabled.value = response.data.enabled;
+    mfaEnforced.value = response.data.enforced;
     backupCodesGenerated.value = response.data.backup_codes_generated;
   } catch (error) {
     // Handle error silently
@@ -73,13 +77,26 @@ const startMfaSetup = async () => {
   }
 };
 
+// Complete MFA setup
+const completeMfaSetup = () => {
+  mfaEnabled.value = true;
+  backupCodesGenerated.value = true;
+  showSetup.value = false;
+  emitter.emit(BUS_EVENTS.MFA_STATE_CHANGED);
+  useAlert(t('MFA_SETTINGS.SETUP.SUCCESS'));
+};
+
 // Verify OTP code
 const verifyCode = async verificationCode => {
   try {
     const response = await mfaAPI.verify(verificationCode);
-    // Store backup codes returned from verification
+    // Store backup codes returned from verification; the wizard advances to
+    // the backup step when they arrive. Without fresh codes there is no
+    // backup step to show, so finish directly.
     if (response.data.backup_codes) {
       backupCodes.value = response.data.backup_codes;
+    } else {
+      completeMfaSetup();
     }
     return true;
   } catch (error) {
@@ -88,14 +105,6 @@ const verifyCode = async verificationCode => {
     );
     throw error;
   }
-};
-
-// Complete MFA setup
-const completeMfaSetup = () => {
-  mfaEnabled.value = true;
-  backupCodesGenerated.value = true;
-  showSetup.value = false;
-  useAlert(t('MFA_SETTINGS.SETUP.SUCCESS'));
 };
 
 // Cancel setup
@@ -110,6 +119,7 @@ const disableMfa = async ({ password, otpCode, backupCode }) => {
     mfaEnabled.value = false;
     backupCodesGenerated.value = false;
     managementActionsRef.value?.resetDisableForm();
+    emitter.emit(BUS_EVENTS.MFA_STATE_CHANGED);
     useAlert(t('MFA_SETTINGS.DISABLE.SUCCESS'));
   } catch (error) {
     useAlert(t('MFA_SETTINGS.DISABLE.ERROR'));
@@ -123,6 +133,7 @@ const regenerateBackupCodes = async ({ otpCode }) => {
     backupCodes.value = response.data.backup_codes;
     managementActionsRef.value?.resetRegenerateForm();
     managementActionsRef.value?.showBackupCodesDialog();
+    emitter.emit(BUS_EVENTS.MFA_STATE_CHANGED);
     useAlert(t('MFA_SETTINGS.REGENERATE.SUCCESS'));
   } catch (error) {
     useAlert(t('MFA_SETTINGS.REGENERATE.ERROR'));
@@ -164,6 +175,7 @@ const regenerateBackupCodes = async ({ otpCode }) => {
       <MfaManagementActions
         ref="managementActionsRef"
         :mfa-enabled="mfaEnabled"
+        :mfa-enforced="mfaEnforced"
         :backup-codes="backupCodes"
         @disable-mfa="disableMfa"
         @regenerate-backup-codes="regenerateBackupCodes"

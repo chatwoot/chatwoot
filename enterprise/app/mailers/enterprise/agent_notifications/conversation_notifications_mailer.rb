@@ -5,7 +5,7 @@ module Enterprise::AgentNotifications::ConversationNotificationsMailer
     @agent = agent
     @conversation = conversation
     @sla_policy = sla_policy
-    subject = I18n.t('mailer.agent_notifications.sla_missed_first_response.subject', conversation_id: @conversation.display_id)
+    subject = "Conversation [ID - #{@conversation.display_id}] missed SLA for first response"
     @action_url = app_account_conversation_url(account_id: @conversation.account_id, id: @conversation.display_id)
     send_mail_with_liquid(to: @agent.email, subject: subject) and return
   end
@@ -17,8 +17,7 @@ module Enterprise::AgentNotifications::ConversationNotificationsMailer
     @conversation = conversation
     @sla_policy = sla_policy
     @action_url = app_account_conversation_url(account_id: @conversation.account_id, id: @conversation.display_id)
-    subject = I18n.t('mailer.agent_notifications.sla_missed_next_response.subject', conversation_id: @conversation.display_id)
-    send_mail_with_liquid(to: @agent.email, subject: subject) and return
+    send_mail_with_liquid(to: @agent.email, subject: "Conversation [ID - #{@conversation.display_id}] missed SLA for next response") and return
   end
 
   def sla_missed_resolution(conversation, agent, sla_policy)
@@ -28,7 +27,17 @@ module Enterprise::AgentNotifications::ConversationNotificationsMailer
     @conversation = conversation
     @sla_policy = sla_policy
     @action_url = app_account_conversation_url(account_id: @conversation.account_id, id: @conversation.display_id)
-    subject = I18n.t('mailer.agent_notifications.sla_missed_resolution.subject', conversation_id: @conversation.display_id)
+    send_mail_with_liquid(to: @agent.email, subject: "Conversation [ID - #{@conversation.display_id}] missed SLA for resolution time") and return
+  end
+
+  def voice_call_missed(conversation, agent, message)
+    return unless smtp_config_set_or_development?
+
+    @agent = agent
+    @conversation = conversation
+    @message = message
+    subject = "#{@agent.available_name}, Missed call from #{@conversation.contact&.name.presence || 'a contact'} in #{@conversation.inbox.name}"
+    @action_url = app_account_conversation_url(account_id: @conversation.account_id, id: @conversation.display_id)
     send_mail_with_liquid(to: @agent.email, subject: subject) and return
   end
 

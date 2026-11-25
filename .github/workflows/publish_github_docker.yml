@@ -36,11 +36,6 @@ jobs:
           platform=${{ matrix.platform }}
           echo "PLATFORM_PAIR=${platform//\//-}" >> $GITHUB_ENV
 
-      - name: Strip enterprise code
-        run: |
-          rm -rf enterprise
-          rm -rf spec/enterprise
-
       - name: Update version in app.yml
         run: |
           if [[ "$GIT_REF" =~ ^v(.+)$ ]]; then
@@ -77,10 +72,9 @@ jobs:
           context: .
           file: docker/Dockerfile
           platforms: ${{ matrix.platform }}
-          push: ${{ github.event_name == 'release' || github.event_name == 'workflow_dispatch' }}
-          tags: |
-            ${{ env.GITHUB_REPO }}:${{ env.SANITIZED_REF }}
-            ${{ env.GITHUB_REPO }}:latest
+          # By digest only: the merge job is the one that tags, so a platform that fails to build
+          # or push leaves the version tag and :latest where they were instead of single-platform.
+          outputs: type=image,name=${{ env.GITHUB_REPO }},push-by-digest=true,name-canonical=true,push=${{ github.event_name == 'release' || github.event_name == 'workflow_dispatch' }}
 
       - name: Export digest
         run: |

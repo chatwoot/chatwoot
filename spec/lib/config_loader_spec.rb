@@ -15,6 +15,13 @@ describe ConfigLoader do
         subject
         expect(InstallationConfig.find_by(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS')).to be_truthy
       end
+
+      it 'creates a locked Shopify plan catalog' do
+        trigger
+
+        shopify_plans = InstallationConfig.find_by!(name: 'CHATWOOT_SHOPIFY_PLANS')
+        expect(shopify_plans).to have_attributes(value: [], locked: true)
+      end
     end
 
     context 'with reconcile_only_new option' do
@@ -40,6 +47,28 @@ describe ConfigLoader do
         allow(class_instance).to receive(:general_configs).and_return([updated_config])
         described_class.new.process({ reconcile_only_new: false })
         expect(InstallationConfig.find_by(name: 'WHO').value).to eq('covid 19')
+      end
+    end
+
+    it 'preserves feature flag column metadata in account level defaults' do
+      Dir.mktmpdir do |config_path|
+        File.write("#{config_path}/installation_config.yml", <<~YAML)
+          - name: TEST_CONFIG
+            value: test
+            locked: true
+        YAML
+        File.write("#{config_path}/features.yml", <<~YAML)
+          - name: extension_feature
+            display_name: Extension Feature
+            enabled: false
+            column: feature_flags_ext_1
+        YAML
+
+        described_class.new.process(config_path: config_path)
+
+        expect(InstallationConfig.find_by(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS').value).to include(
+          a_hash_including('name' => 'extension_feature', 'column' => 'feature_flags_ext_1')
+        )
       end
     end
   end

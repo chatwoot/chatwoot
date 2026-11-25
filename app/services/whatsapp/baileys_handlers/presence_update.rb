@@ -28,8 +28,9 @@ module Whatsapp::BaileysHandlers::PresenceUpdate
   def extract_presence_identifiers(data)
     jid = data[:id]
     lid = extract_jid_user(jid) if jid&.include?('@lid')
-    phone = extract_jid_user(jid) if jid&.include?('@s.whatsapp.net')
-    phone ||= extract_jid_user(data[:jidAlt]) if data[:jidAlt].present?
+    # Whichever of the two addresses is a phone one, asked the same way everywhere else:
+    # a phone number is what a phone jid carries, never what a digit string looks like.
+    phone = phone_from_jid(jid) || phone_from_jid(data[:jidAlt])
     [lid, phone]
   end
 

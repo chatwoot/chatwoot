@@ -1,0 +1,21 @@
+{
+  "v": 1,
+  "id": "01920000-0000-7000-8000-000000000046",
+  "type": "call.offer",
+  "sid": "9f1c0f4e-6a2b-4c8e-9d1a-2b3c4d5e6f70",
+  "epoch": 7,
+  "seq": 46,
+  "ts": 1755440000123,
+  "inst": "connector-a1b2c3",
+  "payload": {
+    "call_id": "call_01j9y1",
+    "from": {
+      "phone": "5541999990000",
+      "lid": "182736451928374",
+      "push_name": "Ana Souza"
+    },
+    "video": false,
+    "timestamp": 1755440000123,
+    "sdp": "v=0\r\no=- 4611731400430051336 2 IN IP4 127.0.0.1\r\ns=-\r\nt=0 0\r\na=group:BUNDLE 0\r\nm=audio 9 UDP/TLS/RTP/SAVPF 9 0\r\nc=IN IP4 0.0.0.0\r\na=mid:0\r\na=sendrecv\r\na=rtpmap:9 G722/8000\r\na=rtpmap:0 PCMU/8000\r\n"
+  }
+}

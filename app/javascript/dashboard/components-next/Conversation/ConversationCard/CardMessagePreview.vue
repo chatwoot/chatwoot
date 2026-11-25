@@ -1,11 +1,12 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { useMapGetter } from 'dashboard/composables/store';
+import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+import MessagePreview from './MessagePreview.vue';
 
 const props = defineProps({
   conversation: {
@@ -16,7 +17,6 @@ const props = defineProps({
 
 const { t } = useI18n();
 
-const { getPlainText } = useMessageFormatter();
 const currentUserId = useMapGetter('getCurrentUserID');
 
 const isRemovedReaction = msg =>
@@ -56,37 +56,43 @@ const previewMessage = computed(() => {
   );
 });
 
-const lastNonActivityMessageContent = computed(() => {
+// A reaction's own content is a bare emoji, which reads as nothing in a list. What the
+// row should say is who reacted, with what, and to which message. MessagePreview renders
+// whatever `content` carries, so the sentence is built here and handed over as content.
+const reactionSentence = computed(() => {
   const msg = previewMessage.value || {};
-  const { customAttributes = {} } = props.conversation;
-  const { email: { subject } = {} } = customAttributes;
-
   const isActiveReaction =
     msg?.contentAttributes?.isReaction &&
     !msg?.contentAttributes?.deleted &&
     !!msg?.content;
-  if (isActiveReaction) {
-    const senderId = msg.sender?.id;
-    // Multi-device: agent reacts from the WhatsApp mobile app on the same
-    // number as the inbox; the echo is outgoing without an agent. Treat it
-    // as "you" so the preview doesn't show a blank reactor name.
-    const isOwnInboxReaction =
-      msg?.messageType === MESSAGE_TYPE.OUTGOING && !senderId;
-    const senderName =
-      senderId === currentUserId.value || isOwnInboxReaction
-        ? t('CONVERSATION.REACTIONS.YOU')
-        : msg.sender?.name || '';
-    const params = {
-      sender: senderName,
-      emoji: msg.content,
-      snippet: msg.inReplyToSnippet,
-    };
-    return params.snippet
-      ? t('CHAT_LIST.REACTED_TO_SNIPPET', params)
-      : t('CHAT_LIST.REACTED', params);
-  }
+  if (!isActiveReaction) return null;
 
-  return getPlainText(subject || msg?.content || t('CHAT_LIST.NO_CONTENT'));
+  const senderId = msg.sender?.id;
+  // Multi-device: agent reacts from the WhatsApp mobile app on the same
+  // number as the inbox; the echo is outgoing without an agent. Treat it
+  // as "you" so the preview doesn't show a blank reactor name.
+  const isOwnInboxReaction =
+    msg?.messageType === MESSAGE_TYPE.OUTGOING && !senderId;
+  const senderName =
+    senderId === currentUserId.value || isOwnInboxReaction
+      ? t('CONVERSATION.REACTIONS.YOU')
+      : msg.sender?.name || '';
+  const params = {
+    sender: senderName,
+    emoji: msg.content,
+    snippet: msg.inReplyToSnippet,
+  };
+  return params.snippet
+    ? t('CHAT_LIST.REACTED_TO_SNIPPET', params)
+    : t('CHAT_LIST.REACTED', params);
+});
+
+const lastNonActivityMessage = computed(() => {
+  const message = previewMessage.value ?? {};
+  return useSnakeCase(
+    { ...message, content: reactionSentence.value ?? message.content },
+    { deep: true }
+  );
 });
 
 const assignee = computed(() => {
@@ -106,9 +112,12 @@ const unreadMessagesCount = computed(() => {
 
 <template>
   <div class="flex items-end w-full gap-2 pb-1">
-    <p class="w-full mb-0 text-sm leading-7 text-n-slate-12 line-clamp-2">
-      {{ lastNonActivityMessageContent }}
-    </p>
+    <MessagePreview
+      :message="lastNonActivityMessage"
+      multi-line
+      class="w-full"
+      :class="unreadMessagesCount > 0 ? 'text-n-slate-12' : 'text-n-slate-11'"
+    />
     <div class="flex items-center flex-shrink-0 gap-2 pb-2">
       <Avatar
         v-if="assignee.name"

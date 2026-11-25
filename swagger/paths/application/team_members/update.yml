@@ -4,6 +4,7 @@ operationId: update-agents-in-team
 summary: Update Agents in Team
 description: All agents except the one passed in params will be removed
 security:
+  - userBearerAuth: []
   - userApiKey: []
 requestBody:
   required: true

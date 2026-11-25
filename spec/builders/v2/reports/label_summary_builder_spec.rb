@@ -325,8 +325,11 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
       let(:account2_builder) do
         described_class.new(account: account2, params: {
                               business_hours: false,
-                              since: test_date.to_time.to_i.to_s,
-                              until: test_date.end_of_day.to_time.to_i.to_s,
+                              # Date#to_time reads the system zone while Date#end_of_day reads Time.zone, so
+                              # the two ends of this window came from different clocks. Anywhere west of UTC
+                              # that pushed `since` past the events travel_to had just written.
+                              since: test_date.in_time_zone.to_i.to_s,
+                              until: test_date.in_time_zone.end_of_day.to_i.to_s,
                               timezone_offset: 0
                             })
       end

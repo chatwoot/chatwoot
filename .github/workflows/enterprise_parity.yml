@@ -1,0 +1,38 @@
+# enterprise/ and spec/enterprise/ stay identical to the upstream release in VERSION_CW, and
+# nothing outside them reopens or patches Enterprise code: the fork does not modify it. Merging an upstream release moves both VERSION_CW and
+# those directories together, so it passes by construction.
+name: Enterprise parity
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  parity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Fetch the upstream release this branch tracks
+        run: |
+          tag="v$(cat VERSION_CW)"
+          git fetch --no-tags --depth=1 https://github.com/chatwoot/chatwoot.git "refs/tags/$tag:refs/tags/$tag"
+
+      - name: Compare enterprise/ and spec/enterprise/ with it
+        run: sh bin/validate_enterprise_parity
+
+      # Ruby without the bundle: the check reads the source with Prism, which ships with Ruby.
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4'
+
+      - name: Check that nothing outside enterprise/ patches it
+        run: ruby bin/validate_enterprise_isolation

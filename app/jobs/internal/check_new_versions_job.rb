@@ -1,26 +1,19 @@
 class Internal::CheckNewVersionsJob < ApplicationJob
   queue_as :scheduled_jobs
 
-  def perform
+  # rise-brasil: updates for this fork are rolled out by us, so installations never look up or
+  # advertise a newer upstream release. Clearing the key drops a version stored by an older build,
+  # which is what the update banner, the account settings notice and the super admin brand read.
+  # An install running Enterprise still holds a Chatwoot plan, which only comes from the hub:
+  # Enterprise's override reads `@instance_info` to store it, so the hub sync stays.
+  def perform(refresh_billing: false)
     return unless Rails.env.production?
 
-    latest_version = fetch_latest_github_release
-    ::Redis::Alfred.set(::Redis::Alfred::LATEST_CHATWOOT_VERSION, latest_version) if latest_version.present?
-  end
+    ::Redis::Alfred.delete(::Redis::Alfred::LATEST_CHATWOOT_VERSION)
+    return true unless ChatwootApp.enterprise?
 
-  private
-
-  def fetch_latest_github_release
-    response = HTTParty.get('https://api.github.com/repos/fazer-ai/chatwoot/releases/latest', timeout: 5)
-    unless response.success?
-      Rails.logger.error "Failed to fetch latest GitHub release: HTTP #{response.code} - #{response.body}"
-      return nil
-    end
-
-    response['tag_name']&.sub(/^v/, '')
-  rescue StandardError => e
-    Rails.logger.error "Failed to fetch latest GitHub release: #{e.message}"
-    nil
+    @instance_info = ChatwootHub.sync_with_hub(refresh_billing: refresh_billing)
+    @instance_info.present?
   end
 end
 

@@ -67,6 +67,73 @@ RSpec.describe ReplyMailbox do
       end
     end
 
+    context 'when the mail replies to a forwarded email' do
+      let(:email_channel) { create(:channel_email, email: 'test@example.com', account: account) }
+      let(:conversation) { create(:conversation, assignee: agent, inbox: email_channel.inbox, account: account) }
+      let(:supplier_reply) do
+        create_inbound_email_from_mail(from: 'supplier@example.com', to: email_channel.email, subject: 'Re: Fwd: Hello',
+                                       in_reply_to: '<forward/1@example.com>', body: 'Reply from the supplier')
+      end
+
+      before do
+        create(:message, conversation: conversation, account: account, message_type: :outgoing, source_id: 'forward/1@example.com',
+                         content_attributes: { forwarded_message_id: 1, to_emails: ['supplier@example.com'] })
+      end
+
+      it 'starts a new conversation with the forward recipient instead of using the original conversation' do
+        expect { described_class.receive supplier_reply }.to change(account.conversations, :count).by(1)
+
+        expect(conversation.messages.incoming).to be_empty
+        expect(account.conversations.last.contact.email).to eq('supplier@example.com')
+        expect(account.conversations.last.messages.last.content).to include('Reply from the supplier')
+      end
+
+      it 'keeps replies from different forward recipients in separate conversations' do
+        described_class.receive supplier_reply
+        vendor_reply = create_inbound_email_from_mail(from: 'vendor@example.com', to: email_channel.email, subject: 'Re: Fwd: Hello',
+                                                      in_reply_to: '<forward/1@example.com>', body: 'Reply from the vendor')
+
+        expect { described_class.receive vendor_reply }.to change(account.conversations, :count).by(1)
+
+        expect(account.conversations.last.contact.email).to eq('vendor@example.com')
+        expect(account.conversations.find_by(contact: Contact.from_email('supplier@example.com')).messages.count).to eq(1)
+      end
+    end
+
+    context 'when new conversation email contains null bytes' do
+      let(:email_channel) { create(:channel_email, email: 'test@example.com', account: account) }
+      let(:null_byte_mail) { create_inbound_email_from_mail(from: 'sender@example.com', to: email_channel.email, subject: 'Hello') }
+      let(:mail_with_null_bytes) do
+        Mail.new.tap do |mail|
+          mail.from = 'sender@example.com'
+          mail.to = email_channel.email
+          mail.subject = "Hello\u0000"
+          mail.message_id = "message\u0000@example.com"
+          mail['In-Reply-To'] = "source\u0000@example.com"
+          mail.references = ["reference\u0000@example.com"]
+          mail.content_type = 'text/plain'
+          mail.body = "Body\u0000 text"
+        end
+      end
+
+      before do
+        allow(null_byte_mail).to receive(:mail).and_return(mail_with_null_bytes)
+      end
+
+      it 'creates sanitized conversation and message records' do
+        expect { described_class.receive null_byte_mail }.to change(Conversation, :count).by(1)
+
+        conversation = Conversation.last
+        message = conversation.messages.last
+
+        expect(conversation.additional_attributes['in_reply_to']).to eq('source@example.com')
+        expect(conversation.additional_attributes['mail_subject']).to eq('Hello')
+        expect(message.source_id).to eq('message@example.com')
+        expect(message.content).to eq('Body text')
+        expect(message.content_attributes.to_json).not_to include('\u0000')
+      end
+    end
+
     context 'with inline attachments' do
       let(:mail_with_inline_images) { create_inbound_email_from_fixture('mail_with_inline_images.eml') }
       let(:described_subject) { described_class.receive mail_with_inline_images }
@@ -689,6 +756,42 @@ RSpec.describe ReplyMailbox do
 
         described_class.receive bcc_mail
         expect(conversation.present?).to be(false)
+      end
+    end
+
+    # The push path (relay/ingress) has to answer the inbox setting the same way the IMAP path does,
+    # otherwise the behaviour would depend on how the mailbox happens to receive its mail.
+    describe "continuing the contact's open case" do
+      let(:sender) { create(:contact, email: 'sony@chatwoot.com', account: account) }
+
+      before do
+        create(:contact_inbox, contact: sender, inbox: channel_email.inbox)
+      end
+
+      context 'when the inbox continues the open case' do
+        before { channel_email.update!(continue_open_conversation: true) }
+
+        it 'lands in the open conversation instead of starting another one' do
+          open_conversation = create(:conversation, account: account, inbox: channel_email.inbox, contact: sender, status: :open)
+
+          expect { described_class.receive support_mail }.not_to change(Conversation, :count)
+
+          expect(open_conversation.reload.messages.size).to eq(1)
+        end
+
+        it 'starts a new conversation when the previous one is resolved' do
+          create(:conversation, account: account, inbox: channel_email.inbox, contact: sender, status: :resolved)
+
+          expect { described_class.receive support_mail }.to change(Conversation, :count).by(1)
+        end
+      end
+
+      context 'when the inbox does not continue the open case' do
+        it 'starts a new conversation even with one open' do
+          create(:conversation, account: account, inbox: channel_email.inbox, contact: sender, status: :open)
+
+          expect { described_class.receive support_mail }.to change(Conversation, :count).by(1)
+        end
       end
     end
   end

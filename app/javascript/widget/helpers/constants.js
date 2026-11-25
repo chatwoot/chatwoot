@@ -14,3 +14,6 @@ export const MESSAGE_TYPE = {
 };
 
 export const WOOT_PREFIX = 'chatwoot-widget:';
+
+// How long the typing bubble stays up without a new signal from the agent side.
+export const AGENT_TYPING_TIMEOUT = 30000;

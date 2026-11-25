@@ -192,10 +192,15 @@ class InternalChatListener < BaseListener
     }
   end
 
+  # Every internal chat delivery goes through here, including the token lists the controllers capture
+  # before a destroy, so this is where recipients without internal chat access are dropped.
   def broadcast(account, tokens, event_name, data)
     return if tokens.blank?
 
+    tokens = FeatureAccess.new(account).users_with('internal_chat.access').where(pubsub_token: tokens.uniq).pluck(:pubsub_token)
+    return if tokens.empty?
+
     payload = data.merge(account_id: account.id)
-    ::ActionCableBroadcastJob.perform_later(tokens.uniq, event_name, payload)
+    ::ActionCableBroadcastJob.perform_later(tokens, event_name, payload)
   end
 end

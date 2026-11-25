@@ -43,6 +43,11 @@ class Twilio::CsatTemplateService
     { success: response.success?, response_body: response.body }
   end
 
+  # Three answers and not two. "Twilio says this template is not approved" and "we could
+  # not ask Twilio" were reported identically, and they are not the same fact: the first
+  # is work for the operator, who has to sort the template out; the second is transport,
+  # which fixes itself. A caller that reads them as one thing cannot say which happened,
+  # and the one caller there is says the wrong reason on the timeline because of it.
   def get_template_status(content_sid)
     return { success: false, error: 'No content SID provided' } unless content_sid
 
@@ -53,7 +58,7 @@ class Twilio::CsatTemplateService
     build_template_status_response(content_sid, template_response[:data], approval_response)
   rescue StandardError => e
     Rails.logger.error "Error fetching Twilio template status: #{e.message}"
-    { success: false, error: e.message }
+    { success: false, unknown: true, error: e.message }
   end
 
   private

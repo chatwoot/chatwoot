@@ -1,8 +1,13 @@
 class WebhookJob < ApplicationJob
   queue_as :medium
 
-  retry_on CustomExceptions::Webhook::RetriableError, wait: :polynomially_longer, attempts: 5
-  discard_on CustomExceptions::Webhook::RetriableError do |job, error|
+  # ONE handler, on purpose. `retry_on` and `discard_on` are both built on `rescue_from`, which
+  # appends handlers and then resolves them with `reverse_each`, so the LAST matching declaration
+  # wins. Declared as two statements for the same exception class, the `discard_on` shadowed the
+  # `retry_on` above it: the job was discarded on its first failure and the five attempts never ran.
+  # `retry_on`'s own block already runs exactly when the attempts are exhausted, which is what the
+  # separate `discard_on` was reaching for.
+  retry_on CustomExceptions::Webhook::RetriableError, wait: :polynomially_longer, attempts: 5 do |job, error|
     payload = job.arguments[1]
     webhook_type = job.arguments[2] || :account_webhook
 

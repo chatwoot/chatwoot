@@ -1,15 +1,17 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
-import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useMacroExecution } from 'dashboard/composables/useMacroExecution';
+import { useOrderedMacros } from 'dashboard/composables/useOrderedMacros';
 
 import Draggable from 'vuedraggable';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import MacroItem from './MacroItem.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import ConversationResolveAttributesModal from 'dashboard/components-next/ConversationWorkflow/ConversationResolveAttributesModal.vue';
 
-defineProps({
+const props = defineProps({
   conversationId: {
     type: [Number, String],
     required: true,
@@ -18,46 +20,32 @@ defineProps({
 
 const store = useStore();
 const { accountScopedUrl } = useAccount();
-const { uiSettings, updateUISettings } = useUISettings();
+const { orderedMacros } = useOrderedMacros();
+const {
+  executingMacroId,
+  execute,
+  submitPendingAttributes,
+  dismissPendingAttributes,
+} = useMacroExecution();
 
 const dragging = ref(false);
+const resolveAttributesModalRef = ref(null);
 
 const macros = useMapGetter('macros/getMacros');
 const uiFlags = useMapGetter('macros/getUIFlags');
 
-const MACROS_ORDER_KEY = 'macros_display_order';
-
-const orderedMacros = computed({
-  get: () => {
-    // Get saved order array and current macros
-    const savedOrder = uiSettings.value?.[MACROS_ORDER_KEY] ?? [];
-    const currentMacros = macros.value ?? [];
-
-    // Return unmodified macros if not present or macro is not available
-    if (!savedOrder.length || !currentMacros.length) {
-      return currentMacros;
-    }
-
-    // Create a Map of id -> position for faster lookups
-    const orderMap = new Map(savedOrder.map((id, index) => [id, index]));
-
-    return [...currentMacros].sort((a, b) => {
-      // Use Infinity for items not in saved order (pushes them to end)
-      const aPos = orderMap.get(a.id) ?? Infinity;
-      const bPos = orderMap.get(b.id) ?? Infinity;
-      return aPos - bPos;
-    });
-  },
-  set: newOrder => {
-    // Update settings with array of ids from new order
-    updateUISettings({
-      [MACROS_ORDER_KEY]: newOrder.map(({ id }) => id),
-    });
-  },
-});
-
 const onDragEnd = () => {
   dragging.value = false;
+};
+
+const onExecuteMacro = macro => {
+  const pending = execute(macro, props.conversationId);
+  if (pending) {
+    resolveAttributesModalRef.value?.open(
+      pending.missing,
+      pending.customAttributes
+    );
+  }
 };
 
 onMounted(() => {
@@ -103,10 +91,16 @@ onMounted(() => {
         <MacroItem
           :key="element.id"
           :macro="element"
-          :conversation-id="conversationId"
+          :is-executing="executingMacroId === element.id"
+          @execute="onExecuteMacro(element)"
         />
       </template>
     </Draggable>
+    <ConversationResolveAttributesModal
+      ref="resolveAttributesModalRef"
+      @submit="submitPendingAttributes"
+      @close="dismissPendingAttributes"
+    />
   </div>
 </template>
 

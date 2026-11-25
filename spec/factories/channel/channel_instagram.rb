@@ -12,7 +12,7 @@ FactoryBot.define do
                           access_token: channel.access_token,
                           subscribed_fields: %w[messages message_reactions messaging_seen]
                         })
-                  .to_return(status: 200, body: '', headers: {})
+                  .to_return(status: 200, body: { success: true }.to_json, headers: { 'Content-Type' => 'application/json' })
 
       WebMock::API.stub_request(:delete, "https://graph.instagram.com/v22.0/#{channel.instagram_id}/subscribed_apps")
                   .with(query: {

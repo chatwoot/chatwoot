@@ -1,4 +1,6 @@
 class Linear
+  include Integrations::Linear::RequestOptions
+
   BASE_URL = 'https://api.linear.app/graphql'.freeze
   REVOKE_URL = 'https://api.linear.app/oauth/revoke'.freeze
   PRIORITY_LEVELS = (0..4).to_a
@@ -86,7 +88,8 @@ class Linear
     response = HTTParty.post(
       REVOKE_URL,
       headers: { 'Content-Type' => 'application/x-www-form-urlencoded' },
-      body: { token: token, token_type_hint: token_type_hint }
+      body: { token: token, token_type_hint: token_type_hint },
+      **LINEAR_REQUEST_OPTIONS
     )
     response.success?
   end
@@ -151,7 +154,8 @@ class Linear
     HTTParty.post(
       BASE_URL,
       headers: { 'Authorization' => "Bearer #{@access_token}", 'Content-Type' => 'application/json' },
-      body: payload.to_json
+      body: payload.to_json,
+      **LINEAR_REQUEST_OPTIONS
     )
   end
 

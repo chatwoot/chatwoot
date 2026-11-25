@@ -30,3 +30,5 @@ class InternalChat::ReactionPolicy < ApplicationPolicy
     ch.channel_members.exists?(user_id: @user.id)
   end
 end
+
+InternalChat::ReactionPolicy.prepend_mod_with('InternalChat::ReactionPolicy')

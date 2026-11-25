@@ -14,6 +14,8 @@ import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import MessageBubble from './MessageBubble.vue';
 import MessageEditor from './MessageEditor.vue';
+import { vOnClickOutside } from '@vueuse/components';
+import { useBreakpoints, breakpointsTailwind } from '@vueuse/core';
 
 const props = defineProps({
   channelId: {
@@ -42,6 +44,15 @@ const emit = defineEmits(['close']);
 
 const store = useStore();
 const { t } = useI18n();
+
+const breakpoints = useBreakpoints(breakpointsTailwind);
+const isBelowLarge = breakpoints.smaller('lg');
+
+// The panel only overlays the conversation below lg. As a desktop column it has
+// to stay put when the user clicks a message next to it.
+const closeOnClickOutside = () => {
+  if (isBelowLarge.value) emit('close');
+};
 
 const isLoading = ref(false);
 const isSending = ref(false);
@@ -140,6 +151,7 @@ async function handleSendReply(content, options = {}) {
         channelId: props.channelId,
         parentMessageId: props.parentMessage.id,
         data: { content, also_send_in_channel: !!options.alsoSendInChannel },
+        files: options.files || [],
       });
       deleteThreadDraft();
       await nextTick();
@@ -301,7 +313,13 @@ onBeforeUnmount(() => {
 
 <template>
   <div
-    class="flex h-full w-96 flex-col overflow-x-clip border-l border-n-slate-5 bg-n-solid-1"
+    v-on-click-outside="[
+      closeOnClickOutside,
+      {
+        ignore: ['dialog', '[data-popover-content]', '[data-popover-backdrop]'],
+      },
+    ]"
+    class="fixed inset-y-0 z-40 flex w-full max-w-sm flex-col overflow-x-clip bg-n-solid-1 shadow-lg border-n-slate-5 ltr:right-0 ltr:border-l rtl:left-0 rtl:border-r lg:static lg:h-full lg:w-96 lg:max-w-none lg:shadow-none"
   >
     <div
       class="flex h-[53px] items-center justify-between border-b border-n-slate-5 px-4"

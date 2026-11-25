@@ -66,37 +66,10 @@
         "BTN_TEXT": "Salvar assinatura da mensagem",
         "API_ERROR": "Não foi possível salvar a assinatura! Tente novamente",
         "API_SUCCESS": "Assinatura salva com sucesso",
-        "RESET_TO_DEFAULT": "Restaurar para padrão",
-        "RESET_SUCCESS": "Assinatura da caixa de entrada removida, usando assinatura padrão",
-        "INBOX_SELECTOR": {
-          "LABEL": "Caixa de entrada",
-          "DEFAULT": "Padrão (todas as caixas de entrada)",
-          "CUSTOM": "Personalizada"
-        },
         "IMAGE_UPLOAD_ERROR": "Não foi possível fazer o upload da imagem! Tente novamente",
         "IMAGE_UPLOAD_SUCCESS": "Imagem adicionada com sucesso. Por favor clique em salvar para salvar a assinatura",
         "IMAGE_UPLOAD_SIZE_ERROR": "O tamanho da imagem deve ser menor que {size}MB",
-        "INLINE_IMAGE_WARNING": "Imagens incorporadas coladas foram removidas. Por favor, use o botão enviar imagem para adicionar imagens à sua assinatura.",
-        "SIGNATURE_POSITION": {
-          "LABEL": "Posição da assinatura",
-          "OPTIONS": {
-            "TOP": "Início da mensagem",
-            "BOTTOM": "Final da mensagem"
-          }
-        },
-        "SIGNATURE_SEPARATOR": {
-          "LABEL": "Separador da assinatura",
-          "OPTIONS": {
-            "BLANK": "Linha em branco",
-            "HORIZONTAL_LINE": "Linha horizontal (--)"
-          }
-        },
-        "PREVIEW": {
-          "TITLE": "Pré-visualização da Assinatura",
-          "NOTE": "Esta é a aparência da sua assinatura nas mensagens",
-          "EMPTY": "Digite uma assinatura acima para ver a pré-visualização",
-          "SAMPLE_MESSAGE": "Olá! Obrigado por entrar em contato. Como posso ajudá-lo hoje?"
-        }
+        "INLINE_IMAGE_WARNING": "Imagens incorporadas coladas foram removidas. Por favor, use o botão enviar imagem para adicionar imagens à sua assinatura."
       },
       "MESSAGE_SIGNATURE": {
         "LABEL": "Assinatura da mensagem",
@@ -113,9 +86,21 @@
         "NOTE": "Gerencie recursos adicionais de segurança para sua conta.",
         "MFA_BUTTON": "Gerenciar autenticação de dois fatores "
       },
+      "SESSIONS_SECTION": {
+        "TITLE": "Sessões Ativas",
+        "NOTE": "Estes são os dispositivos atualmente conectados à sua conta.",
+        "CURRENT": "Sessão atual",
+        "REVOKE": "Revogar",
+        "REVOKE_SUCCESS": "Sessão revogada com sucesso",
+        "REVOKE_ERROR": "Não foi possível revogar a sessão. Por favor, tente novamente.",
+        "FETCH_ERROR": "Não foi possível carregar as sessões. Tente novamente.",
+        "LAST_ACTIVE": "Última atividade",
+        "UNKNOWN_DEVICE": "Dispositivo desconhecido"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "Token de acesso",
         "NOTE": "Esse token pode ser usado se você estiver criando uma integração baseada em API",
+        "PAID_PLAN_NOTE": "Os tokens de acesso à API estão disponíveis apenas nos planos pagos.",
         "COPY": "Copiar",
         "RESET": "Reiniciar",
         "CONFIRM_RESET": "Você tem certeza?",
@@ -160,7 +145,7 @@
           "CONDITION_TWO": "Enviar alertas a cada 30 segundos até que todas as conversas atribuídas sejam lidas"
         },
         "SOUND_PERMISSION_ERROR": "A reprodução automática está desativada no seu navegador. Para ouvir alertas automaticamente, habilite a permissão de som nas configurações do seu navegador ou interaja com a página.",
-        "READ_MORE": "Ler mais"
+        "READ_MORE": "Saiba mais"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notificações por e-mail",
@@ -172,7 +157,8 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Enviar notificações por email quando uma nova mensagem é criada em uma conversa que você participa",
         "SLA_MISSED_FIRST_RESPONSE": "Enviar notificações por e-mail quando uma conversa perder a primeira resposta SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Enviar notificações por e-mail quando uma conversa perder o próximo SLA de resposta",
-        "SLA_MISSED_RESOLUTION": "Enviar notificações por e-mail quando uma conversa perder o SLA de resolução"
+        "SLA_MISSED_RESOLUTION": "Enviar notificações por e-mail quando uma conversa perder o SLA de resolução",
+        "VOICE_CALL_MISSED": "Enviar notificações por e-mail quando você perder uma chamada"
       },
       "NOTIFICATIONS": {
         "TITLE": "Preferências de notificação",
@@ -187,7 +173,8 @@
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Uma nova mensagem foi criada em uma conversa que você participa",
           "SLA_MISSED_FIRST_RESPONSE": "Uma conversa perde o SLA de primeira resposta",
           "SLA_MISSED_NEXT_RESPONSE": "Uma conversa perde o SLA da próxima resposta",
-          "SLA_MISSED_RESOLUTION": "Uma conversa perde o SLA de resolução"
+          "SLA_MISSED_RESOLUTION": "Uma conversa perde o SLA de resolução",
+          "VOICE_CALL_MISSED": "Você perdeu uma chamada"
         },
         "BROWSER_PERMISSION": "Ative notificações push em seu navegador para poder recebê-las"
       },
@@ -207,7 +194,8 @@
         "REQUEST_PUSH": "Habilitar notificações push",
         "SLA_MISSED_FIRST_RESPONSE": "Enviar notificações quando uma conversa perder a primeira resposta SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Enviar notificações quando uma conversa perder a próxima resposta SLA",
-        "SLA_MISSED_RESOLUTION": "Enviar notificações quando uma conversa perder resolução de resolução SLA"
+        "SLA_MISSED_RESOLUTION": "Enviar notificações quando uma conversa perder resolução de resolução SLA",
+        "VOICE_CALL_MISSED": "Enviar notificações push quando você perder uma chamada"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Imagem do Perfil"
@@ -231,7 +219,7 @@
         },
         "SET_AVAILABILITY_SUCCESS": "Disponibilidade foi definida com sucesso",
         "SET_AVAILABILITY_ERROR": "Não foi possível definir a disponibilidade, por favor tente novamente",
-        "IMPERSONATING_ERROR": "Não é possível alterar a disponibilidade enquanto personifica um usuário"
+        "IMPERSONATING_ERROR": "Não é possível alterar a disponibilidade enquanto estiver representando um usuário"
       },
       "EMAIL": {
         "LABEL": "Seu e-mail",
@@ -277,9 +265,14 @@
     "EMAIL_VERIFICATION_PENDING": "Parece que você ainda não verificou seu endereço de e-mail. Por favor, verifique sua caixa de entrada pelo e-mail de verificação.",
     "RESEND_VERIFICATION_MAIL": "Reenviar e-mail de verificação",
     "EMAIL_VERIFICATION_SENT": "O e-mail de verificação foi enviado. Por favor, verifique sua caixa de entrada.",
+    "IMPERSONATION": {
+      "MESSAGE": "Você está atuando como {name} ({email}). Todas as suas ações aparecerão como realizadas por esse usuário.",
+      "STOP": "Deixar de atuar como usuário"
+    },
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Conta Suspensa",
-      "MESSAGE": "Sua conta está suspensa. Entre em contato com a equipe de suporte para obter mais informações."
+      "MESSAGE": "Sua conta foi suspensa devido a uma atividade que pode violar nossas políticas. Se você acredita que isso foi um engano, entre em contato com nossa equipe de suporte.",
+      "MANAGE_BILLING": "Gerenciar faturamento"
     },
     "NO_ACCOUNTS": {
       "TITLE": "Nenhuma conta encontrada",
@@ -292,7 +285,8 @@
     "CODE": {
       "BUTTON_TEXT": "Copiar",
       "CODEPEN": "Abrir em CodePen",
-      "COPY_SUCCESSFUL": "Código copiado para área de transferência com sucesso"
+      "COPY_SUCCESSFUL": "Código copiado para área de transferência com sucesso",
+      "COPY_ERROR": "Não foi possível copiar para a área de transferência. Por favor, tente novamente."
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Mostrar Mais",
@@ -312,7 +306,6 @@
     },
     "MEDIA": {
       "IMAGE_UNAVAILABLE": "Esta imagem não está mais disponível.",
-      "AUDIO_UNAVAILABLE": "Este áudio não está mais disponível.",
       "LOADING_FAILED": "Falha no carregamento"
     }
   },
@@ -339,10 +332,10 @@
     "ACTIVE": "Ativo",
     "COMPANIES": "Empresas",
     "ALL_COMPANIES": "Todas as empresas",
-    "INTERNAL_CHAT": "Chat Interno",
-    "KANBAN": "Kanban",
-    "CAPTAIN": "Capitão",
+    "CAPTAIN": "Captain",
+    "CALLS": "Chamadas",
     "CAPTAIN_ASSISTANTS": "Assistentes",
+    "CAPTAIN_OVERVIEW": "Visão geral",
     "CAPTAIN_DOCUMENTS": "Documentos",
     "CAPTAIN_RESPONSES": "FAQs",
     "CAPTAIN_TOOLS": "Ferramentas",
@@ -353,12 +346,13 @@
     "HOME": "Principal",
     "AGENTS": "Agentes",
     "AGENT_BOTS": "Robôs",
-    "APPS": "Apps",
     "AUDIT_LOGS": "Auditoria",
     "INBOXES": "Caixas de Entrada",
+    "WHATSAPP_TEMPLATES": "Modelos",
     "NOTIFICATIONS": "Notificações",
     "CANNED_RESPONSES": "Respostas Prontas",
     "INTEGRATIONS": "Integrações",
+    "DATA": "Dados",
     "PROFILE_SETTINGS": "Configurações do Perfil",
     "ACCOUNT_SETTINGS": "Conta",
     "APPLICATIONS": "Aplicações",
@@ -410,17 +404,143 @@
       "INFO_TEXT": "Deixe o sistema marcar você automaticamente quando você não estiver usando o app ou o painel de controle.",
       "INFO_SHORT": "Marcar off-line automaticamente quando não estiver usando o aplicativo."
     },
+    "SORT_TOOLTIP": "Ordenar",
+    "SORT_BY": "Ordenar por",
+    "SORT_GROUPS": {
+      "CREATED": "Ordenar por data de criação",
+      "ALPHABETICAL": "Ordenar em ordem alfabética",
+      "UNREAD_COUNT": "Ordenar por quantidade de não lidas"
+    },
+    "SORT_OPTIONS": {
+      "CREATED_DESC": "Mais recentes primeiro",
+      "CREATED_ASC": "Mais antigos primeiro",
+      "ALPHABETICAL_ASC": "Crescente (A–Z)",
+      "ALPHABETICAL_DESC": "Decrescente (Z - A)",
+      "UNREAD_COUNT_DESC": "Maior primeiro",
+      "UNREAD_COUNT_ASC": "Menor primeiro"
+    },
     "DOCS": "Ler documentos",
     "SECURITY": "Segurança",
-    "CAPTAIN_AI": "Capitão",
+    "CAPTAIN_AI": "Captain",
     "CONVERSATION_WORKFLOW": "Fluxo de Conversa"
   },
+  "DATA_IMPORTS": {
+    "HEADER": "Dados",
+    "DESCRIPTION": "Importe seus contatos existentes e conversas anteriores de outra ferramenta de atendimento para esta conta. Cada importação é executada em segundo plano, para que você possa continuar trabalhando enquanto ela é concluída, acompanhar seu progresso e revisar tudo o que foi ignorado durante o processo.",
+    "LOADING": "Carregando importações",
+    "DEFAULT_IMPORT_NAME": "Importação do Intercom",
+    "DEFAULT_IMPORT_NAMES": {
+      "INTERCOM": "Importação do Intercom",
+      "FRESHDESK": "Importação do Freshdesk"
+    },
+    "TABS": {
+      "IMPORT": "Importar",
+      "EXPORT": "Exportar"
+    },
+    "TYPES": {
+      "CONTACTS": "Contatos",
+      "CONVERSATIONS": "Conversas",
+      "MESSAGES": "Mensagens"
+    },
+    "DRAWER": {
+      "TITLE": "Nova importação",
+      "SOURCE": "Fonte",
+      "NAME": "Nome da importação",
+      "NAME_PLACEHOLDER": "Migração do suporte de julho",
+      "ACCESS_KEY": "Chave de acesso do Intercom",
+      "ACCESS_KEY_PLACEHOLDER": "Cole sua chave de acesso do Intercom",
+      "INTERCOM_ACCESS_KEY": "Chave de acesso do Intercom",
+      "INTERCOM_ACCESS_KEY_PLACEHOLDER": "Cole sua chave de acesso do Intercom",
+      "FRESHDESK_API_KEY": "Chave de API do Freshdesk",
+      "FRESHDESK_API_KEY_PLACEHOLDER": "Cole sua chave de API do Freshdesk",
+      "FRESHDESK_DOMAIN": "Domínio do Freshdesk",
+      "FRESHDESK_DOMAIN_PLACEHOLDER": "acme.freshdesk.com",
+      "DATA_TYPES": "Dados para importar",
+      "VALIDATING": "Validando chave de acesso...",
+      "VALID_KEY": "Chave de acesso validada.",
+      "INVALID_KEY": "Não foi possível validar esta chave de acesso.",
+      "ACTIVE_IMPORT": "Espere a importação ativa terminar antes de iniciar outra.",
+      "CANCEL": "Cancelar",
+      "IMPORT": "Importar"
+    },
+    "EXPORT": {
+      "TITLE": "As exportações estão a caminho",
+      "DESCRIPTION": "Exporte seus contatos e conversas para fora desta conta. Este fluxo de trabalho estará disponível em breve.",
+      "COMING_SOON": "Em breve"
+    },
+    "TABLE": {
+      "TITLE": "Importações recentes",
+      "EMPTY": "Nenhuma importação ainda",
+      "EMPTY_DESCRIPTION": "Inicie uma importação para trazer o histórico dos seus clientes para esta conta.",
+      "NEW_IMPORT": "Importar",
+      "COUNT": "{count} importações",
+      "UNNAMED": "Importação sem título",
+      "IMPORTED_COUNT": "{count} importados",
+      "VIEW": "Ver importação",
+      "NAME": "Nome",
+      "TYPE": "Tipo",
+      "STATUS": "Status",
+      "IMPORTED": "Importado",
+      "CREATED": "Criado",
+      "RETRY": "Tentar novamente",
+      "ABANDON": "Cancelar"
+    },
+    "DETAIL": {
+      "BACK": "Voltar às importações",
+      "ERRORS": "Erros",
+      "SKIP_LOGS": "Pular registros",
+      "SOURCE": "Fonte",
+      "IMPORT_TYPES": "Tipos de importação",
+      "CREATED": "Criado",
+      "DURATION": "Duração",
+      "INITIATED_BY": "Iniciado por",
+      "PROGRESS": "Progresso da importação",
+      "PROGRESS_WITH_TOTAL": "{imported} de {total} importados",
+      "PROGRESS_WITHOUT_TOTAL": "{imported} importados",
+      "PROGRESS_OF_TOTAL": "de {total} importados",
+      "PROGRESS_IMPORTED": "importado",
+      "LAST_UPDATED_TOOLTIP": "Última atualização em {time}",
+      "NO_SKIP_LOGS": "Nenhum registro ignorado ou com falha foi registrado.",
+      "DOWNLOAD_SKIP_LOGS": "Baixar CSV",
+      "DOWNLOAD_ERROR_LOGS": "Baixar CSV",
+      "ALL_SKIP_LOGS": "Todos",
+      "KIND": "Tipo",
+      "NO_ERRORS": "Nenhum erro registrado.",
+      "ERROR_CODE": "Código",
+      "SOURCE_OBJECT": "Objeto de origem",
+      "MESSAGE": "Mensagem"
+    },
+    "MONITOR": {
+      "LIVE": "Atualizações ao vivo a cada {seconds}s",
+      "LAST_UPDATED": "Última atualização em {time}",
+      "REFRESH": "Atualizar",
+      "REFRESHING": "Atualizando",
+      "STAGES": {
+        "unknown": "Aguardando atualização",
+        "queued": "Na fila",
+        "contacts": "Importando contatos",
+        "conversations": "Importando conversas",
+        "finalizing": "Finalizando a importação",
+        "completed": "Concluído",
+        "completed_with_errors": "Concluído com erros",
+        "failed": "Falhou",
+        "abandoned": "Cancelado"
+      }
+    },
+    "ALERTS": {
+      "IMPORT_STARTED": "A importação foi iniciada.",
+      "IMPORT_RETRIED": "A importação foi adicionada à fila para ser retomada.",
+      "IMPORT_RETRY_FAILED": "Não foi possível tentar a importação novamente.",
+      "IMPORT_ABANDONED": "A importação foi abandonada.",
+      "IMPORT_FAILED": "Não foi possível iniciar a importação."
+    }
+  },
   "CAPTAIN_SETTINGS": {
-    "TITLE": "Configurações do Capitão",
-    "DESCRIPTION": "Configure seus modelos e recursos de IA para o Capitão. O Capitão utiliza um modelo de cobrança baseado em créditos; você será cobrado em créditos por cada ação que o Capitão realizar, dependendo do modelo selecionado.",
-    "LOADING": "Carregando configurações do Capitão...",
-    "LINK_TEXT": "Saiba mais sobre os Créditos do Capitão",
-    "NOT_ENABLED": "O Capitão não está habilitado para a sua conta. Atualize seu plano para acessar os recursos do Capitão.",
+    "TITLE": "Configurações do Captain",
+    "DESCRIPTION": "Configure seus modelos e recursos de IA para o Captain. O Captain utiliza um modelo de cobrança baseado em créditos; você será cobrado em créditos por cada ação que o Captain realizar, dependendo do modelo selecionado.",
+    "LOADING": "Carregando configurações do Captain...",
+    "LINK_TEXT": "Saiba mais sobre os Créditos do Captain",
+    "NOT_ENABLED": "O Captain não está habilitado para a sua conta. Atualize seu plano para acessar os recursos do Captain.",
     "MODEL_CONFIG": {
       "TITLE": "Configuração do Modelo",
       "DESCRIPTION": "Selecione modelos de IA para diferentes recursos.",
@@ -436,7 +556,7 @@
         "DESCRIPTION": "Gerencia respostas automatizadas, resumos de conversas e sugestões inteligentes de resposta para interações com clientes."
       },
       "COPILOT": {
-        "TITLE": "Copiloto",
+        "TITLE": "Copilot",
         "DESCRIPTION": "Fornece sugestões contextuais em tempo real, recomendações da base de conhecimento e insights proativos durante as conversas."
       }
     },
@@ -445,32 +565,44 @@
       "DESCRIPTION": "Ative ou desative recursos com tecnologia de IA.",
       "AUDIO_TRANSCRIPTION": {
         "TITLE": "Transcrição de Áudio",
-        "DESCRIPTION": "Converte automaticamente mensagens de voz e gravações de chamadas em transcrições de texto pesquisáveis."
+        "DESCRIPTION": "Converte automaticamente mensagens de voz e gravações de chamadas em transcrições de texto pesquisáveis.",
+        "MODEL_TITLE": "Modelo de Transcrição de Áudio",
+        "MODEL_DESCRIPTION": "Selecione o modelo de IA que será usado para converter mensagens de áudio em transcrições de texto"
       },
       "HELP_CENTER_SEARCH": {
         "TITLE": "Indexação de Pesquisa da Central de Ajuda",
         "DESCRIPTION": "Use IA para realizar buscas com reconhecimento de contexto nos artigos da sua central de ajuda."
-      },
-      "LABEL_SUGGESTION": {
-        "TITLE": "Sugestão de Etiquetas",
-        "DESCRIPTION": "Sugere automaticamente rótulos e etiquetas relevantes para as conversas, com base na análise de conteúdo e no contexto.",
-        "MODEL_TITLE": "Modelo de Sugestão de Etiquetas",
-        "MODEL_DESCRIPTION": "Selecione o modelo de IA a ser utilizado para analisar as conversas e sugerir etiquetas apropriadas"
       }
     },
     "API": {
-      "SUCCESS": "Configurações do Capitão atualizadas com sucesso.",
-      "ERROR": "Falha ao atualizar as configurações do Capitão. Por favor, tente novamente."
+      "SUCCESS": "Configurações do Captain atualizadas com sucesso.",
+      "ERROR": "Falha ao atualizar as configurações do Captain. Por favor, tente novamente."
     }
   },
   "BILLING_SETTINGS": {
+    "PAYMENT_RECOVERY": {
+      "DESCRIPTION": "Seu pagamento está em atraso. Atualize sua forma de pagamento ou pague a fatura pendente no portal de cobrança para manter sua assinatura ativa.",
+      "ACTION": "Resolver pagamento"
+    },
     "TITLE": "Cobrança",
     "DESCRIPTION": "Gerencie sua assinatura aqui, faça o upgrade do seu plano e obtenha mais para seu time.",
     "CURRENT_PLAN": {
       "TITLE": "Plano Atual",
       "PLAN_NOTE": "Você está atualmente inscrito no plano **{plan}** com **{quantity}** licenças",
       "SEAT_COUNT": "Número de assentos",
-      "RENEWS_ON": "Renovações em"
+      "RENEWS_ON": "Renovações em",
+      "CANCELS_ON": "Cancelamento em",
+      "CURRENCY": "Moeda"
+    },
+    "CURRENCY": {
+      "SELECT": {
+        "TITLE": "Escolha sua moeda de faturamento",
+        "DESCRIPTION": "Selecione a moeda na qual você gostaria de ser cobrado. Isso não poderá ser alterado depois que sua assinatura for criada."
+      },
+      "OPTIONS": {
+        "USD": "Dólar Americano (USD)",
+        "BRL": "Real Brasileiro (BRL)"
+      }
     },
     "VIEW_PRICING": "Ver Preços",
     "MANAGE_SUBSCRIPTION": {
@@ -479,12 +611,12 @@
       "BUTTON_TXT": "Ir para o portal de cobrança"
     },
     "CAPTAIN": {
-      "TITLE": "Capitão",
+      "TITLE": "Captain",
       "DESCRIPTION": "Gerenciar uso e créditos para o Captain AI.",
       "BUTTON_TXT": "Comprar mais créditos",
       "DOCUMENTS": "Documentos",
       "RESPONSES": "Respostas",
-      "UPGRADE": "O capitão não está disponível no plano gratuito, faça o upgrade para ter acesso aos assistentes, co-piloto e muito mais.",
+      "UPGRADE": "O Captain não está disponível no plano gratuito, faça o upgrade para ter acesso aos assistentes, Copilot e muito mais.",
       "REFRESH_CREDITS": "Atualizar"
     },
     "CHAT_WITH_US": {
@@ -493,10 +625,42 @@
       "BUTTON_TXT": "Fale conosco no chat"
     },
     "NO_BILLING_USER": "A sua conta de cobrança está sendo configurada. Atualize a página e tente novamente.",
+    "SHOPIFY": {
+      "TITLE": "Cobrança pela Shopify",
+      "DESCRIPTION": "Sua assinatura do Chatwoot é cobrada e gerenciada com segurança pela Shopify.",
+      "UNAVAILABLE": "A cobrança pela Shopify está indisponível no momento. Por favor, entre em contato com o suporte se o problema persistir.",
+      "LOADING": "Verificando sua assinatura da Shopify...",
+      "PLAN_TITLE": "Assinatura da Shopify",
+      "PLAN_DESCRIPTION": "Escolha ou gerencie seu plano do Chatwoot com segurança na Shopify.",
+      "CURRENT_PLAN": "Plano atual",
+      "SUBSCRIPTION_STATUS": "Status",
+      "PRICE": "Preço",
+      "PER_MONTH": "{price} / mês",
+      "PER_YEAR": "{price} / ano",
+      "TRIAL_ENDS_ON": "O período de teste termina em",
+      "RENEWS_ON": "Renovações em",
+      "ACCESS_UNTIL": "Acesso até",
+      "LAST_VERIFIED": "Última verificação",
+      "VIEW_PLANS": "Ver planos na Shopify",
+      "MANAGE_PLAN": "Gerenciar na Shopify",
+      "RETRY": "Tentar novamente",
+      "ERROR_TITLE": "Não foi possível verificar sua assinatura da Shopify",
+      "ERROR_DESCRIPTION": "Tente novamente em instantes. Seu último acesso verificado não foi alterado.",
+      "STALE_TITLE": "Exibindo sua última assinatura verificada",
+      "STALE_DESCRIPTION": "Não foi possível acessar a Shopify. Seu acesso não foi alterado.",
+      "STATUS": {
+        "PENDING": "Pendentes",
+        "ACTIVE": "Ativo",
+        "TRIALING": "Período de teste",
+        "CANCELLED": "Cancelamento agendado",
+        "EXPIRED": "Expirado",
+        "MISSING": "Nenhum plano ativo"
+      }
+    },
     "TOPUP": {
       "BUY_CREDITS": "Comprar mais créditos",
       "MODAL_TITLE": "Comprar Créditos de IA",
-      "MODAL_DESCRIPTION": "Comprar créditos adicionais para o Capitão IA.",
+      "MODAL_DESCRIPTION": "Comprar créditos adicionais para o Captain AI.",
       "CREDITS": "CRÉDITOS",
       "ONE_TIME": "único",
       "POPULAR": "Mais populares",
@@ -506,6 +670,7 @@
       "PURCHASE": "Comprar Créditos",
       "LOADING": "Carregando opções...",
       "FETCH_ERROR": "Falha ao carregar opções de crédito. Por favor, tente novamente.",
+      "RETRY": "Tentar novamente",
       "PURCHASE_ERROR": "Falha ao processar a compra. Por favor, tente novamente.",
       "PURCHASE_SUCCESS": "Foram adicionados {credits} créditos com sucesso à sua conta",
       "CONFIRM": {
@@ -522,6 +687,7 @@
     "DESCRIPTION": "Gerencie as configurações de segurança da sua conta.",
     "LINK_TEXT": "Saiba mais sobre o SAML SSO",
     "SAML_DISABLED_MESSAGE": "O SSO via SAML está desativado no momento. Entre em contato com o administrador para habilitar esse recurso.",
+    "NO_SETTINGS_AVAILABLE": "Nenhuma configuração de segurança está disponível para esta instalação. Configure as chaves de criptografia de MFA para habilitar a exigência de autenticação de dois fatores.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "Configure o login único via SAML para sua conta. Os usuários se autenticarão por meio do seu provedor de identidade em vez de usar e-mail e senha.",
@@ -532,7 +698,7 @@
       "SSO_URL": {
         "LABEL": "SSO URL",
         "HELP": "A URL para onde as solicitações de autenticação SAML serão enviadas",
-        "PLACEHOLDER": "https://your-idp.com/saml/sso"
+        "PLACEHOLDER": "https://sso.example.com/saml/sso"
       },
       "CERTIFICATE": {
         "LABEL": "Certificado de assinatura no formato PEM",
@@ -552,7 +718,7 @@
       "IDP_ENTITY_ID": {
         "LABEL": "ID da Entidade do Provedor de Identidade",
         "HELP": "Identificador exclusivo do seu provedor de identidade (geralmente encontrado na configuração do IdP)",
-        "PLACEHOLDER": "https://seu-idp.com/saml"
+        "PLACEHOLDER": "https://sso.example.com/saml"
       },
       "UPDATE_BUTTON": "Atualizar configurações de SAML",
       "API": {
@@ -803,9 +969,13 @@
         },
         "FAIR_DISTRIBUTION": {
           "LABEL": "Política de distribuição justa",
-          "DESCRIPTION": "Defina o número máximo de conversas que podem ser atribuídas por agente dentro de um período, para evitar sobrecarregar qualquer agente. Este campo obrigatório tem como padrão 100 conversas por hora.",
+          "DESCRIPTION": "Limite o número de conversas por atendente em um intervalo de tempo para evitar sobrecarga. O padrão é 100 por hora.",
           "INPUT_MAX": "Máximo de atribuições",
           "DURATION": "Conversas por agente a cada"
+        },
+        "EXCLUDE_OLDER_THAN": {
+          "LABEL": "Ignorar conversas inativas",
+          "DESCRIPTION": "Ignore conversas não atribuídas mais antigas do que este período. O padrão é 7 dias; deixe em branco para desativar."
         },
         "INBOXES": {
           "LABEL": "Caixas de entrada adicionadas",
@@ -949,58 +1119,6 @@
       "DESCRIPTION": "Tem certeza de que deseja excluir esta política? Essa ação não pode ser desfeita.",
       "CONFIRM_BUTTON_LABEL": "Excluir",
       "CANCEL_BUTTON_LABEL": "Cancelar"
-    }
-  },
-  "CONVERSATION_WORKFLOW": {
-    "INDEX": {
-      "HEADER": {
-        "TITLE": "Fluxos de Conversa",
-        "DESCRIPTION": "Configure regras e campos obrigatórios para resolução de conversas."
-      }
-    },
-    "REQUIRED_ATTRIBUTES": {
-      "TITLE": "Atributos obrigatórios na resolução",
-      "DESCRIPTION": "Ao resolver uma conversa, os agentes serão solicitados a preencher esses atributos se ainda não o fizeram.",
-      "NO_ATTRIBUTES": "Nenhum atributo adicionado ainda",
-      "ADD": {
-        "TITLE": "Adicionar Atributos",
-        "SEARCH_PLACEHOLDER": "Buscar atributos"
-      },
-      "SAVE": {
-        "SUCCESS": "Atributos obrigatórios atualizados",
-        "ERROR": "Não foi possível atualizar os atributos obrigatórios, tente novamente"
-      },
-      "MODAL": {
-        "TITLE": "Resolver conversa",
-        "DESCRIPTION": "Por favor, preencha os seguintes atributos personalizados antes de resolver esta conversa",
-        "ACTIONS": {
-          "RESOLVE": "Resolver conversa",
-          "CANCEL": "Cancelar"
-        },
-        "PLACEHOLDERS": {
-          "TEXT": "Escreva uma nota...",
-          "NUMBER": "Insira um número",
-          "LINK": "Adicione um link",
-          "DATE": "Escolha uma data",
-          "LIST": "Selecione uma opção"
-        },
-        "CHECKBOX": {
-          "YES": "Sim",
-          "NO": "Não"
-        }
-      },
-      "PAYWALL": {
-        "TITLE": "Faça upgrade para usar atributos obrigatórios",
-        "AVAILABLE_ON": "O recurso de atributos obrigatórios de conversa está disponível nos planos Business e Enterprise.",
-        "UPGRADE_PROMPT": "Faça upgrade do seu plano para solicitar que os agentes preencham atributos obrigatórios antes da resolução da conversa.",
-        "UPGRADE_NOW": "Fazer upgrade agora",
-        "CANCEL_ANYTIME": "Você pode alterar ou cancelar seu plano a qualquer momento"
-      },
-      "ENTERPRISE_PAYWALL": {
-        "AVAILABLE_ON": "O recurso de atributos obrigatórios de conversa está disponível nos planos pagos.",
-        "UPGRADE_PROMPT": "Faça upgrade para um plano pago para exigir atributos obrigatórios antes da resolução da conversa.",
-        "ASK_ADMIN": "Entre em contato com seu administrador para o upgrade."
-      }
     }
   }
 }

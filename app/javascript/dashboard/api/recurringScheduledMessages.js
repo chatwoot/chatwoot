@@ -9,6 +9,7 @@ export const buildRecurringScheduledMessagePayload = ({
   attachment,
   removeAttachment,
   recurrenceRule,
+  holdOnReply,
 } = {}) => {
   if (!attachment) {
     return {
@@ -18,6 +19,7 @@ export const buildRecurringScheduledMessagePayload = ({
       template_params: templateParams,
       remove_attachment: removeAttachment || undefined,
       recurrence_rule: recurrenceRule,
+      hold_on_reply: holdOnReply,
     };
   }
 
@@ -39,6 +41,9 @@ export const buildRecurringScheduledMessagePayload = ({
         payload.append(`recurrence_rule[${key}]`, String(value));
       }
     });
+  }
+  if (holdOnReply !== undefined) {
+    payload.append('hold_on_reply', holdOnReply);
   }
 
   return payload;

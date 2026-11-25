@@ -1,4 +1,6 @@
 class Instagram::Messenger::SendOnInstagramService < Instagram::BaseSendService
+  include Instagram::RequestOptions
+
   private
 
   def channel_class
@@ -16,7 +18,8 @@ class Instagram::Messenger::SendOnInstagramService < Instagram::BaseSendService
     response = HTTParty.post(
       'https://graph.facebook.com/v11.0/me/messages',
       body: message_content,
-      query: query
+      query: query,
+      **INSTAGRAM_REQUEST_OPTIONS
     )
 
     process_response(response, message_content)
@@ -31,7 +34,7 @@ class Instagram::Messenger::SendOnInstagramService < Instagram::BaseSendService
   def merge_human_agent_tag(params)
     global_config = GlobalConfig.get('ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT')
 
-    return params unless global_config['ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT']
+    return params unless global_config['ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT'] && human_agent_tag_applicable?
 
     params[:messaging_type] = 'MESSAGE_TAG'
     params[:tag] = 'HUMAN_AGENT'

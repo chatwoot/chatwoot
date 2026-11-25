@@ -59,6 +59,23 @@ RSpec.describe 'Summary Reports API', type: :request do
         expect(json_response.first['conversations_count']).to eq(110)
         expect(json_response.first['avg_reply_time']).to be_nil
       end
+
+      it 'narrows the agent report to an inbox when one is given' do
+        inbox = create(:inbox, account: account)
+        agent_summary_builder = double
+        allow(V2::Reports::AgentSummaryBuilder).to receive(:new).and_return(agent_summary_builder)
+        allow(agent_summary_builder).to receive(:build).and_return([])
+
+        get "/api/v2/accounts/#{account.id}/summary_reports/agent",
+            params: params.merge(inbox_id: inbox.id),
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(V2::Reports::AgentSummaryBuilder).to have_received(:new).with(
+          account: account,
+          params: params.merge(type: :agent, inbox_id: inbox.id)
+        )
+      end
     end
   end
 
@@ -112,6 +129,22 @@ RSpec.describe 'Summary Reports API', type: :request do
         expect(json_response.first['id']).to eq(1)
         expect(json_response.first['conversations_count']).to eq(110)
         expect(json_response.first['avg_reply_time']).to be_nil
+      end
+
+      it 'narrows the inbox report to an agent when one is given' do
+        inbox_summary_builder = double
+        allow(V2::Reports::InboxSummaryBuilder).to receive(:new).and_return(inbox_summary_builder)
+        allow(inbox_summary_builder).to receive(:build).and_return([])
+
+        get "/api/v2/accounts/#{account.id}/summary_reports/inbox",
+            params: params.merge(user_id: agent.id),
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(V2::Reports::InboxSummaryBuilder).to have_received(:new).with(
+          account: account,
+          params: params.merge(type: :inbox, user_id: agent.id)
+        )
       end
     end
   end
@@ -167,6 +200,44 @@ RSpec.describe 'Summary Reports API', type: :request do
         expect(json_response.first['conversations_count']).to eq(110)
         expect(json_response.first['avg_reply_time']).to be_nil
       end
+    end
+  end
+
+  describe 'GET /api/v2/accounts/:account_id/summary_reports/handled_conversations' do
+    let(:inbox) { create(:inbox, account: account) }
+    let(:params) { { since: 30.days.ago.to_i.to_s, until: end_of_today.to_s } }
+
+    before do
+      conversation = create(:conversation, account: account, inbox: inbox, created_at: 2.days.ago)
+      # Two agents on one conversation: the total counts it once.
+      [admin, agent].each do |sender|
+        create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :outgoing, sender: sender)
+      end
+    end
+
+    it 'counts each handled conversation once' do
+      get "/api/v2/accounts/#{account.id}/summary_reports/handled_conversations",
+          params: params,
+          headers: admin.create_new_auth_token
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body).to eq('count' => 1)
+    end
+
+    it 'narrows to the inbox the report is filtered by' do
+      get "/api/v2/accounts/#{account.id}/summary_reports/handled_conversations",
+          params: params.merge(inbox_id: create(:inbox, account: account).id),
+          headers: admin.create_new_auth_token
+
+      expect(response.parsed_body).to eq('count' => 0)
+    end
+
+    it 'returns unauthorized for agents' do
+      get "/api/v2/accounts/#{account.id}/summary_reports/handled_conversations",
+          params: params,
+          headers: agent.create_new_auth_token
+
+      expect(response).to have_http_status(:unauthorized)
     end
   end
 

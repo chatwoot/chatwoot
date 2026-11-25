@@ -24,14 +24,21 @@ class Conversations::FilterService < FilterService
   end
 
   def base_relation
+    # :messages is deliberately not preloaded: the list payload fetches messages through
+    # scoped queries (last message, last_non_activity_message), which bypass the preload.
     conversations = @account.conversations.includes(
-      :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team, :messages, :contact_inbox
+      :taggings, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team,
+      :contact_inbox
+    ).preload(
+      inbox: :channel,
+      ai_assignee: { avatar_attachment: [:blob] }
     )
 
     Conversations::PermissionFilterService.new(
       conversations,
       @user,
-      @account
+      @account,
+      plan_hint_selective_filter: label_filter_present?
     ).perform
   end
 
@@ -46,13 +53,37 @@ class Conversations::FilterService < FilterService
     }
   end
 
+  # Folders and ad-hoc filters go through here, and until now they ignored `sort_by`
+  # entirely: the list came back newest-first no matter what the agent picked, while the
+  # ordinary conversation list (ConversationFinder) honoured ten different orders. The
+  # sort control is hidden in that view, so the disagreement was invisible rather than
+  # broken-looking, and a team working a folder oldest-first had no way to ask for it.
+  #
+  # SORT_OPTIONS is reused rather than redefined so the two paths cannot drift: one
+  # allowlist, one set of names, and an unknown value falls back to the previous default
+  # instead of reaching `send` (the params here are `permit!`ed straight from the request).
   def conversations
-    @conversations.sort_on_last_activity_at.page(current_page).per(per_page)
+    # `pinned_first_for` orders too, and every sort_on_* uses `order` rather than
+    # `reorder`, so pinned conversations keep leading the list in every order. That is the
+    # existing behaviour of the ordinary list and it stays true here.
+    Conversations::SortService.apply(@conversations.pinned_first_for(@user), @params[:sort_by]).page(current_page).per(per_page)
   end
 
   def per_page
     default = ENV.fetch('CONVERSATION_RESULTS_PER_PAGE', '25').to_i
     requested = (@params[:per_page] || default).to_i
     [requested, 100].min
+  end
+
+  private
+
+  # The planner hint only pays off when the label condition positively narrows the
+  # result set: `equal_to` joined by AND. Negative/presence operators or an OR in the
+  # payload leave the result broad, where the inbox index is the better driver.
+  def label_filter_present?
+    payload = @params[:payload].to_a
+    return false if payload.any? { |query_hash| query_hash[:query_operator].to_s.casecmp('or').zero? }
+
+    payload.any? { |query_hash| query_hash[:attribute_key] == 'labels' && query_hash[:filter_operator] == 'equal_to' }
   end
 end

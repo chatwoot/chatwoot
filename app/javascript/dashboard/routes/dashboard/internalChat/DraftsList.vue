@@ -23,6 +23,14 @@ const uiFlags = computed(() => {
   return store.getters['internalChat/drafts/getUIFlags'];
 });
 
+// Below md the channel list and this view are separate screens.
+function goBackToChannels() {
+  router.push({
+    name: 'internal_chat_home',
+    params: { accountId: accountId.value },
+  });
+}
+
 function timeSince(dateString) {
   const date = new Date(dateString);
   const now = new Date();
@@ -107,6 +115,15 @@ onMounted(() => {
     <div
       class="flex h-[53px] items-center border-b border-n-slate-5 bg-n-solid-2 px-4"
     >
+      <button
+        type="button"
+        class="mr-1 flex flex-shrink-0 items-center justify-center rounded-lg p-1.5 text-n-slate-11 transition-colors hover:bg-n-alpha-2 hover:text-n-slate-12 md:hidden"
+        :title="t('INTERNAL_CHAT.BACK')"
+        :aria-label="t('INTERNAL_CHAT.BACK')"
+        @click="goBackToChannels"
+      >
+        <Icon icon="i-lucide-arrow-left" class="size-4" />
+      </button>
       <Icon icon="i-lucide-file-edit" class="mr-2 size-5 text-n-slate-11" />
       <h2 class="text-sm font-semibold text-n-slate-12">
         {{ t('INTERNAL_CHAT.DRAFT.TITLE') }}

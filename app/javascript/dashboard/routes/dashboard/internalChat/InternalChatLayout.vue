@@ -7,10 +7,13 @@ import { useAlert } from 'dashboard/composables';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import ChannelSidebar from './ChannelSidebar.vue';
 import ChannelView from './ChannelView.vue';
+import { useInternalChatSidebar } from 'dashboard/composables/useInternalChatSidebar';
 
 const store = useStore();
 const route = useRoute();
 const { t } = useI18n();
+
+const { isCollapsed, expand } = useInternalChatSidebar();
 
 const activeChannelId = computed(() => {
   return Number(route.params.channelId) || null;
@@ -23,6 +26,22 @@ const activeChannel = computed(() => {
 
 const isDraftsRoute = computed(() => {
   return route.name === 'internal_chat_drafts';
+});
+
+const hasActivePane = computed(() => {
+  return Boolean(
+    (activeChannelId.value && activeChannel.value) || isDraftsRoute.value
+  );
+});
+
+// Below md the channel list is a screen of its own, so it gives way as soon as
+// a channel (or the drafts view) is open. On desktop both columns coexist and
+// the list only disappears when the user collapses it.
+const sidebarDisplayClass = computed(() => {
+  if (hasActivePane.value) {
+    return isCollapsed.value ? 'hidden' : 'hidden md:flex';
+  }
+  return isCollapsed.value ? 'flex md:hidden' : 'flex';
 });
 
 async function fetchChannels() {
@@ -46,8 +65,24 @@ onMounted(async () => {
 
 <template>
   <div class="flex h-full w-full">
-    <ChannelSidebar />
-    <div class="flex-1 min-w-0">
+    <ChannelSidebar :class="sidebarDisplayClass" />
+    <!-- Collapsed rail: lives here, and not in the channel header, so the list
+    can be reopened from the empty state and the drafts view too. -->
+    <div
+      v-if="isCollapsed"
+      class="hidden h-full w-9 flex-shrink-0 flex-col items-center border-r border-n-slate-5 bg-n-solid-2 pt-3 md:flex"
+    >
+      <button
+        type="button"
+        class="flex items-center justify-center rounded-lg p-1.5 text-n-slate-11 transition-colors hover:bg-n-alpha-2 hover:text-n-slate-12"
+        :title="t('INTERNAL_CHAT.SIDEBAR.EXPAND')"
+        :aria-label="t('INTERNAL_CHAT.SIDEBAR.EXPAND')"
+        @click="expand"
+      >
+        <Icon icon="i-lucide-panel-left-open" class="size-4" />
+      </button>
+    </div>
+    <div class="flex-1 min-w-0" :class="{ 'hidden md:block': !hasActivePane }">
       <ChannelView
         v-if="activeChannelId && activeChannel"
         :key="activeChannelId"

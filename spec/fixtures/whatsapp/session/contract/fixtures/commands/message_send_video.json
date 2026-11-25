@@ -1,0 +1,35 @@
+{
+  "v": 1,
+  "id": "cmd_000009",
+  "type": "message.send",
+  "sid": "9f1c0f4e-6a2b-4c8e-9d1a-2b3c4d5e6f70",
+  "ts": 1755440000123,
+  "payload": {
+    "message_id": "3EB0A1B2C3D4E5F60804",
+    "to": {
+      "kind": "phone",
+      "id": "5541999990000"
+    },
+    "content": {
+      "type": "media",
+      "kind": "video",
+      "mime": "video/mp4",
+      "filename": "obra.mp4",
+      "caption": "a obra ontem",
+      "voice_note": false,
+      "size": 3738348,
+      "duration": 31,
+      "width": 1920,
+      "height": 1080,
+      "thumbnail": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/wAALCAABAAEBAREA/8QAFAABAAAAAAAAAAAAAAAAAAAACf/EABQQAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQEAAD8AKp//2Q==",
+      "ref": {
+        "kind": "url",
+        "url": "http://rails:3000/rails/active_storage/blobs/proxy/ghi/obra.mp4",
+        "size": 3738348,
+        "mime": "video/mp4"
+      }
+    }
+  },
+  "reply_to": "wa:reply:cmd_000009",
+  "deadline": 1755440015123
+}

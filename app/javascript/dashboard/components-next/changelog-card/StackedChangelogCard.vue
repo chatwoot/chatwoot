@@ -34,7 +34,7 @@ const handleImgClick = () => {
 <template>
   <div
     data-testid="changelog-card"
-    class="flex flex-col justify-between p-3 w-full rounded-lg border shadow-sm transition-all duration-200 border-n-weak bg-n-card text-n-slate-12"
+    class="flex flex-col justify-between p-3 w-full rounded-lg border shadow-sm transition-all duration-200 border-n-weak bg-n-card dark:bg-n-solid-1 text-n-slate-12"
     :class="{
       'animate-fade-out pointer-events-none': isDismissing,
       'hover:shadow': isActive,
@@ -56,25 +56,13 @@ const handleImgClick = () => {
     </div>
 
     <div
-      v-if="card.feature_image"
-      class="block overflow-hidden my-3 rounded-md border border-n-weak/40"
+      class="block overflow-hidden my-3 rounded-md border aspect-video border-n-weak/40 bg-n-alpha-1"
     >
       <img
+        v-if="card.feature_image"
         :src="card.feature_image"
         :alt="`${card.title} preview image`"
-        class="object-cover w-full h-24 rounded-md cursor-pointer"
-        loading="lazy"
-        @click.stop="handleImgClick"
-      />
-    </div>
-    <div
-      v-else
-      class="block overflow-hidden my-3 rounded-md border border-n-weak/40"
-    >
-      <img
-        :src="card.feature_image"
-        :alt="`${card.title} preview image`"
-        class="object-cover w-full h-24 rounded-md cursor-pointer"
+        class="block object-cover size-full rounded-md cursor-pointer"
         loading="lazy"
         @click.stop="handleImgClick"
       />

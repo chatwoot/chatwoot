@@ -1,11 +1,13 @@
 class Api::V1::Accounts::Contacts::GroupAdminController < Api::V1::Accounts::Contacts::BaseController
+  include GroupChannelResolver
+
   VALID_PROPERTIES = %w[announce restrict join_approval_mode member_add_mode].freeze
 
   def leave
     authorize @contact, :update?
     channel.group_leave(@contact.identifier)
     head :ok
-  rescue Whatsapp::Providers::WhatsappBaileysService::ProviderUnavailableError => e
+  rescue Whatsapp::Session::Errors::Error => e
     render json: { error: e.message }, status: :unprocessable_entity
   end
 
@@ -18,7 +20,7 @@ class Api::V1::Accounts::Contacts::GroupAdminController < Api::V1::Accounts::Con
     apply_property_change(property, enabled)
     update_contact_attribute(property, enabled)
     head :ok
-  rescue Whatsapp::Providers::WhatsappBaileysService::ProviderUnavailableError => e
+  rescue Whatsapp::Session::Errors::Error => e
     render json: { error: e.message }, status: :unprocessable_entity
   end
 
@@ -37,10 +39,6 @@ class Api::V1::Accounts::Contacts::GroupAdminController < Api::V1::Accounts::Con
 
   def property_params
     params.permit(:property, :enabled)
-  end
-
-  def channel
-    @channel ||= @contact.group_channel
   end
 
   def resolve_group_conversations

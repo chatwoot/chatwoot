@@ -250,5 +250,67 @@ describe Conversations::FilterService do
         expect(result[:conversations].length).to be 1
       end
     end
+
+    context 'with a not_equal_to filter on a custom attribute' do
+      let!(:platinum_conversation) do
+        create(:conversation, account: account, inbox: inbox, assignee: user_1, status: 'open',
+                              custom_attributes: { conversation_type: 'platinum' })
+      end
+      let!(:silver_conversation) do
+        create(:conversation, account: account, inbox: inbox, assignee: user_1, status: 'open',
+                              custom_attributes: { conversation_type: 'silver' })
+      end
+      let!(:resolved_conversation_without_attribute) do
+        create(:conversation, account: account, inbox: inbox, assignee: user_1, status: 'resolved')
+      end
+
+      it 'builds a valid query when the custom attribute is not the last condition' do
+        params[:payload] = [
+          {
+            attribute_key: 'conversation_type',
+            filter_operator: 'not_equal_to',
+            values: ['platinum'],
+            custom_attribute_type: '',
+            query_operator: 'AND'
+          }.with_indifferent_access,
+          {
+            attribute_key: 'status',
+            filter_operator: 'equal_to',
+            values: ['open'],
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+
+        result = described_class.new(params, user_1, account).perform
+
+        conversation_ids = result[:conversations].pluck(:id)
+        expect(conversation_ids).to contain_exactly(silver_conversation.id)
+        expect(conversation_ids).not_to include(platinum_conversation.id)
+      end
+
+      it 'keeps the null check scoped to the custom attribute condition' do
+        params[:payload] = [
+          {
+            attribute_key: 'status',
+            filter_operator: 'equal_to',
+            values: ['open'],
+            query_operator: 'AND'
+          }.with_indifferent_access,
+          {
+            attribute_key: 'conversation_type',
+            filter_operator: 'not_equal_to',
+            values: ['platinum'],
+            custom_attribute_type: '',
+            query_operator: nil
+          }.with_indifferent_access
+        ]
+
+        result = described_class.new(params, user_1, account).perform
+
+        conversation_ids = result[:conversations].pluck(:id)
+        expect(conversation_ids).to contain_exactly(silver_conversation.id)
+        expect(conversation_ids).not_to include(resolved_conversation_without_attribute.id)
+      end
+    end
   end
 end

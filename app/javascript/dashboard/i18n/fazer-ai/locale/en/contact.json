@@ -1,0 +1,54 @@
+{
+  "EDIT_CONTACT": {
+    "CONFIRM_DISCARD": {
+      "TITLE": "Discard changes?",
+      "MESSAGE": "You have unsaved changes. Are you sure you want to discard them?",
+      "YES": "Discard",
+      "NO": "Keep editing"
+    }
+  },
+  "CONTACTS_LAYOUT": {
+    "HEADER": {
+      "ACTIONS": {
+        "FILTERS": {
+          "CREATE_SEGMENT": {
+            "VISIBILITY": {
+              "LABEL": "Visibility",
+              "GLOBAL": {
+                "LABEL": "Public",
+                "DESCRIPTION": "Available to all agents in this account."
+              },
+              "PERSONAL": {
+                "LABEL": "Private",
+                "DESCRIPTION": "Only you will be able to see and manage this segment."
+              }
+            },
+            "READ_ONLY_TOOLTIP": "Public segment. Ask an administrator to edit or delete it."
+          }
+        }
+      }
+    }
+  },
+  "COMPOSE_NEW_CONVERSATION": {
+    "TAB_CONVERSATION": "Conversation",
+    "TAB_GROUP": "Group",
+    "FORM": {
+      "WHATSAPP_NUMBER_MISSING": "This number does not have WhatsApp. Messages will not be delivered."
+    }
+  },
+  "CONTACT_PANEL": {
+    "OPEN_IN_AGENTS": "Open in fazer.ai agents",
+    "UNVERIFIED_DETAILS": {
+      "TITLE": "Typed by the visitor, not verified",
+      "DESCRIPTION": "The visitor typed this on the website chat or through the API. Nothing proves it is theirs, so it was not saved on the contact.",
+      "EMAIL": "Email",
+      "PHONE_NUMBER": "Phone number",
+      "HELD_BY": "Already on {name}'s contact. Open it to merge the two if they are the same person.",
+      "CONFIRM": "Confirm",
+      "DISMISS": "Dismiss",
+      "CONFIRMED": "Saved on the contact",
+      "DISMISSED": "Dismissed",
+      "ERROR": "Could not update the contact"
+    }
+  }
+}

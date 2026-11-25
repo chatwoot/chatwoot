@@ -11,7 +11,26 @@ class ConversationPolicy < ApplicationPolicy
     administrator? || agent_bot? || agent_can_view_conversation?
   end
 
+  # Narrower than `show?`, which lets any bot in the account read any conversation. A read
+  # receipt is not a read: it puts the blue tick on the contact's phone, so it is limited to
+  # the bot that actually serves the thread.
+  def read_receipt?
+    return agent_bot_serves_conversation? if agent_bot?
+
+    show?
+  end
+
   private
+
+  # `user.inboxes` spans every association, disabled ones included, and a bot an operator
+  # switched off must not go on putting blue ticks on the contact's phone. Active is what
+  # `AgentBotListener#active_inbox_agent_bot` and `Conversation#set_active_bot_conversation`
+  # both mean by a bot serving an inbox.
+  def agent_bot_serves_conversation?
+    return true if record.ai_assignee == user
+
+    user.agent_bot_inboxes.active.exists?(inbox_id: record.inbox_id)
+  end
 
   def agent_can_view_conversation?
     inbox_access? || team_access?

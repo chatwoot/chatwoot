@@ -7,6 +7,7 @@ import {
   isBefore,
 } from 'date-fns';
 import * as chrono from 'chrono-node';
+import { dateTimeFormat } from 'shared/helpers/localizedDate';
 
 export const SHORTCUT_KEYS = {
   TOMORROW_MORNING: 'tomorrow_morning',
@@ -54,7 +55,7 @@ export const applyHour = (date, hour) =>
  */
 export const formatHour = (hour, locale = 'en') => {
   const date = new Date(2023, 0, 1, hour, 0, 0);
-  return new Intl.DateTimeFormat(toBcp47(locale), {
+  return dateTimeFormat(toBcp47(locale), {
     hour: 'numeric',
     minute: '2-digit',
   }).format(date);
@@ -64,7 +65,7 @@ export const formatHour = (hour, locale = 'en') => {
  * Format a date as a locale-aware short date with month name (e.g. '11 de mar.' / 'Mar 11').
  */
 export const formatShortDate = (date, locale = 'en') =>
-  new Intl.DateTimeFormat(toBcp47(locale), {
+  dateTimeFormat(toBcp47(locale), {
     day: 'numeric',
     month: 'short',
   }).format(date);
@@ -115,15 +116,19 @@ export const getScheduleShortcuts = (now = new Date(), locale = 'en') => {
 };
 
 /**
- * Pre-process natural language input to normalize PT/EN time expressions
+ * Pre-process natural language input to normalize PT/ES/EN time expressions
  * before passing to chrono-node.
  */
 export const preProcessDateInput = text => {
   let result = text;
-  // PT: normalize common words typed without accents
+  // PT/ES: normalize common words typed without accents. The accent fixes are
+  // shared because the same spelling is correct in both languages.
   result = result.replace(/\bamanha\b/gi, 'amanhã');
+  result = result.replace(/\bmanana\b/gi, 'mañana');
   result = result.replace(/\bsabado\b/gi, 'sábado');
+  result = result.replace(/\bmiercoles\b/gi, 'miércoles');
   result = result.replace(/\bproxim([ao])\b/gi, 'próxim$1');
+  result = result.replace(/\bproxim([ao])s\b/gi, 'próxim$1s');
   // PT: normalize 'as' → 'às' before digits or time-of-day words
   result = result.replace(/\bas\s+(\d)/gi, 'às $1');
   result = result.replace(/\bas\s+(manh|tard|noit)/gi, 'às $1');
@@ -153,35 +158,39 @@ export const preProcessDateInput = text => {
     /(?:no per[ií]odo da|pela|de|à|às)\s+noite/gi,
     '18:00'
   );
+  // ES: time-of-day expressions (por la mañana, de la tarde, a la noche, etc.)
+  result = result.replace(/(?:por|de|a)\s+la\s+ma[ñn]ana/gi, '8:00');
+  result = result.replace(/(?:por|de|a)\s+la\s+tarde/gi, '13:00');
+  result = result.replace(/(?:por|de|a)\s+la\s+noche/gi, '18:00');
   return result;
 };
 
+// chrono ships one parser per language; the bare export is the English one.
+const CHRONO_PARSERS = { pt: chrono.pt, es: chrono.es, en: chrono };
+
 /**
  * Parse a natural language date/time string using chrono-node.
- * Supports both PT and EN locales.
+ * Supports the languages in CHRONO_PARSERS; anything else parses as English.
  * Returns a Date object if successfully parsed, otherwise null.
  */
 export const parseNaturalDate = (text, locale = 'en', now = new Date()) => {
   if (!text || !text.trim()) return null;
   const processed = preProcessDateInput(text.trim());
   const opts = { forwardDate: true };
-  const isPt = locale.startsWith('pt');
-  const primaryResults = (isPt ? chrono.pt : chrono).parse(
-    processed,
-    now,
-    opts
+  const language = Object.keys(CHRONO_PARSERS).find(key =>
+    locale.startsWith(key)
   );
-  const fallbackResults = (isPt ? chrono : chrono.pt).parse(
-    processed,
-    now,
-    opts
-  );
+  const primary = CHRONO_PARSERS[language] ?? chrono;
+  // PT and EN are always tried as fallbacks, whatever the dashboard language:
+  // preProcessDateInput rewrites Portuguese expressions unconditionally, so
+  // dropping chrono.pt here would stop parsing input it just normalized.
+  // Deduplicated so the primary parser keeps its precedence on a tie.
+  const candidates = [...new Set([primary, chrono.pt, chrono])];
   const matchLen = results => results.reduce((s, r) => s + r.text.length, 0);
   // Pick the parser that matched more of the input text
-  const best =
-    matchLen(primaryResults) >= matchLen(fallbackResults)
-      ? primaryResults
-      : fallbackResults;
+  const best = candidates
+    .map(parser => parser.parse(processed, now, opts))
+    .reduce((a, b) => (matchLen(a) >= matchLen(b) ? a : b));
   return best.length ? best[0].start.date() : null;
 };
 
@@ -190,7 +199,7 @@ export const parseNaturalDate = (text, locale = 'en', now = new Date()) => {
  * e.g. '17 de mar. de 2026, 08:00' (pt-BR) or 'Mar 17, 2026, 8:00 AM' (en)
  */
 export const formatFullDateTime = (date, locale = 'en') =>
-  new Intl.DateTimeFormat(toBcp47(locale), {
+  dateTimeFormat(toBcp47(locale), {
     day: 'numeric',
     month: 'short',
     year: 'numeric',

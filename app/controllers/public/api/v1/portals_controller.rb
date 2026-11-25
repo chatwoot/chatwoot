@@ -1,15 +1,21 @@
 class Public::Api::V1::PortalsController < Public::Api::V1::Portals::BaseController
+  include PortalHomeData
+
   before_action :ensure_custom_domain_request, only: [:show]
   before_action :redirect_to_portal_with_locale, only: [:show]
   before_action :portal
+  before_action :set_portal_layout
+  before_action :set_view_variant
   before_action :ensure_portal_feature_enabled
+  before_action :load_home_data, only: [:show], unless: -> { @is_plain_layout_enabled }
   layout 'portal'
 
   def show
-    @og_image_url = helpers.set_og_image_url('', @portal.header_text)
+    @og_image_url = helpers.set_og_image_url('', @portal.localized_value('header_text', @locale))
   end
 
   def sitemap
+    @articles = @portal.search_indexable_articles
     @help_center_url = @portal.custom_domain || ChatwootApp.help_center_root
     # if help_center_url does not contain a protocol, prepend it with https
     @help_center_url = "https://#{@help_center_url}" unless @help_center_url.include?('://')

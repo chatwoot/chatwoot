@@ -1,9 +1,22 @@
 class CsatSurveyService
   pattr_initialize [:conversation!]
 
+  # Returns why the survey did not go out, so the caller can tell a conversation that was never
+  # eligible from one whose rule may still be waiting on a label another job is about to write.
   def perform
-    return unless should_send_csat_survey?
+    return :blocked_by_survey_rules if eligible_for_csat? && !csat_allowed_by_survey_rules?
+    # Upstream's single gate, which Enterprise refines (no survey after Captain closes a
+    # conversation that waited on the customer). Anything it adds is not a rule to retry on.
+    return :not_eligible unless should_send_csat_survey?
 
+    deliver_survey
+  end
+
+  private
+
+  delegate :inbox, :contact, to: :conversation
+
+  def deliver_survey
     if whatsapp_channel? && template_available_and_approved?
       send_whatsapp_template_survey
     elsif inbox.twilio_whatsapp? && twilio_template_available_and_approved?
@@ -15,12 +28,12 @@ class CsatSurveyService
     end
   end
 
-  private
-
-  delegate :inbox, :contact, to: :conversation
-
   def should_send_csat_survey?
-    conversation_allows_csat? && csat_enabled? && !csat_already_sent? && csat_allowed_by_survey_rules?
+    eligible_for_csat? && csat_allowed_by_survey_rules?
+  end
+
+  def eligible_for_csat?
+    conversation_allows_csat? && csat_enabled? && !csat_already_sent?
   end
 
   def conversation_allows_csat?
@@ -98,6 +111,19 @@ class CsatSurveyService
     template_service = Twilio::CsatTemplateService.new(inbox.channel)
     status_result = template_service.get_template_status(content_sid)
 
+    # A read that did not happen is not a template that is not approved. Both send the
+    # survey down the same fallback, which is deliberate: changing what gets delivered on
+    # a transport blip is a much larger decision than this. What changes here is that the
+    # operator can find out which of the two happened, instead of reading a timeline that
+    # blames the messaging window for something the messaging window did not do.
+    if status_result[:unknown]
+      Rails.logger.error(
+        "[CSAT] inbox #{inbox.id} could not be told whether its Twilio template is approved, " \
+        "so the survey falls back to a plain message: #{status_result[:error]}"
+      )
+      return false
+    end
+
     status_result[:success] && status_result[:template][:status] == 'approved'
   rescue StandardError => e
     Rails.logger.error "Error checking Twilio CSAT template status: #{e.message}"
@@ -146,34 +172,19 @@ class CsatSurveyService
     sorted_keys = body_variables.keys.sort_by(&:to_i)
     sorted_keys.map do |key|
       value = body_variables[key]
-      resolved_value = resolve_liquid_variable(value)
+      resolved_value = liquid_resolver.resolve(value)
       { type: 'text', text: resolved_value }
     end
   end
 
-  def resolve_liquid_variable(value)
-    return value if value.blank?
-
-    template = Liquid::Template.parse(value)
-    result = template.render(liquid_drops)
-    result.presence || value
-  rescue Liquid::Error
-    value
-  end
-
-  def liquid_drops
-    @liquid_drops ||= {
-      'contact' => ContactDrop.new(conversation.contact),
-      'conversation' => ConversationDrop.new(conversation),
-      'inbox' => InboxDrop.new(inbox),
-      'account' => AccountDrop.new(conversation.account)
-    }
+  def liquid_resolver
+    @liquid_resolver ||= CsatSurveys::LiquidResolver.new(conversation: conversation)
   end
 
   def build_csat_message
     content = inbox.csat_config&.dig('message') || 'Please rate this conversation'
     body_variables = inbox.csat_config&.dig('template', 'body_variables')
-    body_variables&.each { |key, value| content = content.gsub("{{#{key}}}", resolve_liquid_variable(value)) }
+    body_variables&.each { |key, value| content = content.gsub("{{#{key}}}", liquid_resolver.resolve(value)) }
 
     conversation.messages.build(
       account: conversation.account,
@@ -219,3 +230,5 @@ class CsatSurveyService
     ::Conversations::ActivityMessageJob.perform_later(conversation, activity_message_params) if content
   end
 end
+
+CsatSurveyService.prepend_mod_with('CsatSurveyService')

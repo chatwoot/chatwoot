@@ -1,71 +1,41 @@
 require 'google/cloud/translate/v3'
 
 class Integrations::GoogleTranslate::ProcessorService
-  pattr_initialize [:message!, :target_language!]
+  pattr_initialize [:hook!]
 
-  def perform
-    return if hook.blank?
+  def translate_message(message, target_language)
+    content, mime_type = message_content(message)
+    translate(content, target_language, mime_type: mime_type) if content.present?
+  end
 
-    content = translation_content
-    return if content.blank?
-
+  def translate(text, target_language, mime_type: 'text/plain')
     response = client.translate_text(
-      contents: [content],
-      target_language_code: bcp47_language_code,
-      parent: "projects/#{hook.settings['project_id']}",
-      mime_type: mime_type
+      contents: [text], target_language_code: target_language.tr('_', '-'), parent: parent, mime_type: mime_type
     )
+    response.translations.first&.translated_text
+  end
 
-    return if response.translations.first.blank?
-
-    response.translations.first.translated_text
+  def detect(text)
+    code = client.detect_language(content: text[0...1500], parent: parent).languages.first&.language_code
+    code unless code.blank? || code == 'und'
   end
 
   private
 
-  def bcp47_language_code
-    target_language.tr('_', '-')
+  def message_content(message)
+    email = message.content_attributes['email'].to_h if message.inbox.email?
+    return [message.content, 'text/plain'] if email.blank?
+
+    html = email.dig('html_content', 'full')
+    text = email.dig('text_content', 'full')
+    return [html, 'text/html'] if html.present?
+    return [text, 'text/plain'] if email['content_type']&.include?('text/plain') && text.present?
+
+    [message.content, 'text/plain']
   end
 
-  def email_channel?
-    message&.inbox&.email?
-  end
-
-  def email_content
-    @email_content ||= {
-      html: message.content_attributes.dig('email', 'html_content', 'full'),
-      text: message.content_attributes.dig('email', 'text_content', 'full'),
-      content_type: message.content_attributes.dig('email', 'content_type')
-    }
-  end
-
-  def html_content_available?
-    email_content[:html].present?
-  end
-
-  def plain_text_content_available?
-    email_content[:content_type]&.include?('text/plain') &&
-      email_content[:text].present?
-  end
-
-  def translation_content
-    return message.content unless email_channel?
-    return email_content[:html] if html_content_available?
-    return email_content[:text] if plain_text_content_available?
-
-    message.content
-  end
-
-  def mime_type
-    if email_channel? && html_content_available?
-      'text/html'
-    else
-      'text/plain'
-    end
-  end
-
-  def hook
-    @hook ||= message.account.hooks.find_by(app_id: 'google_translate')
+  def parent
+    "projects/#{hook.settings['project_id']}"
   end
 
   def client

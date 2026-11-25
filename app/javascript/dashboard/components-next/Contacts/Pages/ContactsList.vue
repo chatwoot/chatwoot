@@ -5,9 +5,9 @@ import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { useRouter, useRoute } from 'vue-router';
 import {
-  DuplicateContactException,
-  ExceptionWithMessage,
-} from 'shared/helpers/CustomErrors';
+  CONTACT_FIELD_LABELS,
+  requestErrorMessage,
+} from 'dashboard/helper/requestErrorMessage';
 import ContactsCard from 'dashboard/components-next/Contacts/ContactsCard/ContactsCard.vue';
 
 const props = defineProps({
@@ -34,21 +34,20 @@ const selectedIdsSet = computed(() => new Set(props.selectedContactIds || []));
 
 const updateContact = async updatedData => {
   try {
-    await store.dispatch('contacts/update', updatedData);
+    await store.dispatch('contacts/update', {
+      ...updatedData,
+      resolveLegacyCompany: true,
+    });
     useAlert(t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.SUCCESS_MESSAGE'));
   } catch (error) {
-    const i18nPrefix = 'CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.FORM';
-    if (error instanceof DuplicateContactException) {
-      if (error.data.includes('email')) {
-        useAlert(t(`${i18nPrefix}.EMAIL_ADDRESS.DUPLICATE`));
-      } else if (error.data.includes('phone_number')) {
-        useAlert(t(`${i18nPrefix}.PHONE_NUMBER.DUPLICATE`));
-      }
-    } else if (error instanceof ExceptionWithMessage) {
-      useAlert(error.data);
-    } else {
-      useAlert(t(`${i18nPrefix}.ERROR_MESSAGE`));
-    }
+    useAlert(
+      requestErrorMessage(
+        error,
+        t,
+        'CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.FORM.ERROR_MESSAGE',
+        CONTACT_FIELD_LABELS
+      )
+    );
   }
 };
 
@@ -92,6 +91,7 @@ const handleAvatarHover = (id, isHovered) => {
         :id="contact.id"
         :name="contact.name"
         :email="contact.email"
+        :company-id="contact.companyId"
         :thumbnail="contact.thumbnail"
         :phone-number="contact.phoneNumber"
         :additional-attributes="contact.additionalAttributes"

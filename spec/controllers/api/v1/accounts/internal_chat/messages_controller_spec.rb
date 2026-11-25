@@ -223,6 +223,35 @@ RSpec.describe 'Internal Chat Messages API', type: :request do
         expect(body['content_attributes']).to include('also_send_in_channel' => true)
       end
 
+      it 'creates an attachment-only thread reply without content' do
+        parent = create(:internal_chat_message, account: account, channel: channel, sender: agent, content: 'parent')
+        file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+
+        post "/api/v1/accounts/#{account.id}/internal_chat/channels/#{channel.id}/messages",
+             params: { parent_id: parent.id, attachments: [{ file: file }] },
+             headers: agent.create_new_auth_token
+
+        expect(response).to have_http_status(:created)
+        body = response.parsed_body
+        expect(body['parent_id']).to eq(parent.id)
+        expect(body['attachments'].size).to eq(1)
+      end
+
+      it 'creates a thread reply with attachment, content and also_send_in_channel via multipart' do
+        parent = create(:internal_chat_message, account: account, channel: channel, sender: agent, content: 'parent')
+        file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
+
+        post "/api/v1/accounts/#{account.id}/internal_chat/channels/#{channel.id}/messages",
+             params: { content: 'see attached', parent_id: parent.id, also_send_in_channel: 'true', attachments: [{ file: file }] },
+             headers: agent.create_new_auth_token
+
+        expect(response).to have_http_status(:created)
+        body = response.parsed_body
+        expect(body['content']).to eq('see attached')
+        expect(body['content_attributes']).to include('also_send_in_channel' => true)
+        expect(body['attachments'].size).to eq(1)
+      end
+
       it 'ignores also_send_in_channel when there is no parent_id' do
         post "/api/v1/accounts/#{account.id}/internal_chat/channels/#{channel.id}/messages",
              params: { content: 'plain message', also_send_in_channel: true },

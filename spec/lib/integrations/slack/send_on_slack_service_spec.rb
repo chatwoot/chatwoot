@@ -360,6 +360,89 @@ describe Integrations::Slack::SendOnSlackService do
       end
     end
 
+    context 'when the message is an activity message' do
+      let(:message) do
+        create(:message, account: account, inbox: conversation.inbox, conversation: conversation, message_type: :activity,
+                         content: 'Conversation was resolved')
+      end
+
+      before do
+        message.update!(sender: nil)
+        conversation.update!(identifier: 'random_slack_thread_ts')
+      end
+
+      it 'labels the sender as System and uses the system avatar' do
+        expect(slack_client).to receive(:chat_postMessage).with(
+          hash_including(username: 'System', icon_url: a_string_ending_with('sender_type=system_avatar'))
+        ).and_return(slack_message)
+
+        builder.perform
+      end
+    end
+
+    context 'when the message is sent by a contact' do
+      before { conversation.update!(identifier: 'random_slack_thread_ts') }
+
+      it 'uses the contact avatar' do
+        expect(slack_client).to receive(:chat_postMessage).with(
+          hash_including(username: "#{message.sender.name} (Contact)", icon_url: a_string_ending_with('sender_type=contact_avatar'))
+        ).and_return(slack_message)
+
+        builder.perform
+      end
+    end
+
+    context 'when the message is sent by an agent' do
+      let(:message) do
+        create(:message, account: account, inbox: conversation.inbox, conversation: conversation, message_type: :outgoing,
+                         sender: create(:user, account: account))
+      end
+
+      before { conversation.update!(identifier: 'random_slack_thread_ts') }
+
+      it 'labels the sender as an agent and uses the agent avatar' do
+        expect(slack_client).to receive(:chat_postMessage).with(
+          hash_including(username: "#{message.sender.name} (Agent)", icon_url: a_string_ending_with('sender_type=agent_avatar'))
+        ).and_return(slack_message)
+
+        builder.perform
+      end
+    end
+
+    context 'when the message is sent by an agent who is also a super admin' do
+      let(:message) do
+        create(:message, account: account, inbox: conversation.inbox, conversation: conversation, message_type: :outgoing,
+                         sender: create(:super_admin))
+      end
+
+      before { conversation.update!(identifier: 'random_slack_thread_ts') }
+
+      it 'labels the sender as an agent' do
+        expect(slack_client).to receive(:chat_postMessage).with(
+          hash_including(username: "#{message.sender.name} (Agent)", icon_url: a_string_ending_with('sender_type=agent_avatar'))
+        ).and_return(slack_message)
+
+        builder.perform
+      end
+    end
+
+    context 'when the message is sent by a bot' do
+      let(:message) do
+        create(:message, account: account, inbox: conversation.inbox, conversation: conversation, message_type: :outgoing,
+                         sender: create(:agent_bot))
+      end
+
+      before { conversation.update!(identifier: 'random_slack_thread_ts') }
+
+      it 'labels the sender as a bot and uses the bot avatar' do
+        expect(slack_client).to receive(:chat_postMessage).with(
+          hash_including(username: "#{message.sender.name} (Bot)", icon_url: a_string_ending_with('sender_type=bot_avatar'))
+        ).and_return(slack_message)
+
+        builder.perform
+      end
+    end
+
     context 'when message contains mentions' do
       it 'sends formatted message to slack along with inbox name when identifier not present' do
         inbox = conversation.inbox

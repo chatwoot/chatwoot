@@ -1,0 +1,60 @@
+{
+  "failed": null,
+  "group": {
+    "AddressingMode": "lid",
+    "AnnounceVersionID": "",
+    "CreatorCountryCode": "",
+    "DefaultMembershipApprovalMode": "",
+    "DisappearingTimer": 0,
+    "GroupCreated": "2026-08-19T17:49:46Z",
+    "IsAnnounce": false,
+    "IsDefaultSubGroup": false,
+    "IsEphemeral": true,
+    "IsIncognito": false,
+    "IsJoinApprovalRequired": false,
+    "IsLocked": false,
+    "IsParent": false,
+    "JID": "120363000002000000@g.us",
+    "LinkedParentJID": "",
+    "MemberAddMode": "all_member_add",
+    "Name": "captura chatwoot",
+    "NameSetAt": "2026-08-19T17:49:46Z",
+    "NameSetBy": "90000020000000@lid",
+    "NameSetByPN": "5511999990001@s.whatsapp.net",
+    "OwnerCanSendMessage": true,
+    "OwnerIsAdmin": true,
+    "OwnerJID": "90000020000000@lid",
+    "OwnerPN": "5511999990001@s.whatsapp.net",
+    "ParticipantCount": 0,
+    "ParticipantVersionID": "",
+    "Participants": [
+      {
+        "AddRequest": null,
+        "DisplayName": "",
+        "Error": 0,
+        "IsAdmin": true,
+        "IsSuperAdmin": true,
+        "JID": "90000020000000@lid",
+        "LID": "90000020000000@lid",
+        "PhoneNumber": "5511999990001@s.whatsapp.net"
+      },
+      {
+        "AddRequest": null,
+        "DisplayName": "",
+        "Error": 0,
+        "IsAdmin": false,
+        "IsSuperAdmin": false,
+        "JID": "900000100000000@lid",
+        "LID": "900000100000000@lid",
+        "PhoneNumber": "553499990002@s.whatsapp.net"
+      }
+    ],
+    "Suspended": false,
+    "Topic": "",
+    "TopicDeleted": false,
+    "TopicID": "",
+    "TopicSetAt": "0001-01-01T00:00:00Z",
+    "TopicSetBy": "",
+    "TopicSetByPN": ""
+  }
+}

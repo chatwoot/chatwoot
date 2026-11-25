@@ -9,6 +9,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
 import CsatReviewNotesPaywall from './CsatReviewNotesPaywall.vue';
 import { dynamicTime } from 'shared/helpers/timeHelper';
+import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 
 const props = defineProps({
   response: {
@@ -16,6 +17,8 @@ const props = defineProps({
     required: true,
   },
 });
+
+const exactTimestamp = useExactTimestamp();
 
 const { t } = useI18n();
 const store = useStore();
@@ -122,7 +125,7 @@ const saveReviewNotes = async () => {
                   <Button
                     :label="$t('CSAT_REPORTS.REVIEW_NOTES.SAVE')"
                     :disabled="!hasChanges || isSaving"
-                    :loading="isSaving"
+                    :is-loading="isSaving"
                     size="xs"
                     @click.stop="saveReviewNotes"
                   />
@@ -152,7 +155,13 @@ const saveReviewNotes = async () => {
             {{ response.review_notes_updated_by.name }}
           </span>
           <span class="text-n-slate-10">·</span>
-          <span class="text-sm text-n-slate-10">
+          <span
+            v-tooltip.top="{
+              content: exactTimestamp(response.review_notes_updated_at),
+              delay: { show: 500, hide: 0 },
+            }"
+            class="text-sm text-n-slate-10"
+          >
             {{ dynamicTime(response.review_notes_updated_at) }}
           </span>
         </div>

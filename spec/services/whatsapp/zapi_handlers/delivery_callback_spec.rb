@@ -24,6 +24,15 @@ describe Whatsapp::ZapiHandlers::DeliveryCallback do
       expect(message.external_created_at).to eq(params[:momment] / 1000)
     end
 
+    it 'clears the external_error of a failed message that is delivered' do
+      message.update!(status: 'failed', external_error: 'Message delivery failed')
+
+      service.perform
+
+      expect(message.reload.status).to eq('delivered')
+      expect(message.external_error).to be_nil
+    end
+
     it 'updates message status to failed when error is present' do
       params[:error] = 'Message delivery failed'
 

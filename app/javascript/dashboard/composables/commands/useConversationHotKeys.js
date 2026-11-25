@@ -3,6 +3,7 @@ import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useRoute } from 'vue-router';
 import { emitter } from 'shared/helpers/mitt';
+import { useAssignmentError } from 'dashboard/composables';
 import { useConversationLabels } from 'dashboard/composables/useConversationLabels';
 import { useCaptain } from 'dashboard/composables/useCaptain';
 import { useAgentsList } from 'dashboard/composables/useAgentsList';
@@ -36,6 +37,8 @@ import {
   SEND_TRANSCRIPT_ACTION,
   UNMUTE_ACTION,
   MUTE_ACTION,
+  PIN_ACTION,
+  UNPIN_ACTION,
 } from 'dashboard/helper/commandbar/actions';
 import {
   isAConversationRoute,
@@ -152,6 +155,7 @@ export function useConversationHotKeys() {
   const currentChat = useMapGetter('getSelectedChat');
   const replyMode = useMapGetter('draftMessages/getReplyEditorMode');
   const contextMenuChatId = useMapGetter('getContextMenuChatId');
+  const isPinned = useMapGetter('conversationPins/isPinned');
   const teams = useMapGetter('teams/getTeams');
   const getDraftMessage = useMapGetter('draftMessages/get');
 
@@ -171,11 +175,15 @@ export function useConversationHotKeys() {
     return teams.value;
   });
 
-  const onChangeAssignee = action => {
-    store.dispatch('assignAgent', {
-      conversationId: currentChat.value.id,
-      agentId: action.agentInfo.id,
-    });
+  const onChangeAssignee = async action => {
+    try {
+      await store.dispatch('assignAgent', {
+        conversationId: currentChat.value.id,
+        assignee: action.agentInfo,
+      });
+    } catch (error) {
+      useAssignmentError(error, t('CONVERSATION.CHANGE_AGENT_FAILED'));
+    }
   };
 
   const onChangePriority = action => {
@@ -185,11 +193,15 @@ export function useConversationHotKeys() {
     });
   };
 
-  const onChangeTeam = action => {
-    store.dispatch('assignTeam', {
-      conversationId: currentChat.value.id,
-      teamId: action.teamInfo.id,
-    });
+  const onChangeTeam = async action => {
+    try {
+      await store.dispatch('assignTeam', {
+        conversationId: currentChat.value.id,
+        team: action.teamInfo,
+      });
+    } catch (error) {
+      useAssignmentError(error, t('CONVERSATION.CHANGE_TEAM_FAILED'));
+    }
   };
 
   const statusActions = computed(() => {
@@ -328,13 +340,18 @@ export function useConversationHotKeys() {
   });
 
   const conversationAdditionalActions = computed(() => {
-    return prepareActions(
-      [
-        currentChat.value.muted ? UNMUTE_ACTION : MUTE_ACTION,
-        SEND_TRANSCRIPT_ACTION,
-      ],
-      t
-    );
+    const actions = [currentChat.value.muted ? UNMUTE_ACTION : MUTE_ACTION];
+    if (isPinned.value(currentChat.value.id)) {
+      actions.push(UNPIN_ACTION);
+    } else if (
+      currentChat.value.status !== wootConstants.STATUS_TYPE.RESOLVED
+    ) {
+      // Resolving drops the pins, so pinning a resolved conversation would only burn one of the five slots.
+      actions.push(PIN_ACTION);
+    }
+    actions.push(SEND_TRANSCRIPT_ACTION);
+
+    return prepareActions(actions, t);
   });
 
   const AIAssistActions = computed(() => {

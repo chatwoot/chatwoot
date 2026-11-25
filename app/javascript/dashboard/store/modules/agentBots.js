@@ -16,8 +16,11 @@ export const state = {
     isFetchingAgentBot: false,
     isSettingAgentBot: false,
     isDisconnecting: false,
+    isFetchingObservers: false,
+    isUpdatingObservers: false,
   },
   agentBotInbox: {},
+  agentBotObservers: {},
 };
 
 export const getters = {
@@ -34,6 +37,12 @@ export const getters = {
   getActiveAgentBot: $state => inboxId => {
     const associatedAgentBotId = $state.agentBotInbox[Number(inboxId)];
     return getters.getBot($state)(associatedAgentBotId);
+  },
+  getObserverBots: $state => inboxId => {
+    const observerIds = $state.agentBotObservers[Number(inboxId)] || [];
+    return observerIds
+      .map(botId => getters.getBot($state)(botId))
+      .filter(bot => bot.id);
   },
 };
 
@@ -161,6 +170,59 @@ export const actions = {
     }
   },
 
+  fetchAgentBotObservers: async ({ commit }, inboxId) => {
+    commit(types.SET_AGENT_BOT_UI_FLAG, { isFetchingObservers: true });
+    try {
+      const { data } = await InboxesAPI.getAgentBotObservers(inboxId);
+      commit(types.SET_AGENT_BOT_OBSERVERS, {
+        inboxId,
+        agentBotIds: data.map(bot => bot.id),
+      });
+    } catch (error) {
+      throwErrorMessage(error);
+    } finally {
+      commit(types.SET_AGENT_BOT_UI_FLAG, { isFetchingObservers: false });
+    }
+  },
+
+  addAgentBotObserver: async (
+    { commit, state: $state },
+    { inboxId, botId }
+  ) => {
+    commit(types.SET_AGENT_BOT_UI_FLAG, { isUpdatingObservers: true });
+    try {
+      await InboxesAPI.addAgentBotObserver(inboxId, botId);
+      const current = $state.agentBotObservers[Number(inboxId)] || [];
+      commit(types.SET_AGENT_BOT_OBSERVERS, {
+        inboxId,
+        agentBotIds: current.includes(botId) ? current : [...current, botId],
+      });
+    } catch (error) {
+      throwErrorMessage(error);
+    } finally {
+      commit(types.SET_AGENT_BOT_UI_FLAG, { isUpdatingObservers: false });
+    }
+  },
+
+  removeAgentBotObserver: async (
+    { commit, state: $state },
+    { inboxId, botId }
+  ) => {
+    commit(types.SET_AGENT_BOT_UI_FLAG, { isUpdatingObservers: true });
+    try {
+      await InboxesAPI.removeAgentBotObserver(inboxId, botId);
+      const current = $state.agentBotObservers[Number(inboxId)] || [];
+      commit(types.SET_AGENT_BOT_OBSERVERS, {
+        inboxId,
+        agentBotIds: current.filter(id => id !== botId),
+      });
+    } catch (error) {
+      throwErrorMessage(error);
+    } finally {
+      commit(types.SET_AGENT_BOT_UI_FLAG, { isUpdatingObservers: false });
+    }
+  },
+
   disconnectBot: async ({ commit }, { inboxId }) => {
     commit(types.SET_AGENT_BOT_UI_FLAG, { isDisconnecting: true });
     try {
@@ -211,6 +273,12 @@ export const mutations = {
     $state.agentBotInbox = {
       ...$state.agentBotInbox,
       [inboxId]: agentBotId,
+    };
+  },
+  [types.SET_AGENT_BOT_OBSERVERS]($state, { inboxId, agentBotIds }) {
+    $state.agentBotObservers = {
+      ...$state.agentBotObservers,
+      [inboxId]: agentBotIds,
     };
   },
   [types.UPDATE_AGENT_BOT_AVATAR]($state, { id, thumbnail }) {

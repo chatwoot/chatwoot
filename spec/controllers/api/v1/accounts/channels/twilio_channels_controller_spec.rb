@@ -50,6 +50,8 @@ RSpec.describe '/api/v1/accounts/{account.id}/channels/twilio_channel', type: :r
 
           expect(json_response['name']).to eq('SMS Channel')
           expect(json_response['messaging_service_sid']).to eq('MGec8130512b5dd462cfe03095ec1342ed')
+          expect(Twilio::WebhookSetupService).to have_received(:new).with(channel: an_instance_of(Channel::TwilioSms))
+          expect(twilio_webhook_setup_service).to have_received(:perform)
         end
 
         it 'creates inbox with blank phone number and returns inbox object' do
@@ -74,6 +76,39 @@ RSpec.describe '/api/v1/accounts/{account.id}/channels/twilio_channel', type: :r
           json_response = response.parsed_body
 
           expect(json_response['messaging_service_sid']).to eq('MGec8130512b5dd462cfe03095ec1111ed')
+          expect(Twilio::WebhookSetupService).to have_received(:new).with(channel: an_instance_of(Channel::TwilioSms))
+          expect(twilio_webhook_setup_service).to have_received(:perform)
+        end
+
+        it 'rolls back the inbox when Twilio webhook setup fails' do
+          allow(twilio_client).to receive(:messages).and_return(message_double)
+          allow(message_double).to receive(:list).and_return([])
+          allow(twilio_webhook_setup_service).to receive(:perform).and_raise(Twilio::REST::TwilioError, 'Webhook update failed')
+
+          expect do
+            post api_v1_account_channels_twilio_channel_path(account),
+                 params: params,
+                 headers: admin.create_new_auth_token
+          end.not_to change(Inbox, :count)
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.headers['Retry-After']).to be_nil
+          expect(response.parsed_body['error']).to include('Webhook update failed')
+        end
+
+        it 'answers a canceled database query as a retryable failure' do
+          allow(twilio_client).to receive(:messages).and_return(message_double)
+          allow(message_double).to receive(:list).and_return([])
+          allow(twilio_webhook_setup_service).to receive(:perform)
+            .and_raise(ActiveRecord::QueryCanceled, 'PG::QueryCanceled: ERROR: canceling statement due to statement timeout')
+
+          post api_v1_account_channels_twilio_channel_path(account),
+               params: params,
+               headers: admin.create_new_auth_token
+
+          expect(response).to have_http_status(:service_unavailable)
+          expect(response.headers['Retry-After']).to match(/\A[1-9]\d*\z/)
+          expect(response.parsed_body['error']).to eq(I18n.t('errors.database.query_canceled'))
         end
 
         context 'with a phone number' do # rubocop:disable RSpec/NestedGroups
@@ -139,6 +174,8 @@ RSpec.describe '/api/v1/accounts/{account.id}/channels/twilio_channel', type: :r
                headers: admin.create_new_auth_token
 
           expect(response).to have_http_status(:unprocessable_entity)
+          expect(Twilio::WebhookSetupService).not_to have_received(:new)
+          expect(twilio_webhook_setup_service).not_to have_received(:perform)
         end
       end
 

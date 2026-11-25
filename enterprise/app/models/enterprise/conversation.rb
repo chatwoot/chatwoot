@@ -1,12 +1,28 @@
 module Enterprise::Conversation
-  attr_accessor :captain_activity_reason, :captain_activity_reason_type
+  CAPTAIN_WAITING_RESOLVED_AT_ATTRIBUTE = 'captain_waiting_resolved_at'.freeze
 
-  def dispatch_captain_inference_resolved_event
-    dispatch_captain_inference_event(Events::Types::CONVERSATION_CAPTAIN_INFERENCE_RESOLVED)
+  attr_accessor :captain_activity_reason, :captain_activity_reason_type
+  # Set on the conversation an inbound call opens, before the call that rings exists
+  attr_writer :call_ringing
+
+  # Set when Captain resolves a conversation because the customer stopped replying to its question.
+  # Saved with the status change, because the CSAT listener reloads the conversation in a background job.
+  def mark_captain_waiting_close
+    additional_attributes[CAPTAIN_WAITING_RESOLVED_AT_ATTRIBUTE] = Time.current.iso8601(6)
   end
 
-  def dispatch_captain_inference_handoff_event
-    dispatch_captain_inference_event(Events::Types::CONVERSATION_CAPTAIN_INFERENCE_HANDOFF)
+  # True until the customer writes again after a waiting close, so a later resolution is treated normally.
+  def captain_waiting_close_without_reply?
+    resolved_at = additional_attributes&.dig(CAPTAIN_WAITING_RESOLVED_AT_ATTRIBUTE)
+    return false if resolved_at.blank?
+
+    messages.incoming.where(created_at: Time.zone.parse(resolved_at)..).none?
+  end
+
+  def can_reply?
+    return false if contact_inbox.anonymous_caller?
+
+    super
   end
 
   def list_of_keys
@@ -17,6 +33,19 @@ module Enterprise::Conversation
   # call_status/call_direction should rebroadcast conversation_updated.
   def allowed_keys?
     super || call_attributes_changed?
+  end
+
+  # Once its call stops ringing unanswered, the conversation gets the assignment it held off: the
+  # inbox's, or else its team's
+  def auto_assign_after_call
+    return unless open?
+    return assign_from_held_team unless should_run_auto_assignment?
+
+    if inbox.auto_assignment_v2_enabled?
+      AutoAssignment::AssignmentJob.enqueue_for_inbox(inbox_id)
+    else
+      AutoAssignment::AgentAssignmentService.new(conversation: self, allowed_agent_ids: legacy_allowed_agent_ids).perform
+    end
   end
 
   def with_captain_activity_context(reason:, reason_type:)
@@ -33,8 +62,64 @@ module Enterprise::Conversation
 
   private
 
-  def dispatch_captain_inference_event(event_name)
-    dispatcher_dispatch(event_name)
+  # Auto-assignment, the inbox's or a team's, holds off while an inbound call rings, so the
+  # agent who answers gets the conversation
+  def call_ringing?
+    return false unless inbox.rings_for_calls?
+
+    @call_ringing || calls.holding_assignment.exists?
+  end
+
+  # A V2 rebalance on resolve or snooze frees capacity rather than assigning this conversation, so it still runs
+  def should_run_auto_assignment?
+    super && (conversation_status_changed_to_resolved_or_snoozed? || !call_ringing?)
+  end
+
+  def find_assignee_from_team
+    super unless call_ringing?
+  end
+
+  # A team's auto-assignment applies whatever the inbox's own setting, as it does when the team is set
+  # without a call ringing. Another call still ringing keeps holding it, for the agent who answers that one.
+  # The service locks the row, so an agent assigned meanwhile keeps the conversation.
+  def assign_from_held_team
+    return if call_ringing? || ai_assignee_type.present?
+    return unless team&.allow_auto_assign
+
+    AutoAssignment::AgentAssignmentService.new(conversation: self, allowed_agent_ids: team_member_ids_with_capacity).perform
+  end
+
+  def determine_conversation_status
+    super
+    return unless pending?
+    return if inbox.external_bot_active?
+
+    assistant = inbox.captain_assistant
+    return if assistant.blank?
+
+    unless assistant.engages?(contact, self)
+      self.status = :open
+      return
+    end
+
+    self.ai_assignee = assistant if assignee_id.blank?
+  end
+
+  def handle_resolved_status_change
+    super
+    update_applied_sla_completion
+  end
+
+  def update_applied_sla_completion
+    return unless saved_change_to_status?
+
+    current_applied_sla = applied_sla
+    return if current_applied_sla.blank?
+
+    terminal_sla = current_applied_sla.sla_status.in?(%w[hit missed])
+    return if terminal_sla && (!resolved? || current_applied_sla.completed_at.present?)
+
+    current_applied_sla.update!(completed_at: resolved? ? Time.current : nil)
   end
 
   def call_attributes_changed?

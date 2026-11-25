@@ -69,9 +69,16 @@ export default {
     isAgentType() {
       return this.type === 'agent';
     },
+    selectedFilterId() {
+      return this.selectedFilter?.id || null;
+    },
     reportKeys() {
+      const conversationsKey = ['agent', 'team'].includes(this.type)
+        ? 'ASSIGNED_CONVERSATIONS'
+        : 'CONVERSATIONS';
       return {
-        CONVERSATIONS: 'conversations_count',
+        [conversationsKey]: 'conversations_count',
+        HANDLED_CONVERSATIONS: 'handled_conversations_count',
         ...(!this.isAgentType && {
           INCOMING_MESSAGES: 'incoming_messages_count',
         }),
@@ -181,5 +188,10 @@ export default {
     v-if="filterItemsList.length"
     :group-by="groupBy"
     :report-keys="reportKeys"
+    :from="from"
+    :to="to"
+    :report-type="type"
+    :selected-item-id="selectedFilterId"
+    :business-hours="businessHours"
   />
 </template>

@@ -195,7 +195,12 @@ RSpec.describe Whatsapp::CsatTemplateService do
           'Authorization' => "Bearer #{whatsapp_channel.provider_config['api_key']}",
           'Content-Type' => 'application/json'
         },
-        body: expected_body.to_json
+        body: expected_body.to_json,
+        # Named here rather than splatted from the constant: what this pins is that a Graph call
+        # cannot wait forever and cannot be retried behind the caller's back, and a splat would
+        # keep agreeing with itself if the constant were emptied.
+        timeout: 10,
+        max_retries: 0
       )
 
       service.create_template(template_config)
@@ -256,7 +261,9 @@ RSpec.describe Whatsapp::CsatTemplateService do
         headers: {
           'Authorization' => "Bearer #{whatsapp_channel.provider_config['api_key']}",
           'Content-Type' => 'application/json'
-        }
+        },
+        timeout: 10,
+        max_retries: 0
       ).and_return(mock_response)
 
       result = service.delete_template('test_template')
@@ -304,7 +311,9 @@ RSpec.describe Whatsapp::CsatTemplateService do
         headers: {
           'Authorization' => "Bearer #{whatsapp_channel.provider_config['api_key']}",
           'Content-Type' => 'application/json'
-        }
+        },
+        timeout: 10,
+        max_retries: 0
       ).and_return(mock_response)
 
       service.get_template_status('test_template')

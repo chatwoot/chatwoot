@@ -70,4 +70,53 @@ RSpec.describe ConversationPolicy, type: :policy do
       end
     end
   end
+
+  permissions :read_receipt? do
+    let(:inbox) { create(:inbox, account: account) }
+    let(:conversation) { create(:conversation, account: account, inbox: inbox) }
+    let(:agent_bot) { create(:agent_bot, account: account) }
+    let(:agent_bot_context) { { user: agent_bot, account: account, account_user: nil } }
+
+    context 'when the bot serves the inbox' do
+      before { create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot) }
+
+      it 'allows the receipt' do
+        expect(subject).to permit(agent_bot_context, conversation)
+      end
+    end
+
+    context 'when the bot is the conversation assignee' do
+      before { conversation.update!(ai_assignee: agent_bot) }
+
+      it 'allows the receipt' do
+        expect(subject).to permit(agent_bot_context, conversation)
+      end
+    end
+
+    # An operator switching the bot off must stop it putting blue ticks on the contact's
+    # phone, which is what `active?` means everywhere else the codebase asks whether a bot
+    # serves an inbox.
+    context 'when the association is inactive' do
+      before { create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot, status: :inactive) }
+
+      it 'denies the receipt' do
+        expect(subject).not_to permit(agent_bot_context, conversation)
+      end
+    end
+
+    context 'when the bot serves no inbox on the conversation' do
+      it 'denies the receipt even though show? allows it' do
+        expect(subject).not_to permit(agent_bot_context, conversation)
+        expect(described_class.new(agent_bot_context, conversation).show?).to be(true)
+      end
+    end
+
+    context 'when the caller is an agent' do
+      before { create(:inbox_member, user: agent, inbox: inbox) }
+
+      it 'falls back to show?' do
+        expect(subject).to permit(agent_context, conversation)
+      end
+    end
+  end
 end

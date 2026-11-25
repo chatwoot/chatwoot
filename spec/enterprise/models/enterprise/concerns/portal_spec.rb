@@ -15,6 +15,15 @@ RSpec.describe Enterprise::Concerns::Portal do
             portal.update(custom_domain: 'test.example.com')
           end.to have_enqueued_job(Enterprise::CloudflareVerificationJob).with(portal.id)
         end
+
+        it 'enqueues the job only after the transaction commits' do
+          Portal.transaction do
+            portal.update!(custom_domain: 'test.example.com')
+            expect(Enterprise::CloudflareVerificationJob).not_to have_been_enqueued
+          end
+
+          expect(Enterprise::CloudflareVerificationJob).to have_been_enqueued.with(portal.id)
+        end
       end
 
       context 'when not on chatwoot cloud' do
@@ -33,7 +42,7 @@ RSpec.describe Enterprise::Concerns::Portal do
     context 'when custom_domain is not changed' do
       before do
         allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
-        portal.update!(custom_domain: 'test.example.com')
+        portal.update(custom_domain: 'test.example.com')
       end
 
       it 'does not enqueue cloudflare verification job' do
@@ -46,7 +55,7 @@ RSpec.describe Enterprise::Concerns::Portal do
     context 'when custom_domain is set to blank' do
       before do
         allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
-        portal.update!(custom_domain: 'test.example.com')
+        portal.update(custom_domain: 'test.example.com')
       end
 
       it 'does not enqueue cloudflare verification job' do

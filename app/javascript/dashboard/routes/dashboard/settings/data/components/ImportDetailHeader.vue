@@ -1,0 +1,146 @@
+<script setup>
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+import Button from 'dashboard/components-next/button/Button.vue';
+import DataOperationStatus from './DataOperationStatus.vue';
+import BaseSettingsHeader from '../../components/BaseSettingsHeader.vue';
+import {
+  POLL_INTERVAL_MS,
+  importStageKey,
+  isAbandonableImport,
+  isActiveImport,
+} from '../importStatus';
+
+const props = defineProps({
+  dataImport: {
+    type: Object,
+    default: null,
+  },
+  isRefreshing: {
+    type: Boolean,
+    default: false,
+  },
+  isRetrying: {
+    type: Boolean,
+    default: false,
+  },
+  isAbandoning: {
+    type: Boolean,
+    default: false,
+  },
+  isPolling: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+defineEmits(['refresh', 'retry', 'abandon', 'start']);
+
+const { t } = useI18n();
+
+const pollIntervalSeconds = POLL_INTERVAL_MS / 1000;
+
+const title = computed(
+  () => props.dataImport?.name || t('DATA_IMPORTS.TABLE.UNNAMED')
+);
+
+const stageLabels = computed(() => ({
+  unknown: t('DATA_IMPORTS.MONITOR.STAGES.unknown'),
+  queued: t('DATA_IMPORTS.MONITOR.STAGES.queued'),
+  preparing: t('DATA_IMPORTS.MONITOR.STAGES.preparing'),
+  contacts: t('DATA_IMPORTS.MONITOR.STAGES.contacts'),
+  conversations: t('DATA_IMPORTS.MONITOR.STAGES.conversations'),
+  finalizing: t('DATA_IMPORTS.MONITOR.STAGES.finalizing'),
+  completed: t('DATA_IMPORTS.MONITOR.STAGES.completed'),
+  completed_with_errors: t('DATA_IMPORTS.MONITOR.STAGES.completed_with_errors'),
+  failed: t('DATA_IMPORTS.MONITOR.STAGES.failed'),
+  abandoned: t('DATA_IMPORTS.MONITOR.STAGES.abandoned'),
+}));
+
+const monitorTitle = computed(
+  () =>
+    stageLabels.value[importStageKey(props.dataImport)] ||
+    stageLabels.value.unknown
+);
+
+const hasActiveImport = computed(() => isActiveImport(props.dataImport));
+
+const canAbandonImport = computed(() => isAbandonableImport(props.dataImport));
+</script>
+
+<template>
+  <BaseSettingsHeader
+    :title="title"
+    :back-button-label="$t('DATA_IMPORTS.DETAIL.BACK')"
+  >
+    <template #title>
+      <div class="flex w-full flex-wrap items-center justify-between gap-4">
+        <h1
+          class="min-w-0 max-w-full break-words text-heading-1 text-n-slate-12"
+        >
+          {{ title }}
+        </h1>
+        <div class="flex shrink-0 items-center gap-2">
+          <Button
+            v-if="hasActiveImport"
+            outline
+            slate
+            size="sm"
+            icon="i-lucide-refresh-cw"
+            :is-loading="isRefreshing"
+            :aria-label="$t('DATA_IMPORTS.MONITOR.REFRESH')"
+            :title="$t('DATA_IMPORTS.MONITOR.REFRESH')"
+            @click="$emit('refresh')"
+          />
+          <Button
+            v-if="dataImport?.allowed_actions?.retry ?? dataImport?.stalled"
+            outline
+            slate
+            size="sm"
+            icon="i-lucide-rotate-ccw"
+            :is-loading="isRetrying"
+            :disabled="isAbandoning"
+            :label="$t('DATA_IMPORTS.TABLE.RETRY')"
+            @click="$emit('retry')"
+          />
+          <Button
+            v-if="dataImport?.allowed_actions?.start"
+            outline
+            slate
+            size="sm"
+            :is-loading="isRetrying"
+            :label="$t('DATA_IMPORTS.TABLE.RESUME')"
+            @click="$emit('start')"
+          />
+          <Button
+            v-if="canAbandonImport"
+            ruby
+            size="sm"
+            :is-loading="isAbandoning"
+            :disabled="isRetrying"
+            :label="$t('DATA_IMPORTS.TABLE.ABANDON')"
+            @click="$emit('abandon')"
+          />
+        </div>
+      </div>
+    </template>
+    <template #description>
+      <DataOperationStatus :status="dataImport?.status" :label="monitorTitle" />
+      <template v-if="hasActiveImport">
+        <span
+          class="mx-2 inline-block h-3 w-px rounded-lg bg-n-strong align-middle"
+        />
+        <span class="text-n-slate-11">
+          {{
+            isPolling
+              ? $t('DATA_IMPORTS.MONITOR.REFRESHING')
+              : $t('DATA_IMPORTS.MONITOR.LIVE', {
+                  seconds: pollIntervalSeconds,
+                })
+          }}
+        </span>
+      </template>
+    </template>
+  </BaseSettingsHeader>
+</template>

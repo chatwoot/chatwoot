@@ -1,6 +1,10 @@
 class Webhooks::Trigger
   SUPPORTED_ERROR_HANDLE_EVENTS = %w[message_created message_updated].freeze
   RETRYABLE_AGENT_BOT_STATUSES = [429, 500].freeze
+  # Both roles of an inbox's bots retry the same way; only `:agent_bot_webhook` (the responder) is
+  # allowed into `handle_error`, because escalating moves the conversation to a human and an observer
+  # never owned it (AgentBotObserver).
+  AGENT_BOT_WEBHOOK_TYPES = %i[agent_bot_webhook agent_bot_observer_webhook].freeze
 
   class RetryableError < StandardError
     attr_reader :status
@@ -28,7 +32,16 @@ class Webhooks::Trigger
   rescue StandardError => e
     raise RetryableError.new(status: http_status(e), message: e.message) if retryable_agent_bot_error?(e)
 
-    handle_failure(e)
+    # NO ESCALATION HERE. A failed request is not a failed delivery: WebhookJob retries this, and
+    # escalating on attempt 1 makes those retries unreachable for an agent bot. The bot only acts on
+    # a `pending` conversation, so moving it to `open` here means every redelivery arrives at a
+    # conversation the bot will not answer, and the retry lands without changing anything.
+    # The same holds for an api_inbox message marked `failed` here: a later attempt can still
+    # deliver it, leaving an agent to resend what the customer already received.
+    # Escalation belongs to whoever learns the delivery is over, which is the retries-exhausted
+    # block in WebhookJob (`Webhooks::ErrorHandler`, whose handoff `update_conversation_status`
+    # shares).
+    Rails.logger.warn "Exception: webhook request to #{@url} failed : #{e.message}"
     raise CustomExceptions::Webhook::RetriableError, "Webhook request failed: #{e.message}"
   end
 
@@ -76,26 +89,7 @@ class Webhooks::Trigger
   end
 
   def update_conversation_status(message)
-    conversation = message.conversation
-    return unless conversation&.pending?
-    return if conversation&.account&.keep_pending_on_bot_failure
-
-    conversation.open!
-    create_agent_bot_error_activity(conversation)
-  end
-
-  def create_agent_bot_error_activity(conversation)
-    content = I18n.t('conversations.activity.agent_bot.error_moved_to_open')
-    Conversations::ActivityMessageJob.perform_later(conversation, activity_message_params(conversation, content))
-  end
-
-  def activity_message_params(conversation, content)
-    {
-      account_id: conversation.account_id,
-      inbox_id: conversation.inbox_id,
-      message_type: :activity,
-      content: content
-    }
+    Webhooks::ErrorHandler.hand_off_after_bot_failure(message.conversation)
   end
 
   def update_message_status(error)
@@ -124,7 +118,7 @@ class Webhooks::Trigger
   end
 
   def retryable_agent_bot_error?(error)
-    @webhook_type == :agent_bot_webhook && RETRYABLE_AGENT_BOT_STATUSES.include?(http_status(error))
+    AGENT_BOT_WEBHOOK_TYPES.include?(@webhook_type) && RETRYABLE_AGENT_BOT_STATUSES.include?(http_status(error))
   end
 
   def http_status(error)

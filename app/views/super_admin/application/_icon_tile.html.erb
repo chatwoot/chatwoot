@@ -1,0 +1,5 @@
+<%# A square holding an icon: a logo on a neutral tile, or a line icon on a tinted one when `tone` is given. %>
+<%# locals: (icon:, tone: nil, extra: nil) -%>
+<span class="<%= class_names("grid size-9 shrink-0 place-items-center rounded-lg", tone || "border border-n-weak bg-white text-n-brand dark:bg-n-solid-3 dark:text-n-blue-11", extra) %>">
+  <span class="<%= icon %> <%= tone ? "size-[1.125rem]" : "size-5" %>"></span>
+</span>

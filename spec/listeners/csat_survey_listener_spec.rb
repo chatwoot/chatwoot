@@ -52,6 +52,43 @@ describe CsatSurveyListener do
 
         listener.conversation_status_changed(event)
       end
+
+      it 'does not schedule a retry when the survey was not blocked by the rules' do
+        event = Events::Base.new(event_name, Time.zone.now, conversation: resolved_conversation)
+        allow(csat_service).to receive(:perform).and_return(:not_eligible)
+        allow(CsatSurveyService).to receive(:new).and_return(csat_service)
+
+        expect { listener.conversation_status_changed(event) }.not_to have_enqueued_job(Conversations::CsatSurveyRetryJob)
+      end
+
+      it 'schedules one delayed retry when the survey rules blocked the survey' do
+        event = Events::Base.new(event_name, Time.zone.now, conversation: resolved_conversation)
+        allow(csat_service).to receive(:perform).and_return(:blocked_by_survey_rules)
+        allow(CsatSurveyService).to receive(:new).and_return(csat_service)
+
+        expect { listener.conversation_status_changed(event) }
+          .to have_enqueued_job(Conversations::CsatSurveyRetryJob)
+          .with(resolved_conversation)
+          .at(a_value_within(5.seconds).of(described_class::CSAT_RETRY_DELAY.from_now))
+      end
+
+      # The whole point of the retry: the automation that applies the label the rule tests runs in
+      # another job, and on a resolve-right-after-replying it commits a couple of seconds late.
+      it 'sends the survey on the retry when the label only arrives after the resolution' do
+        csat_enabled_inbox.update!(csat_config: { 'survey_rules' => { 'operator' => 'contains', 'values' => ['humano'] } })
+        event = Events::Base.new(event_name, Time.zone.now, conversation: resolved_conversation)
+
+        # The block form of `perform_enqueued_jobs` runs each job the moment it is enqueued, which
+        # would land the retry before the label and prove nothing. Enqueue, let the label arrive,
+        # then drain: that is the real sequence.
+        listener.conversation_status_changed(event)
+        expect(resolved_conversation.messages.where(content_type: :input_csat)).to be_empty
+
+        resolved_conversation.add_labels(['humano'])
+        perform_enqueued_jobs(only: Conversations::CsatSurveyRetryJob)
+
+        expect(resolved_conversation.reload.messages.where(content_type: :input_csat).count).to eq 1
+      end
     end
 
     context 'when conversation is not resolved' do

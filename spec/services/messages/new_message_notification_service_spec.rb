@@ -56,6 +56,19 @@ describe Messages::NewMessageNotificationService do
       end
     end
 
+    context 'when message is created by an agent bot' do
+      let(:agent_bot) { create(:agent_bot, account: account) }
+      let(:message) { create(:message, conversation: conversation, account: account, message_type: :outgoing, sender: agent_bot) }
+
+      before do
+        described_class.new(message: message).perform
+      end
+
+      it 'will not notify the assignee or the participating users' do
+        expect(Notification.where(primary_actor: message.conversation, secondary_actor: message)).not_to exist
+      end
+    end
+
     context 'when message is created by a contact' do
       let(:message) { create(:message, conversation: conversation, account: account) }
 

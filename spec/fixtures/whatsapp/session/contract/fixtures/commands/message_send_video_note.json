@@ -1,0 +1,32 @@
+{
+  "v": 1,
+  "id": "cmd_000045",
+  "type": "message.send",
+  "sid": "9f1c0f4e-6a2b-4c8e-9d1a-2b3c4d5e6f70",
+  "ts": 1755440000123,
+  "payload": {
+    "message_id": "3EB0A1B2C3D4E5F60807",
+    "to": {
+      "kind": "phone",
+      "id": "5541999990000"
+    },
+    "content": {
+      "type": "media",
+      "kind": "video",
+      "mime": "video/mp4",
+      "voice_note": false,
+      "video_note": true,
+      "size": 786432,
+      "duration": 9,
+      "thumbnail": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/wAALCAABAAEBAREA/8QAFAABAAAAAAAAAAAAAAAAAAAACf/EABQQAQAAAAAAAAAAAAAAAAAAAAD/2gAIAQEAAD8AKp//2Q==",
+      "ref": {
+        "kind": "url",
+        "url": "http://rails:3000/rails/active_storage/blobs/proxy/jkl/recado.mp4",
+        "size": 786432,
+        "mime": "video/mp4"
+      }
+    }
+  },
+  "reply_to": "wa:reply:cmd_000045",
+  "deadline": 1755440015123
+}

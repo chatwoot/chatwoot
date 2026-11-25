@@ -1,6 +1,10 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
+# enterprise/ stays identical to upstream and nothing outside it patches it
+sh bin/validate_enterprise_parity --staged || exit 1
+git diff --cached --name-only --diff-filter=ACMR | grep -E '\.rb$|^fazer_ai_ee/' | xargs -r ruby bin/validate_enterprise_isolation || exit 1
+
 # lint js and vue files
 npx --no-install lint-staged
 

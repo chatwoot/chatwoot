@@ -2,6 +2,7 @@ import parse from 'date-fns/parse';
 import getHours from 'date-fns/getHours';
 import getMinutes from 'date-fns/getMinutes';
 import timeZoneData from './timezones.json';
+import { dateTimeFormat } from 'shared/helpers/localizedDate';
 
 export const defaultTimeSlot = [
   {
@@ -59,11 +60,12 @@ export const generateTimeSlots = (step = 15) => {
   const slots = [];
   while (date.getDate() === 1) {
     slots.push(
-      date.toLocaleTimeString('en-US', {
+      // A slot value the API stores, not a label: always en-US.
+      dateTimeFormat('en-US', {
         hour: '2-digit',
         minute: '2-digit',
         hour12: true,
-      })
+      }).format(date)
     );
     date.setMinutes(date.getMinutes() + step);
   }

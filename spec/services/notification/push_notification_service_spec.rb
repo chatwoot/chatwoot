@@ -43,6 +43,69 @@ describe Notification::PushNotificationService do
     end
   end
 
+  describe '#perform push target' do
+    let(:pushed_payloads) { [] }
+
+    before do
+      user.notification_settings.find_by(account_id: account.id)
+          .update!(selected_push_flags: [:push_conversation_assignment, :push_internal_chat_mention])
+      allow(WebPush).to receive(:payload_send) { |**payload| pushed_payloads << payload }
+      allow(Rails.logger).to receive(:info)
+      create(:notification_subscription, :browser_push, user: user)
+    end
+
+    context 'when the notification comes from internal chat' do
+      let(:channel) { create(:internal_chat_channel, account: account) }
+      let(:message) { create(:internal_chat_message, account: account, channel: channel, sender: create(:user, account: account)) }
+      let(:internal_chat_notification) do
+        create(:notification, user: user, account: account, primary_actor: channel, secondary_actor: message,
+                              notification_type: 'internal_chat_mention')
+      end
+
+      it 'points the push at the channel instead of raising on display_id' do
+        with_modified_env VAPID_PUBLIC_KEY: 'test', FRONTEND_URL: 'https://app.example.com' do
+          described_class.new(notification: internal_chat_notification).perform
+
+          expect(JSON.parse(pushed_payloads.first[:message])).to include(
+            'url' => "https://app.example.com/app/accounts/#{account.id}/internal-chat/channels/#{channel.id}",
+            'tag' => "internal_chat_mention_#{channel.id}_#{internal_chat_notification.id}"
+          )
+        end
+      end
+
+      context 'when the channel is a direct message' do
+        let(:channel) { create(:internal_chat_channel, :dm, account: account) }
+
+        it 'points the push at the dm route' do
+          with_modified_env VAPID_PUBLIC_KEY: 'test', FRONTEND_URL: 'https://app.example.com' do
+            described_class.new(notification: internal_chat_notification).perform
+
+            expect(JSON.parse(pushed_payloads.first[:message])['url'])
+              .to eq("https://app.example.com/app/accounts/#{account.id}/internal-chat/dm/#{channel.id}")
+          end
+        end
+      end
+    end
+
+    context 'when the notification comes from a conversation' do
+      let(:conversation) { create(:conversation, account: account) }
+      let(:conversation_notification) do
+        create(:notification, user: user, account: account, primary_actor: conversation, notification_type: 'conversation_assignment')
+      end
+
+      # The host comes from the route helper's default_url_options, not from the env at call time.
+      it 'keeps addressing the conversation by display_id' do
+        with_modified_env VAPID_PUBLIC_KEY: 'test' do
+          described_class.new(notification: conversation_notification).perform
+
+          pushed = JSON.parse(pushed_payloads.first[:message])
+          expect(pushed['url']).to end_with("/app/accounts/#{account.id}/conversations/#{conversation.display_id}")
+          expect(pushed['tag']).to eq("conversation_assignment_#{conversation.display_id}_#{conversation_notification.id}")
+        end
+      end
+    end
+  end
+
   context 'when the push server returns error' do
     it 'sends webpush notifications for webpush subscription' do
       with_modified_env VAPID_PUBLIC_KEY: 'test' do

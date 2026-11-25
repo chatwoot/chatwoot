@@ -1,0 +1,32 @@
+{
+  "id": "3EB0000000000000000003",
+  "chat": {
+    "kind": "lid",
+    "id": "182736451928374"
+  },
+  "sender": {
+    "phone": "5541999990000",
+    "lid": "182736451928374",
+    "push_name": "Ana Souza"
+  },
+  "from_me": false,
+  "timestamp": 1755440000123,
+  "content": {
+    "type": "text",
+    "body": "Aceita Pix?"
+  },
+  "quoted_id": "product_inquiry_3EB0000000000000000099",
+  "quoted_product": {
+    "id": "1000000000000001",
+    "title": "Caneca",
+    "description": "Caneca de cerâmica, 300 ml",
+    "price_1000": 34900,
+    "currency": "BRL",
+    "image_count": 1,
+    "owner": {
+      "kind": "lid",
+      "id": "918273645546372"
+    },
+    "thumbnail": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA=="
+  }
+}

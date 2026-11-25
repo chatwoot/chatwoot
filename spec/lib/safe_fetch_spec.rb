@@ -205,6 +205,193 @@ RSpec.describe SafeFetch do
           expect(error.class.name).to eq('SafeFetch::UnsafeUrlError')
         end
       end
+
+      it 'allows private IP literals when private network access is enabled' do
+        private_url = 'http://192.168.3.21/image.png'
+        allow(Resolv).to receive(:getaddresses).with('192.168.3.21').and_return(['192.168.3.21'])
+        stub_request(:get, private_url).to_return(
+          status: 200,
+          body: File.new(Rails.root.join('spec/assets/avatar.png')),
+          headers: { 'Content-Type' => 'image/png' }
+        )
+
+        with_modified_env('SAFE_FETCH_ALLOW_PRIVATE_NETWORK' => 'true') do
+          expect { described_class.fetch(private_url) { nil } }.not_to raise_error
+        end
+      end
+
+      it 'allows private hostnames when private network access is enabled' do
+        private_url = 'http://internal-webhook-service/image.png'
+        allow(Resolv).to receive(:getaddresses).with('internal-webhook-service').and_return(['10.0.0.5'])
+        stub_request(:get, private_url).to_return(
+          status: 200,
+          body: File.new(Rails.root.join('spec/assets/avatar.png')),
+          headers: { 'Content-Type' => 'image/png' }
+        )
+
+        with_modified_env('SAFE_FETCH_ALLOW_PRIVATE_NETWORK' => 'true') do
+          expect { described_class.fetch(private_url) { nil } }.not_to raise_error
+        end
+      end
+
+      it 'allows redirects to private hostnames when private network access is enabled' do
+        redirect_url = 'http://example.com/redirect.png'
+        private_url = 'http://private.example.com/image.png'
+        allow(Resolv).to receive(:getaddresses).with('private.example.com').and_return(['10.0.0.5'])
+        stub_request(:get, redirect_url).to_return(status: 302, headers: { 'Location' => private_url })
+        stub_request(:get, private_url).to_return(
+          status: 200,
+          body: File.new(Rails.root.join('spec/assets/avatar.png')),
+          headers: { 'Content-Type' => 'image/png' }
+        )
+
+        with_modified_env('SAFE_FETCH_ALLOW_PRIVATE_NETWORK' => 'true') do
+          expect { described_class.fetch(redirect_url) { nil } }.not_to raise_error
+        end
+      end
+
+      it 'strips caller-provided sensitive headers on private network cross-origin redirects' do
+        redirect_url = 'http://example.com/redirect.png'
+        private_url = 'http://private.example.com/image.png'
+        redirected_headers = nil
+        allow(Resolv).to receive(:getaddresses).with('private.example.com').and_return(['10.0.0.5'])
+        stub_request(:get, redirect_url).to_return(status: 302, headers: { 'Location' => private_url })
+        stub_request(:get, private_url)
+          .with do |request|
+            redirected_headers = request.headers.transform_keys(&:downcase)
+            true
+          end
+          .to_return(
+            status: 200,
+            body: File.new(Rails.root.join('spec/assets/avatar.png')),
+            headers: { 'Content-Type' => 'image/png' }
+          )
+
+        with_modified_env('SAFE_FETCH_ALLOW_PRIVATE_NETWORK' => 'true') do
+          described_class.fetch(
+            redirect_url,
+            headers: { 'X-API-Key' => 'secret-key' },
+            sensitive_headers: ['X-API-Key']
+          ) { nil }
+        end
+
+        expect(redirected_headers).not_to include('x-api-key')
+      end
+    end
+
+    # fazer-ai/chatwoot#927
+    context 'with SAFE_FETCH_PRIVATE_TARGETS' do
+      let(:png) { { status: 200, body: File.new(Rails.root.join('spec/assets/avatar.png')), headers: { 'Content-Type' => 'image/png' } } }
+
+      def fetch_with_targets(url, targets = '10.40.10.20:3000')
+        with_modified_env('SAFE_FETCH_PRIVATE_TARGETS' => targets) { described_class.fetch(url) { nil } }
+      end
+
+      def expect_unsafe(&)
+        expect(&).to(raise_error { |error| expect(error.class.name).to eq('SafeFetch::UnsafeUrlError') })
+      end
+
+      it 'allows a listed host:port over http' do
+        stub = stub_request(:get, 'http://10.40.10.20:3000/hook').to_return(png)
+
+        expect { fetch_with_targets('http://10.40.10.20:3000/hook') }.not_to raise_error
+        expect(stub).to have_been_requested
+      end
+
+      it 'allows a listed host:port over https' do
+        stub = stub_request(:get, 'https://10.40.10.20:3000/hook').to_return(png)
+
+        expect { fetch_with_targets('https://10.40.10.20:3000/hook') }.not_to raise_error
+        expect(stub).to have_been_requested
+      end
+
+      it 'allows a listed hostname that resolves to a private address' do
+        allow(Resolv).to receive(:getaddresses).with('agents.internal').and_return(['10.40.10.20'])
+        stub = stub_request(:get, 'http://agents.internal:3000/hook').to_return(png)
+
+        expect { fetch_with_targets('http://agents.internal:3000/hook', 'Agents.Internal:3000') }.not_to raise_error
+        expect(stub).to have_been_requested
+      end
+
+      it 'matches the host case-insensitively' do
+        allow(Resolv).to receive(:getaddresses).with('AGENTS.internal').and_return(['10.40.10.20'])
+        stub = stub_request(:get, 'http://agents.internal:3000/hook').to_return(png)
+
+        expect { fetch_with_targets('http://AGENTS.internal:3000/hook', 'agents.internal:3000') }.not_to raise_error
+        expect(stub).to have_been_requested
+      end
+
+      it 'refuses a redirect from a listed target to a URL without a host' do
+        stub_request(:get, 'http://10.40.10.20:3000/hook').to_return(status: 302, headers: { 'Location' => 'http:/escape' })
+
+        expect_unsafe { fetch_with_targets('http://10.40.10.20:3000/hook') }
+      end
+
+      it 'refuses another private host on the same port' do
+        stub = stub_request(:get, 'http://10.40.10.21:3000/hook')
+
+        expect_unsafe { fetch_with_targets('http://10.40.10.21:3000/hook') }
+        expect(stub).not_to have_been_requested
+      end
+
+      it 'refuses the listed host on another port' do
+        stub = stub_request(:get, 'http://10.40.10.20:5432/hook')
+
+        expect_unsafe { fetch_with_targets('http://10.40.10.20:5432/hook') }
+        expect(stub).not_to have_been_requested
+      end
+
+      it 'refuses the listed host on the default port' do
+        stub = stub_request(:get, 'http://10.40.10.20/hook')
+
+        expect_unsafe { fetch_with_targets('http://10.40.10.20/hook') }
+        expect(stub).not_to have_been_requested
+      end
+
+      it 'refuses a redirect from a listed target to a host:port outside the list' do
+        stub_request(:get, 'http://10.40.10.20:3000/hook').to_return(status: 302, headers: { 'Location' => 'http://10.40.10.20:5432/escape' })
+        escape = stub_request(:get, 'http://10.40.10.20:5432/escape')
+
+        expect_unsafe { fetch_with_targets('http://10.40.10.20:3000/hook') }
+        expect(escape).not_to have_been_requested
+      end
+
+      it 'refuses a redirect from a listed target to a public host outside the list' do
+        stub_request(:get, 'http://10.40.10.20:3000/hook').to_return(status: 302, headers: { 'Location' => 'http://example.com/escape' })
+        escape = stub_request(:get, 'http://example.com/escape')
+
+        expect_unsafe { fetch_with_targets('http://10.40.10.20:3000/hook') }
+        expect(escape).not_to have_been_requested
+      end
+
+      it 'follows a redirect between listed targets' do
+        stub_request(:get, 'http://10.40.10.20:3000/hook').to_return(status: 302, headers: { 'Location' => '/final' })
+        stub_request(:get, 'http://10.40.10.20:3000/final').to_return(status: 302, headers: { 'Location' => 'http://10.40.10.20:3001/final' })
+        final = stub_request(:get, 'http://10.40.10.20:3001/final').to_return(png)
+
+        expect { fetch_with_targets('http://10.40.10.20:3000/hook', '10.40.10.20:3000, 10.40.10.20:3001') }.not_to raise_error
+        expect(final).to have_been_requested
+      end
+
+      it 'keeps public URLs on the default guard' do
+        stub = stub_request(:get, 'http://example.com/image.png').to_return(png)
+
+        expect { fetch_with_targets('http://example.com/image.png') }.not_to raise_error
+        expect(stub).to have_been_requested
+      end
+
+      it 'keeps refusing private addresses when the list is empty' do
+        expect_unsafe { fetch_with_targets('http://10.40.10.20:3000/hook', '') }
+      end
+
+      it 'lets SAFE_FETCH_ALLOW_PRIVATE_NETWORK open every private address' do
+        stub = stub_request(:get, 'http://10.40.10.21:5432/hook').to_return(png)
+
+        with_modified_env('SAFE_FETCH_ALLOW_PRIVATE_NETWORK' => 'true') do
+          expect { fetch_with_targets('http://10.40.10.21:5432/hook') }.not_to raise_error
+        end
+        expect(stub).to have_been_requested
+      end
     end
 
     context 'with content-type allowlist' do
@@ -356,6 +543,47 @@ RSpec.describe SafeFetch do
         expect(redirected_headers).not_to include('authorization', 'cookie')
       end
 
+      it 'strips caller-provided sensitive headers on cross-origin redirects' do
+        redirect_url = 'https://example.com/image.png'
+        redirected_headers = nil
+        headers = { 'X-API-Key' => 'secret-key' }
+
+        stub_request(:get, url).to_return(status: 302, headers: { 'Location' => redirect_url })
+        stub_request(:get, redirect_url)
+          .with do |request|
+            redirected_headers = request.headers.transform_keys(&:downcase)
+            true
+          end
+          .to_return(status: 200, body: '', headers: {})
+
+        described_class.fetch(
+          url,
+          headers: headers,
+          sensitive_headers: ['X-API-Key'],
+          validate_content_type: false
+        ) { nil }
+
+        expect(redirected_headers).not_to include('x-api-key')
+      end
+
+      it 'preserves caller-provided sensitive headers on same-origin redirects' do
+        redirect_url = 'http://example.com/redirected.png'
+
+        stub_request(:get, url).to_return(status: 302, headers: { 'Location' => '/redirected.png' })
+        stub_request(:get, redirect_url)
+          .with(headers: { 'X-API-Key' => 'secret-key' })
+          .to_return(status: 200, body: '', headers: {})
+
+        described_class.fetch(
+          url,
+          headers: { 'X-API-Key' => 'secret-key' },
+          sensitive_headers: ['X-API-Key'],
+          validate_content_type: false
+        ) { nil }
+
+        expect(WebMock).to have_requested(:get, redirect_url).with(headers: { 'X-API-Key' => 'secret-key' })
+      end
+
       it 'raises UnsupportedMethodError for unsupported HTTP methods' do
         expect { described_class.fetch(url, method: :options) { nil } }.to raise_error do |error|
           expect(error.class.name).to eq('SafeFetch::UnsupportedMethodError')
@@ -447,6 +675,29 @@ RSpec.describe SafeFetch do
 
         expect { described_class.fetch(url) { nil } }.to raise_error do |error|
           expect(error.class.name).to eq('SafeFetch::HttpError')
+        end
+      end
+    end
+  end
+
+  # fazer-ai/chatwoot#927
+  describe '.private_targets' do
+    it 'parses comma-separated host:port entries' do
+      with_modified_env('SAFE_FETCH_PRIVATE_TARGETS' => ' 10.40.10.20:3000 ,Agents.Internal:8080,[fd00::1]:443') do
+        expect(described_class.private_targets).to eq([['10.40.10.20', 3000], ['agents.internal', 8080], ['fd00::1', 443]])
+      end
+    end
+
+    it 'is empty when the variable is unset' do
+      with_modified_env('SAFE_FETCH_PRIVATE_TARGETS' => nil) do
+        expect(described_class.private_targets).to eq([])
+      end
+    end
+
+    ['10.40.10.20', '10.40.10.20:3000,10.40.10.21', '10.40.10.20:', 'http://10.40.10.20:3000'].each do |value|
+      it "raises on an entry without a valid port (#{value})" do
+        with_modified_env('SAFE_FETCH_PRIVATE_TARGETS' => value) do
+          expect { described_class.private_targets }.to raise_error(ArgumentError, /SAFE_FETCH_PRIVATE_TARGETS/)
         end
       end
     end

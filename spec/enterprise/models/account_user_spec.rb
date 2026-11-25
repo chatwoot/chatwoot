@@ -8,6 +8,16 @@ RSpec.describe AccountUser, type: :model do
     it { is_expected.to belong_to(:custom_role).optional }
   end
 
+  describe 'notification settings' do
+    it 'pushes missed calls by default' do
+      account_user = create(:account_user)
+
+      setting = account_user.user.notification_settings.find_by(account_id: account_user.account_id)
+      expect(setting.push_voice_call_missed?).to be(true)
+      expect(setting.push_conversation_assignment?).to be(true)
+    end
+  end
+
   describe 'permissions' do
     context 'when custom role is assigned' do
       it 'returns permissions of the custom role along with `custom_role` permission' do
@@ -26,6 +36,29 @@ RSpec.describe AccountUser, type: :model do
 
         expect(account_user.permissions).to eq([account_user.role])
       end
+    end
+  end
+
+  describe 'filtered unread count invalidation' do
+    it 'invalidates filtered counts when the custom role assignment changes' do
+      account = create(:account)
+      user = create(:user)
+      account_user = create(:account_user, account: account, user: user)
+      custom_role = create(:custom_role, account: account)
+      invalidator = instance_double(Conversations::UnreadCounts::FilteredCountInvalidator, user_visibility_changed!: true)
+
+      allow(Conversations::UnreadCounts::FilteredCountInvalidator).to receive(:new).and_return(invalidator)
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+
+      account_user.update!(custom_role_id: custom_role.id)
+
+      expect(invalidator).to have_received(:user_visibility_changed!).with(user_id: user.id)
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+        'account.cache_invalidated',
+        kind_of(Time),
+        account: account,
+        cache_keys: account.cache_keys
+      )
     end
   end
 

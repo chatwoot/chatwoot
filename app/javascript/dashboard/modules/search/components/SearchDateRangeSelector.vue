@@ -1,7 +1,8 @@
 <script setup>
-import { computed, ref, defineModel } from 'vue';
+import { computed, ref } from 'vue';
 import { useToggle } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
+import { useConfig } from 'dashboard/composables/useConfig';
 import { vOnClickOutside } from '@vueuse/components';
 import {
   subDays,
@@ -9,7 +10,6 @@ import {
   subYears,
   startOfDay,
   endOfDay,
-  format,
   getUnixTime,
   fromUnixTime,
 } from 'date-fns';
@@ -17,6 +17,7 @@ import { DATE_RANGE_TYPES } from '../helpers/searchHelper';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
+import { formatFixed, formatLocalized } from 'shared/helpers/localizedDate';
 
 const emit = defineEmits(['change']);
 const modelValue = defineModel({
@@ -31,9 +32,13 @@ const customFrom = ref('');
 const customTo = ref('');
 const rangeType = ref(DATE_RANGE_TYPES.BETWEEN);
 
-// Calculate min date (90 days ago) for date inputs
-const minDate = computed(() => format(subDays(new Date(), 90), 'yyyy-MM-dd'));
-const maxDate = computed(() => format(new Date(), 'yyyy-MM-dd'));
+const { searchTimeRangeLimitDays } = useConfig();
+
+// Calculate min date (start of the search window) for date inputs
+const minDate = computed(() =>
+  formatFixed(subDays(new Date(), searchTimeRangeLimitDays), 'yyyy-MM-dd')
+);
+const maxDate = computed(() => formatFixed(new Date(), 'yyyy-MM-dd'));
 
 // Check if both custom date inputs have values
 const hasCustomDates = computed(() => customFrom.value && customTo.value);
@@ -88,11 +93,13 @@ const selectedValue = computed(() => {
 });
 
 const menuItems = computed(() =>
-  PRESET_RANGES.value.map(item => ({
-    ...item,
-    action: DATE_FILTER_ACTIONS.PRESET,
-    isSelected: selectedValue.value === item.value,
-  }))
+  PRESET_RANGES.value
+    .filter(item => item.days <= searchTimeRangeLimitDays)
+    .map(item => ({
+      ...item,
+      action: DATE_FILTER_ACTIONS.PRESET,
+      isSelected: selectedValue.value === item.value,
+    }))
 );
 
 const applySelection = ({ type, from, to }) => {
@@ -143,7 +150,8 @@ const clearCustomRange = () => {
   customTo.value = '';
 };
 
-const formatDate = timestamp => format(fromUnixTime(timestamp), 'MMM d, yyyy'); // (e.g., "Jan 15, 2024")
+const formatDate = timestamp =>
+  formatLocalized(fromUnixTime(timestamp), 'MMM d, yyyy'); // (e.g., "Jan 15, 2024")
 
 const selectedLabel = computed(() => {
   const prefix = t('SEARCH.DATE_RANGE.TIME_RANGE');
@@ -172,8 +180,10 @@ const onToggleDropdown = () => {
 
     if (CUSTOM_RANGE_TYPES.includes(type)) {
       try {
-        customFrom.value = from ? format(fromUnixTime(from), 'yyyy-MM-dd') : '';
-        customTo.value = to ? format(fromUnixTime(to), 'yyyy-MM-dd') : '';
+        customFrom.value = from
+          ? formatFixed(fromUnixTime(from), 'yyyy-MM-dd')
+          : '';
+        customTo.value = to ? formatFixed(fromUnixTime(to), 'yyyy-MM-dd') : '';
       } catch {
         customFrom.value = '';
         customTo.value = '';

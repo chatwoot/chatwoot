@@ -10,7 +10,7 @@ class Api::V1::Accounts::GroupsController < Api::V1::Accounts::BaseController
     ).perform
 
     render json: result
-  rescue Whatsapp::Providers::WhatsappBaileysService::ProviderUnavailableError => e
+  rescue Whatsapp::Session::Errors::Error => e
     render json: { error: e.message }, status: :unprocessable_entity
   end
 

@@ -14,28 +14,32 @@ properties:
     items:
       type: string
       enum: [
-        conversation_created,
-        conversation_status_changed,
-        conversation_updated,
-        contact_created,
-        contact_updated,
-        message_created,
-        message_incoming,
-        message_outgoing,
-        message_updated,
-        webwidget_triggered,
-        inbox_created,
-        inbox_updated,
-        conversation_typing_on,
-        conversation_typing_off,
-        conversation_recording,
-        provider_event_received,
-        internal_chat_message_created,
-        internal_chat_message_updated,
-        internal_chat_message_deleted,
-        internal_chat_channel_updated
+        "conversation_created",
+        "conversation_status_changed",
+        "conversation_updated",
+        "contact_created",
+        "contact_updated",
+        "message_created",
+        "message_incoming",
+        "message_outgoing",
+        "message_updated",
+        "webwidget_triggered",
+        "inbox_created",
+        "inbox_updated",
+        "conversation_typing_on",
+        "conversation_typing_off",
+        "conversation_recording",
+        "provider_event_received",
+        "internal_chat_message_created",
+        "internal_chat_message_updated",
+        "internal_chat_message_deleted",
+        "internal_chat_channel_updated"
       ]
     description: The list of subscribed events
+  secret:
+    type: string
+    nullable: true
+    description: Secret used to sign webhook requests. Signed webhook deliveries include `X-Chatwoot-Timestamp` and `X-Chatwoot-Signature`; the signature is `sha256=` followed by the HMAC-SHA256 of `{timestamp}.{raw_request_body}` using this secret. Deliveries also include `X-Chatwoot-Delivery` when a delivery id is available.
   account_id:
     type: number
     description: The id of the account which the webhook object belongs to

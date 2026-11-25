@@ -145,6 +145,33 @@ describe('#actions', () => {
         [types.SET_CONTACT_UI_FLAG, { isUpdating: false }],
       ]);
     });
+
+    it('preserves blank company_id when updating with form data', async () => {
+      axios.patch.mockResolvedValue({ data: { payload: contactList[0] } });
+
+      await actions.update(
+        { commit },
+        {
+          id: contactList[0].id,
+          isFormData: true,
+          name: contactList[0].name,
+          companyId: '',
+          avatar: 'avatar-file',
+          additionalAttributes: {
+            companyName: '',
+            socialProfiles: {},
+          },
+        }
+      );
+
+      const lastPatchCall =
+        axios.patch.mock.calls[axios.patch.mock.calls.length - 1];
+      const formData = lastPatchCall[1];
+
+      expect(formData).toBeInstanceOf(FormData);
+      expect(formData.has('company_id')).toBe(true);
+      expect(formData.get('company_id')).toBe('');
+    });
   });
 
   describe('#create', () => {
@@ -308,19 +335,28 @@ describe('#actions', () => {
   });
 
   describe('#fetchFilteredContacts', () => {
-    it('fetches filtered conversations with a mock commit', async () => {
+    it('replaces the contact list with the filter results', async () => {
       axios.post.mockResolvedValue({
         data: filterApiResponse,
       });
       await actions.filter({ commit }, filterQueryData);
-      expect(commit).toHaveBeenCalledTimes(5);
       expect(commit.mock.calls).toEqual([
-        ['SET_CONTACT_UI_FLAG', { isFetching: true }],
         ['CLEAR_CONTACTS'],
         ['SET_CONTACTS', filterApiResponse.payload],
         ['SET_CONTACT_META', filterApiResponse.meta],
-        ['SET_CONTACT_UI_FLAG', { isFetching: false }],
       ]);
+    });
+
+    it('returns an empty result when a lookup outside the list fails', async () => {
+      axios.post.mockRejectedValue(new Error('Request failed'));
+
+      const result = await actions.filter(
+        { commit },
+        { queryPayload: filterQueryData, resetState: false }
+      );
+
+      expect(result).toEqual([]);
+      expect(commit).not.toHaveBeenCalled();
     });
   });
 
@@ -435,6 +471,50 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([
         [types.SET_CONTACT_UI_FLAG, { isInitiatingCall: true }],
         [types.SET_CONTACT_UI_FLAG, { isInitiatingCall: false }],
+      ]);
+    });
+  });
+
+  describe('#fetchAttachments', () => {
+    const attachments = [
+      { id: 11, message_id: 21, file_type: 'image' },
+      { id: 12, message_id: 22, file_type: 'file' },
+    ];
+
+    it('fetches and stores attachments on the contact record', async () => {
+      axios.get.mockResolvedValue({ data: { payload: attachments } });
+      const state = { records: { 1: { id: 1 } } };
+      await actions.fetchAttachments({ commit, state }, 1);
+      expect(commit.mock.calls).toEqual([
+        [types.SET_CONTACT_UI_FLAG, { isFetchingAttachments: true }],
+        [types.SET_CONTACT_ATTACHMENTS, { id: 1, data: attachments }],
+        [types.SET_CONTACT_UI_FLAG, { isFetchingAttachments: false }],
+      ]);
+    });
+
+    it('refetches even when attachments are already cached', async () => {
+      axios.get.mockResolvedValue({ data: { payload: attachments } });
+      const state = {
+        records: { 1: { id: 1, attachments: [{ id: 99 }] } },
+      };
+      await actions.fetchAttachments({ commit, state }, 1);
+      expect(axios.get).toHaveBeenCalled();
+      expect(commit.mock.calls).toEqual([
+        [types.SET_CONTACT_UI_FLAG, { isFetchingAttachments: true }],
+        [types.SET_CONTACT_ATTACHMENTS, { id: 1, data: attachments }],
+        [types.SET_CONTACT_UI_FLAG, { isFetchingAttachments: false }],
+      ]);
+    });
+
+    it('clears the loading flag and rethrows when the API errors', async () => {
+      axios.get.mockRejectedValue(new Error('Network error'));
+      const state = { records: { 1: { id: 1 } } };
+      await expect(
+        actions.fetchAttachments({ commit, state }, 1)
+      ).rejects.toThrow('Network error');
+      expect(commit.mock.calls).toEqual([
+        [types.SET_CONTACT_UI_FLAG, { isFetchingAttachments: true }],
+        [types.SET_CONTACT_UI_FLAG, { isFetchingAttachments: false }],
       ]);
     });
   });

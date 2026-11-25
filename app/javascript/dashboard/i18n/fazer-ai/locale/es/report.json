@@ -1,0 +1,49 @@
+{
+  "REPORT": {
+    "CROSS_FILTER": {
+      "ALL_INBOXES": "Todas las bandejas de entrada",
+      "ALL_AGENTS": "Todos los agentes",
+      "NO_RESULTS": "Sin actividad para este filtro en el período seleccionado."
+    },
+    "DISTRIBUTION": {
+      "TITLE": {
+        "AGENT": "Distribución por agente",
+        "INBOX": "Distribución por bandeja de entrada",
+        "TEAM": "Distribución por equipo"
+      },
+      "METRIC": {
+        "RESOLUTIONS": "Resueltas",
+        "HANDLED": "Atendidas",
+        "ASSIGNED": "Asignadas",
+        "OPENED": "Abiertas"
+      },
+      "OTHERS": "Otros ({count})",
+      "EMPTY_METRIC": "No hay datos suficientes para comparar en esta métrica.",
+      "HANDLED_SHARE": "Una conversación atendida por dos agentes cuenta para ambos, por lo que los porcentajes pueden sumar más del 100%."
+    },
+    "METRIC_HINTS": {
+      "RESOLVED_AGENT": "Resoluciones del período, contadas para quien era el responsable cuando se resolvió la conversación. Una conversación reabierta y resuelta de nuevo cuenta dos veces.",
+      "RESOLVED": "Resoluciones del período. Una conversación reabierta y resuelta de nuevo cuenta dos veces.",
+      "HANDLED_AGENT": "Conversaciones en las que el agente envió al menos un mensaje público en el período. Las notas privadas y los mensajes de bot no cuentan.",
+      "HANDLED": "Conversaciones en las que algún agente envió al menos un mensaje público en el período. Las notas privadas y los mensajes de bot no cuentan.",
+      "ASSIGNED_AGENT": "Conversaciones abiertas en el período que hoy están asignadas al agente. No indica quién las atendió.",
+      "ASSIGNED_TEAM": "Conversaciones abiertas en el período que hoy están asignadas al equipo.",
+      "OPENED": "Conversaciones abiertas en el período."
+    },
+    "METRICS": {
+      "HANDLED_CONVERSATIONS": {
+        "NAME": "Conversaciones atendidas",
+        "DESC": "( Total )"
+      },
+      "ASSIGNED_CONVERSATIONS": {
+        "NAME": "Conversaciones asignadas",
+        "DESC": "( Total )"
+      }
+    }
+  },
+  "SUMMARY_REPORTS": {
+    "HANDLED": "Atendidas",
+    "ASSIGNED": "Asignadas",
+    "OPENED": "Abiertas"
+  }
+}

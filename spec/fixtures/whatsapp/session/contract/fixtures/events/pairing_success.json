@@ -1,0 +1,15 @@
+{
+  "v": 1,
+  "id": "01920000-0000-7000-8000-000000000029",
+  "type": "pairing.success",
+  "sid": "9f1c0f4e-6a2b-4c8e-9d1a-2b3c4d5e6f70",
+  "epoch": 7,
+  "seq": 29,
+  "ts": 1755440000123,
+  "inst": "connector-a1b2c3",
+  "payload": {
+    "phone": "5541999991111",
+    "lid": "112233445566778",
+    "platform": "android"
+  }
+}

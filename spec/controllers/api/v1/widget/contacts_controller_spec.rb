@@ -54,15 +54,14 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
         expect(response).to have_http_status(:success)
       end
 
-      it 'update phone number if valid phone number passed' do
+      it 'keeps a valid phone number as an unverified claim instead of the contact phone' do
         patch '/api/v1/widget/contact',
               params: params.merge({ phone_number: '+245623239' }),
               headers: { 'X-Auth-Token' => token },
               as: :json
-        body = response.parsed_body
-        expect(body['has_phone_number']).to be true
         contact.reload
-        expect(contact.phone_number).to eq('+245623239')
+        expect(contact.phone_number).to eq('+745623239')
+        expect(contact.additional_attributes['claimed_phone_number']).to eq('+245623239')
         expect(response).to have_http_status(:success)
       end
 
@@ -111,6 +110,78 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
         expect(body['has_email']).to be true
         contact.reload
         expect(contact.email).to eq('test-1@test.com')
+        expect(response).to have_http_status(:success)
+      end
+    end
+  end
+
+  describe 'PATCH /api/v1/widget/contact with HMAC enforcement' do
+    let(:web_widget) { create(:channel_widget, account: account, hmac_mandatory: true) }
+    let!(:victim) { create(:contact, account: account, identifier: 'victim-identifier', name: 'Victim') }
+    let(:correct_identifier_hash) { OpenSSL::HMAC.hexdigest('sha256', web_widget.hmac_token, 'victim-identifier') }
+
+    context 'when an identifier is supplied on a mandatory-hmac inbox' do
+      it 'rejects when identifier_hash is omitted' do
+        patch '/api/v1/widget/contact',
+              params: { website_token: web_widget.website_token, identifier: 'victim-identifier', name: 'Attacker' },
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(victim.reload.name).to eq('Victim')
+      end
+
+      it 'rejects when identifier_hash is blank' do
+        patch '/api/v1/widget/contact',
+              params: { website_token: web_widget.website_token, identifier: 'victim-identifier', identifier_hash: '', name: 'Attacker' },
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(victim.reload.name).to eq('Victim')
+      end
+
+      it 'rejects when identifier_hash is null' do
+        patch '/api/v1/widget/contact',
+              params: { website_token: web_widget.website_token, identifier: 'victim-identifier', identifier_hash: nil, name: 'Attacker' },
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(victim.reload.name).to eq('Victim')
+      end
+
+      it 'rejects when identifier_hash is invalid' do
+        patch '/api/v1/widget/contact',
+              params: { website_token: web_widget.website_token, identifier: 'victim-identifier',
+                        identifier_hash: 'DEFINITELY_INVALID_AAAAA_NOT_A_REAL_HMAC', name: 'Attacker' },
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(victim.reload.name).to eq('Victim')
+      end
+
+      it 'succeeds when a valid identifier_hash is provided' do
+        patch '/api/v1/widget/contact',
+              params: { website_token: web_widget.website_token, identifier: 'victim-identifier',
+                        identifier_hash: correct_identifier_hash, name: 'Legit' },
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+      end
+    end
+
+    context 'when no identifier is supplied (anonymous prechat update)' do
+      it 'allows updating name/email without an identifier_hash' do
+        patch '/api/v1/widget/contact',
+              params: { website_token: web_widget.website_token, email: 'prechat@test.com', name: 'Prechat User' },
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+
+        expect(victim.reload.email).to be_nil
+        expect(Contact.from_email('prechat@test.com')).to be_present
         expect(response).to have_http_status(:success)
       end
     end
@@ -203,6 +274,20 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
              headers: { 'X-Auth-Token' => token },
              as: :json
         expect(contact.reload.custom_attributes).to eq({})
+      end
+
+      it 'returns presence flags instead of the stored contact details' do
+        contact.update!(email: 'stored@example.com', phone_number: '+15555550100', custom_attributes: { test: 'test', plan: 'pro' })
+
+        post '/api/v1/widget/contact/destroy_custom_attributes',
+             params: params,
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.custom_attributes).to eq({ 'plan' => 'pro' })
+        expect(response.parsed_body).to include('has_email' => true, 'has_name' => true, 'has_phone_number' => true)
+        expect(response.parsed_body.keys).not_to include('email', 'name', 'phone_number', 'custom_attributes', 'additional_attributes')
       end
     end
   end

@@ -1,32 +1,56 @@
 <script>
-import { ref, provide, useTemplateRef } from 'vue';
-import { useElementSize } from '@vueuse/core';
+import {
+  ref,
+  computed,
+  provide,
+  inject,
+  nextTick,
+  useTemplateRef,
+  getCurrentInstance,
+} from 'vue';
+import {
+  useElementSize,
+  useEventListener,
+  useResizeObserver,
+  useSessionStorage,
+} from '@vueuse/core';
 // composable
-import { useLabelSuggestions } from 'dashboard/composables/useLabelSuggestions';
+import { useTrack, useAlert, usePendingAlert } from 'dashboard/composables';
+import { useCampaignHistory } from 'dashboard/composables/useCampaignHistory';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { useAdmin } from 'dashboard/composables/useAdmin';
-import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
-import { useAlert, usePendingAlert } from 'dashboard/composables';
+import { CONTACT_CONVERSATION_NAVIGATION } from 'dashboard/composables/useContactConversationNavigation';
 
 // components
 import ReplyBox from './ReplyBox.vue';
 import MessageList from 'next/message/MessageList.vue';
-import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
+import ContactConversationLink from './ContactConversationLink.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
+import WhatsappNumberMissingBanner from './WhatsappNumberMissingBanner.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
+import CollapsedReplyBar from './CollapsedReplyBar.vue';
 import ResizableEditorWrapper from './ResizableEditorWrapper.vue';
+import ReferralBubble from 'dashboard/components-next/Conversation/ReferralBubble.vue';
+import ConversationHistorySync from './ConversationHistorySync.vue';
 
 // stores and apis
 import { mapGetters } from 'vuex';
 
 // mixins
 import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
+import { CAPABILITIES } from 'dashboard/helper/whatsappSession';
 
 // utils
 import { emitter } from 'shared/helpers/mitt';
 import { getTypingUsersText } from '../../../helper/commons';
+import {
+  captureTimelineAnchor,
+  getTimelineEntries,
+  getUnreadScrollTop,
+} from './helpers/campaignScrollAnchor';
 import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
-import { LocalStorage } from 'shared/helpers/localStorage';
 import {
   filterDuplicateSourceMessages,
   getReadMessages,
@@ -35,22 +59,51 @@ import {
 
 // constants
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { CMD_AI_ASSIST } from 'dashboard/helper/commandbar/events';
 import { REPLY_POLICY } from 'shared/constants/links';
-import wootConstants from 'dashboard/constants/globals';
-import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
+import wootConstants, {
+  META_RESTRICTION_STATUS_URL,
+} from 'dashboard/constants/globals';
+import { SESSION_STORAGE_KEYS } from 'dashboard/constants/sessionStorage';
+import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import WhatsappLinkDeviceModal from '../../../routes/dashboard/settings/inbox/components/WhatsappLinkDeviceModal.vue';
 import { isInboxAdminInGroup } from 'dashboard/helper/phoneHelper';
+import {
+  isReachoutRestricted,
+  isProviderOffline,
+  isSendStalled,
+  reachoutRestrictionDeadline,
+  isMessageCapped,
+  isMessageCapReached,
+  messageCapQuota,
+} from 'dashboard/helper/whatsapp';
+
+const FOLD_MOTION =
+  'duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:duration-0';
+const FOLD_ACTIVE_CLASS = `transition-[grid-template-rows,opacity] [&>div]:overflow-hidden ${FOLD_MOTION}`;
+const FOLD_HIDDEN_CLASS = '[--fold-rows:0fr] opacity-0';
+const FOLD_TRANSITION = {
+  enterActiveClass: FOLD_ACTIVE_CLASS,
+  leaveActiveClass: FOLD_ACTIVE_CLASS,
+  enterFromClass: FOLD_HIDDEN_CLASS,
+  leaveToClass: FOLD_HIDDEN_CLASS,
+};
 
 export default {
   components: {
     MessageList,
     ReplyBox,
     Banner,
-    ConversationLabelSuggestion,
+    WhatsappNumberMissingBanner,
+    ContactConversationLink,
     Spinner,
+    NextButton,
+    CollapsedReplyBar,
     ResizableEditorWrapper,
     WhatsappLinkDeviceModal,
+    ReferralBubble,
+    ConversationHistorySync,
   },
   mixins: [inboxMixin],
   setup() {
@@ -58,6 +111,7 @@ export default {
     const isPopOutReplyBox = ref(false);
     const conversationPanelRef = ref(null);
     const resizableEditorWrapperRef = ref(null);
+    const replyBoxRef = ref(null);
     const messagesViewRef = useTemplateRef('messagesViewRef');
     const topBannerRef = useTemplateRef('topBannerRef');
     const { height: containerHeight } = useElementSize(messagesViewRef);
@@ -74,19 +128,92 @@ export default {
     useKeyboardEvents(keyboardEvents);
 
     const {
-      captainTasksEnabled,
-      isLabelSuggestionFeatureEnabled,
-      getLabelSuggestions,
-    } = useLabelSuggestions();
+      olderConversation,
+      newerConversation,
+      isReadingHistory,
+      latestConversation,
+      leaveReadingMode,
+      openConversation,
+      buildConversationPath,
+    } = inject(CONTACT_CONVERSATION_NAVIGATION);
 
     provide('contextMenuElementTarget', conversationPanelRef);
 
+    const isReplyBoxCollapsed = useSessionStorage(
+      SESSION_STORAGE_KEYS.REPLY_BOX_COLLAPSED,
+      false
+    );
+    const isReplyFolded = computed(
+      () => isReadingHistory.value || isReplyBoxCollapsed.value
+    );
+    const canSendPublicReply = computed(
+      () => replyBoxRef.value?.canSendPublicReply ?? true
+    );
+
+    const collapseReplyBox = () => {
+      isReplyBoxCollapsed.value = true;
+      useTrack(CONVERSATION_EVENTS.COLLAPSED_REPLY_BOX);
+    };
+    const showReplyBox = () => {
+      isReplyBoxCollapsed.value = false;
+      leaveReadingMode();
+    };
+    // The editor focuses itself on these shortcuts, but only once it is shown.
+    const revealReplyBox = mode => {
+      if (!isReplyFolded.value) return;
+      showReplyBox();
+      useTrack(CONVERSATION_EVENTS.EXPANDED_REPLY_BOX, { mode });
+      nextTick(() => {
+        const replyBox = replyBoxRef.value;
+        // Switching modes drops attachments, so only switch when it changes
+        if (mode && replyBox.replyType !== mode) replyBox.setReplyMode(mode);
+        replyBox.messageEditor?.focusEditorInputField();
+      });
+    };
+    const revealOnShortcut = {
+      action: () => revealReplyBox(),
+      allowOnFocusedInput: false,
+    };
+    useKeyboardEvents({
+      'Alt+KeyP': revealOnShortcut,
+      'Alt+KeyL': revealOnShortcut,
+    });
+    // A shrinking list keeps its scrollTop, so a list resting at its end would
+    // slide under the composer. A growing one is clamped by the browser.
+    const { proxy } = getCurrentInstance();
+    let listHeight = 0;
+    useResizeObserver(conversationPanelRef, ([{ target }]) => {
+      const shrink = listHeight - target.clientHeight;
+      listHeight = target.clientHeight;
+      const { scrollTop, scrollHeight, clientHeight } = target;
+      const wasAtEnd = scrollHeight - scrollTop - clientHeight <= shrink + 1;
+      if (shrink <= 0 || !wasAtEnd) return;
+      proxy.isProgrammaticScroll = true;
+      target.scrollTop = scrollHeight - clientHeight;
+    });
+    // ReplyBox attaches pasted files from anywhere on the page, folded or not.
+    useEventListener(document, 'paste', e => {
+      if (e.clipboardData?.files.length) revealReplyBox();
+    });
+
     return {
-      captainTasksEnabled,
-      getLabelSuggestions,
-      isLabelSuggestionFeatureEnabled,
+      ...useCampaignHistory(),
+      olderConversation,
+      newerConversation,
+      openConversation,
+      buildConversationPath,
+      isReadingHistory,
+      isReplyFolded,
+      canSendPublicReply,
+      foldMotion: FOLD_MOTION,
+      foldTransition: FOLD_TRANSITION,
+      latestConversation,
+      collapseReplyBox,
+      showReplyBox,
+      revealReplyBox,
       conversationPanelRef,
       resizableEditorWrapperRef,
+      replyBoxRef,
       messagesViewRef,
       topBannerRef,
       containerHeight,
@@ -102,8 +229,6 @@ export default {
       conversationPanel: null,
       hasUserScrolled: false,
       isProgrammaticScroll: false,
-      messageSentSinceOpened: false,
-      labelSuggestions: [],
       showLinkDeviceModal: false,
     };
   },
@@ -114,22 +239,10 @@ export default {
       currentUserId: 'getCurrentUserID',
       currentUser: 'getCurrentUser',
       listLoadingStatus: 'getAllMessagesLoaded',
-      currentAccountId: 'getCurrentAccountId',
-      globalConfig: 'globalConfig/get',
+      isMetaMessageSendingDisabled: 'globalConfig/isMetaMessageSendingDisabled',
     }),
     currentInbox() {
       return this.$store.getters['inboxes/getInbox'](this.currentChat.inbox_id);
-    },
-    isOpen() {
-      return this.currentChat?.status === wootConstants.STATUS_TYPE.OPEN;
-    },
-    shouldShowLabelSuggestions() {
-      return (
-        this.isOpen &&
-        this.captainTasksEnabled &&
-        this.isLabelSuggestionFeatureEnabled &&
-        !this.messageSentSinceOpened
-      );
     },
     inboxId() {
       return this.currentChat.inbox_id;
@@ -163,6 +276,9 @@ export default {
       }
       return messages;
     },
+    referralData() {
+      return this.currentChat?.additional_attributes?.referral || null;
+    },
     readMessages() {
       return getReadMessages(
         this.getMessages,
@@ -175,11 +291,43 @@ export default {
         this.currentChat.agent_last_seen_at
       );
     },
+    // Offered once the thread has been read back to the beginning of what this inbox
+    // holds, which is the moment the missing history becomes visible as an absence.
+    //
+    // Two ways to be at that beginning, and the store only knows one of them.
+    // `listLoadingStatus` (its `getAllMessagesLoaded` under an older name) is set when a
+    // fetch for older messages comes back empty, so it needs a scroll to the top to ever
+    // become true -- and a thread short enough to fit on screen is never scrolled, so it
+    // would never offer this. A first page that came back short is the other way: the
+    // server sends at most MessageFinder::PAGE_LIMIT, which is 20, so fewer than that
+    // means there was never a second page to ask for.
+    canRequestOlderMessages() {
+      const exhausted = this.listLoadingStatus || this.getMessages.length < 20;
+
+      return Boolean(
+        this.currentChat?.id &&
+          this.currentChat.dataFetched &&
+          this.hasInboxCapability(CAPABILITIES.HISTORY_SYNC) &&
+          exhausted &&
+          !this.isLoadingPrevious
+      );
+    },
+    // WhatsApp answered a request for this chat saying it holds nothing older. It only
+    // ever says so in that answer, so this stays false until somebody has asked once.
+    historyExhausted() {
+      return Boolean(
+        this.currentChat?.additional_attributes?.history_exhausted
+      );
+    },
     shouldShowSpinner() {
       return (
         (this.currentChat && this.currentChat.dataFetched === undefined) ||
-        (!this.listLoadingStatus && this.isLoadingPrevious)
+        (!this.listLoadingStatus && this.isLoadingPrevious) ||
+        !this.isCampaignHistoryReady
       );
+    },
+    timelineMessages() {
+      return this.isCampaignHistoryReady ? this.getMessages : [];
     },
     // Check there is a instagram inbox exists with the same instagram_id
     hasDuplicateInstagramInbox() {
@@ -196,7 +344,12 @@ export default {
         instagramInbox
       );
     },
-
+    isInstagramRestrictionBannerVisible() {
+      return this.isMetaMessageSendingDisabled && this.isAnInstagramChannel;
+    },
+    instagramRestrictionStatusUrl() {
+      return META_RESTRICTION_STATUS_URL;
+    },
     replyWindowBannerMessage() {
       if (this.isAWhatsAppChannel) {
         return this.$t('CONVERSATION.TWILIO_WHATSAPP_CAN_REPLY');
@@ -271,15 +424,10 @@ export default {
       return { incoming, outgoing };
     },
     inboxSupportsEdit() {
-      // Currently only Baileys WhatsApp channel supports message editing
-      return this.isAWhatsAppBaileysChannel;
+      return this.hasInboxCapability(CAPABILITIES.EDIT);
     },
     inboxSupportsReactions() {
-      return (
-        this.isAWhatsAppCloudChannel ||
-        this.isAWhatsAppBaileysChannel ||
-        this.isAWhatsAppZapiChannel
-      );
+      return this.hasInboxCapability(CAPABILITIES.REACTIONS);
     },
     currentContact() {
       const senderId = this.currentChat?.meta?.sender?.id;
@@ -288,6 +436,21 @@ export default {
     },
     isGroupConversation() {
       return this.currentChat?.group_type === 'group';
+    },
+    // The inbox is part of the target, not only the contact. A group contact is
+    // account-scoped, so the same group can be open in two inboxes of one account, and
+    // what the panel may do there is answered per inbox. Keyed on the contact alone,
+    // switching between the two threads kept the first inbox's answer.
+    groupMembersFetchTarget() {
+      if (!this.groupContactId || !this.isGroupConversation) return null;
+      // `groups` and not `group_management`: this fetch reads the GroupMember rows the
+      // inbound path already filed, through Chatwoot's own API, and never reaches the
+      // provider. Asking for the command surface here would leave a receive-only inbox
+      // without `is_inbox_admin`, and an announcement-only group would look replyable
+      // until the server refused the message.
+      if (!this.hasInboxCapability(CAPABILITIES.GROUPS)) return null;
+
+      return `${this.groupContactId}:${this.currentChat?.inbox_id}`;
     },
     groupContactId() {
       return this.currentChat?.meta?.sender?.id || null;
@@ -304,7 +467,8 @@ export default {
       if (!this.groupContactId) return {};
       return (
         this.$store.getters['groupMembers/getGroupMembersMeta'](
-          this.groupContactId
+          this.groupContactId,
+          this.currentChat?.inbox_id
         ) || {}
       );
     },
@@ -320,25 +484,31 @@ export default {
     },
     isAnnouncementModeRestricted() {
       return (
-        this.isAWhatsAppBaileysChannel &&
+        this.isASessionWhatsAppChannel &&
         this.isGroupConversation &&
         this.currentContact?.additional_attributes?.announce === true &&
         this.isGroupMembersLoaded &&
         !this.isInboxAdminInCurrentGroup
       );
     },
+    // Read off the conversation, not off the contact: a group contact is
+    // account-scoped and the same group can be open in two inboxes of one account,
+    // where only one of them may have left. The server answers for this thread's own
+    // number.
     isGroupLeft() {
       return (
-        this.isAWhatsAppBaileysChannel &&
+        this.isASessionWhatsAppChannel &&
         this.isGroupConversation &&
-        this.currentContact?.additional_attributes?.group_left === true
+        this.currentChat?.group_left === true
       );
     },
     isGroupsDisabled() {
+      // The server already strips the group capabilities when the kill switch is off, so
+      // the absence of `groups` is what "disabled" means here — for every provider.
       return (
-        this.isAWhatsAppBaileysChannel &&
+        this.isASessionWhatsAppChannel &&
         this.isGroupConversation &&
-        !this.globalConfig.baileysWhatsappGroupsEnabled
+        !this.hasInboxCapability(CAPABILITIES.GROUPS)
       );
     },
     isSuperAdmin() {
@@ -347,48 +517,155 @@ export default {
     inboxProviderConnection() {
       return this.currentInbox.provider_connection?.connection;
     },
+    showProviderOffline() {
+      return isProviderOffline(this.currentInbox.provider_connection);
+    },
+    inboxReachoutLock() {
+      return this.currentInbox.provider_connection?.reachout_time_lock;
+    },
+    showSendStallWarning() {
+      return isSendStalled(
+        this.currentInbox.provider_connection?.send_stall,
+        this.inboxProviderConnection
+      );
+    },
+    providerConnectionBannerMessage() {
+      if (this.showSendStallWarning) {
+        return this.isAdmin
+          ? this.$t(
+              'CONVERSATION.INBOX.WHATSAPP_PROVIDER_CONNECTION.SEND_STALL'
+            )
+          : this.$t(
+              'CONVERSATION.INBOX.WHATSAPP_PROVIDER_CONNECTION.SEND_STALL_CONTACT_ADMIN'
+            );
+      }
+      return this.isAdmin
+        ? this.$t(
+            'CONVERSATION.INBOX.WHATSAPP_PROVIDER_CONNECTION.NOT_CONNECTED'
+          )
+        : this.$t(
+            'CONVERSATION.INBOX.WHATSAPP_PROVIDER_CONNECTION.NOT_CONNECTED_CONTACT_ADMIN'
+          );
+    },
+    // The agent's shortcut is a reconnect, and on a stall it is worse than nothing: it
+    // reaches a provider that already considers this socket live, refreshes presence, and
+    // reports success while the inbox stays mute. Only an admin has an action here.
+    providerConnectionBannerHasAction() {
+      return this.isAdmin || !this.showSendStallWarning;
+    },
+    showReachoutRestriction() {
+      return isReachoutRestricted(
+        this.inboxReachoutLock,
+        this.inboxProviderConnection
+      );
+    },
+    reachoutRestrictionMessage() {
+      const deadline = reachoutRestrictionDeadline(this.inboxReachoutLock);
+      return deadline
+        ? this.$t(
+            'CONVERSATION.INBOX.WHATSAPP_REACHOUT_RESTRICTION.RESTRICTED_UNTIL',
+            { time: deadline }
+          )
+        : this.$t(
+            'CONVERSATION.INBOX.WHATSAPP_REACHOUT_RESTRICTION.RESTRICTED'
+          );
+    },
+    inboxNewChatCap() {
+      return this.currentInbox.provider_connection?.new_chat_cap;
+    },
+    showMessageCap() {
+      return isMessageCapped(
+        this.inboxNewChatCap,
+        this.inboxProviderConnection
+      );
+    },
+    messageCapBannerScheme() {
+      return isMessageCapReached(this.inboxNewChatCap) ? 'alert' : 'warning';
+    },
+    messageCapMessage() {
+      const quota = messageCapQuota(this.inboxNewChatCap);
+      if (isMessageCapReached(this.inboxNewChatCap)) {
+        return quota
+          ? this.$t(
+              'CONVERSATION.INBOX.WHATSAPP_NEW_CHAT_CAP.CAPPED_WITH_QUOTA',
+              quota
+            )
+          : this.$t('CONVERSATION.INBOX.WHATSAPP_NEW_CHAT_CAP.CAPPED');
+      }
+      return quota
+        ? this.$t(
+            'CONVERSATION.INBOX.WHATSAPP_NEW_CHAT_CAP.WARNING_WITH_QUOTA',
+            quota
+          )
+        : this.$t('CONVERSATION.INBOX.WHATSAPP_NEW_CHAT_CAP.WARNING');
+    },
   },
 
   watch: {
+    isCampaignHistoryReady(ready) {
+      if (!ready) return;
+      this.onScrollToMessage({ messageId: this.$route.query.messageId });
+    },
+    visibleCampaignHistory() {
+      if (!this.conversationPanel) return;
+      const conversationId = this.currentChat.id;
+      const restoreAnchor = captureTimelineAnchor(
+        this.conversationPanel,
+        this.$route.query.messageId
+      );
+      this.$nextTick(() => {
+        if (this.currentChat.id !== conversationId) return;
+        if (!this.hasUserScrolled && !this.$route.query.messageId) {
+          this.scrollToBottom();
+        } else {
+          restoreAnchor();
+        }
+      });
+    },
     currentChat(newChat, oldChat) {
       if (newChat.id === oldChat.id) {
         return;
       }
       this.fetchAllAttachmentsFromCurrentChat();
-      this.fetchSuggestions();
-      this.messageSentSinceOpened = false;
       this.resetReplyEditorHeight();
     },
-    groupContactId: {
+    // Watches the whole condition, not just the contact. The capability arrives with the
+    // inbox, and that request can land after this component mounts, so a watcher keyed on
+    // the contact alone saw no capability, skipped the fetch and never ran again: a group
+    // thread stayed without members until the agent switched conversations.
+    groupMembersFetchTarget: {
       immediate: true,
-      handler(contactId) {
-        if (
-          contactId &&
-          this.isAWhatsAppBaileysChannel &&
-          this.isGroupConversation &&
-          !this.isGroupMembersLoaded
-        ) {
+      handler(target) {
+        if (target && !this.isGroupMembersLoaded) {
           this.$store.dispatch('groupMembers/fetch', {
-            contactId,
+            contactId: this.groupContactId,
+            inboxId: this.currentChat?.inbox_id,
           });
         }
       },
+    },
+    // The link is appended once the neighbours arrive, below an already scrolled list.
+    newerConversation(conversation) {
+      if (!conversation) return;
+      this.$nextTick(() => {
+        if (!this.$route.query.messageId && !this.hasUserScrolled) {
+          this.scrollToBottom();
+        }
+      });
     },
   },
 
   created() {
     emitter.on(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
-    // when a message is sent we set the flag to true this hides the label suggestions,
-    // until the chat is changed and the flag is reset in the watch for currentChat
-    emitter.on(BUS_EVENTS.MESSAGE_SENT, () => {
-      this.messageSentSinceOpened = true;
-    });
+    // Anything that wants to write must bring the folded editor back first.
+    emitter.on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.showReplyBox);
+    emitter.on(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, this.showReplyBox);
+    emitter.on(CMD_AI_ASSIST, this.showReplyBox);
   },
 
   mounted() {
     this.addScrollListener();
     this.fetchAllAttachmentsFromCurrentChat();
-    this.fetchSuggestions();
   },
 
   unmounted() {
@@ -397,52 +674,14 @@ export default {
   },
 
   methods: {
-    async fetchSuggestions() {
-      // start empty, this ensures that the label suggestions are not shown
-      this.labelSuggestions = [];
-
-      if (this.isLabelSuggestionDismissed()) {
-        return;
-      }
-
-      // Early exit if conversation already has labels - no need to suggest more
-      const existingLabels = this.currentChat?.labels || [];
-      if (existingLabels.length > 0) return;
-
-      if (!this.captainTasksEnabled || !this.isLabelSuggestionFeatureEnabled) {
-        return;
-      }
-
-      this.labelSuggestions = await this.getLabelSuggestions();
-
-      // once the labels are fetched, we need to scroll to bottom
-      // but we need to wait for the DOM to be updated
-      // so we use the nextTick method
-      this.$nextTick(() => {
-        // this param is added to route, telling the UI to navigate to the message
-        // it is triggered by the SCROLL_TO_MESSAGE method
-        // see setActiveChat on ConversationView.vue for more info
-        const { messageId } = this.$route.query;
-
-        // only trigger the scroll to bottom if the user has not scrolled
-        // and there's no active messageId that is selected in view
-        if (!messageId && !this.hasUserScrolled) {
-          this.scrollToBottom();
-        }
-      });
-    },
-    isLabelSuggestionDismissed() {
-      return LocalStorage.getFlag(
-        LOCAL_STORAGE_KEYS.DISMISSED_LABEL_SUGGESTIONS,
-        this.currentAccountId,
-        this.currentChat.id
-      );
-    },
     fetchAllAttachmentsFromCurrentChat() {
       this.$store.dispatch('fetchAllAttachments', this.currentChat.id);
     },
     removeBusListeners() {
       emitter.off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
+      emitter.off(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.showReplyBox);
+      emitter.off(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, this.showReplyBox);
+      emitter.off(CMD_AI_ASSIST, this.showReplyBox);
     },
     onScrollToMessage({ messageId = '' } = {}) {
       this.$nextTick(() => {
@@ -498,35 +737,24 @@ export default {
     },
     scrollToBottom() {
       this.isProgrammaticScroll = true;
-      let relevantMessages = [];
-
-      // label suggestions are not part of the messages list
-      // so we need to handle them separately
-      let labelSuggestions =
-        this.conversationPanel.querySelector('.label-suggestion');
 
       // if there are unread messages, scroll to the first unread message
       if (this.unreadMessageCount > 0) {
-        // capturing only the unread messages
-        relevantMessages =
-          this.conversationPanel.querySelectorAll('.message--unread');
-      } else if (labelSuggestions) {
-        // when scrolling to the bottom, the label suggestions is below the last message
-        // so we scroll there if there are no unread messages
-        // Unread messages always take the highest priority
-        relevantMessages = [labelSuggestions];
-      } else {
-        // if there are no unread messages or label suggestion, scroll to the last message
-        // capturing last message from the messages list
-        relevantMessages = Array.from(
-          this.conversationPanel.querySelectorAll('.message--read')
-        ).slice(-1);
+        const scrollTop = getUnreadScrollTop(
+          this.conversationPanel,
+          this.unReadMessages[0]?.id
+        );
+        if (scrollTop !== undefined) {
+          this.conversationPanel.scrollTop = scrollTop;
+          return;
+        }
       }
 
+      // otherwise scroll to the last message in the timeline
       this.conversationPanel.scrollTop = calculateScrollTop(
         this.conversationPanel.scrollHeight,
         this.$el.scrollHeight,
-        relevantMessages
+        getTimelineEntries(this.conversationPanel).slice(-1)
       );
     },
     setScrollParams() {
@@ -779,7 +1007,7 @@ export default {
     class="flex flex-col justify-between flex-grow h-full min-w-0 m-0"
   >
     <div ref="topBannerRef">
-      <template v-if="isAWhatsAppBaileysChannel || isAWhatsAppZapiChannel">
+      <template v-if="isASessionWhatsAppChannel">
         <WhatsappLinkDeviceModal
           v-if="showLinkDeviceModal"
           :show="showLinkDeviceModal"
@@ -787,19 +1015,11 @@ export default {
           :inbox="currentInbox"
         />
         <Banner
-          v-if="inboxProviderConnection !== 'open'"
+          v-if="showProviderOffline || showSendStallWarning"
           color-scheme="alert"
           class="mt-2 mx-2 rounded-lg overflow-hidden"
-          :banner-message="
-            isAdmin
-              ? $t(
-                  'CONVERSATION.INBOX.WHATSAPP_PROVIDER_CONNECTION.NOT_CONNECTED'
-                )
-              : $t(
-                  'CONVERSATION.INBOX.WHATSAPP_PROVIDER_CONNECTION.NOT_CONNECTED_CONTACT_ADMIN'
-                )
-          "
-          has-action-button
+          :banner-message="providerConnectionBannerMessage"
+          :has-action-button="providerConnectionBannerHasAction"
           :action-button-label="
             isAdmin
               ? $t(
@@ -812,9 +1032,36 @@ export default {
             isAdmin ? onOpenLinkDeviceModal() : onSetupProviderConnection()
           "
         />
+        <WhatsappNumberMissingBanner :conversation="currentChat" />
+        <Banner
+          v-if="showReachoutRestriction"
+          color-scheme="alert"
+          class="mt-2 mx-2 rounded-lg overflow-hidden"
+          :banner-message="reachoutRestrictionMessage"
+        />
+        <Banner
+          v-if="showMessageCap"
+          :color-scheme="messageCapBannerScheme"
+          class="mt-2 mx-2 rounded-lg overflow-hidden"
+          :banner-message="messageCapMessage"
+        />
       </template>
       <Banner
-        v-if="!currentChat.can_reply"
+        v-if="isInstagramRestrictionBannerVisible"
+        color-scheme="warning"
+        class="mx-2 mt-2 min-h-12 !h-auto rounded-lg"
+        :banner-message="$t('CONVERSATION.INSTAGRAM_RESTRICTION_BANNER')"
+        :href-link="instagramRestrictionStatusUrl"
+        :href-link-text="$t('CONVERSATION.INSTAGRAM_RESTRICTION_STATUS_LINK')"
+      />
+      <Banner
+        v-if="currentChat.anonymous_caller"
+        color-scheme="alert"
+        class="mx-2 mt-2 overflow-hidden rounded-lg"
+        :banner-message="$t('CONVERSATION.ANONYMOUS_CALLER_CANNOT_REPLY')"
+      />
+      <Banner
+        v-else-if="!currentChat.can_reply"
         color-scheme="alert"
         class="mx-2 mt-2 overflow-hidden rounded-lg"
         :banner-message="replyWindowBannerMessage"
@@ -822,7 +1069,7 @@ export default {
         :href-link-text="replyWindowLinkText"
       />
       <Banner
-        v-else-if="hasDuplicateInstagramInbox"
+        v-if="hasDuplicateInstagramInbox"
         color-scheme="alert"
         class="mx-2 mt-2 overflow-hidden rounded-lg"
         :banner-message="$t('CONVERSATION.OLD_INSTAGRAM_INBOX_REPLY_BANNER')"
@@ -858,14 +1105,16 @@ export default {
     </div>
     <MessageList
       ref="conversationPanelRef"
-      class="conversation-panel flex-shrink flex-grow basis-px flex flex-col overflow-y-auto relative h-full m-0 pb-4"
+      class="conversation-panel flex-shrink flex-grow basis-px flex flex-col overflow-y-auto relative h-full m-0 transition-[padding]"
+      :class="[foldMotion, isReplyFolded ? 'pb-16' : 'pb-4']"
       :current-user-id="currentUserId"
       :first-unread-id="unReadMessages[0]?.id"
       :is-an-email-channel="isAnEmailChannel"
       :inbox-supports-reply-to="inboxSupportsReplyTo"
       :inbox-supports-edit="inboxSupportsEdit"
       :inbox-supports-reactions="inboxSupportsReactions"
-      :messages="getMessages"
+      :messages="timelineMessages"
+      :campaign-history="visibleCampaignHistory"
       @retry="handleMessageRetry"
       @toggle-reaction="handleToggleReaction"
     >
@@ -878,6 +1127,33 @@ export default {
             <Spinner v-if="shouldShowSpinner" class="text-n-brand" />
           </li>
         </transition>
+        <ConversationHistorySync
+          v-if="canRequestOlderMessages"
+          :conversation-id="currentChat.id"
+          :exhausted="historyExhausted"
+          :single-conversation="inbox.lock_to_single_conversation"
+        />
+        <ContactConversationLink
+          v-if="olderConversation && listLoadingStatus"
+          direction="older"
+          :conversation="olderConversation"
+          :to="
+            buildConversationPath(olderConversation.id, {
+              keepFolderScope: false,
+            })
+          "
+          @navigate="openConversation(olderConversation)"
+        />
+        <ReferralBubble v-if="referralData" :referral="referralData" />
+        <li v-if="hasMoreCampaignHistory" class="flex justify-center py-3">
+          <NextButton
+            :label="$t('CAMPAIGN.HISTORY.LOAD_MORE')"
+            :disabled="isCampaignHistoryLoading"
+            sm
+            ghost
+            @click="loadCampaignHistory"
+          />
+        </li>
       </template>
       <template #unreadBadge>
         <li
@@ -892,18 +1168,24 @@ export default {
         </li>
       </template>
       <template #after>
-        <ConversationLabelSuggestion
-          v-if="shouldShowLabelSuggestions"
-          :suggested-labels="labelSuggestions"
-          :chat-labels="currentChat.labels"
-          :conversation-id="currentChat.id"
+        <ContactConversationLink
+          v-if="newerConversation"
+          direction="newer"
+          :conversation="newerConversation"
+          :to="
+            buildConversationPath(newerConversation.id, {
+              keepFolderScope: false,
+            })
+          "
+          @navigate="openConversation(newerConversation)"
         />
       </template>
     </MessageList>
     <div class="flex relative flex-col bg-n-surface-1">
       <div
         v-if="isAnyoneTyping"
-        class="absolute flex items-center w-full h-0 -top-7"
+        class="absolute flex items-center w-full h-0"
+        :class="isReplyFolded ? '-top-[5.5rem]' : '-top-7'"
       >
         <div
           class="flex py-2 pr-4 pl-5 shadow-md rounded-full bg-white dark:bg-n-solid-3 text-n-slate-11 text-xs font-semibold my-2.5 mx-auto"
@@ -916,12 +1198,46 @@ export default {
           />
         </div>
       </div>
-      <ResizableEditorWrapper
-        ref="resizableEditorWrapperRef"
-        :container-height="Math.max(0, containerHeight - topBannerHeight)"
-      >
-        <ReplyBox @toggle-editor-size="toggleReplyEditorSize" />
-      </ResizableEditorWrapper>
+      <Transition v-bind="foldTransition">
+        <div
+          v-if="isReplyFolded"
+          class="absolute inset-x-0 bottom-0 z-10 grid grid-rows-[var(--fold-rows,1fr)]"
+        >
+          <div class="min-h-0 min-w-0">
+            <CollapsedReplyBar
+              class="m-2"
+              :reply-label="
+                isReadingHistory
+                  ? $t('CONVERSATION.CONTACT_HISTORY.REPLY_TO_OLDER')
+                  : $t('CONVERSATION.REPLYBOX.REPLY')
+              "
+              :has-latest="isReadingHistory && Boolean(latestConversation)"
+              :can-reply="canSendPublicReply"
+              @open="revealReplyBox"
+              @go-to-latest="openConversation(latestConversation)"
+            />
+          </div>
+        </div>
+      </Transition>
+      <Transition v-bind="foldTransition">
+        <div
+          v-show="!isReplyFolded"
+          class="grid grid-rows-[var(--fold-rows,1fr)]"
+        >
+          <div class="min-h-0 min-w-0">
+            <ResizableEditorWrapper
+              ref="resizableEditorWrapperRef"
+              :container-height="Math.max(0, containerHeight - topBannerHeight)"
+              @collapse="collapseReplyBox"
+            >
+              <ReplyBox
+                ref="replyBoxRef"
+                @toggle-editor-size="toggleReplyEditorSize"
+              />
+            </ResizableEditorWrapper>
+          </div>
+        </div>
+      </Transition>
     </div>
   </div>
 </template>

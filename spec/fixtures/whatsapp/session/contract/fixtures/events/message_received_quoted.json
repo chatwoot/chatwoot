@@ -1,0 +1,31 @@
+{
+  "v": 1,
+  "id": "01920000-0000-7000-8000-000000000002",
+  "type": "message.received",
+  "sid": "9f1c0f4e-6a2b-4c8e-9d1a-2b3c4d5e6f70",
+  "epoch": 7,
+  "seq": 2,
+  "ts": 1755440000123,
+  "inst": "connector-a1b2c3",
+  "payload": {
+    "message": {
+      "id": "3EB0A1B2C3D4E5F60719",
+      "chat": {
+        "kind": "phone",
+        "id": "5541999990000"
+      },
+      "sender": {
+        "phone": "5541999990000",
+        "lid": "182736451928374",
+        "push_name": "Ana Souza"
+      },
+      "from_me": false,
+      "timestamp": 1755440000123,
+      "content": {
+        "type": "text",
+        "body": "sim, pode ser"
+      },
+      "quoted_id": "3EB0A1B2C3D4E5F60718"
+    }
+  }
+}

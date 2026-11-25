@@ -206,6 +206,40 @@ RSpec.describe Message do
     end
   end
 
+  describe '#widget_sender_data' do
+    it 'returns only the type for a contact sender' do
+      message = create(:message, message_type: :incoming, sender: create(:contact, email: 'jane@example.com'))
+
+      expect(message.widget_sender_data).to eq(type: 'contact')
+    end
+
+    it 'returns the full event data for an agent sender' do
+      message = create(:message, sender: create(:user))
+
+      expect(message.widget_sender_data).to eq(message.sender.push_event_data)
+    end
+  end
+
+  describe '#widget_push_event_data' do
+    it 'keeps the message event and reduces a contact sender to its type' do
+      message = create(:message, message_type: :incoming, sender: create(:contact, email: 'jane@example.com'))
+
+      expect(message.widget_push_event_data).to eq(message.push_event_data.merge(sender: { type: 'contact' }))
+    end
+
+    it 'keeps an agent sender' do
+      message = create(:message, sender: create(:user))
+
+      expect(message.widget_push_event_data).to eq(message.push_event_data)
+    end
+
+    it 'keeps an agent bot sender with the inbox avatar fallback' do
+      message = create(:message, sender: create(:agent_bot))
+
+      expect(message.widget_push_event_data[:sender]).to eq(message.sender.push_event_data(message.inbox))
+    end
+  end
+
   describe 'message create event' do
     let!(:conversation) { create(:conversation) }
 
@@ -221,6 +255,20 @@ RSpec.describe Message do
 
       expect(conversation.first_reply_created_at).to eq outgoing_message.created_at
       expect(conversation.waiting_since).to be_nil
+    end
+
+    it 'does not count a forwarded email as a reply to the contact' do
+      create(:message, message_type: :outgoing, conversation: conversation, content_attributes: { forwarded_message_id: 1 })
+
+      expect(conversation.first_reply_created_at).to be_nil
+      expect(conversation.waiting_since).to eq conversation.created_at
+    end
+
+    it 'records the first reply to the contact after a forwarded email' do
+      create(:message, message_type: :outgoing, conversation: conversation, content_attributes: { forwarded_message_id: 1 })
+      reply = create(:message, message_type: :outgoing, conversation: conversation)
+
+      expect(conversation.first_reply_created_at).to eq reply.created_at
     end
 
     it 'does not update the conversation first reply created at if the message is incoming' do
@@ -293,15 +341,15 @@ RSpec.describe Message do
     let(:message) { build(:message, message_type: :incoming, conversation: conversation) }
 
     it 'reopens resolved conversation when the message is from a contact' do
-      conversation.resolved!
+      conversation.update!(status: :resolved, ai_assignee: create(:agent_bot, account: conversation.account))
       message.save!
-      expect(message.conversation.open?).to be true
+      expect(conversation.reload).to have_attributes(status: 'open', ai_assignee_type: nil, assignee_agent_bot_id: nil)
     end
 
     it 'reopens snoozed conversation when the message is from a contact' do
-      conversation.snoozed!
+      conversation.update!(status: :snoozed, ai_assignee: create(:agent_bot, account: conversation.account))
       message.save!
-      expect(message.conversation.open?).to be true
+      expect(conversation.reload).to have_attributes(status: 'open', ai_assignee_type: nil, assignee_agent_bot_id: nil)
     end
 
     it 'will not reopen if the conversation is muted' do
@@ -312,14 +360,547 @@ RSpec.describe Message do
     end
 
     it 'will mark the conversation as pending if the agent bot is active' do
-      agent_bot = create(:agent_bot)
+      agent_bot = create(:agent_bot, account: conversation.account)
       inbox = conversation.inbox
       inbox.agent_bot = agent_bot
       inbox.save!
-      conversation.resolved!
+      conversation.update!(status: :resolved, ai_assignee: agent_bot)
       message.save!
       expect(conversation.open?).to be false
       expect(conversation.pending?).to be true
+      expect(conversation.reload.ai_assignee).to eq(agent_bot)
+    end
+  end
+
+  describe 'handing a reopened conversation to the inbox agent bot' do
+    let(:account) { create(:account) }
+    let(:inbox) { create(:inbox, account: account, enable_auto_assignment: false) }
+    let(:agent_bot) { create(:agent_bot, account: account) }
+    let!(:agent_bot_inbox) { create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot) }
+    let(:person) { create(:user, account: account, role: :agent) }
+    let(:conversation) { create(:conversation, account: account, inbox: inbox, assignee: person) }
+    let(:message) { build(:message, message_type: :incoming, conversation: conversation, account: account, inbox: inbox) }
+
+    it 'makes the bot the owner of a conversation a person resolved, when the customer writes again' do
+      conversation.resolved!
+      message.save!
+
+      conversation.reload
+      expect(conversation).to be_pending
+      expect(conversation.assignee).to be_nil
+      expect(conversation.ai_assignee).to eq(agent_bot)
+      expect(conversation.assignee_type).to eq('AgentBot')
+    end
+
+    it 'explains the handoff in a single activity line, in the account locale' do
+      account.update!(locale: 'pt_BR')
+      person.update!(name: 'Ana')
+      agent_bot.update!(name: 'Atendente')
+      conversation.resolved!
+
+      expect { message.save! }
+        .to have_enqueued_job(Conversations::ActivityMessageJob)
+        .with(conversation, hash_including(content: 'Conversa passada de Ana para Atendente porque o cliente escreveu de novo')).exactly(:once)
+    end
+
+    it 'makes the bot the owner of a conversation resolved with no one assigned' do
+      conversation.update!(assignee: nil)
+      conversation.resolved!
+      message.save!
+
+      expect(conversation.reload.ai_assignee).to eq(agent_bot)
+    end
+
+    it 'leaves a conversation delegated to a specialist bot with that bot' do
+      specialist = create(:agent_bot, account: account)
+      conversation.update!(assignee: nil, ai_assignee: specialist)
+      conversation.resolved!
+      message.save!
+
+      expect(conversation.reload).to be_pending
+      expect(conversation.ai_assignee).to eq(specialist)
+    end
+
+    it 'leaves the person in place when the inbox bot is inactive' do
+      agent_bot_inbox.update!(status: :inactive)
+      conversation.resolved!
+      message.save!
+
+      expect(conversation.reload).to be_open
+      expect(conversation.assignee).to eq(person)
+    end
+
+    # Dialogflow keeps the inbox's bot active on its own, so the reopen goes pending with the
+    # agent bot switched off: the person stays, and Dialogflow answers.
+    it 'does not hand the conversation to an inactive agent bot when Dialogflow keeps the inbox pending' do
+      agent_bot_inbox.update!(status: :inactive)
+      create(:integrations_hook, :dialogflow, inbox: inbox, account: account)
+      conversation.resolved!
+      message.save!
+
+      expect(conversation.reload).to be_pending
+      expect(conversation.assignee).to eq(person)
+      expect(conversation.ai_assignee).to be_nil
+    end
+
+    # An API inbox can create the customer's message with an agent's token; the handoff is not that agent taking over.
+    it 'hands the conversation to the bot when the inbox prevents takeover and another agent created the message' do
+      inbox.update!(prevent_assignment_takeover: true)
+      conversation.resolved!
+      Current.user = create(:user, account: account, role: :agent)
+
+      # Nor is the activity signed by that agent: the reason is the only assignment line.
+      expect { message.save! }
+        .to have_enqueued_job(Conversations::ActivityMessageJob)
+        .with(conversation, hash_including(content: a_string_matching(/because the customer wrote again/))).exactly(:once)
+      activity_lines = ActiveJob::Base.queue_adapter.enqueued_jobs
+                                      .select { |job| job['job_class'] == 'Conversations::ActivityMessageJob' }
+                                      .map { |job| job['arguments'].last['content'] }
+      expect(activity_lines.grep(/assigned/i)).to be_empty
+      expect(conversation.reload).to be_pending
+      expect(conversation.ai_assignee).to eq(agent_bot)
+    ensure
+      Current.reset
+    end
+
+    it 'leaves a snoozed conversation with its person' do
+      conversation.snoozed!
+      message.save!
+
+      expect(conversation.reload).to be_open
+      expect(conversation.assignee).to eq(person)
+    end
+
+    context 'when something changes the conversation while the reopen is in flight' do
+      it 'keeps a person an agent assigned in the meantime' do
+        other = create(:user, account: account, role: :agent)
+        conversation.resolved!
+        Conversation.find(conversation.id).update!(assignee: other)
+
+        message.save!
+
+        expect(conversation.reload.assignee).to eq(other)
+        expect(conversation.ai_assignee).to be_nil
+      end
+
+      it 'announces the bot when a second customer message reopens a copy read before the first' do
+        conversation.resolved!
+        stale_copy = Conversation.find(conversation.id)
+        second = build(:message, message_type: :incoming, conversation: stale_copy, account: account, inbox: inbox)
+
+        message.save!
+        allow(Rails.configuration.dispatcher).to receive(:dispatch).and_call_original
+        second.save!
+
+        expect(stale_copy.assignee_type).to eq('AgentBot')
+        expect(stale_copy.assignee_id).to be_nil
+        # The first message already made it pending: the second announces no status change of its own.
+        expect(Rails.configuration.dispatcher).not_to have_received(:dispatch).with(Events::Types::CONVERSATION_STATUS_CHANGED, any_args)
+        expect(conversation.reload.ai_assignee).to eq(agent_bot)
+      end
+
+      it 'keeps the person and the open status when an agent reopened the conversation in the meantime' do
+        conversation.resolved!
+        Conversation.find(conversation.id).open!
+
+        message.save!
+
+        expect(conversation.reload).to be_open
+        expect(conversation.assignee).to eq(person)
+        expect(conversation.ai_assignee).to be_nil
+      end
+    end
+  end
+
+  describe 'keeping a reopened conversation with the person (reopen_owner)' do
+    let(:account) { create(:account) }
+    let(:inbox) { create(:inbox, account: account, enable_auto_assignment: false) }
+    let(:agent_bot) { create(:agent_bot, account: account) }
+    let(:person) { create(:user, account: account, role: :agent) }
+    let(:conversation) { create(:conversation, account: account, inbox: inbox, assignee: person) }
+    let(:message) { build(:message, message_type: :incoming, conversation: conversation, account: account, inbox: inbox) }
+
+    before { create(:agent_bot_inbox, inbox: inbox, agent_bot: agent_bot) }
+
+    it 'opens the conversation with the person, and hands nothing to the bot' do
+      inbox.update!(reopen_owner: :assignee)
+      conversation.resolved!
+
+      expect { message.save! }
+        .not_to have_enqueued_job(Conversations::ActivityMessageJob).with(conversation, hash_including(content: a_string_matching(/wrote again/)))
+      conversation.reload
+      expect(conversation).to be_open
+      expect(conversation.assignee).to eq(person)
+      expect(conversation.ai_assignee).to be_nil
+    end
+
+    it 'hands a conversation resolved with no one assigned to the bot' do
+      inbox.update!(reopen_owner: :assignee)
+      conversation.update!(assignee: nil)
+      conversation.resolved!
+      message.save!
+
+      expect(conversation.reload).to be_pending
+      expect(conversation.ai_assignee).to eq(agent_bot)
+    end
+
+    it 'hands it to the bot when the team setting dropped the person in the same reopen' do
+      team = create(:team, account: account)
+      inbox.update!(reopen_owner: :assignee, drop_assignee_outside_team_on_reopen: true)
+      conversation.update!(team: team)
+      conversation.resolved!
+      message.save!
+
+      expect(conversation.reload).to be_pending
+      expect(conversation.assignee).to be_nil
+      expect(conversation.ai_assignee).to eq(agent_bot)
+    end
+
+    it 'keeps it open with the person when a second customer message reopens a copy read before the first' do
+      inbox.update!(reopen_owner: :assignee)
+      conversation.resolved!
+      stale_copy = Conversation.find(conversation.id)
+      second = build(:message, message_type: :incoming, conversation: stale_copy, account: account, inbox: inbox)
+
+      message.save!
+      second.save!
+
+      expect(conversation.reload).to be_open
+      expect(conversation.assignee).to eq(person)
+      expect(conversation.ai_assignee).to be_nil
+    end
+
+    context 'with a window of hours' do
+      before { inbox.update!(reopen_owner: :assignee_within_window, reopen_owner_window_hours: 2) }
+
+      it 'keeps the person when the customer writes inside the window' do
+        travel_to(1.hour.ago) { conversation.resolved! }
+        message.save!
+
+        expect(conversation.reload).to be_open
+        expect(conversation.assignee).to eq(person)
+      end
+
+      it 'hands it to the bot when the customer writes after the window' do
+        travel_to(3.hours.ago) { conversation.resolved! }
+        message.save!
+
+        expect(conversation.reload).to be_pending
+        expect(conversation.ai_assignee).to eq(agent_bot)
+      end
+
+      it 'counts from the latest resolve' do
+        travel_to(5.hours.ago) { conversation.resolved! }
+        travel_to(4.hours.ago) { conversation.open! }
+        travel_to(30.minutes.ago) { conversation.resolved! }
+        message.save!
+
+        expect(conversation.reload).to be_open
+        expect(conversation.assignee).to eq(person)
+      end
+
+      it 'hands it to the bot when the resolve time was never recorded' do
+        conversation.resolved!
+        conversation.update_column(:status_changed_at, nil) # rubocop:disable Rails/SkipsModelValidations
+        message.save!
+
+        expect(conversation.reload.ai_assignee).to eq(agent_bot)
+      end
+    end
+  end
+
+  describe 'dropping an assignee outside the conversation team on reopen' do
+    let(:account) { create(:account) }
+    let(:team) { create(:team, account: account, name: 'plantão') }
+    let(:inbox) { create(:inbox, account: account, enable_auto_assignment: false, drop_assignee_outside_team_on_reopen: true) }
+    let(:member) { create(:user, account: account, role: :agent, name: 'Ana') }
+    let(:outsider) { create(:user, account: account, role: :agent, name: 'Bia') }
+    let(:conversation) { create(:conversation, account: account, inbox: inbox, assignee: outsider, team: team) }
+    let(:message) { build(:message, message_type: :incoming, conversation: conversation, account: account, inbox: inbox) }
+    let(:reason) { "Conversation unassigned from Bia because they are not a member of the conversation's team plantão" }
+    let(:unassignment_activity) { hash_including(content: a_string_matching(/unassigned/i)) }
+
+    # The outsider took the conversation while in the team and left it afterwards (a vacation, say):
+    # assigning a non-member to a conversation of the team is refused on its own.
+    before do
+      team.add_members([member.id, outsider.id])
+      conversation.update!(label_list: ['vip'])
+      team.remove_members([outsider.id])
+    end
+
+    after { Current.reset }
+
+    it 'drops the assignee when a customer reopens a resolved conversation, keeping team and labels' do
+      conversation.resolved!
+      message.save!
+
+      conversation.reload
+      expect(conversation).to be_open
+      expect(conversation.assignee).to be_nil
+      expect(conversation.team).to eq(team)
+      expect(conversation.label_list).to eq(['vip'])
+    end
+
+    it 'drops the assignee when a customer reopens a snoozed conversation' do
+      conversation.snoozed!
+      message.save!
+
+      expect(conversation.reload).to be_open
+      expect(conversation.assignee).to be_nil
+    end
+
+    it 'drops the assignee when an active agent bot takes the reopened conversation as pending' do
+      inbox.update!(agent_bot: create(:agent_bot))
+      conversation.resolved!
+      message.save!
+
+      expect(conversation.reload).to be_pending
+      expect(conversation.assignee).to be_nil
+    end
+
+    # The bot's own handoff line would name nobody, and the bot-assignment line would credit the agent
+    # whose token posted the customer's message.
+    it 'explains the team unassignment, and nothing else, when the inbox bot takes the reopened conversation' do
+      inbox.update!(agent_bot: create(:agent_bot))
+      conversation.resolved!
+      Current.user = member
+
+      expect { message.save! }
+        .to have_enqueued_job(Conversations::ActivityMessageJob).with(conversation, hash_including(content: reason)).exactly(:once)
+      activity_lines = ActiveJob::Base.queue_adapter.enqueued_jobs
+                                      .select { |job| job['job_class'] == 'Conversations::ActivityMessageJob' }
+                                      .map { |job| job['arguments'].last['content'] }
+      expect(activity_lines.grep(/assigned to|handed from/i)).to be_empty
+      expect(conversation.reload.ai_assignee).to be_present
+    end
+
+    it 'explains the unassignment in a single activity message' do
+      conversation.resolved!
+
+      expect { message.save! }
+        .to have_enqueued_job(Conversations::ActivityMessageJob).with(conversation, hash_including(content: reason)).exactly(:once)
+        .and have_enqueued_job(Conversations::ActivityMessageJob).with(conversation, unassignment_activity).exactly(:once)
+    end
+
+    it 'writes the activity message in the account locale' do
+      account.update!(locale: 'pt_BR')
+      conversation.resolved!
+
+      expect { message.save! }.to have_enqueued_job(Conversations::ActivityMessageJob)
+        .with(conversation, hash_including(content: 'Conversa desatribuída de Bia porque não é membro do time da conversa, plantão'))
+    end
+
+    it 'keeps an assignee who is a member of the team' do
+      conversation.update!(assignee: member)
+      conversation.resolved!
+      message.save!
+
+      expect(conversation.reload.assignee).to eq(member)
+    end
+
+    it 'keeps the assignee when the inbox setting is off' do
+      inbox.update!(drop_assignee_outside_team_on_reopen: false)
+      conversation.resolved!
+      message.save!
+
+      expect(conversation.reload).to be_open
+      expect(conversation.assignee).to eq(outsider)
+    end
+
+    it 'leaves a conversation without a team untouched' do
+      conversation.update!(team: nil)
+      conversation.resolved!
+      message.save!
+
+      expect(conversation.reload.assignee).to eq(outsider)
+    end
+
+    it 'leaves a conversation without assignee untouched' do
+      conversation.update!(assignee: nil)
+      conversation.resolved!
+
+      expect { message.save! }.not_to have_enqueued_job(Conversations::ActivityMessageJob).with(conversation, unassignment_activity)
+      expect(conversation.reload.assignee).to be_nil
+    end
+
+    it 'leaves a conversation assigned to an agent bot untouched' do
+      agent_bot = create(:agent_bot)
+      inbox.update!(agent_bot: agent_bot)
+      Conversations::AssignmentService.new(conversation: conversation, assignee_id: agent_bot.id, assignee_type: 'AgentBot').perform
+      conversation.resolved!
+      message.save!
+
+      expect(conversation.reload.ai_assignee).to eq(agent_bot)
+    end
+
+    it 'does not touch the assignee of a conversation that is already open' do
+      message.save!
+
+      expect(conversation.reload.assignee).to eq(outsider)
+    end
+
+    it 'ignores outgoing messages on a resolved conversation' do
+      conversation.resolved!
+      create(:message, message_type: :outgoing, conversation: conversation, account: account, inbox: inbox, sender: member)
+
+      expect(conversation.reload.assignee).to eq(outsider)
+    end
+
+    it 'does not override an agent reopening the conversation by hand' do
+      conversation.resolved!
+      Current.user = member
+      conversation.open!
+
+      expect(conversation.reload.assignee).to eq(outsider)
+    end
+
+    # An API inbox can create the customer's message with an agent's token; the rule is not that agent taking over.
+    it 'drops the assignee even when the inbox prevents takeover and an agent created the message' do
+      inbox.update!(prevent_assignment_takeover: true)
+      conversation.resolved!
+      Current.user = member
+
+      # Nor is the activity signed by that agent: the reason is the only line.
+      expect { message.save! }
+        .to have_enqueued_job(Conversations::ActivityMessageJob).with(conversation, unassignment_activity).exactly(:once)
+      expect(conversation.reload.assignee).to be_nil
+    end
+
+    context 'when something changes the conversation while the reopen is in flight' do
+      it 'keeps the assignee an agent set in the meantime' do
+        conversation.resolved!
+        Conversation.find(conversation.id).update!(assignee: member)
+
+        message.save!
+
+        expect(conversation.reload).to be_open
+        expect(conversation.assignee).to eq(member)
+      end
+
+      it 'keeps the assignee when an agent reopened the conversation in the meantime' do
+        conversation.resolved!
+        Conversation.find(conversation.id).open!
+
+        message.save!
+
+        expect(conversation.reload.assignee).to eq(outsider)
+      end
+
+      it 'judges the team the conversation has at that moment, not the one the message read' do
+        other_team = create(:team, account: account)
+        other_team.add_members([outsider.id])
+        conversation.resolved!
+        Conversation.find(conversation.id).update!(team: other_team)
+
+        message.save!
+
+        expect(conversation.reload.assignee).to eq(outsider)
+        expect(conversation.team).to eq(other_team)
+      end
+
+      it 'drops the assignee once when two customer messages reopen it at the same time' do
+        conversation.resolved!
+        stale_copy = Conversation.find(conversation.id)
+        second = build(:message, message_type: :incoming, conversation: stale_copy, account: account, inbox: inbox)
+
+        expect do
+          message.save!
+          second.save!
+        end.to have_enqueued_job(Conversations::ActivityMessageJob).with(conversation, unassignment_activity).exactly(:once)
+        expect(conversation.reload).to be_open
+        expect(conversation.assignee).to be_nil
+      end
+    end
+
+    context 'with legacy auto-assignment' do
+      before do
+        inbox.update!(enable_auto_assignment: true)
+        inbox.add_members([member.id, outsider.id])
+      end
+
+      it 'does not hand the conversation back to the dropped agent when they are the only one online' do
+        allow(OnlineStatusTracker).to receive(:get_available_users).and_return({ outsider.id.to_s => 'online' })
+        conversation.resolved!
+        message.save!
+
+        expect(conversation.reload.assignee).to be_nil
+      end
+
+      # The reason line still goes out when the same save hands the conversation to someone else.
+      it 'hands it to an online member of the team, keeping the reason line' do
+        allow(OnlineStatusTracker).to receive(:get_available_users)
+          .and_return({ outsider.id.to_s => 'online', member.id.to_s => 'online' })
+        conversation.resolved!
+
+        expect { message.save! }
+          .to have_enqueued_job(Conversations::ActivityMessageJob).with(conversation, hash_including(content: reason)).exactly(:once)
+        expect(conversation.reload.assignee).to eq(member)
+      end
+
+      # The pick has to draw from the team the assignee was judged against: here the message read a team
+      # the outsider is still in, while the row had already moved to one they are not.
+      it 'picks from the team the row holds, not from the one the message read' do
+        other_team = create(:team, account: account)
+        other_team.add_members([outsider.id])
+        conversation.update!(team: other_team)
+        conversation.resolved!
+        # Moved without the team-change callback, which would drop the outsider by itself.
+        Conversation.where(id: conversation.id).update_all(team_id: team.id) # rubocop:disable Rails/SkipsModelValidations
+        allow(OnlineStatusTracker).to receive(:get_available_users).and_return({ outsider.id.to_s => 'online' })
+
+        message.save!
+
+        expect(conversation.reload.assignee).to be_nil
+        expect(conversation.team).to eq(team)
+      end
+    end
+
+    context 'with assignment v2' do
+      let(:service) { AutoAssignment::AssignmentService.new(inbox: inbox) }
+
+      before do
+        account.enable_features('assignment_v2')
+        account.save!
+        inbox.update!(enable_auto_assignment: true)
+        inbox.add_members([member.id, outsider.id])
+      end
+
+      it 'does not hand the conversation back to the dropped agent when they are the only one online' do
+        allow(OnlineStatusTracker).to receive(:get_available_users).and_return({ outsider.id.to_s => 'online' })
+        conversation.resolved!
+        message.save!
+        service.perform_bulk_assignment
+
+        expect(conversation.reload.assignee).to be_nil
+      end
+
+      it 'hands it to an online member of the team' do
+        allow(OnlineStatusTracker).to receive(:get_available_users)
+          .and_return({ outsider.id.to_s => 'online', member.id.to_s => 'online' })
+        conversation.resolved!
+        message.save!
+        service.perform_bulk_assignment
+
+        expect(conversation.reload.assignee).to eq(member)
+      end
+
+      # The bulk run loads its batch first and claims each row later: an agent picked from the
+      # team in the snapshot must not claim a row that moved to a team they are not in.
+      it 'does not claim with an agent picked from a team the row no longer has' do
+        other_team = create(:team, account: account)
+        other_team.add_members([outsider.id])
+        conversation.update!(assignee: nil, team: other_team)
+        allow(OnlineStatusTracker).to receive(:get_available_users).and_return({ outsider.id.to_s => 'online' })
+        allow(service).to receive(:find_available_agent).and_wrap_original do |original, snapshot|
+          agent = original.call(snapshot)
+          Conversation.where(id: snapshot.id).update_all(team_id: team.id) # rubocop:disable Rails/SkipsModelValidations
+          agent
+        end
+
+        service.perform_bulk_assignment
+
+        expect(conversation.reload.assignee).to be_nil
+      end
     end
   end
 
@@ -451,6 +1032,21 @@ RSpec.describe Message do
     it 'does not contain the message attachment when attachment is not present' do
       message = create(:message)
       expect(message.webhook_data.key?(:attachments)).to be false
+    end
+
+    # The bot payload's consumer orders the contact and the inbox it mirrors by these clocks, which no
+    # conversation timestamp can stand in for: a contact edit moves neither conversation clock.
+    it 'carries the contact and inbox clocks in meta.sender, sender and inbox' do
+      message = create(:message, message_type: :incoming)
+      contact = message.conversation.contact
+      message.update!(sender: contact)
+      contact.update!(custom_attributes: { 'plano' => 'prata' })
+
+      payload = message.reload.webhook_data
+
+      expect(payload[:conversation][:meta][:sender][:updated_at]).to eq(contact.reload.updated_at.to_f)
+      expect(payload[:sender][:updated_at]).to eq(contact.updated_at.to_f)
+      expect(payload[:inbox][:updated_at]).to eq(message.inbox.updated_at.to_f)
     end
 
     it 'uses raw content without markdown rendering for webhook content' do
@@ -935,6 +1531,53 @@ RSpec.describe Message do
     end
   end
 
+  describe '#deleted?' do
+    let(:conversation) { create(:conversation) }
+
+    it 'returns true when the agent deleted the message' do
+      message = create(:message, conversation: conversation, content_attributes: { deleted: true })
+      expect(message.deleted?).to be true
+    end
+
+    it 'returns false for regular messages' do
+      message = create(:message, conversation: conversation, content_attributes: {})
+      expect(message.deleted?).to be false
+    end
+  end
+
+  describe '#update_under_lock!' do
+    let(:conversation) { create(:conversation) }
+    let(:message) { create(:message, conversation: conversation, content_attributes: {}) }
+
+    it 'keeps content_attributes another request wrote while this object went stale' do
+      described_class.find(message.id).update!(content_attributes: { deleted: true })
+
+      message.update_under_lock!(external_error: 'boom')
+
+      expect(message.reload.content_attributes).to include('deleted' => true, 'external_error' => 'boom')
+    end
+
+    it 'persists changes the caller left unsaved, as a plain update! would' do
+      # the template path mutates additional_attributes in place and relies on the source_id write to save it
+      message.additional_attributes = { 'format_version' => 'legacy' }
+
+      message.update_under_lock!(source_id: 'wamid.123')
+
+      expect(message.reload.source_id).to eq('wamid.123')
+      expect(message.additional_attributes).to include('format_version' => 'legacy')
+    end
+
+    it 'drops stale in-memory content_attributes rather than clobbering the row' do
+      described_class.find(message.id).update!(content_attributes: { deleted: true })
+      message.external_error = 'written from a stale copy'
+
+      message.update_under_lock!(source_id: 'wamid.123')
+
+      expect(message.reload).to be_deleted
+      expect(message.external_error).to be_nil
+    end
+  end
+
   describe '.hide_removed_reactions' do
     let(:conversation) { create(:conversation) }
 
@@ -1001,6 +1644,146 @@ RSpec.describe Message do
              content: '👍',
              content_attributes: { is_reaction: true, in_reply_to: 1 })
       expect(conversation.reload.first_reply_created_at).to be_nil
+    end
+
+    it 'does not push an attended conversation back into the unattended queue' do
+      conversation.update!(first_reply_created_at: Time.current, waiting_since: nil)
+      create(:message,
+             conversation: conversation,
+             message_type: :incoming,
+             content: '👍',
+             content_attributes: { is_reaction: true, in_reply_to_external_id: 'EXT' })
+      expect(conversation.reload.waiting_since).to be_nil
+    end
+  end
+
+  # A "no WhatsApp" flag is only a lookup's answer; the contact replying, or their phone
+  # acknowledging a message, is proof the number exists (fazer-ai/chatwoot#877).
+  describe 'clearing the no-WhatsApp flag' do
+    let(:channel) do
+      create(:channel_whatsapp, provider: 'baileys', validate_provider_config: false, sync_templates: false)
+    end
+    let(:contact_inbox) do
+      create(:contact_inbox, inbox: channel.inbox, source_id: '558588246590', whatsapp_missing_checked_at: 1.hour.ago)
+    end
+    let(:conversation) do
+      create(:conversation, account: channel.account, inbox: channel.inbox, contact: contact_inbox.contact, contact_inbox: contact_inbox)
+    end
+
+    it 'clears it when the contact sends something' do
+      create(:message, conversation: conversation, inbox: channel.inbox, account: channel.account, message_type: :incoming)
+
+      expect(contact_inbox.reload.whatsapp_missing_checked_at).to be_nil
+    end
+
+    # The payload is what moves the banner, so it has to carry the cleared value, not the one
+    # still held by the loaded association.
+    it 'tells the dashboard when a reply clears it, with the cleared value' do
+      conversation.update!(status: :resolved) # the reply reopens it, which broadcasts again
+      conversation.contact_inbox # loaded with the old date, as a request would hold it
+      payloads = []
+      allow(Rails.configuration.dispatcher).to receive(:dispatch) do |event, _time, data|
+        payloads << data[:conversation].push_event_data if event == Events::Types::CONVERSATION_UPDATED
+      end
+
+      create(:message, conversation: conversation, inbox: channel.inbox, account: channel.account, message_type: :incoming)
+
+      # Every payload after the clear, the message's own reopen and activity included, has to
+      # carry it: the last one is what the dashboard keeps.
+      expect(payloads).not_to be_empty
+      expect(payloads.last).to include(id: conversation.display_id, whatsapp_missing_checked_at: nil)
+    end
+
+    it 'clears it when an outgoing message is delivered' do
+      message = create(:message, conversation: conversation, inbox: channel.inbox, account: channel.account,
+                                 message_type: :outgoing, status: :sent)
+
+      message.update!(status: :delivered)
+
+      expect(contact_inbox.reload.whatsapp_missing_checked_at).to be_nil
+    end
+
+    it 'clears it for a reply stamped in the second the flag was set' do
+      flagged_at = Time.current.change(usec: 400_000)
+      contact_inbox.update!(whatsapp_missing_checked_at: flagged_at)
+
+      create(:message, conversation: conversation, inbox: channel.inbox, account: channel.account, message_type: :incoming,
+                       content_attributes: { external_created_at: flagged_at.to_i })
+
+      expect(contact_inbox.reload.whatsapp_missing_checked_at).to be_nil
+    end
+
+    # It may have gone to the phone the contact had before; the recheck asks about this one.
+    it 'keeps it when the receipt answers a message sent before the check' do
+      message = create(:message, conversation: conversation, inbox: channel.inbox, account: channel.account,
+                                 message_type: :outgoing, status: :sent, created_at: 2.hours.ago)
+
+      message.update!(status: :delivered)
+
+      expect(contact_inbox.reload.whatsapp_missing_checked_at).to be_present
+    end
+
+    # The flag is about the phone; the contact's other thread here (a LID one) warns about it too.
+    it 'clears it on the contact\'s other threads in the inbox' do
+      sibling = create(:contact_inbox, contact: contact_inbox.contact, inbox: channel.inbox, source_id: '123456789012345',
+                                       whatsapp_missing_checked_at: 1.hour.ago)
+
+      create(:message, conversation: conversation, inbox: channel.inbox, account: channel.account, message_type: :incoming)
+
+      expect(sibling.reload.whatsapp_missing_checked_at).to be_nil
+    end
+
+    # A history import replays old traffic: it predates the lookup and proves nothing now.
+    it 'keeps it when the incoming message predates the check' do
+      create(:message, conversation: conversation, inbox: channel.inbox, account: channel.account, message_type: :incoming,
+                       content_attributes: { external_created_at: 2.days.ago.to_i })
+
+      expect(contact_inbox.reload.whatsapp_missing_checked_at).to be_present
+    end
+
+    it 'keeps it when an old outgoing message is imported already delivered' do
+      create(:message, conversation: conversation, inbox: channel.inbox, account: channel.account, message_type: :outgoing,
+                       status: :delivered, content_attributes: { external_created_at: 2.days.ago.to_i })
+
+      expect(contact_inbox.reload.whatsapp_missing_checked_at).to be_present
+    end
+
+    # A send from the paired phone comes back as an echo born delivered, with no receipt.
+    it 'keeps it when an echo of a send from the phone is born delivered' do
+      create(:message, conversation: conversation, inbox: channel.inbox, account: channel.account, message_type: :outgoing,
+                       status: :delivered)
+
+      expect(contact_inbox.reload.whatsapp_missing_checked_at).to be_present
+    end
+
+    # A receipt is evidence about now, whenever the message was sent.
+    it 'clears it when a live receipt arrives for a message sent before the check' do
+      message = create(:message, conversation: conversation, inbox: channel.inbox, account: channel.account,
+                                 message_type: :outgoing, status: :sent,
+                                 content_attributes: { external_created_at: 2.days.ago.to_i })
+
+      message.update!(status: :delivered)
+
+      expect(contact_inbox.reload.whatsapp_missing_checked_at).to be_nil
+    end
+
+    it 'keeps it when an import replays a receipt' do
+      message = create(:message, conversation: conversation, inbox: channel.inbox, account: channel.account,
+                                 message_type: :outgoing, status: :sent)
+
+      Import::SilentWrite.wrap { message.update!(status: :delivered) }
+
+      expect(contact_inbox.reload.whatsapp_missing_checked_at).to be_present
+    end
+
+    # The server's acknowledgement is exactly what a number with no account still gets.
+    it 'keeps it while outgoing messages are only sent' do
+      message = create(:message, conversation: conversation, inbox: channel.inbox, account: channel.account,
+                                 message_type: :outgoing, status: :sent)
+
+      message.update!(content: 'edited')
+
+      expect(contact_inbox.reload.whatsapp_missing_checked_at).to be_present
     end
   end
 end

@@ -16,6 +16,8 @@ class OauthCallbackController < ApplicationController
   def handle_response
     inbox, already_exists = find_or_create_inbox
 
+    return redirect_to app_onboarding_inbox_setup_url(account_id: account.id) if return_to == 'onboarding'
+
     if already_exists
       redirect_to app_email_inbox_settings_url(account_id: account.id, inbox_id: inbox.id)
     else
@@ -44,7 +46,7 @@ class OauthCallbackController < ApplicationController
 
   def update_channel(channel_email)
     channel_email.update!({
-                            imap_login: users_data['email'], imap_address: imap_address,
+                            imap_login: imap_login_identity, imap_address: imap_address,
                             imap_port: '993', imap_enabled: true,
                             provider: provider_name,
                             provider_config: {
@@ -53,6 +55,13 @@ class OauthCallbackController < ApplicationController
                               expires_on: (Time.current.utc + 1.hour).to_s
                             }
                           })
+  end
+
+  # Identity used as the IMAP/SMTP login (SASL XOAUTH2 `user=` field). Defaults to the
+  # id_token's email claim; providers override when their server requires a different
+  # claim (e.g. Microsoft SMTP requires UPN).
+  def imap_login_identity
+    users_data['email']
   end
 
   def provider_name
@@ -81,10 +90,19 @@ class OauthCallbackController < ApplicationController
     decoded_token[0]
   end
 
+  # The sgid purpose carries the onboarding return hint (see
+  # OauthAuthorizationController#state). Try the onboarding purpose first — a match
+  # both resolves the account and records the return target — then fall back to the
+  # default purpose used by every other caller.
   def account_from_signed_id
     raise ActionController::BadRequest, 'Missing state variable' if params[:state].blank?
 
-    account = GlobalID::Locator.locate_signed(params[:state])
+    if (account = GlobalID::Locator.locate_signed(params[:state], for: 'onboarding'))
+      @return_to = 'onboarding'
+    else
+      account = GlobalID::Locator.locate_signed(params[:state])
+    end
+
     raise 'Invalid or expired state' if account.nil?
 
     account
@@ -92,6 +110,11 @@ class OauthCallbackController < ApplicationController
 
   def account
     @account ||= account_from_signed_id
+  end
+
+  def return_to
+    account # resolving the sgid records which purpose matched
+    @return_to
   end
 
   # Fallback name, for when name field is missing from users_data

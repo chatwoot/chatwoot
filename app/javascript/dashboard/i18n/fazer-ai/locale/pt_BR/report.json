@@ -1,0 +1,49 @@
+{
+  "REPORT": {
+    "CROSS_FILTER": {
+      "ALL_INBOXES": "Todas as caixas de entrada",
+      "ALL_AGENTS": "Todos os agentes",
+      "NO_RESULTS": "Nenhuma atividade para este filtro no período selecionado."
+    },
+    "DISTRIBUTION": {
+      "TITLE": {
+        "AGENT": "Distribuição por agente",
+        "INBOX": "Distribuição por caixa de entrada",
+        "TEAM": "Distribuição por time"
+      },
+      "METRIC": {
+        "RESOLUTIONS": "Resolvidas",
+        "HANDLED": "Atendidas",
+        "ASSIGNED": "Atribuídas",
+        "OPENED": "Abertas"
+      },
+      "OTHERS": "Outros ({count})",
+      "EMPTY_METRIC": "Sem dados suficientes para comparar nesta métrica.",
+      "HANDLED_SHARE": "Uma conversa atendida por dois agentes conta para os dois, então as porcentagens podem somar mais de 100%."
+    },
+    "METRIC_HINTS": {
+      "RESOLVED_AGENT": "Resoluções feitas no período, contadas para quem era o responsável quando a conversa foi resolvida. Uma conversa reaberta e resolvida de novo conta duas vezes.",
+      "RESOLVED": "Resoluções feitas no período. Uma conversa reaberta e resolvida de novo conta duas vezes.",
+      "HANDLED_AGENT": "Conversas em que o agente enviou pelo menos uma mensagem pública no período. Notas privadas e mensagens de bot não contam.",
+      "HANDLED": "Conversas em que algum agente enviou pelo menos uma mensagem pública no período. Notas privadas e mensagens de bot não contam.",
+      "ASSIGNED_AGENT": "Conversas abertas no período que hoje estão atribuídas ao agente. Não indica quem atendeu.",
+      "ASSIGNED_TEAM": "Conversas abertas no período que hoje estão atribuídas ao time.",
+      "OPENED": "Conversas abertas no período."
+    },
+    "METRICS": {
+      "HANDLED_CONVERSATIONS": {
+        "NAME": "Conversas atendidas",
+        "DESC": "( Total )"
+      },
+      "ASSIGNED_CONVERSATIONS": {
+        "NAME": "Conversas atribuídas",
+        "DESC": "( Total )"
+      }
+    }
+  },
+  "SUMMARY_REPORTS": {
+    "HANDLED": "Atendidas",
+    "ASSIGNED": "Atribuídas",
+    "OPENED": "Abertas"
+  }
+}

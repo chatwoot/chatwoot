@@ -96,6 +96,30 @@ describe('templateHelper', () => {
       const result = buildTemplateParameters(imageTemplate, true);
 
       expect(result.header).toEqual({
+        media_url: 'https://example.com/shoes.jpg',
+        media_type: 'image',
+      });
+    });
+
+    it('should pre-fill media_url from the template example header_handle', () => {
+      const imageTemplate = templates.find(
+        t => t.name === 'order_confirmation'
+      );
+      const result = buildTemplateParameters(imageTemplate, true);
+
+      expect(result.header.media_url).toBe('https://example.com/shoes.jpg');
+    });
+
+    it('should leave media_url empty when the template has no example handle', () => {
+      const imageTemplateWithoutExample = {
+        components: [
+          { type: 'HEADER', format: 'IMAGE' },
+          { type: 'BODY', text: 'Hi {{1}}' },
+        ],
+      };
+      const result = buildTemplateParameters(imageTemplateWithoutExample, true);
+
+      expect(result.header).toEqual({
         media_url: '',
         media_type: 'image',
       });
@@ -156,12 +180,18 @@ describe('templateHelper', () => {
       ]);
     });
 
-    it('should handle templates with no variables', () => {
+    it('should handle templates with no variables but a media header', () => {
       const emptyTemplate = templates.find(
         t => t.name === 'no_variable_template'
       );
-      const result = buildTemplateParameters(emptyTemplate, false);
-      expect(result).toEqual({});
+      const result = buildTemplateParameters(emptyTemplate);
+      // hasMediaHeader is derived from the template, so the document header is kept.
+      expect(result.body).toBeUndefined();
+      expect(result.header).toEqual({
+        media_url: '',
+        media_type: 'document',
+        media_name: '',
+      });
     });
 
     it('should build parameters for templates with multiple component types', () => {

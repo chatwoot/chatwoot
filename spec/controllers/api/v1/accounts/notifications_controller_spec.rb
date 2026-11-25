@@ -73,6 +73,25 @@ RSpec.describe 'Notifications API', type: :request do
         expect(notification1.reload.read_at).not_to eq('')
         expect(notification2.reload.read_at).to be_nil
       end
+
+      it 'scopes read_all to an internal chat channel primary actor' do
+        channel = create(:internal_chat_channel, :public_channel, account: account)
+        # Force a same-id collision across actor types so the test fails if read_all ignores primary_actor_type
+        notification1.update_column(:primary_actor_id, channel.id) # rubocop:disable Rails/SkipsModelValidations
+        message = create(:internal_chat_message, account: account, channel: channel)
+        channel_notification = create(:notification, account: account, user: admin, notification_type: 'internal_chat_mention',
+                                                     primary_actor: channel, secondary_actor: message)
+
+        post "/api/v1/accounts/#{account.id}/notifications/read_all",
+             headers: admin.create_new_auth_token,
+             params: { primary_actor_id: channel.id, primary_actor_type: 'InternalChat::Channel' },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(channel_notification.reload.read_at).not_to be_nil
+        expect(notification1.reload.read_at).to be_nil
+        expect(notification2.reload.read_at).to be_nil
+      end
     end
   end
 
@@ -260,6 +279,29 @@ RSpec.describe 'Notifications API', type: :request do
 
         expect(response).to have_http_status(:success)
       end
+    end
+  end
+
+  context 'when the member lacks internal_chat.access' do
+    let(:agent) { create(:user, account: account, role: :agent) }
+    let(:channel) { create(:internal_chat_channel, :dm, account: account) }
+    let(:message) { create(:internal_chat_message, account: account, channel: channel, sender: create(:user, account: account)) }
+    let!(:notification) do
+      create(:notification, account: account, user: agent, notification_type: 'internal_chat_new_message',
+                            primary_actor: channel, secondary_actor: message)
+    end
+
+    before { stub_const('FeatureAccess::CAPABILITIES', { 'internal_chat.access' => { agent_default: false } }) }
+
+    it 'does not find their internal chat notification on any member action' do
+      base = "/api/v1/accounts/#{account.id}/notifications/#{notification.id}"
+      headers = agent.create_new_auth_token
+
+      patch base, headers: headers, as: :json
+      expect(response).to have_http_status(:not_found)
+      post "#{base}/snooze", params: { snoozed_until: 1.day.from_now }, headers: headers, as: :json
+      expect(response).to have_http_status(:not_found)
+      expect(notification.reload.read_at).to be_nil
     end
   end
 end

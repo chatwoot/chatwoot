@@ -9,6 +9,50 @@ RSpec.describe Integrations::Hook do
     it { is_expected.to validate_presence_of(:account_id) }
   end
 
+  describe 'inbox ownership' do
+    let(:account) { create(:account) }
+
+    it 'rejects a nonexistent inbox ID' do
+      missing_inbox_id = create(:inbox, account: account).id + 1
+      record = build(:integrations_hook, :dialogflow, account: account, inbox_id: missing_inbox_id)
+
+      expect(record).not_to be_valid
+      expect(record.errors[:inbox_id]).to include('must belong to the same account as the hook')
+    end
+
+    it 'allows an inbox belonging to the same account' do
+      inbox = create(:inbox, account: account)
+      record = build(:integrations_hook, :dialogflow, account: account, inbox: inbox)
+
+      expect(record).to be_valid
+    end
+
+    it 'rejects an inbox belonging to another account' do
+      record = build(:integrations_hook, :dialogflow, account: account, inbox: create(:inbox))
+
+      expect(record).not_to be_valid
+      expect(record.errors[:inbox_id]).to include('must belong to the same account as the hook')
+    end
+
+    it 'rejects new disabled hooks with a foreign inbox' do
+      record = build(:integrations_hook, :dialogflow, account: account, inbox: create(:inbox), status: :disabled)
+
+      expect(record).not_to be_valid
+      expect(record.errors[:inbox_id]).to include('must belong to the same account as the hook')
+    end
+
+    it 'preserves account integrations without an inbox' do
+      expect(build(:integrations_hook, account: account, inbox: nil)).to be_valid
+    end
+
+    it 'still requires an inbox for Dialogflow' do
+      record = build(:integrations_hook, :dialogflow, account: account, inbox: nil)
+
+      expect(record).not_to be_valid
+      expect(record.errors[:inbox_id]).to include("can't be blank")
+    end
+  end
+
   describe 'associations' do
     it { is_expected.to belong_to(:account) }
   end
@@ -28,6 +72,44 @@ RSpec.describe Integrations::Hook do
         create(:integrations_hook, account: account, app_id: 'slack')
         expect(build(:integrations_hook, account: account, app_id: 'slack').valid?).to be false
       end
+    end
+  end
+
+  describe 'Shopify shop identity' do
+    let(:account) { create(:account) }
+
+    before do
+      InstallationConfig.where(name: 'ENABLE_SHOPIFY_INTEGRATION').first_or_initialize.update!(value: true)
+      account.enable_features!('shopify_integration')
+    end
+
+    it 'normalizes the shop domain before validation' do
+      hook = create(:integrations_hook, :shopify, account: account, reference_id: 'My-Store.MyShopify.Com')
+
+      expect(hook.reference_id).to eq('my-store.myshopify.com')
+    end
+
+    it 'rejects invalid shop domains' do
+      hook = build(:integrations_hook, :shopify, account: account, reference_id: 'example.com')
+
+      expect(hook).not_to be_valid
+      expect(hook.errors[:reference_id]).to be_present
+    end
+
+    it 'enforces global case-insensitive shop uniqueness across accounts' do
+      create(:integrations_hook, :shopify, account: account, reference_id: 'my-store.myshopify.com')
+      second_account = create(:account)
+      second_account.enable_features!('shopify_integration')
+
+      duplicate_hook = build(
+        :integrations_hook,
+        :shopify,
+        account: second_account,
+        reference_id: 'MY-STORE.MYSHOPIFY.COM'
+      )
+
+      expect(duplicate_hook).not_to be_valid
+      expect(duplicate_hook.errors[:reference_id]).to include('has already been taken')
     end
   end
 
@@ -140,10 +222,9 @@ RSpec.describe Integrations::Hook do
 
     it 'skips validation when an enabled openai hook is saved without changing the api key' do
       allow(Integrations::Openai::KeyValidator).to receive(:valid?).and_return(true)
-      hook = create(:integrations_hook, :openai, account: account, settings: { 'api_key' => 'sk-good', 'label_suggestion' => false })
+      hook = create(:integrations_hook, :openai, account: account, settings: { 'api_key' => 'sk-good' })
 
       allow(Integrations::Openai::KeyValidator).to receive(:valid?).and_return(false)
-      hook.settings['label_suggestion'] = true
 
       expect(hook.save).to be true
     end
@@ -176,5 +257,153 @@ RSpec.describe Integrations::Hook do
 
       expect(hook).to be_valid
     end
+  end
+
+  describe 'google translate credential validation' do
+    let!(:hook) do
+      allow(Integrations::GoogleTranslate::CredentialsValidator).to receive(:valid?).and_return(true)
+      create(:integrations_hook, :google_translate)
+    end
+
+    it 'rejects a broken key saved on an existing hook' do
+      allow(Integrations::GoogleTranslate::CredentialsValidator).to receive(:valid?).and_return(false)
+
+      expect(hook.update(settings: { project_id: 'test', credentials: { 'private_key' => 'sample' } })).to be(false)
+      expect(hook.errors[:base]).to include(I18n.t('errors.google_translate.invalid_credentials'))
+    end
+
+    it 'does not call Google when only the status changes' do
+      expect(Integrations::GoogleTranslate::CredentialsValidator).not_to receive(:valid?)
+
+      hook.update!(status: :disabled)
+    end
+  end
+
+  describe 'cloudflare realtimekit credential validation' do
+    let(:account) { create(:account) }
+    let(:settings) { { 'account_id' => 'account_id', 'app_id' => 'app_id', 'api_token' => 'api_token' } }
+
+    it 'prevents saving a RealtimeKit hook with an invalid API token' do
+      allow(Integrations::Cloudflare::RealtimeKitCredentialsValidator).to receive(:validate)
+        .and_return(cloudflare_validator_result(false, :invalid_api_token))
+
+      hook = build(:integrations_hook, :dyte, account: account, settings: settings)
+
+      expect(hook).not_to be_valid
+      expect(hook.errors[:base]).to include(I18n.t('errors.cloudflare.realtimekit.invalid_api_token'))
+    end
+
+    it 'prevents saving a RealtimeKit hook with an invalid account or missing token permissions' do
+      allow(Integrations::Cloudflare::RealtimeKitCredentialsValidator).to receive(:validate)
+        .and_return(cloudflare_validator_result(false, :invalid_account_or_permissions))
+
+      hook = build(:integrations_hook, :dyte, account: account, settings: settings)
+
+      expect(hook).not_to be_valid
+      expect(hook.errors[:base]).to include(I18n.t('errors.cloudflare.realtimekit.invalid_account_or_permissions'))
+    end
+
+    it 'prevents saving a RealtimeKit hook when the app is not found' do
+      allow(Integrations::Cloudflare::RealtimeKitCredentialsValidator).to receive(:validate)
+        .and_return(cloudflare_validator_result(false, :app_not_found))
+
+      hook = build(:integrations_hook, :dyte, account: account, settings: settings)
+
+      expect(hook).not_to be_valid
+      expect(hook.errors[:base]).to include(I18n.t('errors.cloudflare.realtimekit.app_not_found'))
+    end
+
+    it 'allows saving a RealtimeKit hook with valid credentials' do
+      allow(Integrations::Cloudflare::RealtimeKitCredentialsValidator).to receive(:validate)
+        .and_return(cloudflare_validator_result(true))
+
+      hook = build(:integrations_hook, :dyte, account: account, settings: settings)
+
+      expect(hook).to be_valid
+    end
+
+    it 'skips validation when an enabled RealtimeKit hook is saved without changing credentials' do
+      allow(Integrations::Cloudflare::RealtimeKitCredentialsValidator).to receive(:validate)
+        .and_return(cloudflare_validator_result(true))
+      hook = create(:integrations_hook, :dyte, account: account, settings: settings)
+
+      allow(Integrations::Cloudflare::RealtimeKitCredentialsValidator).to receive(:validate)
+        .and_return(cloudflare_validator_result(false, :invalid_api_token))
+      hook.settings['account_id'] = 'account_id'
+
+      expect(hook.save).to be true
+    end
+
+    it 'validates when a disabled RealtimeKit hook is re-enabled' do
+      allow(Integrations::Cloudflare::RealtimeKitCredentialsValidator).to receive(:validate)
+        .and_return(cloudflare_validator_result(true))
+      hook = create(:integrations_hook, :dyte, account: account, settings: settings)
+      hook.update!(status: :disabled)
+
+      allow(Integrations::Cloudflare::RealtimeKitCredentialsValidator).to receive(:validate)
+        .with('account_id', 'app_id', 'api_token')
+        .and_return(cloudflare_validator_result(false, :invalid_api_token))
+
+      expect(hook.update(status: :enabled)).to be false
+      expect(hook.errors[:base]).to include(I18n.t('errors.cloudflare.realtimekit.invalid_api_token'))
+    end
+
+    it 'skips validation for disabled RealtimeKit hooks' do
+      allow(Integrations::Cloudflare::RealtimeKitCredentialsValidator).to receive(:validate)
+        .and_return(cloudflare_validator_result(true))
+      hook = create(:integrations_hook, :dyte, account: account, settings: settings)
+
+      allow(Integrations::Cloudflare::RealtimeKitCredentialsValidator).to receive(:validate)
+        .and_return(cloudflare_validator_result(false, :invalid_api_token))
+      hook.disable
+
+      expect(hook.reload).to be_disabled
+    end
+
+    it 'allows disabling a persisted legacy Dyte hook without RealtimeKit credentials' do
+      hook = build(:integrations_hook, :dyte, account: account, settings: { 'organization_id' => 'org_id', 'api_key' => 'dyte_api_key' })
+      hook.save!(validate: false)
+
+      allow(Integrations::Cloudflare::RealtimeKitCredentialsValidator).to receive(:validate)
+        .and_return(cloudflare_validator_result(false, :invalid_api_token))
+
+      expect(hook.disable).to be true
+      expect(hook.reload).to be_disabled
+    end
+
+    it 'allows re-enabling a persisted legacy Dyte hook without RealtimeKit credential validation' do
+      hook = build(:integrations_hook, :dyte, account: account, settings: { 'organization_id' => 'org_id', 'api_key' => 'dyte_api_key' })
+      hook.save!(validate: false)
+      hook.disable
+
+      expect(Integrations::Cloudflare::RealtimeKitCredentialsValidator).not_to receive(:validate)
+
+      expect(hook.update(status: :enabled)).to be true
+      expect(hook.reload).to be_enabled
+    end
+
+    it 'validates settings when a legacy Dyte hook settings payload is changed' do
+      hook = build(:integrations_hook, :dyte, account: account, settings: { 'organization_id' => 'org_id', 'api_key' => 'dyte_api_key' })
+      hook.save!(validate: false)
+
+      hook.settings = { 'account_id' => 'account_id' }
+
+      expect(hook).not_to be_valid
+      expect(hook.errors[:settings]).to include(': Invalid settings data')
+    end
+
+    it 'rejects new legacy Dyte hooks' do
+      hook = build(:integrations_hook, :dyte,
+                   account: account,
+                   status: :disabled,
+                   settings: { 'organization_id' => 'org_id', 'api_key' => 'dyte_api_key' })
+
+      expect(hook).not_to be_valid
+      expect(hook.errors[:settings]).to include(': Invalid settings data')
+    end
+  end
+
+  def cloudflare_validator_result(success, error = nil)
+    Integrations::Cloudflare::RealtimeKitCredentialsValidator::Result.new(success, error)
   end
 end

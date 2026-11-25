@@ -1,0 +1,20 @@
+{
+  "v": 1,
+  "id": "cmd_000005",
+  "type": "message.send",
+  "sid": "9f1c0f4e-6a2b-4c8e-9d1a-2b3c4d5e6f70",
+  "ts": 1755440000123,
+  "payload": {
+    "message_id": "3EB0A1B2C3D4E5F60800",
+    "to": {
+      "kind": "phone",
+      "id": "5541999990000"
+    },
+    "content": {
+      "type": "text",
+      "body": "Olá! Como posso ajudar?"
+    }
+  },
+  "reply_to": "wa:reply:cmd_000005",
+  "deadline": 1755440015123
+}

@@ -1,11 +1,10 @@
 class Api::V1::Accounts::Captain::ScenariosController < Api::V1::Accounts::BaseController
-  before_action :current_account
   before_action -> { check_authorization(Captain::Scenario) }
   before_action :set_assistant
   before_action :set_scenario, only: [:show, :update, :destroy]
 
   def index
-    @scenarios = assistant_scenarios.enabled
+    @scenarios = assistant_scenarios
   end
 
   def show; end
@@ -19,7 +18,7 @@ class Api::V1::Accounts::Captain::ScenariosController < Api::V1::Accounts::BaseC
   end
 
   def destroy
-    @scenario.destroy!
+    @scenario.destroy
     head :no_content
   end
 

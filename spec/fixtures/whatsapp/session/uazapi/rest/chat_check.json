@@ -1,0 +1,16 @@
+[
+  {
+    "isInWhatsapp": true,
+    "jid": "553499990002@s.whatsapp.net",
+    "lid": "900000100000000@lid",
+    "query": "553499990002",
+    "verifiedName": ""
+  },
+  {
+    "error": "the number 5500010000000@s.whatsapp.net is not on WhatsApp",
+    "isInWhatsapp": false,
+    "jid": "",
+    "query": "5500010000000",
+    "verifiedName": ""
+  }
+]

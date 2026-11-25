@@ -1,6 +1,27 @@
 class ApplicationRecord < ActiveRecord::Base
+  MAX_STRING_COLUMN_LENGTH = 255
+  MAX_TEXT_COLUMN_LENGTH = 20_000
+
   include Events::Types
   self.abstract_class = true
+
+  # A polymorphic type column can name a class only enterprise/ defines: a message a Captain
+  # assistant sent, a conversation assigned to one. On an install that runs without it the row
+  # is kept as it is, since it is right again the day Enterprise is back, and reads as pointing
+  # at nothing, the way a blank type does: the association answers nil and preloading skips it.
+  # With enterprise/ loaded every such class exists, so a name that does not resolve is still
+  # an error.
+  def self.polymorphic_class_for(name)
+    super
+  rescue NameError
+    raise unless missing_polymorphic_classes_tolerated?
+
+    nil
+  end
+
+  def self.missing_polymorphic_classes_tolerated?
+    !ChatwootApp.enterprise?
+  end
 
   before_validation :validates_column_content_length
 
@@ -39,7 +60,7 @@ class ApplicationRecord < ActiveRecord::Base
   end
 
   def validate_content_length(column)
-    max_length = column.type == :text ? 20_000 : 255
+    max_length = column.type == :text ? MAX_TEXT_COLUMN_LENGTH : MAX_STRING_COLUMN_LENGTH
     return if self[column.name].nil? || self[column.name].length <= max_length
 
     errors.add(column.name.to_sym, "is too long (maximum is #{max_length} characters)")

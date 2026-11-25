@@ -7,13 +7,23 @@ class AutomationRules::ActionService < ActionService
   end
 
   def perform
-    @rule.actions.each do |action|
-      @conversation.reload
-      action = action.with_indifferent_access
-      begin
-        send(action[:action_name], action[:action_params])
-      rescue StandardError => e
-        ChatwootExceptionTracker.new(e, account: @account).capture_exception
+    # The activity messages the actions trigger are rendered as each change commits, in the thread's
+    # locale. A rule runs in Sidekiq, where that is the locale of whoever enqueued the event (English
+    # for an inbound message) or the process default, so the account's is named here. No
+    # InvalidLocale guard: `locale` is an enum over LANGUAGES_CONFIG, all of it loaded.
+    I18n.with_locale(@account.locale) do
+      # Taken once, before the first action: the text of every action of this run reads the same
+      # picture, and reads it even after the actions that erase what it shows already ran.
+      Current.conversation_snapshot = ConversationSnapshot.new(@conversation)
+
+      @rule.actions.each do |action|
+        @conversation.reload
+        action = action.with_indifferent_access
+        begin
+          send(action[:action_name], action[:action_params])
+        rescue StandardError => e
+          ChatwootExceptionTracker.new(e, account: @account).capture_exception
+        end
       end
     end
   ensure
@@ -25,13 +35,11 @@ class AutomationRules::ActionService < ActionService
   def send_attachment(blob_ids)
     return if conversation_a_tweet?
 
-    return unless @rule.files.attached?
-
-    blobs = ActiveStorage::Blob.where(id: blob_ids)
+    blobs = @rule.files.blobs.where(id: blob_ids)
 
     return if blobs.blank?
 
-    params = { content: nil, private: false, attachments: blobs }
+    params = { content: nil, private: false, attachments: blobs, content_attributes: { automation_rule_id: @rule.id } }
     Messages::MessageBuilder.new(nil, @conversation, params).perform
   end
 
@@ -55,12 +63,13 @@ class AutomationRules::ActionService < ActionService
   end
 
   def send_email_to_team(params)
-    teams = Team.where(id: params[0][:team_ids])
+    teams = @account.teams.where(id: params[0][:team_ids])
 
     teams.each do |team|
       break unless @account.within_email_rate_limit?
 
-      TeamNotifications::AutomationNotificationMailer.conversation_creation(@conversation, team, params[0][:message])&.deliver_now
+      TeamNotifications::AutomationNotificationMailer.with(account: @account)
+                                                     .conversation_creation(@conversation, team, params[0][:message])&.deliver_now
       @account.increment_email_sent_count
     end
   end

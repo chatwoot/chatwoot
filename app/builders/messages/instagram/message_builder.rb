@@ -1,14 +1,27 @@
 class Messages::Instagram::MessageBuilder < Messages::Instagram::BaseMessageBuilder
+  include Instagram::RequestOptions
+
   def initialize(messaging, inbox, outgoing_echo: false)
     super(messaging, inbox, outgoing_echo: outgoing_echo)
   end
 
   private
 
+  def find_message_by_source_id(source_id)
+    @message = @inbox.channel.find_message_by_source_id(source_id)
+  end
+
+  def message_reply_attributes
+    source_id = super
+    return if source_id.blank?
+
+    @inbox.channel.find_message_by_source_id(source_id)&.source_id || source_id
+  end
+
   def get_story_object_from_source_id(source_id)
     url = "#{base_uri}/#{source_id}?fields=story,from&access_token=#{@inbox.channel.access_token}"
 
-    response = HTTParty.get(url)
+    response = HTTParty.get(url, **INSTAGRAM_SHORT_REQUEST_OPTIONS)
 
     return JSON.parse(response.body).with_indifferent_access if response.success?
 
@@ -37,6 +50,6 @@ class Messages::Instagram::MessageBuilder < Messages::Instagram::BaseMessageBuil
   end
 
   def base_uri
-    "https://graph.instagram.com/#{GlobalConfigService.load('INSTAGRAM_API_VERSION', 'v22.0')}"
+    @inbox.channel.base_uri
   end
 end

@@ -1,0 +1,57 @@
+{
+  "GENERAL_SETTINGS": {
+    "SUPER_ADMIN_ONLY_NOTICE": "Only system administrators can see this message.",
+    "FORM": {
+      "EMAIL_BRANDING": {
+        "TITLE": "Email branding",
+        "NOTE": "How this account's emails and CSAT survey page look. Anything left empty uses the installation's own branding. This applies to what your customers see — the dashboard, the favicon and the widget keep the installation's brand.",
+        "NAME": {
+          "LABEL": "Brand name",
+          "PLACEHOLDER": "Your company",
+          "HELP": "Shown in the email footer, after \"Powered by\"."
+        },
+        "URL": {
+          "LABEL": "Brand website",
+          "PLACEHOLDER": "https://www.example.com"
+        },
+        "COLOR": {
+          "LABEL": "Brand color",
+          "HELP": "Used for the accent bar and links. A colour too light to read on white is darkened for text, keeping its hue.",
+          "RESET": "Use the installation color"
+        },
+        "LOGO": {
+          "LABEL": "Email logo",
+          "UPLOAD": "Upload logo",
+          "REPLACE": "Replace logo",
+          "REMOVE": "Remove",
+          "HELP": "PNG, JPG or GIF, up to 2 MB. SVG is not accepted because email clients do not render it."
+        },
+        "API": {
+          "SUCCESS": "Email branding updated",
+          "ERROR": "Could not update the email branding",
+          "LOGO_SUCCESS": "Logo updated",
+          "LOGO_REMOVED": "Logo removed",
+          "LOGO_ERROR": "Could not update the logo"
+        }
+      }
+    }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "TYPE_LABEL": {
+      "internal_chat_mention": "Mention",
+      "internal_chat_new_message": "Direct Message"
+    }
+  },
+  "COMMAND_BAR": {
+    "COMMANDS": {
+      "PIN_CONVERSATION": "Pin conversation",
+      "UNPIN_CONVERSATION": "Unpin conversation"
+    },
+    "FOOTER": {
+      "SELECT": "to select",
+      "NAVIGATE": "to navigate",
+      "CLOSE": "to close",
+      "PARENT": "move to parent"
+    }
+  }
+}

@@ -5,7 +5,7 @@ module Whatsapp::BaileysHandlers::Concerns::IndividualContactMessageHandler
 
   private
 
-  def handle_individual_contact_message # rubocop:disable Metrics/CyclomaticComplexity
+  def handle_individual_contact_message
     return unless extract_from_jid(type: 'lid')
 
     @lock_acquired = acquire_message_processing_lock
@@ -14,31 +14,48 @@ module Whatsapp::BaileysHandlers::Concerns::IndividualContactMessageHandler
     # Lock by contact phone to prevent race conditions when multiple messages
     # from the same contact arrive simultaneously (e.g., WhatsApp albums).
     contact_phone = extract_from_jid(type: 'pn') || extract_from_jid(type: 'lid')
-    with_contact_lock(contact_phone) do
-      # Re-check after acquiring lock to handle race conditions where:
-      # 1. An agent sends a message from Chatwoot (slow API call)
-      # 2. WhatsApp sends webhook before source_id is saved
-      # 3. Webhook handler times out waiting for channel lock and proceeds
-      # 4. By now, source_id should be set, so we can find the message
-      return if find_message_by_source_id(raw_message_id)
-
-      set_contact
-
-      unless @contact
-        Rails.logger.warn "Contact not found for message: #{raw_message_id}"
-        return
-      end
-
-      # Reaction removals don't produce a new Message row; handle them before
-      # set_conversation so a blank webhook can't open/create a stray thread.
-      next mark_existing_reaction_as_removed(sender: @contact) if reaction_removal?
-
-      set_conversation
-      handle_create_message
-      dispatch_incoming_typing_off
-    end
+    with_contact_lock(contact_phone) { process_individual_contact_message }
   ensure
     clear_message_source_id_from_redis if @lock_acquired
+  end
+
+  def process_individual_contact_message
+    # Re-check after acquiring lock to handle race conditions where:
+    # 1. An agent sends a message from Chatwoot (slow API call)
+    # 2. WhatsApp sends webhook before source_id is saved
+    # 3. Webhook handler times out waiting for channel lock and proceeds
+    # 4. By now, source_id should be set, so we can find the message
+    return if find_message_by_source_id(raw_message_id)
+
+    set_contact
+
+    unless @contact
+      Rails.logger.warn "Contact not found for message: #{raw_message_id}"
+      return
+    end
+
+    # The echo of a message Chatwoot sent under a reserved id is already stored; confirming it
+    # before set_conversation keeps it from reopening (or opening) a thread for it.
+    return if confirm_reserved_outgoing_message(@contact)
+
+    # Reaction removals don't produce a new Message row; handle them before
+    # set_conversation so a blank webhook can't open/create a stray thread.
+    return mark_existing_reaction_as_removed(sender: @contact) if reaction_removal?
+
+    return if Whatsapp::BlockedSender.silenced?(@contact, from_me: !incoming?)
+
+    set_first_touch_attribution
+    set_conversation
+    handle_create_message
+    dispatch_incoming_typing_off
+  end
+
+  # First-touch attribution: set before set_conversation so conversation_params
+  # can persist it on the conversation created from this originating message.
+  def set_first_touch_attribution
+    context_info = message_context_info
+    @referral = normalize_baileys_referral(context_info)
+    @entry_point = normalize_baileys_entry_point(context_info)
   end
 
   def dispatch_incoming_typing_off
@@ -69,13 +86,20 @@ module Whatsapp::BaileysHandlers::Concerns::IndividualContactMessageHandler
     contact_inbox = ::ContactInboxWithContactBuilder.new(
       source_id: source_id,
       inbox: inbox,
-      contact_attributes: { name: contact_name, phone_number: ("+#{phone}" if phone), identifier: identifier }
+      contact_attributes: { name: contact_name, phone_number: ("+#{phone}" if phone), identifier: identifier,
+                            phone_number_candidates: alternate_contact_phone_numbers(phone) }
     ).perform
 
     @contact_inbox = contact_inbox
     @contact = contact_inbox.contact
 
     update_contact_info(phone, identifier)
+  end
+
+  # A contact created by hand or through the API has no contact_inbox, so nothing but its
+  # number finds it, and WhatsApp may report that number in another format (#776).
+  def alternate_contact_phone_numbers(phone)
+    Whatsapp::PhoneNumberNormalizationService.new(inbox).alternate_contact_phone_numbers(phone).presence
   end
 
   def update_contact_info(phone, identifier)

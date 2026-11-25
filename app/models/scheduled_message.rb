@@ -5,6 +5,7 @@
 #  id                             :bigint           not null, primary key
 #  author_type                    :string
 #  content                        :text
+#  hold_on_reply                  :boolean          default(FALSE), not null
 #  scheduled_at                   :datetime
 #  status                         :integer          default("draft"), not null
 #  template_params                :jsonb
@@ -52,7 +53,7 @@ class ScheduledMessage < ApplicationRecord
 
   has_one_attached :attachment
 
-  enum status: { draft: 0, pending: 1, sent: 2, failed: 3 }
+  enum :status, { draft: 0, pending: 1, sent: 2, failed: 3, held: 4 }
 
   before_validation :process_message_variables, if: :content_changed?
 
@@ -89,6 +90,7 @@ class ScheduledMessage < ApplicationRecord
       status: status, scheduled_at: scheduled_at&.to_i,
       template_params: template_params, author_id: author_id,
       author_type: author_type, message_id: message_id,
+      hold_on_reply: hold_on_reply,
       created_at: created_at.to_i, updated_at: updated_at.to_i
     }
   end
@@ -118,9 +120,9 @@ class ScheduledMessage < ApplicationRecord
   def must_be_editable
     return if status_was.in?(%w[sent failed]) && only_status_changed? && status.in?(%w[sent failed])
 
-    return if status_was.in?(%w[draft pending])
+    return if status_was.in?(%w[draft pending held])
 
-    errors.add(:base, 'Scheduled message can only be modified while draft or pending')
+    errors.add(:base, 'Scheduled message can only be modified while draft, pending, or held')
   end
 
   def only_status_changed?

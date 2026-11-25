@@ -66,27 +66,22 @@ class Crm::BaseProcessorService
     contact.additional_attributes.dig('external', "#{crm_name}_id")
   end
 
+  # The CRM call that produced this id was a network round trip, and the contact was read
+  # before it, so the write goes in against the row as it is now. `under` keeps the siblings
+  # of `external`: another CRM's id lives in that same hash.
   def store_external_id(contact, external_id)
-    # Initialize additional_attributes if it's nil
-    contact.additional_attributes = {} if contact.additional_attributes.nil?
-
-    # Initialize external hash if it doesn't exist
-    contact.additional_attributes['external'] = {} if contact.additional_attributes['external'].blank?
-
-    # Store the external ID
-    contact.additional_attributes['external']["#{crm_name}_id"] = external_id
-    contact.save!
+    contact.merge_json_column!(:additional_attributes, under: 'external', merge: { "#{crm_name}_id" => external_id })
   end
 
+  # This one runs after a network call too: the CRM rejected the id, and the contact object was
+  # read before that. Writing its copy back would take the whole column with it.
+  def clear_external_id(contact)
+    contact.merge_json_column!(:additional_attributes, under: 'external', remove: ["#{crm_name}_id"])
+  end
+
+  # Same shape as `store_external_id`: the activity id came from the network, and the sibling
+  # keys under this CRM's own hash belong to earlier activities of the same conversation.
   def store_conversation_metadata(conversation, metadata)
-    # Initialize additional_attributes if it's nil
-    conversation.additional_attributes = {} if conversation.additional_attributes.nil?
-
-    # Initialize CRM-specific hash in additional_attributes
-    conversation.additional_attributes[crm_name] = {} if conversation.additional_attributes[crm_name].blank?
-
-    # Store the metadata
-    conversation.additional_attributes[crm_name].merge!(metadata)
-    conversation.save!
+    conversation.merge_json_column!(:additional_attributes, under: crm_name, merge: metadata)
   end
 end

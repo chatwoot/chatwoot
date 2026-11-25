@@ -1,4 +1,6 @@
 class Instagram::MessageText < Instagram::BaseMessageText
+  include Instagram::RequestOptions
+
   attr_reader :messaging
 
   def ensure_contact(ig_scope_id)
@@ -10,7 +12,7 @@ class Instagram::MessageText < Instagram::BaseMessageText
     fields = 'name,username,profile_pic,follower_count,is_user_follow_business,is_business_follow_user,is_verified_user'
     url = "#{base_uri}/#{ig_scope_id}?fields=#{fields}&access_token=#{@inbox.channel.access_token}"
 
-    response = HTTParty.get(url)
+    response = HTTParty.get(url, **INSTAGRAM_SHORT_REQUEST_OPTIONS)
 
     return process_successful_response(response) if response.success?
 
@@ -18,6 +20,10 @@ class Instagram::MessageText < Instagram::BaseMessageText
   end
 
   private
+
+  def find_message_by_source_id(source_id)
+    channel.find_message_by_source_id(source_id)
+  end
 
   def process_successful_response(response)
     result = JSON.parse(response.body).with_indifferent_access
@@ -76,7 +82,7 @@ class Instagram::MessageText < Instagram::BaseMessageText
   end
 
   def base_uri
-    "https://graph.instagram.com/#{GlobalConfigService.load('INSTAGRAM_API_VERSION', 'v22.0')}"
+    @inbox.channel.base_uri
   end
 
   def create_message

@@ -50,4 +50,22 @@ describe('#getters', () => {
     };
     expect(getters.getAppliedContactFilters(state)).toEqual(filters);
   });
+
+  describe('getContactAttachments', () => {
+    it('returns the attachments stored on the contact record', () => {
+      const data = [{ id: 11, file_type: 'image' }];
+      const state = { records: { 1: { id: 1, attachments: data } } };
+      expect(getters.getContactAttachments(state)(1)).toEqual(data);
+    });
+
+    it('returns an empty array when the contact has no cached attachments', () => {
+      const state = { records: { 1: { id: 1 } } };
+      expect(getters.getContactAttachments(state)(1)).toEqual([]);
+    });
+
+    it('returns an empty array when the contact is not in the store', () => {
+      const state = { records: {} };
+      expect(getters.getContactAttachments(state)(99)).toEqual([]);
+    });
+  });
 });

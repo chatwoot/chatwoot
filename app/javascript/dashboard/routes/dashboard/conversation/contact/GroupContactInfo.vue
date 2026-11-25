@@ -19,6 +19,8 @@ import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import ContactsAPI from 'dashboard/api/contacts';
 import GroupMembersAPI from 'dashboard/api/groupMembers';
 import { phonesMatch } from 'dashboard/helper/phoneHelper';
+import { useInbox } from 'dashboard/composables/useInbox';
+import { CAPABILITIES } from 'dashboard/helper/whatsappSession';
 import Avatar from 'next/avatar/Avatar.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
@@ -36,12 +38,18 @@ const props = defineProps({
 const store = useStore();
 const route = useRoute();
 const { t } = useI18n();
+const { hasInboxCapability } = useInbox();
 
 const currentChat = useMapGetter('getSelectedChat');
 const inboxGetter = useMapGetter('inboxes/getInboxById');
 const inbox = computed(
   () => inboxGetter.value(currentChat.value?.inbox_id) || {}
 );
+// Which WhatsApp number every action on this panel is performed as. The same group can
+// belong to two inboxes of one account, and the panel decides what the agent may do from
+// the one they have open, so the server has to act as that one and not as whichever
+// contact inbox came first.
+const inboxId = computed(() => currentChat.value?.inbox_id);
 
 const contactProfileLink = computed(
   () => `/app/accounts/${route.params.accountId}/contacts/${props.contact.id}`
@@ -56,7 +64,7 @@ const members = computed(() => {
 });
 
 const membersMeta = computed(
-  () => getGroupMembersMeta.value(props.contact.id) || {}
+  () => getGroupMembersMeta.value(props.contact.id, inboxId.value) || {}
 );
 
 // Prefer inbox_phone_number from the group members meta (always available on
@@ -85,7 +93,13 @@ const isInboxAdmin = computed(() => {
   );
 });
 
+// The server already worked out which row is the connected account, by phone and by LID,
+// and says so. The phone comparison stays as the fallback for a roster served before that
+// field existed; it cannot answer for an account a provider names by LID alone, because
+// such a contact has no phone number to compare.
 const isOwnMember = member => {
+  const ownId = membersMeta.value.own_member_id;
+  if (ownId) return member.id === ownId;
   if (!inboxPhone.value) return false;
   return phonesMatch(inboxPhone.value, member.contact?.phone_number);
 };
@@ -102,6 +116,7 @@ const loadMoreMembers = async () => {
   await store.dispatch('groupMembers/fetch', {
     contactId: props.contact.id,
     page: nextPage,
+    inboxId: inboxId.value,
   });
 };
 
@@ -146,14 +161,64 @@ const {
   checkOverflow: checkDescOverflow,
 } = useExpandableContent({ maxLines: 3, useResizeObserverForCheck: true });
 
-const isGroupLeft = computed(
-  () => props.contact.additional_attributes?.group_left === true
+// Read off the conversation, not off the contact: a group contact is account-scoped and
+// the same group can be open in two inboxes of one account, where only one of them may
+// have left. The server answers for this thread's own number.
+const isGroupLeft = computed(() => currentChat.value?.group_left === true);
+
+// The one predicate for "may this agent change the group". It carries the provider's
+// capability too, so the panel stays a readable shell rather than offering buttons that
+// fail. The condition used to be spelled out inline at five more sites, which is how a
+// new term in it gets missed at four of them.
+//
+// `group_admin`, not `groups`: the coarse one only promises that group info can be READ
+// (it maps to `group_info`), and a provider is free to serve that without serving a
+// single write.
+const canEditGroup = computed(
+  () =>
+    isInboxAdmin.value &&
+    !isGroupLeft.value &&
+    hasInboxCapability(CAPABILITIES.GROUP_ADMIN)
 );
 
-const canEditGroup = computed(() => isInboxAdmin.value && !isGroupLeft.value);
+// A group whose description WhatsApp refuses to change, whatever the stanza looks like.
+// The server writes this key only where the provider reported the id that says so, so an
+// absent key means "not known to be frozen" rather than "changeable": uazapi never
+// reports it. Offering the edit anyway is what this exists to stop -- every attempt comes
+// back as a conflict, and the panel could only answer "try again", which for this group
+// is false.
+const isDescriptionFrozen = computed(
+  () => props.contact.additional_attributes?.description_frozen === true
+);
+
+const canEditDescription = computed(
+  () => canEditGroup.value && !isDescriptionFrozen.value
+);
+
+// A control is gated by the capability of the endpoint IT calls, never by the coarse
+// `groups`. Uazapi is the live case: it administers groups but serves neither invite
+// links nor join requests, so anything below that reaches those two routes has to ask
+// for them by name or it renders a button that answers 422.
+const canManageInvites = computed(
+  () => canEditGroup.value && hasInboxCapability(CAPABILITIES.GROUP_INVITES)
+);
+const canHandleJoinRequests = computed(
+  () =>
+    canEditGroup.value && hasInboxCapability(CAPABILITIES.GROUP_JOIN_REQUESTS)
+);
+
+// The panel itself renders for any group thread, because being a group is identity and
+// not a capability. Everything that WRITES still has to ask: `Facade#group` refuses every
+// group call without this one.
+// Everything this gates is a command against the provider -- syncing the roster, leaving,
+// the settings panel -- so it asks for `group_management`, not for group conversations
+// reaching the inbox.
+const supportsGroups = computed(() =>
+  hasInboxCapability(CAPABILITIES.GROUP_MANAGEMENT)
+);
 
 const startEditName = () => {
-  if (isGroupLeft.value) return;
+  if (isGroupLeft.value || !canEditGroup.value) return;
   editNameValue.value = props.contact.name || '';
   isEditingName.value = true;
 };
@@ -169,6 +234,7 @@ const saveName = async () => {
     await store.dispatch('groupMembers/updateGroupMetadata', {
       contactId: props.contact.id,
       params: { subject: newName },
+      inboxId: inboxId.value,
     });
     useAlert(t('GROUP.METADATA.SAVE_SUCCESS'));
   } catch {
@@ -190,7 +256,7 @@ const onNameKeydown = event => {
 };
 
 const startEditDescription = () => {
-  if (isGroupLeft.value) return;
+  if (isGroupLeft.value || !canEditDescription.value) return;
   editDescriptionValue.value = contactDescription.value;
   isEditingDescription.value = true;
 };
@@ -206,6 +272,7 @@ const saveDescription = async () => {
     await store.dispatch('groupMembers/updateGroupMetadata', {
       contactId: props.contact.id,
       params: { description: newDesc },
+      inboxId: inboxId.value,
     });
     useAlert(t('GROUP.METADATA.SAVE_SUCCESS'));
   } catch {
@@ -242,6 +309,7 @@ const onAvatarSelected = async event => {
     await store.dispatch('groupMembers/updateGroupMetadata', {
       contactId: props.contact.id,
       params: formData,
+      inboxId: inboxId.value,
     });
     useAlert(t('GROUP.METADATA.SAVE_SUCCESS'));
   } catch {
@@ -390,6 +458,7 @@ const addMember = async contact => {
     await store.dispatch('groupMembers/addMembers', {
       contactId: props.contact.id,
       participants: [contact.phone_number],
+      inboxId: inboxId.value,
     });
     dismiss();
     useAlert(t('GROUP.MEMBERS.ADD_SUCCESS'));
@@ -489,6 +558,7 @@ const handleMemberAction = async (member, { action }) => {
       await store.dispatch('groupMembers/removeMembers', {
         contactId: props.contact.id,
         memberId: member.id,
+        inboxId: inboxId.value,
       });
       dismiss();
       useAlert(t('GROUP.MEMBERS.REMOVE_SUCCESS'));
@@ -497,6 +567,7 @@ const handleMemberAction = async (member, { action }) => {
         contactId: props.contact.id,
         memberId: member.id,
         role: 'admin',
+        inboxId: inboxId.value,
       });
       dismiss();
       useAlert(t('GROUP.MEMBERS.PROMOTE_SUCCESS'));
@@ -505,6 +576,7 @@ const handleMemberAction = async (member, { action }) => {
         contactId: props.contact.id,
         memberId: member.id,
         role: 'member',
+        inboxId: inboxId.value,
       });
       dismiss();
       useAlert(t('GROUP.MEMBERS.DEMOTE_SUCCESS'));
@@ -531,7 +603,10 @@ const handleMemberAction = async (member, { action }) => {
 const fetchInviteLink = async () => {
   isFetchingInvite.value = true;
   try {
-    const { data } = await GroupMembersAPI.getInviteLink(props.contact.id);
+    const { data } = await GroupMembersAPI.getInviteLink(
+      props.contact.id,
+      inboxId.value
+    );
     inviteUrl.value = data.invite_url || '';
   } catch {
     inviteUrl.value = '';
@@ -560,10 +635,11 @@ const handleJoinRequest = async (request, action) => {
   loadingRequestJid.value = request.jid;
   const dismiss = usePendingAlert(t('GROUP.JOIN_REQUESTS.PROCESSING'));
   try {
-    await GroupMembersAPI.handleJoinRequest(props.contact.id, {
-      participants: [request.jid],
-      request_action: action,
-    });
+    await GroupMembersAPI.handleJoinRequest(
+      props.contact.id,
+      { participants: [request.jid], request_action: action },
+      inboxId.value
+    );
     // Optimistic local update — remove handled request from additional_attributes
     const updated = pendingRequests.value.filter(r => r.jid !== request.jid);
     await store.dispatch('contacts/update', {
@@ -588,10 +664,12 @@ const handleJoinRequest = async (request, action) => {
 };
 
 const leaveGroup = async () => {
+  if (!supportsGroups.value) return;
+
   isLeavingGroup.value = true;
   const dismiss = usePendingAlert(t('GROUP.SETTINGS.LEAVING'));
   try {
-    await GroupMembersAPI.leaveGroup(props.contact.id);
+    await GroupMembersAPI.leaveGroup(props.contact.id, inboxId.value);
     showLeaveConfirm.value = false;
     dismiss();
     useAlert(t('GROUP.SETTINGS.LEAVE_SUCCESS'));
@@ -605,19 +683,22 @@ const leaveGroup = async () => {
 
 const fetchGroupData = contactId => {
   if (!contactId) return;
-  store.dispatch('groupMembers/fetch', { contactId });
+  store.dispatch('groupMembers/fetch', { contactId, inboxId: inboxId.value });
   // Only fetch from API if we don't already have a stored invite code
-  if (!storedInviteCode.value) {
+  if (canManageInvites.value && !storedInviteCode.value) {
     fetchInviteLink();
   }
 };
 
+// The inbox counts as much as the contact: the same group contact is account-scoped and
+// can be open in two inboxes, and this panel decides what the agent may do from the
+// answer the server gave for one of them.
 watch(
-  () => props.contact.id,
-  (newId, oldId) => {
-    if (newId && newId !== oldId) {
+  () => [props.contact.id, inboxId.value].join(':'),
+  (target, previous) => {
+    if (props.contact.id && target !== previous) {
       visibleRequestCount.value = REQUESTS_PAGE_SIZE;
-      fetchGroupData(newId);
+      fetchGroupData(props.contact.id);
     }
   }
 );
@@ -698,7 +779,7 @@ useEventListener(sidebarScrollRef, 'scroll', closeMemberMenu);
           <div v-else class="flex items-center gap-2 min-w-0">
             <h3
               class="my-0 text-base font-medium capitalize break-words text-n-slate-12"
-              :class="{ 'cursor-pointer hover:text-n-brand': !isGroupLeft }"
+              :class="{ 'cursor-pointer hover:text-n-brand': canEditGroup }"
               @click="startEditName"
             >
               {{ contact.name }}
@@ -753,7 +834,7 @@ useEventListener(sidebarScrollRef, 'scroll', closeMemberMenu);
             ref="descriptionContentRef"
             class="text-sm break-words whitespace-pre-wrap text-n-slate-12"
             :class="[
-              { 'cursor-pointer hover:text-n-brand': !isGroupLeft },
+              { 'cursor-pointer hover:text-n-brand': canEditDescription },
               showDescReadMore ? 'line-clamp-3' : '',
             ]"
             @click="startEditDescription"
@@ -762,6 +843,12 @@ useEventListener(sidebarScrollRef, 'scroll', closeMemberMenu);
               contactDescription ||
               t('GROUP.METADATA.EDIT_DESCRIPTION_PLACEHOLDER')
             }}
+          </p>
+          <p
+            v-if="canEditGroup && isDescriptionFrozen"
+            class="mt-1 text-xs text-n-slate-11"
+          >
+            {{ t('GROUP.METADATA.DESCRIPTION_FROZEN') }}
           </p>
           <button
             v-if="showDescReadMore"
@@ -797,7 +884,7 @@ useEventListener(sidebarScrollRef, 'scroll', closeMemberMenu);
           </h4>
           <div class="flex items-center gap-1">
             <NextButton
-              v-if="isInboxAdmin && !isGroupLeft"
+              v-if="canEditGroup"
               :label="t('GROUP.MEMBERS.ADD_BUTTON')"
               icon="i-lucide-user-plus"
               variant="ghost"
@@ -822,7 +909,7 @@ useEventListener(sidebarScrollRef, 'scroll', closeMemberMenu);
             class="absolute i-lucide-loader-2 animate-spin size-4 text-n-slate-10 right-3 top-2.5"
           />
           <NextButton
-            v-if="hasInviteLink"
+            v-if="canManageInvites && hasInviteLink"
             :label="t('GROUP.INVITE.COPY_INVITE_LINK')"
             icon="i-lucide-link"
             variant="ghost"
@@ -918,14 +1005,12 @@ useEventListener(sidebarScrollRef, 'scroll', closeMemberMenu);
             </div>
             <!-- Loading spinner for this member -->
             <span
-              v-if="
-                isInboxAdmin && !isGroupLeft && loadingMemberId === member.id
-              "
+              v-if="canEditGroup && loadingMemberId === member.id"
               class="i-lucide-loader-2 animate-spin size-4 text-n-slate-10"
             />
             <!-- Action menu toggle (admin only, not for self) -->
             <div
-              v-else-if="isInboxAdmin && !isGroupLeft && !isOwnMember(member)"
+              v-else-if="canEditGroup && !isOwnMember(member)"
               class="relative"
               :class="{
                 'opacity-0 group-hover:opacity-100':
@@ -961,7 +1046,7 @@ useEventListener(sidebarScrollRef, 'scroll', closeMemberMenu);
 
       <!-- Pending Join Requests section (admin only) -->
       <div
-        v-if="!isGroupLeft && isInboxAdmin && pendingRequests.length > 0"
+        v-if="canHandleJoinRequests && pendingRequests.length > 0"
         class="mt-4"
       >
         <h4 class="mb-2 text-sm font-semibold text-n-slate-11">
@@ -1053,11 +1138,16 @@ useEventListener(sidebarScrollRef, 'scroll', closeMemberMenu);
       </div>
 
       <Accordion
-        v-if="!isGroupLeft"
+        v-if="supportsGroups && !isGroupLeft"
         :title="t('GROUP.SETTINGS.ADVANCED_OPTIONS')"
         class="mt-4"
       >
-        <BaileysGroupOptions :contact="contact" :is-admin="isInboxAdmin" />
+        <BaileysGroupOptions
+          :contact="contact"
+          :inbox-id="inboxId"
+          :is-admin="canEditGroup"
+          :can-manage-invites="canManageInvites"
+        />
 
         <!-- Leave Group section -->
         <div class="mt-3">

@@ -1,0 +1,273 @@
+{
+  "INBOX_MGMT": {
+    "ADD": {
+      "WHATSAPP": {
+        "PROVIDERS": {
+          "360_DIALOG_DESC": "Connect via 360Dialog credentials",
+          "BAILEYS": "Baileys",
+          "BAILEYS_DESC": "Connect via non-official API Baileys",
+          "ZAPI": "Z-API",
+          "ZAPI_DESC": "Connect via non-official API Z-API",
+          "NATIVE": "WhatsApp (native)",
+          "NATIVE_DESC": "Connect through an unofficial API, pairing as with WhatsApp Web, with no outside provider",
+          "NATIVE_CONNECTOR_NOT_RUNNING": "The WhatsApp connector is not running on this installation, so a native inbox cannot be created now. Whoever runs the server can see why on the Super Admin health page.",
+          "UAZAPI": "Uazapi",
+          "UAZAPI_DESC": "Connect through the unofficial Uazapi API, on your own instance"
+        },
+        "PROVIDER_URL": {
+          "LABEL": "Provider URL",
+          "PLACEHOLDER": "If provider is not running locally, please provide the URL",
+          "ERROR": "Please enter a valid URL"
+        },
+        "MARK_AS_READ": {
+          "LABEL": "Send read receipts"
+        },
+        "PRESENCE_SUBSCRIBE": {
+          "LABEL": "Show contact typing indicators"
+        },
+        "INSTANCE_ID": {
+          "LABEL": "Instance ID",
+          "PLACEHOLDER": "Please enter your instance ID",
+          "ERROR": "This field is required"
+        },
+        "TOKEN": {
+          "LABEL": "Token",
+          "PLACEHOLDER": "Please enter your instance Token",
+          "ERROR": "This field is required"
+        },
+        "CLIENT_TOKEN": {
+          "LABEL": "Security Token",
+          "PLACEHOLDER": "Please enter your Security Token (see Security tab on Z-API dashboard)",
+          "ERROR": "This field is required"
+        },
+        "ADVANCED_OPTIONS": "Advanced options",
+        "EXTERNAL_PROVIDER": {
+          "SUBTITLE": "Click below to setup the WhatsApp channel.",
+          "LINK_BUTTON": "Link device",
+          "LINK_DEVICE_MODAL": {
+            "TITLE": "Link your device",
+            "SUBTITLE": "Link your device to this inbox. Make sure the phone number is correct before you start.",
+            "LOADING_QRCODE": "Loading QR code...",
+            "USE_PAIRING_CODE": "Link with a code instead",
+            "USE_QRCODE": "Use the QR code instead",
+            "LOADING_PAIRING_CODE": "Requesting a code...",
+            "PAIRING_CODE_STEP_1": "On the phone that will answer, open WhatsApp.",
+            "PAIRING_CODE_STEP_2": "Go to Linked devices and tap Link a device.",
+            "PAIRING_CODE_STEP_3": "Tap \"Link with phone number instead\" and type the code above.",
+            "PAIRING_CODE_EXPIRES": "The code is good for a few minutes. Ask for another one if it expires.",
+            "RECONNECTING": "Reconnecting...",
+            "LINK_DEVICE": "Link device",
+            "DISCONNECT": "Disconnect",
+            "CONNECTED": "Your device has been connected successfully. You can now start sending and receiving messages.",
+            "IMPORT_SESSION_TITLE": "QR code not working?",
+            "IMPORT_SESSION_SHOW_MORE": "Show more",
+            "IMPORT_SESSION_DESC": "WhatsApp now requires a passkey when linking some accounts, which blocks the QR code. Install the browser extension to import a session you're already logged into on WhatsApp Web.",
+            "IMPORT_SESSION_INSTALL": "Install the extension"
+          }
+        },
+        "SESSION": {
+          "FIELDS": {
+            "BASE_URL": {
+              "LABEL": "Instance URL",
+              "PLACEHOLDER": "https://your-instance.uazapi.com",
+              "ERROR": "Enter the address of your instance"
+            },
+            "TOKEN": {
+              "LABEL": "Instance token",
+              "PLACEHOLDER": "Paste the token of the instance you want to use",
+              "ERROR": "The instance token is required"
+            },
+            "MARK_AS_READ": {
+              "LABEL": "Mark messages as read on WhatsApp",
+              "DESCRIPTION": "Replying from Chatwoot also marks the conversation read on the phone."
+            },
+            "PRESENCE_SUBSCRIBE": {
+              "LABEL": "Show when the contact is online",
+              "DESCRIPTION": "Shows “typing…” and “recording…” in the conversation while the contact is writing."
+            },
+            "HISTORY_SYNC": {
+              "LABEL": "Import older conversations when pairing",
+              "DESCRIPTION": "Brings in the history the phone offers at pairing, all of it as resolved conversations. Messages received while the connection was down are recovered either way."
+            },
+            "PROXY_URL": {
+              "LABEL": "Proxy (optional)",
+              "PLACEHOLDER": "socks5://user:password{'@'}host:port",
+              "DESCRIPTION": "WhatsApp for this inbox goes out through this address. Leave it empty to connect directly.",
+              "ERROR": "Use an http, https or socks5 address with a host"
+            },
+            "HISTORY_MEDIA": {
+              "TITLE": "Files from the imported history",
+              "DESCRIPTION": "Imported history arrives without its files. With this on, images, audio and documents are downloaded in the background after the import, newest first, as long as WhatsApp still has them. Older files can be downloaded from the conversation.",
+              "FETCH_LABEL": "Download the files automatically",
+              "DAYS_LABEL": "Only files from the last (days)",
+              "DAYS_ERROR": "Enter a whole number of days greater than zero.",
+              "SAVE": "Save"
+            }
+          }
+        },
+        "LEGACY_PROVIDER": {
+          "BADGE": "Legacy",
+          "BADGE_DESCRIPTION": "This provider still works, and receives no new features.",
+          "NOTICE": "This provider is legacy. It still works.",
+          "NOTICE_WITH_NATIVE": "This provider is legacy. It still works, but we recommend WhatsApp (native) instead.",
+          "CONVERT_TO_NATIVE": "Convert to WhatsApp (native)",
+          "USE_NATIVE": "Use WhatsApp (native)"
+        },
+        "MANUAL_SETUP": {
+          "APP_SECRET": {
+            "LABEL": "App Secret",
+            "PLACEHOLDER": "Paste your Meta app's App Secret",
+            "HELP": "In your app on developers.facebook.com, open App settings > Basic and copy the App secret. It confirms that each webhook really comes from Meta."
+          }
+        }
+      }
+    },
+    "CONVERT": {
+      "BUTTON": "Convert",
+      "CONFIRM": {
+        "TITLE": "Convert inbox provider",
+        "INTRO": "You are about to change the WhatsApp provider for '{inboxName}' (currently {currentProvider}). Before continuing, review what will happen:",
+        "EFFECT_DISCONNECT": "The current session with {currentProvider} will be disconnected.",
+        "EFFECT_TEMPLATES": "Message templates will be cleared and must be resynced on the new provider.",
+        "EFFECT_CONNECTION": "Provider connection state will be reset.",
+        "EFFECT_PRESERVED": "Conversations, messages, contacts, agent assignments and history are preserved.",
+        "EFFECT_IDENTITY": "Inbox name and phone number stay the same.",
+        "CONFIRM_PROMPT": "To confirm, type the inbox name below:",
+        "PLACE_HOLDER": "Type {inboxName} to continue",
+        "CONTINUE": "Continue to convert",
+        "CANCEL": "Cancel"
+      },
+      "SELECT_PROVIDER_TITLE": "Select the new provider",
+      "SELECT_PROVIDER_DESCRIPTION": "Converting '{inboxName}' from {currentProvider}.",
+      "SUBMIT_BUTTON": "Convert inbox",
+      "API": {
+        "SUCCESS_MESSAGE": "Inbox successfully converted",
+        "ERROR_MESSAGE": "Could not convert inbox. Please check the credentials and try again."
+      }
+    },
+    "SETTINGS_POPUP": {
+      "WHATSAPP_MANAGE_PROVIDER_CONNECTION_TITLE": "Manage Provider Connection",
+      "WHATSAPP_MANAGE_PROVIDER_CONNECTION_SUBHEADER": "Link your device and manage the provider connection.",
+      "WHATSAPP_MANAGE_PROVIDER_CONNECTION_BUTTON": "Manage connection",
+      "WHATSAPP_PROVIDER_URL_TITLE": "Provider URL",
+      "WHATSAPP_PROVIDER_URL_SUBHEADER": "If the provider is not running locally, please provide the URL.",
+      "WHATSAPP_PROVIDER_URL_PLACEHOLDER": "Enter the provider URL",
+      "WHATSAPP_PROVIDER_URL_ERROR": "Please enter a valid URL",
+      "WHATSAPP_MARK_AS_READ_TITLE": "Read receipts",
+      "WHATSAPP_MARK_AS_READ_SUBHEADER": "If turned off, when a message is viewed in Chatwoot, a read receipt will not be sent to the sender. Your messages will still be able to receive read receipts from the sender.",
+      "WHATSAPP_MARK_AS_READ_LABEL": "Send read receipts",
+      "WHATSAPP_PRESENCE_SUBSCRIBE_TITLE": "Contact typing indicators",
+      "WHATSAPP_PRESENCE_SUBSCRIBE_SUBHEADER": "When enabled, you will see typing indicators in the conversation when a WhatsApp contact is typing or recording audio. Requires reconnecting the channel to take effect.",
+      "WHATSAPP_PRESENCE_SUBSCRIBE_LABEL": "Show contact typing indicators",
+      "WHATSAPP_INSTANCE_ID_TITLE": "Instance ID",
+      "WHATSAPP_INSTANCE_ID_SUBHEADER": "Your Z-API Instance ID.",
+      "WHATSAPP_INSTANCE_ID_UPDATE_TITLE": "Update Instance ID",
+      "WHATSAPP_INSTANCE_ID_UPDATE_SUBHEADER": "Enter the new Instance ID here",
+      "WHATSAPP_TOKEN_TITLE": "Token",
+      "WHATSAPP_TOKEN_SUBHEADER": "Your Z-API instance Token.",
+      "WHATSAPP_TOKEN_UPDATE_TITLE": "Update Token",
+      "WHATSAPP_TOKEN_UPDATE_SUBHEADER": "Enter the new instance Token here",
+      "WHATSAPP_CLIENT_TOKEN_TITLE": "Security Token",
+      "WHATSAPP_CLIENT_TOKEN_SUBHEADER": "Your Z-API Client Token (see Security tab on Z-API dashboard).",
+      "WHATSAPP_CLIENT_TOKEN_UPDATE_TITLE": "Update Security Token",
+      "WHATSAPP_CLIENT_TOKEN_UPDATE_SUBHEADER": "Enter the new Security Token here",
+      "WHATSAPP_APP_SECRET": {
+        "TITLE": "App Secret",
+        "HELP": "The secret of the Meta app that issued this inbox's access token. It confirms that each webhook really comes from Meta.",
+        "MISSING": "This inbox has no App Secret, so its webhooks are accepted without checking that they come from Meta. A future version will refuse them: add the App Secret to keep receiving messages.",
+        "CONFIGURED": "App Secret configured",
+        "PLACEHOLDER": "Paste the App Secret",
+        "ADD": "Add",
+        "REPLACE": "Replace",
+        "SUCCESS": "App Secret saved",
+        "ERROR": "Could not save the App Secret. Check that it belongs to the same Meta app that issued this inbox's access token."
+      },
+      "ZAPI_WEBHOOK_URL": {
+        "TITLE": "Receiving address",
+        "HELP": "Z-API delivers this inbox's messages to an address with a key of its own. If that address shows up where it should not, such as a log or a support ticket, generate a new one: Z-API switches to it and the old one stops working.",
+        "BUTTON": "Generate new address",
+        "SUCCESS": "New address registered with Z-API.",
+        "ERROR": "Z-API did not accept the new address. The inbox keeps receiving on the current one; try again."
+      },
+      "WHATSAPP_DISCONNECTED": {
+        "MESSAGE": "This WhatsApp is not connected, so the inbox cannot send or receive messages. Connect the phone to pair it again.",
+        "CONNECT": "Connect"
+      }
+    },
+    "ASSIGNMENT": {
+      "PREVENT_TAKEOVER": "Prevent assignment takeover",
+      "PREVENT_TAKEOVER_SUB_TEXT": "Once an agent takes a conversation, only they or an administrator can change who is handling it. Automatic assignment is not affected.",
+      "REOPEN_TEAM": {
+        "TITLE": "Keep the assignee on reopen only if they are in the conversation's team",
+        "DESCRIPTION": "When a customer's message reopens a resolved or snoozed conversation that has a team, the assignee keeps it only if they are a member of that team. Otherwise the conversation goes to Unassigned, keeping its team and labels."
+      },
+      "REOPEN_OWNER": {
+        "TITLE": "When the customer writes to a conversation a person resolved",
+        "DESCRIPTION": "Applies to inboxes with an active agent bot. Sets who owns the conversation when the customer's message reopens it.",
+        "OPTIONS": {
+          "AGENT_BOT": "Hand it to the agent bot",
+          "ASSIGNEE": "Keep it with the person",
+          "ASSIGNEE_WITHIN_WINDOW": "Keep it with the person if the customer writes within a number of hours"
+        },
+        "HOURS_LABEL": "Hours after the resolve",
+        "HOURS_HELP": "After that, the conversation goes to the agent bot.",
+        "HOURS_ERROR": "Enter a whole number of hours from 1 to 8760."
+      }
+    },
+    "CSAT": {
+      "TEMPLATE_MODE": {
+        "LABEL": "Template source",
+        "CREATE_NEW": "Create new template",
+        "USE_EXISTING": "Use existing template"
+      },
+      "EXISTING_TEMPLATE": {
+        "LABEL": "Select template",
+        "PLACEHOLDER": "Select an approved template",
+        "SYNC_BUTTON": "Sync templates",
+        "SYNCING": "Syncing...",
+        "EMPTY_STATE": "No compatible templates found. Templates must have a URL button with a dynamic parameter.",
+        "LINK_SUCCESS": "Template linked successfully",
+        "LINK_ERROR": "Failed to link template",
+        "LOADING": "Loading templates...",
+        "USING_LABEL": "Using existing template: {name}",
+        "SYNC_ERROR": "Failed to sync templates. Please try again."
+      },
+      "TEMPLATE_VARIABLES": {
+        "TITLE": "Template variables",
+        "DESCRIPTION": "Set values for the template body variables. You can use dynamic variables like {'{{'} contact.name {'}}'} that will be resolved at send time.",
+        "VARIABLE_LABEL": "Variable {variable}",
+        "VARIABLE_PLACEHOLDER": "Enter value for {variable}",
+        "VARIABLE_REQUIRED": "This variable is required",
+        "VALIDATION_ERROR": "Please set all template variables before saving.",
+        "INSERT_VARIABLE": "Insert variable"
+      }
+    },
+    "CHANNELS": {
+      "WHATSAPP_BAILEYS": "WhatsApp - Baileys",
+      "WHATSAPP_ZAPI": "WhatsApp - Z-API",
+      "WHATSAPP_NATIVE": "WhatsApp - native",
+      "WHATSAPP_UAZAPI": "WhatsApp - Uazapi"
+    },
+    "ACCOUNT_HEALTH": {
+      "WEBHOOK": {
+        "REGISTER_SUCCESS_WITHOUT_ROUTING": "Webhook registered, but Meta did not confirm pointing this number itself here. Check the card below for where delivery goes now.",
+        "RIDES_ON_APP_CALLBACK": "Delivery follows the app callback URL: neither this number nor its WhatsApp Business Account is pointed at this installation, so it stops arriving if that URL changes.",
+        "APP_CALLBACK_POINTS_ELSEWHERE": "This number has no routing of its own, so delivery follows the app callback URL shown below, which is not the one expected for this number. Registering the webhook points this number here; if Meta refuses that for this account, the app callback is what has to change."
+      }
+    },
+    "CONVERSATION_CONTINUITY": {
+      "TITLE": "Conversation continuity",
+      "NOTE_TEXT": "Decides where a new email lands when it does not reply to an existing thread. A reply always stays in the thread it answers, whatever this setting says.",
+      "TOGGLE_AVAILABILITY": "Continue the contact's open case",
+      "TOGGLE_HELP": "When a contact writes a fresh email while one of their conversations is still open, the message joins that conversation instead of starting another one. Once the conversation is resolved, the next email opens a new one. Leave this off to keep one conversation per email thread.",
+      "EDIT": {
+        "BUTTON_TEXT": "Update",
+        "SUCCESS_MESSAGE": "Conversation continuity updated successfully"
+      }
+    },
+    "BUSINESS_HOURS": {
+      "RESTRICT_ASSIGNMENT": "Only assign conversations during business hours",
+      "RESTRICT_ASSIGNMENT_HELP": "Outside the hours above, agents cannot assign this inbox's conversations, to themselves or to anyone else, and automatic assignment does not hand them out. With assignment V2, what arrived while closed is handed out once the inbox opens. Administrators can still assign at any time."
+    }
+  }
+}

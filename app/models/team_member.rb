@@ -20,6 +20,7 @@ class TeamMember < ApplicationRecord
   validates :user_id, uniqueness: { scope: :team_id }
 
   after_create :add_to_linked_internal_chat_channels
+  after_commit :invalidate_filtered_unread_count_visibility, on: [:create, :destroy]
 
   private
 
@@ -29,6 +30,10 @@ class TeamMember < ApplicationRecord
     InternalChat::ChannelTeam.where(team_id: team_id).find_each do |channel_team|
       channel_team.channel.channel_members.find_or_create_by!(user_id: user_id) { |m| m.role = :member }
     end
+  end
+
+  def invalidate_filtered_unread_count_visibility
+    ::Conversations::UnreadCounts::FilteredCountInvalidator.new(team&.account).user_visibility_changed!(user_id: user_id)
   end
 end
 

@@ -3,8 +3,22 @@ default: &default
   encoding: unicode
   host: <%= ENV.fetch('POSTGRES_HOST', 'localhost') %>
   port: <%= ENV.fetch('POSTGRES_PORT', '5432') %>
-   # ref: https://github.com/mperham/sidekiq/issues/2985#issuecomment-531097962
-  pool: <%= Sidekiq.server? ? ENV.fetch('SIDEKIQ_CONCURRENCY', 10) : ENV.fetch('RAILS_MAX_THREADS', 5) %>
+<%
+  # ref: https://github.com/mperham/sidekiq/issues/2985#issuecomment-531097962
+  pool_size = Sidekiq.server? ? ENV.fetch('SIDEKIQ_CONCURRENCY', 10).to_i : ENV.fetch('RAILS_MAX_THREADS', 5).to_i
+  # The WhatsApp connector's event consumer runs one thread per shard, and every one of
+  # them writes to the database. They are not Sidekiq workers, so nothing else counts
+  # them here, and without the room they cannot check a connection out. Reserved for
+  # every process rather than only the one that runs the consumer: which process that is
+  # depends on WHATSAPP_CONNECTOR_CONSUMER, nothing here can tell, and an AR pool opens
+  # connections only as they are asked for, so the headroom costs an unrelated process
+  # nothing.
+  if ENV.fetch('WHATSAPP_CONNECTOR_ENABLED', 'true') != 'false' &&
+     ENV.fetch('WHATSAPP_CONNECTOR_CONSUMER', 'sidekiq') != 'off'
+    pool_size += ENV.fetch('WHATSAPP_CONNECTOR_EVENT_SHARDS', 16).to_i
+  end
+%>
+  pool: <%= pool_size %>
   # frequency in seconds to periodically run the Reaper, which attempts
   # to find and recover connections from dead threads
   reaping_frequency: <%= ENV.fetch('DB_POOL_REAPING_FREQUENCY', 30) %>

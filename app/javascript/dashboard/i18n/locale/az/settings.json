@@ -86,9 +86,21 @@
         "NOTE": "Hesabınız üçün əlavə təhlükəsizlik xüsusiyyətlərini idarə edin.",
         "MFA_BUTTON": "İki Faktorlu Doğrulamaya Nəzarət Edin"
       },
+      "SESSIONS_SECTION": {
+        "TITLE": "Active Sessions",
+        "NOTE": "These are the devices currently logged in to your account.",
+        "CURRENT": "Current session",
+        "REVOKE": "Revoke",
+        "REVOKE_SUCCESS": "Session revoked successfully",
+        "REVOKE_ERROR": "Unable to revoke session. Please try again.",
+        "FETCH_ERROR": "Unable to fetch sessions. Please try again.",
+        "LAST_ACTIVE": "Last active",
+        "UNKNOWN_DEVICE": "Unknown device"
+      },
       "ACCESS_TOKEN": {
         "TITLE": "Giriş Tokeni",
         "NOTE": "Bu token API əsaslı inteqrasiya qurarkən istifadə edilə bilər",
+        "PAID_PLAN_NOTE": "API access tokens are available on paid plans.",
         "COPY": "Kopyala",
         "RESET": "Sıfırla",
         "CONFIRM_RESET": "Əminsiniz?",
@@ -145,7 +157,8 @@
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "İştirak etdiyiniz söhbətdə yeni mesaj yaradıldıqda e-poçt bildirişi göndərin",
         "SLA_MISSED_FIRST_RESPONSE": "Danışıq ilk cavab SLA-sını qaçırdıqda e-poçt bildirişi göndər",
         "SLA_MISSED_NEXT_RESPONSE": "Danışıq növbəti cavab SLA-sını qaçırdıqda e-poçt bildirişi göndər",
-        "SLA_MISSED_RESOLUTION": "Danışıq həll SLA-sını qaçırdıqda e-poçt bildirişi göndər"
+        "SLA_MISSED_RESOLUTION": "Danışıq həll SLA-sını qaçırdıqda e-poçt bildirişi göndər",
+        "VOICE_CALL_MISSED": "Send email notifications when you miss a call"
       },
       "NOTIFICATIONS": {
         "TITLE": "Bildiriş üstünlükləri",
@@ -160,7 +173,8 @@
           "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "İştirak etdiyiniz söhbətdə yeni mesaj yaradıldı",
           "SLA_MISSED_FIRST_RESPONSE": "Söhbət ilk cavab SLA-sını qaçırdı",
           "SLA_MISSED_NEXT_RESPONSE": "Söhbət növbəti cavab SLA-sını qaçırdı",
-          "SLA_MISSED_RESOLUTION": "Söhbət həll SLA-sını qaçırdı"
+          "SLA_MISSED_RESOLUTION": "Söhbət həll SLA-sını qaçırdı",
+          "VOICE_CALL_MISSED": "You miss a call"
         },
         "BROWSER_PERMISSION": "Brauzerinizdə push bildirişlərini aktiv edin ki, onları ala biləsiniz"
       },
@@ -180,7 +194,8 @@
         "REQUEST_PUSH": "Push bildirişlərini aktiv et",
         "SLA_MISSED_FIRST_RESPONSE": "Danışıq ilk cavab SLA-sını qaçırdıqda push bildirişi göndər",
         "SLA_MISSED_NEXT_RESPONSE": "Danışıq növbəti cavab SLA-sını qaçırdıqda push bildirişi göndər",
-        "SLA_MISSED_RESOLUTION": "Danışıq həll müddətinin SLA-sını keçdikdə push bildirişi göndər"
+        "SLA_MISSED_RESOLUTION": "Danışıq həll müddətinin SLA-sını keçdikdə push bildirişi göndər",
+        "VOICE_CALL_MISSED": "Send push notifications when you miss a call"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Profil Şəkli"
@@ -250,9 +265,14 @@
     "EMAIL_VERIFICATION_PENDING": "Görünür, hələ e-poçt ünvanınızı təsdiqləməmisiniz. Zəhmət olmasa təsdiq e-poçtunu yoxlamaq üçün poçt qutunuzu yoxlayın.",
     "RESEND_VERIFICATION_MAIL": "Təsdiq e-poçtunu yenidən göndər",
     "EMAIL_VERIFICATION_SENT": "Təsdiq e-poçtu göndərildi. Zəhmət olmasa, poçt qutunuzu yoxlayın.",
+    "IMPERSONATION": {
+      "MESSAGE": "You are impersonating {name} ({email}). Any action you take will appear as this user.",
+      "STOP": "Stop impersonating"
+    },
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Hesab dayandırılıb",
-      "MESSAGE": "Hesabınız dayandırılıb. Ətraflı məlumat üçün dəstək komandası ilə əlaqə saxlayın."
+      "MESSAGE": "Hesabınız dayandırılıb. Ətraflı məlumat üçün dəstək komandası ilə əlaqə saxlayın.",
+      "MANAGE_BILLING": "Manage billing"
     },
     "NO_ACCOUNTS": {
       "TITLE": "Hesab tapılmadı",
@@ -265,7 +285,8 @@
     "CODE": {
       "BUTTON_TEXT": "Kopyala",
       "CODEPEN": "CodePen-də aç",
-      "COPY_SUCCESSFUL": "Lövhəyə kopyalandı"
+      "COPY_SUCCESSFUL": "Lövhəyə kopyalandı",
+      "COPY_ERROR": "Unable to copy to clipboard. Please try again."
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Daha çox göstər",
@@ -312,7 +333,9 @@
     "COMPANIES": "Şirkətlər",
     "ALL_COMPANIES": "Bütün Şirkətlər",
     "CAPTAIN": "Captain",
+    "CALLS": "Calls",
     "CAPTAIN_ASSISTANTS": "Köməkçilər",
+    "CAPTAIN_OVERVIEW": "Ümumi Baxış",
     "CAPTAIN_DOCUMENTS": "Sənədlər",
     "CAPTAIN_RESPONSES": "Tez-tez verilən suallar",
     "CAPTAIN_TOOLS": "Alətlər",
@@ -325,9 +348,11 @@
     "AGENT_BOTS": "Botlar",
     "AUDIT_LOGS": "Audit qeydləri",
     "INBOXES": "Qutular",
+    "WHATSAPP_TEMPLATES": "Templates",
     "NOTIFICATIONS": "Bildirişlər",
     "CANNED_RESPONSES": "Hazır Cavablar",
     "INTEGRATIONS": "İnteqrasiyalar",
+    "DATA": "Data",
     "PROFILE_SETTINGS": "Profil parametrləri",
     "ACCOUNT_SETTINGS": "Hesab parametrləri",
     "APPLICATIONS": "Tətbiqlər",
@@ -379,10 +404,136 @@
       "INFO_TEXT": "Sistem tətbiq və ya paneldən istifadə etmədiyiniz zaman sizi avtomatik olaraq offline kimi işarələsin.",
       "INFO_SHORT": "Tətbiqdən istifadə etmədiyiniz zaman avtomatik olaraq offline kimi işarələyin."
     },
+    "SORT_TOOLTIP": "Sort",
+    "SORT_BY": "Sırala",
+    "SORT_GROUPS": {
+      "CREATED": "Sort by date of creation",
+      "ALPHABETICAL": "Sort in alphabetical order",
+      "UNREAD_COUNT": "Sort by unread count"
+    },
+    "SORT_OPTIONS": {
+      "CREATED_DESC": "Newest first",
+      "CREATED_ASC": "Oldest first",
+      "ALPHABETICAL_ASC": "Ascending (A - Z)",
+      "ALPHABETICAL_DESC": "Descending (Z - A)",
+      "UNREAD_COUNT_DESC": "Highest first",
+      "UNREAD_COUNT_ASC": "Lowest first"
+    },
     "DOCS": "Sənədləri oxuyun",
     "SECURITY": "Təhlükəsizlik",
     "CAPTAIN_AI": "Kapitan",
     "CONVERSATION_WORKFLOW": "Söhbət İş Axını"
+  },
+  "DATA_IMPORTS": {
+    "HEADER": "Data",
+    "DESCRIPTION": "Bring your existing contacts and past conversations into this account from another support tool. Each import runs in the background, so you can keep working while it finishes, track its progress, and review anything that was skipped along the way.",
+    "LOADING": "Fetching imports",
+    "DEFAULT_IMPORT_NAME": "Intercom import",
+    "DEFAULT_IMPORT_NAMES": {
+      "INTERCOM": "Intercom import",
+      "FRESHDESK": "Freshdesk import"
+    },
+    "TABS": {
+      "IMPORT": "İdxal et",
+      "EXPORT": "İxrac et"
+    },
+    "TYPES": {
+      "CONTACTS": "Əlaqələr",
+      "CONVERSATIONS": "Conversations",
+      "MESSAGES": "Mesajlar"
+    },
+    "DRAWER": {
+      "TITLE": "New import",
+      "SOURCE": "Source",
+      "NAME": "Import name",
+      "NAME_PLACEHOLDER": "July support migration",
+      "ACCESS_KEY": "Intercom access key",
+      "ACCESS_KEY_PLACEHOLDER": "Paste your Intercom access key",
+      "INTERCOM_ACCESS_KEY": "Intercom access key",
+      "INTERCOM_ACCESS_KEY_PLACEHOLDER": "Paste your Intercom access key",
+      "FRESHDESK_API_KEY": "Freshdesk API key",
+      "FRESHDESK_API_KEY_PLACEHOLDER": "Paste your Freshdesk API key",
+      "FRESHDESK_DOMAIN": "Freshdesk domain",
+      "FRESHDESK_DOMAIN_PLACEHOLDER": "acme.freshdesk.com",
+      "DATA_TYPES": "Data to import",
+      "VALIDATING": "Validating access key...",
+      "VALID_KEY": "Access key validated.",
+      "INVALID_KEY": "Could not validate this access key.",
+      "ACTIVE_IMPORT": "Wait for the active import to finish before starting another one.",
+      "CANCEL": "Cancel",
+      "IMPORT": "İdxal et"
+    },
+    "EXPORT": {
+      "TITLE": "Exports are on the way",
+      "DESCRIPTION": "Export your contacts and conversations out of this account. This workflow is coming soon.",
+      "COMING_SOON": "Tezliklə"
+    },
+    "TABLE": {
+      "TITLE": "Recent imports",
+      "EMPTY": "No imports yet",
+      "EMPTY_DESCRIPTION": "Start an import to bring your existing customer history into this account.",
+      "NEW_IMPORT": "İdxal et",
+      "COUNT": "{count} imports",
+      "UNNAMED": "Untitled import",
+      "IMPORTED_COUNT": "{count} imported",
+      "VIEW": "View import",
+      "NAME": "Name",
+      "TYPE": "Type",
+      "STATUS": "Status",
+      "IMPORTED": "Imported",
+      "CREATED": "Yaradılıb",
+      "RETRY": "Retry",
+      "ABANDON": "Abandon"
+    },
+    "DETAIL": {
+      "BACK": "Back to imports",
+      "ERRORS": "Errors",
+      "SKIP_LOGS": "Skip logs",
+      "SOURCE": "Source",
+      "IMPORT_TYPES": "Import types",
+      "CREATED": "Yaradılıb",
+      "DURATION": "Müddət",
+      "INITIATED_BY": "Started by",
+      "PROGRESS": "Import progress",
+      "PROGRESS_WITH_TOTAL": "{imported} of {total} imported",
+      "PROGRESS_WITHOUT_TOTAL": "{imported} imported",
+      "PROGRESS_OF_TOTAL": "of {total} imported",
+      "PROGRESS_IMPORTED": "imported",
+      "LAST_UPDATED_TOOLTIP": "Last updated {time}",
+      "NO_SKIP_LOGS": "No skipped or failed records recorded.",
+      "DOWNLOAD_SKIP_LOGS": "Download CSV",
+      "DOWNLOAD_ERROR_LOGS": "Download CSV",
+      "ALL_SKIP_LOGS": "All",
+      "KIND": "Kind",
+      "NO_ERRORS": "No errors recorded.",
+      "ERROR_CODE": "Code",
+      "SOURCE_OBJECT": "Source object",
+      "MESSAGE": "Message"
+    },
+    "MONITOR": {
+      "LIVE": "Live updates every {seconds}s",
+      "LAST_UPDATED": "Last updated {time}",
+      "REFRESH": "Refresh",
+      "REFRESHING": "Refreshing",
+      "STAGES": {
+        "unknown": "Waiting for update",
+        "queued": "Queued",
+        "contacts": "Importing contacts",
+        "conversations": "Importing conversations",
+        "finalizing": "Finalizing import",
+        "completed": "Completed",
+        "completed_with_errors": "Completed with errors",
+        "failed": "Failed",
+        "abandoned": "Abandoned"
+      }
+    },
+    "ALERTS": {
+      "IMPORT_STARTED": "Import has started.",
+      "IMPORT_RETRIED": "Import has been queued to resume.",
+      "IMPORT_RETRY_FAILED": "Could not retry the import.",
+      "IMPORT_ABANDONED": "Import has been abandoned.",
+      "IMPORT_FAILED": "Could not start the import."
+    }
   },
   "CAPTAIN_SETTINGS": {
     "TITLE": "Kapitan Ayarları",
@@ -414,17 +565,13 @@
       "DESCRIPTION": "AI ilə işləyən xüsusiyyətləri aktivləşdirin və ya deaktiv edin.",
       "AUDIO_TRANSCRIPTION": {
         "TITLE": "Səs Yazısı",
-        "DESCRIPTION": "Səs mesajlarını və zəng yazılarını avtomatik olaraq axtarıla bilən mətn transkriptlərinə çevirin."
+        "DESCRIPTION": "Səs mesajlarını və zəng yazılarını avtomatik olaraq axtarıla bilən mətn transkriptlərinə çevirin.",
+        "MODEL_TITLE": "Audio Transcription Model",
+        "MODEL_DESCRIPTION": "Select the AI model to use for converting audio messages into text transcripts"
       },
       "HELP_CENTER_SEARCH": {
         "TITLE": "Kömək Mərkəzi Axtarış İndeksləşdirilməsi",
         "DESCRIPTION": "Kömək mərkəzi məqalələrinizdə kontekstə uyğun axtarış üçün AI istifadə edin."
-      },
-      "LABEL_SUGGESTION": {
-        "TITLE": "Etiket Tövsiyəsi",
-        "DESCRIPTION": "Məzmun analizi və kontekstə əsaslanaraq söhbətlər üçün avtomatik olaraq uyğun etiketlər və təqlər təklif edin.",
-        "MODEL_TITLE": "Etiket Tövsiyəsi Modeli",
-        "MODEL_DESCRIPTION": "Söhbətləri təhlil etmək və uyğun etiketlər təklif etmək üçün istifadə olunacaq AI modelini seçin"
       }
     },
     "API": {
@@ -433,13 +580,29 @@
     }
   },
   "BILLING_SETTINGS": {
+    "PAYMENT_RECOVERY": {
+      "DESCRIPTION": "Your payment is past due. Update your payment method or pay the outstanding invoice in the billing portal to keep your subscription active.",
+      "ACTION": "Resolve payment"
+    },
     "TITLE": "Ödəniş",
     "DESCRIPTION": "Abunəliyinizi burada idarə edin, planınızı yüksəldin və komandanız üçün daha çox imkan əldə edin.",
     "CURRENT_PLAN": {
       "TITLE": "Cari Plan",
       "PLAN_NOTE": "Hal-hazırda **{plan}** planına və **{quantity}** lisenziyaya abunəsiniz",
       "SEAT_COUNT": "Oturacaq sayı",
-      "RENEWS_ON": "Yenilənir"
+      "RENEWS_ON": "Yenilənir",
+      "CANCELS_ON": "Cancels on",
+      "CURRENCY": "Currency"
+    },
+    "CURRENCY": {
+      "SELECT": {
+        "TITLE": "Choose your billing currency",
+        "DESCRIPTION": "Select the currency you'd like to be billed in. This can't be changed once your subscription is created."
+      },
+      "OPTIONS": {
+        "USD": "US Dollar (USD)",
+        "BRL": "Brazilian Real (BRL)"
+      }
     },
     "VIEW_PRICING": "Qiymətləri Görüntülə",
     "MANAGE_SUBSCRIPTION": {
@@ -462,6 +625,38 @@
       "BUTTON_TXT": "Bizimlə söhbət edin"
     },
     "NO_BILLING_USER": "Ödəniş hesabınız qurulur. Zəhmət olmasa səhifəni yeniləyin və yenidən cəhd edin.",
+    "SHOPIFY": {
+      "TITLE": "Billing through Shopify",
+      "DESCRIPTION": "Your Chatwoot subscription is billed and managed securely through Shopify.",
+      "UNAVAILABLE": "Shopify billing is unavailable right now. Please contact support if this continues.",
+      "LOADING": "Checking your Shopify subscription...",
+      "PLAN_TITLE": "Shopify subscription",
+      "PLAN_DESCRIPTION": "Choose or manage your Chatwoot plan securely in Shopify.",
+      "CURRENT_PLAN": "Current plan",
+      "SUBSCRIPTION_STATUS": "Status",
+      "PRICE": "Price",
+      "PER_MONTH": "{price} / month",
+      "PER_YEAR": "{price} / year",
+      "TRIAL_ENDS_ON": "Trial ends on",
+      "RENEWS_ON": "Yenilənir",
+      "ACCESS_UNTIL": "Access until",
+      "LAST_VERIFIED": "Last verified",
+      "VIEW_PLANS": "View plans in Shopify",
+      "MANAGE_PLAN": "Manage in Shopify",
+      "RETRY": "Try again",
+      "ERROR_TITLE": "We could not verify your Shopify subscription",
+      "ERROR_DESCRIPTION": "Try again in a moment. Your last verified access has not been changed.",
+      "STALE_TITLE": "Showing your last verified subscription",
+      "STALE_DESCRIPTION": "Shopify could not be reached. Your access has not been changed.",
+      "STATUS": {
+        "PENDING": "Pending",
+        "ACTIVE": "Active",
+        "TRIALING": "Trial",
+        "CANCELLED": "Cancellation scheduled",
+        "EXPIRED": "Expired",
+        "MISSING": "No active plan"
+      }
+    },
     "TOPUP": {
       "BUY_CREDITS": "Daha çox kredit al",
       "MODAL_TITLE": "AI Kreditləri Al",
@@ -475,6 +670,7 @@
       "PURCHASE": "Kreditləri satın al",
       "LOADING": "Seçimlər yüklənir...",
       "FETCH_ERROR": "Kredit seçimləri yüklənmədi. Zəhmət olmasa yenidən cəhd edin.",
+      "RETRY": "Retry",
       "PURCHASE_ERROR": "Satınalma emal edilə bilmədi. Zəhmət olmasa yenidən cəhd edin.",
       "PURCHASE_SUCCESS": "Hesabınıza uğurla {credits} kredit əlavə edildi",
       "CONFIRM": {
@@ -491,6 +687,7 @@
     "DESCRIPTION": "Hesabınızın təhlükəsizlik parametrlərini idarə edin.",
     "LINK_TEXT": "SAML SSO haqqında daha çox məlumat əldə edin",
     "SAML_DISABLED_MESSAGE": "SAML SSO hazırda deaktivdir. Bu funksiyanı aktivləşdirmək üçün administratorunuzla əlaqə saxlayın.",
+    "NO_SETTINGS_AVAILABLE": "No security settings are available for this installation. Configure MFA encryption keys to enable two-factor enforcement.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "Hesabınız üçün SAML tək girişini qurun. İstifadəçilər e-poçt/şifrə yerinə şəxsiyyət təminatçınız vasitəsilə autentifikasiya olunacaqlar.",
@@ -775,6 +972,10 @@
           "DESCRIPTION": "Hər agentə müəyyən vaxt ərzində təyin oluna biləcək maksimum söhbət sayını təyin edin ki, heç bir agentin işi çox yüklənməsin. Bu tələb olunan sahə saatda 100 söhbət olaraq təyin edilmişdir.",
           "INPUT_MAX": "Maksimum təyin et",
           "DURATION": "Hər agent üçün söhbətlər hər"
+        },
+        "EXCLUDE_OLDER_THAN": {
+          "LABEL": "Skip stale conversations",
+          "DESCRIPTION": "Skip unassigned conversations older than this. Defaults to 7 days; clear to disable."
         },
         "INBOXES": {
           "LABEL": "Əlavə edilmiş qutular",

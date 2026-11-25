@@ -15,6 +15,26 @@ RSpec.describe AccountUser do
       expect(account_user.user.notification_settings.first.email_conversation_creation?).to be(false)
       expect(account_user.user.notification_settings.first.email_conversation_assignment?).to be(false)
     end
+
+    it 'turns on push for internal chat mentions and direct messages' do
+      setting = account_user.user.notification_settings.first
+
+      # Enterprise also turns on push_voice_call_missed, so only the flags this default owns are asserted.
+      expect(setting.selected_push_flags).to include(
+        :push_conversation_assignment, :push_internal_chat_mention, :push_internal_chat_new_message
+      )
+    end
+  end
+
+  describe 'work preferences' do
+    it 'allows turning off one of conversations or calls' do
+      expect(account_user.update(accepts_calls: false)).to be(true)
+    end
+
+    it 'rejects turning off both conversations and calls' do
+      expect(account_user.update(accepts_conversations: false, accepts_calls: false)).to be(false)
+      expect(account_user.errors[:base]).to include('Receive conversations or Receive voice calls must stay on')
+    end
   end
 
   describe 'permissions' do
@@ -40,6 +60,45 @@ RSpec.describe AccountUser do
       end
 
       expect(user.assigned_conversations.count).to eq(0)
+    end
+  end
+
+  describe 'filtered unread count invalidation' do
+    let(:account) { create(:account) }
+    let(:user) { create(:user) }
+    let(:invalidator) { instance_double(Conversations::UnreadCounts::FilteredCountInvalidator, user_visibility_changed!: true) }
+
+    before do
+      allow(Conversations::UnreadCounts::FilteredCountInvalidator).to receive(:new).and_return(invalidator)
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+    end
+
+    it 'invalidates filtered counts when the user is added to an account' do
+      create(:account_user, account: account, user: user)
+
+      expect(invalidator).to have_received(:user_visibility_changed!).with(user_id: user.id)
+    end
+
+    it 'invalidates filtered counts when the user role changes' do
+      account_user = create(:account_user, account: account, user: user)
+
+      account_user.update!(role: :administrator)
+
+      expect(invalidator).to have_received(:user_visibility_changed!).with(user_id: user.id).twice
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+        'account.cache_invalidated',
+        kind_of(Time),
+        account: account,
+        cache_keys: account.cache_keys
+      )
+    end
+
+    it 'invalidates filtered counts when the user is removed from an account' do
+      account_user = create(:account_user, account: account, user: user)
+
+      account_user.destroy!
+
+      expect(invalidator).to have_received(:user_visibility_changed!).with(user_id: user.id).twice
     end
   end
 end

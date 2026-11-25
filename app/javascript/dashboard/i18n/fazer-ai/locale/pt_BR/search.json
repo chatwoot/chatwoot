@@ -1,0 +1,5 @@
+{
+  "SEARCH": {
+    "MESSAGE_MIN_QUERY_LENGTH": "Digite pelo menos {count} caracteres para buscar mensagens."
+  }
+}

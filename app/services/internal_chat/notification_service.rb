@@ -12,7 +12,9 @@ class InternalChat::NotificationService
   private
 
   def channel_members_to_notify
-    message.channel.channel_members.includes(:user)
+    message.channel.channel_members
+           .where(user_id: FeatureAccess.new(message.account).users_with('internal_chat.access').select(:id))
+           .includes(:user)
   end
 
   def mentioned_user_ids
@@ -32,22 +34,23 @@ class InternalChat::NotificationService
     account_user&.administrator? || message.channel.channel_members.exists?(user_id: message.sender_id, role: :admin)
   end
 
+  # Mentions always notify (even when muted); DMs notify unless muted; regular channel
+  # messages don't create a native notification (the per-channel unread badge covers them).
   def notify_member(member)
     if user_mentioned?(member.user_id)
-      broadcast_notification(member.user, :internal_chat_mention)
-    elsif !member.muted?
-      broadcast_notification(member.user, :internal_chat_message)
+      create_notification(member.user, 'internal_chat_mention')
+    elsif message.channel.dm? && !member.muted?
+      create_notification(member.user, 'internal_chat_new_message')
     end
   end
 
-  def broadcast_notification(user, type)
-    payload = {
-      notification_type: type,
-      account_id: message.account_id,
-      channel_id: message.internal_chat_channel_id,
-      message_id: message.id,
-      sender: message.sender&.push_event_data
-    }
-    ::ActionCableBroadcastJob.perform_later([user.pubsub_token], 'notification.created', payload)
+  def create_notification(user, notification_type)
+    NotificationBuilder.new(
+      notification_type: notification_type,
+      user: user,
+      account: message.account,
+      primary_actor: message.channel,
+      secondary_actor: message
+    ).perform
   end
 end

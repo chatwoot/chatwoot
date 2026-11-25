@@ -33,7 +33,12 @@ RSpec.describe InternalChat::Draft do
         new_draft = create(:internal_chat_draft, account: account, user: user, channel: channel2,
                                                  updated_at: 1.minute.ago)
 
-        expect(described_class.recent).to eq([new_draft, old_draft])
+        # Resolved here, not through `described_class`: a reload between loading this
+        # file and running it leaves RSpec holding the previous class object, and
+        # `ActiveRecord::Base#==` compares `instance_of?(self.class)`, so records the
+        # factory built through the fresh class never equal it. The rows and their order
+        # are right; only the class identity differs.
+        expect(InternalChat::Draft.recent).to eq([new_draft, old_draft]) # rubocop:disable RSpec/DescribedClass
       end
     end
   end

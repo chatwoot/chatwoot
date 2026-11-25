@@ -48,4 +48,20 @@ RSpec.describe AgentBots::WebhookJob do
 
     perform_enqueued_jobs { job }
   end
+
+  context 'when the delivery is for an observer' do
+    let(:webhook_type) { :agent_bot_observer_webhook }
+
+    it 'hands the observer type to the failure handler once the retries are gone' do
+      allow(Webhooks::Trigger).to receive(:execute).and_raise(retryable_error)
+      trigger_instance = instance_double(Webhooks::Trigger, handle_failure: true)
+      allow(Rails.logger).to receive(:warn)
+
+      expect(Webhooks::Trigger).to receive(:new)
+        .with(url, payload, :agent_bot_observer_webhook, secret: nil, delivery_id: nil)
+        .and_return(trigger_instance)
+
+      perform_enqueued_jobs { job }
+    end
+  end
 end

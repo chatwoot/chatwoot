@@ -2,6 +2,11 @@ module Redis::RedisKeys
   ## Inbox Keys
   # Array storing the ordered ids for agent round robin assignment
   ROUND_ROBIN_AGENTS = 'ROUND_ROBIN_AGENTS:%<inbox_id>d'.freeze
+  # Track recently deleted IMAP messages to prevent them from being synced again
+  IMAP_DELETED_MESSAGE = 'IMAP_DELETED_MESSAGE::%<inbox_id>d::%<message_id_digest>s'.freeze
+  # How far the mailbox has already been swept, by IMAP UID. A cache, not state:
+  # losing it costs one expensive sweep, never a message.
+  IMAP_UID_CURSOR = 'IMAP_UID_CURSOR::%<inbox_id>d'.freeze
 
   ## Conversation keys
   # Detect whether to send an email reply to the conversation
@@ -9,10 +14,51 @@ module Redis::RedisKeys
   # Whether a conversation is muted ?
   CONVERSATION_MUTE_KEY = 'CONVERSATION::%<id>d::MUTED'.freeze
   CONVERSATION_DRAFT_MESSAGE = 'CONVERSATION::%<id>d::DRAFT_MESSAGE'.freeze
+  UNREAD_CONVERSATIONS_ACCOUNT_PREFIX = 'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d'.freeze
+  UNREAD_CONVERSATIONS_BASE_READY = 'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::READY::BASE'.freeze
+  UNREAD_CONVERSATIONS_ASSIGNMENT_READY = 'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::READY::ASSIGNMENT'.freeze
+  UNREAD_CONVERSATIONS_BASE_BUILD_LOCK = 'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::BUILD_LOCK::BASE'.freeze
+  UNREAD_CONVERSATIONS_ASSIGNMENT_BUILD_LOCK = 'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::BUILD_LOCK::ASSIGNMENT'.freeze
+  UNREAD_CONVERSATIONS_INBOX = 'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::INBOX::%<inbox_id>d'.freeze
+  UNREAD_CONVERSATIONS_LABEL_INBOX =
+    'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::LABEL::%<label_id>d::INBOX::%<inbox_id>d'.freeze
+  UNREAD_CONVERSATIONS_TEAM_INBOX =
+    'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::TEAM::%<team_id>d::INBOX::%<inbox_id>d'.freeze
+  UNREAD_CONVERSATIONS_INBOX_UNASSIGNED =
+    'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::INBOX::%<inbox_id>d::UNASSIGNED'.freeze
+  UNREAD_CONVERSATIONS_INBOX_ASSIGNEE =
+    'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::INBOX::%<inbox_id>d::ASSIGNEE::%<user_id>d'.freeze
+  UNREAD_CONVERSATIONS_LABEL_INBOX_UNASSIGNED =
+    'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::LABEL::%<label_id>d::INBOX::%<inbox_id>d::UNASSIGNED'.freeze
+  UNREAD_CONVERSATIONS_LABEL_INBOX_ASSIGNEE =
+    'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::LABEL::%<label_id>d::INBOX::%<inbox_id>d::ASSIGNEE::%<user_id>d'.freeze
+  UNREAD_CONVERSATIONS_TEAM_INBOX_UNASSIGNED =
+    'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::TEAM::%<team_id>d::INBOX::%<inbox_id>d::UNASSIGNED'.freeze
+  UNREAD_CONVERSATIONS_TEAM_INBOX_ASSIGNEE =
+    'UNREAD_CONVERSATIONS::V1::ACCOUNT::%<account_id>d::TEAM::%<team_id>d::INBOX::%<inbox_id>d::ASSIGNEE::%<user_id>d'.freeze
+  UNREAD_CONVERSATIONS_V2_ACCOUNT_PREFIX = 'UNREAD_CONVERSATIONS::V2::ACCOUNT::%<account_id>d'.freeze
+  UNREAD_CONVERSATIONS_V2_USER_PREFIX = "#{UNREAD_CONVERSATIONS_V2_ACCOUNT_PREFIX}::USER::%<user_id>d".freeze
+  UNREAD_CONVERSATIONS_V2_FILTER_PREFIX = "#{UNREAD_CONVERSATIONS_V2_ACCOUNT_PREFIX}::FILTER::%<filter_id>d".freeze
+  UNREAD_CONVERSATIONS_V2_CONVERSATION_VERSION = "#{UNREAD_CONVERSATIONS_V2_ACCOUNT_PREFIX}::CONVERSATION_VERSION".freeze
+  UNREAD_CONVERSATIONS_V2_BUILT_IN_FILTER_VERSION = "#{UNREAD_CONVERSATIONS_V2_USER_PREFIX}::BUILT_IN_FILTER_VERSION".freeze
+  UNREAD_CONVERSATIONS_V2_BUILT_IN_FILTER_COUNTS = "#{UNREAD_CONVERSATIONS_V2_USER_PREFIX}::BUILT_IN_FILTER_COUNTS".freeze
+  UNREAD_CONVERSATIONS_V2_BUILT_IN_FILTER_BUILD_LOCK = "#{UNREAD_CONVERSATIONS_V2_USER_PREFIX}::BUILT_IN_FILTER_BUILD_LOCK".freeze
+  UNREAD_CONVERSATIONS_V2_BUILT_IN_FILTER_REFRESH_THROTTLE =
+    "#{UNREAD_CONVERSATIONS_V2_USER_PREFIX}::BUILT_IN_FILTER_REFRESH_THROTTLE".freeze
+  UNREAD_CONVERSATIONS_V2_FOLDER_INDEX_VERSION = "#{UNREAD_CONVERSATIONS_V2_USER_PREFIX}::FOLDER_INDEX_VERSION".freeze
+  UNREAD_CONVERSATIONS_V2_FOLDER_INDEX = "#{UNREAD_CONVERSATIONS_V2_USER_PREFIX}::FOLDER_INDEX".freeze
+  UNREAD_CONVERSATIONS_V2_FOLDER_INDEX_BUILD_LOCK = "#{UNREAD_CONVERSATIONS_V2_USER_PREFIX}::FOLDER_INDEX_BUILD_LOCK".freeze
+  UNREAD_CONVERSATIONS_V2_FOLDER_INDEX_REFRESH_THROTTLE = "#{UNREAD_CONVERSATIONS_V2_USER_PREFIX}::FOLDER_INDEX_REFRESH_THROTTLE".freeze
+  UNREAD_CONVERSATIONS_V2_FILTER_VERSION = "#{UNREAD_CONVERSATIONS_V2_FILTER_PREFIX}::VERSION".freeze
+  UNREAD_CONVERSATIONS_V2_FILTER_COUNT = "#{UNREAD_CONVERSATIONS_V2_FILTER_PREFIX}::COUNT".freeze
+  UNREAD_CONVERSATIONS_V2_FILTER_BUILD_LOCK = "#{UNREAD_CONVERSATIONS_V2_FILTER_PREFIX}::BUILD_LOCK".freeze
+  UNREAD_CONVERSATIONS_V2_FILTER_REFRESH_THROTTLE = "#{UNREAD_CONVERSATIONS_V2_FILTER_PREFIX}::REFRESH_THROTTLE".freeze
 
   ## User Keys
   # SSO Auth Tokens
   USER_SSO_AUTH_TOKEN = 'USER_SSO_AUTH_TOKEN::%<user_id>d::%<token>s'.freeze
+  USER_SSO_IMPERSONATOR = 'USER_SSO_IMPERSONATOR::%<user_id>d::%<token>s'.freeze
+  SUPER_ADMIN_MFA_FAILED_ATTEMPTS = 'SUPER_ADMIN_MFA_FAILED_ATTEMPTS::%<user_id>d'.freeze
 
   ## Online Status Keys
   # hash containing user_id key and status as value
@@ -34,6 +80,24 @@ module Redis::RedisKeys
   # Check if a message create with same source-id is in progress?
   MESSAGE_SOURCE_KEY = 'MESSAGE_SOURCE_KEY::%<id>s'.freeze
   OPENAI_CONVERSATION_KEY = 'OPEN_AI_CONVERSATION_KEY::V1::%<event_name>s::%<conversation_id>d::%<updated_at>d'.freeze
+  # Bridges a WhatsApp call `terminate` that overtook its `connect` so the later connect can finalize it.
+  WHATSAPP_CALL_TERMINATE_TOMBSTONE = 'WHATSAPP_CALL_TERMINATE_TOMBSTONE::%<call_id>s'.freeze
+  # The provider message ids this app has just acknowledged to WhatsApp, per conversation, so the
+  # provider's echo of that receipt is not read back as a device of this account opening the chat.
+  WHATSAPP_SELF_READ_RECEIPT = 'WHATSAPP_SELF_READ_RECEIPT::%<conversation_id>s::%<source_id>s'.freeze
+  # When the newest message a delivery or read receipt answered was sent, per contact and
+  # inbox, for a number lookup that was still waiting on the provider when it arrived.
+  WHATSAPP_RECEIPT_SEEN = 'WHATSAPP_RECEIPT_SEEN::%<inbox_id>d::%<contact_id>d'.freeze
+  # An automation rule that has already acted on one message, so the content arriving after the
+  # placeholder it was stored as does not run that rule a second time.
+  AUTOMATION_RULE_MESSAGE_RUN = 'AUTOMATION_RULE_MESSAGE_RUN::%<rule_id>d::%<message_id>d'.freeze
+  # The same record, for a rule that answers to edits. The body it was evaluated against is part of the
+  # key: two announcements of one body, which is what two edits committing before their jobs run leaves
+  # behind, are the same run; a body nobody has offered this rule yet is a new one.
+  AUTOMATION_RULE_MESSAGE_BODY_RUN = 'AUTOMATION_RULE_MESSAGE_RUN::%<rule_id>d::%<message_id>d::%<body>s'.freeze
+  # The arrival of a placeholder whose rules were evaluated with those claims written, which is what says
+  # a later recovery of that row may evaluate them again.
+  AUTOMATION_MESSAGE_ARRIVAL_TRACKED = 'AUTOMATION_MESSAGE_ARRIVAL_TRACKED::%<message_id>d'.freeze
 
   ## Sempahores / Locks
   # We don't want to process messages from the same sender concurrently to prevent creating double conversations
@@ -44,17 +108,45 @@ module Redis::RedisKeys
   SLACK_MESSAGE_MUTEX = 'SLACK_MESSAGE_LOCK::%<conversation_id>s::%<reference_id>s'.freeze
   EMAIL_MESSAGE_MUTEX = 'EMAIL_CHANNEL_LOCK::%<inbox_id>s'.freeze
   WHATSAPP_MESSAGE_MUTEX = 'WHATSAPP_MESSAGE_CREATE_LOCK::%<inbox_id>s::%<sender_id>s'.freeze
+  WHATSAPP_CAMPAIGN_MUTEX = 'WHATSAPP_CAMPAIGN_LOCK::%<campaign_id>s'.freeze
   CRM_PROCESS_MUTEX = 'CRM_PROCESS_MUTEX::%<hook_id>s'.freeze
   CAPTAIN_DOCUMENT_SYNC_MUTEX = 'CAPTAIN_DOCUMENT_SYNC_LOCK::%<document_id>s'.freeze
+  CAPTAIN_CONVERSATION_FAQ_MUTEX = 'CAPTAIN_CONVERSATION_FAQ_LOCK::%<assistant_id>s::%<language>s'.freeze
 
   ## Auto Assignment Keys
-  # Track conversation assignments to agents for rate limiting
-  ASSIGNMENT_KEY = 'ASSIGNMENT::%<inbox_id>d::AGENT::%<agent_id>d::CONVERSATION::%<conversation_id>d'.freeze
-  ASSIGNMENT_KEY_PATTERN = 'ASSIGNMENT::%<inbox_id>d::AGENT::%<agent_id>d::*'.freeze
+  # Sorted set of conversation ids assigned to an agent, scored by assignment time, for rate limiting
+  ASSIGNMENT_KEY = 'ASSIGNMENT::%<inbox_id>d::AGENT::%<agent_id>d'.freeze
+  # At-most-one AssignmentJob per inbox in-flight (queued or running); further enqueues are skipped
+  AUTO_ASSIGNMENT_IN_FLIGHT_KEY = 'AUTO_ASSIGNMENT_IN_FLIGHT::%<inbox_id>d'.freeze
 
   ## Account Onboarding
   ACCOUNT_ONBOARDING_ENRICHMENT = 'ONBOARDING_ENRICHMENT::%<account_id>d'.freeze
+  HELP_CENTER_GENERATION = 'HELP_CENTER_GENERATION::%<id>s'.freeze
 
   ## Account Email Rate Limiting
   ACCOUNT_OUTBOUND_EMAIL_COUNT_KEY = 'OUTBOUND_EMAIL_COUNT::%<account_id>d::%<date>s'.freeze
+
+  ## Device verification (cloud sign-in challenge)
+  # HMAC digest of the emailed code, consumed atomically on redemption
+  DEVICE_VERIFICATION_CODE = 'DEVICE_VERIFICATION::CODE::%<user_id>d::%<jti>s'.freeze
+  # Wrong-code counter per challenge
+  DEVICE_VERIFICATION_ATTEMPTS = 'DEVICE_VERIFICATION::ATTEMPTS::%<user_id>d::%<jti>s'.freeze
+  # Rolling per-user challenge issuance budget
+  DEVICE_VERIFICATION_ISSUANCE = 'DEVICE_VERIFICATION::ISSUANCE::%<user_id>d'.freeze
+
+  ## Captain email verification (one-time code typed by the customer in a conversation)
+  # Email address the active code was sent to, with the HMAC digest of the code, consumed atomically on verification
+  CAPTAIN_EMAIL_VERIFICATION_CODE = 'CAPTAIN::EMAIL_VERIFICATION::CODE::%<conversation_id>d'.freeze
+  # Wrong-code counter for the active code
+  CAPTAIN_EMAIL_VERIFICATION_ATTEMPTS = 'CAPTAIN::EMAIL_VERIFICATION::ATTEMPTS::%<conversation_id>d'.freeze
+  # Hourly budget of codes sent from one contact inbox, counted from the first send
+  CAPTAIN_EMAIL_VERIFICATION_SENDS = 'CAPTAIN::EMAIL_VERIFICATION::SENDS::%<contact_inbox_id>d'.freeze
+  # Hourly budget of codes sent to one email address across contact inboxes, counted from the first send
+  CAPTAIN_EMAIL_VERIFICATION_EMAIL_SENDS = 'CAPTAIN::EMAIL_VERIFICATION::EMAIL_SENDS::%<email_digest>s'.freeze
+  # Email address verified in the conversation
+  CAPTAIN_EMAIL_VERIFICATION_VERIFIED = 'CAPTAIN::EMAIL_VERIFICATION::VERIFIED::%<conversation_id>d'.freeze
+
+  ## Captain MCP servers
+  # MCP server an OAuth sign-in started for, keyed by the OAuth state, so the callback finds the server
+  CAPTAIN_MCP_OAUTH_STATE = 'CAPTAIN::MCP::OAUTH_STATE::%<state>s'.freeze
 end

@@ -6,7 +6,7 @@ module ConversationReplyMailerHelper
       to: to_emails,
       from: email_from,
       reply_to: email_reply_to,
-      subject: mail_subject,
+      subject: @message&.content_attributes&.dig('email', 'subject').presence || mail_subject,
       message_id: custom_message_id,
       in_reply_to: in_reply_to_email,
       references: references_header
@@ -54,8 +54,7 @@ module ConversationReplyMailerHelper
       tls: false,
       enable_starttls_auto: true,
       openssl_verify_mode: 'none',
-      open_timeout: 15,
-      read_timeout: 15,
+      **smtp_timeout_settings,
       authentication: 'xoauth2'
     }
   end
@@ -72,11 +71,19 @@ module ConversationReplyMailerHelper
       tls: @channel.smtp_enable_ssl_tls,
       enable_starttls_auto: @channel.smtp_enable_starttls_auto,
       openssl_verify_mode: @channel.smtp_openssl_verify_mode,
+      **smtp_timeout_settings,
       authentication: @channel.smtp_authentication
     }
 
     @options[:delivery_method] = :smtp
     @options[:delivery_method_options] = smtp_settings
+  end
+
+  def smtp_timeout_settings
+    {
+      open_timeout: ENV['SMTP_OPEN_TIMEOUT'].presence || 15,
+      read_timeout: ENV['SMTP_READ_TIMEOUT'].presence || 30
+    }.transform_values(&:to_i)
   end
 
   def email_smtp_enabled?
@@ -100,7 +107,9 @@ module ConversationReplyMailerHelper
   def email_reply_to
     return Email::ReplyToBuilder.new(inbox: @inbox, message: current_message).build if @account.feature_enabled?(:reply_mailer_migration)
 
-    email_imap_enabled? ? @channel.email : reply_email
+    return @channel.email if email_imap_enabled? || @message&.forwarded?
+
+    reply_email
   end
 
   # Use channel email domain in case of account email domain is not set for custom message_id and in_reply_to

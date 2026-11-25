@@ -1,4 +1,4 @@
-class Api::V1::Accounts::InternalChat::SearchController < Api::V1::Accounts::BaseController
+class Api::V1::Accounts::InternalChat::SearchController < Api::V1::Accounts::InternalChat::BaseController
   def show
     authorize InternalChat::Channel, :index?
 

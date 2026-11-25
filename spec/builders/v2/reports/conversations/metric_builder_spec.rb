@@ -19,6 +19,7 @@ RSpec.describe V2::Reports::Conversations::MetricBuilder, type: :model do
           conversations_count: 42,
           incoming_messages_count: 42,
           outgoing_messages_count: 42,
+          handled_conversations_count: 42,
           avg_first_response_time: 42,
           avg_resolution_time: 42,
           resolutions_count: 42,

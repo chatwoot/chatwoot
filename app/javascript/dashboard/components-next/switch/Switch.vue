@@ -31,7 +31,7 @@ const updateValue = () => {
   <button
     :id="props.id"
     type="button"
-    class="group relative h-4 rounded-full w-7 flex-shrink-0 select-none focus:outline-none focus:ring-1 focus:ring-n-brand focus:ring-offset-n-slate-2 focus:ring-offset-2 transition-colors duration-200 ease-in-out"
+    class="group relative h-4 rounded-full w-7 flex-shrink-0 select-none focus:outline-none focus:ring-1 focus:ring-n-brand focus:ring-offset-n-slate-2 focus:ring-offset-2 transition-colors duration-200 ease-in-out disabled:cursor-not-allowed disabled:opacity-50"
     :class="modelValue ? 'bg-n-brand' : 'bg-n-slate-6'"
     :disabled="props.disabled"
     role="switch"

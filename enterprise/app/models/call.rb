@@ -8,6 +8,7 @@
 #  end_reason           :string
 #  meta                 :jsonb
 #  provider             :integer          default("twilio"), not null
+#  ring_state           :jsonb            not null
 #  started_at           :datetime
 #  status               :string           default("ringing"), not null
 #  transcript           :text
@@ -23,16 +24,24 @@
 #
 # Indexes
 #
-#  index_calls_on_account_id_and_contact_id       (account_id,contact_id)
-#  index_calls_on_account_id_and_conversation_id  (account_id,conversation_id)
-#  index_calls_on_message_id                      (message_id)
-#  index_calls_on_provider_and_provider_call_id   (provider,provider_call_id) UNIQUE
+#  index_calls_on_account_id_and_contact_id        (account_id,contact_id)
+#  index_calls_on_account_id_and_conversation_id   (account_id,conversation_id)
+#  index_calls_on_account_id_and_created_at        (account_id,created_at)
+#  index_calls_on_message_id                       (message_id)
+#  index_calls_on_provider_and_provider_call_id    (provider,provider_call_id) UNIQUE
+#  index_calls_ringing_on_provider_and_created_at  (provider,created_at) WHERE ((status)::text = 'ringing'::text)
 #
 class Call < ApplicationRecord
-  STATUSES = %w[ringing in_progress completed no_answer failed].freeze
-  TERMINAL_STATUSES = %w[completed no_answer failed].freeze
+  STATUSES = %w[ringing in_progress completed no_answer failed rejected].freeze
+  TERMINAL_STATUSES = %w[completed no_answer failed rejected].freeze
+  OUTSIDE_WORKING_HOURS = 'outside_working_hours'.freeze
+  NO_AGENTS_AVAILABLE = 'no_agents_available'.freeze
+  RING_TIMEOUT = 'ring_timeout'.freeze
+  # Calls ended before anyone was rung, and the announcement that tells the caller why
+  ANNOUNCED_END_REASONS = { OUTSIDE_WORKING_HOURS => :out_of_hours, NO_AGENTS_AVAILABLE => :unanswered }.freeze
 
-  store_accessor :meta, :conference_sid, :twilio_conference_sid, :recording_sid, :parent_call_sid, :initiated_at, :ended_at
+  store_accessor :meta, :conference_sid, :twilio_conference_sid, :recording_sid, :parent_call_sid, :initiated_at, :ended_at,
+                 :accepted_broadcast_at, :recording_enabled, :provider_status
 
   # Frontend voice bubbles/stores expect inbound/outbound string values
   DISPLAY_DIRECTION = { 'incoming' => 'inbound', 'outgoing' => 'outbound' }.freeze
@@ -45,15 +54,23 @@ class Call < ApplicationRecord
   belongs_to :account
   belongs_to :inbox
   belongs_to :conversation
-  belongs_to :contact
+  belongs_to :contact, optional: true
   belongs_to :message, optional: true, inverse_of: :call
   belongs_to :accepted_by_agent, class_name: 'User', optional: true
 
   has_one_attached :recording
 
+  # Snapshot the inbox's "Record calls" setting so every leg of a call agrees and a mid-call toggle can't change it.
+  before_create { self.recording_enabled = inbox.channel.try(:recording_enabled?) }
+
   validates :provider_call_id, presence: true
   validates :provider, presence: true
   validates :direction, presence: true
+
+  after_update_commit :cancel_phone_ring, if: :ring_just_ended?
+  include Concerns::CallAssignmentHold
+  # Out-of-order webhooks can create and end a call in the same transaction.
+  after_commit :notify_missed_call, on: %i[create update], if: :missed_just_now?
   validates :status, presence: true, inclusion: { in: STATUSES }
 
   scope :active, -> { where.not(status: TERMINAL_STATUSES) }
@@ -62,6 +79,25 @@ class Call < ApplicationRecord
 
   def self.find_by_provider_call_id(provider, sid)
     find_by(provider: provider, provider_call_id: sid)
+  end
+
+  # Providers can report a caller hangup during ringing as completed or failed.
+  def missed?
+    return false unless incoming?
+
+    status == 'no_answer' || (%w[completed failed].include?(status) && !answered_by_agent?)
+  end
+
+  # An inbound Twilio claim can precede the agent's actual join.
+  def answered_by_agent?
+    return false if accepted_by_agent_id.nil?
+
+    !twilio? || started_at.present? || accepted_broadcast_at.present?
+  end
+
+  # nil = a channel with no call settings, or a call that predates them: record.
+  def recording_enabled?
+    recording_enabled != false
   end
 
   def default_conference_sid
@@ -78,6 +114,17 @@ class Call < ApplicationRecord
     DISPLAY_DIRECTION[direction]
   end
 
+  # Normalize filter values back to stored forms so API/dashboard clients can
+  # query using either the display value (inbound/outbound, in-progress) or the
+  # stored value (incoming/outgoing, in_progress).
+  def self.direction_from_label(value)
+    DISPLAY_DIRECTION.key(value) || value
+  end
+
+  def self.status_from_display(value)
+    value.to_s.tr('-', '_')
+  end
+
   def ringing?
     status == 'ringing'
   end
@@ -90,16 +137,101 @@ class Call < ApplicationRecord
     TERMINAL_STATUSES.include?(status)
   end
 
+  def agent_legs
+    meta&.fetch('agent_legs', nil) || {}
+  end
+
+  AGENT_LEG_JOIN_GRACE_SECONDS = 30
+
+  def agent_leg_join_wait(except: nil)
+    now = Time.zone.now.to_i
+    joining = agent_legs.except(except.to_s).values.select { |leg| leg['state'] == 'joining' && leg['at'].to_i > now - AGENT_LEG_JOIN_GRACE_SECONDS }
+    joining.map { |leg| leg['at'].to_i + AGENT_LEG_JOIN_GRACE_SECONDS - now }.max&.clamp(1..)
+  end
+
+  def agent_leg_joined?(except: nil, since: nil)
+    agent_legs.except(except.to_s).values.any? { |leg| leg['state'] == 'joined' && (since.nil? || leg['at'].to_i >= since) }
+  end
+
+  # The attempt ID links an API reservation to its matching TwiML request.
+  def self.pending_agent_leg(attempt) = "pending:#{attempt}"
+
+  def open_agent_leg!(sid, attempt: nil)
+    with_lock do
+      leg_state = agent_legs.dig(sid.to_s, 'state')
+      # A ring timeout under way is moving the caller out, so a late leg would find nobody
+      next false if terminal? || leg_state == 'gone' || (ringing? && ring_timeout_in_progress?)
+
+      if attempt.present?
+        self.class.where(id: id).update_all(['meta = meta #- ARRAY[?, ?]', 'agent_legs', self.class.pending_agent_leg(attempt)]) # rubocop:disable Rails/SkipsModelValidations
+      end
+      record_agent_leg!(sid, 'joining') unless leg_state == 'joined'
+      true
+    end
+  end
+
+  # The caller holds the row lock; out-of-order callbacks cannot revive a gone leg.
+  def record_agent_leg!(sid, state)
+    return if sid.blank? || agent_legs.dig(sid, 'state') == 'gone'
+
+    leg = { sid => { 'state' => state, 'at' => Time.zone.now.to_i } }
+    self.class.where(id: id).update_all( # rubocop:disable Rails/SkipsModelValidations
+      ["meta = jsonb_set(COALESCE(meta, '{}'::jsonb), '{agent_legs}', COALESCE(meta->'agent_legs', '{}'::jsonb) || ?::jsonb)", leg.to_json]
+    )
+    reload
+  end
+
+  def unanswered_by_failed_join? = status == 'no_answer' && meta&.dig('unanswered_by_failed_join').present?
+
+  # Called under the row lock
+  def retire_pending_agent_legs!
+    legs = agent_legs.reject { |sid, _| sid.start_with?('pending:') }
+    self.class.where(id: id).update_all(["meta = jsonb_set(COALESCE(meta, '{}'::jsonb), '{agent_legs}', ?::jsonb)", legs.to_json]) # rubocop:disable Rails/SkipsModelValidations
+    reload
+  end
+
+  def merge_meta!(values)
+    self.class.where(id: id).update_all(["meta = COALESCE(meta, '{}'::jsonb) || ?::jsonb", values.to_json]) # rubocop:disable Rails/SkipsModelValidations
+    reload
+  end
+
+  def ring_timeout_in_progress? = ring_timeout_wait.present?
+
+  # Seconds until the ring timeout's mark goes stale, or nil when no attempt is in progress
+  def ring_timeout_wait
+    started_at = ring_state['timing_out_at']
+    return if started_at.blank?
+
+    wait = started_at + Voice::RingingTimeoutService::ATTEMPT_TTL_SECONDS - Time.zone.now.to_i
+    wait if wait.positive?
+  end
+
   def display_status
     status.to_s.tr('_', '-')
   end
 
+  def dismissed_user_ids = ring_state.fetch('dismissed_user_ids', [])
+
+  # The step a ring in turn is on; a dismiss moves it on, so the step queued before is dropped
+  def ring_step = ring_state.fetch('ring_step', 1)
+
+  # Payload shape matches Whatsapp::CallService#broadcast so the frontend's
+  # onVoiceCallAccepted/onVoiceCallEnded handlers can treat both providers uniformly.
+  def broadcast_voice_call_event(event, **extra)
+    payload = {
+      event: "voice_call.#{event}",
+      data: { id: id, call_id: provider_call_id, provider: provider,
+              conversation_id: conversation_id, account_id: account_id }.merge(extra)
+    }
+    ActionCable.server.broadcast("account_#{account_id}", payload)
+  end
+
   def from_number
-    incoming? ? contact.phone_number : inbox.channel&.phone_number
+    incoming? ? contact&.phone_number : inbox.channel&.phone_number
   end
 
   def to_number
-    incoming? ? inbox.channel&.phone_number : contact.phone_number
+    incoming? ? inbox.channel&.phone_number : contact&.phone_number
   end
 
   def recording_url
@@ -115,7 +247,9 @@ class Call < ApplicationRecord
       provider: provider,
       direction: direction,
       status: display_status,
+      provider_status: provider_status,
       duration_seconds: duration_seconds,
+      end_reason: end_reason,
       conference_sid: conference_sid,
       accepted_by_agent_id: accepted_by_agent_id,
       accepted_by_agent_name: accepted_by_agent&.available_name,
@@ -126,5 +260,24 @@ class Call < ApplicationRecord
       recording_url: recording_url,
       transcript: transcript
     }
+  end
+
+  # Push delivery can record devices after this instance is loaded.
+  def ring_just_ended?
+    return false unless saved_change_to_status? && status_before_last_save == 'ringing'
+
+    self.class.uncached { self.class.where(id: id).pick(:ring_state) }&.dig('rung_devices').present?
+  end
+
+  def cancel_phone_ring
+    Voice::VoipPushJob.perform_later(id, 'cancel')
+  end
+
+  def missed_just_now?
+    saved_change_to_status? && ring_state.key?('ring_recipient_ids') && ring_state['rings_phones'] != false && missed?
+  end
+
+  def notify_missed_call
+    Voice::MissedCallNotificationJob.perform_later(id)
   end
 end

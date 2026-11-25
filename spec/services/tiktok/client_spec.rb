@@ -35,7 +35,9 @@ RSpec.describe Tiktok::Client do
           conversation_type: 'SINGLE',
           capability_types: '["IMAGE_SEND"]'
         },
-        headers: { 'Access-Token': 'token-123' }
+        headers: { 'Access-Token': 'token-123' },
+        timeout: 10,
+        max_retries: 0
       )
     end
 

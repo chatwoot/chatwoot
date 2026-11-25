@@ -1,10 +1,12 @@
 <script>
 import { useVuelidate } from '@vuelidate/core';
-import { required, url, minLength, or } from '@vuelidate/validators';
+import { required, minLength } from '@vuelidate/validators';
+import { endpointUrl } from 'dashboard/helper/endpointUrl';
 import wootConstants from 'dashboard/constants/globals';
 import { getI18nKey } from 'dashboard/routes/dashboard/settings/helper/settingsHelper';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import { useAlert } from 'dashboard/composables';
+import { useConfig } from 'dashboard/composables/useConfig';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 import { useMapGetter } from 'dashboard/composables/store';
@@ -31,18 +33,6 @@ const SUPPORTED_WEBHOOK_EVENTS = [
   'internal_chat_message_deleted',
   'internal_chat_channel_updated',
 ];
-
-const localhostUrl = value => {
-  if (!value) {
-    return true;
-  }
-  const isRunningOnLocalhost = ['localhost', '127.0.0.1'].includes(
-    window.location.hostname
-  );
-  const localUrlPattern =
-    /^(?:https?:\/\/)?(?:localhost|127\.0\.0\.1)(?::\d+)?(?:\/.*)?$/i;
-  return isRunningOnLocalhost && localUrlPattern.test(value);
-};
 
 export default {
   components: {
@@ -78,20 +68,23 @@ export default {
     url: {
       required,
       minLength: minLength(7),
-      url: or(localhostUrl, url),
+      url: endpointUrl,
     },
     subscriptions: {
       required,
     },
   },
   data() {
+    const { inboxEventsEnabled } = useConfig();
     return {
       url: this.value.url || '',
       assignedInbox: this.value.inbox || null,
       name: this.value.name || '',
       subscriptions: this.value.subscriptions || [],
       secretVisible: false,
-      supportedWebhookEvents: SUPPORTED_WEBHOOK_EVENTS,
+      supportedWebhookEvents: inboxEventsEnabled
+        ? [...SUPPORTED_WEBHOOK_EVENTS, 'inbox_updated']
+        : SUPPORTED_WEBHOOK_EVENTS,
     };
   },
   computed: {

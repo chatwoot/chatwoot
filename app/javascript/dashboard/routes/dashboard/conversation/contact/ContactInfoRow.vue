@@ -80,7 +80,7 @@ export default {
 <template>
   <div class="group/row w-full h-5 ltr:-ml-1 rtl:-mr-1">
     <!-- Inline edit mode -->
-    <div v-if="isEditing" class="flex items-center gap-2">
+    <div v-if="isEditing" class="flex items-center w-full min-w-0 gap-2">
       <EmojiOrIcon
         :icon="icon"
         :emoji="emoji"
@@ -91,7 +91,6 @@ export default {
         ref="editInput"
         v-model="editValue"
         :placeholder="title"
-        class="!w-fit"
         @enter-press="saveEdit"
         @escape-press="cancelEdit"
         @blur="saveEdit"
@@ -150,12 +149,24 @@ export default {
       />
       <span
         v-if="value"
-        v-dompurify-html="value"
         class="overflow-hidden text-sm whitespace-nowrap text-ellipsis"
-      />
+        :title="value"
+      >
+        {{ value }}
+      </span>
       <span v-else class="text-sm text-n-slate-11">
         {{ $t('CONTACT_PANEL.NOT_AVAILABLE') }}
       </span>
+      <slot v-if="value" />
+      <NextButton
+        v-if="showCopy"
+        ghost
+        xs
+        slate
+        class="ltr:-ml-1 rtl:-mr-1"
+        icon="i-lucide-clipboard"
+        @click="onCopy"
+      />
       <NextButton
         v-if="editable"
         ghost

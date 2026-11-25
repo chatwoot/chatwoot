@@ -12,7 +12,7 @@ import {
   defineEmits,
 } from 'vue';
 import { useStore } from 'vuex';
-import { useRoute, useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import {
   useMapGetter,
   useFunctionGetter,
@@ -30,40 +30,46 @@ import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirecti
 import ConversationResolveAttributesModal from 'dashboard/components-next/ConversationWorkflow/ConversationResolveAttributesModal.vue';
 
 import { useUISettings } from 'dashboard/composables/useUISettings';
-import { useAlert } from 'dashboard/composables';
+import { useAlert, useAssignmentError } from 'dashboard/composables';
 import { useBulkActions } from 'dashboard/composables/chatlist/useBulkActions';
 import { useFilter } from 'shared/composables/useFilter';
 import { useTrack } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
+import { debounce } from '@chatwoot/utils';
 import {
   useCamelCase,
   useSnakeCase,
 } from 'dashboard/composables/useTransformKeys';
 import { useEmitter } from 'dashboard/composables/emitter';
+import {
+  CMD_MARK_UNREAD,
+  CMD_SWITCH_TAB,
+} from 'dashboard/helper/commandbar/events';
 import { useConversationRequiredAttributes } from 'dashboard/composables/useConversationRequiredAttributes';
 
 import { emitter } from 'shared/helpers/mitt';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 import ConversationAPI from 'dashboard/api/inbox/conversation';
 import wootConstants from 'dashboard/constants/globals';
 import advancedFilterOptions from './widgets/conversation/advancedFilterItems';
 import filterQueryGenerator from '../helper/filterQueryGenerator.js';
+import { parseRouteFilters } from 'dashboard/helper/validations';
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import countries from 'shared/constants/countries';
 import { generateValuesForEditCustomViews } from 'dashboard/helper/customViewsHelper';
-import { conversationListPageURL } from '../helper/URLHelper';
-import {
-  isOnMentionsView,
-  isOnParticipatingView,
-  isOnUnattendedView,
-} from '../store/modules/conversations/helpers/actionHelpers';
+import { useConversationRoutePath } from 'dashboard/composables/useConversationRoutePath';
 import {
   getUserPermissions,
   getUserRole,
   filterItemsByPermission,
   getVisibleAssigneeTabPermissions,
 } from 'dashboard/helper/permissionsHelper.js';
-import { matchesFilters } from '../store/modules/conversations/helpers/filterHelpers';
+import { createFiltersMatcher } from '../store/modules/conversations/helpers/filterHelpers';
+import {
+  humanAssignee,
+  sortComparator,
+} from '../store/modules/conversations/helpers';
 import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
 
 const props = defineProps({
@@ -82,6 +88,8 @@ const { t } = useI18n();
 const router = useRouter();
 const route = useRoute();
 const store = useStore();
+const { buildConversationPath, buildConversationListPath } =
+  useConversationRoutePath();
 
 const resolveAttributesModalRef = ref(null);
 
@@ -93,7 +101,7 @@ const showAdvancedFilters = ref(false);
 // chatsOnView is to store the chats that are currently visible on the screen,
 // which mirrors the conversationList.
 const chatsOnView = ref([]);
-const foldersQuery = ref({});
+const foldersQuery = useMapGetter('getAppliedConversationFiltersQuery');
 const showAddFoldersModal = ref(false);
 const showDeleteFoldersModal = ref(false);
 const appliedFilter = ref([]);
@@ -111,9 +119,11 @@ const allChatList = useMapGetter('getAllStatusChats');
 const unAssignedChatsList = useMapGetter('getUnAssignedChats');
 const participatingChatsList = useMapGetter('getParticipatingChats');
 const chatListLoading = useMapGetter('getChatListLoadingStatus');
+const pinnedAtById = useMapGetter('conversationPins/getRecords');
 const activeInbox = useMapGetter('getSelectedInbox');
 const conversationStats = useMapGetter('conversationStats/getStats');
 const appliedFilters = useMapGetter('getAppliedConversationFiltersV2');
+const appliedContactFilter = useMapGetter('getAppliedContactFilter');
 const folders = useMapGetter('customViews/getConversationCustomViews');
 const agentList = useMapGetter('agents/getAgents');
 const teamsList = useMapGetter('teams/getTeams');
@@ -165,6 +175,9 @@ const activeFolder = computed(() => {
   }
   return undefined;
 });
+
+const getContact = useMapGetter('contacts/getContact');
+const folderContactId = useMapGetter('customViews/getActiveFolderContactId');
 
 const activeFolderName = computed(() => {
   return activeFolder.value?.name;
@@ -332,14 +345,24 @@ const pageTitle = computed(() => {
 
 function filterByAssigneeTab(conversations) {
   if (activeAssigneeTab.value === wootConstants.ASSIGNEE_TYPE.ME) {
+    // The human, since the id being compared is an agent's: a bot's comes from its own table and
+    // can be the same integer.
     return conversations.filter(
-      c => c.meta?.assignee?.id === currentUser.value?.id
+      c => humanAssignee(c)?.id === currentUser.value?.id
     );
   }
   if (activeAssigneeTab.value === wootConstants.ASSIGNEE_TYPE.UNASSIGNED) {
+    // Whoever holds it, bot included, which is what the server's `unassigned` scope says.
     return conversations.filter(c => !c.meta?.assignee);
   }
   return [...conversations];
+}
+
+function sortByUnreadStatus(conversations) {
+  // Pinned conversations lead this sort too, mirroring what every other sort option does.
+  return [...conversations].sort((a, b) =>
+    sortComparator(a, b, wootConstants.SORT_BY_TYPE.UNREAD, pinnedAtById.value)
+  );
 }
 
 const conversationList = computed(() => {
@@ -366,9 +389,16 @@ const conversationList = computed(() => {
 
   if (activeFolder.value) {
     const { payload } = activeFolder.value.query;
-    localConversationList = localConversationList.filter(conversation => {
-      return matchesFilters(conversation, payload);
-    });
+    localConversationList = localConversationList.filter(
+      createFiltersMatcher(payload)
+    );
+  }
+
+  if (
+    !hasAppliedFiltersOrActiveFolders.value &&
+    activeSortBy.value === wootConstants.SORT_BY_TYPE.UNREAD
+  ) {
+    localConversationList = sortByUnreadStatus(localConversationList);
   }
 
   return localConversationList;
@@ -419,8 +449,12 @@ function fetchFilteredConversations(payload) {
     .dispatch('fetchFilteredConversations', {
       queryData: filterQueryGenerator(payload),
       page,
+      sortBy: activeSortBy.value,
     })
-    .then(emitConversationLoaded);
+    .catch(() => useAlert(t('CHAT_LIST.FETCH_ERROR')))
+    // emit even on failure so a deep-linked conversation still loads via
+    // fetchConversationIfUnavailable
+    .finally(emitConversationLoaded);
 
   showAdvancedFilters.value = false;
 }
@@ -432,17 +466,32 @@ function fetchSavedFilteredConversations(payload) {
     .dispatch('fetchFilteredConversations', {
       queryData: payload,
       page,
+      sortBy: activeSortBy.value,
     })
-    .then(emitConversationLoaded);
+    .catch(() => useAlert(t('CHAT_LIST.FETCH_ERROR')))
+    .finally(emitConversationLoaded);
 }
 
 function onApplyFilter(payload) {
   payload = useSnakeCase(payload);
-  resetBulkActions();
-  foldersQuery.value = filterQueryGenerator(payload);
-  store.dispatch('conversationPage/reset');
-  store.dispatch('emptyAllConversations');
-  fetchFilteredConversations(payload);
+  showAdvancedFilters.value = false;
+  store
+    .dispatch('applyConversationFilters', { filters: payload })
+    .catch(() => useAlert(t('CHAT_LIST.FETCH_ERROR')))
+    .finally(emitConversationLoaded);
+}
+
+function applyRouteFilters() {
+  const { filters: serializedFilters, ...query } = route.query;
+  if (!serializedFilters) return false;
+
+  router.replace({ query });
+  const filters = parseRouteFilters(serializedFilters);
+  if (!filters) return false;
+
+  store.dispatch('setConversationFilters', filters);
+  onApplyFilter(filters);
+  return true;
 }
 
 function closeAdvanceFiltersModal() {
@@ -502,6 +551,7 @@ function setParamsForEditFolderModal() {
     inboxes: inboxesList.value,
     labels: labels.value,
     campaigns: campaigns.value,
+    contacts: [getContact.value(folderContactId.value)],
     languages: languages,
     countries: countries,
     priority: [
@@ -563,6 +613,7 @@ function initializeFolderToFilterModal(newActiveFolder) {
 
     return {
       attributeKey: transformed.attributeKey,
+      timezone: transformed.timezone,
       attributeModel: transformed.attributeModel,
       customAttributeType: transformed.customAttributeType,
       filterOperator: transformed.filterOperator,
@@ -618,6 +669,18 @@ function resetAndFetchData() {
   fetchConversations();
 }
 
+// Leaving a contact's history lands on its latest conversation; the expanded list has no open thread.
+function resetFilters() {
+  const latestConversation =
+    appliedContactFilter.value &&
+    !props.isOnExpandedLayout &&
+    chatLists.value[0];
+  if (latestConversation) {
+    router.push(buildConversationPath(latestConversation.id));
+  }
+  resetAndFetchData();
+}
+
 function loadMoreConversations() {
   if (hasCurrentPageEndReached.value || chatListLoading.value) {
     return;
@@ -640,6 +703,9 @@ function updateAssigneeTab(selectedTab) {
     activeAssigneeTab.value = selectedTab;
     if (!currentPage.value) {
       fetchConversations();
+    } else {
+      store.dispatch('invalidateConversationListRequests');
+      store.dispatch('updateChatListFilters', conversationFilters.value);
     }
   }
 }
@@ -652,6 +718,20 @@ function onBasicFilterChange(value, type) {
   } else {
     activeSortBy.value = value;
   }
+
+  if (type === 'sort' && hasAppliedFiltersOrActiveFolders.value) {
+    resetBulkActions();
+    store.dispatch('conversationPage/reset');
+    store.dispatch('emptyAllConversations');
+
+    if (hasActiveFolders.value) {
+      fetchSavedFilteredConversations(activeFolder.value.query);
+    } else {
+      fetchFilteredConversations(appliedFilters.value);
+    }
+    return;
+  }
+
   resetAndFetchData();
 }
 
@@ -674,29 +754,19 @@ function openLastItemAfterDeleteInFolder() {
 }
 
 function redirectToConversationList() {
-  const {
-    params: { accountId, inbox_id: inboxId, label, teamId },
-    name,
-  } = route;
+  router.push(buildConversationListPath());
+}
 
-  let conversationType = '';
-  if (isOnMentionsView({ route: { name } })) {
-    conversationType = wootConstants.CONVERSATION_TYPE.MENTION;
-  } else if (isOnParticipatingView({ route: { name } })) {
-    conversationType = wootConstants.CONVERSATION_TYPE.PARTICIPATING;
-  } else if (isOnUnattendedView({ route: { name } })) {
-    conversationType = wootConstants.CONVERSATION_TYPE.UNATTENDED;
+async function togglePin(conversationId) {
+  const isPinned = Boolean(pinnedAtById.value[conversationId]);
+  try {
+    await store.dispatch(
+      isPinned ? 'conversationPins/unpin' : 'conversationPins/pin',
+      conversationId
+    );
+  } catch (error) {
+    useAlert(error?.message ?? t('CONVERSATION.PIN.ERROR'));
   }
-  router.push(
-    conversationListPageURL({
-      accountId,
-      conversationType: conversationType,
-      customViewId: props.foldersId,
-      inboxId,
-      label,
-      teamId,
-    })
-  );
 }
 
 async function assignPriority(priority, conversationId = null) {
@@ -740,10 +810,7 @@ async function markAsRead(conversationId) {
 
 async function onAssignTeam(team, conversationId = null) {
   try {
-    await store.dispatch('assignTeam', {
-      conversationId,
-      teamId: team.id,
-    });
+    await store.dispatch('assignTeam', { conversationId, team });
     useAlert(
       t('CONVERSATION.CARD_CONTEXT_MENU.API.TEAM_ASSIGNMENT.SUCCESFUL', {
         team: team.name,
@@ -751,7 +818,10 @@ async function onAssignTeam(team, conversationId = null) {
       })
     );
   } catch (error) {
-    useAlert(t('CONVERSATION.CARD_CONTEXT_MENU.API.TEAM_ASSIGNMENT.FAILED'));
+    useAssignmentError(
+      error,
+      t('CONVERSATION.CARD_CONTEXT_MENU.API.TEAM_ASSIGNMENT.FAILED')
+    );
   }
 }
 
@@ -771,9 +841,12 @@ function toggleConversationStatus(
     payload.customAttributes = customAttributes;
   }
 
-  store.dispatch('toggleStatus', payload).then(() => {
-    useAlert(t('CONVERSATION.CHANGE_STATUS'));
-  });
+  store
+    .dispatch('toggleStatus', payload)
+    .then(() => useAlert(t('CONVERSATION.CHANGE_STATUS')))
+    .catch(error =>
+      useAssignmentError(error, t('CONVERSATION.CHANGE_STATUS_FAILED'))
+    );
 }
 
 function handleResolveConversation(conversationId, status, snoozedUntil) {
@@ -832,10 +905,67 @@ function toggleSelectAll(check) {
   selectAllConversations(check, conversationList);
 }
 
+// The bulk toolbar acts on ids, and the list it was built from moves under it: a conversation can
+// leave the tab through a cable event, through reconciliation, or by being deleted. Whatever is no
+// longer on the list has to leave the selection with it, or the next bulk assign or label would be
+// sent for a conversation the agent cannot see.
+watch(conversationList, list => {
+  if (!selectedConversations.value.length) return;
+
+  const visible = new Set(list.map(c => c.id));
+  [...selectedConversations.value]
+    .filter(id => !visible.has(id))
+    .forEach(deSelectConversation);
+});
+
+// Reconciliation removed the conversation the panel is showing: the server no longer serves it to
+// this agent, deleted or no longer permitted, so leaving it open would keep a panel the next action
+// on it would fail against.
+useEmitter(BUS_EVENTS.OPEN_CONVERSATION_GONE, () =>
+  redirectToConversationList()
+);
+
 useEmitter('fetch_conversation_stats', () => {
   if (hasAppliedFiltersOrActiveFolders.value) return;
   store.dispatch('conversationStats/get', conversationFilters.value);
 });
+useEmitter(CMD_SWITCH_TAB, updateAssigneeTab);
+useEmitter(CMD_MARK_UNREAD, markAsUnread);
+
+// The list can only ever be a subset of what the server counts for the tab, so a list longer than
+// the badge is a contradiction: the store is holding conversations that already left this tab, and
+// nothing in it would ever take them off the list. Watching both numbers covers the two ways the
+// contradiction surfaces, a list fetch and the debounced badge, including the agent who is just
+// sitting on the screen, which is how it was reported.
+//
+// Only the assignee tabs: the other views narrow the list with a rule the store does not reproduce
+// locally, so what is on screen there is not the tab the server would reconcile against.
+// Debounced, and re-checked when it runs, because the contradiction has to persist to be worth a
+// question: while a page loads, the list grows several seconds ahead of the badge (whose own fetch
+// is debounced up to 15s on a large account), and every intermediate size would otherwise be read
+// as a divergence and asked about.
+const reconcileTab = debounce(
+  async () => {
+    if (chatListLoading.value || hasAppliedFiltersOrActiveFolders.value) return;
+    if (conversationList.value.length <= activeAssigneeTabCount.value) return;
+
+    await store.dispatch('reconcileConversationTab', conversationFilters.value);
+  },
+  2000,
+  false
+);
+
+// A list that just grew is not evidence of a residue. The badge's own fetch is debounced (7.5s past
+// 100 conversations, 15s past 2000), so a conversation arriving over the cable, or a page loading,
+// puts the list ahead of the badge for seconds at a time and every intermediate size would read as
+// a divergence. Asking only when the excess predates the growth leaves the reported case intact:
+// there the list does not move at all, the badge is what drops.
+watch(
+  [() => conversationList.value.length, activeAssigneeTabCount],
+  ([, tabCount], [previousListSize]) => {
+    if (previousListSize > tabCount) reconcileTab();
+  }
+);
 
 let lastSubscribedIds = '';
 const subscribePresenceForTopChats = () => {
@@ -854,7 +984,7 @@ onMounted(() => {
   store.dispatch('setChatStatusFilter', activeStatus.value);
   store.dispatch('setChatSortFilter', activeSortBy.value);
   store.dispatch('setChatGroupTypeFilter', activeGroupType.value);
-  resetAndFetchData();
+  if (!applyRouteFilters()) resetAndFetchData();
   if (hasActiveFolders.value) {
     store.dispatch('campaigns/get');
   }
@@ -901,6 +1031,7 @@ provide('updateConversationStatus', handleResolveConversation);
 provide('markAsUnread', markAsUnread);
 provide('markAsRead', markAsRead);
 provide('assignPriority', assignPriority);
+provide('togglePin', togglePin);
 provide('isConversationSelected', isConversationSelected);
 provide('deleteConversation', handleDelete);
 
@@ -930,11 +1061,8 @@ watch(chatLists, () => {
   chatsOnView.value = conversationList.value;
 });
 
-watch(conversationFilters, (newVal, oldVal) => {
-  if (newVal !== oldVal) {
-    store.dispatch('updateChatListFilters', newVal);
-  }
-});
+// Filters can be applied from outside the list, so clear the selection here.
+watch(appliedFilters, () => resetBulkActions());
 </script>
 
 <template>
@@ -948,6 +1076,7 @@ watch(conversationFilters, (newVal, oldVal) => {
     <slot />
     <ChatListHeader
       :page-title="pageTitle"
+      :contact-filter="appliedContactFilter"
       :has-applied-filters="hasAppliedFilters"
       :has-active-folders="hasActiveFolders"
       :can-manage-active-folder="canManageActiveFolder"
@@ -958,7 +1087,7 @@ watch(conversationFilters, (newVal, oldVal) => {
       @add-folders="onClickOpenAddFoldersModal"
       @delete-folders="onClickOpenDeleteFoldersModal"
       @filters-modal="onToggleAdvanceFiltersModal"
-      @reset-filters="resetAndFetchData"
+      @reset-filters="resetFilters"
       @basic-filter-change="onBasicFilterChange"
     />
 

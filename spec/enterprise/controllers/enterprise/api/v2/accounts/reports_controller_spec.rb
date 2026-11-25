@@ -64,4 +64,28 @@ RSpec.describe 'Enterprise Reports API', type: :request do
       end
     end
   end
+
+  describe 'GET /api/v2/accounts/:account_id/reports/drilldown' do
+    context 'when it is an agent with report_manage permission' do
+      let(:params) do
+        super().merge(
+          metric: 'conversations_count',
+          type: :account,
+          since: start_of_today.to_s,
+          until: end_of_today.to_s,
+          bucket_timestamp: start_of_today.to_s,
+          group_by: 'day'
+        )
+      end
+
+      it 'returns unauthorized' do
+        get "/api/v2/accounts/#{account.id}/reports/drilldown",
+            params: params,
+            headers: agent_with_role.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+  end
 end

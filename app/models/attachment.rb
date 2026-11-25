@@ -23,25 +23,42 @@
 
 class Attachment < ApplicationRecord
   include Rails.application.routes.url_helpers
+  include ComposedAttachmentChecks
 
   ACCEPTABLE_FILE_TYPES = %w[
-    text/csv text/plain text/rtf
+    text/csv text/plain text/rtf text/xml
     application/json application/pdf
+    application/xml
     application/zip application/x-7z-compressed application/vnd.rar application/x-tar
     application/msword application/vnd.ms-excel application/vnd.ms-powerpoint application/rtf
     application/vnd.oasis.opendocument.text
     application/vnd.openxmlformats-officedocument.presentationml.presentation
     application/vnd.openxmlformats-officedocument.spreadsheetml.sheet
     application/vnd.openxmlformats-officedocument.wordprocessingml.document
+    application/x-pkcs12 application/pkcs12
   ].freeze
+  ACCEPTABLE_FILE_EXTENSIONS = %w[pfx xml].freeze
+  GENERIC_FILE_CONTENT_TYPES = %w[application/octet-stream].freeze
   belongs_to :account
   belongs_to :message
   has_one_attached :file
   before_save :set_extension
   validate :acceptable_file
   validates :external_url, length: { maximum: Limits::URL_LENGTH_LIMIT }
-  enum file_type: { :image => 0, :audio => 1, :video => 2, :file => 3, :location => 4, :fallback => 5, :share => 6, :story_mention => 7,
-                    :contact => 8, :ig_reel => 9, :ig_post => 10, :ig_story => 11, :embed => 12 }
+  enum :file_type, { image: 0, audio: 1, video: 2, file: 3, location: 4, fallback: 5, share: 6, story_mention: 7,
+                     contact: 8, ig_reel: 9, ig_post: 10, ig_story: 11, embed: 12 }
+
+  METADATA_BUILDERS = {
+    location: :location_metadata, fallback: :fallback_data, contact: :contact_metadata,
+    audio: :audio_metadata, video: :video_metadata, embed: :embed_data
+  }.freeze
+
+  # A video WhatsApp plays in a circle. The mark is written by the session layer on one that
+  # arrives and by the message builder on one that is sent, and only a boolean counts: a string
+  # `"true"` from a multipart request is not one.
+  def video_note?
+    video? && meta.to_h['is_video_note'] == true
+  end
 
   def push_event_data
     return unless file_type
@@ -63,6 +80,21 @@ class Attachment < ApplicationRecord
     file.blob.url
   end
 
+  # Blobs written before the identification was corrected still carry audio/opus, which is the
+  # type WhatsApp Cloud rejects with 131053. Catch them the next time the file is handed to an
+  # external service. New blobs never reach here: config/initializers/active_storage_opus_fix.rb
+  # settles the type before the object is written.
+  def normalize_opus_blob_content_type!
+    blob = file.blob
+    return unless blob.content_type == 'audio/opus'
+
+    # update!, not update_column, because the point is the callback: ActiveStorage rewrites the
+    # object's own Content-Type in the bucket on commit. Correcting only the column leaves the
+    # stored object as audio/opus, and on GCS that metadata is what a reader gets, so the fix
+    # would be invisible to the one service where it matters.
+    blob.update!(content_type: 'audio/ogg')
+  end
+
   def thumb_url
     return '' unless file.attached? && image?
 
@@ -81,20 +113,10 @@ class Attachment < ApplicationRecord
   private
 
   def metadata_for_file_type
-    case file_type.to_sym
-    when :location
-      location_metadata
-    when :fallback
-      fallback_data
-    when :contact
-      contact_metadata
-    when :audio
-      audio_metadata
-    when :embed
-      embed_data
-    else
-      file.attached? ? file_metadata : { data_url: external_url, thumb_url: '' }
-    end
+    builder = METADATA_BUILDERS[file_type.to_sym]
+    return send(builder) if builder
+
+    file.attached? ? file_metadata : { data_url: external_url, thumb_url: '' }
   end
 
   def embed_data
@@ -107,17 +129,42 @@ class Attachment < ApplicationRecord
     audio_file_data = base_data.merge(file_metadata)
     audio_file_data.merge(
       {
-        # Keep audio playback inline while avoiding the ActiveStorage proxy path.
-        data_url: inline_audio_url,
+        # Inline disposition so the player streams it instead of the browser downloading it; the
+        # route follows whichever Active Storage delivery method the install configured.
+        data_url: inline_storage_url,
         transcribed_text: meta&.[]('transcribed_text') || ''
       }
     )
   end
 
-  def inline_audio_url
+  # Same pair as audio: `file_url` carries no disposition, so a video is served as an
+  # attachment and Safari refuses to play a `<video>` whose response says so. The MIME also
+  # has to be in `content_types_allowed_inline`, or this URL is forced back to attachment.
+  #
+  # The two cases where the bytes are not ours keep the address they had: an attachment with
+  # no file is one we only hold a link to, and an Instagram incoming message is served from
+  # Meta's CDN on purpose.
+  def video_metadata
+    return { data_url: external_url, thumb_url: '' } unless file.attached?
+
+    metadata = file_metadata
+    # WhatsApp plays a video note in a circle, and this is all the dashboard has to tell one
+    # from the ordinary video it also is.
+    # Only a boolean: the session writer stores one on an incoming note or on the echo of one
+    # recorded on the connected phone, and the message builder casts the API's flag to one.
+    metadata[:is_video_note] = true if video_note?
+    return metadata if instagram_incoming_message?
+
+    metadata.merge({ data_url: inline_storage_url })
+  end
+
+  def inline_storage_url
     return '' unless file.attached?
 
-    Rails.application.routes.url_helpers.rails_storage_redirect_url(file, disposition: 'inline')
+    # Through whichever route the installation configured (redirect, or proxy for S3/CORS setups),
+    # the same way `url_for(file)` resolves it, but asking for inline: the audio and video players
+    # cannot use a URL that is served as an attachment.
+    Rails.application.routes.url_helpers.route_for(ActiveStorage.resolve_model_to_route, file, disposition: 'inline')
   end
 
   def file_metadata
@@ -199,7 +246,10 @@ class Attachment < ApplicationRecord
   end
 
   def validate_file_content_type(file_content_type)
-    errors.add(:file, 'type not supported') unless media_file?(file_content_type) || ACCEPTABLE_FILE_TYPES.include?(file_content_type)
+    return if media_file?(file_content_type) || ACCEPTABLE_FILE_TYPES.include?(file_content_type)
+    return if generic_file_content_type?(file_content_type) && ACCEPTABLE_FILE_EXTENSIONS.include?(file_extension)
+
+    errors.add(:file, 'type not supported')
   end
 
   def validate_file_size(byte_size)
@@ -210,17 +260,15 @@ class Attachment < ApplicationRecord
   end
 
   def media_file?(file_content_type)
-    file_content_type.start_with?('image/', 'video/', 'audio/')
+    file_content_type.to_s.start_with?('image/', 'video/', 'audio/')
   end
 
-  # Marcel gem may detect OGG/Opus files as audio/opus instead of audio/ogg.
-  # Lazily normalize existing blobs so presigned URLs serve the correct Content-Type.
-  # Only applies to .ogg files — .opus files legitimately use audio/opus.
-  def normalize_opus_blob_content_type!
-    blob = file.blob
-    return unless blob.content_type == 'audio/opus' && blob.filename.to_s.end_with?('.ogg')
+  def generic_file_content_type?(file_content_type)
+    file_content_type.blank? || GENERIC_FILE_CONTENT_TYPES.include?(file_content_type)
+  end
 
-    blob.update_column(:content_type, 'audio/ogg') # rubocop:disable Rails/SkipsModelValidations
+  def file_extension
+    File.extname(file.filename.to_s).delete_prefix('.').downcase
   end
 end
 

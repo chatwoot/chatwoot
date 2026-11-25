@@ -74,6 +74,16 @@ class InternalChat::Message < ApplicationRecord
     replies_count
   end
 
+  def push_event_data
+    {
+      id: id,
+      content: content,
+      content_type: content_type,
+      internal_chat_channel_id: internal_chat_channel_id,
+      sender: sender&.push_event_data
+    }
+  end
+
   private
 
   # Atomic compare-and-set so concurrent message creates can never regress

@@ -299,4 +299,56 @@ describe('inboxMixin', () => {
       expect(wrapper.vm.isAWhatsAppChannel).toBe(true);
     });
   });
+
+  describe('WhatsApp session inboxes', () => {
+    it.each(['baileys', 'zapi', 'native', 'uazapi'])(
+      'isASessionWhatsAppChannel returns true for %s',
+      provider => {
+        const Component = getComponentConfigForInbox('Channel::Whatsapp', {
+          provider,
+        });
+        const wrapper = shallowMount(Component);
+        expect(wrapper.vm.isASessionWhatsAppChannel).toBe(true);
+      }
+    );
+
+    it.each(['whatsapp_cloud', 'default'])(
+      'isASessionWhatsAppChannel returns false for %s',
+      provider => {
+        const Component = getComponentConfigForInbox('Channel::Whatsapp', {
+          provider,
+        });
+        const wrapper = shallowMount(Component);
+        expect(wrapper.vm.isASessionWhatsAppChannel).toBe(false);
+      }
+    );
+
+    // The provider name alone would say yes here: a Twilio inbox carries no provider,
+    // and a non-WhatsApp channel must never take a WhatsApp branch.
+    it('isASessionWhatsAppChannel returns false for a non-WhatsApp channel', () => {
+      const Component = getComponentConfigForInbox('Channel::TwilioSms', {
+        provider: 'baileys',
+      });
+      const wrapper = shallowMount(Component);
+      expect(wrapper.vm.isASessionWhatsAppChannel).toBe(false);
+    });
+
+    it('hasInboxCapability reads the list the server served', () => {
+      const Component = getComponentConfigForInbox('Channel::Whatsapp', {
+        provider: 'uazapi',
+        capabilities: ['edit', 'reactions'],
+      });
+      const wrapper = shallowMount(Component);
+      expect(wrapper.vm.inboxCapabilities).toEqual(['edit', 'reactions']);
+      expect(wrapper.vm.hasInboxCapability('edit')).toBe(true);
+      expect(wrapper.vm.hasInboxCapability('groups')).toBe(false);
+    });
+
+    it('hasInboxCapability is false when the inbox carries no capabilities', () => {
+      const Component = getComponentConfigForInbox('Channel::WebWidget');
+      const wrapper = shallowMount(Component);
+      expect(wrapper.vm.inboxCapabilities).toEqual([]);
+      expect(wrapper.vm.hasInboxCapability('edit')).toBe(false);
+    });
+  });
 });

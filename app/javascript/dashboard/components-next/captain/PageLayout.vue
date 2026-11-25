@@ -12,6 +12,11 @@ import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import Policy from 'dashboard/components/policy.vue';
 import AssistantSwitcher from 'dashboard/components-next/captain/pageComponents/switcher/AssistantSwitcher.vue';
 import CreateAssistantDialog from 'dashboard/components-next/captain/pageComponents/assistant/CreateAssistantDialog.vue';
+import { useAssistantSwitcher } from 'dashboard/components-next/captain/pageComponents/switcher/useAssistantSwitcher';
+import {
+  usePageCommands,
+  recordCommands,
+} from 'dashboard/modules/command-bar/composables/usePageCommands';
 
 const props = defineProps({
   currentPage: {
@@ -66,6 +71,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  containerClass: {
+    type: String,
+    default: 'max-w-[71rem]',
+  },
 });
 
 const emit = defineEmits(['click', 'close', 'update:currentPage']);
@@ -74,6 +83,7 @@ const { t } = useI18n();
 
 const route = useRoute();
 const { shouldShowPaywall } = usePolicy();
+const { switchAssistant } = useAssistantSwitcher();
 
 const showAssistantSwitcherDropdown = ref(false);
 const createAssistantDialogRef = ref(null);
@@ -112,12 +122,27 @@ const handleCreateAssistant = () => {
   showAssistantSwitcherDropdown.value = false;
   createAssistantDialogRef.value.dialogRef.open();
 };
+
+usePageCommands(() => {
+  if (!props.showAssistantSwitcher || showPaywall.value) return [];
+
+  return recordCommands({
+    id: 'switch_assistant',
+    title: t('COMMAND_BAR.COMMANDS.SWITCH_ASSISTANT'),
+    icon: 'i-woot-captain',
+    records: assistants.value.filter(
+      assistant => assistant.id !== Number(currentAssistantId.value)
+    ),
+    label: assistant => assistant.name,
+    run: switchAssistant,
+  });
+});
 </script>
 
 <template>
   <section class="flex flex-col w-full h-full overflow-hidden bg-n-surface-1">
     <header class="sticky top-0 z-10 px-6">
-      <div class="w-full max-w-5xl mx-auto">
+      <div class="w-full mx-auto" :class="containerClass">
         <div
           class="flex items-start lg:items-center justify-between w-full py-6 lg:py-0 lg:h-20 gap-4 lg:gap-2 flex-col lg:flex-row"
         >
@@ -182,7 +207,8 @@ const handleCreateAssistant = () => {
             </div>
           </div>
 
-          <div class="flex gap-2">
+          <div class="flex items-center gap-2">
+            <slot name="headerActions" />
             <slot name="search" />
             <div
               v-if="!showPaywall && buttonLabel"
@@ -206,7 +232,7 @@ const handleCreateAssistant = () => {
       </div>
     </header>
     <main class="flex-1 px-6 overflow-y-auto">
-      <div class="w-full max-w-5xl h-full mx-auto py-4">
+      <div class="w-full h-full py-4 mx-auto" :class="containerClass">
         <slot v-if="!showPaywall" name="controls" />
         <div
           v-if="isFetching"

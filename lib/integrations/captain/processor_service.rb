@@ -1,4 +1,14 @@
 class Integrations::Captain::ProcessorService < Integrations::BotProcessorService
+  # The long ceiling of the sweep, and deliberately so: on the other side of this call an
+  # assistant is composing an answer, so the thinking time before the first byte is the
+  # whole point of the call and not a symptom. A short ceiling here would not protect a
+  # worker, it would turn every slow answer into no answer at all.
+  #
+  # `max_retries: 0` matters more here than anywhere else: this is not idempotent in any
+  # sense the caller cares about, since a repeat is a second answer written into the
+  # conversation.
+  CAPTAIN_REQUEST_OPTIONS = { timeout: 120, max_retries: 0 }.freeze
+
   pattr_initialize [:event_name!, :hook!, :event_data!]
 
   private
@@ -45,7 +55,7 @@ class Integrations::Captain::ProcessorService < Integrations::BotProcessorServic
       previous_messages: previous_messages
     }
 
-    response = HTTParty.post(url, headers: headers, body: body.to_json)
+    response = HTTParty.post(url, headers: headers, body: body.to_json, **CAPTAIN_REQUEST_OPTIONS)
     response.parsed_response['message']
   end
 

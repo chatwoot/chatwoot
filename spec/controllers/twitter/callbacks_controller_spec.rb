@@ -6,7 +6,7 @@ RSpec.describe 'Twitter::CallbacksController', type: :request do
   let(:raw_response) { double }
   let(:user_object_rsponse) do
     OpenStruct.new(
-      body: '{"profile_background_color":"000000","profile_background_image_url":"http:\\/\\/abs.twimg.com\\/images\\/themes\\/theme1\\/bg.png"}',
+      body: { 'profile_image_url_https' => 'https://abs.twimg.com/profile.png' },
       status: 200,
       success?: true
     )
@@ -22,7 +22,6 @@ RSpec.describe 'Twitter::CallbacksController', type: :request do
     allow(twitter_response).to receive(:raw_response).and_return(raw_response)
     allow(raw_response).to receive(:body).and_return('oauth_token=1&oauth_token_secret=1&user_id=100&screen_name=chatwoot')
     allow(twitter_client).to receive(:user_show).and_return(user_object_rsponse)
-    allow(JSON).to receive(:parse).and_return(user_object_rsponse)
     allow(Twitter::WebhookSubscribeService).to receive(:new).and_return(webhook_service)
   end
 

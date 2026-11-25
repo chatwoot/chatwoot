@@ -1,0 +1,16 @@
+{
+  "AGENT_BOTS": {
+    "OBSERVERS": {
+      "TITLE": "Observer bots",
+      "DESC": "Observers receive every event of this inbox but never answer it and never own a conversation. Use them for bots that classify, review or measure the conversations your team or another bot handles.",
+      "ADD": "Add observer",
+      "REMOVE": "Remove",
+      "EMPTY": "No observer bot on this inbox.",
+      "SELECT_PLACEHOLDER": "Select bot",
+      "ADD_SUCCESS": "Observer added.",
+      "ADD_ERROR": "Could not add the observer. Please try again.",
+      "REMOVE_SUCCESS": "Observer removed.",
+      "REMOVE_ERROR": "Could not remove the observer. Please try again."
+    }
+  }
+}

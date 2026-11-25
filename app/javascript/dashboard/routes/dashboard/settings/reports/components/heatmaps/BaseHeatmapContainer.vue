@@ -8,7 +8,6 @@ import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useLiveRefresh } from 'dashboard/composables/useLiveRefresh';
 import differenceInCalendarDays from 'date-fns/differenceInCalendarDays';
 import endOfDay from 'date-fns/endOfDay';
-import format from 'date-fns/format';
 import getUnixTime from 'date-fns/getUnixTime';
 import startOfDay from 'date-fns/startOfDay';
 import startOfMonth from 'date-fns/startOfMonth';
@@ -17,6 +16,7 @@ import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.v
 import Button from 'dashboard/components-next/button/Button.vue';
 import { useI18n } from 'vue-i18n';
 import { downloadCsvFile } from 'dashboard/helper/downloadHelper';
+import { formatFixed } from 'shared/helpers/localizedDate';
 
 const props = defineProps({
   metric: {
@@ -113,6 +113,34 @@ const selectedInboxFilter = computed(() => {
 });
 
 const isLoading = computed(() => uiFlags.value[props.uiFlagKey]);
+const isResolutionHeatmap = computed(
+  () => props.metric === 'resolutions_count'
+);
+const heatmapAriaLabel = computed(() =>
+  t('OVERVIEW_REPORTS.HEATMAP_ARIA_LABEL', { metric: props.title })
+);
+
+const formatHeatmapValue = value => {
+  if (isResolutionHeatmap.value) {
+    if (!value) {
+      return t('OVERVIEW_REPORTS.RESOLUTION_HEATMAP.NO_CONVERSATIONS');
+    }
+    return value === 1
+      ? t('OVERVIEW_REPORTS.RESOLUTION_HEATMAP.CONVERSATION', { count: value })
+      : t('OVERVIEW_REPORTS.RESOLUTION_HEATMAP.CONVERSATIONS', {
+          count: value,
+        });
+  }
+
+  if (!value) {
+    return t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.NO_CONVERSATIONS');
+  }
+  return value === 1
+    ? t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.CONVERSATION', { count: value })
+    : t('OVERVIEW_REPORTS.CONVERSATION_HEATMAP.CONVERSATIONS', {
+        count: value,
+      });
+};
 
 // Keeps relative presets (last 7 days / this month) aligned with "now" during live refreshes.
 const resolveActiveRange = () => {
@@ -167,7 +195,7 @@ const downloadHeatmapData = () => {
   // Convert heatmap data to rows
   heatmapData.value.forEach(item => {
     const date = new Date(item.timestamp * 1000);
-    const dateStr = format(date, 'yyyy-MM-dd');
+    const dateStr = formatFixed(date, 'yyyy-MM-dd');
     const hour = date.getHours();
     rows.push([dateStr, `${hour}:00 - ${hour + 1}:00`, item.value]);
   });
@@ -179,7 +207,7 @@ const downloadHeatmapData = () => {
   const inboxName = selectedInbox.value
     ? `_${selectedInbox.value.name.replace(/[^a-z0-9]/gi, '_')}`
     : '';
-  const fileName = `${props.downloadTitle}${inboxName}_${format(
+  const fileName = `${props.downloadTitle}${inboxName}_${formatFixed(
     new Date(),
     'dd-MM-yyyy'
   )}.csv`;
@@ -307,6 +335,8 @@ onMounted(() => {
         :number-of-rows="numberOfRows"
         :is-loading="isLoading"
         :color-scheme="colorScheme"
+        :aria-label="heatmapAriaLabel"
+        :format-value="formatHeatmapValue"
       />
     </MetricCard>
   </div>

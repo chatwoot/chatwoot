@@ -30,12 +30,12 @@ RSpec.describe Account::ConversationsResolutionSchedulerJob, type: :job do
       end
     end
 
-    context 'when account has captain auto resolve disabled' do
+    context 'when assistant has captain auto resolve disabled' do
       let!(:regular_inbox) { create(:inbox, account: account) }
 
       before do
         create(:captain_inbox, captain_assistant: assistant, inbox: regular_inbox)
-        account.update!(captain_auto_resolve_mode: 'disabled')
+        assistant.update!(auto_resolve_mode: 'disabled')
       end
 
       it 'does not enqueue resolution jobs' do
@@ -46,11 +46,25 @@ RSpec.describe Account::ConversationsResolutionSchedulerJob, type: :job do
       end
     end
 
+    it 'schedules Captain auto-resolution despite an existing cross-account Dialogflow hook' do
+      regular_inbox = create(:inbox, account: account)
+      create(:captain_inbox, captain_assistant: assistant, inbox: regular_inbox)
+      foreign_account = create(:account)
+      hook = create(:integrations_hook, :dialogflow, account: foreign_account, inbox: create(:inbox, account: foreign_account))
+      # Reproduce rows accepted before inbox ownership validation was added.
+      Integrations::Hook.where(id: hook.id).update_all(inbox_id: regular_inbox.id) # rubocop:disable Rails/SkipsModelValidations
+
+      expect do
+        described_class.perform_now
+      end.to have_enqueued_job(Captain::InboxPendingConversationsResolutionJob).with(regular_inbox).exactly(:once)
+    end
+
     context 'when account uses legacy disabled settings key' do
       let!(:regular_inbox) { create(:inbox, account: account) }
 
       before do
         create(:captain_inbox, captain_assistant: assistant, inbox: regular_inbox)
+        assistant.update!(config: assistant.config.except('auto_resolve_mode'))
         account.update!(settings: account.settings.merge('captain_disable_auto_resolve' => true))
       end
 
@@ -59,6 +73,39 @@ RSpec.describe Account::ConversationsResolutionSchedulerJob, type: :job do
           described_class.perform_now
         end.not_to have_enqueued_job(Captain::InboxPendingConversationsResolutionJob)
           .with(regular_inbox)
+      end
+    end
+
+    it 'does not enqueue resolution jobs for inboxes with an external bot' do
+      regular_inbox = create(:inbox, account: account)
+      create(:captain_inbox, captain_assistant: assistant, inbox: regular_inbox)
+      connection = create(:agent_bot_inbox, inbox: regular_inbox, agent_bot: create(:agent_bot, account: account), status: :inactive)
+      # Keep coverage for existing duplicate connections until they are eliminated.
+      connection.update_column(:status, AgentBotInbox.statuses[:active]) # rubocop:disable Rails/SkipsModelValidations
+
+      expect do
+        described_class.perform_now
+      end.not_to have_enqueued_job(Captain::InboxPendingConversationsResolutionJob)
+        .with(regular_inbox)
+    end
+
+    context 'when an assistant has been deleted before its inbox link is cleaned up' do
+      let!(:orphaned_inbox) { create(:inbox, account: account) }
+      let!(:regular_inbox) { create(:inbox, account: account) }
+      let!(:active_assistant) { create(:captain_assistant, account: account) }
+
+      before do
+        create(:captain_inbox, captain_assistant: assistant, inbox: orphaned_inbox)
+        create(:captain_inbox, captain_assistant: active_assistant, inbox: regular_inbox)
+        assistant.destroy!
+      end
+
+      it 'skips the missing assistant and schedules later valid inboxes' do
+        expect do
+          described_class.perform_now
+        end.to have_enqueued_job(Captain::InboxPendingConversationsResolutionJob)
+          .with(regular_inbox)
+          .exactly(:once)
       end
     end
 

@@ -151,6 +151,31 @@ describe ChannelListener do
       expect(channel).to have_received(:read_messages)
     end
 
+    it 'sends only the messages named by message_ids, ignoring last_seen_at' do
+      old_message = create(:message, conversation: conversation, message_type: :incoming, status: :sent, updated_at: last_seen_at - 1.day)
+      create(:message, conversation: conversation, message_type: :incoming, status: :sent, updated_at: Time.zone.now)
+
+      allow(channel).to receive(:read_messages).with([old_message], conversation: conversation)
+
+      listener.messages_read(
+        Events::Base.new(Events::Types::MESSAGES_READ, Time.zone.now, conversation: conversation, message_ids: [old_message.id])
+      )
+
+      expect(channel).to have_received(:read_messages)
+    end
+
+    it 'skips messages already read even when named by message_ids' do
+      read_message = create(:message, conversation: conversation, message_type: :incoming, status: :read)
+
+      allow(channel).to receive(:read_messages)
+
+      listener.messages_read(
+        Events::Base.new(Events::Types::MESSAGES_READ, Time.zone.now, conversation: conversation, message_ids: [read_message.id])
+      )
+
+      expect(channel).not_to have_received(:read_messages)
+    end
+
     it 'filters messages based on last_seen_at' do
       create(:message, conversation: conversation, message_type: :incoming, status: :sent, updated_at: last_seen_at - 1.day)
       recent_message = create(:message, conversation: conversation, message_type: :incoming, status: :sent, updated_at: Time.zone.now)

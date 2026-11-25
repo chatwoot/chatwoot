@@ -1,0 +1,11 @@
+{
+  "v": 1,
+  "id": "cmd_000031",
+  "type": "call.accept",
+  "sid": "9f1c0f4e-6a2b-4c8e-9d1a-2b3c4d5e6f70",
+  "ts": 1755440000123,
+  "payload": {
+    "call_id": "call_01j9y1",
+    "sdp": "v=0\r\no=- 7520317730208134702 2 IN IP4 127.0.0.1\r\ns=-\r\nt=0 0\r\na=group:BUNDLE 0\r\nm=audio 9 UDP/TLS/RTP/SAVPF 9\r\nc=IN IP4 0.0.0.0\r\na=mid:0\r\na=sendrecv\r\na=rtpmap:9 G722/8000\r\n"
+  }
+}

@@ -108,6 +108,27 @@ describe('#applyPageFilters', () => {
     });
   });
 
+  describe('#filter-group-type', () => {
+    const individual = { ...conversationList[0], group_type: 'individual' };
+    const group = { ...conversationList[0], group_type: 'group' };
+
+    it('keeps only the type the filter names', () => {
+      const filters = { status: 'open', groupType: 'group' };
+      expect(applyPageFilters(group, filters)).toEqual(true);
+      expect(applyPageFilters(individual, filters)).toEqual(false);
+    });
+
+    it('keeps both when the filter is unset or set to all, like the server does', () => {
+      expect(applyPageFilters(individual, { status: 'open' })).toEqual(true);
+      expect(
+        applyPageFilters(individual, { status: 'open', groupType: 'all' })
+      ).toEqual(true);
+      expect(
+        applyPageFilters(group, { status: 'open', groupType: 'all' })
+      ).toEqual(true);
+    });
+  });
+
   describe('#filter-status', () => {
     it('returns true if conversation has status and status filter is active', () => {
       const filters = {

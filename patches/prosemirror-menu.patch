@@ -1,0 +1,44 @@
+diff --git a/dist/index.cjs b/dist/index.cjs
+index a837b6c223bf81705e58e3945832e4b862e5bad1..0ed03f6774dd6c4e76a58d32b428e014776e0089 100644
+--- a/dist/index.cjs
++++ b/dist/index.cjs
+@@ -652,7 +652,7 @@ var MenuBarView = function () {
+           top = scrollAncestor ? Math.max(0, scrollAncestor.getBoundingClientRect().top) : 0;
+ 
+       if (this.floating) {
+-        if (editorRect.top >= top || editorRect.bottom < this.menu.offsetHeight + 10) {
++        if (editorRect.top >= top || editorRect.bottom < top + 10) {
+           this.floating = false;
+           this.menu.style.position = this.menu.style.left = this.menu.style.top = this.menu.style.width = "";
+           this.menu.style.display = "";
+@@ -665,7 +665,7 @@ var MenuBarView = function () {
+           if (scrollAncestor) this.menu.style.top = top + "px";
+         }
+       } else {
+-        if (editorRect.top < top && editorRect.bottom >= this.menu.offsetHeight + 10) {
++        if (editorRect.top < top && editorRect.bottom >= top + 10) {
+           this.floating = true;
+           var menuRect = this.menu.getBoundingClientRect();
+           this.menu.style.left = menuRect.left + "px";
+diff --git a/dist/index.js b/dist/index.js
+index 341abd28f96f1929c0826677bb37fd56180894ab..499a7ea1e60c0ece6cf6dae86d0a7fdc51541835 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -541,7 +541,7 @@ class MenuBarView {
+     updateFloat(scrollAncestor) {
+         let parent = this.wrapper, editorRect = parent.getBoundingClientRect(), top = scrollAncestor ? Math.max(0, scrollAncestor.getBoundingClientRect().top) : 0;
+         if (this.floating) {
+-            if (editorRect.top >= top || editorRect.bottom < this.menu.offsetHeight + 10) {
++            if (editorRect.top >= top || editorRect.bottom < top + 10) {
+                 this.floating = false;
+                 this.menu.style.position = this.menu.style.left = this.menu.style.top = this.menu.style.width = "";
+                 this.menu.style.display = "";
+@@ -558,7 +558,7 @@ class MenuBarView {
+             }
+         }
+         else {
+-            if (editorRect.top < top && editorRect.bottom >= this.menu.offsetHeight + 10) {
++            if (editorRect.top < top && editorRect.bottom >= top + 10) {
+                 this.floating = true;
+                 let menuRect = this.menu.getBoundingClientRect();
+                 this.menu.style.left = menuRect.left + "px";

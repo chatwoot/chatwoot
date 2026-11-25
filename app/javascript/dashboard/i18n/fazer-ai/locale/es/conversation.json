@@ -1,0 +1,146 @@
+{
+  "CONVERSATION": {
+    "ANNOUNCEMENT_MODE_BANNER": "Solo los administradores pueden enviar mensajes en este grupo",
+    "GROUP_LEFT_BANNER": "Ya no forma parte de este grupo y no puede enviar mensajes en él",
+    "GROUPS_DISABLED_BANNER": "Los mensajes de grupo están desactivados. Active la compatibilidad completa con grupos (gratis) para ver y enviar mensajes.",
+    "GROUPS_DISABLED_BANNER_NON_ADMIN": "Los mensajes de grupo están desactivados. Contacte a su administrador para activar la compatibilidad completa con grupos.",
+    "GROUPS_DISABLED_CTA": "Vea cómo activarla (gratis)",
+    "FOOTER": {
+      "SIGNATURE_LABEL_TOP": "↓ Firma",
+      "SIGNATURE_LABEL_TOP_TOOLTIP": "La firma se enviará al principio del mensaje",
+      "SIGNATURE_LABEL_BOTTOM": "↑ Firma",
+      "SIGNATURE_LABEL_BOTTOM_TOOLTIP": "La firma se enviará al final del mensaje",
+      "ANNOUNCEMENT_MODE_RESTRICTED": "Solo los administradores pueden enviar mensajes en este grupo",
+      "GROUP_LEFT_RESTRICTED": "Ya no forma parte de este grupo y no puede enviar mensajes en él",
+      "GROUPS_DISABLED_RESTRICTED": "Los mensajes de grupo están desactivados: actívelos gratis"
+    },
+    "REPLYBOX": {
+      "SCHEDULE_SEND": "Programar envío",
+      "ATTACHMENT_DISCARDED_ON_MODE_CHANGE": "El archivo adjunto se descartó porque la conversación cambió entre nota y respuesta.",
+      "RECORDING_DISCARDED_ON_MODE_CHANGE": "La grabación se descartó porque la conversación cambió entre nota y respuesta."
+    },
+    "ASSIGNMENT_CONFLICT": {
+      "TITLE": "La conversación ya está asignada",
+      "DESCRIPTION": "{agentName} ya está atendiendo esta conversación. Pídale que la libere o pida a un administrador que la reasigne.",
+      "DESCRIPTION_UNKNOWN_AGENT": "Otro agente ya está atendiendo esta conversación. Pídale que la libere o pida a un administrador que la reasigne.",
+      "CONFIRM": "Entendido",
+      "OUTSIDE_WORKING_HOURS": {
+        "TITLE": "Bandeja fuera del horario de atención",
+        "DESCRIPTION": "Las conversaciones de esta bandeja solo se pueden asignar dentro de su horario de atención. Inténtelo de nuevo cuando abra, o pida a un administrador."
+      }
+    },
+    "CHANGE_TEAM_FAILED": "No se pudo cambiar el equipo",
+    "MESSAGE_DELETED_BY_CONTACT": "Eliminado por el contacto",
+    "MASKED_MESSAGE_WHATSAPP": "WhatsApp no entrega códigos de verificación a los dispositivos vinculados. Este mensaje solo se puede leer en el teléfono vinculado.",
+    "VIEW_ONCE_MESSAGE_WHATSAPP": "WhatsApp no entrega mensajes de visualización única a los dispositivos vinculados. Este mensaje solo se puede abrir en el teléfono vinculado.",
+    "WHATSAPP": "WhatsApp",
+    "CONTEXT_MENU": {
+      "EDIT": {
+        "LABEL": "Editar",
+        "TITLE": "Editar mensaje",
+        "PLACEHOLDER": "Escriba el contenido del mensaje",
+        "SAVE": "Guardar",
+        "CANCEL": "Cancelar",
+        "SUCCESS": "Mensaje editado correctamente",
+        "ERROR": "No se pudo editar el mensaje",
+        "EMPTY_CONTENT": "El contenido del mensaje no puede estar vacío"
+      }
+    },
+    "REACTIONS": {
+      "ADD_REACTION": "Añadir reacción",
+      "MORE_EMOJIS": "Más emojis",
+      "FAILED": "No se pudo actualizar la reacción. Inténtelo de nuevo.",
+      "YOU": "Usted",
+      "CLICK_TO_REMOVE": "Haga clic para quitarla",
+      "QUICK": {
+        "THUMBS_UP": "Pulgar arriba",
+        "HEART": "Corazón",
+        "JOY": "Risa",
+        "SURPRISED": "Sorpresa",
+        "SAD": "Tristeza",
+        "PRAY": "Súplica",
+        "FIRE": "Fuego",
+        "PARTY": "Fiesta"
+      }
+    },
+    "INBOX": {
+      "WHATSAPP_PROVIDER_CONNECTION": {
+        "NOT_CONNECTED": "WhatsApp no está conectado. Vincule su dispositivo de nuevo.",
+        "NOT_CONNECTED_CONTACT_ADMIN": "WhatsApp no está conectado. Haga clic en este botón para intentar reconectar o contacte a su administrador para vincular el dispositivo de nuevo.",
+        "LINK_DEVICE": "Vincular dispositivo",
+        "RECONNECT_FAILED": "No se pudo reconectar. Contacte a su administrador para vincular el dispositivo de nuevo.",
+        "SEND_STALL": "WhatsApp está conectado, pero no puede enviar mensajes. Vincule el dispositivo de nuevo para restablecer el envío.",
+        "SEND_STALL_CONTACT_ADMIN": "WhatsApp está conectado, pero no puede enviar mensajes. Sus respuestas no se entregarán hasta que un administrador vincule el dispositivo de nuevo."
+      },
+      "WHATSAPP_REACHOUT_RESTRICTION": {
+        "RESTRICTED": "WhatsApp ha restringido temporalmente el inicio de conversaciones nuevas desde este número.",
+        "RESTRICTED_UNTIL": "WhatsApp ha restringido temporalmente el inicio de conversaciones nuevas desde este número hasta las {time}."
+      },
+      "WHATSAPP_NEW_CHAT_CAP": {
+        "WARNING": "Este número se está acercando a su límite de WhatsApp para iniciar conversaciones nuevas en este ciclo.",
+        "WARNING_WITH_QUOTA": "Este número ha iniciado {used} de {total} conversaciones nuevas permitidas por WhatsApp en este ciclo.",
+        "CAPPED": "Este número alcanzó su límite de WhatsApp para iniciar conversaciones nuevas en este ciclo.",
+        "CAPPED_WITH_QUOTA": "Este número alcanzó su límite de WhatsApp ({used} de {total}) para iniciar conversaciones nuevas en este ciclo."
+      }
+    },
+    "PIN": {
+      "PIN": "Fijar la conversación",
+      "UNPIN": "Dejar de fijar la conversación",
+      "PINNED_TOOLTIP": "Conversación fijada",
+      "ERROR": "No se pudo actualizar la conversación fijada. Inténtelo de nuevo."
+    },
+    "CARD_CONTEXT_MENU": {
+      "PIN": "Fijar",
+      "UNPIN": "Dejar de fijar"
+    },
+    "HISTORY_SYNC": {
+      "BUTTON": "Cargar mensajes más antiguos",
+      "HELP": "Pide al teléfono lo que vino antes. Tiene que estar encendido para responder, y se queda en silencio cuando ya envió este tramo.",
+      "REQUESTED": "Le pedimos al teléfono los mensajes más antiguos. Aparecen aquí a medida que los envía.",
+      "REQUESTED_BY_DATE": "Le pedimos al teléfono los mensajes más antiguos. Cada uno va a la conversación de la fecha en que se envió, así que búscalos en las conversaciones anteriores de este contacto.",
+      "ERROR": "No se pudieron pedir los mensajes más antiguos. Inténtalo de nuevo en un momento.",
+      "EXHAUSTED": "No hay nada más antiguo aquí. El resto de esta conversación está solo en el teléfono."
+    },
+    "FILE_IS_EMPTY": "Este archivo está vacío y no se puede enviar",
+    "PICKER": {
+      "VARIABLE": {
+        "AUTOMATION": {
+          "ASSIGNEE_NAME": "Nombre del agente asignado a la conversación",
+          "BEFORE_ASSIGNEE_NAME": "Agente asignado a la conversación antes de que la regla se ejecutara",
+          "BEFORE_ATTRIBUTE": "{name} antes de que la regla se ejecutara"
+        }
+      }
+    },
+    "WHATSAPP_NUMBER_MISSING_BANNER": "Este número no tenía WhatsApp cuando se verificó el {date}. Los mensajes enviados a él no se entregan.",
+    "HISTORY_MEDIA": {
+      "PENDING": "Este archivo del historial importado todavía no se descargó.",
+      "DOWNLOAD": "Descargar archivo",
+      "REQUESTED": "Descarga solicitada. El archivo aparecerá aquí cuando llegue.",
+      "ERROR": "No se pudo solicitar la descarga. Inténtalo de nuevo.",
+      "UNAVAILABLE": "Este archivo ya no está disponible en WhatsApp.",
+      "DOWNLOAD_ALL": "Descargar archivos del historial",
+      "DOWNLOAD_ALL_REQUESTED": "Descargando los archivos del historial de esta conversación. Aparecerán a medida que lleguen.",
+      "DOWNLOAD_ALL_ERROR": "No se pudieron solicitar los archivos del historial. Inténtalo de nuevo."
+    },
+    "CATALOG": {
+      "PRODUCT_LABEL": "Producto del catálogo",
+      "PRODUCT_UNREADABLE": "Mensaje con un producto del catálogo. Míralo en WhatsApp.",
+      "VIEW": "Ver",
+      "ORDER_LABEL": "Pedido",
+      "ITEM_COUNT": "{count} artículo | {count} artículos",
+      "ESTIMATED_TOTAL": "{total} (total estimado)",
+      "VIEW_ORDER": "Ver pedido",
+      "HIDE_ORDER": "Ocultar artículos",
+      "QUANTITY": "Cantidad: {quantity}",
+      "QUANTITY_PRICE": "Cantidad: {quantity} · {price}"
+    },
+    "RICH": {
+      "VIEW_OPTIONS": "Ver opciones"
+    }
+  },
+  "CONVERSATION_SIDEBAR": {
+    "ACCORDION": {
+      "SCHEDULED_MESSAGES": "Mensajes programados"
+    }
+  }
+}

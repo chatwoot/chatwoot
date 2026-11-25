@@ -1,90 +1,29 @@
-const WEEKDAY_NAMES_EN = [
-  'Sunday',
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
-];
+import {
+  dateTimeFormat,
+  formatLocalized,
+  normalizeLocale,
+} from 'shared/helpers/localizedDate';
 
-const WEEKDAY_NAMES_PT = [
-  'domingo',
-  'segunda-feira',
-  'terça-feira',
-  'quarta-feira',
-  'quinta-feira',
-  'sexta-feira',
-  'sábado',
-];
-
-const WEEKDAY_NAMES_SHORT_EN = [
-  'Sun',
-  'Mon',
-  'Tue',
-  'Wed',
-  'Thu',
-  'Fri',
-  'Sat',
-];
-
-const WEEKDAY_NAMES_SHORT_PT = [
-  'dom',
-  'seg',
-  'ter',
-  'qua',
-  'qui',
-  'sex',
-  'sáb',
-];
-
-const ORDINALS_EN = {
-  1: 'first',
-  2: 'second',
-  3: 'third',
-  4: 'fourth',
-  5: 'fifth',
-  '-1': 'last',
+// Day and month names come from Intl in the language being shown, so every
+// language gets them, not only the two that once had a table here. The
+// trailing dot of a short name ("sáb.") is dropped, as the labels always had.
+const intlNames = (locale, options, dates) => {
+  const fmt = dateTimeFormat(normalizeLocale(locale), options);
+  return dates.map(date => fmt.format(date).replace(/\.$/, ''));
 };
 
-const ORDINALS_PT = {
-  1: '1º',
-  2: '2º',
-  3: '3º',
-  4: '4º',
-  5: '5º',
-  '-1': 'último(a)',
+// Jan 7, 2024 is a Sunday, so index 0 to 6 lines up with Date#getDay.
+const WEEK = [0, 1, 2, 3, 4, 5, 6].map(day => new Date(2024, 0, 7 + day));
+const YEAR = [...Array(12).keys()].map(month => new Date(2024, month, 1));
+
+const ORDINAL_KEYS = {
+  1: 'FIRST',
+  2: 'SECOND',
+  3: 'THIRD',
+  4: 'FOURTH',
+  5: 'FIFTH',
+  '-1': 'LAST',
 };
-
-const MONTH_NAMES_EN = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
-
-const MONTH_NAMES_PT = [
-  'janeiro',
-  'fevereiro',
-  'março',
-  'abril',
-  'maio',
-  'junho',
-  'julho',
-  'agosto',
-  'setembro',
-  'outubro',
-  'novembro',
-  'dezembro',
-];
 
 export const FREQUENCY_OPTIONS = ['daily', 'weekly', 'monthly', 'yearly'];
 
@@ -181,21 +120,26 @@ export function getRecurrenceShortcuts(date) {
 }
 
 function getWeekdayNames(locale) {
-  return locale?.startsWith('pt') ? WEEKDAY_NAMES_PT : WEEKDAY_NAMES_EN;
+  return intlNames(locale, { weekday: 'long' }, WEEK);
 }
 
 function getWeekdayShortNames(locale) {
-  return locale?.startsWith('pt')
-    ? WEEKDAY_NAMES_SHORT_PT
-    : WEEKDAY_NAMES_SHORT_EN;
+  return intlNames(locale, { weekday: 'short' }, WEEK);
 }
 
-function getOrdinals(locale) {
-  return locale?.startsWith('pt') ? ORDINALS_PT : ORDINALS_EN;
+function getOrdinal(nth, t) {
+  const key = ORDINAL_KEYS[String(nth)];
+  return key ? t(`SCHEDULED_MESSAGES.RECURRENCE.ORDINALS.${key}`) : nth;
 }
 
 function getMonthNames(locale) {
-  return locale?.startsWith('pt') ? MONTH_NAMES_PT : MONTH_NAMES_EN;
+  return intlNames(locale, { month: 'long' }, YEAR);
+}
+
+// The end date is a calendar day ("2026-12-20"); read it as local midnight.
+function formatEndDate(endDate) {
+  const [year, month, day] = endDate.split('-').map(Number);
+  return formatLocalized(new Date(year, month - 1, day), 'MMM d, yyyy');
 }
 
 /**
@@ -206,7 +150,6 @@ export function buildRecurrenceDescription(rule, t, locale = 'en') {
 
   const weekdayShortNames = getWeekdayShortNames(locale);
   const weekdayNames = getWeekdayNames(locale);
-  const ordinals = getOrdinals(locale);
   const descKey = key => `SCHEDULED_MESSAGES.RECURRENCE.DESCRIPTION.${key}`;
 
   const intervalDesc = (interval, oneKey, otherKey) => {
@@ -247,8 +190,7 @@ export function buildRecurrenceDescription(rule, t, locale = 'en') {
         'MONTHLY_OTHER'
       );
       if (rule.monthly_type === 'day_of_week') {
-        const ordinal =
-          ordinals[String(rule.monthly_week)] || rule.monthly_week;
+        const ordinal = getOrdinal(rule.monthly_week, t);
         const weekday = weekdayNames[rule.monthly_weekday] || '';
         description = t(descKey('MONTHLY_ON_WEEKDAY'), {
           prefix,
@@ -274,7 +216,9 @@ export function buildRecurrenceDescription(rule, t, locale = 'en') {
   }
 
   if (rule.end_type === 'on_date' && rule.end_date) {
-    description += ` · ${t(descKey('UNTIL_DATE'), { date: rule.end_date })}`;
+    description += ` · ${t(descKey('UNTIL_DATE'), {
+      date: formatEndDate(rule.end_date),
+    })}`;
   } else if (rule.end_type === 'after_count' && rule.end_count) {
     description += ` · ${t(descKey('AFTER_COUNT'), { count: rule.end_count })}`;
   }
@@ -288,7 +232,6 @@ export function buildRecurrenceDescription(rule, t, locale = 'en') {
 export function formatShortcutLabel(shortcut, t, locale = 'en') {
   const { label, labelParams } = shortcut;
   const weekdayNames = getWeekdayNames(locale);
-  const ordinals = getOrdinals(locale);
   const monthNames = getMonthNames(locale);
 
   if (!labelParams) return t(`SCHEDULED_MESSAGES.RECURRENCE.${label}`);
@@ -298,7 +241,7 @@ export function formatShortcutLabel(shortcut, t, locale = 'en') {
     params.day = weekdayNames[labelParams.day];
   }
   if (labelParams.nth !== undefined) {
-    params.nth = ordinals[String(labelParams.nth)] || labelParams.nth;
+    params.nth = getOrdinal(labelParams.nth, t);
   }
   if (labelParams.month !== undefined) {
     params.month = monthNames[labelParams.month];

@@ -33,6 +33,10 @@ class Whatsapp::ChannelCreationService
   def create_channel_with_inbox
     ActiveRecord::Base.transaction do
       channel = build_channel
+      # Saved on its own so an invalid channel raises its validation message. Left to the inbox's
+      # autosave, the channel silently fails to save and the inbox insert reaches the database with a
+      # null channel_id, so the operator read a PG::NotNullViolation instead of why.
+      channel.save!
       create_inbox(channel)
       channel
     end

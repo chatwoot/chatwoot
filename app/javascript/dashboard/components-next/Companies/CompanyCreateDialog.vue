@@ -26,6 +26,13 @@ const resetForm = () => {
   form.description = '';
 };
 
+const open = (company = {}) => {
+  form.name = company.name || '';
+  form.domain = company.domain || '';
+  form.description = company.description || '';
+  dialogRef.value?.open();
+};
+
 const handleConfirm = () => {
   if (isFormInvalid.value) return;
 
@@ -45,7 +52,7 @@ const onSuccess = () => {
   closeDialog();
 };
 
-defineExpose({ dialogRef, onSuccess });
+defineExpose({ dialogRef, onSuccess, open });
 </script>
 
 <template>

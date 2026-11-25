@@ -12,6 +12,15 @@ describe('#getters', () => {
     expect(getters.getBot(state)(11)).toEqual(agentBotRecords[0]);
   });
 
+  it('getObserverBots', () => {
+    const state = {
+      records: agentBotRecords,
+      agentBotObservers: { 5: [12, 99] },
+    };
+    expect(getters.getObserverBots(state)(5)).toEqual([agentBotRecords[1]]);
+    expect(getters.getObserverBots(state)(6)).toEqual([]);
+  });
+
   it('getUIFlags', () => {
     const state = {
       uiFlags: {

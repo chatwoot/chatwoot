@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref, watch, defineModel } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useToggle } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 import addMonths from 'date-fns/addMonths';
@@ -12,6 +12,7 @@ import subDays from 'date-fns/subDays';
 import { vOnClickOutside } from '@vueuse/components';
 import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
+import { dateTimeFormat } from 'shared/helpers/localizedDate';
 
 const emit = defineEmits(['rangeTypeChange', 'monthOffsetChange']);
 
@@ -59,12 +60,11 @@ const resolvedLocale = computed(() => {
   return currentLocale.replace('_', '-');
 });
 
-const monthFormatter = computed(
-  () =>
-    new Intl.DateTimeFormat(resolvedLocale.value, {
-      month: 'long',
-      year: 'numeric',
-    })
+const monthFormatter = computed(() =>
+  dateTimeFormat(resolvedLocale.value, {
+    month: 'long',
+    year: 'numeric',
+  })
 );
 
 const monthMenuItemConfigs = computed(() => {

@@ -1,5 +1,5 @@
 <script setup>
-import { h, defineProps } from 'vue';
+import { h } from 'vue';
 
 const props = defineProps({
   country: { type: String, required: true },

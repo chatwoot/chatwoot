@@ -278,6 +278,7 @@ RSpec.describe 'Internal Chat Channels API', type: :request do
       end
 
       it 'returns payment_required when private channel limit is reached' do
+        allow(InternalChat::Limits).to receive(:max_private_channels).and_return(2)
         create_list(:internal_chat_channel, 2, :private_channel, account: account)
 
         post "/api/v1/accounts/#{account.id}/internal_chat/channels",
@@ -292,6 +293,7 @@ RSpec.describe 'Internal Chat Channels API', type: :request do
       end
 
       it 'does not count archived private channels toward the limit' do
+        allow(InternalChat::Limits).to receive(:max_private_channels).and_return(2)
         create(:internal_chat_channel, :private_channel, account: account)
         create(:internal_chat_channel, :private_channel, :archived, account: account)
 
@@ -554,6 +556,7 @@ RSpec.describe 'Internal Chat Channels API', type: :request do
       end
 
       it 'returns payment_required when unarchiving a private channel would exceed the limit' do
+        allow(InternalChat::Limits).to receive(:max_private_channels).and_return(2)
         create_list(:internal_chat_channel, 2, :private_channel, account: account)
         archived_private = create(:internal_chat_channel, :private_channel, :archived, account: account, name: 'old-private')
 

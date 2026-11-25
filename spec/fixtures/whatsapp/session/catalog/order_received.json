@@ -1,0 +1,53 @@
+{
+  "id": "3EB0000000000000000004",
+  "chat": {
+    "kind": "lid",
+    "id": "182736451928374"
+  },
+  "sender": {
+    "phone": "5541999990000",
+    "lid": "182736451928374",
+    "push_name": "Ana Souza"
+  },
+  "from_me": false,
+  "timestamp": 1755440000123,
+  "content": {
+    "type": "rich",
+    "kind": "order",
+    "title": "3 items",
+    "footer": "R$129.70 (estimated total)",
+    "order": {
+      "id": "2000000000000001",
+      "title": "Loja Exemplo",
+      "item_count": 3,
+      "total_1000": 129700,
+      "currency": "BRL",
+      "subtotal_1000": 129700,
+      "seller": {
+        "kind": "lid",
+        "id": "918273645546372"
+      },
+      "thumbnail": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA==",
+      "items": [
+        {
+          "product_id": "1000000000000002",
+          "name": "Camiseta básica",
+          "quantity": 1,
+          "price_1000": 59900,
+          "currency": "BRL",
+          "image": "https://example.invalid/catalog/camiseta.jpg"
+        },
+        {
+          "product_id": "1000000000000001",
+          "name": "Caneca",
+          "quantity": 2,
+          "price_1000": 34900,
+          "currency": "BRL",
+          "image": "https://example.invalid/catalog/caneca.jpg"
+        }
+      ],
+      "status": "INQUIRY",
+      "surface": "CATALOG"
+    }
+  }
+}

@@ -17,6 +17,7 @@ import {
   AUTOMATIONS,
   DEFAULT_SCHEDULED_MESSAGE_DELAY_MINUTES,
 } from 'dashboard/routes/dashboard/settings/automation/constants.js';
+import { CUSTOM_ATTRIBUTE_EVENTS } from 'dashboard/constants/automation';
 
 /**
  * Composable for handling automation-related functionality.
@@ -56,7 +57,11 @@ export function useAutomation(startValue = null) {
    * Appends a new condition to the automation.value.
    */
   const appendNewCondition = () => {
-    const defaultCondition = getDefaultConditions(eventName.value);
+    const defaultCondition = getDefaultConditions(
+      eventName.value === 'monitor_matched'
+        ? 'conversation_created'
+        : eventName.value
+    );
     automation.value.conditions = [
       ...automation.value.conditions,
       ...defaultCondition,
@@ -76,7 +81,10 @@ export function useAutomation(startValue = null) {
    * @param {number} index - The index of the filter to remove.
    */
   const removeFilter = index => {
-    if (automation.value.conditions.length <= 1) {
+    if (
+      automation.value.conditions.length <= 1 &&
+      eventName.value !== 'monitor_matched'
+    ) {
       useAlert(t('AUTOMATION.CONDITION.DELETE_MESSAGE'));
     } else {
       automation.value.conditions = automation.value.conditions.filter(
@@ -174,12 +182,11 @@ export function useAutomation(startValue = null) {
       'contact_custom_attribute',
     ]);
 
-    [
-      'message_created',
-      'conversation_created',
-      'conversation_updated',
-      'conversation_opened',
-    ].forEach(eventToUpdate => {
+    // The list is named in `dashboard/constants/automation`, not spelled out here. It used to name
+    // `message_created` alone and reached the edit trigger only because the two shared one object,
+    // so anything that replaced `automationTypes.message_created` detached the edit trigger from its
+    // custom attributes without a word. #667
+    CUSTOM_ATTRIBUTE_EVENTS.forEach(eventToUpdate => {
       const standardConditions = automationTypes[
         eventToUpdate
       ].conditions.filter(

@@ -1,0 +1,178 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# enterprise/ is upstream's code, shipped as upstream publishes it. The fork does not modify it
+# (bin/validate_enterprise_parity checks the files), and it does not change it from outside
+# either: no overlay directory loaded after it, no class or module of Enterprise's reopened
+# elsewhere, no prepend, include or class_eval aimed at one of its constants. This checks the
+# second half, statically, so it runs without booting the app:
+#
+#   bin/validate_enterprise_isolation           every Ruby file outside enterprise/ and spec/
+#   bin/validate_enterprise_isolation FILE...   only these files (the pre-commit hook)
+#
+# Enterprise's constants are read off its own files: the class or module each file is named
+# after, the way Zeitwerk maps it. A name CE also defines in a file of its own is CE's, and
+# enterprise/ only refining it through prepend_mod_with is upstream's mechanism, untouched here.
+#
+# spec/lint/enterprise_isolation_spec.rb runs this and adds the check only a booted app can
+# make: no module prepended from CE code overrides a method Enterprise defines.
+
+require 'prism'
+require 'pathname'
+
+ROOT = Pathname.new(File.expand_path('..', __dir__))
+OVERLAY = 'fazer_ai_ee'
+# Every way of changing a class or module from the outside that leaves its file untouched.
+PATCH_CALLS = %i[
+  prepend include extend class_eval module_eval class_exec module_exec instance_eval
+  define_method alias_method remove_method undef_method
+].freeze
+SKIPPED_DIRS = %w[enterprise spec node_modules vendor tmp public log storage coverage .git].freeze
+# Where Zeitwerk roots constants inside an app tree: each of these is a root of its own, so a
+# file under it names a top-level constant.
+ROOT_SUBDIRS = %w[concerns].freeze
+
+def normalize(name)
+  name.to_s.downcase.delete('_').gsub('::', '/')
+end
+
+# The constant path a definition names, given the namespaces around it.
+def constant_name(node)
+  case node
+  when Prism::ConstantReadNode then node.name.to_s
+  when Prism::ConstantPathNode
+    parent = node.parent
+    return node.name.to_s if parent.nil? # ::Foo
+
+    prefix = constant_name(parent)
+    prefix && "#{prefix}::#{node.name}"
+  end
+end
+
+# Every class and module a file defines, fully qualified by its nesting.
+def definitions(source)
+  found = []
+  walk = lambda do |node, nesting|
+    return if node.nil?
+
+    if node.is_a?(Prism::ClassNode) || node.is_a?(Prism::ModuleNode)
+      name = constant_name(node.constant_path)
+      qualified = name && [*nesting, name].join('::').delete_prefix('::')
+      found << [qualified, node.location.start_line] if qualified
+      node.compact_child_nodes.each { |child| walk.call(child, qualified ? [qualified] : nesting) }
+    else
+      node.compact_child_nodes.each { |child| walk.call(child, nesting) }
+    end
+  end
+  walk.call(Prism.parse(source).value, [])
+  found
+end
+
+# Calls that patch a constant from the outside: `Foo.prepend(M)`, `Foo::Bar.class_eval { }`,
+# `Foo.singleton_class.prepend(M)`, `Foo.send(:include, M)`.
+def patch_calls(source)
+  found = []
+  stack = [Prism.parse(source).value]
+  until stack.empty?
+    node = stack.pop
+    stack.concat(node.compact_child_nodes)
+    next unless node.is_a?(Prism::CallNode)
+
+    method = node.name
+    if %i[send public_send __send__].include?(method)
+      first = node.arguments&.arguments&.first
+      next unless first.is_a?(Prism::SymbolNode) && PATCH_CALLS.include?(first.unescaped.to_sym)
+
+      method = first.unescaped.to_sym
+    end
+    next unless PATCH_CALLS.include?(method)
+
+    receiver = node.receiver
+    receiver = receiver.receiver if receiver.is_a?(Prism::CallNode) && receiver.name == :singleton_class
+    name = constant_name(receiver)
+    found << [name, method, node.location.start_line] if name
+  end
+  found
+end
+
+# The constant a file under an app or lib tree is named after, normalized, or nil.
+def primary_constant(relative)
+  parts = relative.delete_suffix('.rb').split('/')
+  if parts[0] == 'app' && parts.size > 2
+    parts = parts.drop(2)
+    parts = parts.drop(1) while ROOT_SUBDIRS.include?(parts.first) && parts.size > 1
+  elsif parts[0] == 'lib' && parts.size > 1
+    parts = parts.drop(1)
+  else
+    return
+  end
+  parts.join('/')
+end
+
+def ruby_files(dir)
+  Dir.glob(dir.join('**/*.rb').to_s).map { |path| Pathname.new(path) }
+end
+
+def ce_files
+  Dir.children(ROOT).flat_map do |entry|
+    next [] if SKIPPED_DIRS.include?(entry) || entry.start_with?('.')
+
+    path = ROOT.join(entry)
+    if path.directory?
+      ruby_files(path)
+    else
+      entry.end_with?('.rb') || %w[Gemfile Rakefile].include?(entry) ? [path] : []
+    end
+  end
+end
+
+def enterprise_constants
+  enterprise = ROOT.join('enterprise')
+  return {} unless enterprise.directory?
+
+  ce_primaries = ce_files.filter_map { |path| primary_constant(path.relative_path_from(ROOT).to_s) }.to_set
+  ruby_files(enterprise).each_with_object({}) do |path, owned|
+    expected = primary_constant(path.relative_path_from(enterprise).to_s)
+    next if expected.nil? || ce_primaries.include?(expected)
+
+    name, = definitions(path.read).reverse.find { |qualified, _| normalize(qualified) == expected.delete('_') }
+    owned[name] = path.relative_path_from(ROOT).to_s if name
+  end
+end
+
+problems = []
+problems << "#{OVERLAY}/ exists. The fork does not keep an overlay of Enterprise code." if ROOT.join(OVERLAY).exist?
+
+owned = enterprise_constants
+files = ARGV.empty? ? ce_files : ARGV.map { |arg| ROOT.join(arg) }
+files.each do |path|
+  relative = path.relative_path_from(ROOT).to_s
+  next unless path.file? && (relative.end_with?('.rb') || %w[Gemfile Rakefile].include?(relative))
+  next if SKIPPED_DIRS.include?(relative.split('/').first)
+
+  problems << "#{relative}: belongs to #{OVERLAY}/, which the fork does not keep." if relative.start_with?("#{OVERLAY}/")
+  source = path.read
+  definitions(source).each do |name, line|
+    next unless name.start_with?('Enterprise::') || name == 'Enterprise' || owned.key?(name)
+
+    problems << "#{relative}:#{line}: reopens #{name}, which Enterprise defines (#{owned[name] || 'enterprise/'})."
+  end
+  patch_calls(source).each do |name, method, line|
+    next unless name.start_with?('Enterprise::') || owned.key?(name)
+
+    problems << "#{relative}:#{line}: #{method} on #{name}, which Enterprise defines (#{owned[name] || 'enterprise/'})."
+  end
+end
+
+exit 0 if problems.empty?
+
+warn <<~MSG
+  enterprise isolation: Enterprise code is changed from outside enterprise/:
+
+  #{problems.map { |problem| "  #{problem}" }.join("\n")}
+
+  The fork ships Enterprise exactly as upstream publishes it, which also rules out patching it
+  from CE code. Make the change in a CE class instead, so that it works the same with or
+  without enterprise/, or leave the Enterprise behavior as upstream has it.
+MSG
+exit 1

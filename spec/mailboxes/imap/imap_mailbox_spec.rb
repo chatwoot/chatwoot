@@ -30,6 +30,22 @@ RSpec.describe Imap::ImapMailbox do
       end
     end
 
+    context 'when reply-to contains an empty quoted address' do
+      let(:inbound_mail) { create_inbound_email_from_fixture('malformed_reply_to.eml') }
+      let(:mail) { inbound_mail.mail }
+
+      it 'creates a conversation and message using the valid from address' do
+        expect(mail.reply_to).to eq([nil])
+
+        expect do
+          class_instance.process(mail, channel)
+        end.to change(Conversation, :count).by(1).and change(Message, :count).by(1)
+
+        expect(conversation.contact.email).to eq('sender@example.com')
+        expect(conversation.messages.last.content_attributes.dig('email', 'from')).to eq(['sender@example.com'])
+      end
+    end
+
     context 'when the email with has empty text content' do
       let(:inbound_mail) { create_inbound_email_from_fixture('attachments_without_text.eml') }
 
@@ -99,6 +115,102 @@ RSpec.describe Imap::ImapMailbox do
       end
     end
 
+    context 'when another fetch job has already saved the email' do
+      let(:inbound_mail) { create_inbound_email_from_mail(from: 'email@gmail.com', to: 'imap@gmail.com', subject: 'Hello!') }
+
+      it 'does not create a second conversation or message' do
+        create(:message, account: account, inbox: inbox, source_id: inbound_mail.mail.message_id)
+
+        expect do
+          class_instance.process(inbound_mail.mail, channel)
+        end.to not_change(Conversation, :count).and not_change(Message, :count)
+      end
+    end
+
+    context 'when another fetch job saves the email after this job cached its fetch-stage duplicate check' do
+      let(:inbound_mail) { create_inbound_email_from_mail(from: 'email@gmail.com', to: 'imap@gmail.com', subject: 'Hello!') }
+      let(:message_id) { inbound_mail.mail.message_id }
+
+      it 'does not create a second conversation or message' do
+        ActiveRecord::Base.cache do
+          inbox.messages.exists?(source_id: message_id)
+          # The other job writes on its own connection, so this job's query cache is not cleared
+          ActiveRecord::Base.uncached(dirties: false) { create(:message, account: account, inbox: inbox, source_id: message_id) }
+
+          class_instance.process(inbound_mail.mail, channel)
+        end
+
+        expect(inbox.messages.where(source_id: message_id).count).to eq(1)
+        expect(inbox.conversations.count).to eq(1)
+      end
+    end
+
+    context 'when a new email contains null bytes' do
+      let(:inbound_mail) do
+        Mail.new.tap do |mail|
+          mail.from = 'email@gmail.com'
+          mail.to = 'imap@gmail.com'
+          mail.subject = "Hello\u0000"
+          mail.message_id = "message\u0000@example.com"
+          mail['In-Reply-To'] = "source\u0000@example.com"
+          mail.references = ["reference\u0000@example.com"]
+          mail.content_type = 'text/plain'
+          mail.body = "Body\u0000 text"
+        end
+      end
+
+      it 'creates sanitized conversation and message records' do
+        expect { class_instance.process(inbound_mail, channel) }.to change(Conversation, :count).by(1)
+
+        message = conversation.messages.last
+
+        expect(conversation.additional_attributes['in_reply_to']).to eq('source@example.com')
+        expect(conversation.additional_attributes['mail_subject']).to eq('Hello')
+        expect(message.source_id).to eq('message@example.com')
+        expect(message.content).to eq('Body text')
+        expect(message.content_attributes.to_json).not_to include('\u0000')
+      end
+    end
+
+    context 'when the subject is longer than the generic jsonb limit' do
+      let(:inbound_mail) do
+        Mail.new.tap do |mail|
+          mail.from = 'email@gmail.com'
+          mail.to = 'imap@gmail.com'
+          # A customer who types the whole request into the subject field, which is what phone
+          # mail clients invite. It used to raise RecordInvalid and the fetcher dropped the
+          # email without a trace.
+          mail.subject = 'a' * 1972
+          mail.message_id = 'long-subject@example.com'
+          mail.content_type = 'text/plain'
+          mail.body = 'Sent from my iPhone'
+        end
+      end
+
+      it 'creates the conversation keeping the subject whole' do
+        expect { class_instance.process(inbound_mail, channel) }.to change(Conversation, :count).by(1)
+
+        expect(conversation.additional_attributes['mail_subject']).to eq(inbound_mail.subject)
+      end
+    end
+
+    context 'when the subject is longer than even the mail_subject allowance' do
+      let(:inbound_mail) do
+        Mail.new.tap do |mail|
+          mail.from = 'email@gmail.com'
+          mail.to = 'imap@gmail.com'
+          mail.subject = 'a' * (JsonbAttributesLengthValidator::KEY_MAX_STRING_LENGTH[:additional_attributes]['mail_subject'] + 1)
+          mail.message_id = 'huge-subject@example.com'
+          mail.content_type = 'text/plain'
+          mail.body = 'Sent from my iPhone'
+        end
+      end
+
+      it 'still refuses it, so the payload stays bounded' do
+        expect { class_instance.process(inbound_mail, channel) }.to raise_error(ActiveRecord::RecordInvalid)
+      end
+    end
+
     context 'when a new email with invalid from' do
       let(:inbound_mail) { create_inbound_email_from_mail(from: 'invalidemail', to: 'imap@gmail.com', subject: 'Hello!') }
 
@@ -160,6 +272,35 @@ RSpec.describe Imap::ImapMailbox do
         expect(prev_conversation.messages.last.content_attributes['email']['to']).to eq(reply_mail.mail.to)
         expect(prev_conversation.messages.last.content_attributes['email']['subject']).to eq(reply_mail.mail.subject)
         expect(prev_conversation.messages.last.content_attributes['email']['in_reply_to']).to eq(reply_mail.mail.in_reply_to)
+      end
+    end
+
+    context 'when a reply to a forwarded email' do
+      let(:prev_conversation) { create(:conversation, account: account, inbox: channel.inbox, assignee: agent) }
+      let(:supplier_reply) do
+        create_inbound_email_from_mail(from: 'supplier@example.com', to: 'imap@gmail.com', subject: 'Re: Fwd: Hello!',
+                                       in_reply_to: '<forward/1@example.com>')
+      end
+
+      before do
+        create(:message, conversation: prev_conversation, account: account, inbox: inbox, message_type: :outgoing,
+                         source_id: 'forward/1@example.com', content_attributes: { forwarded_message_id: 1, to_emails: ['supplier@example.com'] })
+      end
+
+      it 'starts a new conversation with the forward recipient instead of using the original conversation' do
+        expect { class_instance.process(supplier_reply.mail, channel) }.to change(Conversation, :count).by(1)
+
+        expect(prev_conversation.messages.incoming).to be_empty
+        expect(conversation.contact.email).to eq('supplier@example.com')
+      end
+
+      it 'keeps further replies from the same recipient in their conversation' do
+        class_instance.process(supplier_reply.mail, channel)
+        second_reply = create_inbound_email_from_mail(from: 'supplier@example.com', to: 'imap@gmail.com', subject: 'Re: Fwd: Hello!',
+                                                      in_reply_to: '<forward/1@example.com>')
+
+        expect { class_instance.process(second_reply.mail, channel) }.not_to change(Conversation, :count)
+        expect(conversation.messages.incoming.count).to eq(2)
       end
     end
 
@@ -311,6 +452,76 @@ RSpec.describe Imap::ImapMailbox do
         agent_conversation.reload
         expect(agent_conversation.messages.size).to eq(1)
         expect(agent_conversation.messages.last.content_attributes['email']['from']).to eq(reply_mail_with_multiple_references.mail.from)
+      end
+    end
+
+    # An inbox that continues the contact's open case. Headers still decide first: what changes is
+    # only the mail that references nothing, which used to open a second conversation about a case
+    # nobody had closed.
+    context 'when the inbox continues the contact\'s open case' do
+      let(:channel) { create(:channel_email, :imap_email, continue_open_conversation: true) }
+      let(:fresh_mail) do
+        create_inbound_email_from_mail(from: 'email@gmail.com', to: 'imap@gmail.com', subject: 'Reembolso')
+      end
+
+      it 'lands in the open conversation instead of starting another one' do
+        open_conversation = create(:conversation, account: account, inbox: channel.inbox, contact: contact, status: :open)
+
+        expect { class_instance.process(fresh_mail.mail, channel) }.not_to change(Conversation, :count)
+
+        expect(open_conversation.reload.messages.size).to eq(1)
+      end
+
+      it 'starts a new conversation when the previous one is resolved' do
+        create(:conversation, account: account, inbox: channel.inbox, contact: contact, status: :resolved)
+
+        expect { class_instance.process(fresh_mail.mail, channel) }.to change(Conversation, :count).by(1)
+      end
+
+      it 'lands in the most recent open conversation when the contact has several' do
+        create(:conversation, account: account, inbox: channel.inbox, contact: contact, status: :open)
+        newest = create(:conversation, account: account, inbox: channel.inbox, contact: contact, status: :open)
+
+        class_instance.process(fresh_mail.mail, channel)
+
+        expect(newest.reload.messages.size).to eq(1)
+      end
+
+      # The header is positive proof of which case this is, and it outranks the policy. A reply to
+      # a resolved thread goes back to that thread, which is also what reopens it.
+      it 'still follows in-reply-to into a resolved conversation' do
+        resolved = create(:conversation, account: account, inbox: channel.inbox, contact: contact, status: :resolved)
+        create(:message, content: 'Outgoing', message_type: 'outgoing', inbox: inbox, source_id: 'ref-to-resolved',
+                         account: account, conversation: resolved)
+        create(:conversation, account: account, inbox: channel.inbox, contact: contact, status: :open)
+        reply = create_inbound_email_from_mail(from: 'email@gmail.com', to: 'imap@gmail.com', subject: 'Re: Reembolso',
+                                               in_reply_to: 'ref-to-resolved')
+
+        expect { class_instance.process(reply.mail, channel) }.not_to change(Conversation, :count)
+
+        expect(resolved.reload.messages.size).to eq(2)
+        expect(resolved).to be_open
+      end
+
+      it 'ignores conversations the contact has in another inbox' do
+        other_channel = create(:channel_email, :imap_email, continue_open_conversation: true)
+        create(:contact_inbox, contact_id: contact.id, inbox_id: other_channel.inbox.id)
+        create(:conversation, account: account, inbox: other_channel.inbox, contact: contact, status: :open)
+
+        expect { class_instance.process(fresh_mail.mail, channel) }.to change(Conversation, :count).by(1)
+      end
+    end
+
+    # The default, which is every inbox that has not asked for anything else.
+    context 'when the inbox does not continue the open case' do
+      let(:fresh_mail) do
+        create_inbound_email_from_mail(from: 'email@gmail.com', to: 'imap@gmail.com', subject: 'Reembolso')
+      end
+
+      it 'starts a new conversation even with one open' do
+        create(:conversation, account: account, inbox: channel.inbox, contact: contact, status: :open)
+
+        expect { class_instance.process(fresh_mail.mail, channel) }.to change(Conversation, :count).by(1)
       end
     end
   end

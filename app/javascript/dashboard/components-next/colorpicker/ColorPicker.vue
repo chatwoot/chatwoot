@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineProps, defineEmits } from 'vue';
+import { ref } from 'vue';
 import { Chrome } from '@lk77/vue3-color';
 import { OnClickOutside } from '@vueuse/components';
 
@@ -37,6 +37,7 @@ const pickerRef = ref(null);
   <div ref="pickerRef" class="relative w-fit">
     <OnClickOutside @trigger="closeTogglePicker">
       <Button
+        type="button"
         color="slate"
         icon="i-lucide-pipette"
         trailing-icon

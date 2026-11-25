@@ -8,6 +8,7 @@ import { useAlert } from 'dashboard/composables';
 import WootConfirmDeleteModal from 'dashboard/components/widgets/modal/ConfirmDeleteModal.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import SectionLayout from './SectionLayout.vue';
+import { formatLocalized } from 'shared/helpers/localizedDate';
 
 const { t } = useI18n();
 const store = useStore();
@@ -39,7 +40,7 @@ const markedForDeletionReason = computed(() => {
 
 const formattedDeletionDate = computed(() => {
   if (!markedForDeletionDate.value) return '';
-  return markedForDeletionDate.value.toLocaleString();
+  return formatLocalized(markedForDeletionDate.value, 'M/d/yyyy, h:mm:ss a');
 });
 
 const markedForDeletionMessage = computed(() => {

@@ -1,0 +1,29 @@
+{
+  "FILTER": {
+    "ATTRIBUTES": {
+      "GROUP_TYPE": "Tipo de conversación"
+    },
+    "CUSTOM_VIEWS": {
+      "EDIT": {
+        "API_FOLDERS": {
+          "ERROR_MESSAGE": "Error al actualizar la carpeta."
+        },
+        "API_SEGMENTS": {
+          "ERROR_MESSAGE": "Error al actualizar el segmento."
+        }
+      },
+      "VISIBILITY": {
+        "LABEL": "Visibilidad",
+        "GLOBAL": {
+          "LABEL": "Público",
+          "DESCRIPTION": "Disponible para todos los agentes de esta cuenta."
+        },
+        "PERSONAL": {
+          "LABEL": "Privado",
+          "DESCRIPTION": "Solo usted podrá ver y gestionar este filtro."
+        }
+      },
+      "READ_ONLY_TOOLTIP": "Carpeta pública. Pida a un administrador que la edite o la elimine."
+    }
+  }
+}

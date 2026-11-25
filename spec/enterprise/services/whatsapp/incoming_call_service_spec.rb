@@ -30,8 +30,25 @@ describe Whatsapp::IncomingCallService do
     end
   end
 
+  context 'when inbound calls are disabled on the channel' do
+    it 'rejects the call with Meta without creating a Call or Conversation' do
+      channel.provider_config = channel.provider_config.merge('inbound_calls_enabled' => false)
+      channel.save!
+      provider_service = instance_double(Whatsapp::Providers::WhatsappCloudService, reject_call: true)
+      allow(inbox.channel).to receive(:provider_service).and_return(provider_service)
+
+      params = call_payload(event: 'connect', session: { sdp: "v=0\r\n...sdp...", sdp_type: 'offer' })
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .to not_change(Call, :count).and not_change(Conversation, :count)
+      expect(provider_service).to have_received(:reject_call).with(provider_call_id)
+    end
+  end
+
   describe 'inbound connect' do
     let(:sdp_offer) { "v=0\r\n...sdp..." }
+    let!(:agent) { create(:user, account: account) }
+
+    before { create(:inbox_member, inbox: inbox, user: agent) }
 
     it 'creates the Call + Conversation + voice_call message and broadcasts voice_call.incoming' do
       allow(ActionCable.server).to receive(:broadcast)
@@ -44,10 +61,394 @@ describe Whatsapp::IncomingCallService do
       expect(call).to have_attributes(provider: 'whatsapp', direction: 'incoming', status: 'ringing',
                                       provider_call_id: provider_call_id)
       expect(call.meta['sdp_offer']).to eq(sdp_offer)
+      # No agent is online, so the call falls back to the inbox's agents (and
+      # account admins) — never the whole-account stream.
       expect(ActionCable.server).to have_received(:broadcast).with(
-        "account_#{account.id}",
+        agent.pubsub_token,
         hash_including(event: 'voice_call.incoming', data: hash_including(sdp_offer: sdp_offer))
       )
+      expect(ActionCable.server).not_to have_received(:broadcast).with(
+        "account_#{account.id}",
+        hash_including(event: 'voice_call.incoming')
+      )
+    end
+
+    # The agent's browser is what records a WhatsApp call, so the ring payload has to carry the decision.
+    it 'tells the ringing agent not to record when the call was created with recording off' do
+      channel.update!(provider_config: channel.provider_config.merge('recording_enabled' => false))
+      allow(ActionCable.server).to receive(:broadcast)
+
+      params = call_payload(event: 'connect', session: { sdp: sdp_offer, sdp_type: 'offer' })
+      described_class.new(inbox: inbox, params: params).perform
+
+      expect(ActionCable.server).to have_received(:broadcast).with(
+        agent.pubsub_token,
+        hash_including(data: hash_including(recording_enabled: false))
+      )
+    end
+
+    context 'when an inbox agent has turned calls off' do
+      let!(:calls_off_agent) { create(:user, account: account) }
+      let(:params) { call_payload(event: 'connect', session: { sdp: sdp_offer, sdp_type: 'offer' }) }
+
+      before do
+        create(:inbox_member, inbox: inbox, user: calls_off_agent)
+        calls_off_agent.account_users.find_by(account: account).update!(accepts_calls: false)
+        allow(ActionCable.server).to receive(:broadcast)
+      end
+
+      it 'rings only the online agents who take calls' do
+        allow(OnlineStatusTracker).to receive(:get_available_users)
+          .and_return(agent.id.to_s => 'online', calls_off_agent.id.to_s => 'online')
+
+        described_class.new(inbox: inbox, params: params).perform
+
+        expect(ActionCable.server).to have_received(:broadcast).with(agent.pubsub_token, hash_including(event: 'voice_call.incoming'))
+        expect(ActionCable.server).not_to have_received(:broadcast).with(calls_off_agent.pubsub_token, hash_including(event: 'voice_call.incoming'))
+      end
+
+      it 'leaves them out of the fallback when no agent is online' do
+        described_class.new(inbox: inbox, params: params).perform
+
+        expect(ActionCable.server).to have_received(:broadcast).with(agent.pubsub_token, hash_including(event: 'voice_call.incoming'))
+        expect(ActionCable.server).not_to have_received(:broadcast).with(calls_off_agent.pubsub_token, hash_including(event: 'voice_call.incoming'))
+      end
+    end
+
+    context 'with the inbox routing' do
+      let!(:teammate) { create(:user, account: account) }
+      let(:params) { call_payload(event: 'connect', session: { sdp: sdp_offer, sdp_type: 'offer' }) }
+
+      before do
+        create(:inbox_member, inbox: inbox, user: teammate)
+        allow(ActionCable.server).to receive(:broadcast)
+      end
+
+      def incoming_streams
+        streams = []
+        expect(ActionCable.server).to have_received(:broadcast).at_least(:once) do |stream, payload|
+          streams << stream if payload[:event] == 'voice_call.incoming'
+        end
+        streams
+      end
+
+      it 'rings the agents it picked, names them on the message, and widens the ring every step' do
+        expect { described_class.new(inbox: inbox, params: params).perform }
+          .to have_enqueued_job(Voice::RingNextAgentJob).with(kind_of(Integer), 1)
+
+        call = Call.last
+        expect(call.ring_state['ring_recipient_ids']).to contain_exactly(agent.id, teammate.id)
+        expect(call.message.content_attributes.dig('data', 'ring_user_ids')).to contain_exactly(agent.id, teammate.id)
+        expect(incoming_streams).to contain_exactly(agent.pubsub_token, teammate.pubsub_token)
+      end
+
+      it "stops widening once the sweep ends a ring whose terminate never arrived, after Meta's ring" do
+        described_class.new(inbox: inbox, params: params).perform
+        call = Call.last
+        expect(call.ring_state['rings_phones']).to be(false)
+
+        travel(61.seconds) { Voice::RingingTimeoutJob.perform_now }
+
+        expect(call.reload).to have_attributes(status: 'no_answer', end_reason: Call::RING_TIMEOUT)
+        expect { Voice::RingNextAgentJob.perform_now(call.id, call.ring_step) }.not_to have_enqueued_job(Voice::RingNextAgentJob)
+      end
+
+      it 'leaves out an agent who is on another call' do
+        busy = create(:conversation, account: account, inbox: inbox)
+        create(:call, account: account, inbox: inbox, conversation: busy, contact: busy.contact, provider: :whatsapp,
+                      status: 'in_progress', accepted_by_agent: teammate)
+
+        described_class.new(inbox: inbox, params: params).perform
+
+        expect(incoming_streams).to eq([agent.pubsub_token])
+      end
+
+      it 'rings one agent at a time when the inbox is set to' do
+        channel.update!(provider_config: channel.provider_config.merge('ring_strategy' => 'sequential'))
+
+        described_class.new(inbox: inbox, params: params).perform
+
+        expect(Call.last.ring_state['ring_recipient_ids'].size).to eq(1)
+        expect(incoming_streams.size).to eq(1)
+      end
+
+      it 'keeps ringing when nobody is online, for an agent coming online during the ring' do
+        [agent, teammate].each { |user| user.account_users.first.update!(availability: :offline) }
+
+        described_class.new(inbox: inbox, params: params).perform
+
+        expect(Call.last).to be_ringing
+      end
+    end
+
+    context 'when the inbox auto-assigns conversations' do
+      let!(:teammate) { create(:user, account: account) }
+      let(:params) { call_payload(event: 'connect', session: { sdp: sdp_offer, sdp_type: 'offer' }) }
+      let(:provider_service) do
+        instance_double(Whatsapp::Providers::WhatsappCloudService, pre_accept_call: true, accept_call: true, reject_call: true)
+      end
+
+      before do
+        create(:inbox_member, inbox: inbox, user: teammate)
+        inbox.update!(enable_auto_assignment: true)
+        [agent, teammate].each do |user|
+          OnlineStatusTracker.update_presence(account.id, 'User', user.id)
+          OnlineStatusTracker.set_status(account.id, user.id, 'online')
+        end
+        allow(Whatsapp::Providers::WhatsappCloudService).to receive(:new).and_return(provider_service)
+        allow(ActionCable.server).to receive(:broadcast)
+      end
+
+      def ring_call
+        described_class.new(inbox: inbox, params: params).perform
+        Call.find_by!(provider_call_id: provider_call_id)
+      end
+
+      it 'leaves a new caller unassigned while the call rings, so every free agent rings' do
+        call = ring_call
+
+        expect(call.conversation.reload.assignee).to be_nil
+        expect(call.ring_state['ring_recipient_ids']).to contain_exactly(agent.id, teammate.id)
+      end
+
+      it 'assigns the conversation once the call goes unanswered' do
+        call = ring_call
+        described_class.new(inbox: inbox, params: call_payload(event: 'terminate', duration: 0, terminate_reason: 'missed')).perform
+
+        expect(call.reload).to have_attributes(status: 'no_answer')
+        expect(call.conversation.reload.assignee).to be_in([agent, teammate])
+      end
+
+      it 'gives the conversation to the agent who answers' do
+        call = ring_call
+        Whatsapp::CallService.new(call: call, agent: teammate, sdp_answer: "v=0\r\n").accept
+
+        expect(call.conversation.reload.assignee).to eq(teammate)
+      end
+
+      it 'keeps a ringing call out of a V2 bulk assignment run until it goes unanswered' do
+        account.enable_features!('assignment_v2')
+        call = ring_call
+        service = AutoAssignment::AssignmentService.new(inbox: inbox.reload)
+
+        expect(service.perform_bulk_assignment).to eq(0)
+        expect { Call.find(call.id).update!(status: 'no_answer') }.to have_enqueued_job(AutoAssignment::AssignmentJob)
+        expect(service.perform_bulk_assignment).to eq(1)
+      end
+
+      it 'assigns a call declined outside business hours as it arrives' do
+        channel.update!(provider_config: channel.provider_config.merge('business_hours_calls_enabled' => true))
+        inbox.update!(working_hours_enabled: true)
+        inbox.working_hours.each { |hours| hours.update!(closed_all_day: true, open_all_day: false) }
+
+        expect(ring_call.conversation.reload.assignee).to be_in([agent, teammate])
+      end
+    end
+
+    context 'when outside business hours' do
+      let(:params) { call_payload(event: 'connect', session: { sdp: sdp_offer, sdp_type: 'offer' }) }
+
+      before do
+        inbox.update!(working_hours_enabled: true)
+        inbox.working_hours.each { |hours| hours.update!(closed_all_day: true, open_all_day: false) }
+        allow(ActionCable.server).to receive(:broadcast)
+      end
+
+      it 'declines the call at Meta and logs it as missed, without ringing anyone' do
+        channel.update!(provider_config: channel.provider_config.merge('business_hours_calls_enabled' => true))
+
+        expect { described_class.new(inbox: inbox, params: params).perform }
+          .to have_enqueued_job(Whatsapp::DeclineCallJob).with(inbox, provider_call_id)
+
+        expect(Voice::RingNextAgentJob).not_to have_been_enqueued
+        expect(Call.last).to have_attributes(status: 'no_answer', end_reason: 'outside_working_hours')
+        expect(ActionCable.server).not_to have_received(:broadcast).with(anything, hash_including(event: 'voice_call.incoming'))
+      end
+
+      it 'rings as usual when the inbox does not apply business hours to calls' do
+        described_class.new(inbox: inbox, params: params).perform
+
+        expect(Whatsapp::DeclineCallJob).not_to have_been_enqueued
+        expect(Call.last).to be_ringing
+      end
+    end
+  end
+
+  describe 'inbound connect from a username (BSUID) caller' do
+    let(:sdp_offer) { "v=0\r\n...sdp..." }
+    let(:bsuid) { 'IN.2081978709342942' }
+    let!(:agent) { create(:user, account: account) }
+
+    before { create(:inbox_member, inbox: inbox, user: agent) }
+
+    it 'keys a caller by the phone when Meta still provides it' do
+      allow(ActionCable.server).to receive(:broadcast)
+
+      params = {
+        calls: [{ id: provider_call_id, from: from_number, from_user_id: bsuid, event: 'connect',
+                  session: { sdp: sdp_offer, sdp_type: 'offer' } }],
+        contacts: [{ wa_id: from_number, user_id: bsuid, profile: { name: 'Ada Lovelace' } }]
+      }
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .to change(Call, :count).by(1).and change(Conversation, :count).by(1)
+
+      contact_inbox = Call.last.conversation.contact_inbox
+      expect(contact_inbox.source_id).to eq(from_number)
+      expect(contact_inbox.contact.name).to eq('Ada Lovelace')
+    end
+
+    it 'keys a username-only caller by the BSUID when no phone `from` is present' do
+      allow(ActionCable.server).to receive(:broadcast)
+
+      params = {
+        calls: [{ id: provider_call_id, from_user_id: bsuid, event: 'connect',
+                  session: { sdp: sdp_offer, sdp_type: 'offer' } }],
+        contacts: [{ user_id: bsuid, profile: { name: 'Ada Lovelace' } }]
+      }
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .to change(Call, :count).by(1)
+
+      contact_inbox = Call.last.conversation.contact_inbox
+      expect(contact_inbox.source_id).to eq(bsuid)
+      expect(contact_inbox.contact.name).to eq('Ada Lovelace')
+    end
+
+    it 'keeps the contact messaging created by phone on its phone ContactInbox when both identifiers are present' do
+      allow(ActionCable.server).to receive(:broadcast)
+      contact = create(:contact, account: account)
+      phone_contact_inbox = create(:contact_inbox, inbox: inbox, contact: contact, source_id: from_number)
+      phone_conversation = create(:conversation, account: account, inbox: inbox, contact: contact, contact_inbox: phone_contact_inbox)
+
+      params = {
+        calls: [{ id: provider_call_id, from: from_number, from_user_id: bsuid, event: 'connect',
+                  session: { sdp: sdp_offer, sdp_type: 'offer' } }],
+        contacts: [{ wa_id: from_number, user_id: bsuid }]
+      }
+      # The contact is the same one messaging created; the call stays on the phone conversation
+      # because Meta still supplied the phone and the phone identity already has history.
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .to change(Call, :count).by(1).and change(ContactInbox, :count).by(1).and not_change(Conversation, :count)
+
+      expect(Call.last.contact).to eq(contact)
+      expect(Call.last.conversation).to eq(phone_conversation)
+      expect(Call.last.conversation.contact_inbox).to eq(phone_contact_inbox)
+      expect(inbox.contact_inboxes.find_by(source_id: bsuid).contact).to eq(contact)
+    end
+
+    it 'reuses a phone ContactInbox via the same wa_id normalization messaging uses' do
+      allow(ActionCable.server).to receive(:broadcast)
+      contact = create(:contact, account: account, phone_number: '+5541988887777')
+      existing = create(:contact_inbox, inbox: inbox, contact: contact, source_id: '5541988887777')
+
+      params = {
+        calls: [{ id: provider_call_id, from: '554188887777', event: 'connect',
+                  session: { sdp: sdp_offer, sdp_type: 'offer' } }],
+        contacts: [{ wa_id: '554188887777' }]
+      }
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .to change(Call, :count).by(1).and not_change(ContactInbox, :count)
+
+      expect(Call.last.conversation.contact_inbox).to eq(existing)
+    end
+
+    it 'reuses a normalized phone contact when no ContactInbox exists yet' do
+      allow(ActionCable.server).to receive(:broadcast)
+      contact = create(:contact, account: account, phone_number: '+5541988887777')
+
+      params = {
+        calls: [{ id: provider_call_id, from: '554188887777', event: 'connect',
+                  session: { sdp: sdp_offer, sdp_type: 'offer' } }],
+        contacts: [{ wa_id: '554188887777' }]
+      }
+
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .to change(Call, :count).by(1).and not_change(Contact, :count)
+
+      expect(Call.last.contact).to eq(contact)
+      expect(Call.last.conversation.contact_inbox).to have_attributes(contact: contact, source_id: '554188887777')
+    end
+
+    it 'reuses the BSUID-keyed ContactInbox messaging created for a username-only caller' do
+      allow(ActionCable.server).to receive(:broadcast)
+      contact = create(:contact, account: account)
+      existing = create(:contact_inbox, inbox: inbox, contact: contact, source_id: bsuid)
+
+      params = {
+        calls: [{ id: provider_call_id, from_user_id: bsuid, event: 'connect',
+                  session: { sdp: sdp_offer, sdp_type: 'offer' } }],
+        contacts: [{ user_id: bsuid }]
+      }
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .to change(Call, :count).by(1).and not_change(ContactInbox, :count)
+
+      expect(Call.last.contact).to eq(contact)
+      expect(Call.last.conversation.contact_inbox).to eq(existing)
+    end
+
+    # The caller was first seen username-only, so the BSUID row already owns the conversation.
+    # When Meta later exposes the phone, keep that thread and only backfill the phone alias.
+    it 'reuses a BSUID-keyed ContactInbox when that is the only identity with conversation history' do
+      allow(ActionCable.server).to receive(:broadcast)
+      contact = create(:contact, account: account)
+      existing = create(:contact_inbox, inbox: inbox, contact: contact, source_id: bsuid)
+      create(:conversation, account: account, inbox: inbox, contact: contact, contact_inbox: existing)
+
+      params = {
+        calls: [{ id: provider_call_id, from: from_number, from_user_id: bsuid, event: 'connect',
+                  session: { sdp: sdp_offer, sdp_type: 'offer' } }],
+        contacts: [{ wa_id: from_number, user_id: bsuid }]
+      }
+      # The conversation reuses the existing BSUID thread; the phone alias is backfilled onto the same contact.
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .to change(Call, :count).by(1).and change(ContactInbox, :count).by(1)
+
+      expect(Call.last.contact).to eq(contact)
+      expect(Call.last.conversation.contact_inbox).to eq(existing)
+      expect(inbox.contact_inboxes.find_by(source_id: from_number).contact).to eq(contact)
+    end
+
+    it 'reuses the phone conversation when a later call carries both phone and BSUID' do
+      allow(ActionCable.server).to receive(:broadcast)
+      contact = create(:contact, account: account)
+      phone_contact_inbox = create(:contact_inbox, inbox: inbox, contact: contact, source_id: from_number)
+      bsuid_contact_inbox = create(:contact_inbox, inbox: inbox, contact: contact, source_id: bsuid)
+      conversation = create(:conversation, account: account, inbox: inbox, contact: contact, contact_inbox: phone_contact_inbox)
+
+      params = {
+        calls: [{ id: provider_call_id, from: from_number, from_user_id: bsuid, event: 'connect',
+                  session: { sdp: sdp_offer, sdp_type: 'offer' } }],
+        contacts: [{ wa_id: from_number, user_id: bsuid }]
+      }
+
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .to change(Call, :count).by(1).and not_change(Conversation, :count)
+
+      expect(Call.last.conversation).to eq(conversation)
+      expect(Call.last.conversation.contact_inbox).to eq(phone_contact_inbox)
+      expect(bsuid_contact_inbox.reload.contact).to eq(contact)
+      expect(phone_contact_inbox.reload.contact).to eq(contact)
+    end
+
+    it 'opens a BSUID-backed conversation and leaves the phone one untouched' do
+      allow(ActionCable.server).to receive(:broadcast)
+      contact = create(:contact, account: account)
+      phone_contact_inbox = create(:contact_inbox, inbox: inbox, contact: contact, source_id: from_number)
+      bsuid_contact_inbox = create(:contact_inbox, inbox: inbox, contact: contact, source_id: bsuid)
+      phone_conversation = create(:conversation, account: account, inbox: inbox, contact: contact,
+                                                 contact_inbox: phone_contact_inbox)
+
+      params = {
+        calls: [{ id: provider_call_id, from_user_id: bsuid, event: 'connect',
+                  session: { sdp: sdp_offer, sdp_type: 'offer' } }],
+        contacts: [{ user_id: bsuid }]
+      }
+
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .to change(Call, :count).by(1).and change(Conversation, :count).by(1)
+
+      expect(Call.last.conversation).not_to eq(phone_conversation)
+      expect(Call.last.conversation.contact_inbox).to eq(bsuid_contact_inbox)
+      expect(phone_conversation.reload.contact_inbox).to eq(phone_contact_inbox)
     end
   end
 
@@ -126,16 +527,38 @@ describe Whatsapp::IncomingCallService do
   end
 
   describe 'terminate with no local row yet' do
-    it 'logs and skips instead of materialising an inbound missed-call row' do
-      allow(Rails.logger).to receive(:warn)
+    # Unique per example: the 60s tombstone isn't rolled back between specs.
+    let(:tombstone_call_id) { "wacid.#{SecureRandom.hex(6)}" }
+
+    after { Redis::Alfred.delete(format(Redis::Alfred::WHATSAPP_CALL_TERMINATE_TOMBSTONE, call_id: tombstone_call_id)) }
+
+    it 'tombstones the terminate instead of materialising an inbound missed-call row' do
       allow(ActionCable.server).to receive(:broadcast)
 
       params = call_payload(event: 'terminate', duration: 0, terminate_reason: 'no_answer')
+      params[:calls][0][:id] = tombstone_call_id
 
       expect { described_class.new(inbox: inbox, params: params).perform }
         .not_to change(Call, :count)
-      expect(Rails.logger).to have_received(:warn).with(/Terminate for unknown call/)
+      key = format(Redis::Alfred::WHATSAPP_CALL_TERMINATE_TOMBSTONE, call_id: tombstone_call_id)
+      expect(Redis::Alfred.get(key)).to be_present
       expect(ActionCable.server).not_to have_received(:broadcast)
+    end
+
+    it 'finalizes the call as no_answer when the connect arrives after the tombstone' do
+      allow(ActionCable.server).to receive(:broadcast)
+
+      terminate = call_payload(event: 'terminate', duration: 0, terminate_reason: 'no_answer')
+      terminate[:calls][0][:id] = tombstone_call_id
+      described_class.new(inbox: inbox, params: terminate).perform
+
+      connect = call_payload(event: 'connect', session: { sdp: 'v=0', sdp_type: 'offer' })
+      connect[:calls][0][:id] = tombstone_call_id
+      expect { described_class.new(inbox: inbox, params: connect).perform }
+        .to change(Call, :count).by(1)
+      expect(Call.find_by(provider_call_id: tombstone_call_id).status).to eq('no_answer')
+      expect(ActionCable.server).to have_received(:broadcast)
+        .with(anything, hash_including(event: 'voice_call.ended')).at_least(:once)
     end
   end
 
@@ -170,6 +593,29 @@ describe Whatsapp::IncomingCallService do
       expect(call.reload).to have_attributes(status: 'ringing')
       expect(Rails.logger).to have_received(:info).with(/Duplicate inbound connect/)
       expect(ActionCable.server).not_to have_received(:broadcast)
+    end
+
+    it 'queues the ring of a call that recorded who it rings but never rang them' do
+      call.update!(ring_state: { 'ring_recipient_ids' => [1] })
+      params = call_payload(event: 'connect', session: { sdp: 'sdp_x', sdp_type: 'offer' })
+
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .to have_enqueued_job(Voice::VoipPushJob).with(call.id, 'ring')
+    end
+
+    it 'queues the widening again at the step the call is on, in case the first enqueue failed' do
+      call.update!(ring_state: { 'ring_recipient_ids' => [1], 'ring_step' => 2 })
+      params = call_payload(event: 'connect', session: { sdp: 'sdp_x', sdp_type: 'offer' })
+
+      expect { described_class.new(inbox: inbox, params: params).perform }
+        .to have_enqueued_job(Voice::RingNextAgentJob).with(call.id, 2)
+    end
+
+    it 'queues nothing for a call that has stopped ringing' do
+      call.update!(status: 'no_answer', ring_state: { 'ring_recipient_ids' => [1] })
+      params = call_payload(event: 'connect', session: { sdp: 'sdp_x', sdp_type: 'offer' })
+
+      expect { described_class.new(inbox: inbox, params: params).perform }.not_to have_enqueued_job
     end
   end
 

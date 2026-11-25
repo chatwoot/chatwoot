@@ -1,4 +1,4 @@
-module Reports::ReportMetricRegistry
+module Reports::ReportMetricRegistry # rubocop:disable Metrics/ModuleLength
   # Describes one public report metric.
   # name: API-facing metric name requested by reports.
   # aggregate: whether the metric is a count or average.
@@ -48,6 +48,7 @@ module Reports::ReportMetricRegistry
       name: :outgoing_messages_count,
       aggregate: :count
     ),
+    handled_conversations_count: Metric.new(name: :handled_conversations_count, aggregate: :count),
     avg_first_response_time: Metric.new(
       name: :avg_first_response_time,
       aggregate: :average,

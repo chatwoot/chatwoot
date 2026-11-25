@@ -1,6 +1,5 @@
 <script setup>
 import OAuthChannel from './OAuthChannel.vue';
-import { defineOptions } from 'vue';
 
 defineOptions({
   name: 'MicrosoftOAuthChannel',

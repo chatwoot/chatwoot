@@ -6,7 +6,7 @@ import { Dropdown } from 'floating-vue';
 import { emitter } from 'shared/helpers/mitt';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
-import EmojiInput from 'shared/components/emoji/EmojiInput.vue';
+import EmojiPicker from 'shared/components/emoji/EmojiPicker.vue';
 
 const props = defineProps({
   alignment: {
@@ -55,6 +55,11 @@ function pickEmoji(emoji) {
   if (!emoji) return;
   emit('select', emoji);
   close();
+}
+
+// EmojiPicker emits `select` with { type, value, emoji }; unwrap to the emoji string.
+function onSelectEmoji({ value }) {
+  pickEmoji(value);
 }
 
 function openFullPicker() {
@@ -134,10 +139,10 @@ onBeforeUnmount(() => emitter.off(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, close));
           <Icon icon="i-lucide-plus" class="size-4" />
         </button>
       </div>
-      <EmojiInput
+      <EmojiPicker
         v-else
         class="!static !top-auto !right-auto !left-auto [&::before]:hidden"
-        :on-click="pickEmoji"
+        @select="onSelectEmoji"
       />
     </template>
   </Dropdown>

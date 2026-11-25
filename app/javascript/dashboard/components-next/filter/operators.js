@@ -24,7 +24,7 @@ import { useI18n } from 'vue-i18n';
  * @property {boolean} hasInput - Whether operator requires an input value
  */
 
-const FILTER_OPS = {
+export const FILTER_OPS = {
   EQUAL_TO: 'equal_to',
   NOT_EQUAL_TO: 'not_equal_to',
   IS_PRESENT: 'is_present',
@@ -35,6 +35,8 @@ const FILTER_OPS = {
   IS_LESS_THAN: 'is_less_than',
   DAYS_BEFORE: 'days_before',
   STARTS_WITH: 'starts_with',
+  DETECTS: 'detects',
+  DOES_NOT_DETECT: 'does_not_detect',
 };
 
 const NO_INPUT_OPTS = [FILTER_OPS.IS_PRESENT, FILTER_OPS.IS_NOT_PRESENT];
@@ -57,6 +59,8 @@ const filterOperatorIcon = {
   [FILTER_OPS.IS_LESS_THAN]: 'i-ph-less-than-bold',
   [FILTER_OPS.DAYS_BEFORE]: 'i-ph-calendar-minus-bold',
   [FILTER_OPS.STARTS_WITH]: 'i-ph-caret-line-right-bold',
+  [FILTER_OPS.DETECTS]: 'i-ph-sparkle-bold',
+  [FILTER_OPS.DOES_NOT_DETECT]: 'i-ph-prohibit-bold',
 };
 
 /**
@@ -112,6 +116,13 @@ export function useOperators() {
   ]);
 
   /** @type {import('vue').ComputedRef<Array<Operator>>} */
+  const containmentWithPresenceOperators = computed(() => [
+    ...containmentOperators.value,
+    operators.value[FILTER_OPS.IS_PRESENT],
+    operators.value[FILTER_OPS.IS_NOT_PRESENT],
+  ]);
+
+  /** @type {import('vue').ComputedRef<Array<Operator>>} */
   const comparisonOperators = computed(() => [
     operators.value[FILTER_OPS.EQUAL_TO],
     operators.value[FILTER_OPS.NOT_EQUAL_TO],
@@ -135,20 +146,13 @@ export function useOperators() {
    */
   const getOperatorTypes = key => {
     switch (key) {
-      case 'list':
-        return equalityOperators.value;
       case 'text':
-        return containmentOperators.value;
-      case 'number':
-        return equalityOperators.value;
-      case 'link':
-        return equalityOperators.value;
+        return containmentWithPresenceOperators.value;
       case 'date':
         return comparisonOperators.value;
-      case 'checkbox':
-        return equalityOperators.value;
+      // list, number, link and checkbox
       default:
-        return equalityOperators.value;
+        return presenceOperators.value;
     }
   };
 
@@ -157,6 +161,7 @@ export function useOperators() {
     equalityOperators,
     presenceOperators,
     containmentOperators,
+    containmentWithPresenceOperators,
     comparisonOperators,
     dateOperators,
     getOperatorTypes,

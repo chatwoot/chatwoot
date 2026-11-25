@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="<%= html_lang_attribute(I18n.locale) %>">
+  <head>
+    <%= render 'layouts/portal_head' %>
+  </head>
+  <body class="font-default bg-white dark:bg-slate-900">
+    <div id="portal" class="antialiased">
+      <main class="flex flex-col min-h-screen main-content" role="main">
+        <%= yield %>
+      </main>
+    </div>
+    <%= render 'layouts/portal_scripts' %>
+  </body>
+</html>

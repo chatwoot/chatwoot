@@ -3,7 +3,7 @@ import { useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { DirectUpload } from 'activestorage';
-import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
+import { checkFileSizeLimit, isFileEmpty } from 'shared/helpers/FileHelper';
 import { getMaxUploadSizeByChannel } from '@chatwoot/utils';
 
 vi.mock('dashboard/composables/store');
@@ -14,6 +14,7 @@ vi.mock('vue-i18n');
 vi.mock('activestorage');
 vi.mock('shared/helpers/FileHelper', () => ({
   checkFileSizeLimit: vi.fn(),
+  isFileEmpty: vi.fn(),
   resolveMaximumFileUploadSize: vi.fn(value => Number(value) || 40),
   DEFAULT_MAXIMUM_FILE_UPLOAD_SIZE: 40,
 }));
@@ -49,7 +50,55 @@ describe('useFileUpload', () => {
 
     useI18n.mockReturnValue({ t: mockTranslate });
     checkFileSizeLimit.mockReturnValue(true);
+    isFileEmpty.mockReturnValue(false);
     getMaxUploadSizeByChannel.mockReturnValue(25); // default max size MB for tests
+  });
+
+  // The server refuses a zero-byte file, and before this the agent saw no reason at all: the
+  // message just turned red minutes later. Say it in the composer, where the size limit is said.
+  describe('an empty file', () => {
+    beforeEach(() => {
+      isFileEmpty.mockReturnValue(true);
+      mockTranslate.mockReturnValue('This file is empty and cannot be sent');
+    });
+
+    it('is refused with a readable reason on the direct upload path', () => {
+      const { onFileUpload } = useFileUpload({
+        inbox,
+        attachFile: mockAttachFile,
+      });
+      onFileUpload(mockFile);
+
+      expect(mockTranslate).toHaveBeenCalledWith('CONVERSATION.FILE_IS_EMPTY');
+      expect(useAlert).toHaveBeenCalledWith(
+        'This file is empty and cannot be sent'
+      );
+      expect(DirectUpload).not.toHaveBeenCalled();
+      expect(mockAttachFile).not.toHaveBeenCalled();
+    });
+
+    it('is refused on the indirect upload path too', () => {
+      useMapGetter.mockImplementation(getter => {
+        const getterMap = {
+          getCurrentAccountId: { value: '123' },
+          getSelectedChat: { value: { id: '456' } },
+          'globalConfig/get': {
+            value: { directUploadsEnabled: false, maximumFileUploadSize: 40 },
+          },
+        };
+        return getterMap[getter];
+      });
+      const { onFileUpload } = useFileUpload({
+        inbox,
+        attachFile: mockAttachFile,
+      });
+      onFileUpload(mockFile);
+
+      expect(useAlert).toHaveBeenCalledWith(
+        'This file is empty and cannot be sent'
+      );
+      expect(mockAttachFile).not.toHaveBeenCalled();
+    });
   });
 
   it('handles direct file upload when direct uploads enabled', () => {
@@ -109,6 +158,29 @@ describe('useFileUpload', () => {
     expect(DirectUpload).not.toHaveBeenCalled();
     expect(getMaxUploadSizeByChannel).toHaveBeenCalled();
     expect(checkFileSizeLimit).toHaveBeenCalledWith(mockFile, 25);
+    expect(mockAttachFile).toHaveBeenCalledWith({ file: mockFile });
+  });
+
+  it('handles indirect file upload when no conversation is selected', () => {
+    useMapGetter.mockImplementation(getter => {
+      const getterMap = {
+        getCurrentAccountId: { value: '123' },
+        getSelectedChat: { value: {} },
+        'globalConfig/get': {
+          value: { directUploadsEnabled: true, maximumFileUploadSize: 40 },
+        },
+      };
+      return getterMap[getter];
+    });
+
+    const { onFileUpload } = useFileUpload({
+      inbox,
+      attachFile: mockAttachFile,
+    });
+
+    onFileUpload(mockFile);
+
+    expect(DirectUpload).not.toHaveBeenCalled();
     expect(mockAttachFile).toHaveBeenCalledWith({ file: mockFile });
   });
 

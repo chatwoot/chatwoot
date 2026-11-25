@@ -1,6 +1,7 @@
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { getInboxIconByType } from 'dashboard/helper/inbox';
 import { appendSignature } from 'dashboard/helper/editorHelper';
+import { DEFAULT_SIGNATURE_SEPARATOR } from 'dashboard/constants/signatureSeparators';
 import camelcaseKeys from 'camelcase-keys';
 import ContactAPI from 'dashboard/api/contacts';
 
@@ -38,10 +39,11 @@ const transformInbox = ({
   channelType,
   phoneNumber,
   medium,
+  voiceEnabled,
   ...rest
 }) => ({
   id,
-  icon: getInboxIconByType(channelType, medium, 'line'),
+  icon: getInboxIconByType(channelType, medium, 'line', voiceEnabled),
   label: generateLabelForContactableInboxesList({
     name,
     email,
@@ -55,6 +57,7 @@ const transformInbox = ({
   phoneNumber,
   channelType,
   medium,
+  voiceEnabled,
   ...rest,
 });
 
@@ -111,7 +114,7 @@ export const prepareAttachmentPayload = (
 ) => {
   const files = [];
   attachedFiles.forEach(attachment => {
-    if (directUploadsEnabled) {
+    if (directUploadsEnabled && attachment.blobSignedId) {
       files.push(attachment.blobSignedId);
     } else {
       files.push(attachment.resource.file);
@@ -138,7 +141,9 @@ export const prepareNewMessagePayload = ({
   if (sendWithSignature && messageSignature) {
     const settings = signatureSettings || {
       position: currentUser?.ui_settings?.signature_position || 'top',
-      separator: currentUser?.ui_settings?.signature_separator || 'blank',
+      separator:
+        currentUser?.ui_settings?.signature_separator ||
+        DEFAULT_SIGNATURE_SEPARATOR,
     };
     finalMessage = appendSignature(message, messageSignature, settings);
   }
@@ -173,6 +178,44 @@ export const prepareNewMessagePayload = ({
   return payload;
 };
 
+/**
+ * Whether this inbox's channel carries one attachment per message.
+ *
+ * WhatsApp has no multi-media message, so every sender takes `attachments.first`
+ * (`WhatsappBaileysService#attachment_message_content` and
+ * `Whatsapp::Session::Outbound::MessageSender#attachment_content` alike). A payload with
+ * three files therefore shows three in Chatwoot and delivers one, with nothing telling
+ * the agent. The reply box already splits for this reason (#277).
+ *
+ * @param {{channelType?: string}|null|undefined} targetInbox
+ * @returns {boolean}
+ */
+export const carriesOneAttachmentPerMessage = targetInbox =>
+  targetInbox?.channelType === INBOX_TYPES.WHATSAPP;
+
+/**
+ * Splits the attached files into the one that travels with the new conversation and the
+ * ones that have to follow it as their own messages.
+ *
+ * Only for the channels that need it: on email and the web widget one message carrying
+ * several files is correct, and splitting there would turn one email into three.
+ *
+ * @param {{targetInbox: Object, attachedFiles: Array}} params
+ * @returns {{first: Array, rest: Array}}
+ */
+export const splitAttachmentsForChannel = ({
+  targetInbox,
+  attachedFiles = [],
+}) => {
+  if (
+    !carriesOneAttachmentPerMessage(targetInbox) ||
+    attachedFiles.length < 2
+  ) {
+    return { first: attachedFiles, rest: [] };
+  }
+  return { first: attachedFiles.slice(0, 1), rest: attachedFiles.slice(1) };
+};
+
 export const prepareWhatsAppMessagePayload = ({
   targetInbox,
   selectedContact,
@@ -195,7 +238,10 @@ const MIN_SEARCH_LENGTH = 2;
 export const createContactSearcher = () => {
   let controller = null;
 
-  return async (query, { skipMinLength = false } = {}) => {
+  return async (
+    query,
+    { skipMinLength = false, reachableOnly = true } = {}
+  ) => {
     const trimmed = typeof query === 'string' ? query.trim() : '';
 
     controller?.abort();
@@ -212,6 +258,8 @@ export const createContactSearcher = () => {
       } = await ContactAPI.search(trimmed, 1, 'name', '', { signal });
 
       const camelCasedPayload = camelcaseKeys(payload, { deep: true });
+      if (!reachableOnly) return camelCasedPayload || [];
+
       // Filter contacts that have either phone_number or email
       const filteredPayload = camelCasedPayload?.filter(
         contact => contact.phoneNumber || contact.email

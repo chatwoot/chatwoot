@@ -55,6 +55,7 @@ class Api::V1::Accounts::Conversations::ScheduledMessagesController < Api::V1::A
       :scheduled_at,
       :status,
       :attachment,
+      :hold_on_reply,
       template_params: {}
     )
   end

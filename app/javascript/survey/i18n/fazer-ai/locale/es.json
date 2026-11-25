@@ -1,0 +1,19 @@
+{
+  "SURVEY": {
+    "RATING": {
+      "CONFIRM_LABEL": "Confirma la puntuación que elegiste para enviarla.",
+      "CONFIRM_BUTTON": "Confirmar puntuación",
+      "SELECTED": "Tu puntuación: {rating}"
+    }
+  },
+  "CSAT": {
+    "RATINGS": {
+      "POOR": "Mala",
+      "FAIR": "Regular",
+      "AVERAGE": "Normal",
+      "GOOD": "Buena",
+      "EXCELLENT": "Excelente"
+    }
+  },
+  "POWERED_BY_BRAND": "Desarrollado por {brandName}"
+}

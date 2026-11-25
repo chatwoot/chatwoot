@@ -2,6 +2,20 @@ import { mutations } from '../index';
 import types from '../../../mutation-types';
 
 describe('#mutations', () => {
+  describe('#REMOVE_CONVERSATIONS', () => {
+    it('removes only the ids it was given', () => {
+      const state = { allConversations: [{ id: 1 }, { id: 2 }, { id: 3 }] };
+      mutations[types.REMOVE_CONVERSATIONS](state, [1, 3]);
+      expect(state.allConversations).toEqual([{ id: 2 }]);
+    });
+
+    it('leaves the list untouched when nothing matches', () => {
+      const state = { allConversations: [{ id: 1 }, { id: 2 }] };
+      mutations[types.REMOVE_CONVERSATIONS](state, [99]);
+      expect(state.allConversations).toEqual([{ id: 1 }, { id: 2 }]);
+    });
+  });
+
   describe('#UPDATE_MESSAGE_CALL_STATUS', () => {
     it('does nothing if conversation is not found', () => {
       const state = { allConversations: [] };

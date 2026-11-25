@@ -29,7 +29,7 @@ RSpec.describe AutoAssignment::PeriodicAssignmentJob, type: :job do
 
         it 'queues assignment job for eligible inboxes' do
           inbox_assignment_policy # ensure it exists
-          expect(AutoAssignment::AssignmentJob).to receive(:perform_later).with(inbox_id: inbox.id)
+          expect(AutoAssignment::AssignmentJob).to receive(:enqueue_for_inbox).with(inbox.id)
 
           described_class.new.perform
         end
@@ -51,8 +51,8 @@ RSpec.describe AutoAssignment::PeriodicAssignmentJob, type: :job do
 
           allow(Account).to receive(:find_in_batches).and_yield([account]).and_yield([account2])
 
-          expect(AutoAssignment::AssignmentJob).to receive(:perform_later).with(inbox_id: inbox.id)
-          expect(AutoAssignment::AssignmentJob).to receive(:perform_later).with(inbox_id: inbox2.id)
+          expect(AutoAssignment::AssignmentJob).to receive(:enqueue_for_inbox).with(inbox.id)
+          expect(AutoAssignment::AssignmentJob).to receive(:enqueue_for_inbox).with(inbox2.id)
 
           described_class.new.perform
         end
@@ -65,10 +65,40 @@ RSpec.describe AutoAssignment::PeriodicAssignmentJob, type: :job do
         end
 
         it 'does not queue assignment job' do
-          expect(AutoAssignment::AssignmentJob).not_to receive(:perform_later)
+          expect(AutoAssignment::AssignmentJob).not_to receive(:enqueue_for_inbox)
 
           described_class.new.perform
         end
+      end
+    end
+
+    # Assignment V2 runs without a policy too, but only this job hands out what an
+    # inbox held while it was closed, so those inboxes are queued here as well.
+    context 'when a round-robin inbox without a policy holds assignment while closed' do
+      let!(:holding_inbox) do
+        create(:inbox, account: account, enable_auto_assignment: true, working_hours_enabled: true,
+                       restrict_assignment_to_working_hours: true)
+      end
+
+      before do
+        account.enable_features('assignment_v2')
+        account.save!
+        allow(Account).to receive(:find_in_batches).and_yield([account])
+      end
+
+      it 'queues it, and leaves policy-less inboxes without the option alone' do
+        expect(AutoAssignment::AssignmentJob).to receive(:enqueue_for_inbox).with(holding_inbox.id)
+        expect(AutoAssignment::AssignmentJob).not_to receive(:enqueue_for_inbox).with(inbox.id)
+
+        described_class.new.perform
+      end
+
+      it 'queues an inbox with a policy only once' do
+        create(:inbox_assignment_policy, inbox: holding_inbox, assignment_policy: assignment_policy)
+
+        expect(AutoAssignment::AssignmentJob).to receive(:enqueue_for_inbox).with(holding_inbox.id).once
+
+        described_class.new.perform
       end
     end
 
@@ -78,7 +108,7 @@ RSpec.describe AutoAssignment::PeriodicAssignmentJob, type: :job do
       end
 
       it 'does not process the account' do
-        expect(AutoAssignment::AssignmentJob).not_to receive(:perform_later)
+        expect(AutoAssignment::AssignmentJob).not_to receive(:enqueue_for_inbox)
 
         described_class.new.perform
       end

@@ -117,6 +117,23 @@ RSpec.describe 'Conversation Message Attachments API', type: :request do
         expect(attachment.reload.meta).to eq({})
       end
 
+      it 'rejects metadata that is not an object, and writes nothing' do
+        [[], false, 'invalid'].each do |meta|
+          patch api_v1_account_conversation_message_attachment_url(
+            account_id: account.id,
+            conversation_id: conversation.display_id,
+            message_id: message.id,
+            id: attachment.id
+          ),
+                params: { meta: meta },
+                headers: agent.create_new_auth_token,
+                as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+        expect(attachment.reload.meta).to be_blank
+      end
+
       it 'rejects metadata that exceeds size limit' do
         large_value = 'x' * 17_000
         params = { meta: { large_field: large_value } }

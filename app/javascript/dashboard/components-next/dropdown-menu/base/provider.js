@@ -1,6 +1,21 @@
 import { inject, provide } from 'vue';
 
 const DropdownControl = Symbol('DropdownControl');
+const DropdownTeleport = Symbol('DropdownTeleport');
+
+// Open menus, in the order they opened. A submenu opens after the menu it sits in, so the last one
+// is the innermost, and it is the one an Escape closes.
+const openMenus = [];
+
+export function markMenuOpen(menu, open) {
+  const index = openMenus.indexOf(menu);
+  if (index !== -1) openMenus.splice(index, 1);
+  if (open) openMenus.push(menu);
+}
+
+export function isInnermostOpenMenu(menu) {
+  return openMenus[openMenus.length - 1] === menu;
+}
 
 export function useDropdownContext() {
   const context = inject(DropdownControl, null);
@@ -16,4 +31,16 @@ export function useDropdownContext() {
 
 export function provideDropdownContext(context) {
   provide(DropdownControl, context);
+}
+
+/**
+ * Opts every dropdown below this component into rendering its menu on <body>, for subtrees
+ * living inside a scrolling or clipping ancestor that would otherwise cut the menu off.
+ */
+export function provideDropdownTeleport() {
+  provide(DropdownTeleport, true);
+}
+
+export function useDropdownTeleport() {
+  return inject(DropdownTeleport, false);
 }

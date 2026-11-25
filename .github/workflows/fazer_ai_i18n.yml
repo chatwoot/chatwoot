@@ -1,0 +1,39 @@
+# Fork-only workflow: keeps the fazer.ai translations separate from upstream's.
+name: fazer.ai i18n
+
+on:
+  push:
+    branches: [main]
+  # No branch filter: stacked PRs target another feature branch, and filtering
+  # on `main` would let them merge without ever running this gate.
+  pull_request:
+
+jobs:
+  fork-translations:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.4'
+
+      # Ruby 3.4 ships json 2.9, which keeps the last of two identical keys without a word;
+      # `check` refuses to run on a parser that cannot reject them.
+      - name: Install a JSON parser that rejects duplicated keys
+        run: gem install json --no-document
+
+      # Structural rules that hold regardless of which upstream release we track.
+      - name: Check fork translation boundaries
+        run: ruby scripts/i18n/fork_translations.rb check
+
+      # The fork's remote does not carry Chatwoot's tags, so fetch the tracked
+      # release before comparing upstream's translation files against it.
+      - name: Fetch tracked upstream release
+        run: |
+          base=$(grep -m1 "^UPSTREAM_BASE = " scripts/i18n/fork_translations.rb | cut -d"'" -f2)
+          echo "UPSTREAM_BASE=$base" >> "$GITHUB_ENV"
+          git fetch --no-tags --depth=1 https://github.com/chatwoot/chatwoot.git "refs/tags/$base:refs/tags/$base"
+
+      - name: Check upstream translation files are untouched
+        run: ruby scripts/i18n/fork_translations.rb drift --base "$UPSTREAM_BASE"

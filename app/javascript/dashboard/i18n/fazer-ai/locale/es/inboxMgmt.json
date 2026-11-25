@@ -1,0 +1,273 @@
+{
+  "INBOX_MGMT": {
+    "ADD": {
+      "WHATSAPP": {
+        "PROVIDERS": {
+          "360_DIALOG_DESC": "Conectar con credenciales de 360Dialog",
+          "BAILEYS": "Baileys",
+          "BAILEYS_DESC": "Conectar mediante la API no oficial Baileys",
+          "ZAPI": "Z-API",
+          "ZAPI_DESC": "Conectar mediante la API no oficial Z-API",
+          "NATIVE": "WhatsApp (nativo)",
+          "NATIVE_DESC": "Conectar mediante una API no oficial, vinculando como en WhatsApp Web, sin proveedor externo",
+          "NATIVE_CONNECTOR_NOT_RUNNING": "El conector de WhatsApp no está en ejecución en esta instalación, así que no se puede crear una bandeja nativa ahora. Quien administra el servidor puede ver el motivo en la página de salud del Super Admin.",
+          "UAZAPI": "Uazapi",
+          "UAZAPI_DESC": "Conectar mediante la API no oficial de Uazapi, en tu propia instancia"
+        },
+        "PROVIDER_URL": {
+          "LABEL": "URL del proveedor",
+          "PLACEHOLDER": "Si el proveedor no se ejecuta localmente, indique la URL",
+          "ERROR": "Introduzca una URL válida"
+        },
+        "MARK_AS_READ": {
+          "LABEL": "Enviar confirmaciones de lectura"
+        },
+        "PRESENCE_SUBSCRIBE": {
+          "LABEL": "Mostrar cuando el contacto está escribiendo"
+        },
+        "INSTANCE_ID": {
+          "LABEL": "ID de instancia",
+          "PLACEHOLDER": "Introduzca su ID de instancia",
+          "ERROR": "Este campo es obligatorio"
+        },
+        "TOKEN": {
+          "LABEL": "Token",
+          "PLACEHOLDER": "Introduzca el token de su instancia",
+          "ERROR": "Este campo es obligatorio"
+        },
+        "CLIENT_TOKEN": {
+          "LABEL": "Token de seguridad",
+          "PLACEHOLDER": "Introduzca su token de seguridad (vea la pestaña Security en el panel de Z-API)",
+          "ERROR": "Este campo es obligatorio"
+        },
+        "ADVANCED_OPTIONS": "Opciones avanzadas",
+        "EXTERNAL_PROVIDER": {
+          "SUBTITLE": "Haga clic abajo para configurar el canal de WhatsApp.",
+          "LINK_BUTTON": "Vincular dispositivo",
+          "LINK_DEVICE_MODAL": {
+            "TITLE": "Vincule su dispositivo",
+            "SUBTITLE": "Vincule su dispositivo a esta bandeja de entrada. Verifique que el número de teléfono sea correcto antes de empezar.",
+            "LOADING_QRCODE": "Cargando el código QR...",
+            "USE_PAIRING_CODE": "Vincular con un código",
+            "USE_QRCODE": "Usar el código QR",
+            "LOADING_PAIRING_CODE": "Solicitando un código...",
+            "PAIRING_CODE_STEP_1": "En el teléfono que va a atender, abre WhatsApp.",
+            "PAIRING_CODE_STEP_2": "Ve a Dispositivos vinculados y toca Vincular un dispositivo.",
+            "PAIRING_CODE_STEP_3": "Toca \"Vincular con número de teléfono\" e ingresa el código de arriba.",
+            "PAIRING_CODE_EXPIRES": "El código dura unos minutos. Pide otro si caduca.",
+            "RECONNECTING": "Reconectando...",
+            "LINK_DEVICE": "Vincular dispositivo",
+            "DISCONNECT": "Desconectar",
+            "CONNECTED": "Su dispositivo se conectó correctamente. Ya puede empezar a enviar y recibir mensajes.",
+            "IMPORT_SESSION_TITLE": "¿El código QR no funciona?",
+            "IMPORT_SESSION_SHOW_MORE": "Ver más",
+            "IMPORT_SESSION_DESC": "WhatsApp ahora exige una clave de acceso al vincular algunas cuentas, lo que bloquea el código QR. Instale la extensión del navegador para importar una sesión que ya tenga iniciada en WhatsApp Web.",
+            "IMPORT_SESSION_INSTALL": "Instalar la extensión"
+          }
+        },
+        "SESSION": {
+          "FIELDS": {
+            "BASE_URL": {
+              "LABEL": "URL de la instancia",
+              "PLACEHOLDER": "https://tu-instancia.uazapi.com",
+              "ERROR": "Indica la dirección de tu instancia"
+            },
+            "TOKEN": {
+              "LABEL": "Token de la instancia",
+              "PLACEHOLDER": "Pega el token de la instancia que quieres usar",
+              "ERROR": "El token de la instancia es obligatorio"
+            },
+            "MARK_AS_READ": {
+              "LABEL": "Marcar mensajes como leídos en WhatsApp",
+              "DESCRIPTION": "Al responder desde Chatwoot, la conversación también aparece como leída en el teléfono."
+            },
+            "PRESENCE_SUBSCRIBE": {
+              "LABEL": "Mostrar cuándo el contacto está en línea",
+              "DESCRIPTION": "Muestra “escribiendo…” y “grabando…” en la conversación mientras el contacto escribe."
+            },
+            "HISTORY_SYNC": {
+              "LABEL": "Importar conversaciones antiguas al vincular",
+              "DESCRIPTION": "Trae el historial que el teléfono ofrece al vincular, todo como conversaciones resueltas. Los mensajes recibidos mientras la conexión estuvo caída se recuperan igual."
+            },
+            "PROXY_URL": {
+              "LABEL": "Proxy (opcional)",
+              "PLACEHOLDER": "socks5://usuario:contraseña{'@'}host:puerto",
+              "DESCRIPTION": "El WhatsApp de esta bandeja sale por esta dirección. Déjalo vacío para conectar directamente.",
+              "ERROR": "Usa una dirección http, https o socks5 con host"
+            },
+            "HISTORY_MEDIA": {
+              "TITLE": "Archivos del historial importado",
+              "DESCRIPTION": "El historial importado llega sin sus archivos. Con esta opción activada, las imágenes, audios y documentos se descargan en segundo plano después de la importación, de los más nuevos a los más antiguos, mientras WhatsApp todavía los tenga. Los archivos más antiguos se pueden descargar desde la conversación.",
+              "FETCH_LABEL": "Descargar los archivos automáticamente",
+              "DAYS_LABEL": "Solo archivos de los últimos (días)",
+              "DAYS_ERROR": "Ingresa un número entero de días mayor que cero.",
+              "SAVE": "Guardar"
+            }
+          }
+        },
+        "LEGACY_PROVIDER": {
+          "BADGE": "Heredado",
+          "BADGE_DESCRIPTION": "Este proveedor sigue funcionando y no recibe funciones nuevas.",
+          "NOTICE": "Este proveedor es heredado. Sigue funcionando.",
+          "NOTICE_WITH_NATIVE": "Este proveedor es heredado. Sigue funcionando, pero recomendamos usar WhatsApp (nativo) en su lugar.",
+          "CONVERT_TO_NATIVE": "Convertir a WhatsApp (nativo)",
+          "USE_NATIVE": "Usar WhatsApp (nativo)"
+        },
+        "MANUAL_SETUP": {
+          "APP_SECRET": {
+            "LABEL": "Clave secreta de la aplicación",
+            "PLACEHOLDER": "Pega la clave secreta de tu aplicación de Meta",
+            "HELP": "En tu aplicación de developers.facebook.com, abre Configuración de la app > Básica y copia la Clave secreta de la app. Confirma que cada webhook viene realmente de Meta."
+          }
+        }
+      }
+    },
+    "CONVERT": {
+      "BUTTON": "Convertir",
+      "CONFIRM": {
+        "TITLE": "Convertir el proveedor de la bandeja de entrada",
+        "INTRO": "Está a punto de cambiar el proveedor de WhatsApp de '{inboxName}' (actualmente {currentProvider}). Antes de continuar, revise lo que va a suceder:",
+        "EFFECT_DISCONNECT": "La sesión actual con {currentProvider} se desconectará.",
+        "EFFECT_TEMPLATES": "Las plantillas de mensaje se borrarán y habrá que volver a sincronizarlas en el nuevo proveedor.",
+        "EFFECT_CONNECTION": "El estado de conexión del proveedor se restablecerá.",
+        "EFFECT_PRESERVED": "Se conservan las conversaciones, los mensajes, los contactos, las asignaciones de agentes y el historial.",
+        "EFFECT_IDENTITY": "El nombre de la bandeja de entrada y el número de teléfono no cambian.",
+        "CONFIRM_PROMPT": "Para confirmar, escriba abajo el nombre de la bandeja de entrada:",
+        "PLACE_HOLDER": "Escriba {inboxName} para continuar",
+        "CONTINUE": "Continuar con la conversión",
+        "CANCEL": "Cancelar"
+      },
+      "SELECT_PROVIDER_TITLE": "Seleccione el nuevo proveedor",
+      "SELECT_PROVIDER_DESCRIPTION": "Convirtiendo '{inboxName}' desde {currentProvider}.",
+      "SUBMIT_BUTTON": "Convertir la bandeja de entrada",
+      "API": {
+        "SUCCESS_MESSAGE": "Bandeja de entrada convertida correctamente",
+        "ERROR_MESSAGE": "No se pudo convertir la bandeja de entrada. Revise las credenciales e inténtelo de nuevo."
+      }
+    },
+    "SETTINGS_POPUP": {
+      "WHATSAPP_MANAGE_PROVIDER_CONNECTION_TITLE": "Gestionar la conexión del proveedor",
+      "WHATSAPP_MANAGE_PROVIDER_CONNECTION_SUBHEADER": "Vincule su dispositivo y gestione la conexión del proveedor.",
+      "WHATSAPP_MANAGE_PROVIDER_CONNECTION_BUTTON": "Gestionar la conexión",
+      "WHATSAPP_PROVIDER_URL_TITLE": "URL del proveedor",
+      "WHATSAPP_PROVIDER_URL_SUBHEADER": "Si el proveedor no se ejecuta localmente, indique la URL.",
+      "WHATSAPP_PROVIDER_URL_PLACEHOLDER": "Introduzca la URL del proveedor",
+      "WHATSAPP_PROVIDER_URL_ERROR": "Introduzca una URL válida",
+      "WHATSAPP_MARK_AS_READ_TITLE": "Confirmaciones de lectura",
+      "WHATSAPP_MARK_AS_READ_SUBHEADER": "Si está desactivado, cuando un mensaje se vea en Chatwoot no se enviará confirmación de lectura al remitente. Sus mensajes seguirán pudiendo recibir confirmaciones de lectura del remitente.",
+      "WHATSAPP_MARK_AS_READ_LABEL": "Enviar confirmaciones de lectura",
+      "WHATSAPP_PRESENCE_SUBSCRIBE_TITLE": "Indicador de escritura del contacto",
+      "WHATSAPP_PRESENCE_SUBSCRIBE_SUBHEADER": "Si está activado, verá en la conversación cuando un contacto de WhatsApp esté escribiendo o grabando audio. Es necesario reconectar el canal para que surta efecto.",
+      "WHATSAPP_PRESENCE_SUBSCRIBE_LABEL": "Mostrar cuando el contacto está escribiendo",
+      "WHATSAPP_INSTANCE_ID_TITLE": "ID de instancia",
+      "WHATSAPP_INSTANCE_ID_SUBHEADER": "Su ID de instancia de Z-API.",
+      "WHATSAPP_INSTANCE_ID_UPDATE_TITLE": "Actualizar el ID de instancia",
+      "WHATSAPP_INSTANCE_ID_UPDATE_SUBHEADER": "Introduzca aquí el nuevo ID de instancia",
+      "WHATSAPP_TOKEN_TITLE": "Token",
+      "WHATSAPP_TOKEN_SUBHEADER": "El token de su instancia de Z-API.",
+      "WHATSAPP_TOKEN_UPDATE_TITLE": "Actualizar el token",
+      "WHATSAPP_TOKEN_UPDATE_SUBHEADER": "Introduzca aquí el nuevo token de la instancia",
+      "WHATSAPP_CLIENT_TOKEN_TITLE": "Token de seguridad",
+      "WHATSAPP_CLIENT_TOKEN_SUBHEADER": "Su Client Token de Z-API (vea la pestaña Security en el panel de Z-API).",
+      "WHATSAPP_CLIENT_TOKEN_UPDATE_TITLE": "Actualizar el token de seguridad",
+      "WHATSAPP_CLIENT_TOKEN_UPDATE_SUBHEADER": "Introduzca aquí el nuevo token de seguridad",
+      "WHATSAPP_APP_SECRET": {
+        "TITLE": "Clave secreta de la aplicación",
+        "HELP": "La clave secreta de la aplicación de Meta que generó el token de acceso de esta bandeja. Confirma que cada webhook viene realmente de Meta.",
+        "MISSING": "Esta bandeja no tiene la clave secreta de la aplicación, así que sus webhooks se aceptan sin comprobar que vengan de Meta. Una versión futura los rechazará: agrega la clave para seguir recibiendo mensajes.",
+        "CONFIGURED": "Clave secreta configurada",
+        "PLACEHOLDER": "Pega la clave secreta",
+        "ADD": "Agregar",
+        "REPLACE": "Reemplazar",
+        "SUCCESS": "Clave secreta guardada",
+        "ERROR": "No se pudo guardar la clave secreta. Verifica que sea de la misma aplicación de Meta que generó el token de acceso de esta bandeja."
+      },
+      "ZAPI_WEBHOOK_URL": {
+        "TITLE": "Dirección de recepción",
+        "HELP": "Z-API entrega los mensajes de esta bandeja en una dirección con una clave propia. Si esa dirección aparece donde no debería, como en un log o en un ticket de soporte, genera una nueva: Z-API pasa a usarla y la anterior deja de funcionar.",
+        "BUTTON": "Generar nueva dirección",
+        "SUCCESS": "Nueva dirección registrada en Z-API.",
+        "ERROR": "Z-API no aceptó la nueva dirección. La bandeja sigue recibiendo por la actual; inténtalo de nuevo."
+      },
+      "WHATSAPP_DISCONNECTED": {
+        "MESSAGE": "Este WhatsApp está desconectado, y la bandeja no envía ni recibe mensajes. Conecta el teléfono para vincularlo de nuevo.",
+        "CONNECT": "Conectar"
+      }
+    },
+    "ASSIGNMENT": {
+      "PREVENT_TAKEOVER": "Impedir que otro agente tome la conversación",
+      "PREVENT_TAKEOVER_SUB_TEXT": "Cuando un agente toma una conversación, solo él o un administrador pueden cambiar quién la atiende. La asignación automática no se ve afectada.",
+      "REOPEN_TEAM": {
+        "TITLE": "Al reabrir, mantener al responsable solo si está en el equipo de la conversación",
+        "DESCRIPTION": "Cuando el mensaje de un cliente reabre una conversación resuelta o pospuesta que tiene equipo, el responsable la conserva solo si es miembro de ese equipo. Si no, la conversación pasa a Sin asignar, con su equipo y etiquetas."
+      },
+      "REOPEN_OWNER": {
+        "TITLE": "Cuando el cliente escribe en una conversación que una persona resolvió",
+        "DESCRIPTION": "Se aplica a bandejas con un bot activo. Define quién se queda con la conversación cuando el mensaje del cliente la reabre.",
+        "OPTIONS": {
+          "AGENT_BOT": "Pasarla al bot",
+          "ASSIGNEE": "Mantenerla con la persona",
+          "ASSIGNEE_WITHIN_WINDOW": "Mantenerla con la persona si el cliente escribe dentro de un número de horas"
+        },
+        "HOURS_LABEL": "Horas después de resolverla",
+        "HOURS_HELP": "Pasado ese plazo, la conversación pasa al bot.",
+        "HOURS_ERROR": "Ingresa un número entero de horas entre 1 y 8760."
+      }
+    },
+    "CSAT": {
+      "TEMPLATE_MODE": {
+        "LABEL": "Origen de la plantilla",
+        "CREATE_NEW": "Crear una plantilla nueva",
+        "USE_EXISTING": "Usar una plantilla existente"
+      },
+      "EXISTING_TEMPLATE": {
+        "LABEL": "Seleccionar plantilla",
+        "PLACEHOLDER": "Seleccione una plantilla aprobada",
+        "SYNC_BUTTON": "Sincronizar plantillas",
+        "SYNCING": "Sincronizando...",
+        "EMPTY_STATE": "No se encontraron plantillas compatibles. Las plantillas deben tener un botón de URL con un parámetro dinámico.",
+        "LINK_SUCCESS": "Plantilla vinculada correctamente",
+        "LINK_ERROR": "No se pudo vincular la plantilla",
+        "LOADING": "Cargando plantillas...",
+        "USING_LABEL": "Usando la plantilla existente: {name}",
+        "SYNC_ERROR": "No se pudieron sincronizar las plantillas. Inténtelo de nuevo."
+      },
+      "TEMPLATE_VARIABLES": {
+        "TITLE": "Variables de la plantilla",
+        "DESCRIPTION": "Defina los valores de las variables del cuerpo de la plantilla. Puede usar variables dinámicas como {'{{'} contact.name {'}}'}, que se resolverán al momento del envío.",
+        "VARIABLE_LABEL": "Variable {variable}",
+        "VARIABLE_PLACEHOLDER": "Introduzca el valor de {variable}",
+        "VARIABLE_REQUIRED": "Esta variable es obligatoria",
+        "VALIDATION_ERROR": "Defina todas las variables de la plantilla antes de guardar.",
+        "INSERT_VARIABLE": "Insertar variable"
+      }
+    },
+    "CHANNELS": {
+      "WHATSAPP_BAILEYS": "WhatsApp - Baileys",
+      "WHATSAPP_ZAPI": "WhatsApp - Z-API",
+      "WHATSAPP_NATIVE": "WhatsApp - nativo",
+      "WHATSAPP_UAZAPI": "WhatsApp - Uazapi"
+    },
+    "ACCOUNT_HEALTH": {
+      "WEBHOOK": {
+        "REGISTER_SUCCESS_WITHOUT_ROUTING": "Webhook registrado, pero Meta no confirmó apuntar este número en sí aquí. Consulta en la tarjeta de abajo adónde va la entrega ahora.",
+        "RIDES_ON_APP_CALLBACK": "La entrega sigue la URL de callback de la aplicación: ni este número ni su cuenta de WhatsApp Business apuntan a esta instalación, así que deja de llegar si esa URL cambia.",
+        "APP_CALLBACK_POINTS_ELSEWHERE": "Este número no tiene enrutamiento propio, así que la entrega sigue la URL de callback de la aplicación, mostrada abajo, que no es la esperada para este número. Registrar el webhook apunta este número aquí; si Meta lo rechaza en esta cuenta, lo que hay que cambiar es el callback de la aplicación."
+      }
+    },
+    "CONVERSATION_CONTINUITY": {
+      "TITLE": "Continuidad de la conversación",
+      "NOTE_TEXT": "Decide dónde llega un correo nuevo cuando no responde a ningún hilo existente. Una respuesta siempre se queda en el hilo al que responde, sin importar esta configuración.",
+      "TOGGLE_AVAILABILITY": "Continuar el caso abierto del contacto",
+      "TOGGLE_HELP": "Cuando el contacto escribe un correo nuevo mientras una de sus conversaciones sigue abierta, el mensaje entra en esa conversación en lugar de abrir otra. Una vez resuelta la conversación, el siguiente correo abre una nueva. Déjalo desactivado para mantener una conversación por hilo de correo.",
+      "EDIT": {
+        "BUTTON_TEXT": "Actualizar",
+        "SUCCESS_MESSAGE": "Continuidad de la conversación actualizada correctamente"
+      }
+    },
+    "BUSINESS_HOURS": {
+      "RESTRICT_ASSIGNMENT": "Solo asignar conversaciones dentro del horario de atención",
+      "RESTRICT_ASSIGNMENT_HELP": "Fuera del horario indicado arriba, los agentes no pueden asignar conversaciones de esta bandeja, ni a sí mismos ni a otras personas, y la asignación automática no las reparte. Con la asignación V2, lo que llegó con la bandeja cerrada se reparte cuando abre. Los administradores pueden asignar en cualquier momento."
+    }
+  }
+}

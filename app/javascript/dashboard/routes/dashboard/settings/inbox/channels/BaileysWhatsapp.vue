@@ -5,6 +5,7 @@ import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
 import { useAlert } from 'dashboard/composables';
+import { requestPairing } from 'dashboard/helper/whatsappPairingRequest';
 import { required, requiredIf } from '@vuelidate/validators';
 import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
 import { isValidURL } from '../../../../../helper/URLHelper';
@@ -88,6 +89,8 @@ const createChannel = async () => {
       });
 
       useAlert(t('INBOX_MGMT.CONVERT.API.SUCCESS_MESSAGE'));
+      // The inbox comes out of the conversion unpaired: the settings open the pairing.
+      requestPairing(props.inbox.id);
       router.replace({
         name: 'settings_inbox_show',
         params: {
@@ -170,7 +173,13 @@ const setShowAdvancedOptions = () => {
       v-if="!showAdvancedOptions"
       class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%] mb-4"
     >
-      <NextButton icon="i-lucide-plus" sm link @click="setShowAdvancedOptions">
+      <NextButton
+        type="button"
+        icon="i-lucide-plus"
+        sm
+        link
+        @click="setShowAdvancedOptions"
+      >
         {{ $t('INBOX_MGMT.ADD.WHATSAPP.ADVANCED_OPTIONS') }}
       </NextButton>
     </div>

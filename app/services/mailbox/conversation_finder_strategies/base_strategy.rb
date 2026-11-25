@@ -1,4 +1,6 @@
 class Mailbox::ConversationFinderStrategies::BaseStrategy
+  include MailboxSanitizer
+
   attr_reader :mail
 
   def initialize(mail)

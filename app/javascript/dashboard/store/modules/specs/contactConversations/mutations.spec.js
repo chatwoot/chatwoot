@@ -27,6 +27,19 @@ describe('#mutations', () => {
     });
   });
 
+  describe('#SET_CONVERSATION_NEIGHBOURS', () => {
+    it('sets the neighbours of a conversation', () => {
+      const state = { neighbours: {} };
+      mutations[types.default.SET_CONVERSATION_NEIGHBOURS](state, {
+        id: 13,
+        data: [{ id: 11 }, { id: 13 }],
+      });
+      expect(state.neighbours).toEqual({
+        13: [{ id: 11 }, { id: 13 }],
+      });
+    });
+  });
+
   describe('#ADD_CONTACT_CONVERSATION', () => {
     it('Adds new contact conversation to records', () => {
       const state = { records: {} };

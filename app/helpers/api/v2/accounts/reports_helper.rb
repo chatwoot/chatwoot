@@ -2,24 +2,30 @@ module Api::V2::Accounts::ReportsHelper
   def generate_agents_report
     reports = V2::Reports::AgentSummaryBuilder.new(
       account: Current.account,
-      params: build_params(type: :agent)
+      params: build_params(type: :agent, inbox_id: params[:inbox_id].presence)
     ).build
 
-    Current.account.users.map do |agent|
+    Current.account.users.filter_map do |agent|
       report = reports.find { |r| r[:id] == agent.id }
-      [agent.name] + generate_readable_report_metrics(report)
+      # The builder drops agents with no part in the filtered inbox.
+      next if report.blank?
+
+      [agent.name] + generate_readable_report_metrics(report, handled: true)
     end
   end
 
   def generate_inboxes_report
     reports = V2::Reports::InboxSummaryBuilder.new(
       account: Current.account,
-      params: build_params(type: :inbox)
+      params: build_params(type: :inbox, user_id: params[:user_id].presence)
     ).build
 
-    Current.account.inboxes.map do |inbox|
+    Current.account.inboxes.filter_map do |inbox|
       report = reports.find { |r| r[:id] == inbox.id }
-      [inbox.name, inbox.channel&.name] + generate_readable_report_metrics(report)
+      # The builder drops inboxes the filtered agent never touched.
+      next if report.blank?
+
+      [inbox.name, inbox.channel&.name] + generate_readable_report_metrics(report, handled: true)
     end
   end
 
@@ -31,7 +37,7 @@ module Api::V2::Accounts::ReportsHelper
 
     Current.account.teams.map do |team|
       report = reports.find { |r| r[:id] == team.id }
-      [team.name] + generate_readable_report_metrics(report)
+      [team.name] + generate_readable_report_metrics(report, handled: true)
     end
   end
 
@@ -69,14 +75,15 @@ module Api::V2::Accounts::ReportsHelper
     V2::ReportBuilder.new(Current.account, build_params(report_params))
   end
 
-  def generate_readable_report_metrics(report)
+  # Labels have no handled count: their summary is built apart from the others.
+  def generate_readable_report_metrics(report, handled: false)
     [
       report[:conversations_count],
       Reports::TimeFormatPresenter.new(report[:avg_first_response_time]).format,
       Reports::TimeFormatPresenter.new(report[:avg_resolution_time]).format,
       Reports::TimeFormatPresenter.new(report[:avg_reply_time]).format,
       report[:resolved_conversations_count]
-    ]
+    ] + (handled ? [report[:handled_conversations_count]] : [])
   end
 
   def generate_conversation_report_metrics(summary)

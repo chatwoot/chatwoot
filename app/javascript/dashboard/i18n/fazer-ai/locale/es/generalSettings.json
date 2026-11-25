@@ -1,0 +1,57 @@
+{
+  "GENERAL_SETTINGS": {
+    "SUPER_ADMIN_ONLY_NOTICE": "Este mensaje solo es visible para los administradores del sistema.",
+    "FORM": {
+      "EMAIL_BRANDING": {
+        "TITLE": "Marca de los correos",
+        "NOTE": "Cómo se ven los correos y la página de encuesta CSAT de esta cuenta. Lo que quede vacío usa la identidad de la instalación. Aplica a lo que ven tus clientes: el panel, el favicon y el widget mantienen la marca de la instalación.",
+        "NAME": {
+          "LABEL": "Nombre de la marca",
+          "PLACEHOLDER": "Tu empresa",
+          "HELP": "Aparece en el pie del correo, después de \"Con tecnología de\"."
+        },
+        "URL": {
+          "LABEL": "Sitio de la marca",
+          "PLACEHOLDER": "https://www.ejemplo.com"
+        },
+        "COLOR": {
+          "LABEL": "Color de la marca",
+          "HELP": "Se usa en la barra de acento y en los enlaces. Un color demasiado claro para leerse sobre blanco se oscurece en el texto, conservando su tono.",
+          "RESET": "Usar el color de la instalación"
+        },
+        "LOGO": {
+          "LABEL": "Logo del correo",
+          "UPLOAD": "Subir logo",
+          "REPLACE": "Cambiar logo",
+          "REMOVE": "Quitar",
+          "HELP": "PNG, JPG o GIF, hasta 2 MB. No se acepta SVG porque los clientes de correo no lo muestran."
+        },
+        "API": {
+          "SUCCESS": "Marca de los correos actualizada",
+          "ERROR": "No se pudo actualizar la marca de los correos",
+          "LOGO_SUCCESS": "Logo actualizado",
+          "LOGO_REMOVED": "Logo eliminado",
+          "LOGO_ERROR": "No se pudo actualizar el logo"
+        }
+      }
+    }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "TYPE_LABEL": {
+      "internal_chat_mention": "Mención",
+      "internal_chat_new_message": "Mensaje directo"
+    }
+  },
+  "COMMAND_BAR": {
+    "COMMANDS": {
+      "PIN_CONVERSATION": "Fijar la conversación",
+      "UNPIN_CONVERSATION": "Dejar de fijar la conversación"
+    },
+    "FOOTER": {
+      "SELECT": "para seleccionar",
+      "NAVIGATE": "para navegar",
+      "CLOSE": "para cerrar",
+      "PARENT": "para volver al nivel anterior"
+    }
+  }
+}

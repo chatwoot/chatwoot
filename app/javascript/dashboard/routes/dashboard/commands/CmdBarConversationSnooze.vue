@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useStore, useStoreGetters } from 'dashboard/composables/store';
-import { useAlert } from 'dashboard/composables';
+import { useAlert, useAssignmentError } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { useEmitter } from 'dashboard/composables/emitter';
 import { getUnixTime } from 'date-fns';
@@ -19,13 +19,17 @@ const selectedChat = computed(() => getters.getSelectedChat.value);
 const contextMenuChatId = computed(() => getters.getContextMenuChatId.value);
 
 const toggleStatus = async (status, snoozedUntil) => {
-  await store.dispatch('toggleStatus', {
-    conversationId: selectedChat.value?.id || contextMenuChatId.value,
-    status,
-    snoozedUntil,
-  });
-  store.dispatch('setContextMenuChatId', null);
-  useAlert(t('CONVERSATION.CHANGE_STATUS'));
+  try {
+    await store.dispatch('toggleStatus', {
+      conversationId: selectedChat.value?.id || contextMenuChatId.value,
+      status,
+      snoozedUntil,
+    });
+    store.dispatch('setContextMenuChatId', null);
+    useAlert(t('CONVERSATION.CHANGE_STATUS'));
+  } catch (error) {
+    useAssignmentError(error, t('CONVERSATION.CHANGE_STATUS_FAILED'));
+  }
 };
 
 const onCmdSnoozeConversation = snoozeType => {

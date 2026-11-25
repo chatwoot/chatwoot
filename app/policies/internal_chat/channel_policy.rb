@@ -68,3 +68,5 @@ class InternalChat::ChannelPolicy < ApplicationPolicy
     channel_member?
   end
 end
+
+InternalChat::ChannelPolicy.prepend_mod_with('InternalChat::ChannelPolicy')

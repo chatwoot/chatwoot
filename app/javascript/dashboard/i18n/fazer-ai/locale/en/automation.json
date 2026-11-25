@@ -1,0 +1,41 @@
+{
+  "AUTOMATION": {
+    "ACTION": {
+      "SCHEDULED_MESSAGE_DELAY_LABEL": "Delay",
+      "ATTACHMENT_ADD": "Add attachment",
+      "TEMPLATE_SELECT": "Use template",
+      "TEMPLATE_SELECTED": "Template: {name}",
+      "TEMPLATE_USE": "Use this template"
+    },
+    "ACTIONS": {
+      "CREATE_SCHEDULED_MESSAGE": "Create Scheduled Message",
+      "REMOVE_CUSTOM_ATTRIBUTE": "Remove custom attribute"
+    },
+    "ATTRIBUTES": {
+      "SENDER": "Sender",
+      "SENDER_TYPE": "Sender Type"
+    },
+    "SENDER_TYPES": {
+      "CONTACT": "Contact",
+      "USER": "Agent",
+      "AGENT_BOT": "Bot",
+      "CAPTAIN": "Captain"
+    },
+    "EVENTS": {
+      "MESSAGE_EDITED": "Message Edited"
+    },
+    "ADD": {
+      "FORM": {
+        "WAIT": {
+          "OPTIONS": {
+            "CONVERSATION_INACTIVE": "The conversation goes quiet"
+          },
+          "EXPLANATION": {
+            "CONVERSATION_INACTIVE": "The count starts at the conversation’s last activity. If nothing happens on it for {duration}, the actions below run. Any new activity restarts the count."
+          },
+          "INBOX_ERROR": "Choose at least one inbox for this wait."
+        }
+      }
+    }
+  }
+}

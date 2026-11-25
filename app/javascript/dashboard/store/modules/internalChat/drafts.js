@@ -1,13 +1,15 @@
 import InternalChatDraftsAPI from '../../../api/internalChatDrafts';
 import { throwErrorMessage } from 'dashboard/store/utils/api';
 
-const state = {
+const initialState = () => ({
   records: {},
   hasFetched: false,
   uiFlags: {
     isFetching: false,
   },
-};
+});
+
+const state = initialState();
 
 const getters = {
   getDrafts: _state => {
@@ -91,6 +93,9 @@ const actions = {
 };
 
 const mutations = {
+  RESET(_state) {
+    Object.assign(_state, initialState());
+  },
   SET_DRAFTS(_state, drafts) {
     const records = {};
     drafts.forEach(draft => {

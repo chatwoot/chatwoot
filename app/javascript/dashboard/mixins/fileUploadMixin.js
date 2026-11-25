@@ -1,8 +1,9 @@
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
-import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
+import { checkFileSizeLimit, isFileEmpty } from 'shared/helpers/FileHelper';
 import { getMaxUploadSizeByChannel } from '@chatwoot/utils';
 import { DirectUpload } from 'activestorage';
+import { setDirectUploadAuthHeaders } from 'dashboard/helper/directUploadsHelper';
 import {
   DEFAULT_MAXIMUM_FILE_UPLOAD_SIZE,
   resolveMaximumFileUploadSize,
@@ -46,6 +47,9 @@ export default {
 
       return Math.min(channelLimit, this.installationLimit);
     },
+    alertEmptyFile() {
+      useAlert(this.$t('CONVERSATION.FILE_IS_EMPTY'));
+    },
     alertOverLimit(maxSizeMB) {
       useAlert(
         this.$t('CONVERSATION.FILE_SIZE_LIMIT', {
@@ -67,6 +71,11 @@ export default {
       const mime = file.file?.type || file.type;
       const maxSizeMB = this.maxSizeFor(mime);
 
+      if (isFileEmpty(file)) {
+        this.alertEmptyFile();
+        return;
+      }
+
       if (!checkFileSizeLimit(file, maxSizeMB)) {
         this.alertOverLimit(maxSizeMB);
         return;
@@ -77,10 +86,7 @@ export default {
         `/api/v1/accounts/${this.accountId}/conversations/${this.currentChat.id}/direct_uploads`,
         {
           directUploadWillCreateBlobWithXHR: xhr => {
-            xhr.setRequestHeader(
-              'api_access_token',
-              this.currentUser.access_token
-            );
+            setDirectUploadAuthHeaders(xhr);
           },
         }
       );
@@ -99,6 +105,11 @@ export default {
 
       const mime = file.file?.type || file.type;
       const maxSizeMB = this.maxSizeFor(mime);
+
+      if (isFileEmpty(file)) {
+        this.alertEmptyFile();
+        return;
+      }
 
       if (!checkFileSizeLimit(file, maxSizeMB)) {
         this.alertOverLimit(maxSizeMB);

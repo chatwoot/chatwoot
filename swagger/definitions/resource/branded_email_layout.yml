@@ -1,0 +1,8 @@
+type: object
+properties:
+  branded_email_layout:
+    type:
+      - string
+      - 'null'
+    description: Account-scoped Liquid HTML layout for branded email replies.
+    example: '<html><body>{{ content_for_layout }}</body></html>'

@@ -7,82 +7,82 @@
   is_saml_account = account_user&.account&.saml_enabled?
   invited_user = inviter.present? && @resource.unconfirmed_email.blank?
 
-  i18n_scope = 'mailer.devise.confirmation_instructions'
-  eyebrow = t("#{i18n_scope}.welcome.eyebrow")
-  heading = t("#{i18n_scope}.welcome.heading")
-  intro_text = t("#{i18n_scope}.welcome.intro_html", brand_name: brand_name)
-  supporting_text = t("#{i18n_scope}.welcome.supporting_text")
-  action_text = t("#{i18n_scope}.welcome.action_text")
-  action_url = frontend_url('auth/confirmation', confirmation_token: @token)
+  eyebrow = 'Welcome'
+  heading = 'Confirm your email to get started'
+  intro_text =
+    "Welcome to #{brand_name}. We just need to verify your email address before you can start using your account."
+  supporting_text = 'This only takes a moment.'
+  action_text = 'Confirm my account'
+  confirmation_params = { confirmation_token: @token }
+  confirmation_params[:route_url] = params[:redirect_url] if params[:redirect_url].present?
+  action_url = frontend_url('auth/confirmation', **confirmation_params)
   info_title = nil
   info_text = nil
   detail_rows = []
+  detail_rows << ['New email', @resource.unconfirmed_email] if @resource.unconfirmed_email.present?
 
   if @resource.unconfirmed_email.present?
-    eyebrow = t("#{i18n_scope}.email_update.eyebrow")
-    heading = t("#{i18n_scope}.email_update.heading")
-    intro_text = t("#{i18n_scope}.email_update.intro_html", brand_name: brand_name)
-    supporting_text = t("#{i18n_scope}.email_update.supporting_text")
-    action_text = t("#{i18n_scope}.email_update.action_text")
-    detail_rows << [t("#{i18n_scope}.labels.new_email"), @resource.unconfirmed_email]
+    eyebrow = 'Email update'
+    heading = 'Confirm your new email address'
+    intro_text = "We received a request to update the email address on your #{brand_name} account."
+    supporting_text = 'Confirm the new address below to finish the change.'
+    action_text = 'Confirm email address'
   elsif @resource.confirmed?
+    eyebrow = 'Account ready'
+
     if is_saml_account
-      eyebrow = t("#{i18n_scope}.account_ready.eyebrow")
-      heading = t("#{i18n_scope}.sso_access_ready.heading")
-      intro_text = t("#{i18n_scope}.sso_access_ready.intro_html", brand_name: brand_name)
-      supporting_text = t("#{i18n_scope}.sso_access_ready.supporting_html", brand_name: brand_name)
+      heading = 'Your access is ready'
+      intro_text = "Your #{brand_name} access is already set up."
+      supporting_text = "Use your organization's Single Sign-On (SSO) portal to access #{brand_name}."
       action_text = nil
       action_url = nil
-      info_title = t("#{i18n_scope}.sso_access_ready.info_title")
-      info_text = t("#{i18n_scope}.sso_access_ready.info_text_html", brand_name: brand_name)
+      info_title = "Sign in with your organization's SSO"
+      info_text =
+        "You won't need a separate password for #{brand_name}. Start from your company identity provider portal."
       detail_rows = []
-      detail_rows << [t("#{i18n_scope}.labels.workspace"), account_name] if account_name.present?
-      detail_rows << [t("#{i18n_scope}.labels.sign_in_method"), t("#{i18n_scope}.labels.sign_in_method_value")]
+      detail_rows << ['Workspace', account_name] if account_name.present?
+      detail_rows << ['Sign-in method', 'Single Sign-On (SSO)']
     else
-      eyebrow = t("#{i18n_scope}.account_ready.eyebrow")
-      heading = t("#{i18n_scope}.account_ready.heading")
-      intro_text = t("#{i18n_scope}.account_ready.intro_html", brand_name: brand_name)
-      supporting_text = t("#{i18n_scope}.account_ready.supporting_text")
-      action_text = t("#{i18n_scope}.account_ready.action_text")
+      heading = 'Your account is ready'
+      intro_text = "Your #{brand_name} account is already active."
+      supporting_text = 'Use the button below to sign in and continue where you left off.'
+      action_text = 'Open my account'
       action_url = frontend_url('auth/sign_in')
+      detail_rows = []
     end
   elsif invited_user
-    eyebrow = t("#{i18n_scope}.invitation.eyebrow")
-    heading = if account_name.present?
-                t("#{i18n_scope}.invitation.heading_with_account", account_name: account_name)
-              else
-                t("#{i18n_scope}.invitation.heading_default", brand_name: brand_name)
-              end
+    eyebrow = 'Workspace invitation'
+    heading = account_name.present? ? "You're invited to join #{account_name}" : "You're invited to try #{brand_name}"
 
     if is_saml_account
       intro_text = if account_name.present?
-                     t("#{i18n_scope}.sso_invitation.intro_with_account_html",
-                       inviter_name: inviter.name, account_name: account_name, brand_name: brand_name)
-                   else
-                     t("#{i18n_scope}.sso_invitation.intro_default_html",
-                       inviter_name: inviter.name, brand_name: brand_name)
-                   end
-      supporting_text = t("#{i18n_scope}.sso_invitation.supporting_html")
+        "#{inviter.name} invited you to access the #{account_name} workspace on #{brand_name}."
+      else
+        "#{inviter.name} invited you to access #{brand_name}."
+      end
+      supporting_text =
+        "Your organization uses Single Sign-On (SSO), so you won't need to create a separate password."
       action_text = nil
       action_url = nil
-      info_title = t("#{i18n_scope}.sso_invitation.info_title")
-      info_text = t("#{i18n_scope}.sso_invitation.info_text_html", brand_name: brand_name)
-      detail_rows = [[t("#{i18n_scope}.labels.invited_by"), inviter.name]]
-      detail_rows << [t("#{i18n_scope}.labels.workspace"), account_name] if account_name.present?
-      detail_rows << [t("#{i18n_scope}.labels.sign_in_method"), t("#{i18n_scope}.labels.sign_in_method_value")]
+      info_title = "Use your organization's SSO portal"
+      info_text = "Continue from your company identity provider portal to access #{brand_name}."
+      detail_rows = [['Invited by', inviter.name]]
+      detail_rows << ['Workspace', account_name] if account_name.present?
+      detail_rows << ['Sign-in method', 'Single Sign-On (SSO)']
     else
       intro_text = if account_name.present?
-                     t("#{i18n_scope}.invitation.intro_with_account_html",
-                       inviter_name: inviter.name, account_name: account_name, brand_name: brand_name)
-                   else
-                     t("#{i18n_scope}.invitation.intro_default_html",
-                       inviter_name: inviter.name, brand_name: brand_name)
-                   end
-      supporting_text = t("#{i18n_scope}.invitation.supporting_text")
-      action_text = t("#{i18n_scope}.invitation.action_text")
-      action_url = frontend_url('auth/password/edit', reset_password_token: @resource.send(:set_reset_password_token))
-      detail_rows = [[t("#{i18n_scope}.labels.invited_by"), inviter.name]]
-      detail_rows << [t("#{i18n_scope}.labels.workspace"), account_name] if account_name.present?
+        "#{inviter.name} invited you to join the #{account_name} workspace on #{brand_name}."
+      else
+        "#{inviter.name} invited you to try #{brand_name}."
+      end
+      supporting_text = 'Create your account to start collaborating with your team.'
+      action_text = 'Accept invitation'
+      reset_password_params = { reset_password_token: @resource.send(:set_reset_password_token) }
+      reset_password_params[:route_url] = params[:redirect_url] if params[:redirect_url].present?
+      reset_password_params[:sso_account_id] = params[:sso_account_id] if params[:sso_account_id].present?
+      action_url = frontend_url('auth/password/edit', **reset_password_params)
+      detail_rows = [['Invited by', inviter.name]]
+      detail_rows << ['Workspace', account_name] if account_name.present?
     end
   end
 %>

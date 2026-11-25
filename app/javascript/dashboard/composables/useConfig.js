@@ -36,11 +36,25 @@ export function useConfig() {
    */
   const enterprisePlanName = config.enterprisePlanName;
 
+  /**
+   * Indicates whether inbox webhook events (ENABLE_INBOX_EVENTS) are enabled.
+   * @type {boolean}
+   */
+  const inboxEventsEnabled = config.inboxEventsEnabled === 'true';
+
+  /**
+   * How many days back search looks (SEARCH_TIME_RANGE_LIMIT_DAYS).
+   * @type {number|undefined}
+   */
+  const searchTimeRangeLimitDays = config.searchTimeRangeLimitDays;
+
   return {
     hostURL,
     vapidPublicKey,
     enabledLanguages,
     isEnterprise,
     enterprisePlanName,
+    inboxEventsEnabled,
+    searchTimeRangeLimitDays,
   };
 }

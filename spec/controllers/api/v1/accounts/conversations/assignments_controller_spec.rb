@@ -70,7 +70,7 @@ RSpec.describe 'Conversation Assignment API', type: :request do
         expect(response).to have_http_status(:success)
         expect(response.parsed_body['name']).to eq(agent_bot.name)
         conversation.reload
-        expect(conversation.assignee_agent_bot).to eq(agent_bot)
+        expect(conversation.ai_assignee).to eq(agent_bot)
         expect(conversation.assignee).to be_nil
       end
 
@@ -89,6 +89,47 @@ RSpec.describe 'Conversation Assignment API', type: :request do
         expect(conversation.reload.team).to eq(team)
         # assignee will be from team
         expect(conversation.reload.assignee).to eq(team_member)
+      end
+
+      context 'when the inbox prevents assignment takeover' do
+        let(:owner) { create(:user, account: account, role: :agent) }
+
+        before do
+          create(:inbox_member, inbox: conversation.inbox, user: owner)
+          conversation.update!(assignee: owner)
+          conversation.inbox.update!(prevent_assignment_takeover: true)
+        end
+
+        it 'answers 409 with the current assignee name' do
+          post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
+               params: { assignee_id: agent.id },
+               headers: agent.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:conflict)
+          expect(response.parsed_body['agent_name']).to eq(owner.available_name)
+          expect(conversation.reload.assignee).to eq(owner)
+        end
+      end
+
+      context 'when the inbox is outside its business hours' do
+        before do
+          conversation.update!(assignee: nil)
+          conversation.inbox.update!(working_hours_enabled: true, restrict_assignment_to_working_hours: true)
+        end
+
+        it 'answers 409 saying why the assignment was refused' do
+          travel_to(Time.utc(2026, 11, 8, 12)) do
+            post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
+                 params: { assignee_id: agent.id },
+                 headers: agent.create_new_auth_token,
+                 as: :json
+          end
+
+          expect(response).to have_http_status(:conflict)
+          expect(response.parsed_body['reason']).to eq('outside_working_hours')
+          expect(conversation.reload.assignee).to be_nil
+        end
       end
     end
 

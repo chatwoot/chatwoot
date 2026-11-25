@@ -59,6 +59,9 @@
   },
   "POWERED_BY": "Darbināts ar Chatwoot",
   "EMAIL_PLACEHOLDER": "Lūdzu, ievadiet savu e-pastu",
+  "TRANSLATING": "Translating",
+  "VIEW_ORIGINAL": "Skatīt oriģinālu",
+  "VIEW_TRANSLATION": "View translation",
   "CHAT_PLACEHOLDER": "Rakstiet savu ziņojumu",
   "TODAY": "Šodien",
   "YESTERDAY": "Vakar",
@@ -105,6 +108,11 @@
     "PLACEHOLDER": "Meklēt emocijzīmes",
     "NOT_FOUND": "Neviena emocijzīme neatbilst jūsu meklēšanas vaicājumam",
     "ARIA_LABEL": "Emocijzīmju atlasītājs"
+  },
+  "EMOJI_ICON_PICKER": {
+    "SEARCH_EMOJI": "Search emoji…",
+    "FREQUENTLY_USED": "Frequently used",
+    "NO_EMOJI": "Neviena emocijzīme neatbilst jūsu meklēšanas vaicājumam"
   },
   "CSAT": {
     "TITLE": "Novērtējiet Jūsu sarunu",

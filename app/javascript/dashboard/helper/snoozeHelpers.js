@@ -1,6 +1,5 @@
 import {
   getUnixTime,
-  format,
   add,
   startOfWeek,
   addWeeks,
@@ -18,6 +17,7 @@ import {
   parseDateFromText,
 } from 'dashboard/helper/snoozeDateParser';
 import { UNIT_MAP } from 'dashboard/helper/snoozeDateParser/tokenMaps';
+import { dateTimeFormat, formatLocalized } from 'shared/helpers/localizedDate';
 
 const SNOOZE_OPTIONS = wootConstants.SNOOZE_OPTIONS;
 
@@ -60,9 +60,10 @@ export const findSnoozeTime = (snoozeType, currentDate = new Date()) => {
 export const snoozedReopenTime = snoozedUntil => {
   if (!snoozedUntil) return null;
   const date = new Date(snoozedUntil);
-  if (isToday(date)) return format(date, 'h.mmaaa');
-  if (!isSameYear(date, new Date())) return format(date, 'd MMM yyyy, h.mmaaa');
-  return format(date, 'd MMM, h.mmaaa');
+  if (isToday(date)) return formatLocalized(date, 'h.mmaaa');
+  if (!isSameYear(date, new Date()))
+    return formatLocalized(date, 'd MMM yyyy, h.mmaaa');
+  return formatLocalized(date, 'd MMM, h.mmaaa');
 };
 
 export const snoozedReopenTimeToTimestamp = snoozedUntil =>
@@ -77,14 +78,13 @@ const formatSnoozeDate = (snoozeDate, currentDate, locale = 'en') => {
       month: 'short',
       hour: 'numeric',
       minute: '2-digit',
-      hour12: true,
       ...(sameYear ? {} : { year: 'numeric' }),
     };
-    return new Intl.DateTimeFormat(locale, opts).format(snoozeDate);
+    return dateTimeFormat(locale, opts).format(snoozeDate);
   } catch {
     return sameYear
-      ? format(snoozeDate, 'EEE, d MMM, h:mm a')
-      : format(snoozeDate, 'EEE, d MMM yyyy, h:mm a');
+      ? formatLocalized(snoozeDate, 'EEE, d MMM, h:mm a')
+      : formatLocalized(snoozeDate, 'EEE, d MMM yyyy, h:mm a');
   }
 };
 

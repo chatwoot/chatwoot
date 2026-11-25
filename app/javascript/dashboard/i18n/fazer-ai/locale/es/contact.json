@@ -1,0 +1,54 @@
+{
+  "EDIT_CONTACT": {
+    "CONFIRM_DISCARD": {
+      "TITLE": "¿Descartar los cambios?",
+      "MESSAGE": "Tiene cambios sin guardar. ¿Seguro que desea descartarlos?",
+      "YES": "Descartar",
+      "NO": "Seguir editando"
+    }
+  },
+  "CONTACTS_LAYOUT": {
+    "HEADER": {
+      "ACTIONS": {
+        "FILTERS": {
+          "CREATE_SEGMENT": {
+            "VISIBILITY": {
+              "LABEL": "Visibilidad",
+              "GLOBAL": {
+                "LABEL": "Público",
+                "DESCRIPTION": "Disponible para todos los agentes de esta cuenta."
+              },
+              "PERSONAL": {
+                "LABEL": "Privado",
+                "DESCRIPTION": "Solo usted podrá ver y gestionar este segmento."
+              }
+            },
+            "READ_ONLY_TOOLTIP": "Segmento público. Pida a un administrador que lo edite o lo elimine."
+          }
+        }
+      }
+    }
+  },
+  "COMPOSE_NEW_CONVERSATION": {
+    "TAB_CONVERSATION": "Conversación",
+    "TAB_GROUP": "Grupo",
+    "FORM": {
+      "WHATSAPP_NUMBER_MISSING": "Este número no tiene WhatsApp. Los mensajes no serán entregados."
+    }
+  },
+  "CONTACT_PANEL": {
+    "OPEN_IN_AGENTS": "Abrir en fazer.ai agents",
+    "UNVERIFIED_DETAILS": {
+      "TITLE": "Informado por el visitante, sin verificar",
+      "DESCRIPTION": "El visitante escribió esto en el chat del sitio o por la API. Nada demuestra que sea suyo, por eso no se guardó en el contacto.",
+      "EMAIL": "Correo",
+      "PHONE_NUMBER": "Teléfono",
+      "HELD_BY": "Ya está en el contacto de {name}. Ábrelo para combinar los dos si son la misma persona.",
+      "CONFIRM": "Confirmar",
+      "DISMISS": "Descartar",
+      "CONFIRMED": "Guardado en el contacto",
+      "DISMISSED": "Descartado",
+      "ERROR": "No se pudo actualizar el contacto"
+    }
+  }
+}

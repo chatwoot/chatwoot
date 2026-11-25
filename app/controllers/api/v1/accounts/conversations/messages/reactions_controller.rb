@@ -96,7 +96,10 @@ class Api::V1::Accounts::Conversations::Messages::ReactionsController < Api::V1:
 
     # Reset source_id so SendOnChannelService doesn't treat this as a message
     # echoed back from the provider and skip the resend. The provider assigns a
-    # fresh source_id on success via send_session_message.
+    # fresh source_id on success via send_session_message. The reserved id goes
+    # with it: this row is about to be sent again, and reusing the id of the
+    # previous reaction would make WhatsApp see the resend as that same message.
+    new_attrs.delete('pending_source_id')
     existing.update!(content: new_content, content_attributes: new_attrs, source_id: nil)
   end
 

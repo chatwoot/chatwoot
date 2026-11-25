@@ -1,0 +1,16 @@
+{
+  "v": 1,
+  "id": "cmd_000041",
+  "type": "group.description.set",
+  "sid": "9f1c0f4e-6a2b-4c8e-9d1a-2b3c4d5e6f70",
+  "ts": 1755440000123,
+  "payload": {
+    "group": {
+      "kind": "group",
+      "id": "120363041234567890"
+    },
+    "description": "canal do time"
+  },
+  "reply_to": "wa:reply:cmd_000041",
+  "deadline": 1755440015123
+}

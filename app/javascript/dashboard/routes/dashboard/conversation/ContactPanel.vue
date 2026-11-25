@@ -6,6 +6,8 @@ import {
   useStore,
 } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useInbox } from 'dashboard/composables/useInbox';
+import { CAPABILITIES } from 'dashboard/helper/whatsappSession';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
@@ -26,6 +28,7 @@ import ShopifyOrdersList from 'dashboard/components/widgets/conversation/Shopify
 import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader.vue';
 import LinearIssuesList from 'dashboard/components/widgets/conversation/linear/IssuesList.vue';
 import LinearSetupCTA from 'dashboard/components/widgets/conversation/linear/LinearSetupCTA.vue';
+import StripeCustomer from 'dashboard/components/widgets/conversation/StripeCustomer.vue';
 
 const props = defineProps({
   conversationId: {
@@ -43,6 +46,7 @@ const {
   isContactSidebarItemOpen,
   conversationSidebarItemsOrder,
   toggleSidebarUIState,
+  isOnExpandedLayout,
 } = useUISettings();
 
 const dragging = ref(false);
@@ -77,6 +81,10 @@ const isLinearConnected = computed(
 );
 
 const store = useStore();
+const stripeIntegration = useFunctionGetter(
+  'integrations/getIntegration',
+  'stripe'
+);
 const currentChat = useMapGetter('getSelectedChat');
 const conversationId = computed(() => props.conversationId);
 const conversationMetadataGetter = useMapGetter(
@@ -90,8 +98,23 @@ const conversationAdditionalAttributes = computed(
 );
 
 const channelType = computed(() => currentChat.value.meta?.channel);
+const { hasInboxCapability } = useInbox();
 const isGroupConversation = computed(
   () => currentChat.value.group_type === 'group'
+);
+// A group thread whose provider cannot answer for groups has no member list to show and
+// no sync to run: asking anyway is a request that fails behind the panel.
+// A group thread is a group thread whatever the provider can do about it, so the panel
+// follows the conversation. Gating it on the capability sent group conversations to the
+// generic contact panel instead, which offers rename, merge, delete and compose against
+// the synthetic group contact. What the capability governs is inside the panel: the member
+// sync below, and the write actions in GroupContactInfo.
+const showGroupInfo = isGroupConversation;
+// Everything this gates is a command against the provider -- syncing the roster, leaving,
+// the settings panel -- so it asks for `group_management`, not for group conversations
+// reaching the inbox.
+const supportsGroups = computed(() =>
+  hasInboxCapability(CAPABILITIES.GROUP_MANAGEMENT)
 );
 const sidebarTitle = computed(() =>
   isGroupConversation.value
@@ -106,6 +129,14 @@ const contactAdditionalAttributes = computed(
   () => contact.value.additional_attributes || {}
 );
 
+const appliedContactFilter = useMapGetter('getAppliedContactFilter');
+
+const isListScopedToContact = computed(
+  () =>
+    !isOnExpandedLayout.value &&
+    appliedContactFilter.value?.id === contactId.value
+);
+
 const getContactDetails = () => {
   if (contactId.value) {
     store.dispatch('contacts/show', { id: contactId.value });
@@ -113,8 +144,11 @@ const getContactDetails = () => {
 };
 
 const triggerGroupSync = () => {
-  if (isGroupConversation.value && contactId.value) {
-    store.dispatch('groupMembers/sync', { contactId: contactId.value });
+  if (showGroupInfo.value && supportsGroups.value && contactId.value) {
+    store.dispatch('groupMembers/sync', {
+      contactId: contactId.value,
+      inboxId: props.inboxId,
+    });
   }
 };
 
@@ -123,6 +157,13 @@ watch(contactId, (newContactId, prevContactId) => {
     getContactDetails();
     triggerGroupSync();
   }
+});
+
+// Same reason as the group-member watchers: the inbox carrying the capability can arrive
+// after this mounts, and `triggerGroupSync` reads it. Without this the panel rendered for a
+// group thread whose members were never synced.
+watch(supportsGroups, supported => {
+  if (supported) triggerGroupSync();
 });
 
 const onDragEnd = () => {
@@ -144,8 +185,7 @@ onMounted(() => {
   getContactDetails();
   triggerGroupSync();
   store.dispatch('attributes/get', 0);
-  // Load integrations to ensure linear integration state is available
-  store.dispatch('integrations/get', 'linear');
+  store.dispatch('integrations/get');
 });
 </script>
 
@@ -155,7 +195,7 @@ onMounted(() => {
       :title="$t(sidebarTitle)"
       @close="closeContactPanel"
     />
-    <GroupContactInfo v-if="isGroupConversation" :contact="contact" />
+    <GroupContactInfo v-if="showGroupInfo" :contact="contact" />
     <ContactInfo v-else :contact="contact" :channel-type="channelType" />
     <div class="px-2 pb-8 list-group">
       <Draggable
@@ -252,13 +292,14 @@ onMounted(() => {
                 attribute-type="contact_attribute"
                 attribute-from="conversation_contact_panel"
                 :contact-id="contact.id"
-                :empty-state-message="
-                  $t('CONVERSATION_CUSTOM_ATTRIBUTES.NO_RECORDS_FOUND')
-                "
               />
             </AccordionItem>
           </div>
-          <div v-else-if="element.name === 'previous_conversation'">
+          <div
+            v-else-if="
+              element.name === 'previous_conversation' && !isListScopedToContact
+            "
+          >
             <AccordionItem
               v-if="contact.id"
               :title="
@@ -324,6 +365,28 @@ onMounted(() => {
               <ShopifyOrdersList :contact-id="contactId" />
             </AccordionItem>
           </div>
+          <div
+            v-else-if="
+              element.name === 'stripe_customer' &&
+              isCloudFeatureEnabled(FEATURE_FLAGS.STRIPE) &&
+              stripeIntegration.enabled
+            "
+          >
+            <AccordionItem
+              :title="$t('STRIPE_INTEGRATION.TITLE')"
+              :is-open="isContactSidebarItemOpen('is_stripe_customer_open')"
+              compact
+              @toggle="
+                value => toggleSidebarUIState('is_stripe_customer_open', value)
+              "
+            >
+              <StripeCustomer
+                v-if="isContactSidebarItemOpen('is_stripe_customer_open')"
+                :conversation-id="conversationId"
+                :contact-email="contact.email"
+              />
+            </AccordionItem>
+          </div>
           <div v-else-if="element.name === 'contact_notes'">
             <AccordionItem
               :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTACT_NOTES')"
@@ -355,9 +418,7 @@ onMounted(() => {
 </template>
 
 <style lang="scss" scoped>
-::v-deep {
-  .contact--profile {
-    @apply pb-3 border-b border-solid border-n-weak;
-  }
+:deep(.contact--profile) {
+  @apply pb-3 border-b border-solid border-n-weak;
 }
 </style>

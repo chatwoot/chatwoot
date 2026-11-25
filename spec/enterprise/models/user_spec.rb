@@ -35,7 +35,7 @@ RSpec.describe User do
 
         it 'will not add error when trying to update a existing user' do
           allow(ChatwootHub).to receive(:pricing_plan_quantity).and_return(1)
-          existing_user.update!(name: 'new name')
+          existing_user.update(name: 'new name')
           # since there is user and existing user, we are already over limits
           existing_user.valid?
           expect(existing_user.errors[:base]).to be_empty
@@ -61,6 +61,40 @@ RSpec.describe User do
       it 'has no associated audit log created' do
         expect(Audited::Audit.where(auditable_type: 'User', action: 'create').count).to eq 0
       end
+    end
+  end
+
+  describe 'device trust version' do
+    let(:user) { create(:user, password: 'Password1!') }
+
+    it 'defaults to zero' do
+      expect(user.device_trust_version).to eq(0)
+    end
+
+    it 'bumps when the password changes' do
+      expect { user.update!(password: 'NewPassword1!') }.to change { user.reload.device_trust_version }.by(1)
+    end
+
+    it 'bumps when the email actually changes (post-confirmation)' do
+      user.skip_reconfirmation!
+      expect { user.update!(email: 'changed@example.com') }.to change { user.reload.device_trust_version }.by(1)
+    end
+
+    it 'does not bump on unrelated changes' do
+      expect { user.update!(name: 'New Name') }.not_to(change { user.reload.device_trust_version })
+    end
+
+    it 'clears the device verification challenge budget on a password change' do
+      key = format(Redis::RedisKeys::DEVICE_VERIFICATION_ISSUANCE, user_id: user.id)
+      Redis::Alfred.setex(key, '5', 1.hour)
+      expect { user.update!(password: 'NewPassword1!') }.to change { Redis::Alfred.get(key) }.to(nil)
+    end
+
+    it 'does not fail the credential change when the budget reset errors' do
+      allow(DeviceVerification).to receive(:reset_issuance_budget).and_raise(StandardError, 'redis down')
+
+      expect { user.update!(password: 'NewPassword1!') }.not_to raise_error
+      expect(user.reload.device_trust_version).to eq(1)
     end
   end
 end

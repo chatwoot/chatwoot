@@ -3,7 +3,7 @@ class Reports::DataSource
 
   attr_reader :account, :metric, :dimension_type, :dimension_id,
               :scope, :range, :group_by, :timezone_offset,
-              :business_hours
+              :business_hours, :filters
 
   class << self
     def for(**context)
@@ -21,7 +21,9 @@ class Reports::DataSource
     @range = context[:range]
     @group_by = context[:group_by].to_s.presence || 'day'
     @timezone_offset = context[:timezone_offset]
+    @timezone = context[:timezone].presence
     @business_hours = context[:business_hours]
+    @filters = (context[:filters] || {}).compact
   end
 
   private

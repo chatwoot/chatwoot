@@ -89,7 +89,7 @@ export function useSidebarContext() {
   }
 
   const router = useRouter();
-  const { shouldShow } = usePolicy();
+  const { shouldShow, checkFeatureAccess } = usePolicy();
 
   const resolvePath = to => {
     if (to) return router.resolve(to)?.path || '/';
@@ -126,6 +126,17 @@ export function useSidebarContext() {
     return router.resolve(to)?.meta?.featureFlag || '';
   };
 
+  const resolveFeatureAccess = to => {
+    if (!to) return null;
+
+    if (to.params?.navigationPath) {
+      const targetRoute = findRouteByName(to.params.navigationPath);
+      return targetRoute?.meta?.featureAccess || null;
+    }
+
+    return router.resolve(to)?.meta?.featureAccess || null;
+  };
+
   const resolveInstallationType = to => {
     if (!to) return [];
 
@@ -143,13 +154,17 @@ export function useSidebarContext() {
     const featureFlag = resolveFeatureFlag(to);
     const installationType = resolveInstallationType(to);
 
-    return shouldShow(featureFlag, permissions, installationType);
+    return (
+      checkFeatureAccess(resolveFeatureAccess(to)) &&
+      shouldShow(featureFlag, permissions, installationType)
+    );
   };
 
   return {
     ...context,
     resolvePath,
     resolvePermissions,
+    resolveFeatureAccess,
     resolveFeatureFlag,
     isAllowed,
   };

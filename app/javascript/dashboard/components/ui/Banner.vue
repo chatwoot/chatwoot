@@ -115,6 +115,7 @@ export default {
       <NextButton
         v-if="hasCloseButton"
         xs
+        variant="ghost"
         icon="i-lucide-circle-x"
         :color="getButtonColor"
         :label="$t('GENERAL_SETTINGS.DISMISS')"

@@ -42,18 +42,36 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
+  showEdit: {
+    type: Boolean,
+    default: false,
+  },
+  showAnalytics: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const emit = defineEmits(['edit', 'delete']);
+const emit = defineEmits(['edit', 'delete', 'analytics']);
 
 const { t } = useI18n();
 
 const STATUS_COMPLETED = 'completed';
+const STATUS_PROCESSING = 'processing';
 
 const { formatMessage } = useMessageFormatter();
 
 const isActive = computed(() =>
   props.isLiveChatType ? props.isEnabled : props.status !== STATUS_COMPLETED
+);
+
+// A processing campaign is already sending, so edits cannot apply to the run.
+const isEditable = computed(
+  () =>
+    props.isLiveChatType ||
+    (props.showEdit &&
+      props.status !== STATUS_COMPLETED &&
+      props.status !== STATUS_PROCESSING)
 );
 
 const statusTextColor = computed(() => ({
@@ -68,16 +86,26 @@ const campaignStatus = computed(() => {
       : t('CAMPAIGN.LIVE_CHAT.CARD.STATUS.DISABLED');
   }
 
-  return props.status === STATUS_COMPLETED
-    ? t('CAMPAIGN.SMS.CARD.STATUS.COMPLETED')
-    : t('CAMPAIGN.SMS.CARD.STATUS.SCHEDULED');
+  if (props.status === STATUS_COMPLETED) {
+    return t('CAMPAIGN.SMS.CARD.STATUS.COMPLETED');
+  }
+
+  if (props.status === STATUS_PROCESSING) {
+    return t('CAMPAIGN.SMS.CARD.STATUS.PROCESSING');
+  }
+
+  return t('CAMPAIGN.SMS.CARD.STATUS.SCHEDULED');
 });
 
 const inboxName = computed(() => props.inbox?.name || '');
 
 const inboxIcon = computed(() => {
-  const { medium, channel_type: type } = props.inbox;
-  return getInboxIconByType(type, medium);
+  const {
+    medium,
+    channel_type: type,
+    voice_enabled: voiceEnabled,
+  } = props.inbox;
+  return getInboxIconByType(type, medium, 'fill', voiceEnabled);
 });
 </script>
 
@@ -118,7 +146,17 @@ const inboxIcon = computed(() => {
     </div>
     <div class="flex items-center justify-end w-20 gap-2">
       <Button
-        v-if="isLiveChatType"
+        v-if="showAnalytics"
+        v-tooltip.top="t('CAMPAIGN.WHATSAPP.CARD.ANALYTICS')"
+        variant="faded"
+        size="sm"
+        color="slate"
+        icon="i-lucide-chart-no-axes-column"
+        :title="t('CAMPAIGN.WHATSAPP.CARD.ANALYTICS')"
+        @click="emit('analytics')"
+      />
+      <Button
+        v-if="isEditable"
         variant="faded"
         size="sm"
         color="slate"

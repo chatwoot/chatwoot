@@ -1,0 +1,128 @@
+{
+  "GROUP": {
+    "SIDEBAR_TITLE": "Grupo",
+    "INFO": {
+      "HEADER": "Información del grupo",
+      "MEMBER_COUNT": "{count} miembros",
+      "MEMBER_LIST_TITLE": "Miembros",
+      "ADMIN_BADGE": "Administrador",
+      "YOU_BADGE": "Usted",
+      "SYNC_BUTTON": "Sincronizar",
+      "SYNC_SUCCESS": "Miembros del grupo sincronizados correctamente.",
+      "SYNC_ERROR": "No se pudieron sincronizar los miembros del grupo. Inténtelo de nuevo.",
+      "EMPTY_STATE": "No se encontraron miembros."
+    },
+    "FILTER": {
+      "TYPE_LABEL": "Tipo",
+      "ALL": "Todas",
+      "INDIVIDUAL": "Individual",
+      "GROUP": "Grupo"
+    },
+    "CREATE": {
+      "TITLE": "Crear un grupo nuevo",
+      "INBOX_LABEL": "Bandeja de entrada:",
+      "INBOX_PLACEHOLDER": "Seleccione una bandeja de entrada",
+      "NAME_LABEL": "Nombre del grupo:",
+      "NAME_PLACEHOLDER": "Escriba el nombre del grupo",
+      "PARTICIPANTS_LABEL": "Participantes:",
+      "PARTICIPANTS_PLACEHOLDER": "Busque contactos para añadir",
+      "NAME_REQUIRED": "El nombre del grupo es obligatorio",
+      "PARTICIPANTS_REQUIRED": "Añada al menos un participante",
+      "SUBMIT_BUTTON": "Crear grupo",
+      "SUCCESS_MESSAGE": "Grupo creado correctamente.",
+      "ERROR_MESSAGE": "No se pudo crear el grupo. Inténtelo de nuevo.",
+      "GROUPS_DISABLED": "La creación de grupos está desactivada. Active la compatibilidad con grupos de WhatsApp (gratis) para crear grupos.",
+      "GROUPS_DISABLED_NON_ADMIN": "La creación de grupos está desactivada. Contacte a su administrador para activar la compatibilidad con grupos de WhatsApp.",
+      "GROUPS_DISABLED_CTA": "Vea cómo activarla (gratis)"
+    },
+    "METADATA": {
+      "EDIT_NAME_LABEL": "Nombre del grupo",
+      "EDIT_NAME_PLACEHOLDER": "Escriba el nombre del grupo",
+      "EDIT_DESCRIPTION_LABEL": "Descripción",
+      "EDIT_DESCRIPTION_PLACEHOLDER": "Escriba la descripción del grupo",
+      "DESCRIPTION_FROZEN": "WhatsApp no permite cambiar la descripción de este grupo.",
+      "EDIT_AVATAR_LABEL": "Foto del grupo",
+      "SAVE_SUCCESS": "Información del grupo actualizada correctamente.",
+      "SAVE_ERROR": "No se pudo actualizar la información del grupo. Inténtelo de nuevo."
+    },
+    "INVITE": {
+      "SECTION_TITLE": "Enlace de invitación",
+      "COPY_BUTTON": "Copiar el enlace",
+      "COPY_INVITE_LINK": "Copiar el enlace de invitación",
+      "COPY_SUCCESS": "Enlace de invitación copiado al portapapeles.",
+      "FETCH_ERROR": "No se pudo cargar el enlace de invitación."
+    },
+    "MEMBERS": {
+      "ADD_BUTTON": "Añadir miembro",
+      "ADDING": "Añadiendo el miembro...",
+      "ADD_SUCCESS": "Miembro añadido correctamente.",
+      "ADD_ERROR": "No se pudo añadir el miembro. Inténtelo de nuevo.",
+      "REMOVE_BUTTON": "Quitar",
+      "REMOVING": "Quitando el miembro...",
+      "REMOVE_SUCCESS": "Miembro eliminado correctamente.",
+      "REMOVE_ERROR": "No se pudo quitar el miembro. Inténtelo de nuevo.",
+      "PROMOTE_BUTTON": "Promover a administrador",
+      "PROMOTING": "Promoviendo el miembro...",
+      "PROMOTE_SUCCESS": "Miembro promovido a administrador.",
+      "PROMOTE_ERROR": "No se pudo promover el miembro. Inténtelo de nuevo.",
+      "DEMOTE_BUTTON": "Degradar a miembro",
+      "DEMOTING": "Degradando el miembro...",
+      "DEMOTE_SUCCESS": "Administrador degradado a miembro.",
+      "DEMOTE_ERROR": "No se pudo degradar el miembro. Inténtelo de nuevo.",
+      "GROUP_CREATOR_NOT_MODIFIABLE": "Este miembro creó el grupo, por lo que no se puede quitar ni degradar."
+    },
+    "JOIN_REQUESTS": {
+      "SECTION_TITLE": "Solicitudes pendientes",
+      "PENDING_COUNT": "{count} pendientes",
+      "APPROVE_BUTTON": "Aprobar",
+      "REJECT_BUTTON": "Rechazar",
+      "PROCESSING": "Procesando la solicitud...",
+      "APPROVE_SUCCESS": "Solicitud de ingreso aprobada.",
+      "REJECT_SUCCESS": "Solicitud de ingreso rechazada.",
+      "ACTION_ERROR": "No se pudo procesar la solicitud de ingreso. Inténtelo de nuevo."
+    },
+    "MENTION": {
+      "DROPDOWN_HEADER": "Miembros del grupo",
+      "EVERYONE": "Todos",
+      "EVERYONE_DESCRIPTION": "Notificar a todos los miembros"
+    },
+    "BAILEYS_OPTIONS": {
+      "MEMBERS_CAN": "Los miembros del grupo pueden:",
+      "ADMINS_CAN": "Los administradores del grupo pueden:",
+      "EDIT_GROUP_SETTINGS": "Editar la configuración del grupo",
+      "EDIT_GROUP_SETTINGS_DESCRIPTION": "Incluye el nombre del grupo, la imagen, la descripción, la duración de los mensajes temporales y la privacidad avanzada de la conversación, y permite fijar y guardar mensajes en la conversación o deshacer esa acción.",
+      "SEND_MESSAGES": "Enviar mensajes nuevos",
+      "ADD_MEMBERS": "Añadir miembros",
+      "RESET_INVITE_LINK": "Restablecer el enlace de invitación",
+      "RESET_INVITE_LINK_SUCCESS": "El enlace de invitación se restableció correctamente.",
+      "RESET_INVITE_LINK_ERROR": "No se pudo restablecer el enlace de invitación. Inténtelo de nuevo.",
+      "RESETTING_INVITE_LINK": "Restableciendo...",
+      "DISABLE_ADD_MEMBERS_CONFIRM_TITLE": "¿Restringir quién añade miembros?",
+      "DISABLE_ADD_MEMBERS_CONFIRM_DESCRIPTION": "Al desactivar esta opción, solo los administradores podrán añadir miembros y el enlace de invitación actual se restablecerá. ¿Desea continuar?",
+      "DISABLE_ADD_MEMBERS_CONFIRM_YES": "Confirmar",
+      "DISABLE_ADD_MEMBERS_CONFIRM_NO": "Cancelar",
+      "APPROVE_MEMBERS": "Aprobar los miembros nuevos",
+      "APPROVE_MEMBERS_DESCRIPTION": "Mientras esta opción esté activada, los administradores deberán aprobar a los miembros nuevos que se unan al grupo."
+    },
+    "SETTINGS": {
+      "SECTION_TITLE": "Configuración del grupo",
+      "ANNOUNCEMENT_MODE": "Modo de anuncios",
+      "ANNOUNCEMENT_MODE_DESCRIPTION": "Solo los administradores pueden enviar mensajes",
+      "LOCKED_MODE": "Modo bloqueado",
+      "LOCKED_MODE_DESCRIPTION": "Solo los administradores pueden editar la información del grupo",
+      "JOIN_APPROVAL": "Aprobación del administrador para unirse",
+      "JOIN_APPROVAL_DESCRIPTION": "Los administradores deben aprobar a los miembros nuevos",
+      "ADVANCED_OPTIONS": "Opciones avanzadas",
+      "GROUP_LEFT_BANNER": "Ya no es miembro de este grupo",
+      "LEAVE_GROUP": "Salir del grupo",
+      "LEAVING": "Saliendo del grupo...",
+      "LEAVE_CONFIRM": "¿Seguro que desea salir de este grupo?",
+      "LEAVE_CONFIRM_YES": "Salir",
+      "LEAVE_CONFIRM_NO": "Cancelar",
+      "LEAVE_SUCCESS": "Ha salido del grupo.",
+      "LEAVE_ERROR": "No se pudo salir del grupo. Inténtelo de nuevo.",
+      "UPDATE_SUCCESS": "Configuración del grupo actualizada correctamente.",
+      "UPDATE_ERROR": "No se pudo actualizar la configuración del grupo. Inténtelo de nuevo."
+    }
+  }
+}

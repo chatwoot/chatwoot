@@ -1,0 +1,42 @@
+{
+  "BaseUrl": "https://free.uazapi.com",
+  "EventType": "groups",
+  "event": {
+    "Announce": null,
+    "Delete": null,
+    "Demote": null,
+    "Ephemeral": null,
+    "JID": "120363000002000000@g.us",
+    "Join": null,
+    "JoinReason": "",
+    "Leave": [
+      "553499990002@s.whatsapp.net"
+    ],
+    "LeaveLid": [
+      "900000100000000@lid"
+    ],
+    "Link": null,
+    "Locked": null,
+    "MembershipApprovalMode": null,
+    "Name": null,
+    "NewInviteLink": null,
+    "Notify": "Bruno Lima",
+    "ParticipantVersionID": "1787161896995571",
+    "PrevParticipantVersionID": "1787161786706153",
+    "Promote": null,
+    "Sender": "5511999990001@s.whatsapp.net",
+    "SenderPN": "5511999990001@s.whatsapp.net",
+    "Suspended": false,
+    "Timestamp": "2026-08-19T17:51:37Z",
+    "Topic": null,
+    "UnknownChanges": null,
+    "Unlink": null,
+    "Unsuspended": false,
+    "sender_lid": "90000020000000@lid",
+    "sender_pn": "5511999990001@s.whatsapp.net"
+  },
+  "instanceName": "testes-chatwoot",
+  "owner": "5511999990001",
+  "token": "00000000-0000-4000-8000-000000000001",
+  "type": "Group"
+}

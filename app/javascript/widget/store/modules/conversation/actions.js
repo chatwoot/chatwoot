@@ -186,6 +186,10 @@ export const actions = {
     commit('toggleAgentTypingStatus', data);
   },
 
+  clearPendingTyping({ commit }) {
+    commit('endPendingTyping');
+  },
+
   toggleUserTyping: async (_, data) => {
     try {
       await toggleTyping(data);

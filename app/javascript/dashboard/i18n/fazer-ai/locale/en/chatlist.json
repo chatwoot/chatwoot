@@ -1,0 +1,8 @@
+{
+  "CHAT_LIST": {
+    "TYPING": "typing...",
+    "RECORDING": "recording...",
+    "REACTED": "{sender} reacted {emoji}",
+    "REACTED_TO_SNIPPET": "{sender} reacted {emoji} to \"{snippet}\""
+  }
+}

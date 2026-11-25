@@ -43,20 +43,6 @@
       "DELETE": "削除",
       "CANCEL": "キャンセル"
     },
-    "SUGGESTIONS": {
-      "TOOLTIP": {
-        "SINGLE_SUGGESTION": "会話にラベルを追加",
-        "MULTIPLE_SUGGESTION": "このラベルを選択",
-        "DESELECT": "ラベルの選択を解除",
-        "DISMISS": "提案を無視"
-      },
-      "POWERED_BY": "Chatwoot AI",
-      "DISMISS": "提案を無視",
-      "ADD_SELECTED_LABELS": "選択したラベルを追加",
-      "ADD_SELECTED_LABEL": "選択したラベルを追加",
-      "ADD_ALL_LABELS": "すべてのラベルを追加",
-      "SUGGESTED_LABELS": "提案されたラベル"
-    },
     "ADD": {
       "TITLE": "ラベルを追加",
       "DESC": "ラベルを使用すると、会話をグループ化できます。",

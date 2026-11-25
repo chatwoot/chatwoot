@@ -11,7 +11,10 @@ module Whatsapp::ZapiHandlers::MessageStatusCallback
       message = inbox.messages.find_by(source_id: message_id)
       next unless message
 
-      message.update!(status: status) if status_transition_allowed?(message, status.to_s)
+      # Messages::StatusUpdateService refuses a move backwards and clears the external_error
+      # of a message that leaves `failed`, but lets any message become `failed`, and a
+      # message the contact has read cannot have failed.
+      Messages::StatusUpdateService.new(message, status).perform unless message.status == 'read'
     end
   end
 
@@ -29,12 +32,5 @@ module Whatsapp::ZapiHandlers::MessageStatusCallback
       Rails.logger.warn "Unknown ZAPI status: #{zapi_status}"
       nil
     end
-  end
-
-  def status_transition_allowed?(message, new_status)
-    return false if message.status == 'read'
-    return false if message.status == 'delivered' && new_status == 'sent'
-
-    true
   end
 end

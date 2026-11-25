@@ -1,0 +1,227 @@
+# fazer.ai fork translations for Chatwoot mailer templates.
+#
+# Upstream ships these templates with the copy hardcoded in ERB, so the fork
+# extracted them into i18n keys to translate them. They are not our features:
+# if upstream ever localizes its own mailers, this whole file goes away.
+es:
+  mailer:
+    common:
+      hi: Hola %{name}
+      hi_plain: Hola
+      hello: "Hola:"
+      hello_there: "Hola:"
+      click_here: Haga clic <a href="%{url}">aquí</a>
+      powered_by: Desarrollado por
+      sent_by_prefix: Este correo fue enviado por
+      you: Usted
+      attachment_click_to_view: Archivo adjunto [<a href="%{url}" target="_blank">Haga clic aquí para verlo</a>]
+      click_here_to_get_cracking: Haga clic <a href="%{url}">aquí</a> y manos a la obra.
+      the_chatwoot_team: El equipo de %{brand_name}
+    conversation_reply:
+      csat:
+        ratings:
+          poor: Malo
+          fair: Regular
+          average: Normal
+          good: Bueno
+          excellent: Excelente
+    agent_notifications:
+      conversation_creation:
+        subject: "%{agent_name}: se creó una conversación nueva [ID - %{conversation_id}] en %{inbox_name}."
+        body: 'Se creó una conversación nueva (<a href="%{url}">#%{conversation_id}</a>) en %{inbox_name}. <strong>%{contact_name}</strong> escribió:'
+      conversation_assignment:
+        subject: "%{agent_name}: se le asignó una conversación nueva [ID - %{conversation_id}]."
+        body: Hora de salvar el mundo. Se le asignó una conversación nueva
+      conversation_mention:
+        subject: "%{agent_name}: le mencionaron en la conversación [ID - %{conversation_id}]"
+        body: 'Le mencionaron en una conversación. <b>%{sender_name}</b> escribió:'
+        previous_messages: 'Mensajes anteriores:'
+        view_message: Ver el mensaje
+      assigned_conversation_new_message:
+        subject: "%{agent_name}: mensaje nuevo en la conversación que tiene asignada [ID - %{conversation_id}]."
+        body: Recibió un mensaje nuevo en la conversación que tiene asignada.
+      participating_conversation_new_message:
+        subject: "%{agent_name}: mensaje nuevo en una conversación en la que participa [ID - %{conversation_id}]."
+        body: Recibió un mensaje nuevo en una conversación en la que participa.
+      sla_missed_first_response:
+        subject: La conversación [ID - %{conversation_id}] incumplió el SLA de primera respuesta
+        body: incumplió el SLA de primera respuesta según la política
+        full_body: 'La conversación #%{conversation_id} en %{inbox_name} incumplió el SLA de primera respuesta según la política %{sla_policy_name}.'
+        action: Atiéndala de inmediato.
+      sla_missed_next_response:
+        subject: La conversación [ID - %{conversation_id}] incumplió el SLA de la siguiente respuesta
+        body: incumplió el SLA de la siguiente respuesta según la política
+        full_body: 'La conversación #%{conversation_id} en %{inbox_name} incumplió el SLA de la siguiente respuesta según la política %{sla_policy_name}.'
+        action: Atiéndala de inmediato.
+      sla_missed_resolution:
+        subject: La conversación [ID - %{conversation_id}] incumplió el SLA de tiempo de resolución
+        body: incumplió el SLA de tiempo de resolución según la política
+        full_body: 'La conversación #%{conversation_id} en %{inbox_name} incumplió el SLA de tiempo de resolución según la política %{sla_policy_name}.'
+        action: Atiéndala de inmediato.
+    administrator_notifications:
+      channel_notifications:
+        whatsapp_disconnect:
+          subject: Su conexión con WhatsApp caducó
+          body: Su acceso a WhatsApp caducó.
+          action: Vuelva a conectar WhatsApp para seguir recibiendo mensajes.
+          click_to_reconnect: Haga clic <a href="%{url}">aquí</a> para volver a conectarlo.
+        facebook_disconnect:
+          subject: Su conexión con la página de Facebook caducó
+          body: Su acceso a la bandeja de entrada de Facebook caducó.
+          action: Vuelva a conectar la página de Facebook para seguir recibiendo mensajes.
+          click_to_reconnect: Haga clic <a href="%{url}">aquí</a> para volver a conectarla.
+        instagram_disconnect:
+          subject: Su conexión con Instagram caducó
+          body: Su acceso a la bandeja de entrada de Instagram caducó.
+          action: Vuelva a conectar Instagram para seguir recibiendo mensajes.
+          click_to_reconnect: Haga clic <a href="%{url}">aquí</a> para volver a conectarlo.
+        tiktok_disconnect:
+          subject: Su conexión con TikTok caducó
+          body: Su acceso a la bandeja de entrada de TikTok caducó.
+          action: Vuelva a conectar TikTok para seguir recibiendo mensajes.
+          click_to_reconnect: Haga clic <a href="%{url}">aquí</a> para volver a conectarlo.
+        email_disconnect:
+          subject: Su bandeja de entrada de correo se desconectó. Actualice las credenciales de SMTP/IMAP
+          body: Su bandeja de entrada de correo se desconectó por errores de configuración.
+          action: Actualícela para seguir recibiendo mensajes.
+          click_to_reconnect: Haga clic <a href="%{url}">aquí</a> para volver a conectarla.
+      account_notifications:
+        automation_rule_disabled:
+          subject: Regla de automatización desactivada por errores de validación.
+          body: La regla de automatización <b>%{rule_name}</b> se desactivó porque tiene condiciones no válidas.
+          explanation: Esto suele ocurrir cuando se elimina algún atributo personalizado que todavía se usa en las reglas de automatización.
+          action: Haga clic <a href="%{url}">aquí</a> para actualizar las condiciones.
+        contact_import_complete:
+          subject: Importación de contactos completada
+          body: Su importación de contactos se completó. Revise la pestaña de contactos para ver los contactos importados.
+          imported_records: 'Registros importados: %{count}'
+          failed_records: 'Registros fallidos: %{count}'
+          click_to_view_imported: Haga clic <a href="%{url}">aquí</a> para ver los contactos importados.
+          click_to_view_failed: Haga clic <a href="%{url}" target="_blank">aquí</a> para ver los registros fallidos.
+        contact_import_failed:
+          subject: Falló la importación de contactos
+          body: Su importación de contactos falló. Es posible que el archivo CSV que subió no sea válido. Le pedimos que revise el archivo y verifique que cumpla con el formato requerido.
+        contact_export_complete:
+          subject: El archivo de exportación de sus contactos está listo para descargar.
+          body: Su archivo de exportación de contactos está listo para descargar.
+          action: <a href="%{url}">Ver su exportación</a>.
+        account_deletion_user_initiated:
+          subject: Se programó la eliminación de su cuenta de %{brand_name}
+          body: Un administrador de la cuenta solicitó la eliminación de la cuenta de %{brand_name} <strong>%{account_name}</strong>. La eliminación está programada para el <strong>%{deletion_date}</strong>.
+          what_happens_next: ¿Qué sucede a continuación?
+          remains_accessible: La cuenta seguirá accesible hasta la fecha de eliminación programada.
+          data_permanently_removed: Después de esa fecha se eliminarán de forma permanente todos los datos, incluidas las conversaciones, los contactos, las integraciones y la configuración.
+          cancel_request: Si cambia de opinión antes de la fecha de eliminación, puede <a href="%{url}">cancelar esta solicitud</a> desde la configuración de su cuenta.
+        account_deletion_for_inactivity:
+          subject: Su cuenta de %{brand_name} está programada para eliminarse por inactividad
+          body: Notamos que su cuenta de %{brand_name} <strong>%{account_name}</strong> lleva un tiempo inactiva. Por eso, su eliminación está programada para el <strong>%{deletion_date}</strong>.
+          how_to_keep: ¿Cómo conservo mi cuenta?
+          how_to_keep_body: Inicie sesión en su cuenta de %{brand_name} antes del <strong>%{deletion_date}</strong>. Desde la configuración de su cuenta puede <a href="%{url}">cancelar la eliminación</a> y seguir usándola.
+          what_if_no_cancel: ¿Qué pasa si no la cancelo?
+          what_if_no_cancel_body: Si no cancela la eliminación de la cuenta antes del <strong>%{deletion_date}</strong>, su cuenta y todos los datos asociados, incluidas las conversaciones, los contactos, los informes y la configuración, se eliminarán de forma permanente.
+          why_doing_this: ¿Por qué hacemos esto?
+          why_doing_this_body: Para mantener todo seguro y eficiente, eliminamos periódicamente las cuentas inactivas y así nuestros sistemas siguen optimizados para los equipos activos.
+          contact_us: Si tiene alguna pregunta, escríbanos a <a href="mailto:%{email}">%{email}</a>.
+      integrations_notifications:
+        slack_disconnect:
+          subject: Su integración con Slack caducó
+          body: Su integración con Slack caducó. Para seguir recibiendo mensajes en Slack, elimine la integración y vuelva a conectar su espacio de trabajo.
+          click_to_reconnect: Haga clic <a href="%{url}">aquí</a> para volver a conectarla.
+        dialogflow_disconnect:
+          subject: Su integración con Dialogflow se desconectó
+          body: Su integración con Dialogflow se desconectó por problemas de permisos. Para resolverlo, elimine la integración desde el panel de administración y vuelva a conectarla con credenciales nuevas.
+      account_compliance:
+        account_deleted:
+          subject: Aviso de eliminación de cuenta para %{account_id} - %{account_name}
+          body: Esta es una notificación para informarle de que se eliminó de forma permanente una cuenta de su instalación de %{brand_name}.
+          installation: "Instalación de %{brand_name}:"
+          account_id: 'ID de la cuenta:'
+          account_name: 'Nombre de la cuenta:'
+          deletion_due_at: 'Eliminación prevista para:'
+          deleted_at: 'Eliminada el:'
+          deletion_reason: 'Motivo de la eliminación:'
+          deleted_users: 'Usuarios eliminados (%{count}):'
+          deleted_users_none: 'Usuarios eliminados: ninguno'
+          user_id: 'ID de usuario:'
+          compliance_notice: Este correo sirve como registro para fines de cumplimiento.
+          thank_you: Gracias,
+          system_name: Sistema de %{brand_name}
+    team_notifications:
+      automation:
+        subject: Este correo se envió mediante acciones de una regla de automatización.
+        automation_system: Este es el correo del sistema de automatización
+    portal:
+      cname_instructions:
+        greeting: "Hola:"
+        intro: 'Para terminar de configurar su centro de ayuda, deberá actualizar la configuración DNS de su dominio personalizado: <strong>%{domain}</strong>.'
+        add_cname: 'Añada el siguiente registro CNAME en la configuración de su proveedor de DNS:'
+        steps_title: 'Instrucciones paso a paso:'
+        step_1: Inicie sesión en el panel de su proveedor de DNS
+        step_2: Vaya a la sección de gestión de DNS
+        step_3: Cree un registro CNAME nuevo con la información de arriba
+        step_4: Guarde los cambios y espere hasta 24 horas a que se propague el DNS
+        ssl_notice: Cuando el registro DNS esté activo, su dominio personalizado se protegerá automáticamente con un certificado SSL.
+        support_message: Si tiene preguntas o necesita ayuda, contacte a nuestro equipo de soporte. Estamos para ayudarle.
+    devise:
+      confirmation_instructions:
+        secure_link: este enlace seguro
+        button_fallback_html: Si el botón no funciona, abra %{link}.
+        labels:
+          invited_by: Invitado por
+          workspace: Espacio de trabajo
+          sign_in_method: Método de inicio de sesión
+          sign_in_method_value: Inicio de sesión único (SSO)
+          new_email: Correo nuevo
+        welcome:
+          eyebrow: Bienvenida
+          heading: Confirme su correo para empezar
+          intro_html: Le damos la bienvenida a %{brand_name}. Solo necesitamos verificar su dirección de correo antes de que empiece a usar su cuenta.
+          supporting_text: Toma solo un momento.
+          action_text: Confirmar mi cuenta
+        email_update:
+          eyebrow: Cambio de correo
+          heading: Confirme su dirección de correo nueva
+          intro_html: Recibimos una solicitud para cambiar la dirección de correo de su cuenta de %{brand_name}.
+          supporting_text: Confirme la dirección nueva abajo para completar el cambio.
+          action_text: Confirmar la dirección de correo
+        account_ready:
+          eyebrow: Cuenta lista
+          heading: Su cuenta está lista
+          intro_html: Su cuenta de %{brand_name} ya está activa.
+          supporting_text: Use el botón de abajo para iniciar sesión y continuar donde lo dejó.
+          action_text: Abrir mi cuenta
+        invitation:
+          eyebrow: Invitación al espacio de trabajo
+          heading_with_account: Le invitaron a unirse a %{account_name}
+          heading_default: Le invitaron a probar %{brand_name}
+          intro_with_account_html: "%{inviter_name} le invitó a unirse al espacio de trabajo %{account_name} en %{brand_name}."
+          intro_default_html: "%{inviter_name} le invitó a probar %{brand_name}."
+          supporting_text: Cree su cuenta para empezar a colaborar con su equipo.
+          action_text: Aceptar la invitación
+        sso_access_ready:
+          heading: Su acceso está listo
+          intro_html: Su acceso a %{brand_name} ya está configurado.
+          supporting_html: Use el portal de inicio de sesión único (SSO) de su organización para acceder a %{brand_name}.
+          info_title: Inicie sesión con el SSO de su organización
+          info_text_html: No necesitará una contraseña aparte para %{brand_name}. Empiece desde el portal del proveedor de identidad de su empresa.
+        sso_invitation:
+          intro_with_account_html: "%{inviter_name} le invitó a acceder al espacio de trabajo %{account_name} en %{brand_name}."
+          intro_default_html: "%{inviter_name} le invitó a acceder a %{brand_name}."
+          supporting_html: Su organización usa inicio de sesión único (SSO), así que no necesitará crear una contraseña aparte.
+          info_title: Use el portal SSO de su organización
+          info_text_html: Continúe desde el portal del proveedor de identidad de su empresa para acceder a %{brand_name}.
+      reset_password_instructions:
+        greeting_html: ¡Hola %{name}!
+        body_html: Alguien solicitó un enlace para cambiar su contraseña. Puede hacerlo con el enlace de abajo.
+        action: Cambiar mi contraseña
+        copy_paste_html: 'Copie y pegue la URL en su navegador si el enlace de arriba no funciona:'
+        ignore_html: Si no solicitó esto, ignore este correo.
+        no_change_html: Su contraseña no cambiará hasta que acceda al enlace de arriba y cree una nueva.
+      password_change:
+        greeting_html: ¡Hola %{name}!
+        body_html: Le escribimos para avisarle de que su contraseña se cambió.
+      unlock_instructions:
+        greeting_html: ¡Hola %{name}!
+        body_html: Su cuenta se bloqueó por un número excesivo de intentos fallidos de inicio de sesión.
+        action_prompt_html: 'Haga clic en el enlace de abajo para desbloquear su cuenta:'
+        unlock_account: Desbloquear mi cuenta

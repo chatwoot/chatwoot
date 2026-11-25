@@ -28,7 +28,7 @@ const ccEmail = computed(() => {
 
 const senderName = computed(() => {
   const fromEmailAddress = fromEmail.value[0] ?? '';
-  const senderEmail = sender.value.email ?? '';
+  const senderEmail = sender.value?.email ?? '';
 
   if (!fromEmailAddress && !senderEmail) return null;
 

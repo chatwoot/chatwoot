@@ -1,0 +1,47 @@
+#!/bin/sh
+# enterprise/ and spec/enterprise/ are upstream's, byte-identical to the release this fork
+# tracks (VERSION_CW). The fork does not modify Enterprise code.
+#
+#   bin/validate_enterprise_parity           compares HEAD with the upstream tag (CI)
+#   bin/validate_enterprise_parity --staged  compares the index (pre-commit hook)
+#
+# A merge in progress always passes the hook: merging an upstream release is how these
+# directories change, and the merge commit is still checked against the new tag in CI.
+
+set -eu
+
+paths="enterprise spec/enterprise"
+tag="v$(cat VERSION_CW)"
+
+if [ "${1:-}" = "--staged" ]; then
+  git rev-parse -q --verify MERGE_HEAD >/dev/null && exit 0
+  # shellcheck disable=SC2086
+  [ -z "$(git diff --cached --name-only -- $paths)" ] && exit 0
+fi
+
+if ! git rev-parse -q --verify "refs/tags/$tag^{commit}" >/dev/null; then
+  echo "enterprise parity: upstream tag $tag is not here. Fetch it with:" >&2
+  echo "  git fetch --no-tags https://github.com/chatwoot/chatwoot.git refs/tags/$tag:refs/tags/$tag" >&2
+  exit 1
+fi
+
+# shellcheck disable=SC2086
+if [ "${1:-}" = "--staged" ]; then
+  git diff --cached --quiet "$tag" -- $paths && exit 0
+  changed=$(git diff --cached --name-only "$tag" -- $paths)
+else
+  git diff --quiet "$tag" HEAD -- $paths && exit 0
+  changed=$(git diff --name-only "$tag" HEAD -- $paths)
+fi
+
+cat >&2 <<EOF
+enterprise parity: these paths differ from upstream $tag:
+
+$(echo "$changed" | sed 's/^/  /')
+
+enterprise/ and spec/enterprise/ must stay identical to upstream. The fork does not modify
+or patch Enterprise code: make the change in the CE code (app/, lib/) instead, so that it
+works the same with or without enterprise/.
+To restore a path: git checkout $tag -- <path>
+EOF
+exit 1

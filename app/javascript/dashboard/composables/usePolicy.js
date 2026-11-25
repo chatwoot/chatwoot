@@ -4,9 +4,13 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import { useConfig } from 'dashboard/composables/useConfig';
 import {
   getUserPermissions,
+  hasFeatureAccess,
   hasPermissions,
 } from 'dashboard/helper/permissionsHelper';
-import { PREMIUM_FEATURES } from 'dashboard/featureFlags';
+import {
+  CLOUD_PAYWALLED_FEATURES,
+  PREMIUM_FEATURES,
+} from 'dashboard/featureFlags';
 
 import { INSTALLATION_TYPES } from 'dashboard/constants/installationTypes';
 
@@ -36,6 +40,9 @@ export function usePolicy() {
     return hasPermissions(requiredPermissions, userPermissions);
   };
 
+  const checkFeatureAccess = capability =>
+    hasFeatureAccess(user.value, accountId.value, capability);
+
   const checkInstallationType = config => {
     if (Array.isArray(config) && config.length > 0) {
       const installationCheck = {
@@ -49,6 +56,9 @@ export function usePolicy() {
 
     return true;
   };
+
+  const isCloudPaywalledFeature = featureFlag =>
+    CLOUD_PAYWALLED_FEATURES.includes(featureFlag);
 
   const isPremiumFeature = featureFlag => {
     if (!featureFlag) return true;
@@ -81,7 +91,11 @@ export function usePolicy() {
     // or if the feature is a premium one like SLA to show a paywall
     // the paywall should be managed by the individual component
     if (isOnChatwootCloud.value) {
-      return isFeatureFlagEnabled(flag) || isPremiumFeature(flag);
+      return (
+        isFeatureFlagEnabled(flag) ||
+        isPremiumFeature(flag) ||
+        isCloudPaywalledFeature(flag)
+      );
     }
 
     if (isEnterprise) {
@@ -113,6 +127,10 @@ export function usePolicy() {
       return false;
     }
 
+    if (isCloudPaywalledFeature(flag)) {
+      return isOnChatwootCloud.value && !isFeatureFlagEnabled(flag);
+    }
+
     if (isPremiumFeature(flag)) {
       if (isOnChatwootCloud.value) {
         return !isFeatureFlagEnabled(flag);
@@ -128,6 +146,8 @@ export function usePolicy() {
 
   return {
     checkPermissions,
+    checkFeatureAccess,
+    checkInstallationType,
     shouldShowPaywall,
     isFeatureFlagEnabled,
     shouldShow,

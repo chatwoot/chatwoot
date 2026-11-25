@@ -2,6 +2,9 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { mount, flushPromises } from '@vue/test-utils';
 import TagConversations from '../TagConversations.vue';
 import SearchAPI from 'dashboard/api/search';
+import { withFullI18n } from 'test-i18n';
+
+withFullI18n();
 
 vi.mock('dashboard/api/search', () => ({
   default: {

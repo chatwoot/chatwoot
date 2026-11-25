@@ -12,7 +12,11 @@ const routeName = computed(() => `${props.row.original.type}_reports_show`);
 
 <template>
   <router-link
-    :to="{ name: routeName, params: { id: row.original.id } }"
+    :to="{
+      name: routeName,
+      params: { id: row.original.id },
+      query: $route.query,
+    }"
     class="text-n-slate-12 hover:underline"
   >
     {{ row.original.name }}

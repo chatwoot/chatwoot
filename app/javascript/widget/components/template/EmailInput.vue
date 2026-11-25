@@ -96,7 +96,11 @@ export default {
           color: textColor,
         }"
       >
-        <FluentIcon v-if="!isUpdating" icon="chevron-right" />
+        <FluentIcon
+          v-if="!isUpdating"
+          icon="chevron-right"
+          class="rtl:rotate-180"
+        />
         <Spinner v-else class="mx-2" />
       </button>
     </form>

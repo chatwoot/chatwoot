@@ -1,0 +1,210 @@
+{
+  "INTERNAL_CHAT": {
+    "TITLE": "Chat interno",
+    "BACK": "Volver a los canales",
+    "SIDEBAR": {
+      "EXPAND": "Expandir la lista de canales",
+      "COLLAPSE": "Contraer la lista de canales",
+      "RESIZE": "Redimensionar la lista de canales"
+    },
+    "REACTIONS": {
+      "THUMBS_UP": "Pulgar arriba",
+      "HEART": "Corazón",
+      "JOY": "Risa",
+      "SURPRISED": "Sorpresa",
+      "SAD": "Tristeza",
+      "PRAY": "Gracias",
+      "FIRE": "Fuego",
+      "PARTY": "Celebración"
+    },
+    "CHANNELS": "Canales",
+    "DIRECT_MESSAGES": "Mensajes directos",
+    "FAVORITES": "Favoritos",
+    "NEW_CHANNEL": "Canal nuevo",
+    "NEW_DM": "Mensaje nuevo",
+    "SEARCH_PLACEHOLDER": "Buscar en el chat...",
+    "SEARCH": {
+      "CHANNELS": "Canales",
+      "DIRECT_MESSAGES": "Mensajes directos",
+      "MESSAGES": "Mensajes",
+      "NO_RESULTS": "No se encontraron resultados",
+      "NO_RESULTS_SUBTITLE": "Pruebe con otro término de búsqueda o revise la ortografía.",
+      "LOAD_MORE": "Cargar más mensajes",
+      "SEARCHING": "Buscando...",
+      "MIN_CHARS_HINT": "Escriba al menos 3 caracteres para buscar."
+    },
+    "NO_CHANNELS": "No se encontraron canales",
+    "CHANNEL": {
+      "NAME": "Nombre del canal",
+      "DESCRIPTION": "Descripción",
+      "TYPE": "Tipo de canal",
+      "PUBLIC": "Público",
+      "PRIVATE": "Privado",
+      "MEMBERS": "Miembros",
+      "ARCHIVE": "Archivar el canal",
+      "UNARCHIVE": "Desarchivar el canal",
+      "DELETE": "Eliminar el canal",
+      "MUTE": "Silenciar el canal",
+      "UNMUTE": "Dejar de silenciar el canal",
+      "FAVORITE": "Añadir a favoritos",
+      "UNFAVORITE": "Quitar de favoritos",
+      "MARK_UNREAD": "Marcar como no leído",
+      "NO_MESSAGES": "Todavía no hay mensajes",
+      "NO_MESSAGES_SUBTITLE": "Sea el primero en escribir algo en este canal.",
+      "ARCHIVED": "Este canal está archivado",
+      "MEMBER_COUNT": "{count} miembro | {count} miembros",
+      "SETTINGS": "Configuración del canal",
+      "INFO": "Información del canal",
+      "CREATED_AT": "Creado",
+      "CONFIRM_DELETE": "¿Seguro que desea eliminar este canal?",
+      "ACTIONS": "Acciones",
+      "CREATED": "Canal creado correctamente",
+      "ADMIN": "Administrador",
+      "YOU": "(usted)",
+      "NO_MEMBERS": "Sin miembros",
+      "ADD_MEMBER": "Añadir miembro...",
+      "REMOVE_MEMBER": "Quitar miembro",
+      "EDIT_MEMBERS": "Editar los miembros",
+      "SAVE_MEMBERS": "Guardar",
+      "MEMBERS_UPDATED": "Miembros actualizados correctamente",
+      "ALL_AGENTS_NOTE": "Este canal será visible para todos los usuarios",
+      "CLOSE_DM": "Cerrar la conversación",
+      "SELECT_TEAMS": "Seleccionar equipos",
+      "SELECT_AGENTS": "Seleccionar agentes"
+    },
+    "MESSAGE": {
+      "PLACEHOLDER": "Escriba un mensaje...",
+      "EDIT": "Editar",
+      "DELETE": "Eliminar",
+      "REPLY": "Responder",
+      "REACT": "Reaccionar",
+      "EDITED": "(editado)",
+      "DELETED": "Este mensaje fue eliminado",
+      "SEND": "Enviar",
+      "UPLOAD_FILE": "Subir archivo",
+      "DRAG_DROP": "Suelte los archivos aquí para adjuntarlos",
+      "MENTION_USER": "Mencionar a un usuario",
+      "MENTION_CONVERSATION": "Mencionar una conversación",
+      "CONFIRM_DELETE": "¿Seguro que desea eliminar este mensaje?",
+      "EDITING": "Editando el mensaje",
+      "CANCEL_EDIT": "Cancelar la edición",
+      "BOLD": "Negrita",
+      "ITALIC": "Cursiva",
+      "CODE": "Código",
+      "MORE_ACTIONS": "Más acciones",
+      "COPY_LINK": "Copiar el enlace",
+      "LINK_COPIED": "Enlace del mensaje copiado al portapapeles",
+      "DELETED_USER": "Usuario eliminado"
+    },
+    "THREAD": {
+      "TITLE": "Hilo",
+      "CLOSE": "Cerrar el hilo",
+      "REPLIES": "{count} respuestas",
+      "REPLY_PLACEHOLDER": "Responder en el hilo...",
+      "ALSO_SEND_IN_CHANNEL": "Enviar también a la conversación"
+    },
+    "POLL": {
+      "CREATE": "Crear una encuesta",
+      "QUESTION": "Pregunta",
+      "OPTIONS": "Opciones",
+      "MULTIPLE_CHOICE": "Opción múltiple",
+      "DURATION": "Duración",
+      "DURATION_24H": "24 horas",
+      "DURATION_7D": "7 días",
+      "DURATION_14D": "14 días",
+      "DURATION_30D": "30 días",
+      "PUBLIC_RESULTS": "Resultados públicos",
+      "VOTE": "Votar",
+      "VOTES": "{count} votos",
+      "EXPIRED": "Finalizada",
+      "PIN": "Fijar la encuesta",
+      "ADD_OPTION": "Añadir opción",
+      "CANCEL": "Cancelar",
+      "PERCENTAGE": "{value}%",
+      "TIME_LEFT": {
+        "DAYS": "quedan {count} d",
+        "HOURS_MINUTES": "quedan {hours} h {minutes} min",
+        "MINUTES": "quedan {count} min"
+      },
+      "DISCARD_TITLE": "¿Descartar la encuesta?",
+      "DISCARD_DESCRIPTION": "Tiene cambios sin guardar. ¿Seguro que desea descartar esta encuesta?",
+      "DISCARD": "Descartar"
+    },
+    "DRAFT": {
+      "TITLE": "Borradores",
+      "LABEL": "Borrador",
+      "NO_DRAFTS": "Todavía no hay borradores",
+      "NO_DRAFTS_SUBTITLE": "Los borradores se guardan automáticamente cuando empieza a escribir en un canal.",
+      "DELETE": "Eliminar el borrador",
+      "SAVED_AGO": "Guardado hace {time}",
+      "CHANNEL_LABEL": "Canal n.º {channelId}"
+    },
+    "PIN": {
+      "PINNED_MESSAGE": "Mensaje fijado",
+      "PIN": "Fijar el mensaje",
+      "UNPIN": "Dejar de fijar el mensaje"
+    },
+    "TYPING": {
+      "SINGLE": "{name} está escribiendo...",
+      "MULTIPLE": "{names} están escribiendo..."
+    },
+    "DM": {
+      "NEW": "Mensaje directo nuevo",
+      "SELECT_AGENTS": "Seleccionar agentes"
+    },
+    "CATEGORY": {
+      "CREATE": "Crear una categoría",
+      "NAME": "Nombre de la categoría",
+      "NAME_PLACEHOLDER": "Escriba el nombre de la categoría",
+      "NONE": "Ninguna",
+      "CREATED": "Categoría creada correctamente",
+      "DELETE": "Eliminar la categoría",
+      "DELETE_DESCRIPTION": "Los canales de esta categoría pasarán a estar sin categoría."
+    },
+    "ERRORS": {
+      "FETCH_CHANNELS": "No se pudieron cargar los canales",
+      "FETCH_MESSAGES": "No se pudieron cargar los mensajes",
+      "SEND_MESSAGE": "No se pudo enviar el mensaje",
+      "CREATE_CHANNEL": "No se pudo crear el canal"
+    },
+    "DATE_SEPARATOR": {
+      "TODAY": "Hoy",
+      "YESTERDAY": "Ayer"
+    },
+    "SCROLL_TO_BOTTOM": "Ir al final",
+    "NEW_MESSAGES": "Mensajes nuevos",
+    "LOADING_MESSAGES": "Cargando los mensajes...",
+    "MENTION_BADGE": "{'@'}",
+    "EMPTY_STATE": {
+      "TITLE": "Bienvenido al chat interno",
+      "SUBTITLE": "Elija un canal o una conversación en la barra lateral para empezar."
+    },
+    "CONVERSATION_MENTION": {
+      "NO_RESULTS": "No se encontraron conversaciones",
+      "TYPE_TO_SEARCH": "Escriba el ID de una conversación o el nombre de un contacto",
+      "HEADER": "Conversaciones",
+      "PREFIX": "#",
+      "NO_ACCESS": "No tiene acceso a esta conversación",
+      "STATUS": {
+        "OPEN": "Abierta",
+        "RESOLVED": "Resuelta",
+        "PENDING": "Pendiente",
+        "SNOOZED": "Pospuesta"
+      }
+    },
+    "ARCHIVED": {
+      "TITLE": "Archivados",
+      "EMPTY": "No hay canales archivados"
+    },
+    "PRO": {
+      "TITLE": "Mejore su plan a Pro",
+      "POLLS_DESCRIPTION": "La creación de encuestas está disponible en la versión Pro.",
+      "PRIVATE_CHANNELS_DESCRIPTION": "Alcanzó el límite de {limit} canales privados. Mejore su plan a Pro para tener canales privados ilimitados.",
+      "SEARCH_DESCRIPTION": "La búsqueda se limita a los últimos {days} días. Mejore su plan a Pro para tener un historial de búsqueda ilimitado.",
+      "SEARCH_LIMITED_NOTE": "Resultados de los últimos {days} días",
+      "UPGRADE_NOW": "Mejorar plan",
+      "ADMIN_MESSAGE": "Esta función no está disponible en su plan actual. Contacte al administrador de la plataforma para mejorar el plan.",
+      "AGENT_MESSAGE": "Esta función no está disponible en su plan actual. Contacte a su administrador para mejorar el plan."
+    }
+  }
+}

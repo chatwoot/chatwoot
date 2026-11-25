@@ -8,7 +8,17 @@ require 'active_support/core_ext/integer/time'
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
-  config.cache_classes = false
+  # Reloading off, which is Rails' own default for this environment. With it on, the first
+  # job the suite runs inline wraps itself in the reloader, Zeitwerk unloads and reloads
+  # everything, and every spec file already required keeps the class object it captured
+  # before that: `described_class` and anything derived from it then names a class no
+  # example instantiates. `allow_any_instance_of(described_class)` stubs nothing, and
+  # `stub_const("#{described_class}::X", ...)` writes onto the live class while the code
+  # under test reads the stale one, both without a word. Which specs it breaks depends on
+  # the order rspec happened to load them in, so adding an unrelated file to the suite
+  # moves the failures somewhere else. Nothing here relies on reloading, and the suite is
+  # about five times faster without it.
+  config.cache_classes = true
 
   # Do not eager load code on boot. This avoids loading your whole application
   # just for the purpose of running a single test. If you are using a tool that
@@ -29,7 +39,7 @@ Rails.application.configure do
   config.cache_store = :null_store
 
   # Raise exceptions instead of rendering exception templates.
-  config.action_dispatch.show_exceptions = true
+  config.action_dispatch.show_exceptions = :all
 
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false

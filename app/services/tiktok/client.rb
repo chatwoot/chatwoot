@@ -2,6 +2,8 @@ require 'faraday'
 require 'faraday/multipart'
 
 class Tiktok::Client
+  include Tiktok::RequestOptions
+
   # Always use Tiktok::TokenService to get a valid access token
   pattr_initialize [:business_id!, :access_token!]
 
@@ -9,7 +11,7 @@ class Tiktok::Client
     endpoint = "#{api_base_url}/business/get/"
     headers = { 'Access-Token': access_token }
     params = { business_id: business_id, fields: %w[username display_name profile_image].to_s }
-    response = HTTParty.get(endpoint, query: params, headers: headers)
+    response = HTTParty.get(endpoint, query: params, headers: headers, **TIKTOK_REQUEST_OPTIONS)
 
     json = process_json_response(response, 'Failed to fetch TikTok user details')
     {
@@ -28,7 +30,7 @@ class Tiktok::Client
              media_id: media_id,
              media_type: media_type }
 
-    response = HTTParty.post(endpoint, body: body.to_json, headers: headers)
+    response = HTTParty.post(endpoint, body: body.to_json, headers: headers, **TIKTOK_REQUEST_OPTIONS)
     json = process_json_response(response, 'Failed to fetch TikTok media download URL')
 
     json['data']['download_url']
@@ -44,7 +46,7 @@ class Tiktok::Client
       capability_types: ['IMAGE_SEND'].to_json
     }
 
-    response = HTTParty.get(endpoint, query: query, headers: headers)
+    response = HTTParty.get(endpoint, query: query, headers: headers, **TIKTOK_REQUEST_OPTIONS)
     json = process_json_response(response, 'Failed to fetch TikTok message capabilities')
     capabilities = json.dig('data', 'capability_infos') || []
     image_send = capabilities.find { |capability| capability['capability_type'] == 'IMAGE_SEND' }
@@ -84,7 +86,7 @@ class Tiktok::Client
       body[:text] = { body: payload }
     end
 
-    response = HTTParty.post(endpoint, body: body.to_json, headers: headers)
+    response = HTTParty.post(endpoint, body: body.to_json, headers: headers, **TIKTOK_REQUEST_OPTIONS)
     json = process_json_response(response, 'Failed to send TikTok message')
 
     json['data']['message']['message_id']
@@ -112,6 +114,8 @@ class Tiktok::Client
   def multipart_connection
     @multipart_connection ||= Faraday.new do |faraday|
       faraday.request :multipart
+      faraday.options.timeout = TIKTOK_UPLOAD_TIMEOUT
+      faraday.options.open_timeout = TIKTOK_OPEN_TIMEOUT
     end
   end
 

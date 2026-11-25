@@ -10,7 +10,7 @@ RSpec.describe Avatar::AvatarFromFaviconJob do
   end
 
   it 'does not call AvatarFromUrlJob when domain is blank' do
-    company.update!(domain: '')
+    company.update(domain: '')
     expect(Avatar::AvatarFromUrlJob).not_to receive(:perform_now)
     described_class.perform_now(company)
   end

@@ -1,5 +1,5 @@
 <script setup>
-import { computed, h, reactive, ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useToggle, useElementSize } from '@vueuse/core';
 import { useVuelidate } from '@vuelidate/core';
@@ -12,6 +12,8 @@ import Editor from 'dashboard/components-next/Editor/Editor.vue';
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
+import Switch from 'dashboard/components-next/switch/Switch.vue';
+import Policy from 'dashboard/components/policy.vue';
 
 const props = defineProps({
   id: {
@@ -34,6 +36,14 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  enabled: {
+    type: Boolean,
+    default: true,
+  },
+  isUpdating: {
+    type: Boolean,
+    default: false,
+  },
   selectable: {
     type: Boolean,
     default: false,
@@ -44,7 +54,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['select', 'hover', 'delete', 'update']);
+const emit = defineEmits(['select', 'hover', 'delete', 'update', 'toggle']);
 
 const { t } = useI18n();
 const { formatMessage } = useMessageFormatter();
@@ -53,6 +63,17 @@ const modelValue = computed({
   get: () => props.isSelected,
   set: () => emit('select', props.id),
 });
+
+const enabledState = computed({
+  get: () => props.enabled,
+  set: enabled => emit('toggle', { id: props.id, enabled }),
+});
+
+const statusLabel = computed(() =>
+  props.enabled
+    ? t('CAPTAIN.ASSISTANTS.SCENARIOS.STATUS.ENABLED')
+    : t('CAPTAIN.ASSISTANTS.SCENARIOS.STATUS.DISABLED')
+);
 
 const state = reactive({
   id: '',
@@ -115,12 +136,6 @@ const instructionError = computed(() =>
 
 const LINK_INSTRUCTION_CLASS =
   '[&_a[href^="tool://"]]:text-n-iris-11 [&_a:not([href^="tool://"])]:text-n-slate-12 [&_a]:pointer-events-none [&_a]:cursor-default';
-
-const renderInstruction = instruction => () =>
-  h('p', {
-    class: `text-sm text-n-slate-12 py-4 mb-0 prose prose-sm min-w-0 break-words max-w-none ${LINK_INSTRUCTION_CLASS}`,
-    innerHTML: instruction,
-  });
 </script>
 
 <template>
@@ -151,6 +166,24 @@ const renderInstruction = instruction => () =>
           </span>
         </div>
         <div class="flex items-center gap-2">
+          <span class="text-xs text-n-slate-11">
+            {{ statusLabel }}
+          </span>
+          <Policy
+            as="span"
+            :permissions="['administrator']"
+            class="inline-flex items-center"
+          >
+            <Switch
+              v-model="enabledState"
+              :disabled="isUpdating"
+              :aria-label="
+                t('CAPTAIN.ASSISTANTS.SCENARIOS.STATUS.TOGGLE', { title })
+              "
+              :class="{ 'opacity-50 cursor-not-allowed': isUpdating }"
+            />
+          </Policy>
+          <span class="w-px h-4 bg-n-weak" />
           <!-- <Button label="Test" slate xs ghost class="!text-sm" />
           <span class="w-px h-4 bg-n-weak" /> -->
           <Button icon="i-lucide-pen" slate xs ghost @click="startEdit" />
@@ -174,8 +207,10 @@ const renderInstruction = instruction => () =>
         @click="needsOverlay ? toggleInstructionExpanded() : null"
       >
         <div ref="instructionContentRef">
-          <component
-            :is="renderInstruction(formatMessage(instruction, false))"
+          <p
+            v-dompurify-html:toolLinks="formatMessage(instruction, false)"
+            class="text-sm text-n-slate-12 py-4 mb-0 prose prose-sm min-w-0 break-words max-w-none"
+            :class="LINK_INSTRUCTION_CLASS"
           />
         </div>
 
@@ -213,6 +248,7 @@ const renderInstruction = instruction => () =>
 
       <TextArea
         v-model="state.description"
+        :max-length="500"
         :label="
           t('CAPTAIN.ASSISTANTS.SCENARIOS.ADD.NEW.FORM.DESCRIPTION.LABEL')
         "

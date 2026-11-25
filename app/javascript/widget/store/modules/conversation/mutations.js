@@ -1,5 +1,5 @@
-import { MESSAGE_TYPE } from 'widget/helpers/constants';
-import { findUndeliveredMessage } from './helpers';
+import { AGENT_TYPING_TIMEOUT, MESSAGE_TYPE } from 'widget/helpers/constants';
+import { chronological, findUndeliveredMessage, isPersisted } from './helpers';
 
 export const mutations = {
   clearConversations($state) {
@@ -13,6 +13,13 @@ export const mutations = {
     const messagesInbox = $state.conversations;
     const isMessageIncoming = type === MESSAGE_TYPE.INCOMING;
     const isTemporaryMessage = status === 'in_progress';
+
+    if (isMessageIncoming && !messagesInbox[id]) {
+      $state.pendingTyping = {
+        messageId: id,
+        until: Date.now() + AGENT_TYPING_TIMEOUT,
+      };
+    }
 
     if (!isMessageIncoming || isTemporaryMessage) {
       messagesInbox[id] = message;
@@ -100,6 +107,14 @@ export const mutations = {
     // $state.conversations[id] = undefined;
   },
 
+  endPendingTyping($state) {
+    // The same message getLastMessage returns, or the typing bubble would key on another one.
+    const lastMessage = chronological($state.conversations).at(-1);
+    $state.pendingTyping = lastMessage
+      ? { messageId: lastMessage.id, until: 0 }
+      : null;
+  },
+
   toggleAgentTypingStatus($state, { status }) {
     $state.uiFlags.isAgentTyping = status === 'on';
   },
@@ -110,7 +125,9 @@ export const mutations = {
 
   setLastMessageId($state) {
     const { conversations } = $state;
-    const lastMessage = Object.values(conversations).pop();
+    // The `after` cursor, which the API answers by id: the highest stored id, never a temporary
+    // message's uuid (string keys iterate after the integer ones).
+    const lastMessage = Object.values(conversations).filter(isPersisted).pop();
     if (!lastMessage) return;
     const { id } = lastMessage;
     $state.lastMessageId = id;

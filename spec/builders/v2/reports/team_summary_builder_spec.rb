@@ -68,6 +68,7 @@ RSpec.describe V2::Reports::TeamSummaryBuilder do
                 id: team1.id,
                 conversations_count: 1,
                 resolved_conversations_count: 0,
+                handled_conversations_count: 0,
                 avg_resolution_time: nil,
                 avg_first_response_time: 20.0,
                 avg_reply_time: 35.0
@@ -76,6 +77,7 @@ RSpec.describe V2::Reports::TeamSummaryBuilder do
                 id: team2.id,
                 conversations_count: 1,
                 resolved_conversations_count: 1,
+                handled_conversations_count: 0,
                 avg_resolution_time: 50.0,
                 avg_first_response_time: nil,
                 avg_reply_time: nil
@@ -97,6 +99,7 @@ RSpec.describe V2::Reports::TeamSummaryBuilder do
                 id: team1.id,
                 conversations_count: 1,
                 resolved_conversations_count: 0,
+                handled_conversations_count: 0,
                 avg_resolution_time: nil,
                 avg_first_response_time: 10.0,
                 avg_reply_time: 20.0
@@ -105,6 +108,7 @@ RSpec.describe V2::Reports::TeamSummaryBuilder do
                 id: team2.id,
                 conversations_count: 1,
                 resolved_conversations_count: 1,
+                handled_conversations_count: 0,
                 avg_resolution_time: 40.0,
                 avg_first_response_time: nil,
                 avg_reply_time: nil
@@ -127,6 +131,7 @@ RSpec.describe V2::Reports::TeamSummaryBuilder do
             id: new_team.id,
             conversations_count: 0,
             resolved_conversations_count: 0,
+            handled_conversations_count: 0,
             avg_resolution_time: nil,
             avg_first_response_time: nil,
             avg_reply_time: nil

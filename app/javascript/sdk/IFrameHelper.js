@@ -35,7 +35,6 @@ import {
 } from 'shared/helpers/AudioNotificationHelper';
 import { isFlatWidgetStyle } from './settingsHelper';
 import { popoutChatWindow } from '../widget/helpers/popoutHelper';
-import addHours from 'date-fns/addHours';
 
 const updateAuthCookie = (cookieContent, baseDomain = '') =>
   setCookieWithDomain('cw_conversation', cookieContent, {
@@ -43,7 +42,7 @@ const updateAuthCookie = (cookieContent, baseDomain = '') =>
   });
 
 const updateCampaignReadStatus = baseDomain => {
-  const expireBy = addHours(new Date(), 1);
+  const expireBy = new Date(Date.now() + 60 * 60 * 1000);
   setCookieWithDomain('cw_snooze_campaigns_till', Number(expireBy), {
     expires: expireBy,
     baseDomain,
@@ -181,6 +180,15 @@ export const IFrameHelper = {
 
       if (window.$chatwoot.user) {
         IFrameHelper.sendMessage('set-user', window.$chatwoot.user);
+      }
+
+      if (window.$chatwoot.redirectToken) {
+        const { redirectToken, autoOpen } = window.$chatwoot;
+        window.$chatwoot.redirectToken = null;
+        IFrameHelper.sendMessage('resolve-redirect', { token: redirectToken });
+        if (autoOpen) {
+          window.$chatwoot.toggle('open');
+        }
       }
 
       window.playAudioAlert = () => {};

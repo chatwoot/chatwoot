@@ -1,0 +1,60 @@
+tags:
+  - Conversations
+operationId: read-receipt-of-a-conversation
+summary: Send Read Receipt
+description: >-
+  Tells the messaging provider that the contact's messages were read, and changes nothing else. On WhatsApp this
+  is what turns the ticks blue on the contact's phone.
+
+
+  Unlike Update Last Seen, this writes no read state in Chatwoot: the conversation keeps its unread badge for the
+  agents, so a bot acknowledging a message it handled does not hand a human a thread that already looks read.
+
+
+  Available to agent bots, which is the point: a bot is not the assignee a receipt normally depends on. A bot may
+  only call it on a conversation whose inbox it serves.
+
+
+  Providers with no read receipt of their own (email, API channels, and WhatsApp inboxes with `mark_as_read`
+  switched off) accept the call and do nothing.
+security:
+  - userApiKey: []
+  - agentBotApiKey: []
+requestBody:
+  required: false
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          message_ids:
+            type: array
+            items:
+              type: integer
+            maxItems: 50
+            description: >-
+              The incoming messages to acknowledge, which a caller that processed a specific batch should name.
+              Ids outside this conversation, and messages already acknowledged, are ignored. Omit it to
+              acknowledge every incoming message that has no receipt yet, capped at the 50 most recent.
+            example: [1234, 1235]
+responses:
+  '200':
+    description: Success
+  '401':
+    description: Unauthorized, or a bot that does not serve this conversation's inbox
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: Conversation not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '422':
+    description: More than 50 message ids were named
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

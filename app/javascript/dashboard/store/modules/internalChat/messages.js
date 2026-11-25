@@ -1,14 +1,16 @@
 import InternalChatMessagesAPI from '../../../api/internalChatMessages';
 import { throwErrorMessage } from 'dashboard/store/utils/api';
 
-const state = {
+const initialState = () => ({
   records: {},
   threadReplies: {},
   uiFlags: {
     isFetching: false,
     isSending: false,
   },
-};
+});
+
+const state = initialState();
 
 const getters = {
   getMessages: _state => channelId => {
@@ -162,13 +164,20 @@ const actions = {
     }
   },
 
-  sendThreadReply: async ({ commit }, { channelId, parentMessageId, data }) => {
+  sendThreadReply: async (
+    { commit },
+    { channelId, parentMessageId, data, files = [] }
+  ) => {
     commit('SET_UI_FLAG', { isSending: true });
     try {
-      const response = await InternalChatMessagesAPI.createMessage(channelId, {
-        ...data,
-        parent_id: parentMessageId,
-      });
+      const response = await InternalChatMessagesAPI.createMessage(
+        channelId,
+        {
+          ...data,
+          parent_id: parentMessageId,
+        },
+        files
+      );
       const message = response.data;
       commit('ADD_THREAD_REPLY', {
         parentMessageId,
@@ -253,6 +262,9 @@ const actions = {
 };
 
 const mutations = {
+  RESET(_state) {
+    Object.assign(_state, initialState());
+  },
   SET_MESSAGES(_state, { channelId, messages }) {
     _state.records = {
       ..._state.records,

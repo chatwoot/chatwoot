@@ -25,3 +25,5 @@ class InternalChat::CategoryPolicy < ApplicationPolicy
     @account_user&.administrator?
   end
 end
+
+InternalChat::CategoryPolicy.prepend_mod_with('InternalChat::CategoryPolicy')

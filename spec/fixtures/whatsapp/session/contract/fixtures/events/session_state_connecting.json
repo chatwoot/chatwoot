@@ -1,0 +1,13 @@
+{
+  "v": 1,
+  "id": "01920000-0000-7000-8000-000000000021",
+  "type": "session.state",
+  "sid": "9f1c0f4e-6a2b-4c8e-9d1a-2b3c4d5e6f70",
+  "epoch": 7,
+  "seq": 21,
+  "ts": 1755440000123,
+  "inst": "connector-a1b2c3",
+  "payload": {
+    "state": "connecting"
+  }
+}

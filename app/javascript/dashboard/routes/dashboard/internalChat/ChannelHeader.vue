@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRoute, useRouter } from 'vue-router';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import { useMapGetter } from 'dashboard/composables/store';
@@ -19,8 +20,19 @@ const props = defineProps({
 const emit = defineEmits(['settings', 'scrollToPinned']);
 
 const { t } = useI18n();
+const route = useRoute();
+const router = useRouter();
 
 const currentUser = useMapGetter('getCurrentUser');
+
+// Below md the channel list and the channel are separate screens, so the header
+// needs a way back to the list.
+function goBackToChannels() {
+  router.push({
+    name: 'internal_chat_home',
+    params: { accountId: route.params.accountId },
+  });
+}
 
 const isDM = computed(() => {
   return props.channel.channel_type === 'dm';
@@ -90,6 +102,15 @@ const pinnedCountLabel = computed(() => {
     <div
       class="flex h-[53px] items-center gap-3 border-b border-n-slate-5 bg-n-solid-2 px-4"
     >
+      <button
+        type="button"
+        class="flex flex-shrink-0 items-center justify-center rounded-lg p-1.5 text-n-slate-11 transition-colors hover:bg-n-alpha-2 hover:text-n-slate-12 md:hidden"
+        :title="t('INTERNAL_CHAT.BACK')"
+        :aria-label="t('INTERNAL_CHAT.BACK')"
+        @click="goBackToChannels"
+      >
+        <Icon icon="i-lucide-arrow-left" class="size-4" />
+      </button>
       <div class="flex items-center gap-2 min-w-0 flex-1">
         <Avatar
           v-if="isDM"

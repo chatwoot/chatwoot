@@ -1,0 +1,12 @@
+{
+  "SESSION_LIMIT": {
+    "TITLE": "Elérte az aktív munkamenetek korlátját",
+    "DESCRIPTION": "Elérte az aktív munkamenetek megengedett számát. Bejelentkezés előtt fejezzen be egy munkamenetet.",
+    "END": "Befejezés",
+    "END_ALL": "Összes munkamenet befejezése",
+    "LOG_IN": "Bejelentkezés",
+    "CANCEL": "Vissza a bejelentkezéshez",
+    "UNKNOWN_DEVICE": "Ismeretlen eszköz",
+    "STARTED": "Elindítva"
+  }
+}

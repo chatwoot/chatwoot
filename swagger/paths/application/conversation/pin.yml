@@ -1,0 +1,39 @@
+tags:
+  - Conversations
+operationId: pin-a-conversation
+summary: Pin Conversation
+description: Pins the conversation to the top of the current agent's conversation list. Pins are personal and limited to 5 per agent per account.
+security:
+  - userApiKey: []
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            conversation_id:
+              type: number
+              description: 'The display id of the pinned conversation'
+            pinned_at:
+              type: number
+              description: 'Unix timestamp of when the conversation was pinned'
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: Conversation not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '422':
+    description: Pin limit reached
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

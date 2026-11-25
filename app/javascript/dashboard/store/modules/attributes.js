@@ -1,5 +1,6 @@
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import types from '../mutation-types';
+import { rethrowWithResponse } from 'dashboard/store/utils/api';
 import AttributeAPI from '../../api/attributes';
 import camelcaseKeys from 'camelcase-keys';
 
@@ -84,7 +85,7 @@ export const actions = {
       await AttributeAPI.delete(id);
       commit(types.DELETE_CUSTOM_ATTRIBUTE, id);
     } catch (error) {
-      throw new Error(error);
+      rethrowWithResponse(error);
     } finally {
       commit(types.SET_CUSTOM_ATTRIBUTE_UI_FLAG, { isDeleting: false });
     }

@@ -17,7 +17,10 @@ RSpec.describe Channels::Whatsapp::BaileysUpdateGroupAvatarJob do
     let(:provider) { instance_double(Whatsapp::Providers::WhatsappBaileysService, try_update_group_avatar: nil) }
 
     before do
-      allow_any_instance_of(Channel::Whatsapp).to receive(:provider_service).and_return(provider) # rubocop:disable RSpec/AnyInstance
+      # The job loads its own channel instance through the contact's inbox, so the stub
+      # has to reach whichever instance that is. `any_instance` cannot: `provider_service`
+      # is defined on a module prepended to the channel, and RSpec refuses to stub those.
+      allow(Whatsapp::Providers::WhatsappBaileysService).to receive(:new).and_return(provider)
     end
 
     it 'forwards to try_update_group_avatar with force: false by default' do

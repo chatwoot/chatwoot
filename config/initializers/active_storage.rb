@@ -1,7 +1,19 @@
-# Allow audio attachments (call recordings, voice notes) to serve inline so the
-# in-app <audio> player can stream them. Without this, ActiveStorage's blob model
-# forces Content-Disposition: attachment for any MIME outside the default allowlist
+# Allow audio and video attachments (call recordings, voice notes, clips a contact sent)
+# to serve inline so the in-app players can stream them. Without this, ActiveStorage's blob
+# model forces Content-Disposition: attachment for any MIME outside the default allowlist
 # (images + PDF), which makes the browser download instead of play.
+#
+# `Blob#url` applies `forced_disposition_for_serving || disposition`, so this list wins over
+# whatever a caller asks for: an inline URL built for a type that is not here still serves
+# as an attachment. Which is why the two halves ship together, here and in
+# `Attachment#inline_storage_url`.
+#
+# Safari is the browser that made this visible. Chrome and Firefox play a `<video>` whose
+# response says attachment; Safari refuses, so a video arrived as a file to download while
+# the same code looked fine to anyone testing in Chrome.
+#
+# Nothing here is scriptable in the browser, which is what separates this list from
+# `content_types_to_serve_as_binary` (svg, html): serving a clip inline renders a clip.
 Rails.application.config.active_storage.content_types_allowed_inline += %w[
   audio/webm
   audio/ogg
@@ -10,6 +22,18 @@ Rails.application.config.active_storage.content_types_allowed_inline += %w[
   audio/x-m4a
   audio/wav
   audio/x-wav
+  video/mp4
+  video/webm
+  video/ogg
+  video/quicktime
+]
+
+# Rails blocks the libvips loaders for these formats. Keep the originals downloadable
+# without generating representation URLs that fail when the thumbnail is processed.
+Rails.application.config.active_storage.variable_content_types -= %w[
+  image/bmp
+  image/vnd.microsoft.icon
+  image/vnd.adobe.photoshop
 ]
 
 module ActiveStorageDirectUploadMetadataFilter
@@ -45,9 +69,31 @@ module ActiveStorageProxyRangeLimit
   end
 end
 
+# Block the default Rails direct-upload route. Dashboard and widget uploads both go
+# through the scoped, authenticated /api/v1/... endpoints, so the bare route has no
+# legitimate caller; leaving it open allows anonymous blob creation. Scoped subclasses
+# call super and are exempt via the instance_of? check.
+module ActiveStorageBareDirectUploadGuard
+  extend ActiveSupport::Concern
+
+  included do
+    before_action :reject_bare_direct_upload
+  end
+
+  private
+
+  def reject_bare_direct_upload
+    head :forbidden if instance_of?(ActiveStorage::DirectUploadsController)
+  end
+end
+
 Rails.application.config.to_prepare do
   unless ActiveStorage::DirectUploadsController < ActiveStorageDirectUploadMetadataFilter
     ActiveStorage::DirectUploadsController.prepend(ActiveStorageDirectUploadMetadataFilter)
+  end
+
+  unless ActiveStorage::DirectUploadsController.include?(ActiveStorageBareDirectUploadGuard)
+    ActiveStorage::DirectUploadsController.include(ActiveStorageBareDirectUploadGuard)
   end
 
   ActiveStorage::Streaming.prepend(ActiveStorageProxyRangeLimit) unless ActiveStorage::Streaming < ActiveStorageProxyRangeLimit

@@ -1,0 +1,210 @@
+{
+  "INTERNAL_CHAT": {
+    "TITLE": "Internal Chat",
+    "BACK": "Back to channels",
+    "SIDEBAR": {
+      "EXPAND": "Expand channel list",
+      "COLLAPSE": "Collapse channel list",
+      "RESIZE": "Resize channel list"
+    },
+    "REACTIONS": {
+      "THUMBS_UP": "Thumbs up",
+      "HEART": "Heart",
+      "JOY": "Laughing",
+      "SURPRISED": "Surprised",
+      "SAD": "Sad",
+      "PRAY": "Thank you",
+      "FIRE": "Fire",
+      "PARTY": "Celebrate"
+    },
+    "CHANNELS": "Channels",
+    "DIRECT_MESSAGES": "Direct Messages",
+    "FAVORITES": "Favorites",
+    "NEW_CHANNEL": "New Channel",
+    "NEW_DM": "New Message",
+    "SEARCH_PLACEHOLDER": "Find in chat...",
+    "SEARCH": {
+      "CHANNELS": "Channels",
+      "DIRECT_MESSAGES": "Direct Messages",
+      "MESSAGES": "Messages",
+      "NO_RESULTS": "No results found",
+      "NO_RESULTS_SUBTITLE": "Try a different search term or check the spelling.",
+      "LOAD_MORE": "Load more messages",
+      "SEARCHING": "Searching...",
+      "MIN_CHARS_HINT": "Type at least 3 characters to search."
+    },
+    "NO_CHANNELS": "No channels found",
+    "CHANNEL": {
+      "NAME": "Channel Name",
+      "DESCRIPTION": "Description",
+      "TYPE": "Channel Type",
+      "PUBLIC": "Public",
+      "PRIVATE": "Private",
+      "MEMBERS": "Members",
+      "ARCHIVE": "Archive Channel",
+      "UNARCHIVE": "Unarchive Channel",
+      "DELETE": "Delete Channel",
+      "MUTE": "Mute Channel",
+      "UNMUTE": "Unmute Channel",
+      "FAVORITE": "Add to Favorites",
+      "UNFAVORITE": "Remove from Favorites",
+      "MARK_UNREAD": "Mark as Unread",
+      "NO_MESSAGES": "No messages yet",
+      "NO_MESSAGES_SUBTITLE": "Be the first to say something in this channel.",
+      "ARCHIVED": "This channel is archived",
+      "MEMBER_COUNT": "{count} member | {count} members",
+      "SETTINGS": "Channel settings",
+      "INFO": "Channel Info",
+      "CREATED_AT": "Created",
+      "CONFIRM_DELETE": "Are you sure you want to delete this channel?",
+      "ACTIONS": "Actions",
+      "CREATED": "Channel created successfully",
+      "ADMIN": "Admin",
+      "YOU": "(you)",
+      "NO_MEMBERS": "No members",
+      "ADD_MEMBER": "Add member...",
+      "REMOVE_MEMBER": "Remove member",
+      "EDIT_MEMBERS": "Edit members",
+      "SAVE_MEMBERS": "Save",
+      "MEMBERS_UPDATED": "Members updated successfully",
+      "ALL_AGENTS_NOTE": "This channel will be visible to all users",
+      "CLOSE_DM": "Close conversation",
+      "SELECT_TEAMS": "Select Teams",
+      "SELECT_AGENTS": "Select Agents"
+    },
+    "MESSAGE": {
+      "PLACEHOLDER": "Type a message...",
+      "EDIT": "Edit",
+      "DELETE": "Delete",
+      "REPLY": "Reply",
+      "REACT": "React",
+      "EDITED": "(edited)",
+      "DELETED": "This message was deleted",
+      "SEND": "Send",
+      "UPLOAD_FILE": "Upload File",
+      "DRAG_DROP": "Drop files here to attach",
+      "MENTION_USER": "Mention a user",
+      "MENTION_CONVERSATION": "Mention a conversation",
+      "CONFIRM_DELETE": "Are you sure you want to delete this message?",
+      "EDITING": "Editing message",
+      "CANCEL_EDIT": "Cancel editing",
+      "BOLD": "Bold",
+      "ITALIC": "Italic",
+      "CODE": "Code",
+      "MORE_ACTIONS": "More actions",
+      "COPY_LINK": "Copy link",
+      "LINK_COPIED": "Message link copied to clipboard",
+      "DELETED_USER": "Deleted User"
+    },
+    "THREAD": {
+      "TITLE": "Thread",
+      "CLOSE": "Close thread",
+      "REPLIES": "{count} replies",
+      "REPLY_PLACEHOLDER": "Reply in thread...",
+      "ALSO_SEND_IN_CHANNEL": "Also send to conversation"
+    },
+    "POLL": {
+      "CREATE": "Create Poll",
+      "QUESTION": "Question",
+      "OPTIONS": "Options",
+      "MULTIPLE_CHOICE": "Multiple choice",
+      "DURATION": "Duration",
+      "DURATION_24H": "24 hours",
+      "DURATION_7D": "7 days",
+      "DURATION_14D": "14 days",
+      "DURATION_30D": "30 days",
+      "PUBLIC_RESULTS": "Public results",
+      "VOTE": "Vote",
+      "VOTES": "{count} votes",
+      "EXPIRED": "Expired",
+      "PIN": "Pin poll",
+      "ADD_OPTION": "Add option",
+      "CANCEL": "Cancel",
+      "PERCENTAGE": "{value}%",
+      "TIME_LEFT": {
+        "DAYS": "{count}d left",
+        "HOURS_MINUTES": "{hours}h {minutes}m left",
+        "MINUTES": "{count}m left"
+      },
+      "DISCARD_TITLE": "Discard poll?",
+      "DISCARD_DESCRIPTION": "You have unsaved changes. Are you sure you want to discard this poll?",
+      "DISCARD": "Discard"
+    },
+    "DRAFT": {
+      "TITLE": "Drafts",
+      "LABEL": "Draft",
+      "NO_DRAFTS": "No drafts yet",
+      "NO_DRAFTS_SUBTITLE": "Drafts are saved automatically when you start typing in a channel.",
+      "DELETE": "Delete draft",
+      "SAVED_AGO": "Saved {time} ago",
+      "CHANNEL_LABEL": "Channel #{channelId}"
+    },
+    "PIN": {
+      "PINNED_MESSAGE": "Pinned message",
+      "PIN": "Pin message",
+      "UNPIN": "Unpin message"
+    },
+    "TYPING": {
+      "SINGLE": "{name} is typing...",
+      "MULTIPLE": "{names} are typing..."
+    },
+    "DM": {
+      "NEW": "New Direct Message",
+      "SELECT_AGENTS": "Select agents"
+    },
+    "CATEGORY": {
+      "CREATE": "Create Category",
+      "NAME": "Category Name",
+      "NAME_PLACEHOLDER": "Enter category name",
+      "NONE": "None",
+      "CREATED": "Category created successfully",
+      "DELETE": "Delete Category",
+      "DELETE_DESCRIPTION": "Channels in this category will be moved to uncategorized."
+    },
+    "ERRORS": {
+      "FETCH_CHANNELS": "Failed to load channels",
+      "FETCH_MESSAGES": "Failed to load messages",
+      "SEND_MESSAGE": "Failed to send message",
+      "CREATE_CHANNEL": "Failed to create channel"
+    },
+    "DATE_SEPARATOR": {
+      "TODAY": "Today",
+      "YESTERDAY": "Yesterday"
+    },
+    "SCROLL_TO_BOTTOM": "Scroll to bottom",
+    "NEW_MESSAGES": "New messages",
+    "LOADING_MESSAGES": "Loading messages...",
+    "MENTION_BADGE": "{'@'}",
+    "EMPTY_STATE": {
+      "TITLE": "Welcome to Internal Chat",
+      "SUBTITLE": "Pick a channel or conversation from the sidebar to get started."
+    },
+    "CONVERSATION_MENTION": {
+      "NO_RESULTS": "No conversations found",
+      "TYPE_TO_SEARCH": "Type a conversation ID or contact name",
+      "HEADER": "Conversations",
+      "PREFIX": "#",
+      "NO_ACCESS": "You don't have access to this conversation",
+      "STATUS": {
+        "OPEN": "Open",
+        "RESOLVED": "Resolved",
+        "PENDING": "Pending",
+        "SNOOZED": "Snoozed"
+      }
+    },
+    "ARCHIVED": {
+      "TITLE": "Archived",
+      "EMPTY": "No archived channels"
+    },
+    "PRO": {
+      "TITLE": "Upgrade to Pro",
+      "POLLS_DESCRIPTION": "Poll creation is available in the Pro version.",
+      "PRIVATE_CHANNELS_DESCRIPTION": "You've reached the limit of {limit} private channels. Upgrade to Pro for unlimited private channels.",
+      "SEARCH_DESCRIPTION": "Search is limited to the last {days} days. Upgrade to Pro for unlimited search history.",
+      "SEARCH_LIMITED_NOTE": "Results from the last {days} days",
+      "UPGRADE_NOW": "Upgrade now",
+      "ADMIN_MESSAGE": "This feature is not available on your current plan. Please reach out to your platform administrator to upgrade.",
+      "AGENT_MESSAGE": "This feature is not available on your current plan. Please reach out to your administrator to upgrade."
+    }
+  }
+}

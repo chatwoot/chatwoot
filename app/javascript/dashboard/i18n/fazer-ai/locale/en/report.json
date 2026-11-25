@@ -1,0 +1,49 @@
+{
+  "REPORT": {
+    "CROSS_FILTER": {
+      "ALL_INBOXES": "All inboxes",
+      "ALL_AGENTS": "All agents",
+      "NO_RESULTS": "No activity for this filter in the selected period."
+    },
+    "DISTRIBUTION": {
+      "TITLE": {
+        "AGENT": "Distribution by agent",
+        "INBOX": "Distribution by inbox",
+        "TEAM": "Distribution by team"
+      },
+      "METRIC": {
+        "RESOLUTIONS": "Resolved",
+        "HANDLED": "Handled",
+        "ASSIGNED": "Assigned",
+        "OPENED": "Opened"
+      },
+      "OTHERS": "Others ({count})",
+      "EMPTY_METRIC": "Not enough data to compare on this metric.",
+      "HANDLED_SHARE": "A conversation handled by two agents counts for both, so the shares can add up to more than 100%."
+    },
+    "METRIC_HINTS": {
+      "RESOLVED_AGENT": "Resolutions in the period, credited to whoever was assigned when the conversation was resolved. A conversation reopened and resolved again counts twice.",
+      "RESOLVED": "Resolutions in the period. A conversation reopened and resolved again counts twice.",
+      "HANDLED_AGENT": "Conversations in which the agent sent at least one public message during the period. Private notes and bot messages do not count.",
+      "HANDLED": "Conversations in which an agent sent at least one public message during the period. Private notes and bot messages do not count.",
+      "ASSIGNED_AGENT": "Conversations opened in the period that are assigned to the agent today. It does not say who handled them.",
+      "ASSIGNED_TEAM": "Conversations opened in the period that are assigned to the team today.",
+      "OPENED": "Conversations opened in the period."
+    },
+    "METRICS": {
+      "HANDLED_CONVERSATIONS": {
+        "NAME": "Handled conversations",
+        "DESC": "( Total )"
+      },
+      "ASSIGNED_CONVERSATIONS": {
+        "NAME": "Assigned conversations",
+        "DESC": "( Total )"
+      }
+    }
+  },
+  "SUMMARY_REPORTS": {
+    "HANDLED": "Handled",
+    "ASSIGNED": "Assigned",
+    "OPENED": "Opened"
+  }
+}

@@ -166,6 +166,16 @@ RSpec.describe 'Conversation Message Reactions API', type: :request do
         expect(existing.source_id).to be_nil
       end
 
+      # The row is about to be sent again, so it must not reuse the WhatsApp id reserved for the
+      # previous reaction — the resend would be seen as that same message.
+      it 'drops the reserved provider id so the resend gets a fresh one' do
+        existing.update!(content_attributes: existing.content_attributes.merge('pending_source_id' => 'RESERVED_1'))
+
+        post reactions_url, params: { emoji: '❤️' }, headers: agent.create_new_auth_token, as: :json
+
+        expect(existing.reload.content_attributes['pending_source_id']).to be_nil
+      end
+
       it 'enqueues SendReplyJob with the existing message id when toggling off' do
         expect do
           post reactions_url, params: { emoji: '👍' }, headers: agent.create_new_auth_token, as: :json

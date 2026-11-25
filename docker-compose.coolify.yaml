@@ -88,6 +88,11 @@ services:
       - BAILEYS_PROVIDER_USE_INTERNAL_HOST_URL=true
       - MAILER_SENDER_EMAIL=${MAILER_SENDER_EMAIL}
       - RESEND_API_KEY=${RESEND_API_KEY}
+    # The image's own ENTRYPOINT already routes a sidekiq command through this same
+    # script, so this line is redundant on a current image and kept for the one case it
+    # still covers: a new compose rolled out against an older image that predates the
+    # ENTRYPOINT. The gate lives in the image; this is the belt.
+    entrypoint: docker/entrypoints/sidekiq.sh
     command:
       - bundle
       - exec
@@ -96,9 +101,13 @@ services:
       - config/sidekiq.yml
     restart: always
     healthcheck:
+      # The entrypoint's own argv carries the word sidekiq while it is still waiting for
+      # the schema, so a plain match calls a gated worker healthy and a migration that
+      # never lands reads as a healthy container processing nothing. Only the exec'd
+      # process survives dropping the script.
       test:
         - CMD-SHELL
-        - 'ps aux | grep [s]idekiq'
+        - 'ps aux | grep [s]idekiq | grep -qv entrypoints'
       interval: 20s
       timeout: 20s
       retries: 10

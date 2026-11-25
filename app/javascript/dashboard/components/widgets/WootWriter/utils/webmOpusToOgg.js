@@ -155,11 +155,18 @@ function parseWebM(buffer) {
       // Handle "unknown size" (all-ones VINT) by treating it as the rest of the parent
       // Use Math.pow instead of bit-shift to avoid 32-bit overflow for 5+ byte VINTs
       const maxVint = 2 ** (7 * sizeRes.length) - 1;
-      const elEnd =
-        sizeRes.value === maxVint ? end : Math.min(pos + sizeRes.value, end);
+      const unknownSize = sizeRes.value === maxVint;
+      const elEnd = unknownSize ? end : Math.min(pos + sizeRes.value, end);
 
-      if (MASTER_ELEMENTS.has(idRes.id)) {
-        walk(pos, elEnd);
+      // MediaRecorder streams every Cluster with an unknown size; recursing
+      // into one runs it to the parent end and nests the next, costing a stack
+      // frame per cluster. This walk is ID-driven and ignores nesting anyway,
+      // so descend inline instead and leave pos on the first child.
+      const isMaster = MASTER_ELEMENTS.has(idRes.id);
+      const descendInline = isMaster && unknownSize;
+
+      if (isMaster) {
+        if (!descendInline) walk(pos, elEnd);
       } else {
         switch (idRes.id) {
           case EBML_IDS.Channels:
@@ -181,7 +188,7 @@ function parseWebM(buffer) {
             break;
         }
       }
-      pos = elEnd;
+      if (!descendInline) pos = elEnd;
     }
   }
 
@@ -425,7 +432,10 @@ export async function remuxWebmToOgg(webmBlob) {
 
     while (idx < frames.length && packets.length < MAX_FRAMES_PER_PAGE) {
       const pkt = frames[idx];
-      const pktSegs = Math.ceil(pkt.length / 255) || 1;
+      // createOggPage always appends a terminating lacing value, so a packet
+      // spans floor(len/255)+1 segments (including the extra 0 when len is an
+      // exact multiple of 255). Math.ceil would undercount those cases.
+      const pktSegs = Math.floor(pkt.length / 255) + 1;
       if (segs + pktSegs > MAX_SEGMENTS_PER_PAGE && packets.length > 0) break;
 
       packets.push(pkt);

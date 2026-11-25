@@ -26,7 +26,7 @@ const emit = defineEmits([
   'close',
   'clearFilters',
 ]);
-const { filterTypes } = useContactFilterContext();
+const { attributeFilterTypes } = useContactFilterContext();
 
 const filters = defineModel({
   type: Array,
@@ -115,7 +115,7 @@ const outsideClickHandler = [
 <template>
   <div
     v-on-click-outside="outsideClickHandler"
-    class="z-40 max-w-3xl min-w-96 lg:w-[750px] overflow-visible w-full border border-n-weak bg-n-alpha-3 backdrop-blur-[100px] shadow-lg rounded-xl p-6 grid gap-6"
+    class="z-40 w-[min(34rem,calc(100vw-2rem))] lg:w-[750px] overflow-visible border border-n-weak bg-n-alpha-3 backdrop-blur-[100px] shadow-lg rounded-xl p-6 grid gap-6"
   >
     <h3 class="text-base font-medium leading-6 text-n-slate-12">
       {{ filterModalHeaderTitle }}
@@ -134,7 +134,7 @@ const outsideClickHandler = [
         />
       </div>
     </div>
-    <ul class="grid gap-4 list-none">
+    <ul class="grid gap-4 list-none min-w-0">
       <template v-for="(filter, index) in filters" :key="filter.id">
         <ConditionRow
           v-if="index === 0"
@@ -143,7 +143,7 @@ const outsideClickHandler = [
           v-model:attribute-key="filter.attributeKey"
           v-model:filter-operator="filter.filterOperator"
           v-model:values="filter.values"
-          :filter-types="filterTypes"
+          :filter-types="attributeFilterTypes"
           :show-query-operator="false"
           @remove="removeFilter(index)"
         />
@@ -156,7 +156,7 @@ const outsideClickHandler = [
           v-model:query-operator="filters[index - 1].queryOperator"
           v-model:values="filter.values"
           show-query-operator
-          :filter-types="filterTypes"
+          :filter-types="attributeFilterTypes"
           @remove="removeFilter(index)"
         />
       </template>

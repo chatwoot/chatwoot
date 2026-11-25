@@ -14,14 +14,17 @@ class TriggerScheduledItemsJob < ApplicationJob
     # Job to reopen snoozed notifications
     Notification::ReopenSnoozedNotificationsJob.perform_later
 
-    # Job to auto-resolve conversations
-    Account::ConversationsResolutionSchedulerJob.perform_later
-
     # Job to sync whatsapp templates
     Channels::Whatsapp::TemplatesSyncSchedulerJob.perform_later
 
     # Job to check WhatsApp connection status
     Channels::Whatsapp::BaileysConnectionCheckSchedulerJob.perform_later
+
+    # Same, for the session providers whose state has to be pulled
+    Whatsapp::Session::ConnectionCheckSchedulerJob.perform_later
+
+    # Job to trigger pending executions
+    AutomationRules::TriggerPendingExecutionsJob.perform_later
   end
 end
 

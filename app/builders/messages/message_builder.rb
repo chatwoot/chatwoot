@@ -1,19 +1,23 @@
-class Messages::MessageBuilder # rubocop:disable Metrics/ClassLength
+class Messages::MessageBuilder
   include ::FileTypeHelper
   include ::EmailHelper
   include ::DataHelper
 
   attr_reader :message
 
-  def initialize(user, conversation, params) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
+  def initialize(user, conversation, params) # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
     @params = params
-    @private = params[:private] || false
+    @private = ActiveModel::Type::Boolean.new.cast(params[:private]) || false
     @conversation = conversation
     @user = user
     @account = conversation.account
-    @message_type = params[:message_type] || 'outgoing'
+    # Compared against Strings below; a Symbol (the shape the Message enum takes elsewhere) would
+    # skip the incoming guard, flip the sender to the contact and leave the e-mail body unrendered.
+    @message_type = (params[:message_type] || 'outgoing').to_s
     @attachments = params[:attachments]
     @is_recorded_audio = params[:is_recorded_audio]
+    @is_voice_message = ActiveModel::Type::Boolean.new.cast(params[:is_voice_message])
+    @is_video_note = ActiveModel::Type::Boolean.new.cast(params[:is_video_note])
     @transcode_audio = params[:transcode_audio]
     @attachments_metadata = normalize_attachments_metadata(params[:attachments_metadata])
     @automation_rule = content_attributes&.dig(:automation_rule_id)
@@ -45,31 +49,124 @@ class Messages::MessageBuilder # rubocop:disable Metrics/ClassLength
   def content_attributes
     params = convert_to_hash(@params)
     content_attributes = params.fetch(:content_attributes, {})
+    content_attributes = safe_parse_json(content_attributes) if content_attributes.is_a?(String)
+    return {} unless content_attributes.is_a?(Hash)
 
-    return safe_parse_json(content_attributes) if content_attributes.is_a?(String)
-    return content_attributes if content_attributes.is_a?(Hash)
-
-    {}
+    content_attributes.with_indifferent_access.except(*SERVER_CONTENT_ATTRIBUTES)
   end
 
-  def process_attachments
-    return if @attachments.blank?
+  # Written by the WhatsApp session layer on the messages of an imported history, and read
+  # as proof that a file is waiting to be downloaded from the provider. A client that could
+  # set them would have the provider download a URL of its choosing with the connector's
+  # token (Whatsapp::Session::HistoryMedia).
+  SERVER_CONTENT_ATTRIBUTES = %w[history_media pending_media pending_chat imported history_archive media_unavailable].freeze
 
-    @attachments.each do |uploaded_attachment|
+  def process_attachments
+    (Array(@attachments) + forwarded_attachments).each do |uploaded_attachment|
       attachment = @message.attachments.build(
         account_id: @message.account_id,
-        file: uploaded_attachment
+        file: uploaded_attachment,
+        # Someone on our side picked this file, so an empty one is a mistake we can still name to
+        # their face instead of a message that turns red minutes later. An API inbox pushes
+        # customer messages through this same builder, and those are ingestion: refusing one would
+        # throw away its text along with the odd attachment.
+        refuse_empty_file: !@message.incoming?
       )
-      attachment.meta = process_metadata(uploaded_attachment)
-      attachment.file_type = if uploaded_attachment.is_a?(String)
-                               file_type_by_signed_id(
-                                 uploaded_attachment
-                               )
-                             else
-                               file_type(uploaded_attachment&.content_type)
-                             end
+      metadata = process_metadata(uploaded_attachment)
+      attachment.meta = metadata if metadata.present?
+      attachment.file_type = attachment_file_type(uploaded_attachment)
+      tag_voice_message(attachment)
+      tag_video_note(attachment)
       transcode_attachment(attachment, file_like_source(uploaded_attachment)) if should_transcode?(attachment)
     end
+  end
+
+  def attachment_file_type(uploaded_attachment)
+    return file_type(uploaded_attachment&.content_type) unless uploaded_attachment.is_a?(String)
+
+    file_type(blob_for(uploaded_attachment)&.content_type)
+  end
+
+  # A direct upload sends an ActiveStorage signed ID, which is a String, so everything that used
+  # to ask the uploaded file about itself has to ask the blob instead. Memoised because the file
+  # type asks first and the metadata asks second, and resolving the same signed ID twice per
+  # attachment is a query nobody needs.
+  def blob_for(signed_id)
+    @blobs_by_signed_id ||= {}
+    return @blobs_by_signed_id[signed_id] if @blobs_by_signed_id.key?(signed_id)
+
+    @blobs_by_signed_id[signed_id] = ActiveStorage::Blob.find_signed(signed_id)
+  end
+
+  # The name the caller used when they picked the file, whichever of the three shapes they sent.
+  # An upload answers `original_filename`, a signed ID has to be resolved, and a blob, which is
+  # what a macro and an automation rule pass, answers `filename`. Nil when there is no name to be
+  # had, which is what both readers below already treat as "no metadata for this one" rather than
+  # as an error.
+  #
+  # No caller sends a blob together with per-attachment metadata today, so that branch is
+  # consistency rather than a fix. What it does remove is a latent raise: `recorded_audio_metadata`
+  # asked a blob for `original_filename` too, and would have died the same way it died on a
+  # signed ID the day someone passed both.
+  def uploaded_filename(uploaded_attachment)
+    return uploaded_attachment.original_filename if uploaded_attachment.respond_to?(:original_filename)
+    return uploaded_attachment.filename.to_s if uploaded_attachment.respond_to?(:filename)
+    return unless uploaded_attachment.is_a?(String)
+
+    # The safe navigation cannot fire today and is kept on purpose: a signed ID that does not
+    # resolve already raises one line earlier, at `attachments.build`, so nothing unresolvable
+    # reaches this method. Dropping it would make that ordering load-bearing, and the failure it
+    # would produce is a `NoMethodError` on nil in place of a legible 422.
+    blob_for(uploaded_attachment)&.filename&.to_s
+  end
+
+  # The top-level flag is about the message and the metadata entry is about one attachment, so the
+  # entry is the more specific of the two and wins. It used to lose: this ran after the metadata
+  # merge and wrote `true` over a refusal that had just been read and cast, which left a caller
+  # sending several attachments with no way at all to say "this one is not a voice note".
+  #
+  # Said as a skip rather than by moving the call, because `should_transcode?` reads the same
+  # `file_type` this does and moving one of them changes the order they see. Only the key decides:
+  # an entry that mentions the flag has answered, whatever it answered, and the absence of the key
+  # is what leaves the message-level flag standing -- which is the dashboard's case, one recording
+  # with the flag on the message.
+  def tag_voice_message(attachment)
+    return unless @is_voice_message && attachment.file_type == 'audio'
+    return if attachment.meta.to_h.key?('is_voice_message')
+
+    attachment.meta = (attachment.meta || {}).merge('is_voice_message' => true)
+  end
+
+  # The same rule as the voice flag, for the note WhatsApp plays in a circle: the message-level
+  # flag reaches a video whose own entry says nothing about it, and the entry wins when it does.
+  # Only where a note can actually go out as one. Anywhere else the dashboard would draw a circle
+  # for a video the recipient gets as a rectangle, so a per-file entry is dropped there too.
+  def tag_video_note(attachment)
+    return drop_video_note(attachment) unless video_note_destination?
+    return unless @is_video_note && attachment.file_type == 'video'
+    return if attachment.meta.to_h.key?('is_video_note')
+
+    attachment.meta = (attachment.meta || {}).merge('is_video_note' => true)
+  end
+
+  def drop_video_note(attachment)
+    attachment.meta = attachment.meta.except('is_video_note') if attachment.meta.to_h.key?('is_video_note')
+  end
+
+  # Where a note keeps its mark: a WhatsApp contact reached through the native connector, an API
+  # inbox, which sends nothing itself, and any message that arrived or already went out. Not a
+  # private note, which never leaves, and not the other providers and channels, which would deliver
+  # the same request as an ordinary video (Uazapi and Baileys are #1017).
+  def video_note_destination?
+    return false if @private
+    # Arrived, or already went out elsewhere and is only being recorded: either way it is a note
+    # somebody recorded, and nothing here will send it.
+    return true if @message_type == 'incoming' || @params[:source_id].present?
+
+    channel = @conversation.inbox.channel
+    return true if channel.is_a?(Channel::Api)
+
+    channel.is_a?(Channel::Whatsapp) && channel.provider == 'native'
   end
 
   def process_metadata(attachment)
@@ -84,32 +181,72 @@ class Messages::MessageBuilder # rubocop:disable Metrics/ClassLength
     return unless @is_recorded_audio
     return { is_recorded_audio: true } if @is_recorded_audio == true || @is_recorded_audio == 'true'
 
-    return { is_recorded_audio: true } if @is_recorded_audio.is_a?(Array) && attachment.original_filename.in?(@is_recorded_audio)
+    filename = uploaded_filename(attachment)
+    return { is_recorded_audio: true } if @is_recorded_audio.is_a?(Array) && filename.in?(@is_recorded_audio)
 
     # FIXME: Remove backwards compatibility with old format.
     if @is_recorded_audio.is_a?(String)
       parsed = JSON.parse(@is_recorded_audio)
-      { is_recorded_audio: true } if parsed.is_a?(Array) && attachment.original_filename.in?(parsed)
+      { is_recorded_audio: true } if parsed.is_a?(Array) && filename.in?(parsed)
     end
   rescue JSON::ParserError
     nil
   end
 
+  # A multipart request carries every value as a string, so `is_voice_message=false` arrives as
+  # the string "false", which is `present?` and reads at both providers as an explicit yes. The
+  # sibling top-level parameter is cast in the constructor; these were not, and the wrong value
+  # was reaching the database rather than being misread on the way out. Only these keys are
+  # touched: everything else a caller puts in the metadata is theirs to shape.
+  BOOLEAN_ATTACHMENT_METADATA_KEYS = %w[is_voice_message is_recorded_audio is_video_note].freeze
+
+  def cast_metadata_flags(values)
+    return values unless values.is_a?(Hash)
+
+    flags = values.slice(*BOOLEAN_ATTACHMENT_METADATA_KEYS)
+                  .transform_values { |value| ActiveModel::Type::Boolean.new.cast(value) }
+    values.merge(flags)
+  end
+
+  # Anything that is not a hash of its own is ignored rather than coerced. `to_h` answers a
+  # different exception for each shape a caller can leave here -- NoMethodError for a String or
+  # a number, TypeError for a bare array, ArgumentError for an array of short pairs -- and every
+  # one of them took the whole request down. The single shape it does accept is worse than the
+  # crashes: an array of pairs became metadata whose `is_voice_message` was the string "false",
+  # which `cast_metadata_flags` never sees, because it only casts inside a Hash, and which both
+  # providers read as an explicit yes.
+  #
+  # Ignoring keeps the message and the attachment, which is what the caller was asking for, and
+  # leaves the reason in the log rather than in the answer.
   def custom_attachment_metadata(attachment)
     return unless @attachments_metadata.is_a?(Hash)
 
-    filename = attachment.respond_to?(:original_filename) ? attachment.original_filename : nil
+    filename = uploaded_filename(attachment)
     return unless filename
 
     metadata = @attachments_metadata[filename]
-    metadata.to_h if metadata.present?
+    return if metadata.blank?
+    return metadata.to_h if metadata.is_a?(Hash)
+
+    log_ignored_metadata("for #{filename}", metadata)
   end
 
+  # Answers nil, which is what the caller does with an entry it cannot read.
+  def log_ignored_metadata(where, value)
+    Rails.logger.warn("[MESSAGE BUILDER] ignoring attachments_metadata #{where}: expected a hash, got #{value.class}")
+    nil
+  end
+
+  # The same value can arrive one level up, and there it died even earlier: `attachments_metadata=x`
+  # and `attachments_metadata[]=x` broke on `deep_stringify_keys` before any attachment was looked
+  # at, so a guard on the per-file value alone would have left this one standing.
   def normalize_attachments_metadata(metadata)
     return if metadata.blank?
 
     metadata = metadata.to_unsafe_h if metadata.respond_to?(:to_unsafe_h)
-    metadata.deep_stringify_keys
+    return log_ignored_metadata('at the top level', metadata) unless metadata.is_a?(Hash)
+
+    metadata.deep_stringify_keys.transform_values { |values| cast_metadata_flags(values) }
   end
 
   def should_transcode?(attachment)
@@ -133,7 +270,27 @@ class Messages::MessageBuilder # rubocop:disable Metrics/ClassLength
     attachment.meta['audio_transcoding_failed'] = true
   end
 
+  def forwarded_message_id
+    content_attributes[:forwarded_message_id]
+  end
+
+  def forwarded_attachments
+    return [] if forwarded_message_id.blank?
+
+    forwarded_message = @conversation.messages.find(forwarded_message_id)
+    forwarded_message.attachments.where(id: @params[:forwarded_attachment_ids]).map { |attachment| attachment.file.blob }
+  end
+
+  def validate_forward
+    return if forwarded_message_id.blank?
+
+    raise StandardError, 'Forwarded emails need an email inbox' unless @conversation.inbox.email?
+    raise StandardError, 'Forwarded emails cannot be private' if @private
+    raise StandardError, 'Forwarded emails need a recipient' if process_email_string(@params[:to_emails]).empty?
+  end
+
   def process_emails
+    validate_forward
     return unless @conversation.inbox&.inbox_type == 'Email'
 
     cc_emails = process_email_string(@params[:cc_emails])
@@ -146,6 +303,7 @@ class Messages::MessageBuilder # rubocop:disable Metrics/ClassLength
     @message.content_attributes[:cc_emails] = cc_emails
     @message.content_attributes[:bcc_emails] = bcc_emails
     @message.content_attributes[:to_emails] = to_emails
+    @message.content_attributes[:email] = { subject: @params[:subject] } if @params[:subject].present? && !@private
   end
 
   def process_email_content
@@ -170,8 +328,18 @@ class Messages::MessageBuilder # rubocop:disable Metrics/ClassLength
     @message_type
   end
 
+  # An activity is a system line with no author, like the ones Chatwoot writes itself for a status or an
+  # assignment. Falling through to the contact would save it as their message and mark them as active.
   def sender
-    message_type == 'outgoing' ? (message_sender || @user) : @conversation.contact
+    return if message_type == 'activity'
+
+    agent_side? ? (message_sender || @user) : @conversation.contact
+  end
+
+  # Outgoing and template messages are both sent from the agent side. The sender and the e-mail body
+  # render go by this one list, so a template is never saved, or rendered, as if the contact wrote it.
+  def agent_side?
+    %w[outgoing template].include?(message_type)
   end
 
   def external_created_at
@@ -303,7 +471,7 @@ class Messages::MessageBuilder # rubocop:disable Metrics/ClassLength
   end
 
   def should_process_liquid?
-    @message_type == 'outgoing' || @message_type == 'template'
+    agent_side?
   end
 
   def drops_with_sender

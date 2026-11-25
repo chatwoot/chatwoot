@@ -1,9 +1,11 @@
 import {
   getCurrentAccount,
+  getUserRole,
   getUserPermissions,
   hasPermissions,
   filterItemsByPermission,
   getVisibleAssigneeTabPermissions,
+  canDeleteMessages,
 } from '../permissionsHelper';
 import { ASSIGNEE_TYPE_TAB_PERMISSIONS } from 'dashboard/constants/permissions';
 
@@ -11,6 +13,24 @@ describe('#getCurrentAccount', () => {
   it('should return the current account', () => {
     expect(getCurrentAccount({ accounts: [{ id: 1 }] }, 1)).toEqual({ id: 1 });
     expect(getCurrentAccount({ accounts: [] }, 1)).toEqual(undefined);
+  });
+});
+
+describe('#getUserRole', () => {
+  const user = permissions => ({
+    accounts: [{ id: 1, role: 'agent', custom_role_id: 7, permissions }],
+  });
+
+  it('reads a custom role the server reports as in force', () => {
+    expect(getUserRole(user(['conversation_manage', 'custom_role']), 1)).toBe(
+      'custom_role'
+    );
+  });
+
+  // The id outlives the role when Enterprise is not loaded or the role was deleted; the
+  // server then reports a plain agent, and the dashboard has to agree.
+  it('reads a leftover custom role id as the role it really is', () => {
+    expect(getUserRole(user(['agent']), 1)).toBe('agent');
   });
 });
 
@@ -224,5 +244,37 @@ describe('#getVisibleAssigneeTabPermissions', () => {
     });
 
     expect(Object.keys(result)).toEqual(['me']);
+  });
+});
+
+describe('#canDeleteMessages', () => {
+  const blocked = { disable_agent_message_deletion: true };
+
+  it('allows agents when the toggle is off', () => {
+    expect(canDeleteMessages({ userRole: 'agent', accountSettings: {} })).toBe(
+      true
+    );
+  });
+
+  it('blocks agents when the toggle is on', () => {
+    expect(
+      canDeleteMessages({ userRole: 'agent', accountSettings: blocked })
+    ).toBe(false);
+  });
+
+  it('allows administrators even when the toggle is on', () => {
+    expect(
+      canDeleteMessages({ userRole: 'administrator', accountSettings: blocked })
+    ).toBe(true);
+  });
+
+  it('allows custom roles even when the toggle is on', () => {
+    expect(
+      canDeleteMessages({ userRole: 'custom_role', accountSettings: blocked })
+    ).toBe(true);
+  });
+
+  it('allows deletion when called without arguments', () => {
+    expect(canDeleteMessages()).toBe(true);
   });
 });

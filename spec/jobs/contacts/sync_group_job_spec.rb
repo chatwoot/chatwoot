@@ -10,22 +10,22 @@ RSpec.describe Contacts::SyncGroupJob do
   describe '#perform' do
     it 'calls SyncGroupService when group_last_synced_at is nil' do
       service = instance_double(Contacts::SyncGroupService, perform: contact)
-      allow(Contacts::SyncGroupService).to receive(:new).with(contact: contact, soft: false).and_return(service)
+      allow(Contacts::SyncGroupService).to receive(:new).with(contact: contact, soft: false, channel: nil).and_return(service)
 
       described_class.perform_now(contact)
 
-      expect(Contacts::SyncGroupService).to have_received(:new).with(contact: contact, soft: false)
+      expect(Contacts::SyncGroupService).to have_received(:new).with(contact: contact, soft: false, channel: nil)
     end
 
     it 'calls SyncGroupService when group_last_synced_at is older than 15 minutes' do
       contact.update!(additional_attributes: { 'group_last_synced_at' => 20.minutes.ago.to_i })
 
       service = instance_double(Contacts::SyncGroupService, perform: contact)
-      allow(Contacts::SyncGroupService).to receive(:new).with(contact: contact, soft: false).and_return(service)
+      allow(Contacts::SyncGroupService).to receive(:new).with(contact: contact, soft: false, channel: nil).and_return(service)
 
       described_class.perform_now(contact)
 
-      expect(Contacts::SyncGroupService).to have_received(:new).with(contact: contact, soft: false)
+      expect(Contacts::SyncGroupService).to have_received(:new).with(contact: contact, soft: false, channel: nil)
     end
 
     it 'skips SyncGroupService when group_last_synced_at is within the last 15 minutes' do
@@ -42,11 +42,24 @@ RSpec.describe Contacts::SyncGroupJob do
       contact.update!(additional_attributes: { 'group_last_synced_at' => 5.minutes.ago.to_i })
 
       service = instance_double(Contacts::SyncGroupService, perform: contact)
-      allow(Contacts::SyncGroupService).to receive(:new).with(contact: contact, soft: false).and_return(service)
+      allow(Contacts::SyncGroupService).to receive(:new).with(contact: contact, soft: false, channel: nil).and_return(service)
 
       described_class.perform_now(contact, force: true)
 
-      expect(Contacts::SyncGroupService).to have_received(:new).with(contact: contact, soft: false)
+      expect(Contacts::SyncGroupService).to have_received(:new).with(contact: contact, soft: false, channel: nil)
+    end
+
+    # The caller that knows which session saw the event passes it through; without it the
+    # service falls back to the group contact's first contact_inbox, which is arbitrary
+    # as soon as the same group is in two inboxes.
+    it 'passes the originating channel through to the service' do
+      channel = create(:channel_whatsapp, provider: 'native', validate_provider_config: false, sync_templates: false)
+      service = instance_double(Contacts::SyncGroupService, perform: contact)
+      allow(Contacts::SyncGroupService).to receive(:new).and_return(service)
+
+      described_class.perform_now(contact, soft: true, channel: channel)
+
+      expect(Contacts::SyncGroupService).to have_received(:new).with(contact: contact, soft: true, channel: channel)
     end
 
     it 'rescues ProviderUnavailableError without re-raising' do

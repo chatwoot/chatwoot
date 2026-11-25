@@ -19,9 +19,9 @@ RSpec.describe Captain::Tools::SearchDocumentationService do
     end
   end
 
-  describe '#parameters' do
+  describe '#parameters_schema' do
     it 'defines query parameter' do
-      expect(service.parameters.keys).to contain_exactly(:query)
+      expect(service.parameters_schema.fetch('properties').keys).to contain_exactly('query')
     end
   end
 
@@ -40,7 +40,7 @@ RSpec.describe Captain::Tools::SearchDocumentationService do
 
     context 'when matching responses exist' do
       before do
-        response.update!(documentable: documentable)
+        response.update(documentable: documentable)
         allow(Captain::AssistantResponse).to receive(:search).with(question).and_return([response])
       end
 

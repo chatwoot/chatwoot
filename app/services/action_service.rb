@@ -19,7 +19,7 @@ class ActionService
   end
 
   def open_conversation(_params)
-    @conversation.open!
+    open_for_people
   end
 
   def pending_conversation(_params)
@@ -27,6 +27,8 @@ class ActionService
   end
 
   def change_status(status)
+    return open_for_people if status[0].to_s == 'open'
+
     @conversation.update!(status: status[0])
   end
 
@@ -41,7 +43,7 @@ class ActionService
   end
 
   def assign_agent(agent_ids = [])
-    return @conversation.update!(assignee_id: nil) if agent_ids[0] == 'nil'
+    return @conversation.with_lock { @conversation.update!(assignee_id: nil) } if agent_ids[0] == 'nil'
 
     agent_ids = [last_responding_agent_id] if agent_ids[0] == 'last_responding_agent'
     return unless agent_belongs_to_inbox?(agent_ids)
@@ -49,7 +51,7 @@ class ActionService
     @agent = @account.users.find_by(id: agent_ids)
     return unless @agent.present? && @agent.confirmed?
 
-    @conversation.update!(assignee_id: @agent.id)
+    Conversations::AssignmentService.new(conversation: @conversation, assignee_id: @agent.id).perform
   end
 
   def remove_label(labels)
@@ -59,24 +61,35 @@ class ActionService
     @conversation.update!(label_list: labels)
   end
 
+  # Clears conversation custom attributes by key. Writing an empty value instead would leave the key
+  # in the JSON, and on a list attribute that reads as unset on screen while hiding the delete
+  # control, so an agent could no longer clear it by hand.
+  def remove_custom_attribute(attribute_keys = [])
+    keys = Array(attribute_keys).map(&:to_s)
+    remaining = @conversation.custom_attributes.except(*keys)
+    return if remaining.size == @conversation.custom_attributes.size
+
+    @conversation.update!(custom_attributes: remaining)
+  end
+
   def assign_team(team_ids = [])
     # Keep nil/0 handling for existing automation and macro payloads.
     should_unassign = team_ids.blank? || %w[nil 0].include?(team_ids[0].to_s)
-    return @conversation.update!(team_id: nil) if should_unassign
+    return @conversation.with_lock { @conversation.update!(team_id: nil) } if should_unassign
 
     # check if team belongs to account only if team_id is present
     # if team_id is nil, then it means that the team is being unassigned
     return unless !team_ids[0].nil? && team_belongs_to_account?(team_ids)
 
-    @conversation.update!(team_id: team_ids[0])
+    @conversation.with_lock { @conversation.update!(team_id: team_ids[0]) }
   end
 
   def remove_assigned_agent(_params)
-    @conversation.update!(assignee_id: nil)
+    @conversation.with_lock { @conversation.update!(assignee_id: nil) }
   end
 
   def remove_assigned_team(_params)
-    @conversation.update!(team_id: nil)
+    @conversation.with_lock { @conversation.update!(team_id: nil) }
   end
 
   def send_email_transcript(emails)
@@ -118,6 +131,16 @@ class ActionService
   end
 
   private
+
+  # Opening is handing the conversation to people, so the AI assignee goes with it, the same as a
+  # reopen from the dashboard (ConversationsController#handle_human_open) and a bot handoff
+  # (Conversation#bot_handoff!). Left in place, it keeps an open conversation out of Unassigned and
+  # out of auto-assignment, which is how a routing rule ends up hiding what it routes (issue #708).
+  # One save on purpose: auto-assignment runs inside it and skips a conversation that still names a
+  # bot, so releasing afterwards would open the conversation without ever assigning it.
+  def open_for_people
+    @conversation.update!(status: :open, ai_assignee: nil)
+  end
 
   def last_responding_agent_id
     @conversation.messages.outgoing.where(sender_type: 'User', private: false).last&.sender_id

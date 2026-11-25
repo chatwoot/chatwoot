@@ -1,32 +1,196 @@
 name: Run Chatwoot CE spec
 permissions:
   contents: read
+
+# Two modes. A push to main or a tag runs the WHOLE suite. A manual dispatch runs only the specs the
+# branch touches (diff against `base`, mapped app/x/y.rb -> spec/x/y_spec.rb, plus the spec files
+# themselves), which is what the "fix one thing, run again" loop needs; pass `full=true` for the
+# whole suite (the sync-fork skill does, before merging an upstream sync). Changes to shared files
+# (Gemfile, config/, db/, lib/, spec/support, this workflow) fall back to the full suite on their own.
+#
+# Public repo: GitHub-hosted runners are free here, so this stays on ubuntu-latest (upstream does the
+# same). Between 2026-03 and 2026-09 it ran on Blacksmith 4 vCPU, where 4 vCPU bills 2x and each
+# dispatch cost ~75 billed minutes: 191 manual dispatches in August alone. Eight shards, not sixteen:
+# per shard the setup (containers, checkout, ruby, node, db) costs more than the rspec run did, and
+# the org's Free plan caps concurrent jobs at 20, so 16 shards starved every other workflow.
 on:
   push:
+    branches: [main]
     tags:
       - '*'
   workflow_dispatch:
+    inputs:
+      full:
+        description: Run the whole suite instead of only the specs affected by the diff against `base`.
+        type: boolean
+        default: false
+      specs:
+        description: Explicit spec paths, space-separated (overrides the diff-based selection).
+        type: string
+        default: ''
+      base:
+        description: Branch the affected-spec diff is computed against.
+        type: string
+        default: main
+
+# A newer run on the same ref supersedes the older one.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  # Separate linting jobs for faster feedback
-  lint-backend:
-    runs-on: blacksmith-4vcpu-ubuntu-2404
+  plan:
+    runs-on: ubuntu-latest
+    outputs:
+      mode: ${{ steps.plan.outputs.mode }}
+      run_backend: ${{ steps.plan.outputs.run_backend }}
+      run_frontend: ${{ steps.plan.outputs.run_frontend }}
+      backend_specs: ${{ steps.plan.outputs.backend_specs }}
+      shard_total: ${{ steps.plan.outputs.shard_total }}
+      shard_indices: ${{ steps.plan.outputs.shard_indices }}
     steps:
       - uses: actions/checkout@v4
-      - uses: useblacksmith/setup-ruby@v2
+      - name: Decide what to run
+        id: plan
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT: ${{ github.event_name }}
+          INPUT_FULL: ${{ inputs.full }}
+          INPUT_SPECS: ${{ inputs.specs }}
+          INPUT_BASE: ${{ inputs.base || 'main' }}
+          FULL_SHARDS: 8
+          SPECS_PER_SHARD: 40
+        run: |
+          set -euo pipefail
+          emit() { echo "$1=$2" >> "$GITHUB_OUTPUT"; }
+          indices() { printf '[%s]' "$(seq 0 $(( $1 - 1 )) | paste -sd, -)"; }
+
+          full_run() {
+            echo "::notice title=CE spec::full suite, $FULL_SHARDS shards ($1)"
+            emit mode full; emit run_backend true; emit run_frontend true; emit backend_specs ""
+            emit shard_total "$FULL_SHARDS"; emit shard_indices "$(indices "$FULL_SHARDS")"
+            exit 0
+          }
+
+          if [ "$EVENT" != "workflow_dispatch" ]; then full_run "$EVENT"; fi
+          if [ "$INPUT_FULL" = "true" ]; then full_run "full=true"; fi
+
+          changed=""
+          if [ -n "$INPUT_SPECS" ]; then
+            specs=$(tr ' ' '\n' <<<"$INPUT_SPECS" | grep -v '^$' | sort -u)
+            while read -r f; do
+              [ -f "$f" ] || { echo "::error::spec not found: $f"; exit 1; }
+            done <<<"$specs"
+            echo "::notice title=CE spec::explicit specs"
+          else
+            # Three-dot compare: files changed on this ref since it diverged from base, as "status<TAB>path".
+            changed=$(gh api --paginate "repos/$GITHUB_REPOSITORY/compare/$INPUT_BASE...$GITHUB_SHA" --jq '.files[] | "\(.status)\t\(.filename)"')
+            if [ -z "$changed" ]; then
+              echo "::notice title=CE spec::no diff against $INPUT_BASE, nothing to run"
+              emit mode affected; emit run_backend false; emit run_frontend false; emit backend_specs ""
+              emit shard_total 1; emit shard_indices "[0]"
+              exit 0
+            fi
+            # Files the whole suite depends on: run everything. Routes, locales, migrations and the
+            # schema are left out on purpose (a feature branch nearly always touches them, and the
+            # model/controller it adds is picked up below); an ADDED factory is local too.
+            TAB=$'\t'
+            shared=$(grep -vE "${TAB}config/(routes\.rb|locales/)" <<<"$changed" \
+              | grep -E "^[a-z]+${TAB}(Gemfile|Gemfile\.lock|\.ruby-version|config/|spec/support/|spec/(rails_helper|spec_helper|coverage_helper)\.rb|\.github/workflows/run_foss_spec\.yml|app/.*/(application_[a-z_]+|base|base_[a-z_]+)\.rb)" || true)
+            if [ -n "$shared" ]; then full_run "shared file changed: $(head -1 <<<"$shared" | cut -f2)"; fi
+            if grep -qE "^(modified|removed|renamed)${TAB}spec/factories/" <<<"$changed"; then
+              full_run "factory changed"
+            fi
+            specs=""
+            while IFS=$'\t' read -r _status f; do
+              case "$f" in
+                spec/enterprise/*|enterprise/*) continue ;;   # stripped before the suite runs
+                spec/*_spec.rb) [ -f "$f" ] && specs+="$f"$'\n' ;;
+                app/javascript/*) continue ;;
+                docker/entrypoints/*|docker/Dockerfile)
+                  # A shell script has no `_spec.rb` twin, so the filename map below cannot
+                  # reach spec/docker and the entrypoint's own guard would change with
+                  # nothing running against it.
+                  found=$(find spec/docker -name '*_spec.rb' 2>/dev/null || true)
+                  [ -n "$found" ] && specs+="$found"$'\n'
+                  ;;
+                app/*.rb|lib/*.rb)
+                  # Every spec named after the file, wherever it sits (spec/models, spec/requests...).
+                  base=$(basename "$f" .rb)
+                  found=$(find spec -path spec/enterprise -prune -o -name "${base}_spec.rb" -print)
+                  [ -n "$found" ] && specs+="$found"$'\n'
+                  ;;
+                *) continue ;;
+              esac
+            done <<<"$changed"
+            # Specs that scan the source tree (request ceilings, dispatch and writer fences) are
+            # named after nothing they guard, so the filename map above never reaches them and a
+            # PR that breaks one ships green; #878 did. Any Ruby change under app/ or lib/ takes
+            # them all, found by the idioms they read the tree with rather than by a list, so a
+            # new fence written the same way joins without touching this file.
+            fence_idioms="Dir\.glob\(Rails\.root|Rails\.root\.join\(guarded_source\)|Rails\.root\.join\('app/[^']*\.rb'\)\.read|File\.read\(Rails\.root\.join\('app"
+            if grep -qE "^[a-z]+${TAB}(app|lib)/.*\.rb$" <<<"$changed"; then
+              fences=$(git grep -lE "$fence_idioms" -- 'spec/*_spec.rb' ':!spec/enterprise' || true)
+              specs+="$fences"$'\n'
+            fi
+            specs=$(sort -u <<<"$specs" | grep -v '^$' || true)
+            echo "::notice title=CE spec::affected specs from diff against $INPUT_BASE"
+          fi
+
+          run_frontend=false
+          TAB=$'\t'
+          if grep -qE "^[a-z]+${TAB}(app/javascript/|package\.json|pnpm-lock\.yaml|vite\.config|vitest\.config|\.eslintrc|jsconfig)" <<<"$changed"; then run_frontend=true; fi
+
+          n=$(grep -c . <<<"$specs" || true)
+          echo "changed files: $(grep -c . <<<"$changed" || true) | backend specs: $n | frontend: $run_frontend"
+          printf '%s\n' "$specs"
+          if [ "$n" -eq 0 ]; then
+            emit run_backend false; emit backend_specs ""; emit shard_total 1; emit shard_indices "[0]"
+          else
+            total=$(( (n + SPECS_PER_SHARD - 1) / SPECS_PER_SHARD ))
+            [ "$total" -gt "$FULL_SHARDS" ] && total=$FULL_SHARDS
+            emit run_backend true; emit backend_specs "$(tr '\n' ' ' <<<"$specs" | sed 's/ $//')"
+            emit shard_total "$total"; emit shard_indices "$(indices "$total")"
+          fi
+          emit mode affected; emit run_frontend "$run_frontend"
+
+  # Separate linting jobs for faster feedback
+  lint-backend:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
       - name: Run Rubocop
         run: bundle exec rubocop --parallel
 
+  security-scan:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+      - name: Run Brakeman
+        # Non-blocking for now: Brakeman surfaces 35 pre-existing findings
+        # (13 High confidence) that need security-team triage before this
+        # can be turned into a hard gate.
+        continue-on-error: true
+        run: bundle exec brakeman -q --no-pager
+      - name: Run bundle-audit
+        run: |
+          bundle exec bundle-audit update
+          bundle exec bundle-audit check
+
   lint-frontend:
-    runs-on: blacksmith-4vcpu-ubuntu-2404
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
-      - uses: useblacksmith/setup-node@v5
+      - uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version-file: .nvmrc
           cache: 'pnpm'
       - name: Install pnpm dependencies
         run: pnpm i
@@ -35,27 +199,30 @@ jobs:
 
   # Frontend tests run in parallel with backend
   frontend-tests:
-    runs-on: blacksmith-4vcpu-ubuntu-2404
+    needs: plan
+    if: needs.plan.outputs.run_frontend == 'true'
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
-      - uses: useblacksmith/setup-node@v5
+      - uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version-file: .nvmrc
           cache: 'pnpm'
       - name: Install pnpm dependencies
         run: pnpm i
       - name: Run frontend tests
         run: pnpm run test:coverage
 
-  # Backend tests with parallelization
+  # Backend tests, sharded round-robin over the selected spec files
   backend-tests:
-    runs-on: blacksmith-4vcpu-ubuntu-2404
+    needs: plan
+    if: needs.plan.outputs.run_backend == 'true'
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
-        ci_node_total: [16]
-        ci_node_index: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+        ci_node_index: ${{ fromJSON(needs.plan.outputs.shard_indices) }}
 
     services:
       postgres:
@@ -82,17 +249,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
-          repository: ${{ github.event.pull_request.head.repo.full_name }}
 
-      - uses: useblacksmith/setup-ruby@v2
+      - uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
 
-      - uses: useblacksmith/setup-node@v5
+      - uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version-file: .nvmrc
           cache: 'pnpm'
 
       - name: Install pnpm dependencies
@@ -103,6 +267,16 @@ jobs:
           rm -rf enterprise
           rm -rf spec/enterprise
 
+      # The deploy image installs ffmpeg (docker/Dockerfile), and the runner image does not.
+      # Without it here the specs that decode audio are filtered out rather than failed, so
+      # a broken invocation ships green: that is how `out.present?` over raw PCM, which
+      # raises on the first byte that is not valid UTF-8, passed every example that handed
+      # samples in directly.
+      - name: Install the media tools the deploy image carries
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends ffmpeg
+
       - name: Create database
         run: bundle exec rake db:create
 
@@ -110,24 +284,31 @@ jobs:
         run: bundle exec rake db:schema:load
 
       - name: Run backend tests (parallelized)
+        env:
+          CI_NODE_TOTAL: ${{ needs.plan.outputs.shard_total }}
+          CI_NODE_INDEX: ${{ matrix.ci_node_index }}
+          BACKEND_SPECS: ${{ needs.plan.outputs.backend_specs }}
+          NODE_OPTIONS: --openssl-legacy-provider
         run: |
-          # Get all spec files and split them using round-robin distribution
-          # This ensures slow tests are distributed evenly across all nodes
-          SPEC_FILES=($(find spec -name '*_spec.rb' | sort))
+          # Explicit list from the plan job (affected mode) or every spec file (full mode), split
+          # round-robin so slow tests are distributed evenly across the shards.
+          # shellcheck disable=SC2206,SC2207
+          if [ -n "$BACKEND_SPECS" ]; then
+            SPEC_FILES=($BACKEND_SPECS)
+          else
+            SPEC_FILES=($(find spec -name '*_spec.rb' | sort))
+          fi
           TESTS=""
-
           for i in "${!SPEC_FILES[@]}"; do
-            # Assign spec to this node if: index % total == node_index
-            if [ $(( i % ${{ matrix.ci_node_total }} )) -eq ${{ matrix.ci_node_index }} ]; then
+            if [ $(( i % CI_NODE_TOTAL )) -eq "$CI_NODE_INDEX" ]; then
               TESTS="$TESTS ${SPEC_FILES[$i]}"
             fi
           done
-
+          echo "shard $CI_NODE_INDEX/$CI_NODE_TOTAL: $(wc -w <<<"$TESTS") spec files"
           if [ -n "$TESTS" ]; then
+            # shellcheck disable=SC2086
             bundle exec rspec --profile=10 --format progress --format json --out tmp/rspec_results.json $TESTS
           fi
-        env:
-          NODE_OPTIONS: --openssl-legacy-provider
 
       - name: Upload test results
         uses: actions/upload-artifact@v4

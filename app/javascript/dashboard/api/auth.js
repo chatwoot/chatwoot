@@ -81,6 +81,12 @@ export default {
     });
   },
 
+  updateWorkPreferences(accountId, preferences) {
+    return axios.post(endPoints('workPreferences').url, {
+      profile: { account_id: accountId, ...preferences },
+    });
+  },
+
   deleteAvatar() {
     return axios.delete(endPoints('deleteAvatar').url);
   },
@@ -105,5 +111,11 @@ export default {
   resetAccessToken() {
     const urlData = endPoints('resetAccessToken');
     return axios.post(urlData.url);
+  },
+  getSessions() {
+    return axios.get('/api/v1/profile/sessions');
+  },
+  revokeSession(id) {
+    return axios.delete(`/api/v1/profile/sessions/${id}`);
   },
 };

@@ -1,0 +1,23 @@
+{
+  "REQUEST_ERRORS": {
+    "FIELD": {
+      "TAKEN": "{field} is already in use by another record.",
+      "INVALID": "{field} has an invalid format.",
+      "BLANK": "{field} can't be blank.",
+      "TOO_LONG": "{field} is too long.",
+      "TOO_SHORT": "{field} is too short.",
+      "OTHER": "Check {field} and try again."
+    },
+    "GENERIC": {
+      "TAKEN": "This value is already in use by another record.",
+      "INVALID": "One of the fields has an invalid format.",
+      "BLANK": "A required field is blank.",
+      "TOO_LONG": "One of the fields is too long.",
+      "TOO_SHORT": "One of the fields is too short.",
+      "OTHER": "Check the fields and try again."
+    },
+    "FIELDS": {
+      "IDENTIFIER": "Identifier"
+    }
+  }
+}

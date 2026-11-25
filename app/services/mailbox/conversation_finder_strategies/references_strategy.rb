@@ -21,7 +21,7 @@ class Mailbox::ConversationFinderStrategies::ReferencesStrategy < Mailbox::Conve
     return nil if mail.references.blank?
     return nil unless @channel # No valid channel found
 
-    references = Array.wrap(mail.references)
+    references = sanitize_mailbox_value(Array.wrap(mail.references))
 
     references.each do |reference|
       conversation = find_conversation_from_reference(reference)
@@ -43,8 +43,9 @@ class Mailbox::ConversationFinderStrategies::ReferencesStrategy < Mailbox::Conve
     end
 
     # We scope to the inbox, that way we filter out messages and conversations that don't belong to the channel
+    # Replies to a forwarded email start a new conversation with the forward recipient
     message = Message.find_by(source_id: reference, inbox_id: @channel.inbox.id)
-    message&.conversation
+    message&.conversation unless message&.forwarded?
   end
 
   def extract_uuid_from_patterns(message_id)

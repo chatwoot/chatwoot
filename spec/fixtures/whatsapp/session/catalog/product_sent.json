@@ -1,0 +1,36 @@
+{
+  "id": "3EB0000000000000000002",
+  "chat": {
+    "kind": "lid",
+    "id": "182736451928374"
+  },
+  "from_me": true,
+  "timestamp": 1755440000123,
+  "content": {
+    "type": "rich",
+    "kind": "product",
+    "title": "Camiseta básica",
+    "body": "Algodão, tamanhos P a GG",
+    "product": {
+      "id": "1000000000000002",
+      "title": "Camiseta básica",
+      "description": "Algodão, tamanhos P a GG",
+      "price_1000": 59900,
+      "currency": "BRL",
+      "image_count": 1,
+      "owner": {
+        "kind": "phone",
+        "id": "5541988880000"
+      },
+      "thumbnail": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA=="
+    },
+    "media": {
+      "type": "media",
+      "kind": "image",
+      "mime": "image/jpeg",
+      "voice_note": false,
+      "size": 25164,
+      "thumbnail": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA=="
+    }
+  }
+}

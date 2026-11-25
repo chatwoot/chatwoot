@@ -5,6 +5,9 @@ import { useStore } from 'dashboard/composables/store';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import InternalChatChannelsAPI from 'dashboard/api/internalChatChannels';
+import { formatLocalized } from 'shared/helpers/localizedDate';
+import { vOnClickOutside } from '@vueuse/components';
+import { useBreakpoints, breakpointsTailwind } from '@vueuse/core';
 
 const props = defineProps({
   channel: { type: Object, required: true },
@@ -27,6 +30,15 @@ const emit = defineEmits([
 
 const store = useStore();
 const { t } = useI18n();
+
+const breakpoints = useBreakpoints(breakpointsTailwind);
+const isBelowLarge = breakpoints.smaller('lg');
+
+// The panel only overlays the conversation below lg. As a desktop column it has
+// to stay put when the user clicks a message next to it.
+const closeOnClickOutside = () => {
+  if (isBelowLarge.value) emit('close');
+};
 
 const isDM = computed(() => props.channel.channel_type === 'dm');
 const isPrivate = computed(
@@ -90,7 +102,7 @@ const channelTypeIcon = computed(() => {
 
 const createdAt = computed(() => {
   if (!props.channel.created_at) return '';
-  return new Date(props.channel.created_at).toLocaleDateString();
+  return formatLocalized(new Date(props.channel.created_at), 'M/d/yyyy');
 });
 
 function handleMuteToggle() {
@@ -154,7 +166,15 @@ defineExpose({ fetchMembers });
 </script>
 
 <template>
-  <div class="flex h-full w-80 flex-col border-l border-n-slate-5 bg-n-solid-1">
+  <div
+    v-on-click-outside="[
+      closeOnClickOutside,
+      {
+        ignore: ['dialog', '[data-popover-content]', '[data-popover-backdrop]'],
+      },
+    ]"
+    class="fixed inset-y-0 z-40 flex w-full max-w-sm flex-col bg-n-solid-1 shadow-lg border-n-slate-5 ltr:right-0 ltr:border-l rtl:left-0 rtl:border-r lg:static lg:h-full lg:w-80 lg:max-w-none lg:shadow-none"
+  >
     <div
       class="flex h-[53px] items-center justify-between border-b border-n-slate-5 px-4"
     >

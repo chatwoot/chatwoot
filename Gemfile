@@ -1,10 +1,13 @@
 source 'https://rubygems.org'
 
-ruby '3.4.4'
+ruby '3.4.13'
 
 ##-- base gems for rails --##
+
 gem 'rack-cors', '2.0.0', require: 'rack/cors'
-gem 'rails', '~> 7.1'
+gem 'rails', '8.0.5.2'
+gem 'sprockets-rails', '~> 3.5'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
@@ -18,7 +21,6 @@ gem 'kaminari'
 gem 'responders', '>= 3.1.1'
 gem 'rest-client'
 gem 'telephone_number'
-gem 'time_diff'
 gem 'tzinfo-data'
 gem 'valid_email2'
 gem 'email-provider-info'
@@ -52,18 +54,19 @@ gem 'csv-safe'
 
 ##-- for active storage --##
 gem 'aws-sdk-s3', require: false
-# original gem isn't maintained actively
-# we wanted updated version of faraday which is a dependency for slack-ruby-client
-gem 'azure-storage-blob', git: 'https://github.com/chatwoot/azure-storage-ruby', branch: 'chatwoot', require: false
+gem 'aws-sdk-sesv2', require: false
+gem 'azure-blob', require: false
 gem 'google-cloud-storage', '>= 1.48.0', require: false
 gem 'image_processing'
 gem 'streamio-ffmpeg', '~> 3.0'
+# Rails 8.0.5.1+ requires the API that blocks untrusted libvips operations.
+gem 'ruby-vips', '~> 2.2', '>= 2.2.1', require: false
 
 ##-- for actionmailbox --##
 gem 'aws-actionmailbox-ses', '~> 0'
 
 ##-- gems for database --#
-gem 'groupdate'
+gem 'groupdate', '>= 6.8.0'
 gem 'pg'
 gem 'redis'
 gem 'redis-namespace'
@@ -77,26 +80,26 @@ gem 'faraday_middleware-aws-sigv4'
 ##--- gems for server & infra configuration ---##
 gem 'dotenv-rails', '>= 3.0.0'
 gem 'foreman'
-gem 'puma'
+gem 'puma', '~> 7.2', '>= 7.2.1'
 gem 'vite_rails'
 # metrics on heroku
 gem 'barnes'
 
 ##--- gems for authentication & authorization ---##
 gem 'devise', '>= 4.9.4'
-gem 'devise-secure_password', git: 'https://github.com/chatwoot/devise-secure_password', branch: 'chatwoot'
+# 2.2.3 requires Devise 5; Chatwoot remains on Devise 4 for this upgrade stack.
+gem 'devise-secure_password', '2.2.1'
 gem 'devise_token_auth', '>= 1.2.3'
-gem 'rails-i18n', '~> 7.0'
+gem 'rails-i18n', '~> 8.0.2'
 # two-factor authentication
 gem 'devise-two-factor', '>= 5.0.0'
 # authorization
-gem 'jwt'
+gem 'jwt', '~> 2.10', '>= 2.10.3'
 gem 'pundit'
 
 # super admin
-gem 'administrate', '>= 0.20.1'
-gem 'administrate-field-active_storage', '>= 1.0.3'
-gem 'administrate-field-belongs_to_search', '>= 0.9.0'
+gem 'administrate', '1.0.0'
+gem 'administrate-field-active_storage', '1.0.6'
 
 ##--- gems for pubsub service ---##
 # https://karolgalanciak.com/blog/2019/11/30/from-activerecord-callbacks-to-publish-slash-subscribe-pattern-and-event-driven-design/
@@ -134,14 +137,18 @@ gem 'sentry-ruby', require: false
 gem 'sentry-sidekiq', '>= 5.19.0', require: false
 
 ##-- background job processing --##
-gem 'sidekiq', '>= 7.3.1'
+gem 'sidekiq', '~> 7.3.10'
 # We want cron jobs
-gem 'sidekiq-cron', '>= 1.12.0'
+gem 'sidekiq-cron', '>= 2.4.0'
 # for sidekiq healthcheck
 gem 'sidekiq_alive'
+# publishes Sidekiq queue metrics to CloudWatch for autoscaling (opt-in via ENABLE_SIDEKIQ_CLOUDWATCH)
+gem 'speedshop-cloudwatch', '~> 0.2.1', require: false
 
 ##-- Push notification service --##
 gem 'fcm'
+# APNs VoIP pushes that ring iPhones through CallKit
+gem 'apnotic', '~> 1.8'
 gem 'web-push', '>= 3.0.1'
 
 ##-- geocoding / parse location from ip --##
@@ -151,7 +158,7 @@ gem 'geocoder'
 gem 'maxminddb'
 
 # to create db triggers
-gem 'hairtrigger'
+gem 'hairtrigger', '1.3.1'
 
 gem 'procore-sift'
 
@@ -179,7 +186,7 @@ gem 'lograge', '~> 0.14.0', require: false
 # worked with microsoft refresh token
 gem 'omniauth-oauth2'
 
-gem 'audited', '~> 5.4', '>= 5.4.1'
+gem 'audited', '~> 5.8'
 
 # need for google auth
 gem 'omniauth', '>= 2.1.2'
@@ -196,11 +203,9 @@ gem 'reverse_markdown'
 
 gem 'iso-639'
 gem 'ruby-openai'
-gem 'ai-agents', '>= 0.10.0'
+gem 'ai-agents', '~> 0.14.0'
 
-# TODO: Move this gem as a dependency of ai-agents
-gem 'ruby_llm', '>= 1.14.1'
-gem 'ruby_llm-schema'
+gem 'ruby_llm', '~> 2.1.1'
 
 gem 'cld3', '~> 3.7'
 
@@ -211,6 +216,8 @@ gem 'opentelemetry-exporter-otlp'
 gem 'shopify_api'
 
 gem 'resend', '~> 0.19.0'
+
+gem 'firecrawl-sdk', '~> 1.0', require: 'firecrawl'
 
 ### Gems required only in specific deployment environments ###
 ##############################################################
@@ -260,11 +267,12 @@ group :development, :test do
   gem 'bundle-audit', require: false
   gem 'byebug', platform: :mri
   gem 'climate_control'
-  gem 'debug', '~> 1.8'
+  # The prelude only: `debugger` still opens a session, but the gem loaded whole puts a
+  # hook on every fork whose at_exit waits for all children, and Sidekiq in development
+  # then never exits on SIGTERM (#750).
+  gem 'debug', '~> 1.8', require: 'debug/prelude'
   gem 'factory_bot_rails', '>= 6.4.3'
-  gem 'listen'
   gem 'mock_redis'
-  gem 'pry-rails'
   gem 'rspec_junit_formatter'
   gem 'rspec-rails', '>= 6.1.5'
   gem 'rubocop', require: false
@@ -276,6 +284,4 @@ group :development, :test do
   gem 'shoulda-matchers'
   gem 'simplecov', '>= 0.21', require: false
   gem 'skooma'
-  gem 'spring'
-  gem 'spring-watcher-listen'
 end

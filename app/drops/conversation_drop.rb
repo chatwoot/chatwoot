@@ -1,6 +1,10 @@
 class ConversationDrop < BaseDrop
   include MessageFormatHelper
 
+  def id
+    @obj.try(:display_id)
+  end
+
   def display_id
     @obj.try(:display_id)
   end
@@ -17,6 +21,20 @@ class ConversationDrop < BaseDrop
         'attachments' => message.attachments.map(&:file_url)
       }
     end
+  end
+
+  def assignee
+    UserDrop.new(@obj.try(:assignee))
+  end
+
+  # The conversation as it was when the current automation rule execution started. It resolves to
+  # nothing outside one: a text written by hand has no execution to take a picture of, and falling
+  # back to the live conversation would make `before` a second name for the present.
+  def before
+    snapshot = Current.conversation_snapshot
+    return unless snapshot.respond_to?(:snapshot_of?) && snapshot.snapshot_of?(@obj)
+
+    self.class.new(snapshot)
   end
 
   def custom_attribute

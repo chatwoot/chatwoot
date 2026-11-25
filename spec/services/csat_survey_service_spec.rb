@@ -8,6 +8,50 @@ describe CsatSurveyService do
   let(:conversation) { create(:conversation, contact_inbox: contact_inbox, inbox: inbox, account: account, status: :resolved) }
   let(:service) { described_class.new(conversation: conversation) }
 
+  describe '#perform return value' do
+    let(:rules) { { 'survey_rules' => { 'operator' => 'contains', 'values' => ['humano'] } } }
+
+    it 'reports the rules when they are the only thing in the way' do
+      inbox.update!(csat_config: rules)
+
+      expect(service.perform).to eq :blocked_by_survey_rules
+    end
+
+    it 'does not report the rules once the label the rule asks for is there' do
+      inbox.update!(csat_config: rules)
+      conversation.update!(label_list: ['humano'])
+
+      expect(service.perform).not_to eq :blocked_by_survey_rules
+    end
+
+    it 'is not blocked when no rules are configured' do
+      expect(service.perform).not_to eq :blocked_by_survey_rules
+    end
+
+    # Each of these makes the conversation ineligible on its own, and a retry would never change
+    # that: the caller must not schedule one, or every resolution in the install pays for a job.
+    it 'reports ineligible when the conversation is not resolved' do
+      inbox.update!(csat_config: rules)
+      conversation.update!(status: :open)
+
+      expect(service.perform).to eq :not_eligible
+    end
+
+    it 'reports ineligible when CSAT is disabled on the inbox' do
+      inbox.update!(csat_config: rules, csat_survey_enabled: false)
+
+      expect(service.perform).to eq :not_eligible
+    end
+
+    it 'reports ineligible when the survey was already sent' do
+      inbox.update!(csat_config: rules)
+      create(:message, account: account, inbox: inbox, conversation: conversation,
+                       message_type: :outgoing, content_type: :input_csat)
+
+      expect(service.perform).to eq :not_eligible
+    end
+  end
+
   describe '#perform' do
     let(:csat_template) { instance_double(MessageTemplates::Template::CsatSurvey) }
 

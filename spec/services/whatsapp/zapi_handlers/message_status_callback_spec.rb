@@ -151,5 +151,38 @@ describe Whatsapp::ZapiHandlers::MessageStatusCallback do
         expect(message2.reload.status).to eq('read')
       end
     end
+
+    context 'when a failed message recovers' do
+      before { message1.update!(status: 'failed', external_error: 'Message delivery failed') }
+
+      { 'SENT' => 'sent', 'DELIVERED' => 'delivered', 'READ' => 'read' }.each do |zapi_status, status|
+        it "clears the external_error on #{zapi_status}" do
+          params[:status] = zapi_status
+
+          service.perform
+
+          expect(message1.reload.status).to eq(status)
+          expect(message1.external_error).to be_nil
+        end
+      end
+
+      it 'keeps the external_error while the message is still failed' do
+        params[:status] = 'FAILED'
+
+        service.perform
+
+        expect(message1.reload.status).to eq('failed')
+        expect(message1.external_error).to eq('Message delivery failed')
+      end
+    end
+
+    it 'does not mark a read message as failed' do
+      message1.update!(status: 'read')
+      params[:status] = 'FAILED'
+
+      service.perform
+
+      expect(message1.reload.status).to eq('read')
+    end
   end
 end

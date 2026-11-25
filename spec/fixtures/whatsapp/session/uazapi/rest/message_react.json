@@ -1,0 +1,18 @@
+{
+  "content": {
+    "groupingKey": "👍",
+    "key": {
+      "ID": "3EB00000000000000003",
+      "fromMe": true,
+      "remoteJID": "90000020000000@lid"
+    },
+    "senderTimestampMS": 1787161490238,
+    "text": "👍"
+  },
+  "id": "5511999990001:3EB00000000000000004",
+  "messageTimestamp": 1787161490620,
+  "messageType": "ReactionMessage",
+  "messageid": "3EB00000000000000004",
+  "owner": "5511999990001",
+  "status": "Pending"
+}

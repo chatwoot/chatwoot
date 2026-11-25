@@ -10,6 +10,10 @@ import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import { buildRecurrenceDescription } from 'dashboard/helper/recurrenceHelpers';
+import {
+  currentDateLocale,
+  dateTimeFormat,
+} from 'shared/helpers/localizedDate';
 
 const props = defineProps({
   scheduledMessage: {
@@ -67,6 +71,10 @@ const statusConfig = {
   failed: {
     labelKey: 'SCHEDULED_MESSAGES.STATUS.FAILED',
     class: 'bg-n-ruby-9/10 text-n-ruby-11',
+  },
+  held: {
+    labelKey: 'SCHEDULED_MESSAGES.STATUS.HELD',
+    class: 'bg-n-amber-9/10 text-n-amber-11',
   },
   active: {
     labelKey: 'SCHEDULED_MESSAGES.RECURRENCE.STATUS_ACTIVE',
@@ -146,7 +154,7 @@ const formattedScheduledTime = computed(() => {
     options.year = 'numeric';
   }
 
-  return date.toLocaleString(normalizedLocale.value, options);
+  return dateTimeFormat(currentDateLocale(), options).format(date);
 });
 
 const templateName = computed(() => {
@@ -204,7 +212,7 @@ const formatChildTime = childScheduledAt => {
   if (date.getFullYear() !== now.getFullYear()) {
     options.year = 'numeric';
   }
-  return date.toLocaleString(normalizedLocale.value, options);
+  return dateTimeFormat(currentDateLocale(), options).format(date);
 };
 
 const canNavigateToChild = child =>
@@ -364,6 +372,14 @@ watch(previewContent, () => {
         'line-clamp-4': collapsible && !isExpanded,
       }"
     />
+
+    <div
+      v-if="scheduledMessage.status === 'held'"
+      class="flex items-start gap-1.5 rounded-lg bg-n-amber-2 px-3 py-2 text-xs text-n-amber-11"
+    >
+      <Icon icon="i-lucide-pause-circle" class="size-3 shrink-0 mt-0.5" />
+      <span>{{ t('SCHEDULED_MESSAGES.ITEM.HELD_REASON') }}</span>
+    </div>
 
     <div v-if="hasPreviewContent && collapsible && showToggle">
       <Button

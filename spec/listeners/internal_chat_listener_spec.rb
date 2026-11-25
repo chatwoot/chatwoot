@@ -221,4 +221,45 @@ describe InternalChatListener do
       end
     end
   end
+
+  describe 'recipients' do
+    let!(:channel) { create(:internal_chat_channel, :private_channel, account: account) }
+    let!(:message) { create(:internal_chat_message, account: account, channel: channel, sender: admin) }
+    let(:event) { Events::Base.new(:'internal_chat.message.created', Time.zone.now, message: message) }
+
+    before do
+      create(:internal_chat_channel_member, channel: channel, user: admin)
+      create(:internal_chat_channel_member, channel: channel, user: agent)
+      allow(ActionCableBroadcastJob).to receive(:perform_later)
+    end
+
+    it 'leaves out members without internal_chat.access' do
+      stub_const('FeatureAccess::CAPABILITIES', { 'internal_chat.access' => { agent_default: false } })
+
+      listener.internal_chat_message_created(event)
+
+      expect(ActionCableBroadcastJob).to have_received(:perform_later)
+        .with([admin.pubsub_token], 'internal_chat.message.created', anything)
+    end
+
+    it 'leaves out a member who is no longer in the account' do
+      account.account_users.find_by(user: agent).destroy!
+
+      listener.internal_chat_message_created(event)
+
+      expect(ActionCableBroadcastJob).to have_received(:perform_later)
+        .with([admin.pubsub_token], 'internal_chat.message.created', anything)
+    end
+
+    it 'filters the token list a controller captured before destroying the channel' do
+      stub_const('FeatureAccess::CAPABILITIES', { 'internal_chat.access' => { agent_default: false } })
+      captured = Events::Base.new(:'internal_chat.channel.updated', Time.zone.now,
+                                  channel: channel, member_tokens: [admin.pubsub_token, agent.pubsub_token])
+
+      listener.internal_chat_channel_updated(captured)
+
+      expect(ActionCableBroadcastJob).to have_received(:perform_later)
+        .with([admin.pubsub_token], 'internal_chat.channel.updated', anything)
+    end
+  end
 end

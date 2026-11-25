@@ -26,6 +26,31 @@ RSpec.describe AdministratorNotifications::AccountNotificationMailer do
     end
   end
 
+  describe 'the brand in the subject' do
+    before do
+      InstallationConfig.where(name: 'BRAND_NAME').first_or_create!(value: 'Chatwoot')
+      GlobalConfig.clear_cache
+    end
+
+    # The subject used to come from GlobalConfig while the body came from the account, so a
+    # branded account was told about its own deletion under a name it does not use.
+    it 'uses the account brand, matching the body' do
+      account.enable_features!('branded_email_templates')
+      account.update!(brand_name: 'Café Exemplo')
+
+      mail = mailer.account_deletion_user_initiated(account, 'manual_deletion')
+
+      expect(mail.subject).to eq('Your Café Exemplo account deletion has been scheduled')
+      expect(mail.body.to_s).to include('Café Exemplo')
+    end
+
+    it 'falls back to the installation for an account that configured none' do
+      mail = mailer.account_deletion_user_initiated(account, 'manual_deletion')
+
+      expect(mail.subject).to eq('Your Chatwoot account deletion has been scheduled')
+    end
+  end
+
   describe '#format_deletion_date' do
     it 'formats a valid date string' do
       date_str = '2024-12-31T12:00:00Z'

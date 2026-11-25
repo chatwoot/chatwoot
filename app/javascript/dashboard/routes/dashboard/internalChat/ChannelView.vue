@@ -23,6 +23,7 @@ import ChannelSettings from './ChannelSettings.vue';
 import EditMembersModal from './EditMembersModal.vue';
 import ProFeatureNudge from './ProFeatureNudge.vue';
 import { useInternalChatPro } from 'dashboard/composables/useInternalChatPro';
+import { useBreakpoints, breakpointsTailwind } from '@vueuse/core';
 
 const props = defineProps({
   channelId: {
@@ -35,6 +36,9 @@ const store = useStore();
 const { t } = useI18n();
 const route = useRoute();
 const router = useRouter();
+
+const breakpoints = useBreakpoints(breakpointsTailwind);
+const isBelowLarge = breakpoints.smaller('lg');
 
 const typingUsers = computed(() => {
   return (
@@ -53,8 +57,11 @@ const proNudgeRef = ref(null);
 const proNudgeFeature = ref('polls');
 const { pollsEnabled } = useInternalChatPro();
 const editingMessage = ref(null);
+// Below lg the settings panel covers the conversation, so a stored "open" from
+// a desktop session must not be what greets you when you open a channel here.
 const showSettings = ref(
-  localStorage.getItem('internal_chat_settings_open') === 'true'
+  !isBelowLarge.value &&
+    localStorage.getItem('internal_chat_settings_open') === 'true'
 );
 const isLoadingMore = ref(false);
 const isViewingHistory = ref(false);

@@ -28,12 +28,11 @@ module Whatsapp::BaileysHandlers::Concerns::GroupContactMessageHandler # rubocop
   def process_group_message
     @group_contact_inbox, @group_contact = find_or_create_group_contact
 
-    consolidate_contact(baileys_sender_phone, baileys_sender_lid, baileys_sender_identifier)
-    @sender_contact = find_or_create_sender_contact
-    if @sender_contact
-      update_contact_whatsapp_info(@sender_contact, baileys_sender_phone, baileys_sender_identifier, name: extract_sender_name)
-      try_update_contact_avatar(@sender_contact)
-    end
+    # The echo of a message Chatwoot sent under a reserved id is already stored; confirming it
+    # before the conversation is picked keeps it from reopening (or opening) a group thread for it.
+    return if confirm_reserved_outgoing_message(@group_contact)
+
+    resolve_group_sender_contact
 
     # Reaction removals don't produce a new Message row; handle them before
     # find_or_create_group_conversation so a blank webhook can't create a
@@ -49,7 +48,10 @@ module Whatsapp::BaileysHandlers::Concerns::GroupContactMessageHandler # rubocop
       return mark_existing_reaction_as_removed(sender: @sender_contact)
     end
 
-    @conversation = find_or_create_group_conversation(@group_contact_inbox)
+    # A reaction must land in the conversation holding the target message, not
+    # follow the reopen policy: reacting to a message in a resolved group thread
+    # would otherwise spawn a stray blank group conversation.
+    @conversation = conversation_for_reaction || find_or_create_group_conversation(@group_contact_inbox)
     add_group_member(@group_contact, @sender_contact) if @sender_contact
 
     build_and_save_message(
@@ -57,6 +59,15 @@ module Whatsapp::BaileysHandlers::Concerns::GroupContactMessageHandler # rubocop
       sender: @sender_contact,
       attach_media: should_attach_media?
     )
+  end
+
+  def resolve_group_sender_contact
+    consolidate_contact(baileys_sender_phone, baileys_sender_lid, baileys_sender_identifier)
+    @sender_contact = find_or_create_sender_contact
+    return if @sender_contact.blank?
+
+    update_contact_whatsapp_info(@sender_contact, baileys_sender_phone, baileys_sender_identifier, name: extract_sender_name)
+    try_update_contact_avatar(@sender_contact)
   end
 
   def find_or_create_participant_contact(participant)
@@ -170,30 +181,19 @@ module Whatsapp::BaileysHandlers::Concerns::GroupContactMessageHandler # rubocop
     @raw_message[:key][:participantAlt]
   end
 
+  # Whichever of the author's two addresses is the phone one. Which field holds it
+  # depends on how the group is addressed -- `participantAlt` for a LID-addressed group,
+  # `participant` for a phone-addressed one -- and neither may be read as a phone number
+  # on the strength of being digits, since a LID is digits too. See `phone_from_jid`.
   def baileys_sender_phone
-    alt_jid = extract_sender_jid_alt
-    if alt_jid.present?
-      phone = alt_jid.split('@').first
-      return phone if phone.match?(/^\d+$/)
-    end
-
-    sender_jid = extract_sender_jid
-    return if sender_jid.blank?
-
-    jid_part = sender_jid.split('@').first
-    parts = jid_part.split(':')
-    parts.first if parts.first.match?(/^\d+$/)
+    phone_from_jid(extract_sender_jid_alt) || phone_from_jid(extract_sender_jid)
   end
 
+  # The mirror of `baileys_sender_phone`: the author's other address, wherever the group's
+  # addressing put it. Read from `participant` first, since that is where a LID-addressed
+  # group carries it and where the alt field is the phone number.
   def baileys_sender_lid
-    sender_jid = extract_sender_jid
-    return if sender_jid.blank?
-
-    jid_part, jid_suffix = sender_jid.split('@')
-    return jid_part if jid_suffix == 'lid' && jid_part.match?(/^\d+$/)
-
-    parts = jid_part.split(':')
-    parts.last if parts.length > 1 && parts.last.match?(/^\d+$/)
+    lid_from_jid(extract_sender_jid) || lid_from_jid(extract_sender_jid_alt)
   end
 
   def baileys_sender_identifier

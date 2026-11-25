@@ -1,5 +1,6 @@
-class Api::V1::Accounts::Integrations::NotionController < Api::V1::Accounts::BaseController
+class Api::V1::Accounts::Integrations::NotionController < Api::V1::Accounts::Integrations::BaseController
   before_action :fetch_hook, only: [:destroy]
+  before_action :check_authorization, only: [:destroy]
 
   def destroy
     @hook.destroy!

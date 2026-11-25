@@ -18,9 +18,9 @@ RSpec.describe Captain::Tools::Copilot::GetArticleService do
     end
   end
 
-  describe '#parameters' do
+  describe '#parameters_schema' do
     it 'defines article_id parameter' do
-      expect(service.parameters.keys).to contain_exactly(:article_id)
+      expect(service.parameters_schema.fetch('properties').keys).to contain_exactly('article_id')
     end
   end
 
@@ -41,7 +41,7 @@ RSpec.describe Captain::Tools::Copilot::GetArticleService do
 
       before do
         account_user = AccountUser.find_by(user: user, account: account)
-        account_user.update!(role: :agent, custom_role: custom_role)
+        account_user.update(role: :agent, custom_role: custom_role)
       end
 
       it 'returns true' do
@@ -56,7 +56,7 @@ RSpec.describe Captain::Tools::Copilot::GetArticleService do
 
       before do
         account_user = AccountUser.find_by(user: user, account: account)
-        account_user.update!(role: :agent, custom_role: custom_role)
+        account_user.update(role: :agent, custom_role: custom_role)
       end
 
       it 'returns false' do

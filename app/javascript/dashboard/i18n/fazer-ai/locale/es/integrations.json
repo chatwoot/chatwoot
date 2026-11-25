@@ -1,0 +1,35 @@
+{
+  "INTEGRATION_SETTINGS": {
+    "WEBHOOK": {
+      "FORM": {
+        "SUBSCRIPTIONS": {
+          "EVENTS": {
+            "MESSAGE_INCOMING": "Mensaje entrante",
+            "MESSAGE_OUTGOING": "Mensaje saliente",
+            "CONVERSATION_RECORDING": "Audio grabado de la conversación",
+            "PROVIDER_EVENT_RECEIVED": "Evento del proveedor recibido",
+            "INTERNAL_CHAT_MESSAGE_CREATED": "Mensaje de chat interno creado",
+            "INTERNAL_CHAT_MESSAGE_UPDATED": "Mensaje de chat interno actualizado",
+            "INTERNAL_CHAT_MESSAGE_DELETED": "Mensaje de chat interno eliminado",
+            "INTERNAL_CHAT_CHANNEL_UPDATED": "Canal de chat interno actualizado"
+          }
+        },
+        "INBOX": {
+          "LABEL": "Bandeja de entrada",
+          "TITLE": "Seleccione la bandeja de entrada",
+          "PLACEHOLDER": "Todas las bandejas de entrada",
+          "NO_RESULTS": "No se encontraron bandejas de entrada",
+          "INPUT_PLACEHOLDER": "Buscar bandeja de entrada"
+        }
+      }
+    },
+    "DASHBOARD_APPS": {
+      "VIEW": {
+        "NOT_FOUND": "No hemos encontrado esa aplicación de panel."
+      },
+      "FORM": {
+        "SHOW_ON_SIDEBAR_LABEL": "Mostrar en la barra lateral"
+      }
+    }
+  }
+}

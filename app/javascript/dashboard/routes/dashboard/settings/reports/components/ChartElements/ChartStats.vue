@@ -38,8 +38,13 @@ const trendColor = (value, key) => {
 
 <template>
   <div class="text-n-slate-11">
-    <span class="text-sm">
+    <span class="inline-flex items-center gap-1 text-sm">
       {{ metric.NAME }}
+      <span
+        v-if="metric.HINT"
+        v-tooltip.top="metric.HINT"
+        class="i-lucide-info size-3.5 text-n-slate-10"
+      />
     </span>
     <div class="flex items-end text-n-slate-12">
       <div v-if="fetchingStatus === STATUS.FETCHING">

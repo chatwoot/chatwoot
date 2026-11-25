@@ -11,7 +11,21 @@ import CreateCategoryModal from './CreateCategoryModal.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Draggable from 'vuedraggable';
 import { emitter } from 'shared/helpers/mitt';
+import {
+  currentDateLocale,
+  dateTimeFormat,
+} from 'shared/helpers/localizedDate';
 import ProFeatureNudge from './ProFeatureNudge.vue';
+import {
+  useBreakpoints,
+  breakpointsTailwind,
+  useEventListener,
+} from '@vueuse/core';
+import {
+  useInternalChatSidebar,
+  MIN_WIDTH,
+  MAX_WIDTH,
+} from 'dashboard/composables/useInternalChatSidebar';
 
 const store = useStore();
 const { t } = useI18n();
@@ -20,6 +34,60 @@ const router = useRouter();
 
 const currentRole = useMapGetter('getCurrentRole');
 const isAdmin = computed(() => currentRole.value === 'administrator');
+const isRTL = useMapGetter('accounts/isRTL');
+
+const breakpoints = useBreakpoints(breakpointsTailwind);
+const isSmallScreen = breakpoints.smaller('md');
+
+const { sidebarWidth, setSidebarWidth, commitWidth, collapse } =
+  useInternalChatSidebar();
+
+// Arrow keys on the focused handle, so resizing isn't pointer-only.
+const KEYBOARD_STEP = 16;
+
+const nudgeWidth = delta => {
+  setSidebarWidth(sidebarWidth.value + (isRTL.value ? -delta : delta));
+  commitWidth();
+};
+
+// Resize handle, mirroring components-next/sidebar/Sidebar.vue
+const isResizing = ref(false);
+const startX = ref(0);
+const startWidth = ref(0);
+
+const getClientX = event =>
+  event.touches ? event.touches[0].clientX : event.clientX;
+
+const onResizeStart = event => {
+  isResizing.value = true;
+  startX.value = getClientX(event);
+  startWidth.value = sidebarWidth.value;
+  Object.assign(document.body.style, {
+    cursor: 'col-resize',
+    userSelect: 'none',
+  });
+  event.preventDefault();
+};
+
+const onResizeMove = event => {
+  if (!isResizing.value) return;
+  const delta = isRTL.value
+    ? startX.value - getClientX(event)
+    : getClientX(event) - startX.value;
+  setSidebarWidth(startWidth.value + delta);
+};
+
+const onResizeEnd = () => {
+  if (!isResizing.value) return;
+  isResizing.value = false;
+  Object.assign(document.body.style, { cursor: '', userSelect: '' });
+  commitWidth();
+};
+
+useEventListener(document, 'mousemove', onResizeMove);
+useEventListener(document, 'mouseup', onResizeEnd);
+useEventListener(document, 'touchmove', onResizeMove, { passive: false });
+useEventListener(document, 'touchend', onResizeEnd);
 
 const searchQuery = ref('');
 let searchDebounceTimer = null;
@@ -187,15 +255,15 @@ function formatMessageTime(createdAt) {
       : new Date(createdAt);
   const now = new Date();
   if (date.toDateString() === now.toDateString()) {
-    return date.toLocaleTimeString(undefined, {
+    return dateTimeFormat(currentDateLocale(), {
       hour: '2-digit',
       minute: '2-digit',
-    });
+    }).format(date);
   }
-  return date.toLocaleDateString(undefined, {
+  return dateTimeFormat(currentDateLocale(), {
     month: 'short',
     day: 'numeric',
-  });
+  }).format(date);
 }
 
 const collapsedSections = ref(
@@ -435,11 +503,25 @@ async function handleDeleteCategory() {
 </script>
 
 <template>
-  <div class="flex h-full w-64 flex-col border-r border-n-slate-5 bg-n-solid-2">
+  <div
+    class="relative flex h-full w-full flex-col border-r border-n-slate-5 bg-n-solid-2 md:w-auto md:flex-shrink-0"
+    :style="isSmallScreen ? undefined : { width: `${sidebarWidth}px` }"
+  >
     <div class="px-3 pt-3 pb-1">
-      <h1 class="mb-2 text-base font-semibold text-n-slate-12">
-        {{ t('INTERNAL_CHAT.TITLE') }}
-      </h1>
+      <div class="mb-2 flex items-center justify-between gap-2">
+        <h1 class="min-w-0 truncate text-base font-semibold text-n-slate-12">
+          {{ t('INTERNAL_CHAT.TITLE') }}
+        </h1>
+        <button
+          type="button"
+          class="hidden flex-shrink-0 items-center justify-center rounded p-1 text-n-slate-11 transition-colors hover:bg-n-alpha-2 hover:text-n-slate-12 md:flex"
+          :title="t('INTERNAL_CHAT.SIDEBAR.COLLAPSE')"
+          :aria-label="t('INTERNAL_CHAT.SIDEBAR.COLLAPSE')"
+          @click="collapse"
+        >
+          <Icon icon="i-lucide-panel-left-close" class="size-4" />
+        </button>
+      </div>
       <div
         class="flex h-7 items-center gap-1.5 rounded-lg bg-n-alpha-1 px-2 py-1"
       >
@@ -750,7 +832,7 @@ async function handleDeleteCategory() {
           </span>
           <button
             v-if="isAdmin"
-            class="text-n-slate-9 opacity-0 transition-opacity hover:text-n-ruby-11 group-hover/cat:opacity-100"
+            class="text-n-slate-9 transition-opacity hover:text-n-ruby-11 md:opacity-0 md:group-hover/cat:opacity-100"
             @click.stop="confirmDeleteCategory(category.id)"
           >
             <Icon icon="i-lucide-trash-2" class="size-3" />
@@ -759,7 +841,7 @@ async function handleDeleteCategory() {
         <div v-show="!isSectionCollapsed(`category-${category.id}`)">
           <Draggable
             :list="getCategoryChannelList(category.id)"
-            :disabled="!isAdmin"
+            :disabled="!isAdmin || isSmallScreen"
             group="channels"
             item-key="id"
             ghost-class="opacity-30"
@@ -855,7 +937,7 @@ async function handleDeleteCategory() {
         <div v-show="!isSectionCollapsed('channels')">
           <Draggable
             :list="localUncategorizedChannels"
-            :disabled="!isAdmin"
+            :disabled="!isAdmin || isSmallScreen"
             group="channels"
             item-key="id"
             ghost-class="opacity-30"
@@ -1088,6 +1170,30 @@ async function handleDeleteCategory() {
           {{ t('INTERNAL_CHAT.NO_CHANNELS') }}
         </p>
       </div>
+    </div>
+
+    <!-- Resize handle (desktop only) -->
+    <div
+      class="absolute top-0 z-40 hidden h-full w-1 cursor-col-resize group ltr:right-0 rtl:left-0 md:block"
+      role="separator"
+      aria-orientation="vertical"
+      tabindex="0"
+      :aria-label="t('INTERNAL_CHAT.SIDEBAR.RESIZE')"
+      :aria-valuenow="sidebarWidth"
+      :aria-valuemin="MIN_WIDTH"
+      :aria-valuemax="MAX_WIDTH"
+      @mousedown="onResizeStart"
+      @touchstart="onResizeStart"
+      @dblclick="collapse"
+      @keydown.left.prevent="nudgeWidth(-KEYBOARD_STEP)"
+      @keydown.right.prevent="nudgeWidth(KEYBOARD_STEP)"
+      @keydown.enter.prevent="collapse"
+      @keydown.space.prevent="collapse"
+    >
+      <div
+        class="absolute top-0 h-full w-px bg-transparent transition-colors group-hover:bg-n-brand ltr:right-0 rtl:left-0"
+        :class="{ 'bg-n-brand': isResizing }"
+      />
     </div>
 
     <CreateChannelModal ref="createChannelModalRef" />

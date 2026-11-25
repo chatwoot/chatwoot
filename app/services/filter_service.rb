@@ -2,6 +2,7 @@ require 'json'
 
 class FilterService
   include Filters::FilterHelper
+  include Filters::DateFilterHelper
   include Filters::CustomAttributeFilterHelper
   include CustomExceptions::CustomFilter
 
@@ -9,6 +10,7 @@ class FilterService
   ATTRIBUTE_TYPES = {
     date: 'date', text: 'text', number: 'numeric', link: 'text', list: 'text', checkbox: 'boolean'
   }.with_indifferent_access
+  STRING_VALUE_ATTRIBUTES = %w[status priority].freeze
 
   def initialize(params, user)
     @params = params
@@ -47,11 +49,17 @@ class FilterService
     attribute_key = query_hash['attribute_key']
     values = query_hash['values']
 
+    # The cases below translate the UI's labels for standard keys. A condition that declares a
+    # custom_attribute_type is about an account attribute that merely shares one of those names, and
+    # its values are the attribute's own: a checkbox attribute holds a boolean, which has no #downcase,
+    # and the NoMethodError is swallowed upstream, leaving the rule quietly dead.
+    return case_insensitive_values(query_hash) if query_hash['custom_attribute_type'].present?
+
     return conversation_status_values(values) if attribute_key == 'status'
     return conversation_priority_values(values) if attribute_key == 'priority'
     return conversation_group_type_values(values) if attribute_key == 'group_type'
     return message_type_values(values) if attribute_key == 'message_type'
-    return downcase_array_values(values) if attribute_key == 'content'
+    return downcase_array_values(values) if attribute_key.in?(%w[content sender_type])
 
     case_insensitive_values(query_hash)
   end
@@ -60,9 +68,12 @@ class FilterService
     values.map(&:downcase)
   end
 
+  # A text or list custom attribute is compared as LOWER(...) IN (...), so every value is lowercased and
+  # every value is kept: the API stores all the values a condition is given, and keeping only the first
+  # made a rule saved with two of them act on one, with nothing to say so.
   def case_insensitive_values(query_hash)
     if @custom_attribute_type.present? && query_hash['values'][0].is_a?(String)
-      string_filter_values(query_hash)
+      Array(query_hash['values']).map { |value| value.is_a?(String) ? value.downcase : value }
     else
       query_hash['values']
     end
@@ -89,31 +100,30 @@ class FilterService
     attribute_type = custom_attribute(attribute_key, @account, attribute_model).try(:attribute_display_type)
     attribute_data_type = self.class::ATTRIBUTE_TYPES[attribute_type] || standard_attribute_data_type(attribute_key)
 
-    @filter_values["value_#{current_index}"] = coerce_lt_gt_value(
+    filter_value = coerce_lt_gt_value(
       query_hash['values'][0],
       attribute_data_type,
       attribute_key
     )
+
+    timezone_operation = timezone_aware_filter_operation(query_hash, current_index, filter_value)
+    return timezone_operation if timezone_operation
+
+    @filter_values["value_#{current_index}"] = filter_value
     operator = query_hash['filter_operator'] == 'is_less_than' ? '<' : '>'
     "#{operator} :value_#{current_index}"
   end
 
-  def days_before_filter_query(query_hash, current_index)
-    date = Time.zone.today - query_hash['values'][0].to_i.days
-    updated_query_hash = query_hash.with_indifferent_access.merge(
-      values: [date.strftime],
-      filter_operator: 'is_less_than'
-    )
-
-    lt_gt_filter_query(updated_query_hash, current_index)
-  end
-
+  # Computes mine/unassigned/all counts in one scan of the filtered set instead of
+  # three separate COUNT queries.
   def set_count_for_all_conversations
-    [
-      @conversations.assigned_to(@user).count,
-      @conversations.unassigned.count,
-      @conversations.count
-    ]
+    counts = @conversations.except(:includes, :order).pick(
+      Arel.sql(ActiveRecord::Base.sanitize_sql_array(['COUNT(*) FILTER (WHERE assignee_id = ?)', @user.id])),
+      Arel.sql('COUNT(*) FILTER (WHERE assignee_id IS NULL AND assignee_agent_bot_id IS NULL)'),
+      Arel.sql('COUNT(*)')
+    )
+    # pick short-circuits to nil on a none relation (e.g. permission scope with no access)
+    counts ? counts.map(&:to_i) : [0, 0, 0]
   end
 
   def tag_filter_query(query_hash, current_index)
@@ -153,7 +163,10 @@ class FilterService
     when 'date'
       Date.iso8601(raw_value.to_s)
     when 'numeric'
-      BigDecimal(raw_value.to_s)
+      decimal = BigDecimal(raw_value.to_s)
+      raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: attribute_key) unless decimal.finite?
+
+      decimal
     else
       raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: attribute_key)
     end
@@ -187,8 +200,20 @@ class FilterService
   end
 
   def validate_query_operator
-    @params[:payload].each do |query_hash|
+    @params[:payload].each_with_index do |query_hash, index|
       validate_single_condition(query_hash)
+      validate_string_values(query_hash)
+      next unless index == @params[:payload].length - 1
+
+      raise CustomExceptions::CustomFilter::InvalidQueryOperator.new({}) if query_hash['query_operator'].present?
     end
+  end
+
+  def validate_string_values(query_hash)
+    return unless STRING_VALUE_ATTRIBUTES.include?(query_hash['attribute_key'])
+    return unless @filters[filter_config[:entity].downcase.pluralize].key?(query_hash['attribute_key'])
+    return if query_hash['values'].is_a?(Array) && query_hash['values'].all?(String)
+
+    raise CustomExceptions::CustomFilter::InvalidValue.new(attribute_name: query_hash['attribute_key'])
   end
 end

@@ -73,6 +73,7 @@ RSpec.describe V2::Reports::AgentSummaryBuilder do
                 id: user1.id,
                 conversations_count: 1,
                 resolved_conversations_count: 0,
+                handled_conversations_count: 0,
                 avg_resolution_time: nil,
                 avg_first_response_time: 20.0,
                 avg_reply_time: 35.0
@@ -81,6 +82,7 @@ RSpec.describe V2::Reports::AgentSummaryBuilder do
                 id: user2.id,
                 conversations_count: 1,
                 resolved_conversations_count: 1,
+                handled_conversations_count: 0,
                 avg_resolution_time: 50.0,
                 avg_first_response_time: nil,
                 avg_reply_time: nil
@@ -102,6 +104,7 @@ RSpec.describe V2::Reports::AgentSummaryBuilder do
                 id: user1.id,
                 conversations_count: 1,
                 resolved_conversations_count: 0,
+                handled_conversations_count: 0,
                 avg_resolution_time: nil,
                 avg_first_response_time: 10.0,
                 avg_reply_time: 20.0
@@ -110,6 +113,7 @@ RSpec.describe V2::Reports::AgentSummaryBuilder do
                 id: user2.id,
                 conversations_count: 1,
                 resolved_conversations_count: 1,
+                handled_conversations_count: 0,
                 avg_resolution_time: 40.0,
                 avg_first_response_time: nil,
                 avg_reply_time: nil
@@ -117,6 +121,65 @@ RSpec.describe V2::Reports::AgentSummaryBuilder do
             ]
           )
         end
+      end
+    end
+
+    context 'when the report is narrowed to an inbox' do
+      let(:business_hours) { false }
+      let(:inbox) { create(:inbox, account: account) }
+      let(:other_inbox) { create(:inbox, account: account) }
+
+      let(:params) do
+        {
+          business_hours: business_hours,
+          since: 1.week.ago.beginning_of_day,
+          until: Time.current.end_of_day,
+          inbox_id: inbox.id
+        }
+      end
+
+      before do
+        filtered = create(:conversation, account: account, inbox: inbox, assignee: user1, created_at: Time.current)
+        elsewhere = create(:conversation, account: account, inbox: other_inbox, assignee: user1, created_at: Time.current)
+        create(:conversation, account: account, inbox: other_inbox, assignee: user2, created_at: Time.current)
+        create(
+          :reporting_event,
+          account: account,
+          conversation: filtered,
+          inbox: inbox,
+          user: user1,
+          name: 'conversation_resolved',
+          value: 10,
+          value_in_business_hours: 5,
+          created_at: Time.current
+        )
+        create(
+          :reporting_event,
+          account: account,
+          conversation: elsewhere,
+          inbox: other_inbox,
+          user: user1,
+          name: 'conversation_resolved',
+          value: 90,
+          value_in_business_hours: 45,
+          created_at: Time.current
+        )
+      end
+
+      it 'counts only what happened in that inbox' do
+        expect(builder.build).to contain_exactly(
+          id: user1.id,
+          conversations_count: 1,
+          resolved_conversations_count: 1,
+          handled_conversations_count: 0,
+          avg_resolution_time: 10.0,
+          avg_first_response_time: nil,
+          avg_reply_time: nil
+        )
+      end
+
+      it 'drops the agents with no part in that inbox' do
+        expect(builder.build.pluck(:id)).not_to include(user2.id)
       end
     end
 
@@ -132,6 +195,7 @@ RSpec.describe V2::Reports::AgentSummaryBuilder do
             id: new_user.id,
             conversations_count: 0,
             resolved_conversations_count: 0,
+            handled_conversations_count: 0,
             avg_resolution_time: nil,
             avg_first_response_time: nil,
             avg_reply_time: nil

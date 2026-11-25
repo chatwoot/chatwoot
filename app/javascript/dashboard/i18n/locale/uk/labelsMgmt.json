@@ -43,20 +43,6 @@
       "DELETE": "Видалити",
       "CANCEL": "Скасувати"
     },
-    "SUGGESTIONS": {
-      "TOOLTIP": {
-        "SINGLE_SUGGESTION": "Додати мітку до розмови",
-        "MULTIPLE_SUGGESTION": "Вибрати цю мітку",
-        "DESELECT": "Скасувати вибір мітки",
-        "DISMISS": "Відхилити пропозицію"
-      },
-      "POWERED_BY": "Chatwoot AI",
-      "DISMISS": "Відхилити",
-      "ADD_SELECTED_LABELS": "Додати вибрані мітки",
-      "ADD_SELECTED_LABEL": "Додати вибрану мітку",
-      "ADD_ALL_LABELS": "Додати всі мітки",
-      "SUGGESTED_LABELS": "Suggested labels"
-    },
     "ADD": {
       "TITLE": "Додати мітку",
       "DESC": "Мітки, які дозволяють згрупувати розмови.",

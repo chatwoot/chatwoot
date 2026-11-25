@@ -7,6 +7,10 @@ import { useFunctionGetter } from 'dashboard/composables/store';
 import MessageFormatter from 'shared/helpers/MessageFormatter.js';
 import { MESSAGE_VARIANTS } from '../../constants';
 import Icon from 'next/icon/Icon.vue';
+import {
+  currentDateLocale,
+  dateTimeFormat,
+} from 'shared/helpers/localizedDate';
 
 const props = defineProps({
   content: {
@@ -15,7 +19,7 @@ const props = defineProps({
   },
 });
 
-const { t, locale } = useI18n();
+const { t } = useI18n();
 
 const {
   variant,
@@ -45,6 +49,14 @@ const previousContent = computed(() => {
 
 const shouldShowEditedIndicator = computed(() => {
   return isEdited.value && shouldGroupWithNext.value;
+});
+
+const deletedByContact = computed(() => {
+  return contentAttributes.value?.deletedByContact === true;
+});
+
+const shouldShowDeletedByContactIndicator = computed(() => {
+  return deletedByContact.value && shouldGroupWithNext.value;
 });
 
 // Scheduled message indicator
@@ -93,7 +105,7 @@ const scheduledAtLabel = computed(() => {
     options.year = 'numeric';
   }
 
-  return date.toLocaleString(locale.value.replace('_', '-'), options);
+  return dateTimeFormat(currentDateLocale(), options).format(date);
 });
 
 const scheduledByLabel = computed(() => {
@@ -164,6 +176,17 @@ const iconColorClass = computed(() => {
       class="inline-flex items-center ml-1 align-middle"
     >
       <Icon icon="i-lucide-pencil" class="size-3" />
+    </span>
+    <span
+      v-if="shouldShowDeletedByContactIndicator"
+      v-tooltip.top="{
+        content: t('CONVERSATION.MESSAGE_DELETED_BY_CONTACT'),
+        delay: { show: 300, hide: 0 },
+      }"
+      :class="iconColorClass"
+      class="inline-flex items-center ml-1 align-middle"
+    >
+      <Icon icon="i-lucide-trash-2" class="size-3" />
     </span>
   </span>
 </template>

@@ -1,0 +1,11 @@
+{
+  "v": 1,
+  "id": "cmd_000044",
+  "type": "call.accept",
+  "sid": "9f1c0f4e-6a2b-4c8e-9d1a-2b3c4d5e6f70",
+  "ts": 1755440000123,
+  "payload": {
+    "call_id": "call_01j9y1",
+    "stream": { "url": "wss://agents.example.com/api/v1/voice/stream/vst_7f3a9c" }
+  }
+}

@@ -11,7 +11,7 @@ module Whatsapp::ZapiHandlers::DeliveryCallback
     if processed_params[:error].present?
       message.update!(status: :failed, external_error: processed_params[:error], external_created_at: external_created_at)
     else
-      message.update!(status: :delivered, external_created_at: external_created_at)
+      message.update!(status: :delivered, external_error: nil, external_created_at: external_created_at)
     end
   end
 end

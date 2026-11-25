@@ -160,5 +160,22 @@ describe NotificationBuilder do
         end.not_to(change { outsider.notifications.count })
       end
     end
+
+    context 'when the primary actor is an internal chat channel' do
+      let!(:channel) { create(:internal_chat_channel, :dm, account: account) }
+      let!(:message) { create(:internal_chat_message, account: account, channel: channel) }
+
+      it 'creates a notification without requiring conversation access or a contact' do
+        expect do
+          described_class.new(
+            notification_type: 'internal_chat_new_message',
+            user: user,
+            account: account,
+            primary_actor: channel,
+            secondary_actor: message
+          ).perform
+        end.to change { user.notifications.count }.by(1)
+      end
+    end
   end
 end

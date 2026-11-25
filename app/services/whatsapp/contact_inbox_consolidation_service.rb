@@ -5,6 +5,11 @@
 # 3. If the conversation is deleted/resolved and a new one is created, a new contact_inbox
 #    with source_id = phone is created (since the existing one has LID)
 # 4. This service consolidates these duplicates when a message arrives
+#
+# Phone lookups are ninth-digit-variant aware (Brazil/Argentina): a contact saved
+# with the "wrong" variant (e.g. outbound on_whatsapp normalization was skipped)
+# still matches the canonical number the webhook delivers, instead of spawning a
+# duplicate contact and conversation. Exact matches always win over variants.
 class Whatsapp::ContactInboxConsolidationService
   def initialize(inbox:, phone:, lid:, identifier:)
     @inbox = inbox
@@ -38,7 +43,8 @@ class Whatsapp::ContactInboxConsolidationService
   private
 
   def find_phone_contact_inbox
-    @inbox.contact_inboxes.find_by(source_id: @phone)
+    @inbox.contact_inboxes.find_by(source_id: @phone) ||
+      (@inbox.contact_inboxes.find_by(source_id: alternate_phone_variants) if alternate_phone_variants.any?)
   end
 
   def find_lid_contact_inbox
@@ -100,7 +106,7 @@ class Whatsapp::ContactInboxConsolidationService
   # Find contact by phone number and update their contact_inbox source_id to LID
   # This handles the case where contact_inbox has a different source_id (e.g., old format)
   def update_existing_contact_inbox_by_phone
-    existing_contact = @inbox.account.contacts.find_by(phone_number: "+#{@phone}")
+    existing_contact = find_contact_by_phone_variants
     return unless existing_contact
 
     existing_contact_inbox = existing_contact.contact_inboxes.find_by(inbox_id: @inbox.id)
@@ -157,6 +163,22 @@ class Whatsapp::ContactInboxConsolidationService
       phone_contact.update!(identifier: @identifier)
 
       reassign_sender_and_destroy(lid_contact, phone_contact, conversation_ids: moved_conversation_ids)
+    end
+  end
+
+  def find_contact_by_phone_variants
+    contacts = @inbox.account.contacts
+    contacts.find_by(phone_number: "+#{@phone}") ||
+      (contacts.find_by(phone_number: alternate_phone_variants.map { |variant| "+#{variant}" }) if alternate_phone_variants.any?)
+  end
+
+  # The other ninth-digit forms @phone may be stored under (Brazil/Argentina).
+  def alternate_phone_variants
+    @alternate_phone_variants ||= begin
+      normalizer = Whatsapp::PhoneNumberNormalizationService::NORMALIZERS
+                   .map(&:new)
+                   .find { |candidate| candidate.handles_country?(@phone) }
+      normalizer ? normalizer.variants(@phone) - [@phone] : []
     end
   end
 

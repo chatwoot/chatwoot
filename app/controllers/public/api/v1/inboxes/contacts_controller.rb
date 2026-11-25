@@ -18,7 +18,8 @@ class Public::Api::V1::Inboxes::ContactsController < Public::Api::V1::InboxesCon
       contact: @contact_inbox.contact,
       params: permitted_params.to_h.deep_symbolize_keys.except(:identifier)
     )
-    render json: contact_identify_action.perform
+    contact_identify_action.perform
+    @contact_inbox.reload
   end
 
   private
@@ -29,17 +30,31 @@ class Public::Api::V1::Inboxes::ContactsController < Public::Api::V1::InboxesCon
 
   def process_hmac
     return if params[:identifier_hash].blank? && !@inbox_channel.hmac_mandatory
-    raise StandardError, 'HMAC failed: Invalid Identifier Hash Provided' unless valid_hmac?
+    return render_unauthorized('HMAC failed: Invalid Identifier Hash Provided') unless valid_hmac?
 
     @contact_inbox.update!(hmac_verified: true) if @contact_inbox.present?
   end
 
   def valid_hmac?
-    params[:identifier_hash] == OpenSSL::HMAC.hexdigest(
+    expected_identifier = hmac_identifier
+    return false if expected_identifier.blank?
+    return false unless params[:identifier].to_s == expected_identifier
+
+    expected_hash = OpenSSL::HMAC.hexdigest(
       'sha256',
       @inbox_channel.hmac_token,
-      params[:identifier].to_s
+      expected_identifier
     )
+    identifier_hash = params[:identifier_hash].to_s
+    return false unless identifier_hash.bytesize == expected_hash.bytesize
+
+    ActiveSupport::SecurityUtils.secure_compare(identifier_hash, expected_hash)
+  end
+
+  def hmac_identifier
+    return params[:identifier].to_s if @contact_inbox.blank?
+
+    @contact_inbox.contact.identifier.to_s
   end
 
   def permitted_params

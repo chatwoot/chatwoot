@@ -4,14 +4,14 @@ module WebsiteTokenHelper
   end
 
   def set_web_widget
-    @web_widget = ::Channel::WebWidget.find_by!(website_token: permitted_params[:website_token])
+    @web_widget = ::Channel::WebWidget.eager_load(inbox: :account).find_by!(website_token: permitted_params[:website_token])
     @current_account = @web_widget.inbox.account
 
     render json: { error: 'Account is suspended' }, status: :unauthorized unless @current_account.active?
   end
 
   def set_contact
-    @contact_inbox = @web_widget.inbox.contact_inboxes.find_by(
+    @contact_inbox = @web_widget.inbox.contact_inboxes.eager_load(:contact).find_by(
       source_id: auth_token_params[:source_id]
     )
     @contact = @contact_inbox&.contact

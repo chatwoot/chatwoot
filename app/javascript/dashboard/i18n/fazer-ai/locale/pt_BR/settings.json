@@ -1,0 +1,66 @@
+{
+  "PROFILE_SETTINGS": {
+    "FORM": {
+      "MESSAGE_SIGNATURE_SECTION": {
+        "RESET_TO_DEFAULT": "Restaurar para padrão",
+        "RESET_SUCCESS": "Assinatura da caixa de entrada removida, usando assinatura padrão",
+        "INBOX_SELECTOR": {
+          "LABEL": "Caixa de entrada",
+          "DEFAULT": "Padrão (todas as caixas de entrada)",
+          "CUSTOM": "Personalizada"
+        },
+        "SIGNATURE_POSITION": {
+          "LABEL": "Posição da assinatura",
+          "OPTIONS": {
+            "TOP": "Início da mensagem",
+            "BOTTOM": "Final da mensagem"
+          }
+        },
+        "SIGNATURE_SEPARATOR": {
+          "LABEL": "Separador da assinatura",
+          "OPTIONS": {
+            "BLANK": "Linha em branco",
+            "HORIZONTAL_LINE": "Linha horizontal (--)",
+            "NONE": "Sem linha em branco"
+          }
+        },
+        "PREVIEW": {
+          "TITLE": "Pré-visualização da Assinatura",
+          "NOTE": "Esta é a aparência da sua assinatura nas mensagens",
+          "EMPTY": "Digite uma assinatura acima para ver a pré-visualização",
+          "SAMPLE_MESSAGE": "Olá! Obrigado por entrar em contato. Como posso ajudá-lo hoje?"
+        }
+      },
+      "NOTIFICATIONS": {
+        "TYPES": {
+          "INTERNAL_CHAT_MENTION": "Você é mencionado no chat interno",
+          "INTERNAL_CHAT_NEW_MESSAGE": "Uma nova mensagem direta no chat interno"
+        }
+      }
+    },
+    "EMAIL_CONFIRMATION_PENDING": "Enviamos um link de confirmação para {email}. Seu e-mail atual continua valendo até você clicar nele."
+  },
+  "COMPONENTS": {
+    "REFERRAL_CARD": {
+      "AD_LABEL": "Veio de um anúncio",
+      "VIEW_AD": "Ver anúncio"
+    },
+    "MEDIA": {
+      "AUDIO_UNAVAILABLE": "Este áudio não está mais disponível.",
+      "VIDEO_UNAVAILABLE": "Este vídeo não está mais disponível.",
+      "PLAY_VIDEO_NOTE": "Reproduzir vídeo recado",
+      "PAUSE_VIDEO_NOTE": "Pausar vídeo recado",
+      "OPEN_VIDEO_NOTE": "Abrir vídeo recado"
+    }
+  },
+  "SIDEBAR": {
+    "INTERNAL_CHAT": "Chat Interno",
+    "KANBAN": "Kanban",
+    "APPS": "Apps"
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TITLE": {
+      "PIN_CONVERSATION": "Fixar / desafixar conversa"
+    }
+  }
+}

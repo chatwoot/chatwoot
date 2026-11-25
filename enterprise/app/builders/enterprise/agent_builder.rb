@@ -1,11 +1,33 @@
 module Enterprise::AgentBuilder
   def perform
+    validate_saml_invitation!
+
     super.tap do |user|
       convert_to_saml_provider(user) if user.persisted? && account.saml_enabled?
     end
   end
 
   private
+
+  def validate_saml_invitation!
+    return unless account.saml_enabled?
+
+    existing_user = User.from_email(email)
+    return unless existing_user
+
+    other_account_users = existing_user.account_users.where.not(account_id: account.id)
+    return unless other_account_users.exists?
+    return if saml_invitation_allowed?(existing_user, other_account_users)
+
+    existing_user.errors.add(:base, I18n.t('errors.saml.multi_account_invitation_not_allowed'))
+    raise ActiveRecord::RecordInvalid, existing_user
+  end
+
+  def saml_invitation_allowed?(existing_user, other_account_users)
+    account.feature_enabled?('saml') &&
+      other_account_users.where.not(account_id: inviter.account_users.administrator.select(:account_id)).none? &&
+      account.saml_settings.trusted_by_accounts_of?(existing_user)
+  end
 
   def convert_to_saml_provider(user)
     user.update!(provider: 'saml') unless user.provider == 'saml'

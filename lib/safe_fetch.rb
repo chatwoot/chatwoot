@@ -31,7 +31,26 @@ module SafeFetch
     raise InvalidUrlError, e.message
   rescue SsrfFilter::Error, Resolv::ResolvError => e
     raise UnsafeUrlError, e.message
-  rescue Net::OpenTimeout, Net::ReadTimeout, SocketError, OpenSSL::SSL::SSLError => e
-    raise FetchError, e.message
+  end
+
+  def self.allow_private_network?
+    ActiveModel::Type::Boolean.new.cast(ENV.fetch('SAFE_FETCH_ALLOW_PRIVATE_NETWORK', false))
+  end
+
+  # fazer-ai/chatwoot#927: private host:port pairs allowed even with the guard on, without opening the
+  # whole private network like SAFE_FETCH_ALLOW_PRIVATE_NETWORK does. The port is required.
+  PRIVATE_TARGET_FORMAT = /\A(?:\[(?<host>[^\]]+)\]|(?<host>[^:\[\]\s]+)):(?<port>\d+)\z/
+
+  def self.private_targets
+    ENV.fetch('SAFE_FETCH_PRIVATE_TARGETS', '').split(',').map(&:strip).compact_blank.map do |entry|
+      match = PRIVATE_TARGET_FORMAT.match(entry)
+      raise ArgumentError, "SAFE_FETCH_PRIVATE_TARGETS entry must be host:port, got #{entry.inspect}" unless match
+
+      [match[:host].downcase, match[:port].to_i]
+    end
+  end
+
+  def self.private_target?(uri, targets = private_targets)
+    targets.include?([uri.hostname&.downcase, uri.port])
   end
 end

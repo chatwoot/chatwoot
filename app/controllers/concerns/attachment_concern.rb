@@ -20,32 +20,48 @@ module AttachmentConcern
   private
 
   def process_attachment_action(action, record, blobs)
-    blob_id = attachment_blob_id(action)
-    return action if action[:action_name] == 'create_scheduled_message' && blob_id.blank?
+    return process_scheduled_message_attachment(action, record, blobs) if action[:action_name] == 'create_scheduled_message'
 
-    blob = ActiveStorage::Blob.find_signed(blob_id.to_s)
+    blob_ids = action[:action_params].map do |blob_id|
+      blob = ActiveStorage::Blob.find_signed(blob_id.to_s)
 
-    return action.merge(action_params: attachment_action_params(action, blob.id)).tap { blobs << blob } if blob.present?
-    return action if blob_already_attached?(record, blob_id)
+      if blob.present?
+        blobs << blob
+        blob.id
+      elsif blob_already_attached?(record, blob_id)
+        blob_id
+      else
+        return nil
+      end
+    end
 
-    nil
+    action.merge(action_params: blob_ids) if blob_ids.present?
   end
 
   def attachment_action?(action)
     %w[send_attachment create_scheduled_message].include?(action[:action_name])
   end
 
-  def attachment_blob_id(action)
-    return action[:action_params].first unless action[:action_name] == 'create_scheduled_message'
+  # A scheduled message carries one optional attachment inside its params hash.
+  def process_scheduled_message_attachment(action, record, blobs)
+    blob_id = scheduled_message_blob_id(action)
+    return action if blob_id.blank?
 
+    blob = ActiveStorage::Blob.find_signed(blob_id.to_s)
+
+    return action.merge(action_params: scheduled_message_action_params(action, blob.id)).tap { blobs << blob } if blob.present?
+    return action if blob_already_attached?(record, blob_id)
+
+    nil
+  end
+
+  def scheduled_message_blob_id(action)
     params = action[:action_params].first
     params = params.to_unsafe_h if params.respond_to?(:to_unsafe_h)
     params&.with_indifferent_access&.dig(:blob_id)
   end
 
-  def attachment_action_params(action, blob_id)
-    return [blob_id] unless action[:action_name] == 'create_scheduled_message'
-
+  def scheduled_message_action_params(action, blob_id)
     params = action[:action_params].first
     params = params.to_unsafe_h if params.respond_to?(:to_unsafe_h)
     params = params.with_indifferent_access

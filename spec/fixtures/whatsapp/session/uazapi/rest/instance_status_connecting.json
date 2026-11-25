@@ -1,0 +1,39 @@
+{
+  "instance": {
+    "adminField01": "",
+    "adminField02": "",
+    "chatbot_enabled": false,
+    "chatbot_ignoreGroups": false,
+    "chatbot_stopConversation": "",
+    "chatbot_stopMinutes": 0,
+    "chatbot_stopWhenYouSendMsg": 0,
+    "created": "2026-08-19 17:36:34.345Z",
+    "currentTime": "2026-08-19 17:38:21.182Z",
+    "current_presence": "unavailable",
+    "id": "r00000000000001",
+    "isBusiness": false,
+    "lastDisconnect": "",
+    "lastDisconnectReason": "",
+    "msg_delay_max": 3,
+    "msg_delay_min": 1,
+    "name": "testes-chatwoot",
+    "openai_apikey": "",
+    "owner": "",
+    "paircode": "",
+    "plataform": "",
+    "profileName": "",
+    "profilePicUrl": "",
+    "proxy_managed_country": "br",
+    "qrcode": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==",
+    "status": "connecting",
+    "systemName": "fazer-ai",
+    "token": "00000000-0000-4000-8000-000000000001",
+    "updated": "2026-08-19 17:36:34.345Z"
+  },
+  "status": {
+    "connected": false,
+    "jid": null,
+    "loggedIn": false,
+    "resetting": false
+  }
+}

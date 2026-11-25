@@ -25,7 +25,8 @@
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "참여 중인 대화에 새 메시지가 있습니다",
       "SLA_MISSED_FIRST_RESPONSE": "대화에 대한 SLA 최초 응답 목표를 놓쳤습니다",
       "SLA_MISSED_NEXT_RESPONSE": "대화에 대한 SLA 다음 응답 목표를 놓쳤습니다",
-      "SLA_MISSED_RESOLUTION": "대화에 대한 SLA 해결 목표를 놓쳤습니다"
+      "SLA_MISSED_RESOLUTION": "대화에 대한 SLA 해결 목표를 놓쳤습니다",
+      "VOICE_CALL_MISSED": "부재중 전화"
     },
     "TYPES_NEXT": {
       "CONVERSATION_MENTION": "멘션됨",
@@ -36,6 +37,7 @@
       "SLA_MISSED_RESOLUTION": "SLA 위반",
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "새 메시지",
       "ASSIGNED_CONVERSATION_NEW_MESSAGE": "새 메시지",
+      "VOICE_CALL_MISSED": "부재중 전화",
       "SNOOZED_UNTIL": "{time} 동안 일시 중지됨",
       "SNOOZED_ENDS": "일시 중지 종료됨"
     },

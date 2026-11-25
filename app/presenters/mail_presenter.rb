@@ -11,6 +11,14 @@ class MailPresenter < SimpleDelegator
     encode_to_unicode(@mail.subject)
   end
 
+  # See HtmlPartChooser: the gem's own answer is the first `text/html` in a depth-first
+  # walk, which on one shape iOS Mail produces is a stub that renders to nothing.
+  def html_part
+    return @html_part if defined?(@html_part)
+
+    @html_part = HtmlPartChooser.for(@mail)
+  end
+
   # encode decoded mail text_part or html_part if mail is multipart email
   # encode decoded mail raw bodyt if mail is not multipart email but the body content is text/html
   def mail_content(mail_part)
@@ -126,7 +134,8 @@ class MailPresenter < SimpleDelegator
 
   def from
     # changing to downcase to avoid case mismatch while finding contact
-    Array.wrap(@mail.reply_to.presence || @mail.from).map(&:downcase)
+    addresses = Array.wrap(@mail.reply_to).compact_blank.presence || Array.wrap(@mail.from).compact_blank
+    addresses.map(&:downcase)
   end
 
   def sender_name

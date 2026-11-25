@@ -79,6 +79,20 @@ describe('composeConversationHelper', () => {
         channelType: INBOX_TYPES.EMAIL,
       });
     });
+
+    it('uses the voice glyph for a voice-enabled inbox', () => {
+      const inboxes = [
+        {
+          id: 2,
+          name: 'WhatsApp Cloud',
+          channelType: INBOX_TYPES.WHATSAPP,
+          voiceEnabled: true,
+        },
+      ];
+
+      const result = helpers.buildContactableInboxesList(inboxes);
+      expect(result[0].icon).toBe('i-woot-whatsapp-voice');
+    });
   });
 
   describe('getCapitalizedNameFromEmail', () => {
@@ -269,6 +283,17 @@ describe('composeConversationHelper', () => {
       const files = [{ resource: { file: 'file1' } }];
       expect(helpers.prepareAttachmentPayload(files, false)).toEqual(['file1']);
     });
+
+    it('prepares files that were not uploaded directly', () => {
+      const files = [
+        { blobSignedId: 'signed1' },
+        { resource: { file: 'file1' } },
+      ];
+      expect(helpers.prepareAttachmentPayload(files, true)).toEqual([
+        'signed1',
+        'file1',
+      ]);
+    });
   });
 
   describe('prepareNewMessagePayload', () => {
@@ -309,6 +334,56 @@ describe('composeConversationHelper', () => {
         },
         files: ['file1'],
       });
+    });
+  });
+
+  // WhatsApp has no multi-media message: every sender takes `attachments.first`, so a
+  // payload with three files showed three in Chatwoot and delivered one, with nothing
+  // telling the agent.
+  describe('splitAttachmentsForChannel', () => {
+    const files = [
+      { blobSignedId: 'a' },
+      { blobSignedId: 'b' },
+      { blobSignedId: 'c' },
+    ];
+
+    it('keeps one file with the conversation and sends the rest after it', () => {
+      const result = helpers.splitAttachmentsForChannel({
+        targetInbox: { channelType: 'Channel::Whatsapp' },
+        attachedFiles: files,
+      });
+
+      expect(result.first).toEqual([files[0]]);
+      expect(result.rest).toEqual([files[1], files[2]]);
+    });
+
+    it('leaves a single file alone', () => {
+      const result = helpers.splitAttachmentsForChannel({
+        targetInbox: { channelType: 'Channel::Whatsapp' },
+        attachedFiles: [files[0]],
+      });
+
+      expect(result).toEqual({ first: [files[0]], rest: [] });
+    });
+
+    // One email carrying three files is correct, and splitting there would turn it into
+    // three emails.
+    it('does not split for a channel that carries several', () => {
+      const result = helpers.splitAttachmentsForChannel({
+        targetInbox: { channelType: 'Channel::Email' },
+        attachedFiles: files,
+      });
+
+      expect(result).toEqual({ first: files, rest: [] });
+    });
+
+    it('handles an inbox that is not selected yet', () => {
+      expect(helpers.splitAttachmentsForChannel({ targetInbox: null })).toEqual(
+        {
+          first: [],
+          rest: [],
+        }
+      );
     });
   });
 

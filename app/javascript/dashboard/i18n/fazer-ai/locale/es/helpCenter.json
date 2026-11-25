@@ -1,0 +1,48 @@
+{
+  "HELP_CENTER": {
+    "PORTAL_SETTINGS": {
+      "FORM": {
+        "SHOW_AUTHOR": {
+          "LABEL": "Mostrar los autores de los artículos",
+          "HELP_TEXT": "Muestra la información del autor en las páginas de categorías"
+        },
+        "CUSTOM_HEAD_HTML": {
+          "LABEL": "HTML personalizado en head",
+          "PLACEHOLDER": "Añada HTML personalizado a la sección <head> (por ejemplo, metaetiquetas, analítica, CSS personalizado)",
+          "HELP_TEXT": "Este código se insertará en el <head> de las páginas de su portal",
+          "ERROR": "El HTML personalizado de head debe tener menos de 15.000 caracteres"
+        },
+        "CUSTOM_BODY_HTML": {
+          "LABEL": "HTML personalizado en body",
+          "PLACEHOLDER": "Añada HTML personalizado antes de </body> (por ejemplo, scripts, píxeles de seguimiento, widgets)",
+          "HELP_TEXT": "Este código se insertará antes de la etiqueta de cierre </body> de las páginas de su portal",
+          "ERROR": "El HTML personalizado de body debe tener menos de 15.000 caracteres"
+        }
+      }
+    },
+    "ARTICLES_PAGE": {
+      "ARTICLES_HEADER": {
+        "SORT": {
+          "BUTTON": "Ordenar artículos",
+          "SORT_BY": "Ordenar por",
+          "ORDER": "Orden",
+          "FIELDS": {
+            "UPDATED_AT": "Actualización",
+            "CREATED_AT": "Creación",
+            "TITLE": "Título",
+            "VIEWS": "Visitas"
+          },
+          "ORDERS": {
+            "ASCENDING": "Ascendente",
+            "DESCENDING": "Descendente"
+          }
+        }
+      },
+      "ARTICLE_CARD": {
+        "CARD": {
+          "CREATED": "Creado {time}"
+        }
+      }
+    }
+  }
+}

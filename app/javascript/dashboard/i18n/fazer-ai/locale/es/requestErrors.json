@@ -1,0 +1,23 @@
+{
+  "REQUEST_ERRORS": {
+    "FIELD": {
+      "TAKEN": "{field} ya está en uso en otro registro.",
+      "INVALID": "{field} tiene un formato no válido.",
+      "BLANK": "{field} no puede estar en blanco.",
+      "TOO_LONG": "{field} es demasiado largo.",
+      "TOO_SHORT": "{field} es demasiado corto.",
+      "OTHER": "Revisa {field} e inténtalo de nuevo."
+    },
+    "GENERIC": {
+      "TAKEN": "Este valor ya está en uso en otro registro.",
+      "INVALID": "Uno de los campos tiene un formato no válido.",
+      "BLANK": "Un campo obligatorio está en blanco.",
+      "TOO_LONG": "Uno de los campos es demasiado largo.",
+      "TOO_SHORT": "Uno de los campos es demasiado corto.",
+      "OTHER": "Revisa los campos e inténtalo de nuevo."
+    },
+    "FIELDS": {
+      "IDENTIFIER": "Identificador"
+    }
+  }
+}

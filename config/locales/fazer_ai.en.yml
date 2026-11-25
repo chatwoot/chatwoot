@@ -1,0 +1,255 @@
+# fazer.ai fork translations.
+#
+# Rails deep-merges every config/locales/*.yml, so these keys land on top of
+# upstream's <locale>.yml without touching it. Keys for our own features go
+# here; upstream copy we merely translate does not.
+#
+# Adding a language means adding fazer_ai.<locale>.yml. Nothing else changes.
+en:
+  whatsapp_catalog:
+    price: '%{unit}%{number}'
+    separator: '.'
+    delimiter: ','
+    product_unreadable: Message with a catalog product. See it on WhatsApp.
+    order_title: Order %{id}
+    item_count:
+      one: 1 item
+      other: '%{count} items'
+    estimated_total: '%{total} (estimated total)'
+  internal_chat:
+    default_category_name: Channels
+    default_channel_name: General
+    messages:
+      deleted: This message was deleted
+  errors:
+    attachments:
+      video_note:
+        with_text: A video note carries no text. Send the text as a message of its own.
+        not_alone: A video note goes alone. Send the other files in messages of their own.
+    articles:
+      invalid_sort: Unknown article order. Use updated_at, created_at, title or views, prefixed with - for descending.
+    request:
+      unexpected: The request could not be completed.
+    account:
+      brand_name:
+        invalid: cannot contain < or >
+      brand_url:
+        invalid: must start with http:// or https://
+      brand_logo_email:
+        too_big: is larger than 2 MB
+        invalid_format: must be a PNG, JPG or GIF
+    automation:
+      scheduled_message:
+        delay_out_of_range: Delay must be between 1 minute and 999 days
+        content_attachment_or_template_required: Scheduled message must have content, attachment, or template
+    scheduled_messages:
+      cannot_delete_processed: Cannot delete a scheduled message that has already been sent or failed
+    conversations:
+      already_assigned: "%{agent_name} is already handling this conversation."
+      outside_working_hours: "This inbox is outside its business hours, so its conversations cannot be assigned right now."
+    conversation_pins:
+      limit_reached: You can pin up to %{limit} conversations.
+      conversation_resolved: A resolved conversation cannot be pinned.
+      conversation_not_visible: This conversation is not in your list, so it cannot be pinned.
+    meta:
+      send_failed: Something went wrong while sending this message and delivery could not be confirmed. Check the conversation before sending it again.
+      messaging_window_closed: Meta's reply window for this contact has closed. It reopens when the contact sends a new message.
+      messaging_window_closed_for_automation: Meta only accepts automated replies within 24 hours of the contact's last message. Take over the conversation to reply as an agent.
+    whatsapp:
+      group_announcement_only: Only administrators are allowed to send messages in this group
+      group_description_cannot_be_removed: WhatsApp does not allow a group description to be removed once it is set. Replace the text instead.
+    inboxes:
+      channel:
+        provider_unavailable: This WhatsApp provider is not available on this installation yet.
+        invalid_provider_config: 'Invalid configuration for: %{keys}'
+        credential_check_unavailable: could not be checked with the provider right now, so nothing was saved. Try again in a moment.
+        provider_not_enabled_for_account: This WhatsApp provider is turned off for this account.
+        provider_withdrawn: This WhatsApp provider is no longer offered for new inboxes. Existing inboxes on it keep working.
+        cannot_unpair: This provider cannot unlink the WhatsApp account paired with it, so connecting again would resume the same account. Reset the instance on the provider, point this inbox at another one, or correct the number configured here.
+        code_pairing_unsupported: This WhatsApp provider cannot pair with a code. Scan the QR code instead.
+        history_sync_unsupported: This WhatsApp provider cannot fetch the history behind a chat.
+        outgoing:
+          provider_error: WhatsApp could not send this message right now.
+          provider_unreachable: Could not reach the WhatsApp provider.
+          disconnect_refused: The provider did not end the session.
+          disconnect_unreachable: Could not reach the provider to end the session.
+          send_timed_out: The send timed out; it may or may not have reached WhatsApp.
+          send_outcome_unknown: The send timed out and may have gone through. Check the conversation on WhatsApp before sending it again.
+          send_stalled: The WhatsApp connection is not accepting sends right now.
+          media_too_large: The attachment is too large to send.
+          invalid_payload: WhatsApp rejected the message content.
+          still_processing: The message was still being sent elsewhere and could not be confirmed.
+          send_failed_after_retries: The message could not be sent after several attempts. Send it again.
+        provider_connection:
+          wrong_phone_number: The phone number you are trying to link is not the same as the one you have configured. Please make sure the phone number is correct before scanning the QR code.
+          reconnect_loop_detected: The connection could not be re-established after several attempts. Automatic retries continue at increasing intervals. If this persists, disconnect the inbox and pair it again by scanning a new QR code.
+          send_stall_detected: This connection is receiving messages but cannot send them. If it does not clear on its own within a few minutes, disconnect the inbox and connect again by scanning a new QR code.
+          invalid_credentials: The provider rejected the credentials for this inbox. Check the address and the token and try again.
+          logged_out: This device was disconnected from WhatsApp on the phone. Pair it again to keep receiving messages.
+          logged_out_by_request: This inbox was disconnected from WhatsApp here. Pair it again to keep receiving messages.
+          stream_replaced: This session was replaced by another connection to the same WhatsApp account. Pair it again to use it here.
+          temporary_ban: WhatsApp temporarily blocked this number. Wait until the block expires before pairing again.
+          client_outdated: The WhatsApp connector is out of date and can no longer connect. Update it to restore the connection.
+          quarantined: Too many failed reconnection attempts in a row. New attempts continue at increasing intervals.
+          connector_unavailable: The WhatsApp connector is not responding. Messages will only be sent again once it is back.
+          connector_incompatible: The WhatsApp connector version is incompatible with this Chatwoot version. Update the connector.
+          connect_failure: WhatsApp refused the connection. New attempts continue automatically.
+          pairing_timed_out: The code expired before the phone finished pairing. Start the connection again to get a new one.
+          pairing_pair_error: WhatsApp accepted the code but did not finish linking the device. Start the connection again.
+          pairing_err-scanned-without-multidevice: This WhatsApp account has to turn multi-device on before it can be linked.
+          pairing_code_refused: WhatsApp would not send a pairing code to this number. Link the device with the QR code instead.
+          pairing_connect_failed: The connector could not reach WhatsApp to start the pairing. Try again.
+          connect_failed: The connector could not reach WhatsApp. Retries continue automatically.
+          disconnect_requested: 'This connection was closed here. The pairing is still valid: connect again to resume it.'
+          disconnected: The connection to WhatsApp dropped. Retries continue automatically.
+          proxy_unreachable: The WhatsApp connection is not getting through this inbox's proxy. Check the proxy address in the inbox settings, or remove it to connect directly. New attempts continue automatically.
+  notifications:
+    notification_title:
+      internal_chat_mention: You have been mentioned in %{name}
+      internal_chat_new_message: New message from %{name}
+  conversations:
+    activity:
+      group_participants:
+        add:
+          single: "%{author_name} added %{contact_name} to the group"
+          multiple: "%{author_name} added %{contact_names} and %{last_contact_name} to the group"
+        join: "%{contact_name} joined using the group invite link"
+        leave: "%{contact_name} left the group"
+        remove:
+          single: "%{author_name} removed %{contact_name} from the group"
+          multiple: "%{author_name} removed %{contact_names} and %{last_contact_name} from the group"
+        promote:
+          single: "%{author_name} promoted %{contact_name} to admin"
+          multiple: "%{author_name} promoted %{contact_names} and %{last_contact_name} to admin"
+        demote:
+          single: "%{author_name} demoted %{contact_name} to member"
+          multiple: "%{author_name} demoted %{contact_names} and %{last_contact_name} to member"
+      whatsapp_call:
+        voice: "%{contact_name} called on WhatsApp"
+        video: "%{contact_name} made a video call on WhatsApp"
+      groups_update:
+        subject_changed: '%{author_name} changed the group name to "%{value}"'
+        description_changed: "%{author_name} changed the group description"
+        description_removed: "%{author_name} removed the group description"
+        restrict_enabled: "%{author_name} changed the settings so only admins can edit the group settings"
+        restrict_disabled: "%{author_name} changed the settings so all members can edit the group settings"
+        announce_enabled: "%{author_name} changed this group's settings to allow only admins to send messages to this group"
+        announce_disabled: "%{author_name} changed this group's settings to allow all members to send messages to this group"
+        member_add_mode_enabled: "%{author_name} changed this group's setting to allow all members to add others to this group"
+        member_add_mode_disabled: "%{author_name} changed this group's setting to allow only admins to add others to this group"
+        join_approval_mode_enabled: "%{author_name} turned on admin approval to join this group"
+        join_approval_mode_disabled: "%{author_name} turned off admin approval to join this group"
+        invite_link_reset: "%{author_name} reset this group's invite link"
+        unknown_author: Someone
+        membership_request_created: "%{contact_name} wants to join the group"
+        membership_request_revoked: "%{contact_name} no longer wants to join the group"
+        icon_changed: "%{author_name} changed the group image"
+      recurring_message_failed: Recurring scheduled message failed to send. Next occurrence scheduled for %{next_date}.
+      recurring_message_completed: Recurring scheduled message series completed after %{count} occurrences.
+      recurring_message_cancelled: Recurring scheduled message has been stopped by %{agent}.
+      unknown_agent: Unknown
+      assignee:
+        removed_not_in_conversation_team: "Conversation unassigned from %{assignee_name} because they are not a member of the conversation's team %{team_name}"
+        handed_to_agent_bot_on_reopen: "Conversation handed from %{assignee_name} to %{bot_name} because the customer wrote again"
+  contacts:
+    group:
+      inbox_id_required: This group is in more than one inbox. Say which one the action is for by sending inbox_id.
+    sync_group:
+      not_a_group: Contact is not a group
+      no_identifier: Contact does not have a group identifier
+      no_supported_inbox: No inbox with group sync support found for this contact
+      metadata_unavailable: Could not retrieve group metadata from the provider
+  recurring_scheduled_messages:
+    description:
+      daily:
+        one: Every day
+        other: Every %{count} days
+      weekly:
+        one: Every week
+        other: Every %{count} weeks
+      weekly_on: "%{prefix} on %{days}"
+      monthly:
+        one: Monthly
+        other: Every %{count} months
+      monthly_on_weekday: "%{prefix} on the %{ordinal} %{weekday}"
+      yearly:
+        one: Every year
+        other: Every %{count} years
+      until_date: until %{date}
+      after_count:
+        one: "%{count} occurrence"
+        other: "%{count} occurrences"
+      ordinals:
+        first: first
+        second: second
+        third: third
+        fourth: fourth
+        fifth: fifth
+        last: last
+  reports:
+    agent_csv:
+      handled_count: Handled conversations
+    team_csv:
+      handled_count: Handled conversations
+    inbox_csv:
+      handled_count: Handled conversations
+      avg_customer_waiting_time: Avg customer waiting time
+      resolution_count: Resolution Count
+  super_admin:
+    instance_status:
+      whatsapp_connector:
+        label: 'WhatsApp (native) connector'
+        running: 'running'
+        not_running: 'not running'
+        unreachable: 'could not be read: %{error}'
+        instance: 'WhatsApp connector %{id}'
+        start_error: 'WhatsApp connector start error (%{instance})'
+    accounts:
+      agent_restrictions: 'Agent restrictions'
+      agent_restrictions_hint: 'Saved with the form above.'
+    settings:
+      pages:
+        branding: 'Branding'
+        branding_description: 'The name, logos and links this installation shows. Saved here, they take precedence over the branding variables in the environment.'
+    app_configs:
+      branding:
+        invalid_color: 'Brand color must be a hex color such as #1f93ff.'
+      general:
+        invalid_message_search_min_query_length: 'Minimum message search term length must be a whole number, 0 or greater.'
+      fields:
+        INSTALLATION_NAME:
+          title: 'Installation name'
+          description: 'The name shown in the dashboard, the page title and the emails.'
+        LOGO_THUMBNAIL:
+          title: 'Logo thumbnail'
+          description: 'The square image used as the favicon (512 × 512 px).'
+        LOGO:
+          title: 'Logo'
+          description: 'The logo on the dashboard and the login page.'
+        LOGO_DARK:
+          title: 'Logo for dark mode'
+          description: 'The logo on the dashboard and the login page in dark mode.'
+        LOGO_EMAIL:
+          title: 'Email logo'
+          description: 'The logo at the top of outgoing emails. PNG, JPG or GIF only: email clients do not render SVG. Left empty, the logo above is used when it is one of those formats.'
+        BRAND_NAME:
+          title: 'Brand name'
+          description: 'The name used in emails and in the widget.'
+        BRAND_URL:
+          title: 'Brand URL'
+          description: 'Where the "Powered by" line in emails links to.'
+        WIDGET_BRAND_URL:
+          title: 'Widget brand URL'
+          description: 'Where the "Powered by" line in the widget links to.'
+        BRAND_COLOR:
+          title: 'Brand color'
+          description: 'Hex color used in emails and for the app theme, such as #1f93ff.'
+        TERMS_URL:
+          title: 'Terms of service URL'
+          description: 'Linked from the signup page.'
+        PRIVACY_URL:
+          title: 'Privacy policy URL'
+          description: 'Linked from the app.'
+        DISPLAY_MANIFEST:
+          title: 'Chatwoot metadata'
+          description: 'Show the default Chatwoot favicons and upgrade warnings.'

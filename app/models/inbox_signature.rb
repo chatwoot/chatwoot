@@ -18,11 +18,14 @@
 #
 
 class InboxSignature < ApplicationRecord
+  # Mirrors SIGNATURE_SEPARATORS in app/javascript/dashboard/constants/signatureSeparators.js
+  SEPARATORS = %w[blank -- none].freeze
+
   belongs_to :user
   belongs_to :inbox
 
   validates :message_signature, presence: true
   validates :user_id, uniqueness: { scope: :inbox_id }
   validates :signature_position, inclusion: { in: %w[top bottom] }
-  validates :signature_separator, inclusion: { in: %w[blank --] }
+  validates :signature_separator, inclusion: { in: SEPARATORS }
 end

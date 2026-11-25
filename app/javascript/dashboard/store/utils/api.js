@@ -100,10 +100,15 @@ export const parseAPIErrorResponse = error => {
   return error;
 };
 
-export const throwErrorMessage = error => {
-  const errorMessage = parseAPIErrorResponse(error);
-  throw new Error(errorMessage);
+// Keeps the request's answer on the rethrown Error: requestErrorMessage builds the toast from it.
+export const rethrowWithResponse = (error, message = error) => {
+  const exception = new Error(message);
+  exception.response = error?.response;
+  throw exception;
 };
+
+export const throwErrorMessage = error =>
+  rethrowWithResponse(error, parseAPIErrorResponse(error));
 
 export const parseLinearAPIErrorResponse = (error, defaultMessage) => {
   const errorData = error.response.data;

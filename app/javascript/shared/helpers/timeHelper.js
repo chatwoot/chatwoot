@@ -1,10 +1,16 @@
 import {
-  format,
-  isSameYear,
+  isThisYear,
+  isToday,
+  isYesterday,
   fromUnixTime,
-  formatDistanceToNow,
   differenceInDays,
 } from 'date-fns';
+import {
+  formatLocalized,
+  formatRelative,
+  formatWithYear,
+  shortRelative,
+} from './localizedDate';
 
 /**
  * Formats a Unix timestamp into a human-readable time format.
@@ -14,7 +20,7 @@ import {
  */
 export const messageStamp = (time, dateFormat = 'h:mm a') => {
   const unixTime = fromUnixTime(time);
-  return format(unixTime, dateFormat);
+  return formatLocalized(unixTime, dateFormat);
 };
 
 /**
@@ -24,13 +30,23 @@ export const messageStamp = (time, dateFormat = 'h:mm a') => {
  * @returns {string} Formatted date string.
  */
 export const messageTimestamp = (time, dateFormat = 'MMM d, yyyy') => {
-  const messageTime = fromUnixTime(time);
-  const now = new Date();
-  const messageDate = format(messageTime, dateFormat);
-  if (!isSameYear(messageTime, now)) {
-    return format(messageTime, 'LLL d y, h:mm a');
-  }
-  return messageDate;
+  return formatWithYear(fromUnixTime(time), dateFormat, 'LLL d y, h:mm a');
+};
+
+/**
+ * Formats a Unix timestamp relative to today: the time for today, a caller-
+ * supplied label for yesterday, and a date otherwise. The yesterday label is
+ * passed in so the caller keeps ownership of translation.
+ * @param {number} time - Unix timestamp.
+ * @param {string} yesterdayLabel - Localized label shown for yesterday.
+ * @returns {string} Formatted timestamp string.
+ */
+export const relativeDayTimestamp = (time, yesterdayLabel) => {
+  const date = fromUnixTime(time);
+  if (isToday(date)) return formatLocalized(date, 'h:mm a');
+  if (isYesterday(date)) return yesterdayLabel;
+  if (isThisYear(date)) return formatLocalized(date, 'MMM d');
+  return formatLocalized(date, 'MMM d, yyyy');
 };
 
 /**
@@ -39,8 +55,7 @@ export const messageTimestamp = (time, dateFormat = 'MMM d, yyyy') => {
  * @returns {string} Relative time string.
  */
 export const dynamicTime = time => {
-  const unixTime = fromUnixTime(time);
-  return formatDistanceToNow(unixTime, { addSuffix: true });
+  return formatRelative(fromUnixTime(time));
 };
 
 /**
@@ -50,8 +65,7 @@ export const dynamicTime = time => {
  * @returns {string} Formatted date string.
  */
 export const dateFormat = (time, df = 'MMM d, yyyy') => {
-  const unixTime = fromUnixTime(time);
-  return format(unixTime, df);
+  return formatLocalized(fromUnixTime(time), df);
 };
 
 /**
@@ -65,6 +79,8 @@ export const shortTimestamp = (time, withAgo = false) => {
   // with the following format: 1m, 1h, 1d, 1mo, 1y
   // The function also takes an optional boolean parameter withAgo
   // which will add the word "ago" to the end of the time string
+  const localized = shortRelative(time, withAgo);
+  if (localized) return localized;
   const suffix = withAgo ? ' ago' : '';
   const timeMappings = {
     'less than a minute ago': 'now',

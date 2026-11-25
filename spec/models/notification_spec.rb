@@ -184,6 +184,11 @@ has been assigned to you"
                                                                  'id' => notification.primary_actor.display_id
                                                                })
     end
+
+    it 'includes the account id so the mobile app can open the conversation in the right account' do
+      notification = create(:notification, notification_type: 'conversation_creation')
+      expect(notification.fcm_push_data[:account_id]).to eq(notification.account_id)
+    end
   end
 
   context 'when primary actor is deleted' do
@@ -196,6 +201,64 @@ has been assigned to you"
       end
 
       expect { notification.reload }.to raise_error(ActiveRecord::RecordNotFound)
+    end
+  end
+
+  context 'with internal chat notifications' do
+    let(:account) { create(:account) }
+    let(:sender) { create(:user, account: account, name: 'Alice') }
+
+    it 'builds the mention title from the channel name' do
+      channel = create(:internal_chat_channel, :public_channel, account: account, name: 'general')
+      message = create(:internal_chat_message, account: account, channel: channel, sender: sender, content: 'ping')
+      notification = create(:notification, account: account, notification_type: 'internal_chat_mention',
+                                           primary_actor: channel, secondary_actor: message)
+
+      expect(notification.push_message_title).to eq 'You have been mentioned in #general'
+    end
+
+    it 'builds the direct message title from the sender name' do
+      channel = create(:internal_chat_channel, :dm, account: account)
+      message = create(:internal_chat_message, account: account, channel: channel, sender: sender, content: 'hi')
+      notification = create(:notification, account: account, notification_type: 'internal_chat_new_message',
+                                           primary_actor: channel, secondary_actor: message)
+
+      expect(notification.push_message_title).to eq 'New message from Alice'
+    end
+
+    it 'builds the body from the secondary actor message' do
+      channel = create(:internal_chat_channel, :dm, account: account)
+      message = create(:internal_chat_message, account: account, channel: channel, sender: sender, content: 'hello there')
+      notification = create(:notification, account: account, notification_type: 'internal_chat_new_message',
+                                           primary_actor: channel, secondary_actor: message)
+
+      expect(notification.push_message_body).to eq 'Alice: hello there'
+    end
+
+    it 'renders internal chat mentions as @Name in the body' do
+      channel = create(:internal_chat_channel, :public_channel, account: account, name: 'general')
+      recipient = create(:user, account: account, name: 'John')
+      message = create(:internal_chat_message, account: account, channel: channel, sender: sender,
+                                               content: "hey (mention://user/#{recipient.id}/John) look")
+      notification = create(:notification, account: account, notification_type: 'internal_chat_mention',
+                                           primary_actor: channel, secondary_actor: message)
+
+      expect(notification.push_message_body).to eq 'Alice: hey @John look'
+    end
+
+    it 'includes id and channel_type in the fcm push data' do
+      channel = create(:internal_chat_channel, :dm, account: account)
+      message = create(:internal_chat_message, account: account, channel: channel, sender: sender, content: 'hi')
+      notification = create(:notification, account: account, notification_type: 'internal_chat_new_message',
+                                           primary_actor: channel, secondary_actor: message)
+
+      expect(notification.fcm_push_data[:primary_actor]).to eq({ 'id' => channel.id, 'channel_type' => 'dm' })
+    end
+
+    it 'defers email delivery (no mailer yet)' do
+      expect(described_class.new(notification_type: 'internal_chat_mention').send(:email_delivery_supported?)).to be(false)
+      expect(described_class.new(notification_type: 'internal_chat_new_message').send(:email_delivery_supported?)).to be(false)
+      expect(described_class.new(notification_type: 'conversation_creation').send(:email_delivery_supported?)).to be(true)
     end
   end
 end

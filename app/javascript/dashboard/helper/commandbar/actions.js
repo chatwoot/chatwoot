@@ -3,20 +3,24 @@ import { emitter } from 'shared/helpers/mitt';
 
 import {
   CMD_MUTE_CONVERSATION,
+  CMD_PIN_CONVERSATION,
   CMD_REOPEN_CONVERSATION,
   CMD_RESOLVE_CONVERSATION,
   CMD_SEND_TRANSCRIPT,
   CMD_SNOOZE_CONVERSATION,
   CMD_UNMUTE_CONVERSATION,
+  CMD_UNPIN_CONVERSATION,
 } from 'dashboard/helper/commandbar/events';
 
 import {
   ICON_MUTE_CONVERSATION,
+  ICON_PIN_CONVERSATION,
   ICON_REOPEN_CONVERSATION,
   ICON_RESOLVE_CONVERSATION,
   ICON_SEND_TRANSCRIPT,
   ICON_SNOOZE_CONVERSATION,
   ICON_UNMUTE_CONVERSATION,
+  ICON_UNPIN_CONVERSATION,
 } from 'dashboard/helper/commandbar/icons';
 
 const SNOOZE_OPTIONS = wootConstants.SNOOZE_OPTIONS;
@@ -89,4 +93,20 @@ export const MUTE_ACTION = {
   section: 'COMMAND_BAR.SECTIONS.CONVERSATION',
   icon: ICON_MUTE_CONVERSATION,
   handler: () => emitter.emit(CMD_MUTE_CONVERSATION),
+};
+
+export const PIN_ACTION = {
+  id: 'pin_conversation',
+  title: 'COMMAND_BAR.COMMANDS.PIN_CONVERSATION',
+  section: 'COMMAND_BAR.SECTIONS.CONVERSATION',
+  icon: ICON_PIN_CONVERSATION,
+  handler: () => emitter.emit(CMD_PIN_CONVERSATION),
+};
+
+export const UNPIN_ACTION = {
+  id: 'unpin_conversation',
+  title: 'COMMAND_BAR.COMMANDS.UNPIN_CONVERSATION',
+  section: 'COMMAND_BAR.SECTIONS.CONVERSATION',
+  icon: ICON_UNPIN_CONVERSATION,
+  handler: () => emitter.emit(CMD_UNPIN_CONVERSATION),
 };

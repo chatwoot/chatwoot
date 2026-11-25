@@ -7,7 +7,7 @@ module InstagramConcern
       client_secret,
       {
         site: 'https://api.instagram.com',
-        authorize_url: 'https://api.instagram.com/oauth/authorize',
+        authorize_url: 'https://www.instagram.com/oauth/authorize',
         token_url: 'https://api.instagram.com/oauth/access_token',
         auth_scheme: :request_body,
         token_method: :post
@@ -38,20 +38,15 @@ module InstagramConcern
   end
 
   def fetch_instagram_user_details(access_token)
-    endpoint = 'https://graph.instagram.com/v22.0/me'
-    params = {
-      fields: 'id,username,user_id,name,profile_picture_url,account_type',
-      access_token: access_token
-    }
-
-    make_api_request(endpoint, params, 'Failed to fetch Instagram user details')
+    Instagram::UserDetailsService.new(access_token: access_token).perform
   end
 
   def make_api_request(endpoint, params, error_prefix)
     response = HTTParty.get(
       endpoint,
       query: params,
-      headers: { 'Accept' => 'application/json' }
+      headers: { 'Accept' => 'application/json' },
+      **Instagram::RequestOptions::INSTAGRAM_SHORT_REQUEST_OPTIONS
     )
 
     unless response.success?

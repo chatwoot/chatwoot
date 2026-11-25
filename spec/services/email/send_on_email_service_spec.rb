@@ -8,6 +8,59 @@ describe Email::SendOnEmailService do
   let(:message) { create(:message, conversation: conversation, message_type: 'outgoing') }
   let(:service) { described_class.new(message: message) }
 
+  describe '#perform with a forwarded email', type: :mailer do
+    let(:agent) { create(:user, account: account) }
+    let(:mailer) { ConversationReplyMailer.new }
+    let(:conversation) do
+      create(:conversation, account: account, inbox: inbox, additional_attributes: { 'mail_subject' => 'Order #42' })
+    end
+    let(:forwarded_message) { create(:message, conversation: conversation, message_type: 'incoming') }
+    let(:forwarded_attachment) do
+      attachment = forwarded_message.attachments.new(account_id: account.id, file_type: :image)
+      attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+      attachment.save!
+      attachment
+    end
+    let(:params) do
+      ActionController::Parameters.new(
+        content: 'Please handle this',
+        to_emails: 'vendor@example.com',
+        cc_emails: 'ops@example.com',
+        bcc_emails: 'audit@example.com',
+        email_html_content: '<p>Please handle this</p><p>Edited body</p>',
+        content_attributes: { forwarded_message_id: forwarded_message.id }.to_json,
+        forwarded_attachment_ids: [forwarded_attachment.id]
+      )
+    end
+    let(:message) { Messages::MessageBuilder.new(agent, conversation, params).perform }
+
+    before do
+      allow(ConversationReplyMailer).to receive(:new).and_return(mailer)
+      allow(mailer).to receive(:smtp_config_set_or_development?).and_return(true)
+    end
+
+    it 'delivers the forward to the new recipient as a fresh thread' do
+      expect { service.perform }.to change { ActionMailer::Base.deliveries.count }.by(1)
+
+      mail = ActionMailer::Base.deliveries.last
+      expect(mail.to).to eq(['vendor@example.com'])
+      expect(mail.cc).to eq(['ops@example.com'])
+      expect(mail.bcc).to eq(['audit@example.com'])
+      expect(mail.subject).to eq('Fwd: Order #42')
+      expect(mail.in_reply_to).to be_nil
+      expect(mail.references).to be_nil
+    end
+
+    it 'sends the edited body with the original attachment and records the source id' do
+      service.perform
+
+      mail = ActionMailer::Base.deliveries.last
+      expect(mail.html_part.decoded).to include('<p>Please handle this</p><p>Edited body</p>')
+      expect(mail.attachments.map(&:filename)).to eq(['avatar.png'])
+      expect(message.reload.source_id).to eq(mail.message_id)
+    end
+  end
+
   describe '#perform' do
     let(:mailer_context) { instance_double(ConversationReplyMailer) }
     let(:delivery) { instance_double(ActionMailer::MessageDelivery) }
@@ -114,6 +167,96 @@ describe Email::SendOnEmailService do
         expect(message.reload.status).to eq('failed')
         expect(message.reload.external_error).to eq(error_message)
       end
+    end
+
+    context 'when the failure is transient' do
+      let(:exception_tracker) { instance_double(ChatwootExceptionTracker, capture_exception: true) }
+
+      before do
+        allow(mailer_context).to receive(:email_reply).with(message).and_return(delivery)
+        allow(ChatwootExceptionTracker).to receive(:new).and_return(exception_tracker)
+      end
+
+      described_class::TRANSIENT_ERRORS.each do |error_class|
+        context "when the mail server raises #{error_class}" do
+          before do
+            allow(delivery).to receive(:deliver_now).and_raise(error_class, 'boom')
+          end
+
+          it 'raises TransientDeliveryError so the job can retry' do
+            expect { service.perform }.to raise_error(described_class::TransientDeliveryError, /#{error_class}/)
+          end
+
+          it 'leaves the message unmarked, because the retry may still succeed' do
+            expect { service.perform }.to raise_error(described_class::TransientDeliveryError)
+
+            expect(message.reload.status).not_to eq('failed')
+            expect(message.reload.external_error).to be_blank
+          end
+
+          it 'does not report to the exception tracker on every attempt' do
+            expect { service.perform }.to raise_error(described_class::TransientDeliveryError)
+
+            expect(ChatwootExceptionTracker).not_to have_received(:new)
+          end
+        end
+      end
+    end
+
+    # These look transient, and that is exactly the trap: each one can also surface on
+    # the read of the 250 that follows the DATA terminator, with the message already
+    # queued at the server. A retry there is a second copy in the customer's inbox, so
+    # they must fail instead of retrying. Locked down here because the fix is one line
+    # in a list and reads like an oversight to anyone who has not hit the duplicate.
+    context 'when the failure cannot prove the message was not sent' do
+      let(:exception_tracker) { instance_double(ChatwootExceptionTracker, capture_exception: true) }
+
+      before do
+        allow(mailer_context).to receive(:email_reply).with(message).and_return(delivery)
+        allow(ChatwootExceptionTracker).to receive(:new).and_return(exception_tracker)
+      end
+
+      [Net::ReadTimeout, Errno::ECONNRESET, OpenSSL::SSL::SSLError, Errno::EHOSTUNREACH, Errno::ENETUNREACH].each do |error_class|
+        context "when the mail server raises #{error_class}" do
+          before do
+            allow(delivery).to receive(:deliver_now).and_raise(error_class, 'boom')
+          end
+
+          it 'is not treated as transient, so the job never re-sends the email' do
+            expect(described_class::TRANSIENT_ERRORS).not_to include(error_class)
+
+            expect { service.perform }.not_to raise_error
+          end
+
+          it 'marks the message failed instead' do
+            service.perform
+
+            expect(message.reload.status).to eq('failed')
+          end
+        end
+      end
+    end
+  end
+
+  # Not stubbed on purpose: the defect lives in how the real mailer stack hands back a
+  # failure. ApplicationMailer rescues Net::SMTPSyntaxError, and ActionMailer then
+  # returns the rescued exception from `deliver_now` instead of raising it.
+  describe '#perform with the real mailer' do
+    let(:contact) { create(:contact, account: account, email: 'customer@example.com') }
+    let(:conversation) { create(:conversation, account: account, inbox: inbox, contact: contact) }
+    let(:server_reply) { '501 5.1.3 Bad recipient address syntax' }
+
+    before do
+      allow_any_instance_of(Mail::Message).to receive(:deliver).and_raise(Net::SMTPSyntaxError, server_reply) # rubocop:disable RSpec/AnyInstance
+    end
+
+    it 'marks the message failed with the reply the mail server gave' do
+      with_modified_env SMTP_ADDRESS: 'smtp.example.com' do
+        service.perform
+      end
+
+      expect(message.reload.status).to eq('failed')
+      expect(message.external_error).to eq(server_reply)
     end
   end
 end

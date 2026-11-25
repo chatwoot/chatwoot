@@ -1,0 +1,11 @@
+{
+  "KANBAN": {
+    "PAYWALL": {
+      "TITLE": "Mejore su plan para usar Kanban",
+      "DESCRIPTION": "La función Kanban requiere una suscripción a Chatwoot Pro de fazer.ai.",
+      "UPGRADE_PROMPT": "Suscríbase a Chatwoot Pro de fazer.ai para acceder a los embudos Kanban, la gestión de tareas y la automatización de flujos de trabajo.",
+      "NON_ADMIN_MESSAGE": "La función Kanban no está disponible en su plan actual. Contacte a su administrador para mejorar el plan.",
+      "UPGRADE_NOW": "Mejorar plan"
+    }
+  }
+}

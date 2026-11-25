@@ -941,7 +941,7 @@ describe Whatsapp::ZapiHandlers::ReceivedCallback do
 
     context 'when processing reaction message' do
       let(:contact_inbox) { create(:contact_inbox, inbox: inbox, contact: contact, source_id: '5511987654321') }
-      let(:conversation) { create(:conversation, inbox: inbox, contact_inbox: contact_inbox) }
+      let(:conversation) { create(:conversation, inbox: inbox, contact_inbox: contact_inbox, contact: contact) }
       let(:params) do
         {
           type: 'ReceivedCallback',

@@ -1,0 +1,22 @@
+[
+  {
+    "addUrlEvents": false,
+    "addUrlTypesMessages": false,
+    "enabled": true,
+    "events": [
+      "connection",
+      "messages",
+      "messages_update",
+      "presence",
+      "contacts",
+      "chats",
+      "groups",
+      "labels",
+      "call",
+      "history"
+    ],
+    "excludeMessages": [],
+    "id": "r00000000000508",
+    "url": "https://webhook.example.test/uazapi"
+  }
+]

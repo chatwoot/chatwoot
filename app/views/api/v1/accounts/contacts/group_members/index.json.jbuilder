@@ -19,5 +19,9 @@ json.meta do
   json.page @page
   json.per_page @per_page
   json.inbox_phone_number @inbox_phone_number
+  # Which roster row IS the connected account. The phone above cannot answer that on a
+  # provider whose roster names the account by LID alone, and such a contact carries no
+  # phone number to match against at all.
+  json.own_member_id @own_member&.id
   json.is_inbox_admin @is_inbox_admin
 end

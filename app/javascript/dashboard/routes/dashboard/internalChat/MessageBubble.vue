@@ -11,8 +11,10 @@ import { useAlert } from 'dashboard/composables';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
+import Popover from 'dashboard/components-next/popover/Popover.vue';
 import ReactionDisplay from './ReactionDisplay.vue';
 import EmojiReactionPicker from './EmojiReactionPicker.vue';
+import { QUICK_EMOJIS, findOwnReaction } from './reactions';
 import PollDisplay from './PollDisplay.vue';
 import ConversationPreviewCard from './ConversationPreviewCard.vue';
 
@@ -235,6 +237,17 @@ function handleRemoveReaction(reactionId) {
   });
 }
 
+// Used by the touch action menu, where the emoji row reacts inline instead of
+// nesting EmojiReactionPicker inside the popover.
+function toggleReaction(emoji) {
+  const own = findOwnReaction(reactions.value, emoji, props.currentUserId);
+  if (own) {
+    handleRemoveReaction(own.id);
+  } else {
+    handleAddReaction(emoji);
+  }
+}
+
 function handleVote(payload) {
   emit('vote', payload);
 }
@@ -401,7 +414,7 @@ function handleUnvote(payload) {
     </div>
     <div
       v-if="!isDeleted"
-      class="absolute right-2 top-0 flex items-center gap-0.5 rounded-md bg-n-solid-2 border border-n-slate-5 shadow-sm px-0.5 py-0.5 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity z-10"
+      class="absolute right-2 top-0 hidden items-center gap-0.5 rounded-md bg-n-solid-2 border border-n-slate-5 shadow-sm px-0.5 py-0.5 opacity-0 group-hover:opacity-100 group-focus-within:opacity-100 transition-opacity z-10 md:flex"
     >
       <EmojiReactionPicker
         :reactions="reactions"
@@ -453,6 +466,109 @@ function handleUnvote(payload) {
       >
         <Icon icon="i-lucide-trash-2" class="size-4" />
       </button>
+    </div>
+
+    <!-- Touch: the hover toolbar above is unreachable, so the same actions live
+    in a popover, which the design system renders as a modal below md. -->
+    <div v-if="!isDeleted" class="absolute right-2 top-0 z-10 md:hidden">
+      <Popover>
+        <template #default>
+          <button
+            type="button"
+            class="flex items-center justify-center rounded-md border border-n-slate-5 bg-n-solid-2 p-1.5 text-n-slate-11 shadow-sm"
+            :title="t('INTERNAL_CHAT.MESSAGE.MORE_ACTIONS')"
+            :aria-label="t('INTERNAL_CHAT.MESSAGE.MORE_ACTIONS')"
+          >
+            <Icon icon="i-lucide-ellipsis" class="size-4" />
+          </button>
+        </template>
+        <template #content="{ hide }">
+          <div class="flex min-w-56 flex-col p-1.5">
+            <div class="grid grid-cols-8 gap-0.5 border-b border-n-weak pb-1.5">
+              <button
+                v-for="item in QUICK_EMOJIS"
+                :key="item.labelKey"
+                type="button"
+                class="flex min-w-0 items-center justify-center rounded p-1 text-base hover:bg-n-alpha-2"
+                :title="t(`INTERNAL_CHAT.REACTIONS.${item.labelKey}`)"
+                :aria-label="t(`INTERNAL_CHAT.REACTIONS.${item.labelKey}`)"
+                @click="
+                  hide();
+                  toggleReaction(item.emoji);
+                "
+              >
+                {{ item.emoji }}
+              </button>
+            </div>
+            <button
+              v-if="!inThread"
+              type="button"
+              class="flex items-center gap-2 rounded-lg px-2 py-2 text-sm text-n-slate-12 hover:bg-n-alpha-2"
+              @click="
+                hide();
+                handleReply();
+              "
+            >
+              <Icon icon="i-lucide-reply" class="size-4 text-n-slate-11" />
+              {{ t('INTERNAL_CHAT.MESSAGE.REPLY') }}
+            </button>
+            <button
+              type="button"
+              class="flex items-center gap-2 rounded-lg px-2 py-2 text-sm text-n-slate-12 hover:bg-n-alpha-2"
+              @click="
+                hide();
+                handleCopyLink();
+              "
+            >
+              <Icon icon="i-lucide-link" class="size-4 text-n-slate-11" />
+              {{ t('INTERNAL_CHAT.MESSAGE.COPY_LINK') }}
+            </button>
+            <button
+              v-if="canPin && !inThread"
+              type="button"
+              class="flex items-center gap-2 rounded-lg px-2 py-2 text-sm text-n-slate-12 hover:bg-n-alpha-2"
+              @click="
+                hide();
+                handlePin();
+              "
+            >
+              <Icon
+                :icon="isPinned ? 'i-lucide-pin-off' : 'i-lucide-pin'"
+                class="size-4 text-n-slate-11"
+              />
+              {{
+                isPinned
+                  ? t('INTERNAL_CHAT.PIN.UNPIN')
+                  : t('INTERNAL_CHAT.PIN.PIN')
+              }}
+            </button>
+            <button
+              v-if="canEdit"
+              type="button"
+              class="flex items-center gap-2 rounded-lg px-2 py-2 text-sm text-n-slate-12 hover:bg-n-alpha-2"
+              @click="
+                hide();
+                handleEdit();
+              "
+            >
+              <Icon icon="i-lucide-pencil" class="size-4 text-n-slate-11" />
+              {{ t('INTERNAL_CHAT.MESSAGE.EDIT') }}
+            </button>
+            <button
+              v-if="canDelete"
+              type="button"
+              class="flex items-center gap-2 rounded-lg px-2 py-2 text-sm text-n-ruby-11 hover:bg-n-ruby-3"
+              @click="
+                hide();
+                handleDelete();
+              "
+            >
+              <Icon icon="i-lucide-trash-2" class="size-4" />
+              {{ t('INTERNAL_CHAT.MESSAGE.DELETE') }}
+            </button>
+          </div>
+        </template>
+      </Popover>
     </div>
 
     <Dialog

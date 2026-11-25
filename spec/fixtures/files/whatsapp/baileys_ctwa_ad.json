@@ -1,0 +1,45 @@
+{
+  "event": "messages.upsert",
+  "data": {
+    "type": "notify",
+    "messages": [
+      {
+        "key": {
+          "remoteJid": "44778899@lid",
+          "remoteJidAlt": "5511922221111@s.whatsapp.net",
+          "fromMe": false,
+          "id": "BAILEYS_CTWA_AD_FIXTURE",
+          "addressingMode": "lid"
+        },
+        "messageTimestamp": 1764178999,
+        "pushName": "Lead Video Ad",
+        "message": {
+          "extendedTextMessage": {
+            "text": "Quero agendar minha avaliacao",
+            "previewType": 0,
+            "contextInfo": {
+              "conversionSource": "FB_Ads",
+              "entryPointConversionSource": "ctwa_ad",
+              "entryPointConversionApp": "facebook",
+              "ctwaSignals": "all,all",
+              "externalAdReply": {
+                "title": "Agende ja sua Avaliacao",
+                "body": "LEGENDA Y PRODUTO X",
+                "mediaType": 2,
+                "thumbnailUrl": "https://scontent.xx.fbcdn.net/v/thumb.jpg",
+                "mediaUrl": "https://www.facebook.com/criativox/videos/123456789",
+                "sourceType": "ad",
+                "sourceId": "1120214541917380261",
+                "sourceUrl": "https://fb.me/criativox",
+                "containsAutoReply": false,
+                "renderLargerThumbnail": true,
+                "showAdAttribution": true,
+                "ctwaClid": "AaRDg86i-z5_xrIOfs9Adr1example"
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+}

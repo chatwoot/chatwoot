@@ -1,5 +1,6 @@
 module Whatsapp::BaileysHandlers::MessagesUpdate
   include Whatsapp::BaileysHandlers::Helpers
+  include BaileysHelper
 
   class MessageNotFoundError < StandardError; end
 
@@ -29,11 +30,15 @@ module Whatsapp::BaileysHandlers::MessagesUpdate
   def update_status
     status = status_mapper
     update_last_seen_at if incoming? && status == 'read'
-    return unless status.present? && status_transition_allowed?(status)
+    # Messages::StatusUpdateService refuses an unknown status and a move backwards, but lets
+    # any message become `failed`, and a message the contact has read cannot have failed.
+    return if @message.status == 'read'
 
-    attrs = { status: status }
-    attrs[:external_error] = extract_external_error if status == 'failed'
-    @message.update!(attrs)
+    # The service is also what clears external_error when a message leaves `failed`;
+    # writing the status here instead left a delivered message showing the error of an
+    # earlier attempt.
+    error = extract_external_error if status == 'failed'
+    Messages::StatusUpdateService.new(@message, status, error).perform
   end
 
   def extract_external_error
@@ -72,31 +77,81 @@ module Whatsapp::BaileysHandlers::MessagesUpdate
     end
   end
 
+  # Skipped for this app's own receipt echoed back by the provider: see
+  # Whatsapp::SelfReadReceipts.
   def update_last_seen_at
     conversation = @message.conversation
+    return if acknowledged_in(conversation).include?(raw_message_id)
+
     to_update = { agent_last_seen_at: Time.current }
     to_update[:assignee_last_seen_at] = Time.current if conversation.assignee_id.present?
 
     conversation.update_columns(to_update) # rubocop:disable Rails/SkipsModelValidations
   end
 
-  def status_transition_allowed?(new_status)
-    return false if @message.status == 'read'
-    return false if @message.status == 'delivered' && new_status == 'sent'
+  # Asked for the whole webhook at once, like the session handler does for a receipt: this
+  # payload is a batch too, and a lookup per update would put a Redis round trip on each one.
+  def acknowledged_in(conversation)
+    @acknowledged_in ||= {}
+    @acknowledged_in[conversation.id] ||= Whatsapp::SelfReadReceipts.acknowledged(conversation, read_receipt_ids)
+  end
 
-    true
+  def read_receipt_ids
+    @read_receipt_ids ||= Array(processed_params[:data]).filter_map do |update|
+      update.dig(:key, :id) if update.dig(:key, :fromMe).blank? && update.dig(:update, :status) == 4
+    end
   end
 
   def handle_edited_content
+    edited_at = edit_timestamp_ms
     @raw_message = @raw_message.dig(:update, :message, :editedMessage)
     content = message_content
 
-    if content
-      # Preserve original previous_content if message was already edited
-      previous_content_to_save = @message.is_edited ? @message.previous_content : @message.content
-      return @message.update!(content: content, is_edited: true, previous_content: previous_content_to_save)
+    # `nil` means no readable content; an empty string is a real edit that cleared
+    # a media caption, and dropping it would leave the old caption on screen.
+    if content.nil?
+      Rails.logger.warn 'No valid message content found in the edit event'
+      return
     end
 
-    Rails.logger.warn 'No valid message content found in the edit event'
+    # Read and write under the row lock, the same way the session layer applies an
+    # edit: during a force restart or a cluster handoff the discarded connection
+    # keeps draining its webhooks on purpose while the replacement already handles
+    # new events, so two edits of one message can be applied at once. A
+    # read-compare-write outside the lock lets both pass the staleness check and the
+    # older one land last.
+    @message.with_lock do
+      next if stale_edit?(edited_at)
+
+      # Preserve original previous_content if message was already edited
+      previous_content_to_save = @message.is_edited ? @message.previous_content : @message.content
+      attrs = { content: content, is_edited: true, previous_content: previous_content_to_save }
+      # Only when this edit carries one: writing nil would erase the watermark a
+      # later out-of-order edit is checked against.
+      attrs[:edited_at] = edited_at if edited_at.present?
+      @message.update!(attrs)
+    end
+  end
+
+  # Older than the edit already stored, so it must not overwrite it. The comparison
+  # is on the provider's own clock rather than on arrival, since arrival is the
+  # thing that is out of order. Ties pass: WhatsApp stamps edits in whole seconds,
+  # so two edits inside one second carry no order to respect. An edit with no
+  # timestamp passes too -- refusing it would drop the edit outright, which is worse
+  # than applying it out of order.
+  def stale_edit?(edited_at)
+    edited_at.present? && @message.edited_at.present? && edited_at < @message.edited_at
+  end
+
+  # The provider stamps edits in whole seconds, on both the encrypted and the
+  # plaintext path, and a protobuf 64-bit field reaches us either as a number or as
+  # a `{ low, high }` hash — which is what the shared helper is for. `edited_at`
+  # holds milliseconds, which is what the session layer writes and what the model
+  # documents, so the two providers stay comparable.
+  def edit_timestamp_ms
+    timestamp = @raw_message.dig(:update, :messageTimestamp)
+    return if timestamp.blank?
+
+    baileys_extract_message_timestamp(timestamp) * 1000
   end
 end

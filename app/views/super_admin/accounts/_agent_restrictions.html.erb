@@ -1,0 +1,18 @@
+<%# locals: (page:) -%>
+<% restrictions = page.attributes(controller.action_name).values.flatten.index_by(&:name)
+                      .values_at("hide_agent_unassigned_tab", "hide_agent_all_tab", "disable_agent_message_deletion").compact %>
+<% if restrictions.any? %>
+  <section class="mt-4 rounded-xl border border-n-weak bg-n-solid-1" aria-labelledby="agent-restrictions-title">
+    <h2 id="agent-restrictions-title" class="px-5 pt-4 text-xs font-medium uppercase tracking-wider text-n-slate-10">
+      <%= t("super_admin.accounts.agent_restrictions") %>
+    </h2>
+    <%= fields_for page.resource_name, page.resource, builder: SuperAdmin::LinkedFormBuilder, linked_form: dom_id(page.resource, :edit) do |f| %>
+      <div class="divide-y divide-n-weak">
+        <% restrictions.each do |attribute| %>
+          <%= render_field attribute, f: f %>
+        <% end %>
+      </div>
+    <% end %>
+    <p class="px-5 pb-4 text-label-small text-n-slate-11"><%= t("super_admin.accounts.agent_restrictions_hint") %></p>
+  </section>
+<% end %>

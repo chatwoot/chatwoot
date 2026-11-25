@@ -26,7 +26,9 @@ class AdministratorNotifications::AccountNotificationMailer < AdministratorNotif
   def contact_import_complete(resource)
     subject = I18n.t('mailer.administrator_notifications.account_notifications.contact_import_complete.subject')
 
-    action_url = if resource.failed_records.attached?
+    action_url = if resource.csv_import?
+                   settings_url("data/#{resource.id}")
+                 elsif resource.failed_records.attached?
                    Rails.application.routes.url_helpers.rails_blob_url(resource.failed_records)
                  else
                    "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{resource.account.id}/contacts"
@@ -60,8 +62,11 @@ class AdministratorNotifications::AccountNotificationMailer < AdministratorNotif
 
   private
 
+  # Through the resolved brand, not GlobalConfig: this mail is addressed to the account's own
+  # administrator, so a subject reading "Chatwoot" over a body that says "Acme" is the account
+  # being told its deletion by a name it does not use.
   def brand_name
-    GlobalConfig.get('BRAND_NAME')['BRAND_NAME'].presence || 'Chatwoot'
+    brand.name.presence || 'Chatwoot'
   end
 
   def format_deletion_date(deletion_date_str)

@@ -3,16 +3,22 @@ require 'rails_helper'
 RSpec.describe Messages::AudioTranscriptionService, type: :service do
   let(:account) { create(:account, audio_transcriptions: true) }
   let(:conversation) { create(:conversation, account: account) }
-  let(:message) { create(:message, conversation: conversation) }
+  let(:message) { create(:message, account: account, conversation: conversation) }
   let(:attachment) { message.attachments.create!(account: account, file_type: :audio) }
 
   before do
     # Create required installation configs
     InstallationConfig.find_or_create_by!(name: 'CAPTAIN_OPEN_AI_API_KEY') { |config| config.value = 'test-api-key' }
-    InstallationConfig.find_or_create_by!(name: 'CAPTAIN_OPEN_AI_MODEL') { |config| config.value = 'gpt-4o-mini' }
+    InstallationConfig.find_or_create_by!(name: 'CAPTAIN_OPEN_AI_MODEL') { |config| config.value = 'gpt-6-luna' }
 
     # Mock usage limits for transcription to be available
-    allow(account).to receive(:usage_limits).and_return({ captain: { responses: { current_available: 100 } } })
+    allow(account).to receive(:usage_limits).and_return(
+      {
+        agents: ChatwootApp.max_limit,
+        inboxes: ChatwootApp.max_limit,
+        captain: { responses: { current_available: 100 } }
+      }
+    )
   end
 
   describe '#perform' do
@@ -28,10 +34,34 @@ RSpec.describe Messages::AudioTranscriptionService, type: :service do
       end
     end
 
+    context 'when the message is a call recording on an inbox with transcription turned off' do
+      let(:channel) do
+        create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false)
+      end
+      let(:conversation) { create(:conversation, account: account, inbox: channel.inbox) }
+      let(:message) { create(:message, account: account, conversation: conversation, inbox: channel.inbox, content_type: 'voice_call') }
+
+      before do
+        channel.update!(provider_config: channel.provider_config.merge('transcription_enabled' => false))
+        allow(Llm::SpeechToTextService).to receive(:new)
+      end
+
+      it 'skips transcription' do
+        expect(service.perform).to eq({ error: 'Transcription disabled for this inbox' })
+        expect(Llm::SpeechToTextService).not_to have_received(:new)
+      end
+
+      # The setting is about call recordings; an ordinary voice note on the same inbox is untouched.
+      it 'still transcribes a voice note sent by the contact' do
+        message.update!(content_type: 'text')
+
+        expect(service.perform).not_to eq({ error: 'Transcription disabled for this inbox' })
+      end
+    end
+
     context 'when transcription is successful' do
       before do
-        # Mock can_transcribe? to return true and transcribe_audio method
-        allow(service).to receive(:can_transcribe?).and_return(true)
+        allow(Llm::SpeechToTextService).to receive(:available_for?).and_return(true)
         allow(service).to receive(:transcribe_audio).and_return('Hello world transcription')
       end
 
@@ -52,10 +82,24 @@ RSpec.describe Messages::AudioTranscriptionService, type: :service do
       end
     end
 
+    context 'when the transcription API rejects the audio' do
+      let(:speech_to_text) { instance_double(Llm::SpeechToTextService) }
+
+      before do
+        allow(Llm::SpeechToTextService).to receive_messages(available_for?: true, new: speech_to_text)
+        allow(speech_to_text).to receive(:perform).and_raise(Faraday::BadRequestError.new('bad request', { status: 400 }))
+      end
+
+      it 'returns an error instead of raising, so Captain can still answer the conversation' do
+        expect(service.perform).to eq({ error: 'Audio rejected by the transcription API' })
+        expect(attachment.reload.meta).to be_blank
+      end
+    end
+
     context 'when attachment already has transcribed text' do
       before do
         attachment.update!(meta: { transcribed_text: 'Existing transcription' })
-        allow(service).to receive(:can_transcribe?).and_return(true)
+        allow(Llm::SpeechToTextService).to receive(:available_for?).and_return(true)
       end
 
       it 'returns existing transcription without calling API' do
@@ -64,41 +108,21 @@ RSpec.describe Messages::AudioTranscriptionService, type: :service do
       end
     end
 
-    context 'when the audio exceeds Whisper byte limit' do
+    context 'when the audio exceeds the transcription byte limit' do
       before do
         attachment.file.attach(
           io: File.open(Rails.public_path.join('audio/widget/ding.mp3')),
           filename: 'large.mp3',
           content_type: 'audio/mpeg'
         )
-        allow(service).to receive(:can_transcribe?).and_return(true)
-        allow(attachment.file.blob).to receive(:byte_size).and_return(described_class::WHISPER_BYTE_LIMIT + 1)
+        allow(Llm::SpeechToTextService).to receive(:available_for?).and_return(true)
+        allow(attachment.file.blob).to receive(:byte_size).and_return(Llm::SpeechToTextService::BYTE_LIMIT + 1)
       end
 
-      it 'returns an error without calling Whisper' do
+      it 'returns an error without transcribing' do
         expect(service).not_to receive(:transcribe_audio)
-        expect(service.perform).to eq({ error: 'Audio too large for Whisper' })
+        expect(service.perform).to eq({ error: 'Audio too large for transcription' })
       end
-    end
-  end
-
-  describe '#fetch_audio_file' do
-    let(:service) { described_class.new(attachment) }
-
-    before do
-      attachment.file.attach(
-        io: File.open(Rails.public_path.join('audio/widget/ding.mp3')),
-        filename: 'speech',
-        content_type: 'audio/mpeg'
-      )
-    end
-
-    it 'adds extension from content type when filename has no extension' do
-      temp_file_path = service.send(:fetch_audio_file)
-
-      expect(File.extname(temp_file_path)).to eq('.mpeg')
-    ensure
-      FileUtils.rm_f(temp_file_path) if temp_file_path.present?
     end
   end
 end

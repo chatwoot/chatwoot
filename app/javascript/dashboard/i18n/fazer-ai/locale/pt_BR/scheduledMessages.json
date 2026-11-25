@@ -1,0 +1,169 @@
+{
+  "SCHEDULED_MESSAGES": {
+    "NEW_BUTTON": "Agendar mensagem",
+    "PAST_MESSAGES_SECTION": "Enviadas",
+    "EMPTY_STATE": "Ainda não há mensagens agendadas.",
+    "STATUS": {
+      "DRAFT": "Rascunho",
+      "PENDING": "Pendente",
+      "SENT": "Enviada",
+      "FAILED": "Falhou",
+      "HELD": "Retida"
+    },
+    "HELD_SECTION": "Retidas",
+    "ITEM": {
+      "SCHEDULED_FOR": "Agendada para {time}",
+      "NO_SCHEDULE": "Sem agendamento",
+      "TEMPLATE_PREVIEW": "Modelo: {name}",
+      "TEMPLATE_LABEL": "Modelo: {name}",
+      "ATTACHMENT_PREVIEW": "Anexo: {filename}",
+      "ATTACHMENT_LABEL": "Anexo: {filename}",
+      "EMPTY_PREVIEW": "Sem conteúdo",
+      "EXPAND": "Expandir",
+      "COLLAPSE": "Recolher",
+      "GO_TO_MESSAGE": "Ir para a mensagem",
+      "SEARCHING_MESSAGE": "Buscando mensagem...",
+      "MESSAGE_NOT_FOUND": "A mensagem vinculada não foi encontrada. Ela pode ter sido excluída.",
+      "HELD_REASON": "Retida porque o cliente respondeu antes desta mensagem ser enviada."
+    },
+    "MODAL": {
+      "TITLE_NEW": "Agendar mensagem",
+      "TITLE_EDIT": "Editar mensagem agendada",
+      "MESSAGE_LABEL": "Mensagem",
+      "MESSAGE_PLACEHOLDER": "Escreva sua mensagem...",
+      "DATETIME_LABEL": "Data e hora de envio",
+      "ATTACHMENT_LABEL": "Anexo",
+      "ATTACHMENT_ADD": "Anexar arquivo",
+      "ATTACHMENT_CURRENT": "Anexo atual: {filename}",
+      "TEMPLATE_SELECT": "Usar modelo",
+      "TEMPLATE_SELECTED": "Modelo: {name}",
+      "TEMPLATE_ACTION": "Agendar mensagem",
+      "CANCEL": "Cancelar",
+      "SAVE_DRAFT": "Salvar como rascunho",
+      "SCHEDULE": "Agendar",
+      "HOLD_ON_REPLY_LABEL": "Reter se o cliente responder primeiro",
+      "HOLD_ON_REPLY_DESCRIPTION": "Se o cliente enviar uma mensagem antes desta ser enviada, ela ficará retida para revisão em vez de ser enviada automaticamente.",
+      "SHORTCUTS": {
+        "TOMORROW_MORNING": "Amanhã de manhã",
+        "TOMORROW_AFTERNOON": "Amanhã à tarde",
+        "MONDAY_MORNING": "Segunda-feira de manhã",
+        "CUSTOM": "Digitar data e hora"
+      },
+      "CUSTOM_INPUT_PLACEHOLDER": "ex: amanhã às 14h, próxima sexta de manhã",
+      "CUSTOM_INPUT_HINT": "Tente: amanhã às 15h, próxima segunda, 20 de março às 10h",
+      "PARSED_DATE_IN_PAST": "Esta data já passou",
+      "DATEPICKER_TOOLTIP": "Escolher no calendário",
+      "SCHEDULE_LABEL": "Programar envio"
+    },
+    "CONFIRM_CLOSE": {
+      "TITLE": "Alterações não salvas",
+      "MESSAGE": "Você tem conteúdo não salvo. Deseja descartar suas alterações?",
+      "CONTINUE_EDITING": "Continuar editando",
+      "DISCARD": "Descartar",
+      "CANCEL": "Cancelar"
+    },
+    "CONFIRM_DELETE": {
+      "TITLE": "Excluir mensagem agendada",
+      "MESSAGE": "Tem certeza de que deseja excluir esta mensagem agendada? Esta ação não pode ser desfeita.",
+      "CANCEL": "Cancelar",
+      "DELETE": "Excluir"
+    },
+    "ERRORS": {
+      "CONTENT_REQUIRED": "Adicione uma mensagem, template ou anexo antes de salvar.",
+      "CONTENT_TOO_LONG": "A mensagem é muito longa. Máximo de {maxLength} caracteres permitidos.",
+      "DATETIME_REQUIRED": "Selecione uma data e hora para agendar a mensagem.",
+      "SCHEDULE_IN_PAST": "O horário agendado deve ser no futuro.",
+      "SAVE_FAILED": "Não foi possível salvar a mensagem agendada. Por favor, tente novamente.",
+      "DELETE_FAILED": "Não foi possível excluir a mensagem agendada. Por favor, tente novamente."
+    },
+    "META": {
+      "TOOLTIP": "Agendada em {time} por {author}",
+      "YOU": "Você",
+      "AUTHOR_YOU": "{name} (Você)",
+      "AUTOMATION": "Automação",
+      "UNKNOWN_AUTHOR": "Desconhecido"
+    },
+    "RECURRENCE": {
+      "SECTION_TITLE": "Recorrências",
+      "NO_REPEAT": "Não se repete",
+      "DAILY": "Todos os dias",
+      "WEEKLY": "Semanal: cada {day}",
+      "MONTHLY_NTH": "Mensal no(a) {nth} {day}",
+      "MONTHLY_LAST": "Mensal no(a) último(a) {day}",
+      "YEARLY": "Anual em {dayNum} de {month}",
+      "WEEKDAYS": "Todos os dias úteis (seg-sex)",
+      "CUSTOM": "Personalizado...",
+      "CUSTOM_MODAL": {
+        "TITLE": "Recorrência personalizada",
+        "REPEAT_EVERY": "Repetir a cada",
+        "FREQ_DAILY": "dia(s)",
+        "FREQ_WEEKLY": "semana(s)",
+        "FREQ_MONTHLY": "mês(es)",
+        "FREQ_YEARLY": "ano(s)",
+        "UNIT_DAY": "dia | dias",
+        "UNIT_WEEK": "semana | semanas",
+        "UNIT_MONTH": "mês | meses",
+        "UNIT_YEAR": "ano | anos",
+        "REPEAT_ON": "Repetir em",
+        "MONTHLY_ON_DAY": "Dia do mês",
+        "MONTHLY_ON_WEEKDAY": "Dia da semana",
+        "ENDS": "Termina",
+        "ENDS_NEVER": "Nunca",
+        "ENDS_ON_DATE": "Em data",
+        "ENDS_AFTER": "Após",
+        "ENDS_OCCURRENCES": "ocorrências",
+        "DONE": "Concluir",
+        "CANCEL": "Cancelar"
+      },
+      "STATUS_ACTIVE": "Ativa",
+      "STATUS_DRAFT": "Rascunho",
+      "STATUS_COMPLETED": "Concluída",
+      "STATUS_CANCELLED": "Cancelada",
+      "OCCURRENCES_SENT": "{count} enviadas",
+      "NEXT_SEND": "Próxima: {time}",
+      "EXPAND": "Expandir histórico",
+      "COLLAPSE": "Recolher histórico",
+      "STOP": "Parar recorrência",
+      "STOP_CONFIRM": {
+        "TITLE": "Parar recorrência",
+        "MESSAGE": "A mensagem pendente será removida e a recorrência será encerrada permanentemente.",
+        "CONFIRM": "Parar",
+        "CANCEL": "Cancelar"
+      },
+      "EDIT": "Editar recorrência",
+      "EDIT_WARNING": "Próximo envio: {oldDate} → {newDate}",
+      "WEEKDAYS_SHORT": {
+        "SUN": "D",
+        "MON": "S",
+        "TUE": "T",
+        "WED": "Q",
+        "THU": "Q",
+        "FRI": "S",
+        "SAT": "S"
+      },
+      "ORDINALS": {
+        "FIRST": "1º",
+        "SECOND": "2º",
+        "THIRD": "3º",
+        "FOURTH": "4º",
+        "FIFTH": "5º",
+        "LAST": "último(a)"
+      },
+      "DESCRIPTION": {
+        "DAILY_ONE": "Todos os dias",
+        "DAILY_OTHER": "A cada {count} dias",
+        "WEEKLY_ONE": "Semanal",
+        "WEEKLY_OTHER": "A cada {count} semanas",
+        "WEEKLY_ON": "{prefix}: {days}",
+        "MONTHLY_ONE": "Mensal",
+        "MONTHLY_OTHER": "A cada {count} meses",
+        "MONTHLY_ON_WEEKDAY": "{prefix} no(a) {ordinal} {weekday}",
+        "YEARLY_ONE": "Anual",
+        "YEARLY_OTHER": "A cada {count} anos",
+        "UNTIL_DATE": "até {date}",
+        "AFTER_COUNT": "{count} ocorrências"
+      },
+      "RESOLVED_WARNING": "Mensagens agendadas não serão enviadas enquanto a conversa estiver resolvida. Reabra a conversa para retomar o envio."
+    }
+  }
+}

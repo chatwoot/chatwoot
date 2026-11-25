@@ -1,4 +1,9 @@
+import { initialState } from './state';
+
 export const mutations = {
+  RESET(_state) {
+    Object.assign(_state, initialState());
+  },
   SET_CHANNELS(_state, channels) {
     const records = {};
     // Preserve archived channels already loaded (e.g. via show)

@@ -127,10 +127,6 @@ export const ARTICLE_TABS_OPTIONS = [
     value: 'all',
   },
   {
-    key: 'MINE',
-    value: 'mine',
-  },
-  {
     key: 'DRAFT',
     value: 'draft',
   },
@@ -159,6 +155,20 @@ export const LOCALE_MENU_ITEMS = {
     value: 'publish',
     icon: 'i-lucide-eye',
   },
+  customizeContent: {
+    label:
+      'HELP_CENTER.LOCALES_PAGE.LOCALE_CARD.DROPDOWN_MENU.CUSTOMIZE_CONTENT',
+    action: 'customize-content',
+    value: 'customize-content',
+    icon: 'i-lucide-pencil',
+  },
+  selectPopularContent: {
+    label:
+      'HELP_CENTER.LOCALES_PAGE.LOCALE_CARD.DROPDOWN_MENU.SELECT_POPULAR_CONTENT',
+    action: 'select-popular-content',
+    value: 'select-popular-content',
+    icon: 'i-lucide-sparkles',
+  },
   delete: {
     label: 'HELP_CENTER.LOCALES_PAGE.LOCALE_CARD.DROPDOWN_MENU.DELETE',
     action: 'delete',
@@ -172,20 +182,31 @@ const disableLocaleMenuItems = menuItems =>
 
 export const buildLocaleMenuItems = ({ isDefault, isDraft }) => {
   if (isDefault) {
-    return disableLocaleMenuItems([
-      LOCALE_MENU_ITEMS.makeDefault,
-      LOCALE_MENU_ITEMS.moveToDraft,
-      LOCALE_MENU_ITEMS.delete,
-    ]);
+    return [
+      ...disableLocaleMenuItems([
+        LOCALE_MENU_ITEMS.makeDefault,
+        LOCALE_MENU_ITEMS.moveToDraft,
+      ]),
+      LOCALE_MENU_ITEMS.customizeContent,
+      LOCALE_MENU_ITEMS.selectPopularContent,
+      ...disableLocaleMenuItems([LOCALE_MENU_ITEMS.delete]),
+    ];
   }
 
   if (isDraft) {
-    return [LOCALE_MENU_ITEMS.publishLocale, LOCALE_MENU_ITEMS.delete];
+    return [
+      LOCALE_MENU_ITEMS.publishLocale,
+      LOCALE_MENU_ITEMS.customizeContent,
+      LOCALE_MENU_ITEMS.selectPopularContent,
+      LOCALE_MENU_ITEMS.delete,
+    ];
   }
 
   return [
     LOCALE_MENU_ITEMS.makeDefault,
     LOCALE_MENU_ITEMS.moveToDraft,
+    LOCALE_MENU_ITEMS.customizeContent,
+    LOCALE_MENU_ITEMS.selectPopularContent,
     LOCALE_MENU_ITEMS.delete,
   ];
 };

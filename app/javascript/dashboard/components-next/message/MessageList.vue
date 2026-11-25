@@ -1,6 +1,7 @@
 <script setup>
-import { defineProps, computed, reactive } from 'vue';
+import { computed, reactive } from 'vue';
 import Message from './Message.vue';
+import CampaignMessage from './CampaignMessage.vue';
 import { MESSAGE_TYPES } from './constants.js';
 import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 import { useMapGetter } from 'dashboard/composables/store.js';
@@ -46,6 +47,10 @@ const props = defineProps({
     type: Array,
     default: () => [],
   },
+  campaignHistory: {
+    type: Array,
+    default: () => [],
+  },
 });
 
 const emit = defineEmits(['retry', 'toggleReaction']);
@@ -53,7 +58,10 @@ const emit = defineEmits(['retry', 'toggleReaction']);
 const allMessages = computed(() => {
   return useCamelCase(props.messages, {
     deep: true,
-    stopPaths: ['content_attributes.translations'],
+    stopPaths: [
+      'content_attributes.translations',
+      'content_attributes.whatsapp_flow_response.response_json',
+    ],
   });
 });
 
@@ -168,6 +176,26 @@ const isGroupConversation = computed(
   () => currentChat.value?.group_type === 'group'
 );
 
+// Reactions stay out of the timeline: they render as chips on the message they
+// point at, not as bubbles of their own.
+const timeline = computed(() => {
+  const messages = visibleMessages.value.map(message => ({
+    key: `message-${message.id}`,
+    createdAt: message.createdAt,
+    message,
+  }));
+  if (!props.campaignHistory.length) return messages;
+
+  return [
+    ...messages,
+    ...props.campaignHistory.map(recipient => ({
+      key: `campaign-${recipient.id}`,
+      createdAt: recipient.sent_at,
+      recipient,
+    })),
+  ].sort((a, b) => a.createdAt - b.createdAt);
+});
+
 // Cache for fetched reply messages to avoid duplicate API calls
 const fetchedReplyMessages = reactive(new Map());
 
@@ -210,17 +238,12 @@ const fetchReplyMessage = async (messageId, conversationId) => {
 
 /**
  * Determines if a message should be grouped with the next message
- * @param {Number} index - Index of the current message
- * @param {Array} searchList - Array of messages to check
+ * @param {Object} current - Current message
+ * @param {Object} next - Next message, absent at a campaign entry or the end
  * @returns {Boolean} - Whether the message should be grouped with next
  */
-const shouldGroupWithNext = (index, searchList) => {
-  if (index === searchList.length - 1) return false;
-
-  const current = searchList[index];
-  const next = searchList[index + 1];
-
-  if (next.status === 'failed') return false;
+const shouldGroupWithNext = (current, next) => {
+  if (!next || next.status === 'failed') return false;
 
   const nextSenderId = next.senderId ?? next.sender?.id;
   const currentSenderId = current.senderId ?? current.sender?.id;
@@ -283,27 +306,34 @@ const getInReplyToMessage = parentMessage => {
 <template>
   <ul class="px-4 bg-n-surface-1">
     <slot name="beforeAll" />
-    <template v-for="(message, index) in visibleMessages" :key="message.id">
+    <template v-for="(entry, index) in timeline" :key="entry.key">
       <slot
-        v-if="effectiveFirstUnreadId && message.id === effectiveFirstUnreadId"
+        v-if="
+          effectiveFirstUnreadId && entry.message?.id === effectiveFirstUnreadId
+        "
         name="unreadBadge"
       />
+      <CampaignMessage v-if="entry.recipient" :recipient="entry.recipient" />
       <Message
-        v-bind="message"
+        v-else
+        v-bind="entry.message"
         :is-email-inbox="isAnEmailChannel"
-        :in-reply-to="getInReplyToMessage(message)"
-        :group-with-next="shouldGroupWithNext(index, visibleMessages)"
+        :in-reply-to="getInReplyToMessage(entry.message)"
+        :group-with-next="
+          shouldGroupWithNext(entry.message, timeline[index + 1]?.message)
+        "
         :group-with-previous="
-          index > 0 && shouldGroupWithNext(index - 1, visibleMessages)
+          !!timeline[index - 1]?.message &&
+          shouldGroupWithNext(timeline[index - 1].message, entry.message)
         "
         :is-group-conversation="isGroupConversation"
         :inbox-supports-reply-to="inboxSupportsReplyTo"
         :inbox-supports-edit="inboxSupportsEdit"
         :inbox-supports-reactions="inboxSupportsReactions"
-        :reactions="reactionsByMessageId.get(message.id) || []"
+        :reactions="reactionsByMessageId.get(entry.message.id) || []"
         :current-user-id="currentUserId"
         data-clarity-mask="True"
-        @retry="emit('retry', message)"
+        @retry="emit('retry', entry.message)"
         @toggle-reaction="emit('toggleReaction', $event)"
       />
     </template>

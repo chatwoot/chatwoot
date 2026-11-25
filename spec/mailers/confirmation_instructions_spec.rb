@@ -50,6 +50,10 @@ RSpec.describe 'Devise::Mailer' do
       expect(mail.body).not_to include('app/auth/password/edit')
     end
 
+    it 'does not render the agent notification preferences footer' do
+      expect(mail_body).not_to include('Manage notification preferences')
+    end
+
     context 'when there is an inviter' do
       let(:inviter_val) { create(:user, :administrator, skip_confirmation: true, account: account) }
 

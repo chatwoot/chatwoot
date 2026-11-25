@@ -4,17 +4,33 @@ import differenceInMinutes from 'date-fns/differenceInMinutes';
 import { generateTimeSlots } from '../helpers/businessHour';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import NextSelect from 'dashboard/components-next/select/Select.vue';
+import {
+  formatClockTime,
+  isEnglishDateLocale,
+} from 'shared/helpers/localizedDate';
 
 const timeSlots = generateTimeSlots(30);
 
+// Slot values stay "09:00 AM", which is what the API stores, and English keeps
+// showing them as they are; other languages read them in their own clock.
+const slotLabel = slot => {
+  if (isEnglishDateLocale()) return slot;
+  const time = parse(slot, 'hh:mm a', new Date(2000, 0, 1));
+  return formatClockTime(time.getHours(), time.getMinutes());
+};
+
 const groupByPeriod = slots =>
   ['AM', 'PM']
-    .map(period => ({
-      label: period,
-      options: slots
+    .map(period => {
+      const options = slots
         .filter(s => s.endsWith(period))
-        .map(s => ({ value: s, label: s })),
-    }))
+        .map(s => ({ value: s, label: slotLabel(s) }));
+      const label =
+        isEnglishDateLocale() || !options.length
+          ? period
+          : `${options[0].label} - ${options[options.length - 1].label}`;
+      return { label, options };
+    })
     .filter(g => g.options.length);
 
 export default {

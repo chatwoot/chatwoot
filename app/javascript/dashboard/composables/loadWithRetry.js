@@ -20,6 +20,11 @@ export const useLoadWithRetry = (config = {}) => {
           media = new Audio();
           media.onloadedmetadata = () => resolve();
           media.onerror = () => reject(new Error('Failed to load audio'));
+        } else if (type === 'video') {
+          media = document.createElement('video');
+          media.preload = 'metadata';
+          media.onloadedmetadata = () => resolve();
+          media.onerror = () => reject(new Error('Failed to load video'));
         } else {
           fetch(url)
             .then(res => {

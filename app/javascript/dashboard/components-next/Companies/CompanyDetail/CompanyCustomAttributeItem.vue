@@ -8,6 +8,7 @@ import ListAttribute from 'dashboard/components-next/CustomAttributes/ListAttrib
 import CheckboxAttribute from 'dashboard/components-next/CustomAttributes/CheckboxAttribute.vue';
 import DateAttribute from 'dashboard/components-next/CustomAttributes/DateAttribute.vue';
 import OtherAttribute from 'dashboard/components-next/CustomAttributes/OtherAttribute.vue';
+import { requestErrorMessage } from 'dashboard/helper/requestErrorMessage';
 
 const props = defineProps({
   companyId: {
@@ -36,8 +37,11 @@ const handleDelete = async () => {
     useAlert(t('COMPANIES.DETAIL.ATTRIBUTES.MESSAGES.DELETE_SUCCESS'));
   } catch (error) {
     useAlert(
-      error?.response?.message ||
-        t('COMPANIES.DETAIL.ATTRIBUTES.MESSAGES.DELETE_ERROR')
+      requestErrorMessage(
+        error,
+        t,
+        'COMPANIES.DETAIL.ATTRIBUTES.MESSAGES.DELETE_ERROR'
+      )
     );
   }
 };
@@ -53,8 +57,11 @@ const handleUpdate = async value => {
     useAlert(t('COMPANIES.DETAIL.ATTRIBUTES.MESSAGES.UPDATE_SUCCESS'));
   } catch (error) {
     useAlert(
-      error?.response?.message ||
-        t('COMPANIES.DETAIL.ATTRIBUTES.MESSAGES.UPDATE_ERROR')
+      requestErrorMessage(
+        error,
+        t,
+        'COMPANIES.DETAIL.ATTRIBUTES.MESSAGES.UPDATE_ERROR'
+      )
     );
   }
 };

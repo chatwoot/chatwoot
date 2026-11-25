@@ -1,8 +1,5 @@
-<div class="field-unit__label">
-  <%= f.label field.attribute %>
-</div>
-<div class="field-unit__field">
-  <%= f.check_box field.attribute %>
+<%= render "field", f: f, field: field do %>
+  <%= f.check_box field.attribute, class: ui(:checkbox, "sm:mt-2") %>
   <script>
     (function () {
       var unassigned = document.getElementById('account_hide_agent_unassigned_tab');
@@ -22,4 +19,4 @@
       sync();
     })();
   </script>
-</div>
+<% end %>

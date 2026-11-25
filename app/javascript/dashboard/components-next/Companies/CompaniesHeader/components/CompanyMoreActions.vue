@@ -38,7 +38,7 @@ const handleAction = ({ action }) => {
     <DropdownMenu
       v-if="showActionsDropdown"
       :menu-items="menuItems"
-      class="ltr:right-0 rtl:left-0 mt-1 w-52 top-full"
+      class="end-0 mt-1 w-52 top-full"
       @action="handleAction($event)"
     />
   </div>

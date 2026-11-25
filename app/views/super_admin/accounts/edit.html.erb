@@ -1,0 +1,5 @@
+<%= render template: "super_admin/application/edit", locals: { page: page } %>
+
+<%# Enterprise's account form lists its own fields and leaves out the agent restrictions CE adds,
+    so with enterprise/ loaded they get a card of their own, wired to that form. %>
+<%= render "agent_restrictions", page: page if ChatwootApp.enterprise? %>

@@ -1,0 +1,11 @@
+<div class="flex h-14 shrink-0 items-center gap-3">
+  <%= link_to image_tag("/brand-assets/logo_thumbnail.svg", alt: "", class: "size-8"), super_admin_root_path, class: "shrink-0", tabindex: -1, aria: { hidden: true } %>
+  <div class="min-w-0 whitespace-nowrap">
+    <div class="leading-5">
+      <%= link_to "Chatwoot", super_admin_root_path, class: "text-sm font-medium text-n-slate-12" %>
+    </div>
+    <%# rise-brasil: the version only, with no link to upstream's release notes or update hint. %>
+    <div class="text-xxs leading-4 tabular-nums text-n-slate-10">v<%= Chatwoot.config[:version] %></div>
+    <div class="text-label-small leading-4 text-n-slate-10"><%= t("super_admin.navigation.suffix") %></div>
+  </div>
+</div>

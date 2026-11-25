@@ -1,0 +1,24 @@
+{
+  "BaseUrl": "https://free.uazapi.com",
+  "EventType": "messages_update",
+  "event": {
+    "Chat": "553499990002@s.whatsapp.net",
+    "IsFromMe": false,
+    "IsGroup": false,
+    "MessageIDs": [
+      "3EB00000000000000001"
+    ],
+    "Sender": "553499990002@s.whatsapp.net",
+    "Timestamp": "2026-08-19T17:48:26Z",
+    "Type": "Deleted",
+    "chatid": "553499990002@s.whatsapp.net",
+    "chatlid": "900000100000000@lid",
+    "sender_lid": "900000100000000@lid",
+    "sender_pn": "553499990002@s.whatsapp.net"
+  },
+  "instanceName": "testes-chatwoot",
+  "owner": "5511999990001",
+  "state": "Deleted",
+  "token": "00000000-0000-4000-8000-000000000001",
+  "type": "DeletedMessage"
+}

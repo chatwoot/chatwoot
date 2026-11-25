@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n';
 import Avatar from 'next/avatar/Avatar.vue';
 import SidebarProfileMenuStatus from './SidebarProfileMenuStatus.vue';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { isVoiceCallEnabled } from 'dashboard/helper/inbox';
 
 import {
   DropdownContainer,
@@ -14,6 +15,7 @@ import {
   DropdownItem,
 } from 'next/dropdown-menu/base';
 import CustomBrandPolicyWrapper from '../../components/CustomBrandPolicyWrapper.vue';
+import { openCommandBar } from 'dashboard/modules/command-bar/openCommandBar';
 
 defineProps({
   isCollapsed: { type: Boolean, default: false },
@@ -29,11 +31,14 @@ const { t } = useI18n();
 
 const currentUser = useMapGetter('getCurrentUser');
 const currentUserAvailability = useMapGetter('getCurrentUserAvailability');
+const inboxes = useMapGetter('inboxes/getInboxes');
 const accountId = useMapGetter('getCurrentAccountId');
 const globalConfig = useMapGetter('globalConfig/get');
 const isFeatureEnabledonAccount = useMapGetter(
   'accounts/isFeatureEnabledonAccount'
 );
+
+const hasVoiceInbox = computed(() => inboxes.value.some(isVoiceCallEnabled));
 
 const showChatSupport = computed(() => {
   return (
@@ -44,6 +49,12 @@ const showChatSupport = computed(() => {
   );
 });
 
+const toggleChatSupport = () => {
+  if (window.$chatwoot) {
+    window.$chatwoot.toggle();
+  }
+};
+
 const menuItems = computed(() => {
   return [
     {
@@ -51,9 +62,7 @@ const menuItems = computed(() => {
       showOnCustomBrandedInstance: false,
       label: t('SIDEBAR_ITEMS.CONTACT_SUPPORT'),
       icon: 'i-lucide-life-buoy',
-      click: () => {
-        window.$chatwoot.toggle();
-      },
+      click: toggleChatSupport,
     },
     {
       show: true,
@@ -76,10 +85,7 @@ const menuItems = computed(() => {
       showOnCustomBrandedInstance: true,
       label: t('SIDEBAR_ITEMS.APPEARANCE'),
       icon: 'i-lucide-palette',
-      click: () => {
-        const ninja = document.querySelector('ninja-keys');
-        ninja.open({ parent: 'appearance_settings' });
-      },
+      click: () => openCommandBar({ page: 'appearance_settings' }),
     },
     {
       show: true,
@@ -87,15 +93,6 @@ const menuItems = computed(() => {
       label: t('SIDEBAR_ITEMS.DOCS'),
       icon: 'i-lucide-book',
       link: 'https://www.chatwoot.com/hc/user-guide/en',
-      nativeLink: true,
-      target: '_blank',
-    },
-    {
-      show: true,
-      showOnCustomBrandedInstance: false,
-      label: t('SIDEBAR_ITEMS.CHANGELOG'),
-      icon: 'i-lucide-scroll-text',
-      link: 'https://fazer.ai/chatwoot-release-notes',
       nativeLink: true,
       target: '_blank',
     },
@@ -145,7 +142,6 @@ const allowedMenuItems = computed(() => {
           :src="currentUser.avatar_url"
           :status="currentUserAvailability"
           class="flex-shrink-0"
-          rounded-full
         />
         <div v-if="!isCollapsed" class="min-w-0">
           <div class="text-sm font-medium leading-4 truncate text-n-slate-12">
@@ -158,7 +154,7 @@ const allowedMenuItems = computed(() => {
       </button>
     </template>
     <DropdownBody class="bottom-12 z-50 mb-2 w-80 ltr:left-0 rtl:right-0">
-      <SidebarProfileMenuStatus />
+      <SidebarProfileMenuStatus :has-voice-inbox="hasVoiceInbox" />
       <DropdownSeparator />
       <template v-for="item in allowedMenuItems" :key="item.label">
         <CustomBrandPolicyWrapper

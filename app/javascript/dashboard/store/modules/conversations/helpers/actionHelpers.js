@@ -50,11 +50,20 @@ export const buildConversationList = (
   context,
   requestPayload,
   responseData,
-  filterType
+  filterType,
+  { replaceExisting = false, countRequest } = {}
 ) => {
   const { payload: conversationList, meta: metaData } = responseData;
-  context.commit(types.SET_ALL_CONVERSATION, conversationList);
-  context.dispatch('conversationStats/set', metaData);
+  if (replaceExisting) {
+    context.dispatch('conversationPage/reset', null, { root: true });
+    context.commit(types.REPLACE_CONVERSATION_LIST, conversationList);
+  } else {
+    context.commit(types.SET_ALL_CONVERSATION, conversationList);
+  }
+  context.dispatch('conversationStats/set', {
+    meta: metaData,
+    request: countRequest,
+  });
   context.dispatch(
     'conversationLabels/setBulkConversationLabels',
     conversationList
@@ -68,3 +77,14 @@ export const buildConversationList = (
     markEndReached: !conversationList.length,
   });
 };
+
+// The cursor the catch-up asks from, which is the highest id the client holds and not the
+// last row of a list sorted by time. A message still on its way out carries a uuid instead
+// of a server id, and "everything written after this uuid" is not a question the server can
+// answer, so those are skipped rather than allowed to become the cursor.
+export const highestMessageId = messages =>
+  (messages || []).reduce((highest, { id } = {}) => {
+    if (!Number.isFinite(id)) return highest;
+
+    return highest === undefined || id > highest ? id : highest;
+  }, undefined);

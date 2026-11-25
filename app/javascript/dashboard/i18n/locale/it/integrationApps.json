@@ -46,7 +46,7 @@
           "PLACEHOLDER": "Seleziona Inbox"
         },
         "SUBMIT": "Crea",
-        "VALIDATING_OPENAI": "Validating with OpenAI...",
+        "VALIDATING_OPENAI": "Convalida con OpenAI...",
         "CANCEL": "Annulla"
       },
       "API": {

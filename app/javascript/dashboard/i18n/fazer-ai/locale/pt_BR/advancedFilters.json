@@ -1,0 +1,29 @@
+{
+  "FILTER": {
+    "ATTRIBUTES": {
+      "GROUP_TYPE": "Tipo de conversa"
+    },
+    "CUSTOM_VIEWS": {
+      "EDIT": {
+        "API_FOLDERS": {
+          "ERROR_MESSAGE": "Erro ao atualizar a pasta."
+        },
+        "API_SEGMENTS": {
+          "ERROR_MESSAGE": "Erro ao atualizar o segmento."
+        }
+      },
+      "VISIBILITY": {
+        "LABEL": "Visibilidade",
+        "GLOBAL": {
+          "LABEL": "Pública",
+          "DESCRIPTION": "Disponível para todos os agentes desta conta."
+        },
+        "PERSONAL": {
+          "LABEL": "Privada",
+          "DESCRIPTION": "Apenas você poderá ver e gerenciar este filtro."
+        }
+      },
+      "READ_ONLY_TOOLTIP": "Pasta pública. Peça a um administrador para editar ou excluir."
+    }
+  }
+}

@@ -64,16 +64,18 @@ const buildMentionTokens = () => (state, silent) => {
   return true;
 };
 
-const renderMentions = () => (tokens, idx) => {
+// The label is raw source text; escape it so a mention can't smuggle HTML past `html: false`.
+const renderMentions = md => (tokens, idx) => {
   const token = tokens[idx];
+  const label = md.utils.escapeHtml(token.content);
   if (token.mentionType === 'conversation') {
-    const displayId = token.content.replace(/^@/, '');
+    const displayId = md.utils.escapeHtml(token.content.replace(/^@/, ''));
     return `<span class="prosemirror-mention-node prosemirror-mention-conversation" data-conversation-id="${displayId}" role="link" tabindex="0">#${displayId}</span>`;
   }
   if (token.mentionType === 'contact') {
-    return `<span class="prosemirror-mention-node prosemirror-mention-contact">${token.content}</span>`;
+    return `<span class="prosemirror-mention-node prosemirror-mention-contact">${label}</span>`;
   }
-  return `<span class="prosemirror-mention-node">${token.content}</span>`;
+  return `<span class="prosemirror-mention-node">${label}</span>`;
 };
 
 export default function mentionPlugin(md) {

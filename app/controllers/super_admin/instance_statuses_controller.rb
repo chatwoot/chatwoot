@@ -7,7 +7,6 @@ class SuperAdmin::InstanceStatusesController < SuperAdmin::ApplicationController
     redis_metrics
     chatwoot_edition
     instance_meta
-    baileys_api_version
   end
 
   def chatwoot_edition
@@ -21,7 +20,9 @@ class SuperAdmin::InstanceStatusesController < SuperAdmin::ApplicationController
   end
 
   def instance_meta
-    @metrics['Database Migrations'] = ActiveRecord::Base.connection.migration_context.needs_migration? ? 'pending' : 'completed'
+    migrations_paths = ActiveRecord::Migrator.migrations_paths
+    migrations_context = ActiveRecord::MigrationContext.new(migrations_paths)
+    @metrics['Database Migrations'] = migrations_context.needs_migration? ? 'pending' : 'completed'
   end
 
   def chatwoot_version
@@ -56,11 +57,5 @@ class SuperAdmin::InstanceStatusesController < SuperAdmin::ApplicationController
     end
   rescue Redis::CannotConnectError
     @metrics['Redis alive'] = false
-  end
-
-  def baileys_api_version
-    @metrics['Baileys API version'] = Whatsapp::Providers::WhatsappBaileysService.status[:packageInfo][:version]
-  rescue Whatsapp::Providers::WhatsappBaileysService::ProviderUnavailableError => e
-    @metrics['Baileys API version'] = e.message
   end
 end

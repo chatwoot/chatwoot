@@ -7,6 +7,31 @@ RSpec.describe Team do
     it { is_expected.to have_many(:team_members) }
   end
 
+  describe 'name normalization' do
+    let(:account) { create(:account) }
+
+    it 'downcases the name' do
+      team = create(:team, account: account, name: 'Customer Support')
+      expect(team.name).to eq('customer support')
+    end
+
+    it 'strips control characters and surrounding whitespace' do
+      team = create(:team, account: account, name: "  Sales\n")
+      expect(team.name).to eq('sales')
+    end
+
+    it 'removes control characters embedded within the name' do
+      team = create(:team, account: account, name: "su\npport")
+      expect(team.name).to eq('support')
+    end
+
+    it 'is invalid when the name reduces to blank after sanitization' do
+      team = build(:team, account: account, name: "\t\n  ")
+      expect(team).not_to be_valid
+      expect(team.errors[:name]).to include(I18n.t('errors.validations.presence'))
+    end
+  end
+
   describe '#add_members' do
     let(:team) { FactoryBot.create(:team) }
 
@@ -26,6 +51,22 @@ RSpec.describe Team do
                                                                           account: team.account,
                                                                           cache_keys: team.account.cache_keys
                                                                         )
+    end
+
+    it 'does not reset cache keys when no user ids are given' do
+      expect(team.account).not_to receive(:update_cache_key)
+
+      team.add_members([])
+    end
+
+    it 'does not reset cache keys when users are already members' do
+      users = FactoryBot.create_list(:user, 2)
+      team.add_members(users.map(&:id))
+
+      expect(team.account).not_to receive(:update_cache_key)
+
+      team.add_members(users.map(&:id))
+      expect(team.reload.team_members.size).to eq(2)
     end
   end
 
@@ -51,6 +92,21 @@ RSpec.describe Team do
                                                                           account: team.account,
                                                                           cache_keys: team.account.cache_keys
                                                                         )
+    end
+
+    it 'does not reset cache keys when no user ids are given' do
+      expect(team.account).not_to receive(:update_cache_key)
+
+      team.remove_members([])
+      expect(team.reload.team_members.size).to eq(3)
+    end
+
+    it 'does not reset cache keys when users are not members' do
+      non_members = FactoryBot.create_list(:user, 2)
+      expect(team.account).not_to receive(:update_cache_key)
+
+      team.remove_members(non_members.map(&:id))
+      expect(team.reload.team_members.size).to eq(3)
     end
   end
 end

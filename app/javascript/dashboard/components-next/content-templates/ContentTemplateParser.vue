@@ -3,8 +3,13 @@ import { ref, computed, onMounted, watch } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { requiredIf } from '@vuelidate/validators';
 import { useI18n } from 'vue-i18n';
-import { extractFilenameFromUrl } from 'dashboard/helper/URLHelper';
-import { TWILIO_CONTENT_TEMPLATE_TYPES } from 'shared/constants/messages';
+import {
+  isTwilioComplete,
+  isTwilioMediaTemplate,
+  getTwilioMediaVariableKey,
+  getTwilioMediaUrl,
+  applyTwilioMediaFilename,
+} from '@chatwoot/utils';
 
 import Input from 'dashboard/components-next/input/Input.vue';
 
@@ -40,30 +45,23 @@ const templateBody = computed(() => {
   return props.template.body || '';
 });
 
-const hasMediaTemplate = computed(() => {
-  return props.template.template_type === TWILIO_CONTENT_TEMPLATE_TYPES.MEDIA;
-});
+// Media-template detection and variable extraction are shared with the mobile
+// app via @chatwoot/utils.
+const hasMediaTemplate = computed(() => isTwilioMediaTemplate(props.template));
 
 const hasVariables = computed(() => {
   return templateBody.value?.match(VARIABLE_PATTERN) !== null;
 });
 
-const mediaVariableKey = computed(() => {
-  if (!hasMediaTemplate.value) return null;
-  const mediaUrl = props.template?.types?.['twilio/media']?.media?.[0];
-  if (!mediaUrl) return null;
-  return mediaUrl.match(/{{(\d+)}}/)?.[1] ?? null;
-});
+const mediaVariableKey = computed(() =>
+  getTwilioMediaVariableKey(props.template)
+);
 
-const hasMediaVariable = computed(() => {
-  return hasMediaTemplate.value && mediaVariableKey.value !== null;
-});
+const hasMediaVariable = computed(() => mediaVariableKey.value !== null);
 
-const templateMediaUrl = computed(() => {
-  if (!hasMediaTemplate.value) return '';
-
-  return props.template?.types?.['twilio/media']?.media?.[0] || '';
-});
+const templateMediaUrl = computed(() =>
+  hasMediaTemplate.value ? getTwilioMediaUrl(props.template) : ''
+);
 
 const variablePattern = computed(() => {
   if (!hasVariables.value) return [];
@@ -83,26 +81,10 @@ const renderedTemplate = computed(() => {
   return rendered;
 });
 
-const isFormInvalid = computed(() => {
-  if (!hasVariables.value && !hasMediaVariable.value) return false;
-
-  if (hasVariables.value) {
-    const hasEmptyVariable = variablePattern.value.some(
-      variable => !processedParams.value[variable]
-    );
-    if (hasEmptyVariable) return true;
-  }
-
-  if (
-    hasMediaVariable.value &&
-    mediaVariableKey.value &&
-    !processedParams.value[mediaVariableKey.value]
-  ) {
-    return true;
-  }
-
-  return false;
-});
+// Completeness validation is shared with the mobile app via @chatwoot/utils.
+const isFormInvalid = computed(
+  () => !isTwilioComplete(props.template, processedParams.value)
+);
 
 const v$ = useVuelidate(
   {
@@ -135,19 +117,11 @@ const sendMessage = () => {
 
   const { friendly_name, language } = props.template;
 
-  // Process parameters and extract filename from media URL if needed
-  const processedParameters = { ...processedParams.value };
-
-  // For media templates, extract filename from full URL
-  if (
-    hasMediaVariable.value &&
-    mediaVariableKey.value &&
-    processedParameters[mediaVariableKey.value]
-  ) {
-    processedParameters[mediaVariableKey.value] = extractFilenameFromUrl(
-      processedParameters[mediaVariableKey.value]
-    );
-  }
+  // For media templates, reduce the media URL to a filename before sending.
+  const processedParameters = applyTwilioMediaFilename(
+    props.template,
+    processedParams.value
+  );
 
   const payload = {
     message: renderedTemplate.value,

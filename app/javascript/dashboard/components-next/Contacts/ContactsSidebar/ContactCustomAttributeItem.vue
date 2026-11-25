@@ -9,6 +9,10 @@ import ListAttribute from 'dashboard/components-next/CustomAttributes/ListAttrib
 import CheckboxAttribute from 'dashboard/components-next/CustomAttributes/CheckboxAttribute.vue';
 import DateAttribute from 'dashboard/components-next/CustomAttributes/DateAttribute.vue';
 import OtherAttribute from 'dashboard/components-next/CustomAttributes/OtherAttribute.vue';
+import {
+  CONTACT_FIELD_LABELS,
+  requestErrorMessage,
+} from 'dashboard/helper/requestErrorMessage';
 
 const props = defineProps({
   attribute: {
@@ -36,8 +40,12 @@ const handleDelete = async () => {
     );
   } catch (error) {
     useAlert(
-      error?.response?.message ||
-        t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.API.DELETE_ERROR')
+      requestErrorMessage(
+        error,
+        t,
+        'CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.API.DELETE_ERROR',
+        CONTACT_FIELD_LABELS
+      )
     );
   }
 };
@@ -53,8 +61,12 @@ const handleUpdate = async value => {
     useAlert(t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.API.SUCCESS_MESSAGE'));
   } catch (error) {
     useAlert(
-      error?.response?.message ||
-        t('CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.API.UPDATE_ERROR')
+      requestErrorMessage(
+        error,
+        t,
+        'CONTACTS_LAYOUT.SIDEBAR.ATTRIBUTES.API.UPDATE_ERROR',
+        CONTACT_FIELD_LABELS
+      )
     );
   }
 };

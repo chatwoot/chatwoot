@@ -1,0 +1,57 @@
+{
+  "GENERAL_SETTINGS": {
+    "SUPER_ADMIN_ONLY_NOTICE": "Esta mensagem só é visível para administradores do sistema.",
+    "FORM": {
+      "EMAIL_BRANDING": {
+        "TITLE": "Marca dos e-mails",
+        "NOTE": "Como os e-mails e a página de pesquisa de satisfação desta conta aparecem. O que ficar em branco usa a identidade da instalação. Vale para o que o seu cliente vê: o painel, o favicon e o widget continuam com a marca da instalação.",
+        "NAME": {
+          "LABEL": "Nome da marca",
+          "PLACEHOLDER": "Sua empresa",
+          "HELP": "Aparece no rodapé do e-mail, depois de \"Fornecido por\"."
+        },
+        "URL": {
+          "LABEL": "Site da marca",
+          "PLACEHOLDER": "https://www.exemplo.com.br"
+        },
+        "COLOR": {
+          "LABEL": "Cor da marca",
+          "HELP": "Usada na barra de destaque e nos links. Uma cor clara demais para ler sobre branco é escurecida no texto, mantendo o tom.",
+          "RESET": "Usar a cor da instalação"
+        },
+        "LOGO": {
+          "LABEL": "Logo do e-mail",
+          "UPLOAD": "Enviar logo",
+          "REPLACE": "Trocar logo",
+          "REMOVE": "Remover",
+          "HELP": "PNG, JPG ou GIF, até 2 MB. SVG não é aceito porque os aplicativos de e-mail não exibem."
+        },
+        "API": {
+          "SUCCESS": "Marca dos e-mails atualizada",
+          "ERROR": "Não foi possível atualizar a marca dos e-mails",
+          "LOGO_SUCCESS": "Logo atualizada",
+          "LOGO_REMOVED": "Logo removida",
+          "LOGO_ERROR": "Não foi possível atualizar a logo"
+        }
+      }
+    }
+  },
+  "NOTIFICATIONS_PAGE": {
+    "TYPE_LABEL": {
+      "internal_chat_mention": "Menção",
+      "internal_chat_new_message": "Mensagem direta"
+    }
+  },
+  "COMMAND_BAR": {
+    "COMMANDS": {
+      "PIN_CONVERSATION": "Fixar conversa",
+      "UNPIN_CONVERSATION": "Desafixar conversa"
+    },
+    "FOOTER": {
+      "SELECT": "para selecionar",
+      "NAVIGATE": "para navegar",
+      "CLOSE": "para fechar",
+      "PARENT": "para voltar ao nível anterior"
+    }
+  }
+}

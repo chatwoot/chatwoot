@@ -1,0 +1,14 @@
+{
+  "v": 1,
+  "id": "01920000-0000-7000-8000-000000000024",
+  "type": "session.logged_out",
+  "sid": "9f1c0f4e-6a2b-4c8e-9d1a-2b3c4d5e6f70",
+  "epoch": 7,
+  "seq": 24,
+  "ts": 1755440000123,
+  "inst": "connector-a1b2c3",
+  "payload": {
+    "reason": "device_removed",
+    "on_connect": false
+  }
+}

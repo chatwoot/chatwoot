@@ -19,7 +19,7 @@ class SamlUserBuilder
     user = User.from_email(auth_attribute('email'))
 
     return create_user unless user
-    return existing_user_for_account(user) if user_belongs_to_account?(user)
+    return existing_user_for_account(user) if user_belongs_to_account?(user) && @saml_settings&.trusted_by_accounts_of?(user)
 
     raise AuthenticationFailed, I18n.t('auth.saml.authentication_failed')
   end
@@ -51,7 +51,7 @@ class SamlUserBuilder
     full_name = [auth_attribute('first_name'), auth_attribute('last_name')].compact.join(' ')
     fallback_name = auth_attribute('name') || auth_attribute('email').split('@').first
 
-    User.create!(
+    User.create(
       email: auth_attribute('email'),
       name: (full_name.presence || fallback_name),
       display_name: auth_attribute('first_name'),
@@ -67,13 +67,13 @@ class SamlUserBuilder
     return unless account
 
     # Create account_user if not exists
-    account_user = AccountUser.find_or_create_by!(
+    account_user = AccountUser.find_or_create_by(
       user: @user,
       account: account
     )
 
     # Set default role as agent if not set
-    account_user.update!(role: 'agent') if account_user.role.blank?
+    account_user.update(role: 'agent') if account_user.role.blank?
 
     # Handle role mappings if configured
     apply_role_mappings(account_user, account)
@@ -84,9 +84,9 @@ class SamlUserBuilder
     return unless matching_mapping
 
     if matching_mapping['role']
-      account_user.update!(role: matching_mapping['role'])
-    elsif matching_mapping['custom_role_id']
-      account_user.update!(custom_role_id: matching_mapping['custom_role_id'])
+      account_user.update(role: matching_mapping['role'])
+    elsif matching_mapping['custom_role_id'] && account.feature_enabled?('custom_roles')
+      account_user.update(custom_role_id: matching_mapping['custom_role_id'])
     end
   end
 

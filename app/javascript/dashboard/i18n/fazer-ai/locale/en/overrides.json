@@ -1,0 +1,10 @@
+{
+  "CONVERSATION": {
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the app."
+  },
+  "INBOX_MGMT": {
+    "CSAT": {
+      "WHATSAPP_NOTE": "Note: You can create a new template (which will be sent for WhatsApp approval as Utility, though Meta may classify it as Marketing based on content) or use an existing approved template from your Meta template manager. Surveys are sent only once per conversation as per the survey rule."
+    }
+  }
+}

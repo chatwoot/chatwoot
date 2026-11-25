@@ -11,6 +11,7 @@ export const getters = {
 };
 
 export const actions = {
+  reset: ({ commit }) => commit('RESET'),
   toggleTyping: async (_, { status, channelId }) => {
     try {
       await InternalChatChannelsAPI.toggleTypingStatus(channelId, status);
@@ -31,6 +32,9 @@ export const actions = {
 };
 
 export const mutations = {
+  RESET: $state => {
+    $state.records = {};
+  },
   ADD_TYPING_USER: ($state, { channelId, user }) => {
     const records = $state.records[channelId] || [];
     $state.records = {

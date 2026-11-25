@@ -19,9 +19,86 @@ describe ActionService do
     let(:action_service) { described_class.new(conversation) }
 
     it 'opens the conversation' do
+      conversation.update!(ai_assignee: create(:agent_bot, account: conversation.account))
       expect(conversation.status).to eq('resolved')
       action_service.open_conversation(nil)
-      expect(conversation.reload.status).to eq('open')
+      expect(conversation.reload).to have_attributes(status: 'open', ai_assignee_type: nil, assignee_agent_bot_id: nil)
+    end
+  end
+
+  describe '#change_status' do
+    let(:conversation) { create(:conversation, status: :pending) }
+    let(:action_service) { described_class.new(conversation) }
+
+    it 'clears AgentBot ownership when changing the status to open' do
+      conversation.update!(ai_assignee: create(:agent_bot, account: conversation.account))
+
+      described_class.new(conversation).change_status(['open'])
+
+      expect(conversation.reload).to have_attributes(status: 'open', ai_assignee_type: nil, assignee_agent_bot_id: nil)
+    end
+
+    # Opening is handing the conversation to people. An agent bot left as the assignee keeps it out
+    # of Unassigned and out of auto-assignment, which is how a routing rule ends up hiding the very
+    # conversations it routes (issue #708). The dashboard reopen already releases it.
+    context 'when an agent bot owns the conversation' do
+      let(:team) { create(:team, account: account) }
+      let(:agent_bot) { create(:agent_bot, account: account) }
+      let(:conversation) { create(:conversation, account: account, status: :pending, team: team) }
+
+      before { conversation.update!(ai_assignee: agent_bot) }
+
+      it 'releases the bot and keeps the team' do
+        action_service.open_conversation(nil)
+
+        conversation.reload
+        expect(conversation.status).to eq('open')
+        expect(conversation.assignee_agent_bot_id).to be_nil
+        expect(conversation.ai_assignee_type).to be_nil
+        expect(conversation.team).to eq(team)
+        expect(Conversation.unassigned).to include(conversation)
+      end
+
+      # Released in the same save as the open: auto-assignment runs inside that save and skips a
+      # conversation that still names a bot, so a release afterwards would never assign it.
+      it 'hands the conversation to auto-assignment' do
+        agent = create(:user, account: account, auto_offline: false)
+        create(:inbox_member, inbox: conversation.inbox, user: agent)
+        create(:team_member, team: team, user: agent)
+        allow(Redis::Alfred).to receive(:rpoplpush).and_return(agent.id)
+
+        action_service.open_conversation(nil)
+
+        expect(conversation.reload.assignee).to eq(agent)
+      end
+    end
+
+    context 'when a person owns the conversation' do
+      let(:conversation) { create(:conversation, :with_assignee, account: account, status: :pending) }
+
+      it 'keeps the person' do
+        assignee = conversation.assignee
+        action_service.open_conversation(nil)
+        expect(conversation.reload.assignee).to eq(assignee)
+      end
+    end
+  end
+
+  describe '#change_status with an agent bot assignee' do
+    let(:agent_bot) { create(:agent_bot, account: account) }
+    let(:conversation) { create(:conversation, account: account, status: :pending) }
+    let(:action_service) { described_class.new(conversation) }
+
+    before { conversation.update!(ai_assignee: agent_bot) }
+
+    it 'releases the bot when the new status is open' do
+      action_service.change_status(['open'])
+      expect(conversation.reload.assignee_agent_bot_id).to be_nil
+    end
+
+    it 'keeps the bot for any other status' do
+      action_service.change_status(['snoozed'])
+      expect(conversation.reload.assignee_agent_bot_id).to eq(agent_bot.id)
     end
   end
 
@@ -97,6 +174,21 @@ describe ActionService do
         expect(conversation.reload.assignee).to eq(original_assignee)
       end
     end
+
+    context 'when the assignee was concurrently changed to the target agent by another writer' do
+      it 'does not issue a redundant write' do
+        inbox_member
+        action_service # instantiate now, so @conversation stays stale relative to the write below
+        Conversation.find(conversation.id).update!(assignee_id: agent.id)
+        # Read via a fresh query, not `conversation.reload`, which would mutate the same
+        # object @conversation points to and silently erase the staleness under test.
+        updated_at_before = Conversation.find(conversation.id).updated_at
+
+        action_service.assign_agent([agent.id])
+
+        expect(Conversation.find(conversation.id).updated_at).to eq(updated_at_before)
+      end
+    end
   end
 
   describe '#assign_team' do
@@ -136,6 +228,18 @@ describe ActionService do
         expect do
           action_service.assign_team([invalid_team_id])
         end.not_to change { conversation.reload.team }.from(original_team)
+      end
+
+      it 'does not issue a redundant write when the team was concurrently changed to the target team' do
+        action_service # instantiate now, so @conversation stays stale relative to the write below
+        Conversation.find(conversation.id).update!(team_id: team.id)
+        # Read via a fresh query, not `conversation.reload`, which would mutate the same
+        # object @conversation points to and silently erase the staleness under test.
+        updated_at_before = Conversation.find(conversation.id).updated_at
+
+        action_service.assign_team([team.id])
+
+        expect(Conversation.find(conversation.id).updated_at).to eq(updated_at_before)
       end
     end
   end

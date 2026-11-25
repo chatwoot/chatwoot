@@ -18,6 +18,7 @@ class AccountDashboard < Administrate::BaseDashboard
 
                                  # Add all_features last so it appears after manually_managed_features
                                  attributes[:all_features] = AccountFeaturesField
+                                 attributes[:captain_models] = CaptainModelOverridesField
 
                                  attributes
                                else
@@ -32,11 +33,13 @@ class AccountDashboard < Administrate::BaseDashboard
     users: CountField,
     conversations: CountField,
     locale: Field::Select.with_options(collection: LANGUAGES_CONFIG.map { |_x, y| y[:iso_639_1_code] }),
-    status: Field::Select.with_options(collection: [%w[Active active], %w[Suspended suspended]]),
+    status: AccountStatusField.with_options(collection: [%w[Active active], %w[Suspended suspended]]),
+    suspension_history: SuspensionHistoryField,
     account_users: Field::HasMany,
     custom_attributes: Field::String,
     hide_agent_unassigned_tab: Field::Boolean,
-    hide_agent_all_tab: HideAgentAllTabField
+    hide_agent_all_tab: HideAgentAllTabField,
+    disable_agent_message_deletion: Field::Boolean
   }.merge(enterprise_attribute_types).freeze
 
   # COLLECTION_ATTRIBUTES
@@ -59,6 +62,7 @@ class AccountDashboard < Administrate::BaseDashboard
                                       attrs = %i[custom_attributes limits]
                                       attrs << :manually_managed_features if ChatwootApp.chatwoot_cloud?
                                       attrs << :all_features
+                                      attrs << :captain_models
                                       attrs
                                     else
                                       []
@@ -70,10 +74,12 @@ class AccountDashboard < Administrate::BaseDashboard
     updated_at
     locale
     status
+    suspension_history
     conversations
     account_users
     hide_agent_unassigned_tab
     hide_agent_all_tab
+    disable_agent_message_deletion
   ] + enterprise_show_page_attributes).freeze
 
   # FORM_ATTRIBUTES
@@ -83,6 +89,7 @@ class AccountDashboard < Administrate::BaseDashboard
                                  attrs = %i[limits]
                                  attrs << :manually_managed_features if ChatwootApp.chatwoot_cloud?
                                  attrs << :all_features
+                                 attrs << :captain_models
                                  attrs
                                else
                                  []
@@ -93,6 +100,7 @@ class AccountDashboard < Administrate::BaseDashboard
     status
     hide_agent_unassigned_tab
     hide_agent_all_tab
+    disable_agent_message_deletion
   ] + enterprise_form_attributes).freeze
 
   # COLLECTION_FILTERS
@@ -123,7 +131,8 @@ class AccountDashboard < Administrate::BaseDashboard
   # to prevent an error from being raised (wrong number of arguments)
   # Reference: https://github.com/thoughtbot/administrate/pull/2356/files#diff-4e220b661b88f9a19ac527c50d6f1577ef6ab7b0bed2bfdf048e22e6bfa74a05R204
   def permitted_attributes(action)
-    attrs = super + [limits: {}]
+    attrs = super + [limits: {}, captain_models: {}]
+    attrs += %i[suspension_category suspension_reason] if action == 'update'
 
     # Add manually_managed_features to permitted attributes only for Chatwoot Cloud
     attrs << { manually_managed_features: [] } if ChatwootApp.chatwoot_cloud?

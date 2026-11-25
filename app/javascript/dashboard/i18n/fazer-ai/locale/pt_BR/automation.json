@@ -1,0 +1,41 @@
+{
+  "AUTOMATION": {
+    "ACTION": {
+      "SCHEDULED_MESSAGE_DELAY_LABEL": "Atraso",
+      "ATTACHMENT_ADD": "Adicionar anexo",
+      "TEMPLATE_SELECT": "Usar template",
+      "TEMPLATE_SELECTED": "Modelo: {name}",
+      "TEMPLATE_USE": "Usar este template"
+    },
+    "ACTIONS": {
+      "CREATE_SCHEDULED_MESSAGE": "Criar Mensagem Agendada",
+      "REMOVE_CUSTOM_ATTRIBUTE": "Remover atributo personalizado"
+    },
+    "ATTRIBUTES": {
+      "SENDER": "Remetente",
+      "SENDER_TYPE": "Tipo de remetente"
+    },
+    "SENDER_TYPES": {
+      "CONTACT": "Contato",
+      "USER": "Agente",
+      "AGENT_BOT": "Bot",
+      "CAPTAIN": "Capitão"
+    },
+    "EVENTS": {
+      "MESSAGE_EDITED": "Mensagem editada"
+    },
+    "ADD": {
+      "FORM": {
+        "WAIT": {
+          "OPTIONS": {
+            "CONVERSATION_INACTIVE": "A conversa fica parada"
+          },
+          "EXPLANATION": {
+            "CONVERSATION_INACTIVE": "A contagem começa na última atividade da conversa. Se nada acontecer nela por {duration}, as ações abaixo serão executadas. Qualquer nova atividade reinicia a contagem."
+          },
+          "INBOX_ERROR": "Escolha pelo menos uma caixa de entrada para essa espera."
+        }
+      }
+    }
+  }
+}

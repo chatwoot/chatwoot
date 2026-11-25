@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, computed, ref } from 'vue';
+import { onMounted, computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
@@ -11,6 +11,7 @@ import ContactDetails from 'dashboard/components-next/Contacts/Pages/ContactDeta
 import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import ContactNotes from 'dashboard/components-next/Contacts/ContactsSidebar/ContactNotes.vue';
 import ContactHistory from 'dashboard/components-next/Contacts/ContactsSidebar/ContactHistory.vue';
+import ContactMedia from 'dashboard/components-next/Contacts/ContactsSidebar/ContactMedia.vue';
 import ContactMerge from 'dashboard/components-next/Contacts/ContactsSidebar/ContactMerge.vue';
 import ContactCustomAttributes from 'dashboard/components-next/Contacts/ContactsSidebar/ContactCustomAttributes.vue';
 
@@ -28,7 +29,8 @@ const isFetchingItem = computed(() => uiFlags.value.isFetchingItem);
 const isMergingContact = computed(() => uiFlags.value.isMerging);
 const isUpdatingContact = computed(() => uiFlags.value.isUpdating);
 
-const selectedContact = computed(() => contact.value(route.params.contactId));
+const contactId = computed(() => route.params.contactId);
+const selectedContact = computed(() => contact.value(contactId.value));
 
 const showSpinner = computed(
   () => isFetchingItem.value || isMergingContact.value
@@ -40,6 +42,7 @@ const CONTACT_TABS_OPTIONS = [
   { key: 'ATTRIBUTES', value: 'attributes' },
   { key: 'HISTORY', value: 'history' },
   { key: 'NOTES', value: 'notes' },
+  { key: 'MEDIA', value: 'media' },
   { key: 'MERGE', value: 'merge' },
 ];
 
@@ -77,13 +80,15 @@ const handleTabChange = tab => {
 };
 
 const fetchContactNotes = () => {
-  const { contactId } = route.params;
-  if (contactId) store.dispatch('contactNotes/get', { contactId });
+  if (contactId.value) {
+    store.dispatch('contactNotes/get', { contactId: contactId.value });
+  }
 };
 
 const fetchContactConversations = () => {
-  const { contactId } = route.params;
-  if (contactId) store.dispatch('contactConversations/get', contactId);
+  if (contactId.value) {
+    store.dispatch('contactConversations/get', contactId.value);
+  }
 };
 
 const fetchAttributes = () => {
@@ -117,12 +122,18 @@ const toggleContactBlock = async isBlocked => {
   }
 };
 
-onMounted(() => {
+const fetchContact = () => {
   fetchActiveContact();
   fetchContactNotes();
   fetchContactConversations();
+};
+
+onMounted(() => {
+  fetchContact();
   fetchAttributes();
 });
+
+watch(contactId, fetchContact);
 </script>
 
 <template>
@@ -146,11 +157,12 @@ onMounted(() => {
       </div>
       <ContactDetails
         v-else-if="selectedContact"
+        :key="contactId"
         :selected-contact="selectedContact"
         @go-to-contacts-list="goToContactsList"
       />
-      <template #sidebar>
-        <div class="px-6">
+      <template #sidebarHeader>
+        <div class="px-6 pt-6 pb-3">
           <TabBar
             :tabs="tabs"
             :initial-active-tab="activeTabIndex"
@@ -158,6 +170,8 @@ onMounted(() => {
             @tab-changed="handleTabChange"
           />
         </div>
+      </template>
+      <template #sidebar>
         <div
           v-if="isFetchingItem"
           class="flex items-center justify-center py-10 text-n-slate-11"
@@ -169,10 +183,12 @@ onMounted(() => {
             v-if="activeTab === 'attributes'"
             :selected-contact="selectedContact"
           />
-          <ContactNotes v-if="activeTab === 'notes'" />
-          <ContactHistory v-if="activeTab === 'history'" />
+          <ContactNotes v-if="activeTab === 'notes'" :key="contactId" />
+          <ContactHistory v-if="activeTab === 'history'" :key="contactId" />
+          <ContactMedia v-if="activeTab === 'media'" :key="contactId" />
           <ContactMerge
             v-if="activeTab === 'merge'"
+            :key="contactId"
             ref="contactMergeRef"
             :selected-contact="selectedContact"
             @go-to-contacts-list="goToContactsList"

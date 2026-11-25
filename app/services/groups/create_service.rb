@@ -4,7 +4,7 @@ class Groups::CreateService
   def perform
     group_data = channel.create_group(subject, format_participants)
     group_jid = group_data&.dig(:id)
-    raise Whatsapp::Providers::WhatsappBaileysService::ProviderUnavailableError, 'Group JID missing from response' if group_jid.blank?
+    raise Whatsapp::Session::Errors::ProviderUnavailable, 'Group JID missing from response' if group_jid.blank?
 
     { group_jid: group_jid }
   end

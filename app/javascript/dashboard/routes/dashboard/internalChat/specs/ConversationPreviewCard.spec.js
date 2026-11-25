@@ -2,6 +2,9 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { mount, flushPromises } from '@vue/test-utils';
 import ConversationPreviewCard from '../ConversationPreviewCard.vue';
 import ConversationAPI from 'dashboard/api/conversations';
+import { withFullI18n } from 'test-i18n';
+
+withFullI18n();
 
 vi.mock('dashboard/api/conversations', () => ({
   default: {

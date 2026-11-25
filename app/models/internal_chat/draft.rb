@@ -23,7 +23,7 @@
 # Foreign Keys
 #
 #  fk_rails_...  (internal_chat_channel_id => internal_chat_channels.id)
-#  fk_rails_...  (user_id => users.id)
+#  fk_rails_...  (user_id => users.id) ON DELETE => cascade
 #
 class InternalChat::Draft < ApplicationRecord
   self.table_name = 'internal_chat_drafts'

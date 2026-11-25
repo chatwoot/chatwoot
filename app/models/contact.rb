@@ -44,6 +44,7 @@
 # rubocop:enable Layout/LineLength
 
 class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
+  include JsonColumnMerge
   include Avatarable
   include AvailabilityStatusable
   include Labelable
@@ -51,11 +52,11 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
 
   validates :account_id, presence: true
   validates :email, allow_blank: true, uniqueness: { scope: [:account_id], case_sensitive: false },
-                    format: { with: Devise.email_regexp, message: I18n.t('errors.contacts.email.invalid') }
+                    format: { with: Devise.email_regexp, message: ->(*) { I18n.t('errors.contacts.email.invalid') } }
   validates :identifier, allow_blank: true, uniqueness: { scope: [:account_id] }
   validates :phone_number,
             allow_blank: true, uniqueness: { scope: [:account_id] },
-            format: { with: /\+[1-9]\d{1,14}\z/, message: I18n.t('errors.contacts.phone_number.invalid') }
+            format: { with: /\A\+[1-9]\d{1,14}\z/, message: ->(*) { I18n.t('errors.contacts.phone_number.invalid') } }
 
   belongs_to :account
   has_many :conversations, dependent: :destroy_async
@@ -71,11 +72,13 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
   before_validation :prepare_contact_attributes
   after_create_commit :dispatch_create_event, :ip_lookup
   after_update_commit :dispatch_update_event
+  after_update_commit :forget_whatsapp_missing_answers, if: :saved_change_to_phone_number?
   after_destroy_commit :dispatch_destroy_event
   before_save :sync_contact_attributes
+  include ContactCompanyAssociation
 
-  enum contact_type: { visitor: 0, lead: 1, customer: 2 }
-  enum group_type: { individual: 0, group: 1 }, _prefix: true
+  enum :contact_type, { visitor: 0, lead: 1, customer: 2 }
+  enum :group_type, { individual: 0, group: 1 }, prefix: true
 
   scope :order_on_last_activity_at, lambda { |direction|
     order(
@@ -90,16 +93,6 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
       Arel::Nodes::SqlLiteral.new(
         sanitize_sql_for_order("\"contacts\".\"created_at\" #{direction}
           NULLS LAST")
-      )
-    )
-  }
-  scope :order_on_company_name, lambda { |direction|
-    order(
-      Arel::Nodes::SqlLiteral.new(
-        sanitize_sql_for_order(
-          "\"contacts\".\"additional_attributes\"->>'company_name' #{direction}
-          NULLS LAST"
-        )
       )
     )
   }
@@ -158,8 +151,18 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
     contact_inboxes.first&.inbox&.channel
   end
 
+  # Whether the number behind one inbox has left the WhatsApp group this contact is.
+  # The fact belongs to the contact inbox (see `ContactInbox#group_left?`); this is the
+  # reader for the callers that hold the group contact and an inbox id rather than the
+  # row itself.
+  def group_left_in?(inbox_id)
+    return false if inbox_id.blank?
+
+    contact_inboxes.find_by(inbox_id: inbox_id)&.group_left? || false
+  end
+
   def push_event_data
-    {
+    data = {
       additional_attributes: additional_attributes,
       custom_attributes: custom_attributes,
       email: email,
@@ -170,8 +173,17 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
       phone_number: phone_number,
       thumbnail: avatar_url,
       blocked: blocked,
-      type: 'contact'
+      contact_type: contact_type,
+      type: 'contact',
+      updated_at: updated_at&.floor(6).to_f
     }
+    data[:company_id] = company_id if account.feature_enabled?('companies')
+    data
+  end
+
+  # The widget learns which details the contact has, not their values
+  def widget_presence_data
+    { has_email: email.present?, has_name: name.present?, has_phone_number: phone_number.present? }
   end
 
   def webhook_data
@@ -186,7 +198,9 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
       name: name,
       phone_number: phone_number,
       thumbnail: avatar_url,
-      blocked: blocked
+      blocked: blocked,
+      contact_type: contact_type,
+      updated_at: updated_at&.floor(6).to_f
     }
   end
 
@@ -216,7 +230,7 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
   def phone_number_format
     return if phone_number.blank?
 
-    self.phone_number = phone_number_was unless phone_number.match?(/\+[1-9]\d{1,14}\z/)
+    self.phone_number = phone_number_was unless phone_number.match?(/\A\+[1-9]\d{1,14}\z/)
   end
 
   def email_format
@@ -260,6 +274,13 @@ class Contact < ApplicationRecord # rubocop:disable Metrics/ClassLength
       Time.zone.now,
       contact_data: push_event_data.merge(account_id: account_id)
     )
+  end
+
+  # A "no WhatsApp" answer is about the number that was looked up. Once the phone is
+  # corrected it says nothing about the new one, and keeping it would warn about the new
+  # number with the old number's answer and hold off the recheck for hours.
+  def forget_whatsapp_missing_answers
+    contact_inboxes.where.not(whatsapp_missing_checked_at: nil).find_each(&:clear_whatsapp_missing!)
   end
 end
 Contact.include_mod_with('Concerns::Contact')

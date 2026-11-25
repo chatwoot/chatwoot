@@ -44,11 +44,13 @@ const ALLOWED_FILE_TYPES = {
 const isDownloading = ref(false);
 const activeAttachment = ref({});
 const activeFileType = ref('');
-const activeImageIndex = ref(
-  props.allAttachments.findIndex(
-    attachment => attachment.message_id === props.attachment.message_id
-  ) || 0
+// A bubble opens the gallery with the attachment from its message payload,
+// which has no sender and no time; the listed entry for it has both.
+const openedIndex = props.allAttachments.findIndex(
+  attachment => attachment.id === props.attachment.id
 );
+const openedAttachment = props.allAttachments[openedIndex] || props.attachment;
+const activeImageIndex = ref(Math.max(openedIndex, 0));
 
 const imageRef = useTemplateRef('imageRef');
 
@@ -95,10 +97,13 @@ const senderDetails = computed(() => {
     avatar_url,
     thumbnail,
     id,
+    type,
   } = activeAttachment.value?.sender || props.attachment?.sender || {};
+  // Contacts and agents have separate id sequences, so only a user can be "You".
+  const isCurrentUser = type === 'user' && currentUser.value?.id === id;
 
   return {
-    name: currentUser.value?.id === id ? 'You' : name || availableName || '',
+    name: isCurrentUser ? 'You' : name || availableName || '',
     avatar: thumbnail || avatar_url || '',
   };
 });
@@ -166,7 +171,7 @@ const keyboardEvents = {
 useKeyboardEvents(keyboardEvents);
 
 onMounted(() => {
-  setImageAndVideoSrc(props.attachment);
+  setImageAndVideoSrc(openedAttachment);
 });
 </script>
 
@@ -198,7 +203,7 @@ onMounted(() => {
               rounded-full
               class="flex-shrink-0"
             />
-            <div class="flex flex-col ml-2 rtl:ml-0 rtl:mr-2 overflow-hidden">
+            <div class="flex flex-col ms-2 overflow-hidden">
               <h3 class="text-base leading-5 m-0 font-medium">
                 <span
                   class="overflow-hidden text-n-slate-12 whitespace-nowrap text-ellipsis"
@@ -220,7 +225,7 @@ onMounted(() => {
             <span v-dompurify-html="fileNameFromDataUrl" class="truncate" />
           </div>
 
-          <div class="flex items-center gap-2 ml-2 shrink-0">
+          <div class="flex items-center gap-2 ms-2 shrink-0">
             <NextButton
               v-if="isImage"
               icon="i-lucide-zoom-in"

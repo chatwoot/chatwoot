@@ -34,16 +34,20 @@ class AutomationRules::ConditionValidationService
 
   def valid_condition?(condition)
     key = condition['attribute_key']
+    attribute_model = condition['custom_attribute_type']
+    # Same precedence as ConditionsFilterService#apply_filter: a condition that declares a
+    # custom_attribute_type is about an account attribute, so it must not be validated against a
+    # standard key that happens to share the name -- its operators are a different set.
+    return custom_attribute_present?(key, attribute_model) if attribute_model.present?
 
-    conversation_filter = @conversation_filters[key]
-    contact_filter = @contact_filters[key]
-    message_filter = @message_filters[key]
-
-    if conversation_filter || contact_filter || message_filter
-      operation_valid?(condition, conversation_filter || contact_filter || message_filter)
-    else
-      custom_attribute_present?(key, condition['custom_attribute_type'])
+    if key == Captain::AutomationConditionService::ATTRIBUTE_KEY
+      return Captain::AutomationConditionService::OPERATORS.include?(condition['filter_operator'])
     end
+
+    standard_filter = @conversation_filters[key] || @contact_filters[key] || @message_filters[key]
+    return operation_valid?(condition, standard_filter) if standard_filter
+
+    custom_attribute_present?(key, attribute_model)
   end
 
   def operation_valid?(condition, filter)

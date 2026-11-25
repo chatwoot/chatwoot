@@ -1,0 +1,80 @@
+{
+  "GENERAL": {
+    "BETA_DESCRIPTION": "Este recurso está em fase beta e pode mudar conforme o aprimoramos."
+  },
+  "CONVERSATION": {
+    "UNSUPPORTED_MESSAGE": "Esta mensagem não é suportada. Você pode ver esta mensagem no aplicativo.",
+    "REPLYBOX": {
+      "INSERT_READ_MORE": "Ler mais"
+    },
+    "CHANGE_TEAM": "Time da conversa alterado"
+  },
+  "INBOX_MGMT": {
+    "ADD": {
+      "WHATSAPP": {
+        "SELECT_PROVIDER": {
+          "DESCRIPTION": "Escolha seu provedor do WhatsApp. Você pode se conectar diretamente através da Meta, que não requer nenhuma configuração, ou se conectar pelo Twilio usando as credenciais da sua conta."
+        }
+      }
+    },
+    "CSAT": {
+      "WHATSAPP_NOTE": "Nota: Você pode criar um novo modelo (que será enviado para aprovação do WhatsApp como Utilidade, embora a Meta possa classificá-lo como Marketing com base no conteúdo) ou usar um modelo aprovado existente do seu gerenciador de modelos da Meta. As pesquisas são enviadas apenas uma vez por conversa, conforme a regra da pesquisa."
+    }
+  },
+  "INTEGRATION_SETTINGS": {
+    "WEBHOOK": {
+      "FORM": {
+        "NAME": {
+          "PLACEHOLDER": "Insira o nome do webhook"
+        }
+      }
+    }
+  },
+  "SEARCH": {
+    "READ_MORE": "Ler mais"
+  },
+  "PROFILE_SETTINGS": {
+    "FORM": {
+      "AUDIO_NOTIFICATIONS_SECTION": {
+        "READ_MORE": "Ler mais"
+      }
+    }
+  },
+  "CONVERSATION_WORKFLOW": {
+    "INDEX": {
+      "HEADER": {
+        "DESCRIPTION": "Configure regras e campos obrigatórios para resolução de conversas."
+      }
+    },
+    "REQUIRED_ATTRIBUTES": {
+      "TITLE": "Atributos obrigatórios na resolução",
+      "DESCRIPTION": "Ao resolver uma conversa, os agentes serão solicitados a preencher esses atributos se ainda não o fizeram.",
+      "ADD": {
+        "SEARCH_PLACEHOLDER": "Buscar atributos"
+      },
+      "SAVE": {
+        "ERROR": "Não foi possível atualizar os atributos obrigatórios, tente novamente"
+      },
+      "MODAL": {
+        "PLACEHOLDERS": {
+          "DATE": "Escolha uma data"
+        }
+      },
+      "PAYWALL": {
+        "TITLE": "Faça upgrade para usar atributos obrigatórios",
+        "AVAILABLE_ON": "O recurso de atributos obrigatórios de conversa está disponível nos planos Business e Enterprise.",
+        "UPGRADE_PROMPT": "Faça upgrade do seu plano para solicitar que os agentes preencham atributos obrigatórios antes da resolução da conversa.",
+        "UPGRADE_NOW": "Fazer upgrade agora"
+      },
+      "ENTERPRISE_PAYWALL": {
+        "UPGRADE_PROMPT": "Faça upgrade para um plano pago para exigir atributos obrigatórios antes da resolução da conversa.",
+        "ASK_ADMIN": "Entre em contato com seu administrador para o upgrade."
+      }
+    }
+  },
+  "AUTOMATION": {
+    "ACTIONS": {
+      "REMOVE_ASSIGNED_AGENT": "Remover Agente Atribuído"
+    }
+  }
+}

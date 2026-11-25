@@ -1,0 +1,66 @@
+{
+  "PROFILE_SETTINGS": {
+    "FORM": {
+      "MESSAGE_SIGNATURE_SECTION": {
+        "RESET_TO_DEFAULT": "Reset to default",
+        "RESET_SUCCESS": "Inbox signature removed, using default signature",
+        "INBOX_SELECTOR": {
+          "LABEL": "Inbox",
+          "DEFAULT": "Default (all inboxes)",
+          "CUSTOM": "Custom"
+        },
+        "SIGNATURE_POSITION": {
+          "LABEL": "Signature Position",
+          "OPTIONS": {
+            "TOP": "Top of the message",
+            "BOTTOM": "Bottom of the message"
+          }
+        },
+        "SIGNATURE_SEPARATOR": {
+          "LABEL": "Signature Separator",
+          "OPTIONS": {
+            "BLANK": "Blank line",
+            "HORIZONTAL_LINE": "Horizontal line (--)",
+            "NONE": "No blank line"
+          }
+        },
+        "PREVIEW": {
+          "TITLE": "Signature Preview",
+          "NOTE": "This is how your signature will appear in messages",
+          "EMPTY": "Enter a signature above to see the preview",
+          "SAMPLE_MESSAGE": "Hello! Thank you for contacting us. How can I help you today?"
+        }
+      },
+      "NOTIFICATIONS": {
+        "TYPES": {
+          "INTERNAL_CHAT_MENTION": "You are mentioned in internal chat",
+          "INTERNAL_CHAT_NEW_MESSAGE": "A new direct message in internal chat"
+        }
+      }
+    },
+    "EMAIL_CONFIRMATION_PENDING": "We sent a confirmation link to {email}. Your current email keeps working until you click it."
+  },
+  "COMPONENTS": {
+    "REFERRAL_CARD": {
+      "AD_LABEL": "From an ad",
+      "VIEW_AD": "View ad"
+    },
+    "MEDIA": {
+      "AUDIO_UNAVAILABLE": "This audio is no longer available.",
+      "VIDEO_UNAVAILABLE": "This video is no longer available.",
+      "PLAY_VIDEO_NOTE": "Play video message",
+      "PAUSE_VIDEO_NOTE": "Pause video message",
+      "OPEN_VIDEO_NOTE": "Open video message"
+    }
+  },
+  "SIDEBAR": {
+    "INTERNAL_CHAT": "Internal Chat",
+    "KANBAN": "Kanban",
+    "APPS": "Apps"
+  },
+  "KEYBOARD_SHORTCUTS": {
+    "TITLE": {
+      "PIN_CONVERSATION": "Pin / unpin conversation"
+    }
+  }
+}

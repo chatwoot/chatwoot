@@ -16,6 +16,7 @@
 
 class Channel::Telegram < ApplicationRecord
   include Channelable
+  include Telegram::RequestOptions
 
   # TODO: Remove guard once encryption keys become mandatory (target 3-4 releases out).
   encrypts :bot_token, deterministic: true if Chatwoot.encryption_configured?
@@ -43,7 +44,7 @@ class Channel::Telegram < ApplicationRecord
 
   def get_telegram_profile_image(user_id)
     # get profile image from telegram
-    response = HTTParty.get("#{telegram_api_url}/getUserProfilePhotos", query: { user_id: user_id })
+    response = HTTParty.get("#{telegram_api_url}/getUserProfilePhotos", query: { user_id: user_id }, **TELEGRAM_SHORT_REQUEST_OPTIONS)
     return nil unless response.success?
 
     photos = response.parsed_response.dig('result', 'photos')
@@ -53,7 +54,7 @@ class Channel::Telegram < ApplicationRecord
   end
 
   def get_telegram_file_path(file_id)
-    response = HTTParty.get("#{telegram_api_url}/getFile", query: { file_id: file_id })
+    response = HTTParty.get("#{telegram_api_url}/getFile", query: { file_id: file_id }, **TELEGRAM_SHORT_REQUEST_OPTIONS)
     return nil unless response.success?
 
     "https://api.telegram.org/file/bot#{bot_token}/#{response.parsed_response['result']['file_path']}"
@@ -83,7 +84,9 @@ class Channel::Telegram < ApplicationRecord
   private
 
   def ensure_valid_bot_token
-    response = HTTParty.get("#{telegram_api_url}/getMe")
+    response = reaching_telegram { HTTParty.get("#{telegram_api_url}/getMe", **TELEGRAM_SHORT_REQUEST_OPTIONS) }
+    return if response.nil?
+
     unless response.success?
       errors.add(:bot_token, 'invalid token')
       return
@@ -92,13 +95,45 @@ class Channel::Telegram < ApplicationRecord
     self.bot_name = response.parsed_response['result']['username']
   end
 
+  # This one runs in `before_save`, where an error on its own changes nothing: the callback
+  # returning stops nothing, and the record is written anyway. Before the ceiling, a
+  # Telegram that did not answer raised out of here, which at least left nothing saved;
+  # swallowing it would have persisted an inbox whose webhook was never set, so it cannot
+  # receive a message and nothing on the screen says so.
+  #
+  # `RecordInvalid` and not `throw :abort`, because only `RecordInvalid` is rendered as a
+  # 422 carrying the message: an abort answers 500 again, which is the thing this change
+  # exists to stop saying.
   def setup_telegram_webhook
-    HTTParty.post("#{telegram_api_url}/deleteWebhook")
-    response = HTTParty.post("#{telegram_api_url}/setWebhook",
-                             body: {
-                               url: "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/telegram/#{bot_token}"
-                             })
+    reaching_telegram { HTTParty.post("#{telegram_api_url}/deleteWebhook", **TELEGRAM_SHORT_REQUEST_OPTIONS) }
+    response = reaching_telegram do
+      HTTParty.post("#{telegram_api_url}/setWebhook",
+                    body: {
+                      url: "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/telegram/#{bot_token}"
+                    },
+                    **TELEGRAM_SHORT_REQUEST_OPTIONS)
+    end
+    raise ActiveRecord::RecordInvalid, self if response.nil?
+
     errors.add(:bot_token, 'error setting up the webook') unless response.success?
+  end
+
+  # Both setup calls run inside the request the operator is waiting on, and until now a
+  # Telegram that did not answer came back as a 500 on the inbox form: the app saying it
+  # is broken, about the one thing it cannot know. Putting a ceiling on the call without
+  # this would only have delivered that 500 sooner.
+  #
+  # "Could not ask" is a third answer, and it is not "invalid token": one tells the
+  # operator to fix what they typed, the other to try again.
+  #
+  # Exactly one call inside the block, on purpose. A `rescue` any wider swallows a bug in
+  # the code that reads the answer and reports it as the provider being unreachable.
+  def reaching_telegram
+    yield
+  rescue StandardError => e
+    Rails.logger.error("[TELEGRAM] the Bot API did not answer: #{e.class}: #{e.message}")
+    errors.add(:bot_token, 'could not reach Telegram, try again')
+    nil
   end
 
   def send_message(message)
@@ -166,6 +201,7 @@ class Channel::Telegram < ApplicationRecord
                     reply_markup: reply_markup,
                     parse_mode: 'HTML',
                     reply_to_message_id: reply_to_message_id
-                  }.merge(business_body))
+                  }.merge(business_body),
+                  **TELEGRAM_REQUEST_OPTIONS)
   end
 end

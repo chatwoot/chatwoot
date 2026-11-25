@@ -33,6 +33,7 @@ describe('useConversationHotKeys', () => {
         getContextMenuChatId: null,
         'teams/getTeams': mockTeamsList,
         'draftMessages/get': vi.fn(),
+        'conversationPins/isPinned': vi.fn(() => false),
       },
     };
 
@@ -99,7 +100,7 @@ describe('useConversationHotKeys', () => {
         childAction.handler({ agentInfo: { id: 2 } });
         expect(store.dispatch).toHaveBeenCalledWith('assignAgent', {
           conversationId: 1,
-          agentId: 2,
+          assignee: { id: 2 },
         });
       }
     }
@@ -193,6 +194,35 @@ describe('useConversationHotKeys', () => {
     );
 
     expect(unmuteAction).toBeDefined();
+  });
+
+  it('should return the pin action when the conversation is not pinned', () => {
+    const { conversationHotKeys } = useConversationHotKeys();
+    const pinAction = conversationHotKeys.value.find(
+      action => action.id === 'pin_conversation'
+    );
+
+    expect(pinAction).toBeDefined();
+  });
+
+  it('should return the unpin action when the conversation is pinned', () => {
+    store.getters['conversationPins/isPinned'] = vi.fn(() => true);
+    const { conversationHotKeys } = useConversationHotKeys();
+    const unpinAction = conversationHotKeys.value.find(
+      action => action.id === 'unpin_conversation'
+    );
+
+    expect(unpinAction).toBeDefined();
+  });
+
+  it('should not return the pin action when the conversation is resolved', () => {
+    store.getters.getSelectedChat = { ...mockCurrentChat, status: 'resolved' };
+    const { conversationHotKeys } = useConversationHotKeys();
+    const pinAction = conversationHotKeys.value.find(
+      action => action.id === 'pin_conversation'
+    );
+
+    expect(pinAction).toBeUndefined();
   });
 
   it('should not return conversation hot keys when not in conversation or inbox route', () => {

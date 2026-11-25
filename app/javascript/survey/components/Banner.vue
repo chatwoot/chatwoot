@@ -18,14 +18,19 @@ export default {
 </script>
 
 <template>
-  <div class="flex items-center">
-    <i
+  <!-- The rating and the feedback both land here after a write, and neither moves focus, so
+       without a live region a screen reader never learns the submission went through. -->
+  <div class="flex items-center gap-1" role="status" aria-live="polite">
+    <span
       v-if="showSuccess"
-      class="ion-checkmark-circled text-3xl text-green-500 mr-1"
+      class="i-ri-checkbox-circle-fill text-2xl text-n-teal-10"
     />
-    <i v-if="showError" class="ion-android-alert text-3xl text-red-600 mr-1" />
-    <label class="text-base font-medium text-n-slate-12 mt-4 mb-4">
+    <span
+      v-if="showError"
+      class="i-ri-error-warning-fill text-2xl text-n-ruby-10"
+    />
+    <p class="text-base font-medium text-n-slate-12 my-4">
       {{ message }}
-    </label>
+    </p>
   </div>
 </template>

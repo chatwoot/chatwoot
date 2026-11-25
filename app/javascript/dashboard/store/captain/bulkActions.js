@@ -48,20 +48,6 @@ export default createStore({
       return response;
     },
 
-    handleBulkApprove: async function handleBulkApprove({ dispatch }, ids) {
-      const response = await dispatch('processBulkAction', {
-        type: 'AssistantResponse',
-        actionType: 'approve',
-        ids,
-      });
-
-      // Update response store after successful API call
-      await dispatch('captainResponses/updateBulkResponses', response, {
-        root: true,
-      });
-      return response;
-    },
-
     handleBulkSync: async function handleBulkSync({ dispatch }, { ids }) {
       const response = await dispatch('processBulkAction', {
         type: 'AssistantDocument',

@@ -19,6 +19,10 @@
       "OR": "ELLER"
     },
     "INPUT_PLACEHOLDER": "Enter value",
+    "MULTI_VALUE_INPUT_PLACEHOLDER": "Indtast en værdi, og tryk derefter på Enter for at tilføje mere",
+    "MULTI_VALUE_INPUT_PLACEHOLDER_SHORT": "Indtast en værdi",
+    "CONTACT_SEARCH_PLACEHOLDER": "Søg i kontakter",
+    "CONTACT_FALLBACK": "Kontakt #{id}",
     "OPERATOR_LABELS": {
       "equal_to": "Lig med",
       "not_equal_to": "Ikke lig med",
@@ -29,6 +33,8 @@
       "is_less_than": "Er mindre end",
       "days_before": "Er x dage før",
       "starts_with": "Starts with",
+      "detects": "Registrerer",
+      "does_not_detect": "Registrerer ikke",
       "equalTo": "Lig med",
       "notEqualTo": "Ikke lig med",
       "contains": "Indeholder",
@@ -49,6 +55,7 @@
       "ASSIGNEE_NAME": "Assignee name",
       "INBOX_NAME": "Indbakkens navn",
       "TEAM_NAME": "Team navn",
+      "CONTACT": "Kontakt",
       "CONVERSATION_IDENTIFIER": "Conversation identifier",
       "CAMPAIGN_NAME": "Campaign name",
       "LABELS": "Etiketter",

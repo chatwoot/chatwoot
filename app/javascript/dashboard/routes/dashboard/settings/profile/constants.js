@@ -34,6 +34,21 @@ export const NOTIFICATION_TYPES = [
     label: 'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.SLA_MISSED_RESOLUTION',
     value: 'sla_missed_resolution',
   },
+  {
+    label: 'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.INTERNAL_CHAT_MENTION',
+    value: 'internal_chat_mention',
+    pushOnly: true,
+  },
+  {
+    label:
+      'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.INTERNAL_CHAT_NEW_MESSAGE',
+    value: 'internal_chat_new_message',
+    pushOnly: true,
+  },
+  {
+    label: 'PROFILE_SETTINGS.FORM.NOTIFICATIONS.TYPES.VOICE_CALL_MISSED',
+    value: 'voice_call_missed',
+  },
 ];
 
 export const EVENT_TYPES = {

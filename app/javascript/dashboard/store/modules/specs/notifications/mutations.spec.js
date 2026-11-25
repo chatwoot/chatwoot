@@ -67,6 +67,37 @@ describe('#mutations', () => {
         4: { id: 4, primary_actor_id: 4 },
       });
     });
+
+    it('keeps notifications with the same primary_actor_id but different types', () => {
+      const state = { records: {} };
+      mutations[types.SET_NOTIFICATIONS](state, [
+        { id: 1, primary_actor_id: 1, primary_actor_type: 'Conversation' },
+        {
+          id: 2,
+          primary_actor_id: 1,
+          primary_actor_type: 'InternalChat::Channel',
+        },
+      ]);
+      expect(state.records).toEqual({
+        1: { id: 1, primary_actor_id: 1, primary_actor_type: 'Conversation' },
+        2: {
+          id: 2,
+          primary_actor_id: 1,
+          primary_actor_type: 'InternalChat::Channel',
+        },
+      });
+    });
+
+    it('deduplicates notifications sharing the same primary actor type and id', () => {
+      const state = { records: {} };
+      mutations[types.SET_NOTIFICATIONS](state, [
+        { id: 1, primary_actor_id: 1, primary_actor_type: 'Conversation' },
+        { id: 2, primary_actor_id: 1, primary_actor_type: 'Conversation' },
+      ]);
+      expect(state.records).toEqual({
+        2: { id: 2, primary_actor_id: 1, primary_actor_type: 'Conversation' },
+      });
+    });
   });
   describe('#UPDATE_NOTIFICATION', () => {
     it('update notifications ', () => {
@@ -181,6 +212,25 @@ describe('#mutations', () => {
       };
       mutations[types.DELETE_ALL_NOTIFICATIONS](state);
       expect(state.records).toEqual({});
+    });
+  });
+
+  describe('#REMOVE_NOTIFICATIONS_OF_TYPES', () => {
+    it('drops only the notifications of the given types', () => {
+      const state = {
+        records: {
+          1: { id: 1, notification_type: 'internal_chat_mention' },
+          2: { id: 2, notification_type: 'conversation_assignment' },
+          3: { id: 3, notification_type: 'internal_chat_new_message' },
+        },
+      };
+
+      mutations.REMOVE_NOTIFICATIONS_OF_TYPES(state, [
+        'internal_chat_mention',
+        'internal_chat_new_message',
+      ]);
+
+      expect(Object.keys(state.records)).toEqual(['2']);
     });
   });
 });

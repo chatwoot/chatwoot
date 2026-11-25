@@ -7,7 +7,8 @@ import { useMapGetter } from 'dashboard/composables/store.js';
 export function useBranding() {
   const globalConfig = useMapGetter('globalConfig/get');
   /**
-   * Replaces "Chatwoot" in text with the installation name from global config
+   * Replaces "Chatwoot" (any casing) in text with the installation name from
+   * global config
    * @param {string} text - The text to process
    * @returns {string} - Text with "Chatwoot" replaced by installation name
    */
@@ -17,7 +18,9 @@ export function useBranding() {
     const installationName = globalConfig.value?.installationName;
     if (!installationName) return text;
 
-    return text.replace(/Chatwoot/g, installationName);
+    // Callback, not a string: `$$`, `$&` and `$1` are replacement syntax, so an installation
+    // named "ACME $$" would render "ACME $".
+    return text.replace(/chatwoot/gi, () => installationName);
   };
 
   return {

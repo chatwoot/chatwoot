@@ -1,0 +1,38 @@
+{
+  "object": "whatsapp_business_account",
+  "entry": [
+    {
+      "id": "WHATSAPP_BUSINESS_ACCOUNT_ID",
+      "changes": [
+        {
+          "field": "messages",
+          "value": {
+            "messaging_product": "whatsapp",
+            "metadata": { "display_phone_number": "15550001111", "phone_number_id": "111222333" },
+            "contacts": [{ "profile": { "name": "Lead Cloud Ad" }, "wa_id": "5511955551111" }],
+            "messages": [
+              {
+                "from": "5511955551111",
+                "id": "wamid.CLOUD_CTWA_FIXTURE",
+                "timestamp": "1764178999",
+                "type": "text",
+                "text": { "body": "Vim pelo anuncio, quero saber mais" },
+                "referral": {
+                  "source_url": "https://fb.me/criativox",
+                  "source_id": "1120214541917380261",
+                  "source_type": "ad",
+                  "headline": "Agende ja sua Avaliacao",
+                  "body": "LEGENDA Y PRODUTO X",
+                  "media_type": "video",
+                  "image_url": "https://scontent.xx.fbcdn.net/v/thumb.jpg",
+                  "video_url": "https://video.example/ad.mp4",
+                  "ctwa_clid": "AaRDg86i-z5_xrIOfs9Adr1example"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

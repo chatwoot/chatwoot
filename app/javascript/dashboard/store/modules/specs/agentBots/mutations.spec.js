@@ -63,4 +63,14 @@ describe('#mutations', () => {
       );
     });
   });
+  describe('#SET_AGENT_BOT_OBSERVERS', () => {
+    it('stores the observer ids per inbox', () => {
+      const state = { agentBotObservers: { 4: [11] } };
+      mutations[types.SET_AGENT_BOT_OBSERVERS](state, {
+        inboxId: 5,
+        agentBotIds: [11, 12],
+      });
+      expect(state.agentBotObservers).toEqual({ 4: [11], 5: [11, 12] });
+    });
+  });
 });

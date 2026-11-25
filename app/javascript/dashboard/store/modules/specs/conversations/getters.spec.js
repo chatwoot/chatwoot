@@ -102,6 +102,18 @@ describe('#getters', () => {
       ]);
     });
 
+    it('uses latest activity to order conversations with the same priority', () => {
+      const state = {
+        allConversations: [conversations[2], conversations[1]],
+        chatSortFilter: 'priority_desc',
+      };
+
+      expect(getters.getAllConversations(state)).toEqual([
+        conversations[1],
+        conversations[2],
+      ]);
+    });
+
     it('returns conversations ordered by priority in ascending order if chatStatusFilter = priority_asc', () => {
       const state = {
         allConversations: [...conversations],
@@ -127,7 +139,73 @@ describe('#getters', () => {
         conversations[0],
       ]);
     });
+
+    it('returns waiting conversations before non-waiting conversations when sorting by shortest wait', () => {
+      const state = {
+        allConversations: [...conversations],
+        chatSortFilter: 'waiting_since_desc',
+      };
+      expect(getters.getAllConversations(state)).toEqual([
+        conversations[3],
+        conversations[1],
+        conversations[2],
+        conversations[0],
+      ]);
+    });
   });
+  // A bot holding a conversation counts as assigned on the server: `scope :unassigned` requires
+  // `assignee_agent_bot_id` to be null too, and the tab's badge counts the same way. Counting it
+  // as unassigned here put it in a list whose badge did not count it, and only once a visit to
+  // "All" had loaded it into the store.
+  describe('#getUnAssignedChats with a bot', () => {
+    const botConversation = {
+      id: 1,
+      inbox_id: 2,
+      status: 1,
+      meta: { assignee: { id: 7, name: 'Bot' }, assignee_type: 'AgentBot' },
+      labels: [],
+    };
+    const humanConversation = {
+      id: 2,
+      inbox_id: 2,
+      status: 1,
+      meta: { assignee: { id: 7, name: 'Agent' }, assignee_type: 'User' },
+      labels: [],
+    };
+
+    const unassignedConversation = {
+      id: 3,
+      inbox_id: 2,
+      status: 1,
+      meta: {},
+      labels: [],
+    };
+
+    it('leaves a bot conversation out, like the badge does', () => {
+      const chats = getters.getUnAssignedChats({
+        allConversations: [
+          botConversation,
+          humanConversation,
+          unassignedConversation,
+        ],
+      })({ status: 1 });
+
+      expect(chats.map(chat => chat.id)).toEqual([3]);
+    });
+
+    // The bot's id comes from its own table and can be the same integer as an agent's.
+    it('keeps a bot conversation out of the agent who shares its id', () => {
+      const chats = getters.getMineChats(
+        { allConversations: [botConversation, humanConversation] },
+        {},
+        {},
+        { getCurrentUser: { id: 7 } }
+      )({ status: 1 });
+
+      expect(chats.map(chat => chat.id)).toEqual([2]);
+    });
+  });
+
   describe('#getUnAssignedChats', () => {
     it('order returns only chats assigned to user', () => {
       const conversationList = [
@@ -308,6 +386,29 @@ describe('#getters', () => {
         },
       });
     });
+
+    it('Skips forwarded emails', () => {
+      const state = {};
+      const incomingEmail = {
+        message_type: 0,
+        content_attributes: { email: { from: 'why@how.my' } },
+      };
+      const getSelectedChat = {
+        messages: [
+          incomingEmail,
+          {
+            message_type: 1,
+            content_attributes: {
+              forwarded_message_id: 1,
+              to_emails: ['vendor@example.com'],
+            },
+          },
+        ],
+      };
+      expect(
+        getters.getLastEmailInSelectedChat(state, { getSelectedChat })
+      ).toEqual(incomingEmail);
+    });
   });
 
   describe('#getSelectedChatAttachments', () => {
@@ -418,6 +519,28 @@ describe('#getters', () => {
     });
   });
 
+  describe('#getAllConversations with pinned conversations', () => {
+    it('puts pinned conversations first, most recently pinned on top', () => {
+      const state = {
+        allConversations: [...conversations],
+        chatSortFilter: 'last_activity_at_desc',
+      };
+      const rootGetters = {
+        'conversationPins/getRecords': {
+          [conversations[0].id]: 100,
+          [conversations[3].id]: 200,
+        },
+      };
+
+      expect(getters.getAllConversations(state, {}, {}, rootGetters)).toEqual([
+        conversations[3],
+        conversations[0],
+        conversations[1],
+        conversations[2],
+      ]);
+    });
+  });
+
   describe('#getFilteredConversations', () => {
     const mockConversations = [
       {
@@ -477,6 +600,36 @@ describe('#getters', () => {
       ]);
     });
 
+    it('puts pinned conversations first', () => {
+      const state = {
+        allConversations: mockConversations,
+        chatSortFilter: 'last_activity_at_desc',
+        appliedFilters: [],
+      };
+
+      const rootGetters = {
+        ...mockRootGetters,
+        getCurrentUser: {
+          ...mockRootGetters.getCurrentUser,
+          accounts: [{ id: 1, role: 'administrator', permissions: [] }],
+        },
+        'conversationPins/getRecords': { [mockConversations[0].id]: 100 },
+      };
+
+      const result = getters.getFilteredConversations(
+        state,
+        {},
+        {},
+        rootGetters
+      );
+
+      expect(result).toEqual([
+        mockConversations[0],
+        mockConversations[2],
+        mockConversations[1],
+      ]);
+    });
+
     it('filters conversations based on role permissions for agent', () => {
       const state = {
         allConversations: mockConversations,
@@ -521,7 +674,7 @@ describe('#getters', () => {
             {
               id: 1,
               custom_role_id: 5,
-              permissions: ['conversation_manage'],
+              permissions: ['conversation_manage', 'custom_role'],
             },
           ],
         },
@@ -556,7 +709,7 @@ describe('#getters', () => {
             {
               id: 1,
               custom_role_id: 5,
-              permissions: ['conversation_unassigned_manage'],
+              permissions: ['conversation_unassigned_manage', 'custom_role'],
             },
           ],
         },
@@ -588,7 +741,7 @@ describe('#getters', () => {
             {
               id: 1,
               custom_role_id: 5,
-              permissions: ['conversation_participating_manage'],
+              permissions: ['conversation_participating_manage', 'custom_role'],
             },
           ],
         },
@@ -620,7 +773,7 @@ describe('#getters', () => {
             {
               id: 1,
               custom_role_id: 5,
-              permissions: [],
+              permissions: ['custom_role'],
             },
           ],
         },
@@ -659,7 +812,7 @@ describe('#getters', () => {
             {
               id: 1,
               custom_role_id: 5,
-              permissions: ['conversation_participating_manage'],
+              permissions: ['conversation_participating_manage', 'custom_role'],
             },
           ],
         },
@@ -719,6 +872,404 @@ describe('#getters', () => {
         mockConversations[1],
         mockConversations[2],
       ]);
+    });
+
+    it('sorts filtered conversations by unread count and then latest activity', () => {
+      const state = {
+        allConversations: [
+          { ...mockConversations[0], unread_count: 1 },
+          { ...mockConversations[1], unread_count: 2 },
+          { ...mockConversations[2], unread_count: 2 },
+        ],
+        chatSortFilter: 'unread',
+        appliedFilters: [],
+      };
+
+      const result = getters.getFilteredConversations(
+        state,
+        {},
+        {},
+        mockRootGetters
+      );
+
+      expect(result.map(conversation => conversation.id)).toEqual([3, 2, 1]);
+    });
+  });
+
+  describe('#getAppliedContactFilter', () => {
+    const contactFilter = {
+      attribute_key: 'contact_id',
+      attribute_model: 'standard',
+      filter_operator: 'equal_to',
+      query_operator: 'and',
+      values: [{ id: 7, name: 'Jane Doe' }],
+    };
+
+    it('returns the contact a lone contact filter scopes the list to', () => {
+      expect(
+        getters.getAppliedContactFilter({ appliedFilters: [contactFilter] })
+      ).toEqual({ id: 7, name: 'Jane Doe' });
+    });
+
+    it('returns null when no filters are applied', () => {
+      expect(
+        getters.getAppliedContactFilter({ appliedFilters: [] })
+      ).toBeNull();
+    });
+
+    it('returns null when the applied filter is not a contact filter', () => {
+      const state = {
+        appliedFilters: [
+          {
+            attribute_key: 'status',
+            filter_operator: 'equal_to',
+            values: ['pending'],
+          },
+        ],
+      };
+
+      expect(getters.getAppliedContactFilter(state)).toBeNull();
+    });
+
+    it('returns null when the contact filter is combined with another filter', () => {
+      const state = {
+        appliedFilters: [
+          contactFilter,
+          {
+            attribute_key: 'status',
+            filter_operator: 'equal_to',
+            values: ['open'],
+          },
+        ],
+      };
+
+      expect(getters.getAppliedContactFilter(state)).toBeNull();
+    });
+
+    it('returns null for the single select shape the filter modal builds', () => {
+      const state = {
+        appliedFilters: [
+          { ...contactFilter, values: { id: 7, name: 'Jane Doe' } },
+        ],
+      };
+
+      expect(getters.getAppliedContactFilter(state)).toBeNull();
+    });
+  });
+
+  describe('#getAutoTranslate', () => {
+    const rootGetters = {
+      getUISettings: { locale: 'en' },
+      'accounts/getAccount': () => ({
+        locale: 'en',
+        settings: { auto_translate: true },
+      }),
+      getCurrentAccountId: 1,
+      'accounts/isFeatureEnabledonAccount': () => true,
+      'integrations/getIntegration': () => ({}),
+    };
+    const chatIn = language => ({
+      getSelectedChat: {
+        additional_attributes: { conversation_language: language },
+      },
+    });
+
+    it('is active when the contact writes another language than the agent', () => {
+      expect(
+        getters.getAutoTranslate({}, chatIn('fr'), {}, rootGetters)
+      ).toEqual({
+        enabled: true,
+        provider: 'captain',
+        locale: 'en',
+        sameLanguage: false,
+        language: 'French',
+        agentLanguage: 'English',
+        disabledInConversation: false,
+      });
+    });
+
+    it('reports a conversation where an agent switched it off', () => {
+      const switchedOff = {
+        getSelectedChat: {
+          additional_attributes: {
+            conversation_language: 'tr',
+            auto_translate_disabled: true,
+          },
+        },
+      };
+
+      expect(
+        getters.getAutoTranslate({}, switchedOff, {}, rootGetters)
+      ).toMatchObject({
+        enabled: true,
+        language: 'Turkish',
+        disabledInConversation: true,
+      });
+    });
+
+    it('stays off until the account switches it on', () => {
+      const notSwitchedOn = {
+        ...rootGetters,
+        'accounts/getAccount': () => ({ locale: 'en' }),
+      };
+
+      expect(
+        getters.getAutoTranslate({}, chatIn('fr'), {}, notSwitchedOn)
+      ).toMatchObject({ enabled: false, language: '' });
+    });
+
+    it('is inactive for the agent language, an unknown language or a disabled flag', () => {
+      expect(
+        getters.getAutoTranslate({}, chatIn('en'), {}, rootGetters)
+      ).toMatchObject({ sameLanguage: true });
+      expect(
+        getters.getAutoTranslate({}, chatIn(undefined), {}, rootGetters)
+      ).toMatchObject({ language: '' });
+      expect(
+        getters.getAutoTranslate(
+          {},
+          chatIn('fr'),
+          {},
+          { ...rootGetters, 'accounts/isFeatureEnabledonAccount': () => false }
+        )
+      ).toMatchObject({ enabled: false, language: '' });
+    });
+  });
+
+  describe('#getMessageTranslationState', () => {
+    const stateFor = (messages, autoTranslating = {}) =>
+      getters.getMessageTranslationState(
+        { autoTranslating },
+        {
+          getAutoTranslate: {
+            enabled: true,
+            locale: 'en',
+            language: 'French',
+            sameLanguage: false,
+          },
+          getSelectedChat: { messages },
+        }
+      );
+
+    it('shows no translating state for a reply in a conversation switched off', () => {
+      const translationState = getters.getMessageTranslationState(
+        { autoTranslating: {} },
+        {
+          getAutoTranslate: {
+            enabled: true,
+            locale: 'en',
+            language: 'French',
+            sameLanguage: false,
+            disabledInConversation: true,
+          },
+          getSelectedChat: {
+            messages: [
+              {
+                id: 3,
+                message_type: 1,
+                content_type: 'text',
+                status: 'progress',
+                content: 'Hi',
+                content_attributes: {},
+              },
+            ],
+          },
+        }
+      );
+
+      expect(translationState(3).pending).toBe(false);
+    });
+
+    it('treats the text reply of a bot like a contact message', () => {
+      const translationState = stateFor(
+        [
+          {
+            id: 9,
+            message_type: 1,
+            content_type: 'text',
+            content: 'Bonjour',
+            sender: { type: 'captain_assistant' },
+            content_attributes: {},
+          },
+        ],
+        { en: { 9: true } }
+      );
+
+      expect(translationState(9).pending).toBe(true);
+    });
+
+    it('keeps a message pending until its request settles', () => {
+      const translationState = stateFor(
+        [
+          {
+            id: 1,
+            message_type: 0,
+            content_type: 'text',
+            content: 'Bonjour',
+            content_attributes: {},
+          },
+          {
+            id: 2,
+            message_type: 0,
+            content_type: 'text',
+            content: 'Merci',
+            content_attributes: {},
+          },
+          {
+            id: 3,
+            message_type: 1,
+            content_type: 'text',
+            status: 'progress',
+            content: 'Hi',
+            content_attributes: {},
+          },
+          {
+            id: 4,
+            message_type: 1,
+            content_type: 'text',
+            status: 'progress',
+            content: 'Hi',
+            private: true,
+            content_attributes: {},
+          },
+          {
+            id: 5,
+            message_type: 1,
+            content_type: 'text',
+            status: 'progress',
+            content: 'Fwd: Hi',
+            content_attributes: { forwarded_message_id: 3 },
+          },
+        ],
+        { en: { 1: true, 2: false } }
+      );
+
+      expect([1, 2, 3, 4, 5].map(id => translationState(id).pending)).toEqual([
+        true,
+        false,
+        true,
+        false,
+        false,
+      ]);
+    });
+
+    it('keeps a message pending for the agent locale although other locales have theirs', () => {
+      const translationState = stateFor(
+        [
+          {
+            id: 1,
+            message_type: 0,
+            content_type: 'text',
+            content: 'Bonjour',
+            content_attributes: { translations: { es: 'Hola' } },
+          },
+        ],
+        { en: { 1: true } }
+      );
+
+      expect(translationState(1).pending).toBe(true);
+    });
+
+    it('keeps a reply pending until the send job has translated it', () => {
+      const translationState = stateFor([
+        {
+          id: 1,
+          message_type: 1,
+          content_type: 'text',
+          content: 'Hello',
+          content_attributes: { translation_pending: true },
+        },
+      ]);
+
+      expect(translationState(1).pending).toBe(true);
+    });
+
+    it('recognises a message already written in the agent language', () => {
+      const translationState = stateFor([
+        {
+          id: 1,
+          message_type: 0,
+          content_type: 'text',
+          content: 'ok thanks',
+          content_attributes: { translations: { en: 'ok thanks' } },
+        },
+        {
+          id: 2,
+          message_type: 0,
+          content_type: 'text',
+          content: 'Bonjour',
+          content_attributes: { translations: { en: 'Hello' } },
+        },
+      ]);
+
+      expect(translationState(1)).toEqual({
+        pending: false,
+        failed: false,
+        sameLanguage: true,
+        sourceLanguage: 'French',
+        originalLanguage: 'English',
+      });
+      expect(translationState(2)).toEqual({
+        pending: false,
+        failed: false,
+        sameLanguage: false,
+        sourceLanguage: 'French',
+        originalLanguage: 'English',
+      });
+    });
+
+    it('names the own text of a reply after the language it was written in', () => {
+      const translationState = stateFor([
+        {
+          id: 1,
+          message_type: 1,
+          content_type: 'text',
+          content: 'Merci',
+          content_attributes: {
+            translations: { ml: 'നന്ദി' },
+            source_language: 'fr',
+          },
+        },
+      ]);
+
+      expect(translationState(1)).toMatchObject({
+        sourceLanguage: 'French',
+        originalLanguage: 'Malayalam',
+      });
+    });
+
+    it('reports a reply the backend could not translate', () => {
+      const translationState = stateFor([
+        {
+          id: 1,
+          message_type: 1,
+          content_type: 'text',
+          content: 'Hi',
+          content_attributes: { translation_failed: true },
+        },
+      ]);
+
+      expect(translationState(1)).toMatchObject({
+        failed: true,
+        pending: false,
+      });
+    });
+
+    it('labels a message with its own detected language when the thread switched later', () => {
+      const translationState = stateFor([
+        {
+          id: 1,
+          message_type: 0,
+          content_type: 'text',
+          content: '你好',
+          content_attributes: {
+            translations: { en: 'Hello' },
+            source_language: 'zh',
+          },
+        },
+      ]);
+
+      expect(translationState(1).sourceLanguage).toBe('Chinese');
     });
   });
 });

@@ -1,5 +1,6 @@
 <script setup>
-import { format, fromUnixTime } from 'date-fns';
+import { fromUnixTime } from 'date-fns';
+import { formatLocalized } from 'shared/helpers/localizedDate';
 
 defineProps({
   label: {
@@ -12,7 +13,7 @@ defineProps({
   },
 });
 const formatDate = timestamp =>
-  format(fromUnixTime(timestamp), 'MMM dd, yyyy, hh:mm a');
+  formatLocalized(fromUnixTime(timestamp), 'MMM dd, yyyy, hh:mm a');
 </script>
 
 <template>

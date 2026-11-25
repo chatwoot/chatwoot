@@ -28,7 +28,9 @@ RSpec.describe 'Internal Chat Polls API', type: :request do
       end
     end
 
-    context 'when polls are disabled (CE default)' do
+    context 'when polls are disabled' do
+      before { allow(InternalChat::Limits).to receive(:polls_enabled?).and_return(false) }
+
       it 'returns payment_required' do
         post "/api/v1/accounts/#{account.id}/internal_chat/polls",
              params: valid_params,

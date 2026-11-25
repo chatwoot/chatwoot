@@ -48,6 +48,7 @@ class WorkingHour < ApplicationRecord
 
   def open_at?(time)
     return false if closed_all_day?
+    return true if open_all_day?
 
     open_time = Time.zone.now.in_time_zone(inbox.timezone).change({ hour: open_hour, min: open_minutes })
     close_time = Time.zone.now.in_time_zone(inbox.timezone).change({ hour: close_hour, min: close_minutes })

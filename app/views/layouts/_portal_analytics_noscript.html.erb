@@ -1,0 +1,12 @@
+<% if @portal.gtm_container_id.present? %>
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=<%= @portal.gtm_container_id %>"
+    title="Google Tag Manager" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+<% end %>
+<% if @portal.meta_pixel_id.present? %>
+  <!-- Meta Pixel (noscript) -->
+  <noscript><img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=<%= @portal.meta_pixel_id %>&ev=PageView&noscript=1"/></noscript>
+  <!-- End Meta Pixel (noscript) -->
+<% end %>

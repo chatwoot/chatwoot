@@ -1,4 +1,6 @@
 class Twilio::CsatTemplateApiClient
+  include Twilio::RequestOptions
+
   def initialize(twilio_channel)
     @twilio_channel = twilio_channel
   end
@@ -7,7 +9,8 @@ class Twilio::CsatTemplateApiClient
     HTTParty.post(
       "#{api_base_path}/v1/Content",
       headers: api_headers,
-      body: request_body.to_json
+      body: request_body.to_json,
+      **TWILIO_REQUEST_OPTIONS
     )
   end
 
@@ -20,28 +23,32 @@ class Twilio::CsatTemplateApiClient
     HTTParty.post(
       approval_url,
       headers: api_headers,
-      body: request_body.to_json
+      body: request_body.to_json,
+      **TWILIO_REQUEST_OPTIONS
     )
   end
 
   def delete_template(content_sid)
     HTTParty.delete(
       "#{api_base_path}/v1/Content/#{content_sid}",
-      headers: api_headers
+      headers: api_headers,
+      **TWILIO_REQUEST_OPTIONS
     )
   end
 
   def fetch_template(content_sid)
     HTTParty.get(
       "#{api_base_path}/v1/Content/#{content_sid}",
-      headers: api_headers
+      headers: api_headers,
+      **TWILIO_REQUEST_OPTIONS
     )
   end
 
   def fetch_approval_status(content_sid)
     HTTParty.get(
       "#{api_base_path}/v1/Content/#{content_sid}/ApprovalRequests",
-      headers: api_headers
+      headers: api_headers,
+      **TWILIO_REQUEST_OPTIONS
     )
   end
 

@@ -5,6 +5,7 @@ import DateSeparator from 'shared/components/DateSeparator.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import { useDarkMode } from 'widget/composables/useDarkMode';
 import { MESSAGE_TYPE } from 'shared/constants/messages';
+import { AGENT_TYPING_TIMEOUT } from 'widget/helpers/constants';
 import { mapActions, mapGetters } from 'vuex';
 
 export default {
@@ -29,6 +30,8 @@ export default {
     return {
       previousScrollHeight: 0,
       previousConversationSize: 0,
+      now: Date.now(),
+      pendingTypingTimer: null,
     };
   },
   computed: {
@@ -39,25 +42,49 @@ export default {
       isFetchingList: 'conversation/getIsFetchingList',
       conversationSize: 'conversation/getConversationSize',
       isAgentTyping: 'conversation/getIsAgentTyping',
+      pendingTyping: 'conversation/getPendingTyping',
       conversationAttributes: 'conversationAttributes/getConversationParams',
     }),
     colorSchemeClass() {
       return `${this.darkMode === 'dark' ? 'dark-scheme' : 'light-scheme'}`;
     },
+    // A pending conversation shows the bubble on the visitor's last message as if the agent side had
+    // sent typing_on then: for the same timeout, renewed by a real typing_on and ended by a typing_off.
+    // A message not seen arriving (a reload, a sync after reconnecting) counts from its stored time.
+    pendingTypingDeadline() {
+      const {
+        id,
+        message_type: type,
+        created_at: createdAt,
+      } = this.lastMessage;
+      if (type !== MESSAGE_TYPE.INCOMING) return 0;
+      if (this.pendingTyping?.messageId === id) return this.pendingTyping.until;
+      return createdAt * 1000 + AGENT_TYPING_TIMEOUT;
+    },
     showStatusIndicator() {
       const { status } = this.conversationAttributes;
       const isConversationInPendingStatus = status === 'pending';
-      const isLastMessageIncoming =
-        this.lastMessage.message_type === MESSAGE_TYPE.INCOMING;
       return (
         this.isAgentTyping ||
-        (isConversationInPendingStatus && isLastMessageIncoming)
+        (isConversationInPendingStatus && this.now < this.pendingTypingDeadline)
       );
     },
   },
   watch: {
     allMessagesLoaded() {
       this.previousScrollHeight = 0;
+    },
+    pendingTypingDeadline: {
+      handler(deadline) {
+        clearTimeout(this.pendingTypingTimer);
+        this.now = Date.now();
+        if (deadline > this.now) {
+          this.pendingTypingTimer = setTimeout(() => {
+            this.now = Date.now();
+          }, deadline - this.now);
+        }
+      },
+      immediate: true,
     },
   },
   mounted() {
@@ -71,6 +98,7 @@ export default {
     }
   },
   unmounted() {
+    clearTimeout(this.pendingTypingTimer);
     this.$el.removeEventListener('scroll', this.handleScroll);
   },
   methods: {

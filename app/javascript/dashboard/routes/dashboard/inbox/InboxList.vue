@@ -165,13 +165,51 @@ const setSavedFilter = () => {
   store.dispatch('notifications/setNotificationFilters', inboxFilters.value);
 };
 
-const openConversation = async notificationItem => {
-  const {
+const markAndUpdateCount = async ({ id, primaryActorId, primaryActorType }) => {
+  await store.dispatch('notifications/read', {
     id,
     primaryActorId,
     primaryActorType,
+    unreadCount: meta.value.unreadCount,
+  });
+  // to update the unread count in the store realtime
+  store.dispatch('notifications/unReadCount');
+};
+
+const openInternalChatChannel = async notificationItem => {
+  const { primaryActor, notificationType } = notificationItem;
+
+  useTrack(INBOX_EVENTS.OPEN_CONVERSATION_VIA_INBOX, { notificationType });
+
+  try {
+    await markAndUpdateCount(notificationItem);
+    // Stale record without actor data: still mark it read, but there's nowhere to navigate.
+    if (!primaryActor) return;
+    router.push({
+      name:
+        primaryActor.channelType === 'dm'
+          ? 'internal_chat_dm'
+          : 'internal_chat_channel',
+      params: {
+        accountId: route.params.accountId,
+        channelId: primaryActor.id,
+      },
+    });
+  } catch {
+    // error
+  }
+};
+
+const openConversation = async notificationItem => {
+  const { notificationType } = notificationItem;
+
+  if (notificationType?.startsWith('internal_chat')) {
+    openInternalChatChannel(notificationItem);
+    return;
+  }
+
+  const {
     primaryActor: { inboxId, id: conversationId },
-    notificationType,
   } = notificationItem;
 
   if (route.params.id === String(conversationId)) return;
@@ -181,15 +219,7 @@ const openConversation = async notificationItem => {
   });
 
   try {
-    await store.dispatch('notifications/read', {
-      id,
-      primaryActorId,
-      primaryActorType,
-      unreadCount: meta.value.unreadCount,
-    });
-
-    // to update the unread count in the store realtime
-    store.dispatch('notifications/unReadCount');
+    await markAndUpdateCount(notificationItem);
 
     router.push({
       name: 'inbox_view_conversation',
@@ -222,7 +252,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <section class="flex w-full h-full bg-n-surface-1">
+  <section class="flex w-full h-full min-w-0 bg-n-surface-1">
     <div
       class="flex flex-col h-full w-full lg:min-w-[340px] lg:max-w-[340px] ltr:border-r rtl:border-l border-n-weak"
       :class="!currentConversationId ? 'flex' : 'hidden xl:flex'"

@@ -1,0 +1,20 @@
+{
+  "can_send_new_messages": true,
+  "diagnostics_endpoint": "/instance/wa_messages_limits",
+  "message": "No WhatsApp restriction for starting new conversations was detected for the currently connected account.",
+  "message_ptbr": "Nenhuma restrição de envio de novas conversas foi identificada no WhatsApp para a conta atualmente conectada.",
+  "new_chat_message_capping": {
+    "available": true,
+    "cycle_end": "1970-01-01T00:00:01Z",
+    "server_sent_at": "2026-08-19T17:39:17Z",
+    "status": "",
+    "total_quota": 0,
+    "used_quota": 0
+  },
+  "provider": "whatsapp",
+  "reachable": true,
+  "reachout_timelock": {
+    "active": false,
+    "available": true
+  }
+}

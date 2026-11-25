@@ -2,19 +2,26 @@ class AutoAssignment::AssignmentService
   pattr_initialize [:inbox!]
 
   def perform_bulk_assignment(limit: 100)
-    return 0 unless inbox.auto_assignment_v2_enabled?
-    return 0 unless inbox.enable_auto_assignment?
+    return 0 unless assigning?
+
+    conversations = unassigned_conversations(limit).to_a
+    return 0 if conversations.empty?
+    return 0 if inbox.available_agents.empty?
 
     assigned_count = 0
-
-    unassigned_conversations(limit).each do |conversation|
+    conversations.each do |conversation|
       assigned_count += 1 if perform_for_conversation(conversation)
     end
-
     assigned_count
   end
 
   private
+
+  # A closed inbox that holds assignment until it opens keeps its queue: the
+  # periodic job hands those conversations out on its first run after opening.
+  def assigning?
+    inbox.auto_assignment_v2_enabled? && inbox.enable_auto_assignment? && !inbox.assignment_closed?
+  end
 
   def perform_for_conversation(conversation)
     return false unless assignable?(conversation)
@@ -25,16 +32,22 @@ class AutoAssignment::AssignmentService
     assign_conversation(conversation, agent)
   end
 
+  # The schedule is read again per conversation: a batch that starts before closing time can
+  # still be running after it.
   def assignable?(conversation)
     conversation.status == 'open' &&
-      conversation.assignee_id.nil?
+      conversation.assignee_id.nil? &&
+      !inbox.assignment_closed?
   end
 
   def unassigned_conversations(limit)
     scope = inbox.conversations.unassigned.open
 
-    # Apply conversation priority using assignment policy if available
+    # Skip stale backlog with no activity beyond the age threshold
     policy = inbox.assignment_policy
+    scope = apply_age_exclusions(scope, age_exclusion_hours(policy))
+
+    # Apply conversation priority using assignment policy if available
     scope = if policy&.longest_waiting?
               scope.reorder(last_activity_at: :asc, created_at: :asc)
             else
@@ -42,6 +55,22 @@ class AutoAssignment::AssignmentService
             end
 
     scope.limit(limit)
+  end
+
+  def age_exclusion_hours(policy)
+    return policy.exclude_older_than_hours if policy
+
+    AssignmentPolicy::DEFAULT_EXCLUDE_OLDER_THAN_HOURS
+  end
+
+  def apply_age_exclusions(scope, hours_threshold)
+    return scope if hours_threshold.blank?
+
+    hours = hours_threshold.to_i
+    return scope unless hours.positive?
+
+    # Use last_activity_at so reopened/active conversations aren't excluded by their original created_at
+    scope.where('conversations.last_activity_at >= ?', hours.hours.ago)
   end
 
   def find_available_agent(conversation = nil)
@@ -72,15 +101,35 @@ class AutoAssignment::AssignmentService
   end
 
   def assign_conversation(conversation, agent)
-    Current.executed_by = inbox.assignment_policy || inbox
-    conversation.update!(assignee: agent)
-    Current.executed_by = nil
+    return false unless claim_and_assign(conversation, agent)
+
+    conversation.reload
 
     rate_limiter = build_rate_limiter(agent)
     rate_limiter.track_assignment(conversation)
 
     dispatch_assignment_event(conversation, agent)
     true
+  end
+
+  # Atomically claim the row so two bulk runs that overlap (the in-flight gate
+  # is best-effort and can lapse on TTL) can't both assign the same conversation.
+  # The agent was picked from the team in the batch snapshot, so the claim also
+  # requires the row to still be in that team: a team change in between (or a reopen
+  # that dropped an assignee outside the new team) would otherwise get an outsider.
+  def claim_and_assign(conversation, agent)
+    Current.executed_by = inbox.assignment_policy || inbox
+
+    Conversation.transaction do
+      locked = inbox.conversations
+                    .where(id: conversation.id, team_id: conversation.team_id).unassigned
+                    .lock('FOR UPDATE SKIP LOCKED')
+                    .first
+      next false unless locked
+
+      locked.update!(assignee: agent)
+      true
+    end
   ensure
     Current.executed_by = nil
   end

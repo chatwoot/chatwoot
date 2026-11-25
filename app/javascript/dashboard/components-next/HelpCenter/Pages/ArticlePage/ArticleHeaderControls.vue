@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
 import { OnClickOutside } from '@vueuse/components';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useMapGetter } from 'dashboard/composables/store';
 import {
   ARTICLE_TABS,
   CATEGORY_ALL,
@@ -13,6 +14,8 @@ import {
 import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
+import EmojiIcon from 'dashboard/components-next/emoji-icon-picker/EmojiIcon.vue';
+import ArticleSortMenu from 'dashboard/components-next/HelpCenter/Pages/ArticlePage/ArticleSortMenu.vue';
 
 const props = defineProps({
   categories: {
@@ -27,12 +30,17 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  authorId: {
+    type: String,
+    default: '',
+  },
 });
 
 const emit = defineEmits([
   'tabChange',
   'localeChange',
   'categoryChange',
+  'authorChange',
   'newArticle',
 ]);
 
@@ -42,6 +50,44 @@ const { updateUISettings } = useUISettings();
 
 const isCategoryMenuOpen = ref(false);
 const isLocaleMenuOpen = ref(false);
+const isAuthorMenuOpen = ref(false);
+const agents = useMapGetter('agents/getAgents');
+const currentUserId = useMapGetter('getCurrentUserID');
+
+const authorMenuItems = computed(() => {
+  const items = [
+    {
+      label: t('HELP_CENTER.ARTICLES_PAGE.ARTICLES_HEADER.AUTHOR.ALL'),
+      value: '',
+      icon: 'i-lucide-users',
+    },
+    {
+      label: t('HELP_CENTER.ARTICLES_PAGE.ARTICLES_HEADER.AUTHOR.ME'),
+      value: String(currentUserId.value),
+      icon: 'i-lucide-user',
+    },
+    ...agents.value
+      .filter(agent => agent.id !== currentUserId.value)
+      .map(({ name, id, thumbnail }) => ({
+        label: name,
+        value: String(id),
+        thumbnail: { name, src: thumbnail },
+      }))
+      .toSorted((a, b) => a.label.localeCompare(b.label)),
+  ];
+
+  return items.map(item => ({
+    ...item,
+    action: 'filter',
+    isSelected: item.value === props.authorId,
+  }));
+});
+
+const activeAuthorName = computed(
+  () =>
+    authorMenuItems.value.find(item => item.value === props.authorId)?.label ||
+    t('HELP_CENTER.ARTICLES_PAGE.ARTICLES_HEADER.AUTHOR.SELECTED')
+);
 
 const countKey = tab => {
   if (tab.value === 'all') {
@@ -59,22 +105,22 @@ const tabs = computed(() => {
 });
 
 const activeTabIndex = computed(() => {
-  const tabParam = route.params.tab || ARTICLE_TABS.ALL;
+  const tabParam =
+    route.params.tab === ARTICLE_TABS.MINE
+      ? ARTICLE_TABS.ALL
+      : route.params.tab || ARTICLE_TABS.ALL;
   return tabs.value.findIndex(tab => tab.value === tabParam);
 });
 
-const activeCategoryName = computed(() => {
-  const activeCategory = props.categories.find(
-    category => category.slug === route.params.categorySlug
-  );
+const activeCategory = computed(() =>
+  props.categories.find(category => category.slug === route.params.categorySlug)
+);
 
-  if (activeCategory) {
-    const { icon, name } = activeCategory;
-    return `${icon} ${name}`;
-  }
-
-  return t('HELP_CENTER.ARTICLES_PAGE.ARTICLES_HEADER.CATEGORY.ALL');
-});
+const activeCategoryName = computed(
+  () =>
+    activeCategory.value?.name ||
+    t('HELP_CENTER.ARTICLES_PAGE.ARTICLES_HEADER.CATEGORY.ALL')
+);
 
 const activeLocaleName = computed(() => {
   return props.allowedLocales.find(
@@ -94,6 +140,7 @@ const categoryMenuItems = computed(() => {
     value: category.slug,
     action: 'filter',
     emoji: category.icon,
+    iconColor: category.icon_color,
   }));
 
   const hasCategorySlug = !!route.params.categorySlug;
@@ -126,6 +173,11 @@ const handleCategoryAction = ({ value }) => {
   isCategoryMenuOpen.value = false;
 };
 
+const handleAuthorAction = ({ value }) => {
+  emit('authorChange', value);
+  isAuthorMenuOpen.value = false;
+};
+
 const handleNewArticle = () => {
   emit('newArticle');
 };
@@ -142,8 +194,8 @@ const handleTabChange = value => {
       :initial-active-tab="activeTabIndex"
       @tab-changed="handleTabChange"
     />
-    <div class="flex items-start justify-between w-full gap-2">
-      <div class="flex items-center gap-2">
+    <div class="flex items-start justify-between w-full min-w-0 gap-2">
+      <div class="flex items-center min-w-0 gap-2">
         <div class="relative group">
           <OnClickOutside @trigger="isLocaleMenuOpen = false">
             <Button
@@ -164,17 +216,29 @@ const handleTabChange = value => {
             />
           </OnClickOutside>
         </div>
-        <div v-if="hasCategoryMenuItems" class="relative group">
+        <div
+          v-if="hasCategoryMenuItems"
+          class="relative min-w-0 group max-w-48"
+        >
           <OnClickOutside @trigger="isCategoryMenuOpen = false">
             <Button
-              :label="activeCategoryName"
               icon="i-lucide-chevron-down"
               size="sm"
               color="slate"
               trailing-icon
-              class="max-w-48"
+              class="max-w-full"
               @click="isCategoryMenuOpen = !isCategoryMenuOpen"
-            />
+            >
+              <span class="flex items-center gap-1.5 min-w-0">
+                <EmojiIcon
+                  v-if="activeCategory?.icon"
+                  :value="activeCategory.icon"
+                  :color="activeCategory.icon_color"
+                  class="flex-shrink-0 size-4"
+                />
+                <span class="truncate">{{ activeCategoryName }}</span>
+              </span>
+            </Button>
 
             <DropdownMenu
               v-if="isCategoryMenuOpen"
@@ -185,11 +249,44 @@ const handleTabChange = value => {
             />
           </OnClickOutside>
         </div>
+        <div class="relative min-w-0 group max-w-48">
+          <OnClickOutside @trigger="isAuthorMenuOpen = false">
+            <Button
+              :label="activeAuthorName"
+              :aria-label="
+                t('HELP_CENTER.ARTICLES_PAGE.ARTICLES_HEADER.AUTHOR.LABEL', {
+                  author: activeAuthorName,
+                })
+              "
+              :aria-expanded="isAuthorMenuOpen"
+              size="sm"
+              icon="i-lucide-chevron-down"
+              color="slate"
+              trailing-icon
+              class="max-w-full"
+              @click="isAuthorMenuOpen = !isAuthorMenuOpen"
+            />
+            <DropdownMenu
+              v-if="isAuthorMenuOpen"
+              :menu-items="authorMenuItems"
+              :search-placeholder="
+                t(
+                  'HELP_CENTER.ARTICLES_PAGE.ARTICLES_HEADER.AUTHOR.SEARCH_PLACEHOLDER'
+                )
+              "
+              show-search
+              class="start-0 w-56 mt-2 top-full max-h-60"
+              @action="handleAuthorAction"
+            />
+          </OnClickOutside>
+        </div>
       </div>
+      <ArticleSortMenu />
       <Button
         :label="t('HELP_CENTER.ARTICLES_PAGE.ARTICLES_HEADER.NEW_ARTICLE')"
         icon="i-lucide-plus"
         size="sm"
+        class="flex-shrink-0"
         @click="handleNewArticle"
       />
     </div>

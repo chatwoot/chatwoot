@@ -44,6 +44,12 @@ conversations:
       - "not_equal_to"
       - "is_present"
       - "is_not_present"
+  contact_id:
+    attribute_type: "standard"
+    data_type: "number"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
   priority:
     attribute_type: "standard"
     data_type: "text"
@@ -234,5 +240,17 @@ messages:
       - "not_equal_to"
       - "contains"
       - "does_not_contain"
+  sender_id:
+    attribute_type: "standard"
+    data_type: "numeric"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
+  sender_type:
+    attribute_type: "standard"
+    data_type: "text"
+    filter_operators:
+      - "equal_to"
+      - "not_equal_to"
 
 ### ----- End of Message Filters ----- ###

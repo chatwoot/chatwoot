@@ -16,6 +16,8 @@ RSpec.describe '/api/v1/widget/integrations/dyte', type: :request do
   end
 
   before do
+    allow(Integrations::Cloudflare::RealtimeKitCredentialsValidator).to receive(:validate)
+      .and_return(Integrations::Cloudflare::RealtimeKitCredentialsValidator::Result.new(true, nil))
     create(:integrations_hook, :dyte, account: account)
   end
 
@@ -46,15 +48,15 @@ RSpec.describe '/api/v1/widget/integrations/dyte', type: :request do
 
       context 'when message is an integration message' do
         before do
-          stub_request(:post, 'https://api.dyte.io/v2/meetings/m_id/participants')
+          stub_request(:post, 'https://api.cloudflare.com/client/v4/accounts/account_id/realtime/kit/app_id/meetings/m_id/participants')
             .to_return(
               status: 200,
-              body: { success: true, data: { id: 'random_uuid', auth_token: 'json-web-token' } }.to_json,
+              body: { success: true, data: { id: 'random_uuid', token: 'json-web-token' } }.to_json,
               headers: { 'Content-Type' => 'application/json' }
             )
         end
 
-        it 'returns auth_token' do
+        it 'returns token' do
           post add_participant_to_meeting_api_v1_widget_integrations_dyte_url,
                headers: { 'X-Auth-Token' => token },
                params: { website_token: web_widget.website_token, message_id: integration_message.id },
@@ -64,9 +66,32 @@ RSpec.describe '/api/v1/widget/integrations/dyte', type: :request do
           response_body = response.parsed_body
           expect(response_body).to eq(
             {
-              'id' => 'random_uuid', 'auth_token' => 'json-web-token'
+              'id' => 'random_uuid', 'token' => 'json-web-token'
             }
           )
+        end
+      end
+
+      context 'when message belongs to another contact conversation in the same inbox' do
+        let(:other_contact) { create(:contact, account: account) }
+        let(:other_contact_inbox) { create(:contact_inbox, contact: other_contact, inbox: web_widget.inbox) }
+        let(:other_conversation) do
+          create(:conversation, contact: other_contact, account: account, inbox: web_widget.inbox, contact_inbox: other_contact_inbox)
+        end
+        let(:other_integration_message) do
+          create(:message, content_type: 'integrations',
+                           content_attributes: { type: 'dyte', data: { meeting_id: 'other_m_id' } },
+                           conversation: other_conversation, account: account, inbox: web_widget.inbox)
+        end
+
+        it 'returns not found without adding a participant' do
+          post add_participant_to_meeting_api_v1_widget_integrations_dyte_url,
+               headers: { 'X-Auth-Token' => token },
+               params: { website_token: web_widget.website_token, message_id: other_integration_message.id },
+               as: :json
+
+          expect(response).to have_http_status(:not_found)
+          expect(a_request(:any, %r{/meetings/other_m_id/participants})).not_to have_been_made
         end
       end
     end

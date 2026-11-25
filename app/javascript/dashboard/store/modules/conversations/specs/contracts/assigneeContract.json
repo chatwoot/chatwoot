@@ -1,0 +1,55 @@
+{
+  "_generated_by": "spec/contracts/conversation_assignee_contract_spec.rb",
+  "_regenerate_with": "UPDATE_CONTRACTS=1 bundle exec rspec spec/contracts/conversation_assignee_contract_spec.rb",
+  "current_user_id": 100,
+  "conversations": [
+    {
+      "id": 1,
+      "status": "open",
+      "inbox_id": 1,
+      "labels": [],
+      "meta": {
+        "assignee": null,
+        "assignee_type": null
+      }
+    },
+    {
+      "id": 2,
+      "status": "open",
+      "inbox_id": 1,
+      "labels": [],
+      "meta": {
+        "assignee": {
+          "id": 100
+        },
+        "assignee_type": "User"
+      }
+    },
+    {
+      "id": 3,
+      "status": "open",
+      "inbox_id": 1,
+      "labels": [],
+      "meta": {
+        "assignee": {
+          "id": 100
+        },
+        "assignee_type": "AgentBot"
+      }
+    }
+  ],
+  "server": {
+    "unassigned_ids": [
+      1
+    ],
+    "mine_ids": [
+      2
+    ],
+    "counts": {
+      "mine_count": 1,
+      "assigned_count": 2,
+      "unassigned_count": 1,
+      "all_count": 3
+    }
+  }
+}

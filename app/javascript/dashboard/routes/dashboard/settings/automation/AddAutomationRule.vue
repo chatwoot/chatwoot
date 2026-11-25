@@ -1,8 +1,10 @@
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useStore } from 'dashboard/composables/store';
+import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { useAutomation } from 'dashboard/composables/useAutomation';
+import { useEditableAutomation } from 'dashboard/composables/useEditableAutomation';
 import AutomationRuleForm from './AutomationRuleForm.vue';
+import { AUTOMATION_ACTION_TYPES } from './constants';
 
 const emit = defineEmits(['saveAutomation']);
 
@@ -10,6 +12,8 @@ const START_VALUE = {
   name: null,
   description: null,
   event_name: 'conversation_created',
+  execution_delay: null,
+  execution_delay_trigger: null,
   conditions: [
     {
       attribute_key: 'status',
@@ -28,6 +32,7 @@ const START_VALUE = {
 };
 
 const store = useStore();
+const allCustomAttributes = useMapGetter('attributes/getAttributes');
 const formRef = ref(null);
 
 const {
@@ -44,10 +49,20 @@ const {
   manifestCustomAttributes,
 } = useAutomation(START_VALUE);
 
-const open = () => {
-  automation.value = structuredClone(START_VALUE);
+const { formatAutomation } = useEditableAutomation();
+
+// `seed` is a partial automation in saved shape (ids, not dropdown options).
+const open = (executionDelay = null, seed = null) => {
   manifestCustomAttributes();
-  formRef.value?.open();
+  automation.value = seed
+    ? formatAutomation(
+        { ...structuredClone(START_VALUE), ...seed },
+        allCustomAttributes.value,
+        automationTypes,
+        AUTOMATION_ACTION_TYPES
+      )
+    : structuredClone(START_VALUE);
+  formRef.value?.open(executionDelay);
 };
 const close = () => formRef.value?.close();
 

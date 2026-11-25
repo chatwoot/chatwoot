@@ -1,6 +1,5 @@
 import { getAllowedFileTypesByChannel } from '@chatwoot/utils';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
-import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
 
 export const DEFAULT_MAXIMUM_FILE_UPLOAD_SIZE = 40;
 
@@ -24,6 +23,14 @@ export const checkFileSizeLimit = (file, maximumUploadLimit) => {
   const fileSize = file?.file?.size || file?.size;
   const fileSizeInMB = fileSizeInMegaBytes(fileSize);
   return fileSizeInMB <= maximumUploadLimit;
+};
+
+// A zero-byte file is refused by the server, and on a WhatsApp inbox that refusal used to reach
+// the agent only as a message that looked sent and failed minutes later. Catch it here so the
+// reason is readable, the same way the size limit is.
+export const isFileEmpty = file => {
+  const fileSize = file?.file?.size ?? file?.size;
+  return fileSize === 0;
 };
 
 export const resolveMaximumFileUploadSize = value => {
@@ -58,9 +65,8 @@ export const isFileTypeAllowedForChannel = (file, options = {}) => {
     isOnPrivateNote,
   } = options;
 
-  // Use broader file types for private notes (matches file picker behavior)
   const allowedFileTypes = isOnPrivateNote
-    ? ALLOWED_FILE_TYPES
+    ? getAllowedFileTypesByChannel()
     : getAllowedFileTypesByChannel({
         channelType:
           isInstagramChannel || conversationType === 'instagram_direct_message'

@@ -30,15 +30,25 @@ class ChannelListener < BaseListener
     end
   end
 
+  # Two callers, two ways of naming the messages. A person opening the thread has only a
+  # watermark to go on, so the set is everything inbound since it. An agent bot names the
+  # messages it processed, and those ids win: the bot is answering a specific turn, not
+  # catching up on a thread, and it has no watermark of its own to widen the set with.
   def messages_read(event)
-    conversation, last_seen_at = event.data.values_at(:conversation, :last_seen_at)
+    conversation, last_seen_at, message_ids = event.data.values_at(:conversation, :last_seen_at, :message_ids)
 
     channel = conversation.inbox.channel
     return unless channel.respond_to?(:read_messages)
 
     messages = conversation.messages.where(message_type: :incoming).where.not(status: :read)
 
-    messages = messages.where('updated_at > ?', last_seen_at) if last_seen_at.present?
+    messages = if message_ids.present?
+                 messages.where(id: message_ids)
+               elsif last_seen_at.present?
+                 messages.where('updated_at > ?', last_seen_at)
+               else
+                 messages
+               end
 
     channel.read_messages(messages, conversation: conversation) if messages.any?
   end

@@ -1,0 +1,50 @@
+{
+  "v": 1,
+  "id": "01920000-0000-7000-8000-000000000037",
+  "type": "group.joined",
+  "sid": "9f1c0f4e-6a2b-4c8e-9d1a-2b3c4d5e6f70",
+  "epoch": 7,
+  "seq": 37,
+  "ts": 1755440000123,
+  "inst": "connector-a1b2c3",
+  "payload": {
+    "info": {
+      "group": {
+        "kind": "group",
+        "id": "120363041234567890"
+      },
+      "subject": "Equipe fazer.ai",
+      "description": "canal do time",
+      "owner": {
+        "phone": "5541988887777",
+        "lid": "998877665544332",
+        "push_name": "Bruno Lima"
+      },
+      "created_at": 1755353600123,
+      "participants": [
+        {
+          "party": {
+            "phone": "5541988887777",
+            "lid": "998877665544332",
+            "push_name": "Bruno Lima"
+          },
+          "role": "superadmin"
+        },
+        {
+          "party": {
+            "phone": "5541999990000",
+            "lid": "182736451928374",
+            "push_name": "Ana Souza"
+          },
+          "role": "member"
+        }
+      ],
+      "size": 2,
+      "announce": false,
+      "locked": false,
+      "join_approval": false,
+      "member_add_mode": "admin_add",
+      "has_picture": false
+    }
+  }
+}

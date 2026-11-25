@@ -4,7 +4,12 @@ import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
+import {
+  CONTACT_FIELD_LABELS,
+  requestErrorMessage,
+} from 'dashboard/helper/requestErrorMessage';
 import { debounce } from '@chatwoot/utils';
+import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator';
 
@@ -16,7 +21,8 @@ import ContactsBulkActionBar from '../components/ContactsBulkActionBar.vue';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import BulkActionsAPI from 'dashboard/api/bulkActions';
 
-const DEFAULT_SORT_FIELD = 'last_activity_at';
+// Only order backed by index_contacts_on_account_id_and_last_activity_at
+const DEFAULT_SORT = '-last_activity_at';
 const DEBOUNCE_DELAY = 300;
 
 const store = useStore();
@@ -32,6 +38,12 @@ const customViewsUiFlags = useMapGetter('customViews/getUIFlags');
 const segments = useMapGetter('customViews/getContactCustomViews');
 const appliedFilters = useMapGetter('contacts/getAppliedContactFilters');
 const meta = useMapGetter('contacts/getMeta');
+const filterError = ref('');
+const {
+  run: runFilterRequest,
+  abort: abortFilterRequest,
+  isPending: isFiltering,
+} = useAbortableRequest();
 
 const searchQuery = computed(() => route.query?.search);
 const searchValue = ref(searchQuery.value || '');
@@ -41,10 +53,10 @@ const searchPageNumber = ref(1);
 const isLoadingMore = ref(false);
 
 const parseSortSettings = (sortString = '') => {
-  const hasDescending = sortString.startsWith('-');
-  const sortField = hasDescending ? sortString.slice(1) : sortString;
+  const sortValue = sortString || DEFAULT_SORT;
+  const hasDescending = sortValue.startsWith('-');
   return {
-    sort: sortField || DEFAULT_SORT_FIELD,
+    sort: hasDescending ? sortValue.slice(1) : sortValue,
     order: hasDescending ? '-' : '',
   };
 };
@@ -60,8 +72,11 @@ const sortState = reactive({
 
 const activeLabel = computed(() => route.params.label);
 const activeSegmentId = computed(() => route.params.segmentId);
-const isFetchingList = computed(
+const isFetchingContacts = computed(
   () => uiFlags.value.isFetching || customViewsUiFlags.value.isFetching
+);
+const isFetchingList = computed(
+  () => isFetchingContacts.value || isFiltering.value
 );
 const currentPage = computed(() => Number(meta.value?.currentPage));
 const totalItems = computed(() => meta.value?.count);
@@ -196,7 +211,13 @@ const getCommonFetchParams = (page = 1) => ({
   label: activeLabel.value,
 });
 
+const resetFilterRequest = () => {
+  abortFilterRequest();
+  filterError.value = '';
+};
+
 const fetchContacts = async (page = 1, options = {}) => {
+  resetFilterRequest();
   const { clearSelection: shouldClearSelection = true } = options;
   if (shouldClearSelection) {
     clearSelection();
@@ -218,14 +239,27 @@ const fetchSavedOrAppliedFilteredContact = async (
     clearSelection();
   }
 
-  await store.dispatch('contacts/filter', {
-    ...getCommonFetchParams(page),
-    queryPayload: payload,
-  });
-  updatePageParam(page);
+  filterError.value = '';
+  try {
+    const results = await runFilterRequest(signal =>
+      store.dispatch('contacts/filter', {
+        ...getCommonFetchParams(page),
+        queryPayload: payload,
+        signal,
+      })
+    );
+    if (results) updatePageParam(page);
+  } catch (error) {
+    clearSelection();
+    filterError.value =
+      activeSegmentId.value && error?.response?.status === 422
+        ? t('CONTACTS_LAYOUT.FILTER.INVALID_SEGMENT')
+        : t('CONTACTS_LAYOUT.FILTER.LOAD_ERROR');
+  }
 };
 
 const fetchActiveContacts = async (page = 1, options = {}) => {
+  resetFilterRequest();
   const { clearSelection: shouldClearSelection = true } = options;
   if (shouldClearSelection) {
     clearSelection();
@@ -241,6 +275,7 @@ const fetchActiveContacts = async (page = 1, options = {}) => {
 
 const searchContacts = debounce(
   async (value, page = 1, append = false, options = {}) => {
+    resetFilterRequest();
     const { clearSelection: shouldClearSelection = true } = options;
 
     if (!append) {
@@ -262,7 +297,7 @@ const searchContacts = debounce(
     updatePageParam(page, value);
     await store.dispatch('contacts/search', {
       ...getCommonFetchParams(page),
-      search: encodeURIComponent(value),
+      search: value,
       append,
     });
     searchPageNumber.value = page;
@@ -278,7 +313,7 @@ const loadMoreSearchResults = async () => {
 
   await store.dispatch('contacts/search', {
     ...getCommonFetchParams(nextPage),
-    search: encodeURIComponent(searchValue.value),
+    search: searchValue.value,
     append: true,
   });
 
@@ -292,7 +327,7 @@ const fetchContactsBasedOnContext = async (page, options = {}) => {
     clearSelection();
   }
   updatePageParam(page, searchValue.value);
-  if (isFetchingList.value) return;
+  if (isFetchingContacts.value) return;
   if (searchQuery.value) {
     await searchContacts(searchQuery.value, page, false, {
       clearSelection: shouldClearSelection,
@@ -351,6 +386,28 @@ const assignLabels = async labels => {
   }
 };
 
+const removeLabels = async labels => {
+  if (!labels.length || !selectedContactIds.value.length) {
+    return;
+  }
+
+  isBulkActionLoading.value = true;
+  try {
+    await BulkActionsAPI.create({
+      type: 'Contact',
+      ids: selectedContactIds.value,
+      labels: { remove: labels },
+    });
+    useAlert(t('CONTACTS_BULK_ACTIONS.REMOVE_LABELS_SUCCESS'));
+    clearSelection();
+    await fetchContactsBasedOnContext(pageNumber.value);
+  } catch (error) {
+    useAlert(t('CONTACTS_BULK_ACTIONS.REMOVE_LABELS_FAILED'));
+  } finally {
+    isBulkActionLoading.value = false;
+  }
+};
+
 const deleteContacts = async () => {
   if (!selectedContactIds.value.length) {
     return;
@@ -403,7 +460,22 @@ const handleSort = async ({ sort, order }) => {
 };
 
 const createContact = async contact => {
-  await store.dispatch('contacts/create', contact);
+  try {
+    await store.dispatch('contacts/create', contact);
+  } catch (error) {
+    useAlert(
+      requestErrorMessage(
+        error,
+        t,
+        'CONTACTS_LAYOUT.HEADER.ACTIONS.CONTACT_CREATION.ERROR_MESSAGE',
+        CONTACT_FIELD_LABELS
+      )
+    );
+    return;
+  }
+  useAlert(
+    t('CONTACTS_LAYOUT.HEADER.ACTIONS.CONTACT_CREATION.SUCCESS_MESSAGE')
+  );
   await fetchContactsBasedOnContext(pageNumber.value, {
     clearSelection: false,
   });
@@ -512,6 +584,14 @@ onMounted(async () => {
         <Spinner />
       </div>
 
+      <p
+        v-else-if="filterError"
+        role="alert"
+        class="py-10 text-center text-base text-n-ruby-11"
+      >
+        {{ filterError }}
+      </p>
+
       <template v-else>
         <ContactsBulkActionBar
           v-if="hasSelection"
@@ -521,6 +601,7 @@ onMounted(async () => {
           @toggle-all="toggleSelectAll"
           @clear-selection="clearSelection"
           @assign-labels="assignLabels"
+          @remove-labels="removeLabels"
           @delete-selected="openBulkDeleteDialog"
         />
         <ContactEmptyState

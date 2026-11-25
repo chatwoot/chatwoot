@@ -186,6 +186,103 @@ describe('#mutations', () => {
       expect(emitter.emit).not.toHaveBeenCalled();
     });
 
+    it('keeps the viewport and the list order for imported history', () => {
+      const state = {
+        allConversations: [
+          { id: 1, dataFetched: true, messages: [], timestamp: 1602256198 },
+        ],
+        selectedChatId: 1,
+      };
+      mutations[types.ADD_MESSAGE](state, {
+        conversation_id: 1,
+        content: 'mensagem antiga',
+        created_at: 1500000000,
+        content_attributes: { imported: true },
+      });
+      expect(emitter.emit).not.toHaveBeenCalled();
+      expect(state.allConversations[0].timestamp).toBe(1602256198);
+      expect(state.allConversations[0].messages).toHaveLength(1);
+    });
+
+    it('leaves older history to pagination while older pages are unloaded', () => {
+      const messages = Array.from({ length: 20 }, (_, index) => ({
+        id: 100 + index,
+        conversation_id: 1,
+        created_at: 1600000000 + index,
+      }));
+      const state = {
+        allConversations: [{ id: 1, dataFetched: true, messages }],
+        selectedChatId: 1,
+      };
+      mutations[types.ADD_MESSAGE](state, {
+        id: 5,
+        conversation_id: 1,
+        created_at: 1500000000,
+        content_attributes: { imported: true },
+      });
+      expect(state.allConversations[0].messages[0].id).toBe(100);
+      expect(state.allConversations[0].messages).toHaveLength(20);
+    });
+
+    it('puts imported history where it belongs by time', () => {
+      const state = {
+        allConversations: [
+          {
+            id: 1,
+            dataFetched: true,
+            messages: [
+              { id: 10, conversation_id: 1, created_at: 1600000000 },
+              { id: 11, conversation_id: 1, created_at: 1700000000 },
+            ],
+          },
+        ],
+        selectedChatId: 1,
+      };
+      mutations[types.ADD_MESSAGE](state, {
+        id: 5,
+        conversation_id: 1,
+        created_at: 1500000000,
+        content_attributes: { imported: true },
+      });
+      mutations[types.ADD_MESSAGE](state, {
+        id: 6,
+        conversation_id: 1,
+        created_at: 1650000000,
+        content_attributes: { imported: true },
+      });
+      expect(state.allConversations[0].messages.map(m => m.id)).toEqual([
+        5, 10, 6, 11,
+      ]);
+    });
+
+    it('skips SCROLL_TO_MESSAGE when the history of the thread is exhausted', () => {
+      const state = {
+        allConversations: [{ id: 1, updated_at: 1 }],
+        selectedChatId: 1,
+      };
+      mutations[types.UPDATE_CONVERSATION](state, {
+        id: 1,
+        updated_at: 2,
+        additional_attributes: { history_exhausted: true },
+        event_metadata: { source: 'history_exhausted' },
+      });
+      expect(emitter.emit).not.toHaveBeenCalledWith('SCROLL_TO_MESSAGE');
+    });
+
+    it('skips SCROLL_TO_MESSAGE when only the no-WhatsApp banner changed', () => {
+      const state = {
+        allConversations: [{ id: 1, updated_at: 1 }],
+        selectedChatId: 1,
+      };
+      mutations[types.UPDATE_CONVERSATION](state, {
+        id: 1,
+        updated_at: 2,
+        whatsapp_missing_checked_at: null,
+        event_metadata: { source: 'whatsapp_missing' },
+      });
+      expect(emitter.emit).not.toHaveBeenCalledWith('SCROLL_TO_MESSAGE');
+    });
+
     it('update message if it exist in the store', () => {
       global.bus = { $emit: vi.fn() };
       const state = {
@@ -372,7 +469,7 @@ describe('#mutations', () => {
       expect(state.allConversations).toEqual(data);
     });
 
-    it('set all conversation in reconnect if selected chat id and conversation id is the same', () => {
+    it('updates the selected conversation on reconnect without emitting a scroll event', () => {
       const state = {
         allConversations: [{ id: 1, status: 'open' }],
         selectedChatId: 1,
@@ -380,6 +477,7 @@ describe('#mutations', () => {
       const data = [{ id: 1, name: 'test', status: 'resolved' }];
       mutations[types.SET_ALL_CONVERSATION](state, data);
       expect(state.allConversations).toEqual(data);
+      expect(emitter.emit).not.toHaveBeenCalled();
     });
 
     it('set all conversation in reconnect if selected chat id and conversation id is the same then do not update messages, attachments, dataFetched, allMessagesLoaded', () => {
@@ -474,6 +572,23 @@ describe('#mutations', () => {
 
       mutations[types.ADD_CONVERSATION_ATTACHMENTS](state, message);
       expect(state.attachments[1]).toEqual(message.attachments);
+    });
+
+    it('carries the sender and time of the message, like the attachments endpoint', () => {
+      const state = { allConversations: [{ id: 1 }], attachments: {} };
+      const sender = { id: 3, name: 'Bruno', type: 'contact' };
+      const message = {
+        conversation_id: 1,
+        status: 'sent',
+        created_at: 1_700_000_000,
+        sender,
+        attachments: [{ id: 1, message_id: 9 }],
+      };
+
+      mutations[types.ADD_CONVERSATION_ATTACHMENTS](state, message);
+      expect(state.attachments[1]).toEqual([
+        { id: 1, message_id: 9, created_at: 1_700_000_000, sender },
+      ]);
     });
 
     it('should not add duplicate attachments', () => {
@@ -726,6 +841,34 @@ describe('#mutations', () => {
   });
 
   describe('#SET_PREVIOUS_CONVERSATIONS', () => {
+    it('merges overlapping history once while preserving newer realtime message data', () => {
+      const realtimeMessage = {
+        id: 2,
+        content: 'Updated content',
+        status: 'read',
+      };
+      const state = {
+        allConversations: [{ id: 1, messages: [realtimeMessage, { id: 3 }] }],
+      };
+      const payload = {
+        id: 1,
+        data: [
+          { id: 1 },
+          { id: 1 },
+          { id: 2, content: 'Old content', status: 'sent' },
+        ],
+      };
+
+      mutations[types.SET_PREVIOUS_CONVERSATIONS](state, payload);
+      mutations[types.SET_PREVIOUS_CONVERSATIONS](state, payload);
+
+      expect(state.allConversations[0].messages).toEqual([
+        { id: 1 },
+        realtimeMessage,
+        { id: 3 },
+      ]);
+    });
+
     it('should prepend messages to conversation messages array', () => {
       const state = {
         allConversations: [{ id: 1, messages: [{ id: 'msg2' }] }],
@@ -786,9 +929,53 @@ describe('#mutations', () => {
       mutations[types.ASSIGN_AGENT](state, {
         conversationId: 1,
         assignee,
+        assigneeType: 'AgentBot',
       });
       expect(state.allConversations[0].meta.assignee).toEqual(assignee);
+      expect(state.allConversations[0].meta.assignee_type).toEqual('AgentBot');
       expect(state.allConversations[1].meta.assignee).toBeUndefined();
+    });
+
+    it('should update assignee type when provided', () => {
+      const assignee = { id: 1, name: 'Agent' };
+      const state = {
+        allConversations: [{ id: 1, meta: { assignee_type: 'AgentBot' } }],
+      };
+
+      mutations[types.ASSIGN_AGENT](state, {
+        conversationId: 1,
+        assignee,
+        assigneeType: 'User',
+      });
+
+      expect(state.allConversations[0].meta.assignee_type).toEqual('User');
+    });
+
+    it('should infer user assignee type when assignee type is omitted', () => {
+      const assignee = { id: 1, name: 'Agent' };
+      const state = {
+        allConversations: [{ id: 1, meta: { assignee_type: 'AgentBot' } }],
+      };
+
+      mutations[types.ASSIGN_AGENT](state, {
+        conversationId: 1,
+        assignee,
+      });
+
+      expect(state.allConversations[0].meta.assignee_type).toEqual('User');
+    });
+
+    it('should clear assignee type when assignee type and assignee are omitted', () => {
+      const state = {
+        allConversations: [{ id: 1, meta: { assignee_type: 'AgentBot' } }],
+      };
+
+      mutations[types.ASSIGN_AGENT](state, {
+        conversationId: 1,
+        assignee: null,
+      });
+
+      expect(state.allConversations[0].meta.assignee_type).toBeNull();
     });
   });
 

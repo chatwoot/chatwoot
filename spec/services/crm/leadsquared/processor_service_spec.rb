@@ -64,6 +64,26 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
           expect(lead_client).to have_received(:create_or_update_lead).with(any_args)
           expect(contact.reload.additional_attributes['external']['leadsquared_id']).to eq('new_lead_id')
         end
+
+        # `create_or_update_lead` is the network call, and the contact was read before it. Same
+        # two levels as the conversation writer: a key of its own and a sibling under `external`.
+        it 'keeps what another writer stored during the lead call' do
+          allow(lead_client).to receive(:create_or_update_lead) do
+            stored = Contact.find(contact.id)
+            stored.update!(
+              additional_attributes: stored.additional_attributes.merge(
+                'city' => 'Curitiba', 'external' => { 'hubspot_id' => 'hs_1' }
+              )
+            )
+            'new_lead_id'
+          end
+
+          service.handle_contact(contact)
+
+          expect(contact.reload.additional_attributes).to include('city' => 'Curitiba')
+          expect(contact.additional_attributes['external'])
+            .to include('hubspot_id' => 'hs_1', 'leadsquared_id' => 'new_lead_id')
+        end
       end
 
       context 'when contact has existing lead ID' do
@@ -79,6 +99,36 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
         it 'updates the lead using existing ID' do
           service.handle_contact(contact)
           expect(lead_client).to have_received(:update_lead).with(any_args)
+        end
+      end
+
+      context 'when the existing lead no longer exists' do
+        let(:error_response) do
+          instance_double(HTTParty::Response, blank?: false, parsed_response: { 'ExceptionType' => 'MXInvalidEntityReferenceException' })
+        end
+        let(:lead_not_found_error) do
+          Crm::Leadsquared::Api::BaseClient::ApiError.new('Lead not found', 500, error_response)
+        end
+
+        before do
+          contact.update!(additional_attributes: { 'external' => { 'leadsquared_id' => 'stale_lead_id' } })
+
+          allow(lead_client).to receive(:update_lead)
+            .with(any_args, 'stale_lead_id')
+            .and_raise(lead_not_found_error)
+          allow(lead_client).to receive(:update_lead)
+            .with(any_args, 'fresh_lead_id')
+            .and_return(nil)
+          allow(lead_finder).to receive(:find_or_create)
+            .with(contact)
+            .and_return('fresh_lead_id')
+        end
+
+        it 'clears the stale id and re-resolves the lead' do
+          service.handle_contact(contact)
+
+          expect(lead_finder).to have_received(:find_or_create).with(contact)
+          expect(contact.reload.additional_attributes['external']['leadsquared_id']).to eq('fresh_lead_id')
         end
       end
 
@@ -140,6 +190,28 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
           service.handle_conversation_created(conversation)
           expect(conversation.reload.additional_attributes['leadsquared']['created_activity_id']).to eq('test_activity_id')
         end
+
+        # `post_activity` is a network call and the conversation object was read before it, so the
+        # copy written back afterwards is missing whatever landed in the meantime. Both levels of
+        # the column are at stake: a key of its own and a sibling inside the CRM's own hash.
+        it 'keeps what another writer stored during the activity call, at both levels' do
+          allow(activity_client).to receive(:post_activity) do
+            stored = Conversation.find(conversation.id)
+            stored.update!(
+              additional_attributes: stored.additional_attributes.merge(
+                'conversation_language' => 'pt',
+                'leadsquared' => { 'lead_owner' => 'ana' }
+              )
+            )
+            'test_activity_id'
+          end
+
+          service.handle_conversation_created(conversation)
+
+          expect(conversation.reload.additional_attributes).to include('conversation_language' => 'pt')
+          expect(conversation.additional_attributes['leadsquared'])
+            .to include('lead_owner' => 'ana', 'created_activity_id' => 'test_activity_id')
+        end
       end
 
       context 'when post_activity raises an error' do
@@ -157,6 +229,83 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
 
         it 'logs the error' do
           service.handle_conversation_created(conversation)
+          expect(Rails.logger).to have_received(:error).with(/LeadSquared conversation activity failed/)
+        end
+      end
+
+      context 'when post_activity fails because the lead no longer exists' do
+        let(:error_response) do
+          instance_double(HTTParty::Response, blank?: false, parsed_response: { 'ExceptionType' => 'MXInvalidEntityReferenceException' })
+        end
+        let(:lead_not_found_error) do
+          Crm::Leadsquared::Api::BaseClient::ApiError.new('Lead not found', 500, error_response)
+        end
+
+        before do
+          contact.update!(additional_attributes: { 'external' => { 'leadsquared_id' => 'stale_lead_id' } })
+
+          allow(lead_finder).to receive(:find_or_create)
+            .with(contact)
+            .and_return('stale_lead_id', 'fresh_lead_id')
+
+          allow(activity_client).to receive(:post_activity)
+            .with('stale_lead_id', 1001, activity_note)
+            .and_raise(lead_not_found_error)
+          allow(activity_client).to receive(:post_activity)
+            .with('fresh_lead_id', 1001, activity_note)
+            .and_return('healed_activity_id')
+        end
+
+        it 'clears the stale id, re-resolves the lead, and retries the activity once' do
+          service.handle_conversation_created(conversation)
+
+          expect(activity_client).to have_received(:post_activity).with('fresh_lead_id', 1001, activity_note)
+          expect(contact.reload.additional_attributes['external']['leadsquared_id']).to eq('fresh_lead_id')
+          expect(conversation.reload.additional_attributes['leadsquared']['created_activity_id']).to eq('healed_activity_id')
+        end
+
+        # The clearing is a write after a network call like every other one here: the error came
+        # back from LeadSquared, and the contact object was read before the call that raised it.
+        it 'clears only its own id, keeping what another writer stored during the failed call' do
+          allow(activity_client).to receive(:post_activity).with('stale_lead_id', 1001, activity_note) do
+            stored = Contact.find(contact.id)
+            stored.update!(
+              additional_attributes: stored.additional_attributes.merge(
+                'city' => 'Curitiba', 'external' => stored.additional_attributes['external'].merge('hubspot_id' => 'hs_1')
+              )
+            )
+            raise lead_not_found_error
+          end
+
+          service.handle_conversation_created(conversation)
+
+          expect(contact.reload.additional_attributes).to include('city' => 'Curitiba')
+          expect(contact.additional_attributes['external'])
+            .to include('hubspot_id' => 'hs_1', 'leadsquared_id' => 'fresh_lead_id')
+        end
+      end
+
+      context 'when post_activity fails with a non-recoverable error' do
+        let(:error_response) do
+          instance_double(HTTParty::Response, blank?: false, parsed_response: { 'ExceptionType' => 'MXSomeOtherException' })
+        end
+        let(:other_error) do
+          Crm::Leadsquared::Api::BaseClient::ApiError.new('boom', 500, error_response)
+        end
+
+        before do
+          allow(lead_finder).to receive(:find_or_create)
+            .with(contact)
+            .and_return('test_lead_id')
+
+          allow(activity_client).to receive(:post_activity).and_raise(other_error)
+          allow(Rails.logger).to receive(:error)
+        end
+
+        it 'logs once and does not retry' do
+          service.handle_conversation_created(conversation)
+
+          expect(activity_client).to have_received(:post_activity).once
           expect(Rails.logger).to have_received(:error).with(/LeadSquared conversation activity failed/)
         end
       end

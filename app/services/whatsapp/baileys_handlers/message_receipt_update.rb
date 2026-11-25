@@ -24,7 +24,8 @@ module Whatsapp::BaileysHandlers::MessageReceiptUpdate
     return if new_status.nil?
     return unless receipt_status_transition_allowed?(new_status)
 
-    @message.update!(status: new_status)
+    # Through the upstream service, which clears the external_error a failed message carried.
+    Messages::StatusUpdateService.new(@message, new_status).perform
   end
 
   def receipt_status

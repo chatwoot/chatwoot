@@ -1,0 +1,227 @@
+# fazer.ai fork translations for Chatwoot mailer templates.
+#
+# Upstream ships these templates with the copy hardcoded in ERB, so the fork
+# extracted them into i18n keys to translate them. They are not our features:
+# if upstream ever localizes its own mailers, this whole file goes away.
+en:
+  mailer:
+    common:
+      hi: Hi %{name}
+      hi_plain: Hi
+      hello: Hello,
+      hello_there: Hello there,
+      click_here: Click <a href="%{url}">here</a>
+      powered_by: Powered by
+      sent_by_prefix: This email was sent by
+      you: You
+      attachment_click_to_view: Attachment [<a href="%{url}" target="_blank">Click here to view</a>]
+      click_here_to_get_cracking: Click <a href="%{url}">here</a> to get cracking.
+      the_chatwoot_team: The %{brand_name} Team
+    conversation_reply:
+      csat:
+        ratings:
+          poor: Poor
+          fair: Fair
+          average: Average
+          good: Good
+          excellent: Excellent
+    agent_notifications:
+      conversation_creation:
+        subject: "%{agent_name}, A new conversation [ID - %{conversation_id}] has been created in %{inbox_name}."
+        body: 'A new conversation (<a href="%{url}">#%{conversation_id}</a>) has been created in %{inbox_name}. <strong>%{contact_name}</strong> wrote:'
+      conversation_assignment:
+        subject: "%{agent_name}, A new conversation [ID - %{conversation_id}] has been assigned to you."
+        body: Time to save the world. A new conversation has been assigned to you
+      conversation_mention:
+        subject: "%{agent_name}, You have been mentioned in conversation [ID - %{conversation_id}]"
+        body: 'You''ve been mentioned in a conversation. <b>%{sender_name}</b> wrote:'
+        previous_messages: 'Previous messages:'
+        view_message: View Message
+      assigned_conversation_new_message:
+        subject: "%{agent_name}, New message in your assigned conversation [ID - %{conversation_id}]."
+        body: You have received a new message in your assigned conversation.
+      participating_conversation_new_message:
+        subject: "%{agent_name}, New message in your participating conversation [ID - %{conversation_id}]."
+        body: You have received a new message in a conversation you are participating.
+      sla_missed_first_response:
+        subject: Conversation [ID - %{conversation_id}] missed SLA for first response
+        body: has missed the SLA for first response under policy
+        full_body: 'Conversation #%{conversation_id} in %{inbox_name} has missed the SLA for first response under policy %{sla_policy_name}.'
+        action: Please address immediately.
+      sla_missed_next_response:
+        subject: Conversation [ID - %{conversation_id}] missed SLA for next response
+        body: has missed the SLA for next response under policy
+        full_body: 'Conversation #%{conversation_id} in %{inbox_name} has missed the SLA for next response under policy %{sla_policy_name}.'
+        action: Please address immediately.
+      sla_missed_resolution:
+        subject: Conversation [ID - %{conversation_id}] missed SLA for resolution time
+        body: has missed the SLA for resolution time under policy
+        full_body: 'Conversation #%{conversation_id} in %{inbox_name} has missed the SLA for resolution time under policy %{sla_policy_name}.'
+        action: Please address immediately.
+    administrator_notifications:
+      channel_notifications:
+        whatsapp_disconnect:
+          subject: Your Whatsapp connection has expired
+          body: Your Whatsapp Access has expired.
+          action: Please reconnect Whatsapp to continue receiving messages.
+          click_to_reconnect: Click <a href="%{url}">here</a> to re-connect.
+        facebook_disconnect:
+          subject: Your Facebook page connection has expired
+          body: Your Facebook Inbox Access has expired.
+          action: Please reconnect Facebook Page to continue receiving messages.
+          click_to_reconnect: Click <a href="%{url}">here</a> to re-connect.
+        instagram_disconnect:
+          subject: Your Instagram connection has expired
+          body: Your Instagram Inbox Access has expired.
+          action: Please reconnect Instagram to continue receiving messages.
+          click_to_reconnect: Click <a href="%{url}">here</a> to re-connect.
+        tiktok_disconnect:
+          subject: Your TikTok connection has expired
+          body: Your TikTok Inbox Access has expired.
+          action: Please reconnect TikTok to continue receiving messages.
+          click_to_reconnect: Click <a href="%{url}">here</a> to re-connect.
+        email_disconnect:
+          subject: Your email inbox has been disconnected. Please update the credentials for SMTP/IMAP
+          body: Your email inbox has been disconnected due to configuration errors.
+          action: Please update it to continue receiving messages.
+          click_to_reconnect: Click <a href="%{url}">here</a> to re-connect.
+      account_notifications:
+        automation_rule_disabled:
+          subject: Automation rule disabled due to validation errors.
+          body: The automation rule <b>%{rule_name}</b> has been disabled because it has invalid conditions.
+          explanation: This typically happens when you delete any custom attributes which are still being used in automation rules.
+          action: Click <a href="%{url}">here</a> to update the conditions.
+        contact_import_complete:
+          subject: Contact Import Completed
+          body: Your contact import has been completed. Please check the contacts tab to view the imported contacts.
+          imported_records: 'Number of records imported: %{count}'
+          failed_records: 'Number of records failed: %{count}'
+          click_to_view_imported: Click <a href="%{url}">here</a> to view the imported contacts.
+          click_to_view_failed: Click <a href="%{url}" target="_blank">here</a> to view failed records.
+        contact_import_failed:
+          subject: Contact Import Failed
+          body: Your contact import has failed. It appears that the CSV file you uploaded may not be valid. We kindly request that you review the file and ensure it complies with the required format.
+        contact_export_complete:
+          subject: Your contact's export file is available to download.
+          body: Your contact export file is ready to download.
+          action: <a href="%{url}">View your export</a>.
+        account_deletion_user_initiated:
+          subject: Your %{brand_name} account deletion has been scheduled
+          body: An account administrator has requested deletion of the %{brand_name} account <strong>%{account_name}</strong>. The account is scheduled for deletion on <strong>%{deletion_date}</strong>.
+          what_happens_next: What happens next?
+          remains_accessible: The account will remain accessible until the scheduled deletion date.
+          data_permanently_removed: After that, all data including conversations, contacts, integrations, and settings will be permanently removed.
+          cancel_request: If you change your mind before the deletion date, you can <a href="%{url}">cancel this request</a> by visiting your account settings.
+        account_deletion_for_inactivity:
+          subject: Your %{brand_name} account is scheduled for deletion due to inactivity
+          body: We've noticed that your %{brand_name} account <strong>%{account_name}</strong> has been inactive for some time. Because of this, it's scheduled for deletion on <strong>%{deletion_date}</strong>.
+          how_to_keep: How do I keep my account?
+          how_to_keep_body: Log in to your %{brand_name} account before <strong>%{deletion_date}</strong>. From your account settings, you can <a href="%{url}">cancel the deletion</a> and continue using your account.
+          what_if_no_cancel: What happens if I don't cancel?
+          what_if_no_cancel_body: Unless you cancel the account deletion before <strong>%{deletion_date}</strong>, your account and all associated data, including conversations, contacts, reports, and settings, will be permanently deleted.
+          why_doing_this: Why are we doing this?
+          why_doing_this_body: To keep things secure and efficient, we regularly remove inactive accounts so our systems remain optimized for active teams.
+          contact_us: If you have any questions, feel free to reach us at <a href="mailto:%{email}">%{email}</a>.
+      integrations_notifications:
+        slack_disconnect:
+          subject: Your Slack integration has expired
+          body: Your Slack integration has expired. To continue receiving messages on Slack, please delete the integration and connect your workspace again.
+          click_to_reconnect: Click <a href="%{url}">here</a> to re-connect.
+        dialogflow_disconnect:
+          subject: Your Dialogflow integration was disconnected
+          body: Your Dialogflow integration was disconnected because of permission issues. To resolve this, please delete the integration from the admin dashboard and reconnect it using new credentials.
+      account_compliance:
+        account_deleted:
+          subject: Account Deletion Notice for %{account_id} - %{account_name}
+          body: This is a notification to inform you that an account has been permanently deleted from your %{brand_name} instance.
+          installation: "%{brand_name} Installation:"
+          account_id: 'Account ID:'
+          account_name: 'Account Name:'
+          deletion_due_at: 'Deletion due at:'
+          deleted_at: 'Deleted At:'
+          deletion_reason: 'Deletion Reason:'
+          deleted_users: 'Deleted Users (%{count}):'
+          deleted_users_none: 'Deleted Users: None'
+          user_id: 'User ID:'
+          compliance_notice: This email serves as a record for compliance purposes.
+          thank_you: Thank you,
+          system_name: "%{brand_name} System"
+    team_notifications:
+      automation:
+        subject: This email has been sent via automation rule actions.
+        automation_system: This is the mail from Automation System
+    portal:
+      cname_instructions:
+        greeting: Hello there,
+        intro: 'To complete the setup of your help center, you''ll need to update the DNS settings for your custom domain: <strong>%{domain}</strong>.'
+        add_cname: 'Please add the following CNAME record to your DNS provider''s configuration:'
+        steps_title: 'Step-by-step Instructions:'
+        step_1: Log in to your DNS provider's dashboard
+        step_2: Go to the DNS management section
+        step_3: Create a new CNAME record using the information above
+        step_4: Save the changes and allow up to 24 hours for the DNS to propagate
+        ssl_notice: Once the DNS record is live, your custom domain will automatically be secured with an SSL certificate.
+        support_message: If you have any questions or need help, feel free to reach out to our support team. We're here to assist you.
+    devise:
+      confirmation_instructions:
+        secure_link: this secure link
+        button_fallback_html: If the button does not work, open %{link}.
+        labels:
+          invited_by: Invited by
+          workspace: Workspace
+          sign_in_method: Sign-in method
+          sign_in_method_value: Single Sign-On (SSO)
+          new_email: New email
+        welcome:
+          eyebrow: Welcome
+          heading: Confirm your email to get started
+          intro_html: Welcome to %{brand_name}. We just need to verify your email address before you can start using your account.
+          supporting_text: This only takes a moment.
+          action_text: Confirm my account
+        email_update:
+          eyebrow: Email update
+          heading: Confirm your new email address
+          intro_html: We received a request to update the email address on your %{brand_name} account.
+          supporting_text: Confirm the new address below to finish the change.
+          action_text: Confirm email address
+        account_ready:
+          eyebrow: Account ready
+          heading: Your account is ready
+          intro_html: Your %{brand_name} account is already active.
+          supporting_text: Use the button below to sign in and continue where you left off.
+          action_text: Open my account
+        invitation:
+          eyebrow: Workspace invitation
+          heading_with_account: You're invited to join %{account_name}
+          heading_default: You're invited to try %{brand_name}
+          intro_with_account_html: "%{inviter_name} invited you to join the %{account_name} workspace on %{brand_name}."
+          intro_default_html: "%{inviter_name} invited you to try %{brand_name}."
+          supporting_text: Create your account to start collaborating with your team.
+          action_text: Accept invitation
+        sso_access_ready:
+          heading: Your access is ready
+          intro_html: Your %{brand_name} access is already set up.
+          supporting_html: Use your organization's Single Sign-On (SSO) portal to access %{brand_name}.
+          info_title: Sign in with your organization's SSO
+          info_text_html: You won't need a separate password for %{brand_name}. Start from your company identity provider portal.
+        sso_invitation:
+          intro_with_account_html: "%{inviter_name} invited you to access the %{account_name} workspace on %{brand_name}."
+          intro_default_html: "%{inviter_name} invited you to access %{brand_name}."
+          supporting_html: Your organization uses Single Sign-On (SSO), so you won't need to create a separate password.
+          info_title: Use your organization's SSO portal
+          info_text_html: Continue from your company identity provider portal to access %{brand_name}.
+      reset_password_instructions:
+        greeting_html: Hello %{name}!
+        body_html: Someone has requested a link to change your password. You can do this through the link below.
+        action: Change my password
+        copy_paste_html: 'Copy and paste the URL into your browser if the link above doesn''t work:'
+        ignore_html: If you didn't request this, please ignore this email.
+        no_change_html: Your password won't change until you access the link above and create a new one.
+      password_change:
+        greeting_html: Hello %{name}!
+        body_html: We're contacting you to notify you that your password has been changed.
+      unlock_instructions:
+        greeting_html: Hello %{name}!
+        body_html: Your account has been locked due to an excessive number of unsuccessful sign in attempts.
+        action_prompt_html: 'Click the link below to unlock your account:'
+        unlock_account: Unlock my account

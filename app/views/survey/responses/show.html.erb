@@ -1,9 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="<%= @conversation&.account&.locale&.tr('_', '-') || 'en' %>">
   <head>
-    <title><%= @global_config['INSTALLATION_NAME'] %></title>
-    <%= csrf_meta_tags %>
+    <%# The account's name only when the account actually set one. Falling back to BRAND_NAME
+        would rename the tab of every unbranded survey -- and of an unknown uuid -- from the
+        installation's own title to its public brand, which are allowed to differ. %>
+    <title><%= @global_config['BRAND_FROM_ACCOUNT'] ? @global_config['BRAND_NAME'] : @global_config['INSTALLATION_NAME'] %></title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+    <%# Rendered server side so the brand is painted on the first frame. Reaching this through
+        window.globalConfig would show the Chatwoot blue and then swap it, on a page the
+        customer opens exactly once.
+
+        It carries BRAND_COLOR_STRONG, not the brand colour as configured: every use on this
+        page is something that has to be *seen* against the white card -- a focus ring, the
+        selected rating, a button carrying white text -- and a pale brand (#FFF is a valid one)
+        would render each of them invisible. BrandColor.on_light darkens to 4.5:1 against
+        white, and contrast is symmetric, so the same value serves both readings. Exposing the
+        faithful colour as a second token would only offer a wrong choice at the call site.
+
+        The value comes out of BrandColor, which returns either its default or a validated hex,
+        so nothing account-controlled lands in CSS. %>
+    <style>
+      :root {
+        color-scheme: light;
+        --survey-brand: <%= @global_config['BRAND_COLOR_STRONG'] %>;
+      }
+    </style>
     <script>
       window.globalConfig = <%= raw @global_config.to_json %>
     </script>

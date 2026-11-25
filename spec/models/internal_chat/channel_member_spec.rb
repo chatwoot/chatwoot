@@ -3,6 +3,14 @@
 require 'rails_helper'
 
 RSpec.describe InternalChat::ChannelMember do
+  # `cache_classes = false` in the test env lets Zeitwerk reload constants
+  # between specs (controller specs commonly trigger this). After a reload,
+  # the `described_class` captured when this file was loaded points at a stale
+  # copy: record equality (`include` matchers) and shoulda's `class_name`
+  # resolution both compare against the freshly-loaded class and fail.
+  # Re-resolving the constant on every example keeps the reference fresh.
+  let(:described_class) { InternalChat::ChannelMember } # rubocop:disable RSpec/DescribedClass
+
   describe 'associations' do
     it { is_expected.to belong_to(:channel).class_name('InternalChat::Channel') }
     it { is_expected.to belong_to(:user) }

@@ -38,6 +38,7 @@ RSpec.describe V2::Reports::InboxSummaryBuilder do
                                             id: i1.id,
                                             conversations_count: 1,
                                             resolved_conversations_count: 0,
+                                            handled_conversations_count: 0,
                                             avg_resolution_time: nil,
                                             avg_first_response_time: 50.0,
                                             avg_reply_time: 35.0
@@ -45,6 +46,7 @@ RSpec.describe V2::Reports::InboxSummaryBuilder do
                                             id: i2.id,
                                             conversations_count: 1,
                                             resolved_conversations_count: 1,
+                                            handled_conversations_count: 0,
                                             avg_resolution_time: 100.0,
                                             avg_first_response_time: nil,
                                             avg_reply_time: nil
@@ -60,6 +62,7 @@ RSpec.describe V2::Reports::InboxSummaryBuilder do
                                             id: i1.id,
                                             conversations_count: 1,
                                             resolved_conversations_count: 0,
+                                            handled_conversations_count: 0,
                                             avg_resolution_time: nil,
                                             avg_first_response_time: 30.0,
                                             avg_reply_time: 15.0
@@ -67,10 +70,42 @@ RSpec.describe V2::Reports::InboxSummaryBuilder do
                                             id: i2.id,
                                             conversations_count: 1,
                                             resolved_conversations_count: 1,
+                                            handled_conversations_count: 0,
                                             avg_resolution_time: 60.0,
                                             avg_first_response_time: nil,
                                             avg_reply_time: nil
                                           })
+      end
+    end
+
+    context 'when the report is narrowed to an agent' do
+      let(:business_hours) { false }
+      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:params) do
+        {
+          business_hours: business_hours,
+          since: 1.week.ago.beginning_of_day,
+          until: Time.current.end_of_day,
+          user_id: agent.id
+        }
+      end
+
+      before do
+        conversation = create(:conversation, account: account, inbox: i1, assignee: agent, created_at: 1.day.ago)
+        create(:reporting_event, account: account, conversation: conversation, inbox: i1, user: agent,
+                                 name: 'conversation_resolved', value: 20, value_in_business_hours: 10, created_at: 1.day.ago)
+      end
+
+      it 'keeps only the inboxes that agent took part in' do
+        expect(report).to contain_exactly(
+          id: i1.id,
+          conversations_count: 1,
+          resolved_conversations_count: 1,
+          handled_conversations_count: 0,
+          avg_resolution_time: 20.0,
+          avg_first_response_time: nil,
+          avg_reply_time: nil
+        )
       end
     end
 
@@ -83,6 +118,7 @@ RSpec.describe V2::Reports::InboxSummaryBuilder do
           id: empty_inbox.id,
           conversations_count: 0,
           resolved_conversations_count: 0,
+          handled_conversations_count: 0,
           avg_resolution_time: nil,
           avg_first_response_time: nil,
           avg_reply_time: nil

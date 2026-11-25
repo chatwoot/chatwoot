@@ -1,0 +1,26 @@
+{
+  "chatid": "5511999990001@s.whatsapp.net",
+  "content": {
+    "contextInfo": {},
+    "text": "captura de contrato 1: texto simples"
+  },
+  "convertOptions": "",
+  "edited": "",
+  "fromMe": true,
+  "id": "5511999990001:3EB00000000000000013",
+  "isGroup": false,
+  "messageTimestamp": 1787161430102,
+  "messageType": "ExtendedTextMessage",
+  "messageid": "3EB00000000000000013",
+  "owner": "5511999990001",
+  "quoted": "",
+  "reaction": "",
+  "readChatAttempted": false,
+  "sender": "5511999990001@s.whatsapp.net",
+  "senderName": "Bruno Lima",
+  "source": "web",
+  "status": "Pending",
+  "text": "captura de contrato 1: texto simples",
+  "track_id": "cw:capture-001",
+  "track_source": ""
+}

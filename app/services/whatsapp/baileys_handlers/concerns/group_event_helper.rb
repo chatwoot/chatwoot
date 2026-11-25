@@ -43,7 +43,8 @@ module Whatsapp::BaileysHandlers::Concerns::GroupEventHelper
     Rails.configuration.dispatcher.dispatch(
       Events::Types::CONTACT_GROUP_SYNCED,
       Time.zone.now,
-      contact: group_contact
+      contact: group_contact,
+      channel: inbox.channel
     )
   end
 end

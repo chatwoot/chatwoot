@@ -12,7 +12,9 @@
   intro_text = t("#{i18n_scope}.welcome.intro_html", brand_name: brand_name)
   supporting_text = t("#{i18n_scope}.welcome.supporting_text")
   action_text = t("#{i18n_scope}.welcome.action_text")
-  action_url = frontend_url('auth/confirmation', confirmation_token: @token)
+  confirmation_params = { confirmation_token: @token }
+  confirmation_params[:route_url] = params[:redirect_url] if params[:redirect_url].present?
+  action_url = frontend_url('auth/confirmation', **confirmation_params)
   info_title = nil
   info_text = nil
   detail_rows = []
@@ -47,7 +49,10 @@
                  end
     supporting_text = t("#{i18n_scope}.invitation.supporting_text")
     action_text = t("#{i18n_scope}.invitation.action_text")
-    action_url = frontend_url('auth/password/edit', reset_password_token: @resource.send(:set_reset_password_token))
+    reset_password_params = { reset_password_token: @resource.send(:set_reset_password_token) }
+  reset_password_params[:route_url] = params[:redirect_url] if params[:redirect_url].present?
+  reset_password_params[:sso_account_id] = params[:sso_account_id] if params[:sso_account_id].present?
+  action_url = frontend_url('auth/password/edit', **reset_password_params)
     detail_rows = [[t("#{i18n_scope}.labels.invited_by"), inviter.name]]
     detail_rows << [t("#{i18n_scope}.labels.workspace"), account_name] if account_name.present?
   end

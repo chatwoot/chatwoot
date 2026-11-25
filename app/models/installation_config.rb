@@ -28,6 +28,11 @@ class InstallationConfig < ApplicationRecord
     OTEL_PROVIDER
   ]).freeze
 
+  MOBILE_APP_VERSION_CONFIG_KEYS = %w[MOBILE_APP_MIN_IOS_VERSION MOBILE_APP_MIN_ANDROID_VERSION].freeze
+  # MAJOR.MINOR.PATCH without leading zeros, as semantic versioning requires.
+  # Valid: 4.9.12, 10.0.0. Invalid: 4.9, 4.09.1, v4.9.12, 4.9.12-beta.
+  MOBILE_APP_VERSION_FORMAT = /\A(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)\z/
+
   # The serialized_value column is jsonb but production data is mixed: older rows
   # were written as YAML strings by upstream's serialize :coder => YAML chain,
   # and some rows were written as native jsonb hashes. The stock YAML coder
@@ -59,6 +64,8 @@ class InstallationConfig < ApplicationRecord
   before_validation :set_lock
   validates :name, presence: true
   validate :saml_sso_users_check, if: -> { name == 'ENABLE_SAML_SSO_LOGIN' }
+  validate :mobile_app_version_format, if: -> { name.in?(MOBILE_APP_VERSION_CONFIG_KEYS) }
+  validate :instagram_login_method, if: -> { name == 'INSTAGRAM_LOGIN_METHOD' }
 
   # TODO: Get rid of default scope
   # https://stackoverflow.com/a/1834250/939299
@@ -79,6 +86,12 @@ class InstallationConfig < ApplicationRecord
 
   private
 
+  def instagram_login_method
+    return if value.blank? || %w[instagram_login unified_login].include?(value)
+
+    errors.add(:value, :inclusion)
+  end
+
   def set_lock
     self.locked = true if locked.nil?
   end
@@ -92,5 +105,11 @@ class InstallationConfig < ApplicationRecord
     return unless User.exists?(provider: 'saml')
 
     errors.add(:base, 'Cannot disable SAML SSO login while users are using SAML authentication')
+  end
+
+  def mobile_app_version_format
+    return if value.blank? || value.to_s.match?(MOBILE_APP_VERSION_FORMAT)
+
+    errors.add(:base, "#{value} is not a valid app version. Use a version like 4.10.0.")
   end
 end

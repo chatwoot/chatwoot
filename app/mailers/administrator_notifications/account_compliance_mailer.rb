@@ -1,4 +1,8 @@
 class AdministratorNotifications::AccountComplianceMailer < AdministratorNotifications::BaseMailer
+  # Addressed to the instance administrator and about the installation: its own template says
+  # "the {brand_name} installation". The deleted account's brand would name the wrong thing.
+  installation_branded!
+
   def account_deleted(account)
     return if instance_admin_email.blank?
 

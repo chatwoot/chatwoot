@@ -21,10 +21,12 @@ import contacts from './modules/contacts';
 import conversationLabels from './modules/conversationLabels';
 import conversationMetadata from './modules/conversationMetadata';
 import conversationPage from './modules/conversationPage';
+import conversationPins from './modules/conversationPins';
 import conversations from './modules/conversations';
 import conversationSearch from './modules/conversationSearch';
 import conversationStats from './modules/conversationStats';
 import conversationTypingStatus from './modules/conversationTypingStatus';
+import conversationUnreadCounts from './modules/conversationUnreadCounts';
 import conversationWatchers from './modules/conversationWatchers';
 import csat from './modules/csat';
 import customRole from './modules/customRole';
@@ -46,14 +48,17 @@ import recurringScheduledMessages from './modules/recurringScheduledMessages';
 import scheduledMessages from './modules/scheduledMessages';
 import sla from './modules/sla';
 import slaReports from './modules/SLAReports';
+import sidebarSortPreferences from './modules/sidebarSortPreferences';
 import summaryReports from './modules/summaryReports';
 import teamMembers from './modules/teamMembers';
 import teams from './modules/teams';
 import userNotificationSettings from './modules/userNotificationSettings';
 import webhooks from './modules/webhooks';
+import captainAgentSessions from './captain/agentSessions';
 import captainAssistants from './captain/assistant';
 import captainDocuments from './captain/document';
 import captainResponses from './captain/response';
+import captainFaqSuggestions from './captain/faqSuggestions';
 import captainInboxes from './captain/inboxes';
 import captainBulkActions from './captain/bulkActions';
 import copilotThreads from './captain/copilotThreads';
@@ -89,10 +94,12 @@ export default createStore({
     conversationLabels,
     conversationMetadata,
     conversationPage,
+    conversationPins,
     conversations,
     conversationSearch,
     conversationStats,
     conversationTypingStatus,
+    conversationUnreadCounts,
     conversationWatchers,
     csat,
     customRole,
@@ -114,14 +121,17 @@ export default createStore({
     scheduledMessages,
     sla,
     slaReports,
+    sidebarSortPreferences,
     summaryReports,
     teamMembers,
     teams,
     userNotificationSettings,
     webhooks,
+    captainAgentSessions,
     captainAssistants,
     captainDocuments,
     captainResponses,
+    captainFaqSuggestions,
     captainInboxes,
     captainBulkActions,
     copilotThreads,

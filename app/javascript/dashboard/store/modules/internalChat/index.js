@@ -5,18 +5,9 @@ import messages from './messages';
 import polls from './polls';
 import drafts from './drafts';
 import search from './search';
+import { initialState } from './state';
 
-const state = {
-  records: {},
-  archivedRecords: {},
-  categories: [],
-  activeChannelId: null,
-  uiFlags: {
-    isFetching: false,
-    isCreating: false,
-    isFetchingArchived: false,
-  },
-};
+const state = initialState();
 
 export default {
   namespaced: true,

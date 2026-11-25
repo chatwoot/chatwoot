@@ -1,5 +1,11 @@
 class Api::V1::Accounts::InternalChat::BaseController < Api::V1::Accounts::BaseController
+  before_action :ensure_internal_chat_access!
+
   private
+
+  def ensure_internal_chat_access!
+    raise Pundit::NotAuthorizedError unless FeatureAccess.new(Current.account).allows?(Current.account_user, 'internal_chat.access')
+  end
 
   def current_channel
     @current_channel ||= Current.account.internal_chat_channels.find(params[:channel_id] || params[:id])

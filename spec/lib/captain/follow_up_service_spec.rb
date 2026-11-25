@@ -42,6 +42,7 @@ RSpec.describe Captain::FollowUpService do
     context 'when follow-up context exists' do
       it 'constructs messages array with full conversation history' do
         expect(service).to receive(:make_api_call) do |args|
+          expect(args[:feature]).to eq('editor')
           messages = args[:messages]
 
           expect(messages).to match(
@@ -125,13 +126,6 @@ RSpec.describe Captain::FollowUpService do
       expect(prompt).to include('reply suggestion')
     end
 
-    it 'describes label_suggestion action' do
-      session = { 'event_name' => 'label_suggestion' }
-      prompt = service.send(:build_follow_up_system_prompt, session)
-
-      expect(prompt).to include('label suggestion')
-    end
-
     it 'uses event_name directly for unknown actions' do
       session = { 'event_name' => 'custom_action' }
       prompt = service.send(:build_follow_up_system_prompt, session)
@@ -154,7 +148,6 @@ RSpec.describe Captain::FollowUpService do
       expect(service.send(:describe_previous_action, 'improve')).to eq('message improvement')
       expect(service.send(:describe_previous_action, 'summarize')).to eq('conversation summary')
       expect(service.send(:describe_previous_action, 'reply_suggestion')).to eq('reply suggestion')
-      expect(service.send(:describe_previous_action, 'label_suggestion')).to eq('label suggestion')
     end
 
     it 'returns event name for unknown operations' do

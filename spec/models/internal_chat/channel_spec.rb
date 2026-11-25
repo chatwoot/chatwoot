@@ -3,6 +3,12 @@
 require 'rails_helper'
 
 RSpec.describe InternalChat::Channel do
+  # Named rather than taken from `described_class`, which RSpec captured when this file
+  # loaded: a reload later in the run replaces the class, and the old object's relations
+  # no longer resolve to what the factories build. `ActiveRecord::Base#==` compares
+  # `instance_of?(self.class)`, so the rows come back right and still fail to match.
+  subject { InternalChat::Channel.new } # rubocop:disable RSpec/DescribedClass
+
   describe 'associations' do
     it { is_expected.to belong_to(:account) }
     it { is_expected.to belong_to(:category).class_name('InternalChat::Category').optional }
@@ -54,6 +60,7 @@ RSpec.describe InternalChat::Channel do
     end
   end
 
+  # rubocop:disable RSpec/DescribedClass -- see the note on `subject` above
   describe 'scopes' do
     let(:account) { create(:account) }
     let!(:active_public) { create(:internal_chat_channel, account: account, channel_type: :public_channel, status: :active) }
@@ -63,32 +70,33 @@ RSpec.describe InternalChat::Channel do
 
     describe '.active' do
       it 'returns only active channels' do
-        expect(described_class.active).to include(active_public, active_private, active_dm)
-        expect(described_class.active).not_to include(archived_channel)
+        expect(InternalChat::Channel.active).to include(active_public, active_private, active_dm)
+        expect(InternalChat::Channel.active).not_to include(archived_channel)
       end
     end
 
     describe '.archived' do
       it 'returns only archived channels' do
-        expect(described_class.archived).to include(archived_channel)
-        expect(described_class.archived).not_to include(active_public, active_private, active_dm)
+        expect(InternalChat::Channel.archived).to include(archived_channel)
+        expect(InternalChat::Channel.archived).not_to include(active_public, active_private, active_dm)
       end
     end
 
     describe '.text_channels' do
       it 'returns public and private channels but not DMs' do
-        expect(described_class.text_channels).to include(active_public, active_private, archived_channel)
-        expect(described_class.text_channels).not_to include(active_dm)
+        expect(InternalChat::Channel.text_channels).to include(active_public, active_private, archived_channel)
+        expect(InternalChat::Channel.text_channels).not_to include(active_dm)
       end
     end
 
     describe '.direct_messages' do
       it 'returns only DM channels' do
-        expect(described_class.direct_messages).to include(active_dm)
-        expect(described_class.direct_messages).not_to include(active_public, active_private, archived_channel)
+        expect(InternalChat::Channel.direct_messages).to include(active_dm)
+        expect(InternalChat::Channel.direct_messages).not_to include(active_public, active_private, archived_channel)
       end
     end
   end
+  # rubocop:enable RSpec/DescribedClass
 
   describe '#dm?' do
     it 'returns true for DM channels' do
@@ -121,6 +129,27 @@ RSpec.describe InternalChat::Channel do
         channel = create(:internal_chat_channel, last_activity_at: specific_time)
         expect(channel.last_activity_at).to be_within(1.second).of(specific_time)
       end
+    end
+  end
+
+  describe '#push_event_data' do
+    it 'exposes the fields needed to route and render a notification' do
+      channel = create(:internal_chat_channel, :public_channel, name: 'general')
+
+      expect(channel.push_event_data).to eq(
+        id: channel.id,
+        uuid: channel.uuid,
+        name: 'general',
+        channel_type: 'public_channel',
+        account_id: channel.account_id,
+        meta: {}
+      )
+    end
+
+    it 'exposes the dm channel_type and nil name for direct messages' do
+      channel = create(:internal_chat_channel, :dm)
+
+      expect(channel.push_event_data).to include(channel_type: 'dm', name: nil)
     end
   end
 end

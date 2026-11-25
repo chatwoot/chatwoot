@@ -2,22 +2,6 @@ import types from '../../mutation-types';
 import NotificationsAPI from '../../../api/notifications';
 
 export const actions = {
-  get: async ({ commit }, { page = 1 } = {}) => {
-    commit(types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: true });
-    try {
-      const {
-        data: {
-          data: { payload, meta },
-        },
-      } = await NotificationsAPI.get({ page });
-      commit(types.CLEAR_NOTIFICATIONS);
-      commit(types.SET_NOTIFICATIONS, payload);
-      commit(types.SET_NOTIFICATIONS_META, meta);
-      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: false });
-    } catch (error) {
-      commit(types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: false });
-    }
-  },
   index: async ({ commit }, { page = 1, status, type, sortOrder } = {}) => {
     commit(types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: true });
     try {
@@ -40,6 +24,12 @@ export const actions = {
     } catch (error) {
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: false });
     }
+  },
+  // The server stops listing these once the member loses the feature, but a later fetch only
+  // merges, so the client drops them itself and asks for the count again.
+  removeOfTypes: async ({ commit, dispatch }, notificationTypes) => {
+    commit('REMOVE_NOTIFICATIONS_OF_TYPES', notificationTypes);
+    await dispatch('unReadCount');
   },
   unReadCount: async ({ commit } = {}) => {
     commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdatingUnreadCount: true });

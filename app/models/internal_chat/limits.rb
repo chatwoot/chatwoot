@@ -1,6 +1,8 @@
 class InternalChat::Limits
+  # rise-brasil: internal chat Pro is unlocked for every installation of this fork,
+  # matching `useInternalChatPro` on the frontend.
   def self.unlimited?
-    false
+    true
   end
 
   def self.polls_enabled?
