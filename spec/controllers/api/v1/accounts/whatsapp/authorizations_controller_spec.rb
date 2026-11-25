@@ -30,29 +30,8 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
           expect(response.parsed_body['error']).to include('code')
         end
 
-        it 'blocks channel creation on Chatwoot Cloud during a Meta inbox creation incident' do
-          allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
-          allow(GlobalConfig).to receive(:get).and_call_original
-          allow(GlobalConfig).to receive(:get).with('DISABLE_META_INBOX_CREATION').and_return('DISABLE_META_INBOX_CREATION' => true)
-
-          expect(Whatsapp::EmbeddedSignupService).not_to receive(:new)
-
-          post "/api/v1/accounts/#{account.id}/whatsapp/authorization",
-               params: {
-                 code: 'test_code',
-                 business_id: 'test_business_id',
-                 waba_id: 'test_waba_id'
-               },
-               headers: administrator.create_new_auth_token,
-               as: :json
-
-          expect(response).to have_http_status(:unauthorized)
-        end
-
         it 'creates a Coexistence inbox on Chatwoot Cloud without a use-case submission or business_id' do
           allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
-          allow(GlobalConfig).to receive(:get).and_call_original
-          allow(GlobalConfig).to receive(:get).with('DISABLE_META_INBOX_CREATION').and_return('DISABLE_META_INBOX_CREATION' => false)
           account.disable_features!('whatsapp_embedded_signup_inbox_creation')
 
           whatsapp_channel = create(:channel_whatsapp, account: account, validate_provider_config: false, sync_templates: false)
@@ -376,10 +355,9 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
           expect(json_response['id']).to eq(whatsapp_inbox.id)
         end
 
-        it 'reauthorizes an existing inbox on Chatwoot Cloud during a Meta inbox creation incident' do
+        it 'reauthorizes on Chatwoot Cloud without requiring the embedded signup account feature' do
           allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
-          allow(GlobalConfig).to receive(:get).and_call_original
-          allow(GlobalConfig).to receive(:get).with('DISABLE_META_INBOX_CREATION').and_return('DISABLE_META_INBOX_CREATION' => true)
+          account.disable_features!('whatsapp_embedded_signup_inbox_creation')
           allow(whatsapp_channel).to receive(:reauthorization_required?).and_return(true)
 
           embedded_signup_service = instance_double(Whatsapp::EmbeddedSignupService)
