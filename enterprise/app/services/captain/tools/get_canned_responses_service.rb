@@ -55,10 +55,11 @@ class Captain::Tools::GetCannedResponsesService < RubyLLM::Tool
 
   private
 
+  # The model sometimes asks for more names than the schema allows, so it gets the first ones instead of a retry.
   def requested_names(names)
-    return unless names.is_a?(Array) && names.size.between?(1, MAX_NAMES) && names.all?(String)
+    return unless names.is_a?(Array) && names.any? && names.all?(String)
 
-    cleaned = names.map(&:strip).uniq
+    cleaned = names.map(&:strip).uniq.first(MAX_NAMES)
     cleaned if cleaned.all? { |name| NAME_LENGTH.cover?(name.length) }
   end
 

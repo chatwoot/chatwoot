@@ -52,12 +52,21 @@ RSpec.describe Captain::Tools::GetCannedResponsesService do
     expect(tool.execute(names: ['refund, EU'])).to include("Saved reply refund, EU:\nEU refunds take 14 days.")
   end
 
+  it 'reads the first three names when given more' do
+    create(:canned_response, account: account, short_code: 'refund', content: 'Refunds take 5 days.')
+    create(:canned_response, account: account, short_code: 'extra', content: 'Not read.')
+
+    result = tool.execute(names: %w[DPA trial-code refund extra])
+
+    expect(result).to include('Saved reply DPA:', 'Saved reply trial-code:', 'Saved reply refund:')
+    expect(result).not_to include('Not read.')
+  end
+
   it 'rejects malformed names' do
     expect(tool.execute(names: 'dpa')).to include('one to three saved reply names')
     expect(tool.execute(names: [])).to include('one to three saved reply names')
     expect(tool.execute(names: [1])).to include('one to three saved reply names')
     expect(tool.execute(names: [''])).to include('one to three saved reply names')
-    expect(tool.execute(names: %w[a b c d])).to include('one to three saved reply names')
     expect(tool.execute).to include('one to three saved reply names')
   end
 
