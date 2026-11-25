@@ -115,9 +115,9 @@ class Captain::Tools::SearchPastRepliesService < RubyLLM::Tool
 
   def format_reply(reply)
     question = answered_message(reply)
-    text = "\nConversation ##{reply.conversation.display_id}, #{reply.created_at.to_date.iso8601}\n"
+    text = "\n<past_reply conversation=\"#{reply.conversation.display_id}\" date=\"#{reply.created_at.to_date.iso8601}\">\n"
     text += "Customer: #{question.content_for_llm.to_s.truncate(TEXT_LIMIT)}\n" if question
-    text + "Agent reply: #{reply.content_for_llm.to_s.truncate(TEXT_LIMIT)}\n"
+    text + "Agent reply: #{reply.content_for_llm.to_s.truncate(TEXT_LIMIT)}\n</past_reply>\n"
   end
 
   def answered_message(reply)

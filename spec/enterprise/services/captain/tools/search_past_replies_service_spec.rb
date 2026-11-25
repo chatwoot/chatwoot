@@ -28,7 +28,7 @@ RSpec.describe Captain::Tools::SearchPastRepliesService do
 
     result = tool.execute(query: 'export contacts')
 
-    expect(result).to include("Conversation ##{past_conversation.display_id}")
+    expect(result).to include("<past_reply conversation=\"#{past_conversation.display_id}\"")
     expect(result).to include('Customer: How do I export contacts?')
     expect(result).to include('Agent reply: Open Contacts and click Export.')
   end
@@ -130,7 +130,7 @@ RSpec.describe Captain::Tools::SearchPastRepliesService do
     it 'finds agent replies containing every search word, with the customer message they answered' do
       result = tool.execute(query: 'click export')
 
-      expect(result).to include("Conversation ##{past_conversation.display_id}")
+      expect(result).to include("<past_reply conversation=\"#{past_conversation.display_id}\"")
       expect(result).to include('Customer: How do I export contacts?')
       expect(result).to include('Agent reply: Open Contacts and click Export.')
     end

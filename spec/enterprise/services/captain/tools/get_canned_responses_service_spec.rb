@@ -22,8 +22,8 @@ RSpec.describe Captain::Tools::GetCannedResponsesService do
   it 'returns the full text of the named canned responses, ignoring case and a leading slash' do
     result = tool.execute(names: ['/dpa', 'trial-code'])
 
-    expect(result).to include("Saved reply DPA:\nEmail legal@example.com")
-    expect(result).to include("Saved reply trial-code:\nUse the trial code")
+    expect(result).to include("<saved_reply name=\"DPA\">\nEmail legal@example.com")
+    expect(result).to include("<saved_reply name=\"trial-code\">\nUse the trial code")
   end
 
   it 'says when a name does not exist' do
@@ -49,7 +49,7 @@ RSpec.describe Captain::Tools::GetCannedResponsesService do
   it 'reads a name that contains a comma' do
     create(:canned_response, account: account, short_code: 'refund, EU', content: 'EU refunds take 14 days.')
 
-    expect(tool.execute(names: ['refund, EU'])).to include("Saved reply refund, EU:\nEU refunds take 14 days.")
+    expect(tool.execute(names: ['refund, EU'])).to include("<saved_reply name=\"refund, EU\">\nEU refunds take 14 days.\n</saved_reply>")
   end
 
   it 'reads the first three names when given more' do
@@ -58,7 +58,7 @@ RSpec.describe Captain::Tools::GetCannedResponsesService do
 
     result = tool.execute(names: %w[DPA trial-code refund extra])
 
-    expect(result).to include('Saved reply DPA:', 'Saved reply trial-code:', 'Saved reply refund:')
+    expect(result).to include('name="DPA"', 'name="trial-code"', 'name="refund"')
     expect(result).not_to include('Not read.')
   end
 

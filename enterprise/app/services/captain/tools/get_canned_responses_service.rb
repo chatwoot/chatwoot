@@ -75,7 +75,9 @@ class Captain::Tools::GetCannedResponsesService < RubyLLM::Tool
   end
 
   def format_entry(name, canned_response)
-    canned_response ? "\nSaved reply #{canned_response.short_code}:\n#{canned_response.content}\n" : "\nNo saved reply named #{name}.\n"
+    return "\nNo saved reply named #{name}.\n" unless canned_response
+
+    "\n<saved_reply name=\"#{ERB::Util.html_escape(canned_response.short_code)}\">\n#{canned_response.content}\n</saved_reply>\n"
   end
 
   def log_call(requested_count, found_count)
