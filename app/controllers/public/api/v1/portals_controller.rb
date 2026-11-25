@@ -11,6 +11,7 @@ class Public::Api::V1::PortalsController < Public::Api::V1::Portals::BaseControl
   layout 'portal'
 
   def show
+    @canonical_url = canonical_url_for(public_portal_locale_path(@portal.slug, @locale))
     @og_image_url = helpers.set_og_image_url('', @portal.localized_value('header_text', @locale))
   end
 

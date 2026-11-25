@@ -23,6 +23,7 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
 
   def show
     @is_internal_preview = @preview_article.present?
+    @canonical_url = canonical_url_for(public_portal_article_path(@portal.slug, @article.slug))
     set_locale_switch_urls
     @og_image_url = helpers.set_og_image_url(@portal.name, @article.title)
     @parsed_content = render_article_content(@article.content.to_s)
