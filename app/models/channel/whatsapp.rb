@@ -40,6 +40,7 @@ class Channel::Whatsapp < ApplicationRecord
   validate :validate_provider_config
   validate :validate_app_secret, if: :app_secret_required?
 
+  before_save :forget_messaging_account, if: :messaging_credentials_changing?
   after_create :sync_templates
   after_update_commit :log_credentials_transfer, if: :saved_change_to_provider_config?
   before_destroy :teardown_webhooks
@@ -142,6 +143,20 @@ class Channel::Whatsapp < ApplicationRecord
   delegate :media_url, to: :provider_service
   delegate :api_headers, to: :provider_service
 
+  # A number can have several Messaging accounts, and sends must name the one to charge.
+  # The stored WABA id is trusted only once an inbound webhook arrives through it (entry.id),
+  # because a stale stored id makes Meta refuse every send that names it.
+  def confirm_messaging_account(webhook_account_id)
+    return unless messaging_account_confirmable?(webhook_account_id)
+
+    with_lock do
+      next unless messaging_account_confirmable?(webhook_account_id)
+
+      provider_config['messaging_account_id'] = webhook_account_id.to_s
+      save!(validate: false)
+    end
+  end
+
   def send_contact_info_request(identifier, message)
     raise NotImplementedError, 'Contact information requests require a WhatsApp Cloud provider' unless provider == 'whatsapp_cloud'
 
@@ -156,6 +171,25 @@ class Channel::Whatsapp < ApplicationRecord
   end
 
   private
+
+  def messaging_account_confirmable?(webhook_account_id)
+    business_account_id = provider_config['business_account_id'].to_s
+    business_account_id.present? &&
+      business_account_id == webhook_account_id.to_s &&
+      provider_config['messaging_account_id'] != business_account_id
+  end
+
+  # A new token or WABA id can reach different Messaging accounts, so the next webhook must confirm again.
+  def messaging_credentials_changing?
+    return false unless will_save_change_to_provider_config?
+
+    previous_config = provider_config_in_database.to_h
+    %w[api_key business_account_id].any? { |key| previous_config[key] != provider_config[key] }
+  end
+
+  def forget_messaging_account
+    provider_config.delete('messaging_account_id')
+  end
 
   def ensure_webhook_verify_token
     provider_config['webhook_verify_token'] ||= SecureRandom.hex(16) if provider == 'whatsapp_cloud'

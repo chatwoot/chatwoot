@@ -10,7 +10,7 @@ class Whatsapp::Providers::WhatsappCloudContactInfoRequestService < Whatsapp::Pr
       body: {
         messaging_product: 'whatsapp',
         recipient_type: 'individual',
-        **recipient_params(identifier),
+        **recipient_params(identifier), **messaging_account_params,
         type: 'interactive',
         interactive: {
           type: 'request_contact_info',

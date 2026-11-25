@@ -325,6 +325,37 @@ describe Whatsapp::Providers::WhatsappCloudService do
     end
   end
 
+  describe 'Messaging account selection' do
+    let(:messages_url) { 'https://graph.facebook.com/v13.0/123456789/messages' }
+    let(:template_info) { { name: 'test_template', namespace: 'test_namespace', lang_code: 'es', parameters: [] } }
+
+    it 'names the Messaging account on sends once a webhook confirmed it' do
+      whatsapp_channel.confirm_messaging_account('123456789')
+      template_send = stub_request(:post, messages_url)
+                      .with(body: hash_including(type: 'template', messaging_account_id: '123456789'))
+                      .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+      text_send = stub_request(:post, messages_url)
+                  .with(body: hash_including(type: 'text', messaging_account_id: '123456789'))
+                  .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+
+      service.send_template('+123456789', template_info, message)
+      service.send_message('+123456789', message)
+
+      expect(template_send).to have_been_requested
+      expect(text_send).to have_been_requested
+    end
+
+    it 'leaves Meta to pick the Messaging account until a webhook confirms one' do
+      unconfirmed_send = stub_request(:post, messages_url)
+                         .with { |request| JSON.parse(request.body).exclude?('messaging_account_id') }
+                         .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
+
+      service.send_template('+123456789', template_info, message)
+
+      expect(unconfirmed_send).to have_been_requested
+    end
+  end
+
   describe 'when the recipient is a Business-Scoped User ID (BSUID)' do
     # Meta requires a BSUID to be sent in the `recipient` field (with recipient_type: individual), not `to`.
     let(:bsuid) { 'BR.13491208655302741918' }

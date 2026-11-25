@@ -13,6 +13,7 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
       return
     end
 
+    confirm_messaging_account(channel, params)
     sender_id = contact_sender_id(params)
     return process_events(channel, params) if sender_id.blank?
 
@@ -97,6 +98,14 @@ class Webhooks::WhatsappEventsJob < MutexApplicationJob
   end
 
   private
+
+  # Cloud API messages and statuses arrive through the Messaging account our app subscribed to, named in entry.id.
+  def confirm_messaging_account(channel, params)
+    return unless channel.provider == 'whatsapp_cloud' && params[:object] == 'whatsapp_business_account'
+    return unless params.dig(:entry, 0, :changes, 0, :field) == 'messages'
+
+    channel.confirm_messaging_account(params.dig(:entry, 0, :id))
+  end
 
   # Echo payloads reverse the fields — `from` is the business number and `to` is the contact.
   # Returns nil for status-only webhooks so they bypass the lock.

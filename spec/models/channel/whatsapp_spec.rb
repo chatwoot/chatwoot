@@ -475,4 +475,38 @@ RSpec.describe Channel::Whatsapp do
       expect(channel.inbound_calls_enabled?).to be false
     end
   end
+
+  describe '#confirm_messaging_account' do
+    let(:channel) { create(:channel_whatsapp, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false) }
+
+    it 'records the stored WABA id once a webhook arrives through it' do
+      channel.confirm_messaging_account('123456789')
+
+      expect(channel.reload.provider_config['messaging_account_id']).to eq('123456789')
+    end
+
+    it 'ignores a webhook that arrives through another Messaging account' do
+      channel.confirm_messaging_account('987654321')
+
+      expect(channel.reload.provider_config).not_to have_key('messaging_account_id')
+    end
+
+    it 'forgets the confirmation when the WABA id or token changes' do
+      channel.confirm_messaging_account('123456789')
+      channel.update!(provider_config: channel.provider_config.merge('business_account_id' => '555000111'))
+      expect(channel.reload.provider_config).not_to have_key('messaging_account_id')
+
+      channel.update!(provider_config: channel.provider_config.merge('business_account_id' => '123456789'))
+      channel.confirm_messaging_account('123456789')
+      channel.update!(provider_config: channel.provider_config.merge('api_key' => 'rotated_key'))
+      expect(channel.reload.provider_config).not_to have_key('messaging_account_id')
+    end
+
+    it 'keeps the confirmation across unrelated settings changes' do
+      channel.confirm_messaging_account('123456789')
+      channel.update!(provider_config: channel.provider_config.merge('inbound_calls_enabled' => false))
+
+      expect(channel.reload.provider_config['messaging_account_id']).to eq('123456789')
+    end
+  end
 end
