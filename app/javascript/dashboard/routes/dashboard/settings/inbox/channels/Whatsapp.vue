@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n, I18nT } from 'vue-i18n';
 import Twilio from './Twilio.vue';
@@ -7,24 +7,16 @@ import ThreeSixtyDialogWhatsapp from './360DialogWhatsapp.vue';
 import CloudWhatsapp from './CloudWhatsapp.vue';
 import WhatsappManualSetup from './WhatsappManualSetup.vue';
 import WhatsappEmbeddedSignup from './WhatsappEmbeddedSignup.vue';
-import WhatsappAccessRequestDialog from '../components/WhatsappAccessRequestDialog.vue';
 import ChannelSelector from 'dashboard/components/ChannelSelector.vue';
 import Banner from 'dashboard/components-next/banner/Banner.vue';
-import Button from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import { useAccount } from 'dashboard/composables/useAccount';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { META_RESTRICTION_STATUS_URL } from 'dashboard/constants/globals';
 
 const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
-const accessRequestDialogRef = ref(null);
-const {
-  isCloudFeatureEnabled,
-  isOnChatwootCloud,
-  isMetaInboxCreationDisabled,
-} = useAccount();
+const { isMetaInboxCreationDisabled } = useAccount();
 
 const PROVIDER_TYPES = {
   WHATSAPP: 'whatsapp',
@@ -51,29 +43,10 @@ const isWhatsappEmbeddedSignupDisabled = computed(
   () => isMetaInboxCreationDisabled.value
 );
 
-const isWhatsappEmbeddedSignupFeatureEnabled = computed(
+const shouldShowWhatsappEmbeddedSignup = computed(
   () =>
-    !isOnChatwootCloud.value ||
-    isCloudFeatureEnabled(FEATURE_FLAGS.WHATSAPP_EMBEDDED_SIGNUP_FLOW)
+    selectedProvider.value === PROVIDER_TYPES.WHATSAPP && hasWhatsappAppId.value
 );
-
-const shouldShowWhatsappEmbeddedSignup = computed(() => {
-  return (
-    selectedProvider.value === PROVIDER_TYPES.WHATSAPP &&
-    hasWhatsappAppId.value &&
-    isWhatsappEmbeddedSignupFeatureEnabled.value
-  );
-});
-
-const shouldShowEmbeddedSignupAccessRequest = computed(() => {
-  return (
-    selectedProvider.value === PROVIDER_TYPES.WHATSAPP &&
-    isOnChatwootCloud.value &&
-    hasWhatsappAppId.value &&
-    !isWhatsappEmbeddedSignupFeatureEnabled.value &&
-    !isWhatsappEmbeddedSignupDisabled.value
-  );
-});
 
 const availableProviders = computed(() => [
   {
@@ -128,53 +101,11 @@ const isManualSetup = computed(
 const handleManualLinkClick = () => {
   selectProvider(PROVIDER_TYPES.WHATSAPP_MANUAL);
 };
-
-const requestEmbeddedSignupAccess = () => {
-  accessRequestDialogRef.value.open();
-};
 </script>
 
 <template>
   <div class="col-span-6 w-full h-full min-h-0 overflow-y-auto p-6">
-    <WhatsappAccessRequestDialog ref="accessRequestDialogRef" />
     <div v-if="isManualSetup">
-      <div
-        v-if="shouldShowEmbeddedSignupAccessRequest"
-        class="w-full p-5 mb-6 border rounded-xl border-n-weak bg-n-surface-2 text-start"
-      >
-        <div class="flex flex-wrap items-center gap-3">
-          <div
-            class="flex items-center justify-center flex-shrink-0 rounded-lg size-7 bg-n-slate-3"
-          >
-            <Icon icon="i-woot-whatsapp" class="size-5 text-n-slate-11" />
-          </div>
-          <span class="flex-1 min-w-0 text-heading-2 text-n-slate-12">
-            {{
-              $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.ACCESS_REQUEST.TITLE')
-            }}
-          </span>
-          <Button
-            solid
-            blue
-            sm
-            class="flex-shrink-0"
-            icon="i-lucide-life-buoy"
-            :label="
-              $t(
-                'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.ACCESS_REQUEST.BUTTON'
-              )
-            "
-            @click="requestEmbeddedSignupAccess"
-          />
-        </div>
-        <p class="mt-2 ms-10 max-w-3xl text-body-main text-n-slate-11">
-          {{
-            $t(
-              'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.ACCESS_REQUEST.DESCRIPTION'
-            )
-          }}
-        </p>
-      </div>
       <Banner
         v-if="
           isWhatsappEmbeddedSignupDisabled &&

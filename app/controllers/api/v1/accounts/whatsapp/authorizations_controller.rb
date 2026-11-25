@@ -1,6 +1,6 @@
 class Api::V1::Accounts::Whatsapp::AuthorizationsController < Api::V1::Accounts::BaseController
   before_action :check_admin_authorization?
-  before_action :ensure_embedded_signup_enabled
+  before_action :ensure_meta_inbox_creation_enabled
   before_action :fetch_and_validate_inbox, if: -> { params[:inbox_id].present? }
 
   # POST /api/v1/accounts/:account_id/whatsapp/authorization
@@ -18,10 +18,10 @@ class Api::V1::Accounts::Whatsapp::AuthorizationsController < Api::V1::Accounts:
 
   private
 
-  def ensure_embedded_signup_enabled
+  def ensure_meta_inbox_creation_enabled
     return if params[:inbox_id].present?
     return unless ChatwootApp.chatwoot_cloud?
-    return if Current.account.feature_enabled?('whatsapp_embedded_signup_inbox_creation')
+    return unless GlobalConfig.get('DISABLE_META_INBOX_CREATION')['DISABLE_META_INBOX_CREATION']
 
     raise Pundit::NotAuthorizedError
   end

@@ -21,8 +21,6 @@ export function useChannelConfig() {
     // app id (not the 'none' sentinel) and the signup configuration id.
     whatsapp: () =>
       !isMetaInboxCreationDisabled.value &&
-      (!isOnChatwootCloud.value ||
-        isCloudFeatureEnabled(FEATURE_FLAGS.WHATSAPP_EMBEDDED_SIGNUP_FLOW)) &&
       Boolean(installationConfig.whatsappAppId) &&
       installationConfig.whatsappAppId !== 'none' &&
       Boolean(installationConfig.whatsappConfigurationId),

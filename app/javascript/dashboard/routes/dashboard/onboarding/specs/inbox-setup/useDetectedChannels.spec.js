@@ -215,12 +215,24 @@ describe('useDetectedChannels', () => {
       ]);
     });
 
+    it('shows WhatsApp on Chatwoot Cloud without a use-case submission', () => {
+      const { displayedChannels } = mountComposable({
+        isOnChatwootCloud: true,
+        brandInfo: {
+          socials: [{ type: 'whatsapp', url: 'https://wa.me/14155552671' }],
+        },
+      });
+
+      expect(displayedChannels.value.map(channel => channel.type)).toEqual([
+        'whatsapp',
+      ]);
+    });
+
     it('hides Meta channels on Chatwoot Cloud during the Meta restriction', () => {
       const { displayedChannels } = mountComposable({
         features: {
           channel_instagram: true,
           channel_tiktok: true,
-          whatsapp_embedded_signup_inbox_creation: true,
         },
         isOnChatwootCloud: true,
         disableMetaInboxCreation: true,

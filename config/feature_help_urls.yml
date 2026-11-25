@@ -44,7 +44,6 @@ saml: https://chwt.app/hc/saml
 shopify_integration: https://chwt.app/hc/shopify
 sla: https://chwt.app/hc/sla
 team_management: https://chwt.app/hc/teams
-whatsapp_embedded_signup_inbox_creation: https://chwt.app/hc/whatsapp-embedded-signup
 whatsapp_manual_transfer: https://chwt.app/migrate-whatsapp
 
 # Dashboard pages
