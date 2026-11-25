@@ -3,8 +3,6 @@
 class Conversations::MessageSummaryLoader
   # Answers the same questions as Conversations::MessageSummary, from values that are already loaded
   LoadedSummary = Data.define(:last_message, :last_non_activity_message, :unread_count)
-  # What Message#push_event_data reads from each message
-  MESSAGE_PRELOADS = [:inbox, { attachments: { file_attachment: :blob }, sender: [:account, :account_users, { avatar_attachment: :blob }] }].freeze
 
   def initialize(conversations)
     @conversations = conversations
@@ -16,13 +14,13 @@ class Conversations::MessageSummaryLoader
     return @conversations if @conversations_by_id.empty?
 
     rows = Conversations::MessageSummaryQuery.new(@conversations_by_id.keys).rows
-    messages = load_messages(rows.flat_map { |_, last_message_id, last_non_activity_message_id, _| [last_message_id, last_non_activity_message_id] })
+    messages = load_messages(rows.flat_map { |row| [row.last_message_id, row.last_non_activity_message_id] })
 
-    rows.each do |conversation_id, last_message_id, last_non_activity_message_id, unread_count|
-      @conversations_by_id[conversation_id].message_summary = LoadedSummary.new(
-        last_message: messages[last_message_id],
-        last_non_activity_message: messages[last_non_activity_message_id],
-        unread_count: unread_count
+    rows.each do |row|
+      @conversations_by_id[row.conversation_id].message_summary = LoadedSummary.new(
+        last_message: messages[row.last_message_id],
+        last_non_activity_message: messages[row.last_non_activity_message_id],
+        unread_count: row.unread_count
       )
     end
     @conversations
@@ -31,9 +29,15 @@ class Conversations::MessageSummaryLoader
   private
 
   def load_messages(message_ids)
-    messages = Message.where(id: message_ids.compact.uniq).includes(MESSAGE_PRELOADS).index_by(&:id)
+    messages = Message.where(id: message_ids.compact.uniq).includes(message_preloads).index_by(&:id)
     # The message payload reads the unread count from its conversation, which has to be the one holding the loaded summary
     messages.each_value { |message| message.association(:conversation).target = @conversations_by_id[message.conversation_id] }
     messages
   end
+
+  # What Message#push_event_data reads from each message
+  def message_preloads
+    [:inbox, { attachments: { file_attachment: :blob }, sender: [:account, :account_users, { avatar_attachment: :blob }] }]
+  end
 end
+Conversations::MessageSummaryLoader.prepend_mod_with('Conversations::MessageSummaryLoader')

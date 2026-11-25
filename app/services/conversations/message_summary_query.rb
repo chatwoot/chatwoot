@@ -4,13 +4,15 @@
 # Do not split these by message type: Postgres plans a subquery without the conversation's
 # values, and a probe for a type the conversation rarely has would read its whole history.
 class Conversations::MessageSummaryQuery
+  Row = Data.define(:conversation_id, :last_message_id, :last_non_activity_message_id, :unread_count)
+
   def initialize(conversation_ids)
     @conversation_ids = conversation_ids
   end
 
-  # Returns [conversation_id, last_message_id, last_non_activity_message_id, unread_count] for each conversation
   def rows
-    Conversation.where(id: @conversation_ids).pluck(:id, last_message_id, last_non_activity_message_id, unread_count)
+    values = Conversation.where(id: @conversation_ids).pluck(:id, last_message_id, last_non_activity_message_id, unread_count)
+    values.map { |row_values| Row.new(*row_values) }
   end
 
   private
