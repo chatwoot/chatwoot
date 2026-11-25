@@ -831,6 +831,12 @@ const menuItems = computed(() => {
         //   to: accountScopedRoute('captain_settings_index'),
         // },
         {
+          name: 'Settings Copilot',
+          label: t('SIDEBAR.COPILOT'),
+          icon: 'i-woot-captain',
+          to: accountScopedRoute('copilot_settings_index'),
+        },
+        {
           name: 'Settings Agents',
           label: t('SIDEBAR.AGENTS'),
           icon: 'i-lucide-square-user',
