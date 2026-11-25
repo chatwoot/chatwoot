@@ -54,7 +54,7 @@ class Conversations::FilterService < FilterService
   end
 
   def conversations
-    Conversations::SortService.apply(@conversations, @params[:sort_by]).page(current_page)
+    Conversations::SortService.apply(@conversations, @params[:sort_by], account: @account).page(current_page)
   end
 
   private
