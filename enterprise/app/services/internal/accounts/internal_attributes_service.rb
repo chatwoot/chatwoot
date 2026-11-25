@@ -55,7 +55,7 @@ class Internal::Accounts::InternalAttributesService
     Enterprise::Billing::ReconcilePlanFeaturesService::BUSINESS_PLAN_FEATURES +
       Enterprise::Billing::ReconcilePlanFeaturesService::ENTERPRISE_PLAN_FEATURES +
       Enterprise::Billing::ReconcilePlanFeaturesService::PAID_PLAN_FEATURES +
-      %w[inbound_emails api_and_webhooks companies]
+      %w[inbound_emails api_and_webhooks whatsapp_embedded_signup_inbox_creation companies]
   end
 
   # Account notes functionality removed for now

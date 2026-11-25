@@ -20,6 +20,7 @@ class Enterprise::Billing::ReconcilePlanFeaturesService
     linear_integration
     stripe_integration
     channel_voice
+    whatsapp_embedded_signup_inbox_creation
     api_and_webhooks
     companies
     auto_translate

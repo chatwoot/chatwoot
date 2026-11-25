@@ -8,6 +8,7 @@ export const FEATURE_FLAGS = {
   AUTOMATIONS: 'automations',
   CAMPAIGNS: 'campaigns',
   CAMPAIGN_ANALYTICS: 'campaign_analytics',
+  WHATSAPP_EMBEDDED_SIGNUP_FLOW: 'whatsapp_embedded_signup_inbox_creation',
   WHATSAPP_MANUAL_TRANSFER: 'whatsapp_manual_transfer',
   CANNED_RESPONSES: 'canned_responses',
   CRM: 'crm',
