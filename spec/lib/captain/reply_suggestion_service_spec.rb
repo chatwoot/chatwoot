@@ -116,6 +116,22 @@ RSpec.describe Captain::ReplySuggestionService do
         expect(Rails.logger).to have_received(:info).with(/1 of 2 canned responses fit in 30 characters/)
       end
 
+      it 'reads canned responses in batches, newest first, and stops at the size limit' do
+        stub_const("#{described_class}::CANNED_RESPONSES_BATCH_SIZE", 1)
+        stub_const("#{described_class}::CANNED_RESPONSES_CHARACTER_LIMIT", 40)
+        create(:canned_response, account: account, short_code: 'oldest', content: 'Oldest reply', updated_at: 3.days.ago)
+        create(:canned_response, account: account, short_code: 'older', content: 'Older reply', updated_at: 2.days.ago)
+        create(:canned_response, account: account, short_code: 'new', content: 'Newer reply', updated_at: 1.day.ago)
+        queries = []
+        callback = ->(*, payload) { queries << payload[:sql] if payload[:sql].include?('"canned_responses"."content"') }
+
+        ActiveSupport::Notifications.subscribed(callback, 'sql.active_record') { service.perform }
+
+        expect(system_prompt).to include("- new: Newer reply\n- older: Older reply")
+        expect(system_prompt).not_to include('Oldest reply')
+        expect(queries.size).to eq(3)
+      end
+
       context 'when an agent sent the latest message' do
         let(:model_answer) { { 'reply_needed' => false, 'reply' => '', 'note_for_agent' => 'You already answered the customer.' } }
 

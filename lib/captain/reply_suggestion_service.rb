@@ -2,6 +2,7 @@ class Captain::ReplySuggestionService < Captain::BaseTaskService
   AGENT_REPLY_FEATURE = 'captain_agent_reply_draft'.freeze
   # About 12,500 tokens, a few times the size of an average transcript, so a typical saved reply library fits whole.
   CANNED_RESPONSES_CHARACTER_LIMIT = 50_000
+  CANNED_RESPONSES_BATCH_SIZE = 50
 
   pattr_initialize [:account!, :conversation_display_id!, :user!]
 
@@ -51,27 +52,46 @@ class Captain::ReplySuggestionService < Captain::BaseTaskService
     LlmFormatter::ConversationLlmFormatter.new(conversation).format(token_limit: TOKEN_LIMIT, include_timestamps: agent_reply_draft?)
   end
 
-  # Newest edits first, whole responses only, until the character limit.
+  # Newest edits first, whole responses only, until the character limit. Read in batches so a large library is not
+  # loaded whole when only the newest responses fit.
   def saved_replies
-    canned_responses = account.canned_responses.order(updated_at: :desc).pluck(:short_code, :content)
     entries = []
     character_count = 0
 
-    canned_responses.each do |short_code, content|
-      entry = "- #{short_code}: #{content}"
-      break if character_count + entry.length > CANNED_RESPONSES_CHARACTER_LIMIT
+    canned_response_batches.each do |batch|
+      batch.each do |short_code, content|
+        entry = "- #{short_code}: #{content}"
+        return finish_saved_replies(entries, cut: true) if character_count + entry.length > CANNED_RESPONSES_CHARACTER_LIMIT
 
-      entries << entry
-      character_count += entry.length
+        entries << entry
+        character_count += entry.length
+      end
     end
 
-    log_saved_replies_cut(entries.size, canned_responses.size)
+    finish_saved_replies(entries, cut: false)
+  end
+
+  def canned_response_batches
+    Enumerator.new do |batches|
+      scope = account.canned_responses.order(updated_at: :desc, id: :desc).limit(CANNED_RESPONSES_BATCH_SIZE)
+      offset = 0
+      loop do
+        batch = scope.offset(offset).pluck(:short_code, :content)
+        batches << batch
+        break if batch.size < CANNED_RESPONSES_BATCH_SIZE
+
+        offset += CANNED_RESPONSES_BATCH_SIZE
+      end
+    end
+  end
+
+  def finish_saved_replies(entries, cut:)
+    log_saved_replies_cut(entries.size) if cut
     entries.join("\n").presence
   end
 
-  def log_saved_replies_cut(included_count, total_count)
-    return if included_count == total_count
-
+  def log_saved_replies_cut(included_count)
+    total_count = account.canned_responses.count
     Rails.logger.info(
       "[CAPTAIN][ReplySuggestion] Account #{account.id}: #{included_count} of #{total_count} canned responses fit in " \
       "#{CANNED_RESPONSES_CHARACTER_LIMIT} characters, the rest were left out"
