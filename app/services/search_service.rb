@@ -31,9 +31,9 @@ class SearchService
   end
 
   def filter_conversations
-    conversations_query = conversation_search_scope
-                          .joins('INNER JOIN contacts ON conversations.contact_id = contacts.id')
-                          .where("cast(conversations.display_id as text) ILIKE :search OR contacts.name ILIKE :search OR contacts.email
+    conversations_query = current_account.conversations.where(inbox_id: accessable_inbox_ids)
+                                         .joins('INNER JOIN contacts ON conversations.contact_id = contacts.id')
+                                         .where("cast(conversations.display_id as text) ILIKE :search OR contacts.name ILIKE :search OR contacts.email
                             ILIKE :search OR contacts.phone_number ILIKE :search OR contacts.identifier ILIKE :search
                             OR conversations.additional_attributes->>'mail_subject' ILIKE :search", search: "%#{search_query}%")
 
@@ -45,10 +45,6 @@ class SearchService
     @conversations = conversations_query.order('conversations.created_at DESC')
                                         .page(params[:page])
                                         .per(15)
-  end
-
-  def conversation_search_scope
-    current_account.conversations.where(inbox_id: accessable_inbox_ids)
   end
 
   def filter_messages
@@ -168,18 +164,16 @@ class SearchService
   end
 
   def filter_contacts
-    contacts_query = contact_search_scope
+    contacts_query = current_account.contacts.where(
+      "name ILIKE :search OR email ILIKE :search OR phone_number
+      ILIKE :search OR identifier ILIKE :search", search: "%#{search_query}%"
+    )
 
     contacts_query = apply_time_filter(contacts_query, 'last_activity_at') if current_account.feature_enabled?('advanced_search')
 
     @contacts = contacts_query.resolved_contacts(
       use_crm_v2: current_account.feature_enabled?('crm_v2')
     ).order_on_last_activity_at('desc').page(params[:page]).per(15)
-  end
-
-  def contact_search_scope
-    conditions = %w[name email phone_number identifier].map { |field| Contact.arel_table[field].matches("%#{search_query}%") }
-    current_account.contacts.where(conditions.reduce(:or))
   end
 
   def filter_articles

@@ -94,21 +94,46 @@ or worker concurrency. This PR still leaves all search reads on PostgreSQL.
 
 ## Conversation search reads
 
-After the search PR is deployed, supported queries use OpenSearch whenever it is
-configured and `advanced_search_conversations` is enabled. There is no readiness
-check or per-account activation. A partially populated index can return incomplete
-historical results until the account reindex jobs finish; deployment does not wait.
+Conversation search uses OpenSearch when it is configured and both
+`advanced_search` and `advanced_search_conversations` are enabled. Otherwise the
+existing PostgreSQL conversation/contact matching and pagination remain unchanged.
+There is no readiness gate; historical conversation documents must be populated by
+the account reindex operation before they can match.
 
-OpenSearch matches conversation display IDs and subjects. Contact name/email/phone/
-identifier matching remains an account-scoped SQL subquery until contacts are indexed
-separately. SQL combines these matches and checks current tenant/inbox access,
-matching, dates, order and pagination. Contact edits take effect without reindexing.
+Run `bundle exec rails search:setup_conversations` when deploying the reader. Setup
+adds a `conversation_id` field alias pointing to the existing conversation `id`
+field, including on an already-populated index. This is an additive mapping update;
+existing conversation documents and the message index do not require a new backfill
+for grouping. The existing advanced-search message index must be available.
 
-ASCII substring queries of 3–256 characters without SQL wildcards or escapes use a
-complete set of at most 1,000 engine candidates. Unsupported/broader queries and known
-availability failures or partial responses use SQL. Valid empty engine results remain
-empty for conversation-field matches. Contact and message search are unchanged.
+One multi-index query matches conversation display IDs/subjects and the existing
+message content, email subjects and transcripts. It groups hits by conversation ID,
+ranking each conversation by its best OpenSearch `_score`, with conversation ID as
+the tie-breaker. Multiple matching messages do not add their scores together. Global
+term statistics are requested across shards. Contact name/email/phone/identifier do
+not contribute to this path; PostgreSQL only loads records and checks current tenant,
+inbox/custom-role permissions and conversation activity dates. Contact and message
+tabs retain their existing behavior. Message matching retains the configured message
+search time window.
 
-Disable `advanced_search_conversations` to return an account to SQL; this also stops
-ordinary live indexing. Reindex the account after reenabling to catch up on missed
-updates. No timestamp or completion state is written to the account.
+Ranked results show at most 25 conversations at a time, with Next results and Previous
+results. Pagination covers the first 10,000 ranked conversation groups. Current
+permission/date checks may reduce the visible results within that window. Internal
+candidate fetches are capped at 500 groups and continue until the visible page is
+filled or the window is exhausted; no intermediate empty batch is shown. The engine
+search is never replaced by SQL text matching because a query is broad.
+
+The conversation endpoint supplies `meta.has_more` and `meta.next_cursor`. Clients
+send `conversation_cursor` for the next page, retaining prior page offsets to navigate
+back. `page` is also supported as a ranked offset when a cursor is absent. Reset page
+history on query/account/date changes. Rankings are live; index updates can move
+matches between pages. There is no server-side search session or additional Redis state.
+
+Known engine failures and incomplete responses return `meta.error: true`; the dashboard
+shows a retryable error and keeps its current page. It never presents contact-only SQL
+results or treats engine failure as a definitive empty result. Invalid mappings and
+programming errors remain visible. Missing setup must be corrected operationally.
+
+Disable either reader flag to restore legacy conversation search. Disabling
+`advanced_search_conversations` also stops ordinary live conversation indexing; reindex
+the account after reenabling to catch up. No account completion marker is written.

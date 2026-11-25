@@ -1,11 +1,17 @@
 module Enterprise::SearchService
+  def perform
+    result = super
+    result[:conversation_search] = @conversation_search if @conversation_search
+    result
+  end
+
   def advanced_search
     where_conditions = build_where_conditions
     apply_filters(where_conditions)
 
     Message.search(
       search_query,
-      fields: %w[content attachments.transcribed_text content_attributes.email.subject],
+      fields: SearchIndexing::ConversationSearchQuery::MESSAGE_FIELDS,
       where: where_conditions,
       # id breaks created_at ties so results stay stable across page fetches;
       # unmapped_type covers documents indexed before id was added
@@ -17,13 +23,24 @@ module Enterprise::SearchService
 
   private
 
-  def conversation_search_scope
-    scope = super
-    ids = SearchIndexing::ConversationSearch.new(current_account, search_query, accessable_inbox_ids).ids
-    return scope if ids.nil?
+  def filter_conversations
+    return super unless should_run_advanced_search? && SearchIndexing::Conversations.enabled?(current_account)
 
-    # Contact details remain in PostgreSQL until contact search is indexed separately.
-    scope.where(id: ids).or(scope.where(contact_id: contact_search_scope.select(:id)))
+    result = ranked_conversation_search.perform(cursor: params[:conversation_cursor], page: params[:page])
+    @conversation_search = result.slice(:next_cursor, :has_more)
+    result.fetch(:conversations)
+  rescue *SearchIndexing::ConversationSearch::RECOVERABLE_ERRORS => e
+    Rails.logger.warn("Conversation search unavailable account_id=#{current_account.id} error=#{e.class}")
+    @conversation_search = { error: true }
+    []
+  end
+
+  def ranked_conversation_search
+    query = SearchIndexing::ConversationSearchQuery.new(current_account, search_query, accessable_inbox_ids, search_window_start)
+    SearchIndexing::ConversationSearch.new(
+      account: current_account, user: current_user, query: query,
+      scope: apply_time_filter(current_account.conversations, 'conversations.last_activity_at')
+    )
   end
 
   def build_where_conditions

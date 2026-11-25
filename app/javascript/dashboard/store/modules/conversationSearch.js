@@ -1,7 +1,9 @@
 import SearchAPI from '../../api/search';
 import types from '../mutation-types';
+import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 
 const PER_PAGE = 15;
+const conversationRequest = useAbortableRequest();
 
 // Paginated search responses can overlap across pages (new records shift
 // offsets between fetches), so drop records that are already in the list.
@@ -115,19 +117,48 @@ export const actions = {
   },
   async conversationSearch({ commit }, payload) {
     const { page = 1, ...searchParams } = payload;
-    commit(types.CONVERSATION_SEARCH_SET_UI_FLAG, { isFetching: true });
+    commit(types.CONVERSATION_SEARCH_SET_UI_FLAG, {
+      isFetching: true,
+      hasError: false,
+    });
     try {
-      const { data } = await SearchAPI.conversations({ ...searchParams, page });
-      commit(types.CONVERSATION_SEARCH_SET, data.payload.conversations);
-      commit(types.CONVERSATION_SEARCH_SET_UI_FLAG, {
-        hasMore: data.payload.conversations.length === PER_PAGE,
-      });
-      return true;
+      return await conversationRequest.run(
+        async signal => {
+          try {
+            const { data } = await SearchAPI.conversations({
+              ...searchParams,
+              page,
+              signal,
+            });
+            if (signal.aborted) return null;
+            if (data.meta?.error)
+              throw new Error('Conversation search unavailable');
+            const mutation = data.meta
+              ? types.CONVERSATION_SEARCH_REPLACE
+              : types.CONVERSATION_SEARCH_SET;
+            commit(mutation, data.payload.conversations);
+            commit(types.CONVERSATION_SEARCH_SET_UI_FLAG, {
+              hasMore:
+                data.meta?.has_more ??
+                data.payload.conversations.length === PER_PAGE,
+              nextCursor: data.meta?.next_cursor ?? null,
+              ranked: Boolean(data.meta),
+            });
+            return true;
+          } finally {
+            if (!signal.aborted) {
+              commit(types.CONVERSATION_SEARCH_SET_UI_FLAG, {
+                isFetching: false,
+              });
+            }
+          }
+        },
+        { onAbort: null }
+      );
     } catch (error) {
-      // Failure is reported so callers can roll back their page counter
+      // Preserve the current page and cursor so the same request can be retried.
+      commit(types.CONVERSATION_SEARCH_SET_UI_FLAG, { hasError: true });
       return false;
-    } finally {
-      commit(types.CONVERSATION_SEARCH_SET_UI_FLAG, { isFetching: false });
     }
   },
   async messageSearch({ commit }, payload) {
@@ -165,6 +196,7 @@ export const actions = {
     }
   },
   async clearSearchResults({ commit }) {
+    conversationRequest.abort();
     commit(types.CLEAR_SEARCH_RESULTS);
   },
 };
@@ -175,6 +207,9 @@ export const mutations = {
   },
   [types.CONTACT_SEARCH_SET](state, records) {
     state.contactRecords = appendUniqueRecords(state.contactRecords, records);
+  },
+  [types.CONVERSATION_SEARCH_REPLACE](state, records) {
+    state.conversationRecords = records;
   },
   [types.CONVERSATION_SEARCH_SET](state, records) {
     state.conversationRecords = appendUniqueRecords(
@@ -211,6 +246,13 @@ export const mutations = {
     state.conversationRecords = [];
     state.messageRecords = [];
     state.articleRecords = [];
+    state.uiFlags.conversation = {
+      isFetching: false,
+      hasMore: false,
+      nextCursor: null,
+      ranked: false,
+      hasError: false,
+    };
   },
 };
 

@@ -21,7 +21,11 @@ module SearchIndexing::Conversations
 
   def self.setup!
     index = Conversation.search_index
-    index.create(index.index_options) unless index.exists?
+    if index.exists?
+      Searchkick.client.indices.put_mapping(index: index.name, body: SearchIndexing::ConversationDocument.mappings)
+    else
+      index.create(index.index_options)
+    end
   end
 
   def self.reindex_account(account_id)

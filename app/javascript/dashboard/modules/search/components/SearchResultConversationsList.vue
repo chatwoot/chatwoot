@@ -22,6 +22,10 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  hasError: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const accountId = useMapGetter('getCurrentAccountId');
@@ -37,11 +41,14 @@ const conversationsWithSubject = computed(() => {
 <template>
   <SearchResultSection
     :title="$t('SEARCH.SECTION.CONVERSATIONS')"
-    :empty="!conversations.length"
+    :empty="!conversations.length && !hasError"
     :query="query"
     :show-title="showTitle"
     :is-fetching="isFetching"
   >
+    <p v-if="hasError && !isFetching" class="text-center text-n-slate-11">
+      {{ $t('SEARCH.CONVERSATIONS_UNAVAILABLE') }}
+    </p>
     <ul v-if="conversations.length" class="space-y-3 list-none">
       <li
         v-for="conversation in conversationsWithSubject"

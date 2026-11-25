@@ -40,6 +40,8 @@ const pages = ref({
   messages: 1,
   articles: 1,
 });
+const conversationCursors = ref({ 1: null });
+const failedConversationPage = ref(null);
 
 const contactRecords = useMapGetter('conversationSearch/getContactRecords');
 const conversationRecords = useMapGetter(
@@ -196,6 +198,7 @@ const isFetchingAny = computed(() => {
 const showEmptySearchResults = computed(
   () =>
     totalSearchResultsCount.value === 0 &&
+    !uiFlags.value.conversation.hasError &&
     uiFlags.value.isSearchCompleted &&
     isSelectedTabAll.value &&
     !isFetchingAny.value &&
@@ -205,6 +208,7 @@ const showEmptySearchResults = computed(
 const showResultsSection = computed(
   () =>
     (uiFlags.value.isSearchCompleted && totalSearchResultsCount.value !== 0) ||
+    uiFlags.value.conversation.hasError ||
     isFetchingAny.value ||
     (!isSelectedTabAll.value && query.value && !isFetchingAny.value)
 );
@@ -250,6 +254,8 @@ const filters = ref({
 const clearSearchResult = () => {
   pages.value = { contacts: 1, conversations: 1, messages: 1, articles: 1 };
   store.dispatch('conversationSearch/clearSearchResults');
+  conversationCursors.value = { 1: null };
+  failedConversationPage.value = null;
 };
 
 const buildSearchPayload = (basePayload = {}, searchType = 'message') => {
@@ -316,7 +322,31 @@ const onBack = () => {
   clearSearchResult();
 };
 
+const loadConversationPage = async page => {
+  const payload = buildSearchPayload(
+    { q: query.value, page, cursor: conversationCursors.value[page] },
+    'conversation'
+  );
+  const success = await store.dispatch(
+    'conversationSearch/conversationSearch',
+    payload
+  );
+  if (success === null || payload.q !== query.value) return;
+  failedConversationPage.value = success ? null : page;
+  if (success) pages.value.conversations = page;
+};
+
 const loadMore = async () => {
+  if (
+    selectedTab.value === 'conversations' &&
+    uiFlags.value.conversation.ranked
+  ) {
+    conversationCursors.value[pages.value.conversations + 1] =
+      uiFlags.value.conversation.nextCursor;
+    await loadConversationPage(pages.value.conversations + 1);
+    return;
+  }
+
   const SEARCH_ACTIONS = {
     contacts: 'conversationSearch/contactSearch',
     conversations: 'conversationSearch/conversationSearch',
@@ -337,7 +367,7 @@ const loadMore = async () => {
   const success = await store.dispatch(SEARCH_ACTIONS[tab], payload);
   // Roll back on failure so a retry fetches the same page instead of
   // skipping past the one that never loaded
-  if (!success) pages.value[tab] -= 1;
+  if (success === false) pages.value[tab] -= 1;
 };
 
 const onTabChange = tab => {
@@ -468,9 +498,26 @@ onUnmounted(() => {
                 v-if="filterConversations"
                 :is-fetching="uiFlags.conversation.isFetching"
                 :conversations="conversations"
+                :has-error="uiFlags.conversation.hasError"
                 :query="query"
                 :show-title="isSelectedTabAll"
                 :class="searchResultSectionClass"
+              />
+              <NextButton
+                v-if="
+                  filterConversations &&
+                  uiFlags.conversation.hasError &&
+                  !isFetchingAny
+                "
+                :label="t('SEARCH.RETRY')"
+                slate
+                sm
+                outline
+                @click="
+                  loadConversationPage(
+                    failedConversationPage || pages.conversations
+                  )
+                "
               />
               <NextButton
                 v-if="showViewMore.conversations"
@@ -508,7 +555,32 @@ onUnmounted(() => {
               />
             </Policy>
 
-            <div v-if="showLoadMore" class="flex justify-center mt-3 mb-6">
+            <div
+              v-if="
+                selectedTab === 'conversations' &&
+                uiFlags.conversation.ranked &&
+                !isFetchingAny
+              "
+              class="flex justify-center gap-3 mt-3 mb-6"
+            >
+              <NextButton
+                v-if="pages.conversations > 1"
+                :label="t('SEARCH.PREVIOUS_PAGE')"
+                slate
+                sm
+                faded
+                @click="loadConversationPage(pages.conversations - 1)"
+              />
+              <NextButton
+                v-if="uiFlags.conversation.hasMore"
+                :label="t('SEARCH.NEXT_PAGE')"
+                slate
+                sm
+                faded
+                @click="loadMore"
+              />
+            </div>
+            <div v-else-if="showLoadMore" class="flex justify-center mt-3 mb-6">
               <NextButton
                 v-if="!isSelectedTabAll"
                 :label="t(`SEARCH.LOAD_MORE`)"

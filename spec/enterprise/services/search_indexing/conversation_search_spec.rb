@@ -1,79 +1,100 @@
 require 'rails_helper'
 
 RSpec.describe SearchIndexing::ConversationSearch do
-  subject(:search) { described_class.new(account, query, [42]) }
+  subject(:result) { search.perform(cursor: cursor) }
 
   let(:account) { create(:account) }
-  let(:query) { 'example' }
-  let(:client) { instance_double(OpenSearch::Client) }
-  let(:response) do
-    { '_shards' => { 'failed' => 0 }, 'hits' => { 'total' => { 'value' => 1, 'relation' => 'eq' }, 'hits' => [{ '_id' => '123' }] } }
+  let(:user) { create(:user, account: account, role: :agent) }
+  let(:inbox) { create(:inbox, account: account) }
+  let(:conversation) { create(:conversation, account: account, inbox: inbox) }
+  let(:scope) { account.conversations }
+  let(:cursor) { nil }
+  let(:search) do
+    described_class.new(account: account, user: user, query: query, scope: scope)
   end
+  let(:query) { instance_double(SearchIndexing::ConversationSearchQuery, body: { collapse: { field: 'conversation_id' } }) }
+  let(:client) { instance_double(OpenSearch::Client) }
+  let(:response) { { '_shards' => { 'failed' => 0 }, 'hits' => { 'hits' => hits } } }
+  let(:hits) { [{ 'fields' => { 'conversation_id' => [conversation.id] } }] }
 
   before do
-    allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(true)
-    account.enable_features!('advanced_search_conversations')
+    create(:inbox_member, inbox: inbox, user: user)
+    allow(SearchIndexing::ConversationSearchQuery).to receive(:new).and_return(query)
     allow(Searchkick).to receive(:client).and_return(client)
     allow(client).to receive(:search).and_return(response)
-  end
-
-  it 'requests complete candidates scoped to the account and accessible inboxes' do
-    expect(search.ids).to eq([123])
-    expect(client).to have_received(:search).with(
-      index: Conversation.search_index.name,
-      body: hash_including(query: { bool: {
-                             filter: [{ term: { account_id: account.id } }, { terms: { inbox_id: [42] } }],
-                             must: [{ multi_match: { query: query, fields: described_class::FIELDS, type: 'phrase' } }]
-                           } })
-    )
-  end
-
-  it 'keeps a valid empty result empty' do
-    response['hits'] = { 'total' => { 'value' => 0, 'relation' => 'eq' }, 'hits' => [] }
-    expect(search.ids).to eq([])
-  end
-
-  it 'uses OpenSearch without any account readiness metadata' do
-    expect(account.internal_attributes).to eq({})
-    expect(search.ids).to eq([123])
-  end
-
-  it 'falls back when the account feature is disabled' do
-    account.disable_features!('advanced_search_conversations')
-    expect(search.ids).to be_nil
-    expect(client).not_to have_received(:search)
-  end
-
-  it 'falls back when OpenSearch is not configured' do
-    allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(false)
-    expect(search.ids).to be_nil
-    expect(client).not_to have_received(:search)
-  end
-
-  ['ab', 'résumé', 'a_b', 'a%b', 'a\\b', 'a' * 257].each do |unsupported|
-    it "uses SQL for unsupported query #{unsupported.first(12).inspect}" do
-      expect(described_class.new(account, unsupported, [42]).ids).to be_nil
-      expect(client).not_to have_received(:search)
+    # Message's Searchkick methods are installed only when OpenSearch is configured at boot.
+    without_partial_double_verification do
+      allow(Message).to receive(:search_index).and_return(Searchkick::Index.new('messages_test'))
     end
   end
 
-  it 'falls back rather than truncating broad matches' do
-    response['hits']['total']['value'] = described_class::CANDIDATE_LIMIT + 1
-    expect(search.ids).to be_nil
+  it 'queries both indexes and loads the ranked conversations' do
+    expect(result).to eq(conversations: [conversation], next_cursor: nil, has_more: false)
+    expect(client).to have_received(:search).with(index: [Conversation.search_index.name, 'messages_test'],
+                                                  search_type: 'dfs_query_then_fetch', body: hash_including(from: 0, size: 500))
   end
 
-  it 'rejects incomplete or timed out responses' do
-    response['_shards']['failed'] = 1
-    expect(search.ids).to be_nil
-    response['_shards']['failed'] = 0
+  it 'preserves engine ranking instead of sorting by conversation creation or ID' do
+    newer = create(:conversation, account: account, inbox: inbox)
+    hits << { 'fields' => { 'conversation_id' => [newer.id] } }
+    expect(result[:conversations]).to eq([conversation, newer])
+  end
+
+  it 'rechecks live tenant and inbox permissions, including stale documents' do
+    inaccessible = create(:conversation, account: account)
+    foreign = create(:conversation)
+    [inaccessible.id, foreign.id, 0].each { |id| hits.unshift('fields' => { 'conversation_id' => [id] }) }
+    expect(result[:conversations]).to eq([conversation])
+  end
+
+  it 'rechecks custom-role assignment and participation' do
+    role = create(:custom_role, account: account, permissions: ['conversation_participating_manage'])
+    account.account_users.find_by!(user: user).update!(custom_role: role)
+    conversation.update!(assignee: nil)
+    expect(result[:conversations]).to be_empty
+    create(:conversation_participant, account: account, conversation: conversation, user: user)
+    expect(search.perform[:conversations]).to eq([conversation])
+  end
+
+  it 'fills a page across inaccessible candidate batches without exposing an empty intermediate page' do
+    stub_const("#{described_class}::BATCH_SIZE", 2)
+    inaccessible = create(:conversation, account: account)
+    denied = { 'fields' => { 'conversation_id' => [inaccessible.id] } }
+    allow(client).to receive(:search).and_return(response.merge('hits' => { 'hits' => [denied, denied] }), response)
+    expect(result[:conversations]).to eq([conversation])
+    expect(client).to have_received(:search).with(hash_including(body: hash_including(from: 2)))
+  end
+
+  it 'returns 25 records and continues at the next accessible ranked conversation' do
+    rows = create_list(:conversation, 25, account: account, inbox: inbox)
+    hits.concat(rows.map { |row| { 'fields' => { 'conversation_id' => [row.id] } } })
+    expect(result[:conversations].size).to eq(25)
+    expect(result.slice(:next_cursor, :has_more)).to eq(next_cursor: '25', has_more: true)
+    allow(client).to receive(:search).and_return(response.merge('hits' => { 'hits' => [hits.last] }))
+    expect(search.perform(cursor: '25')[:conversations]).to eq([rows.last])
+  end
+
+  context 'when at the end of the result window' do
+    let(:cursor) { '9999' }
+
+    it 'caps requests at 10000 and returns no further cursor' do
+      expect(result).to eq(conversations: [conversation], next_cursor: nil, has_more: false)
+      expect(client).to have_received(:search).with(hash_including(body: hash_including(from: 9999, size: 1)))
+      expect(search.perform(cursor: '10000')[:conversations]).to be_empty
+      expect(client).to have_received(:search).once
+    end
+  end
+
+  it 'rejects failed or timed-out shards instead of reporting incomplete results' do
     response['timed_out'] = true
-    expect(search.ids).to be_nil
+    expect { result }.to raise_error(Searchkick::Error)
+    response['timed_out'] = false
+    response['_shards']['failed'] = 1
+    expect { search.perform }.to raise_error(Searchkick::Error)
   end
 
-  it 'falls back on transport failure but exposes invalid query errors' do
-    allow(client).to receive(:search).and_raise(Faraday::ConnectionFailed)
-    expect(search.ids).to be_nil
-    allow(client).to receive(:search).and_raise(OpenSearch::Transport::Transport::Errors::BadRequest)
-    expect { search.ids }.to raise_error(OpenSearch::Transport::Transport::Errors::BadRequest)
+  it 'rejects invalid cursors before querying' do
+    expect { search.perform(cursor: '-1') }.to raise_error(ArgumentError)
+    expect(client).not_to have_received(:search)
   end
 end
