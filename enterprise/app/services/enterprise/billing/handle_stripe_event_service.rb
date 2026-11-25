@@ -43,7 +43,7 @@ class Enterprise::Billing::HandleStripeEventService
     # skipping self hosted plan events
     return if plan.blank?
 
-    account.with_lock { apply_subscription(plan) }
+    account.with_lock { apply_subscription(entitled_plan(plan)) }
     track_marketing_plan_activation(previous_plan_name) if event_changed_plan?
     broadcast_billing_updated
   end
@@ -60,6 +60,12 @@ class Enterprise::Billing::HandleStripeEventService
     update_account_attributes(subscription, plan)
     Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
     sync_subscription_credits(plan, previous_usage)
+  end
+
+  def entitled_plan(plan)
+    return plan unless subscription['status'] == 'unpaid'
+
+    Enterprise::Billing::PlanConfiguration.default_plan
   end
 
   def sync_subscription_credits(plan, previous_usage)
