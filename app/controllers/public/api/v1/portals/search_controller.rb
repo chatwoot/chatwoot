@@ -8,6 +8,8 @@ class Public::Api::V1::Portals::SearchController < Public::Api::V1::Portals::Bas
 
   def index
     @query = params[:query].to_s.strip
+    path = portal_search_path(@portal.slug, @locale, search_params.except(:locale).compact_blank.to_h)
+    @canonical_url = canonical_url_for(path)
     @articles = @portal.articles.published.includes(:category).where(locale: params[:locale])
 
     search_articles

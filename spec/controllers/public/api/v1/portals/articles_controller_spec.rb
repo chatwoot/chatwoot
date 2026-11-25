@@ -32,6 +32,62 @@ RSpec.describe 'Public Articles API', type: :request do
       expect(response).to have_http_status(:success)
     end
 
+    describe 'canonical URL' do
+      %w[classic documentation].each do |layout|
+        context "with the #{layout} layout" do
+          before { portal.update!(config: portal.config.merge('layout' => layout)) }
+
+          it 'keeps pagination and filters on the portal article list' do
+            get "/hc/#{portal.slug}/en/articles.html", params: { page: 2, per_page: 1, sort: 'views', status: 'published', utm_source: 'newsletter' }
+
+            expect(response).to have_http_status(:success)
+            page = Nokogiri::HTML5(response.body)
+            canonical_urls = page.css('head link[rel="canonical"]').map { |link| link['href'] }
+            expect(canonical_urls).to eq(["https://www.example.com/hc/#{portal.slug}/en/articles?page=2&per_page=1&sort=views&status=published"])
+            content = page.at_css('main').text.squish
+
+            get canonical_urls.first
+
+            expect(response).to have_http_status(:success)
+            expect(Nokogiri::HTML5(response.body).at_css('main').text.squish).to eq(content)
+          end
+
+          it 'keeps the category route and search term on the category article list' do
+            path = "/hc/#{portal.slug}/en/categories/#{category.slug}/articles"
+            get "#{path}/", params: { query: 'MyText', page: 2, per_page: 1, sort: 'views', utm_source: 'newsletter' }
+
+            expect(response).to have_http_status(:success)
+            page = Nokogiri::HTML5(response.body)
+            canonical_urls = page.css('head link[rel="canonical"]').map { |link| link['href'] }
+            expect(canonical_urls).to eq(["https://www.example.com#{path}?page=2&per_page=1&query=MyText&sort=views"])
+            content = page.at_css('main').text.squish
+
+            get canonical_urls.first
+
+            expect(response).to have_http_status(:success)
+            expect(Nokogiri::HTML5(response.body).at_css('main').text.squish).to eq(content)
+          end
+        end
+      end
+
+      it 'omits canonical links when the portal is hidden from search' do
+        portal.update!(config: portal.config.merge('disable_search_indexing' => true))
+
+        get "/hc/#{portal.slug}/en/articles"
+
+        expect(response).to have_http_status(:success)
+        expect(response.headers['X-Robots-Tag']).to eq('noindex')
+        expect(Nokogiri::HTML5(response.body).css('head link[rel="canonical"]')).to be_empty
+      end
+
+      it 'omits canonical links from plain article list embeds' do
+        get "/hc/#{portal.slug}/en/articles", params: { show_plain_layout: true }
+
+        expect(response).to have_http_status(:success)
+        expect(Nokogiri::HTML5(response.body).css('head link[rel="canonical"]')).to be_empty
+      end
+    end
+
     it 'Fetches only the published articles in the portal' do
       get "/hc/#{portal.slug}/#{category_2.locale}/categories/#{category.slug}/articles.json"
       expect(response).to have_http_status(:success)
