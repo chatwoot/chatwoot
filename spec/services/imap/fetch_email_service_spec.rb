@@ -87,7 +87,8 @@ RSpec.describe Imap::FetchEmailService do
           allow(imap).to receive(:fetch).with(1, 'BODY.PEEK[]').and_return([imap_fetch_mail])
           allow(imap).to receive(:logout)
 
-          result = described_class.new(channel: imap_email_channel).perform
+          result = []
+          described_class.new(channel: imap_email_channel).perform { |mail| result << mail }
 
           expect(result.length).to eq 1
           expect(result[0].message_id).to eq email_object.message_id
@@ -110,7 +111,8 @@ RSpec.describe Imap::FetchEmailService do
           allow(imap).to receive(:fetch).with([1], 'BODY.PEEK[HEADER]').and_return([email_header])
           allow(imap).to receive(:logout)
 
-          result = described_class.new(channel: imap_email_channel).perform
+          result = []
+          described_class.new(channel: imap_email_channel).perform { |mail| result << mail }
 
           expect(result.length).to eq 0
           expect(imap).to have_received(:search).with(%w[SINCE 25-Oct-2020])
@@ -132,7 +134,8 @@ RSpec.describe Imap::FetchEmailService do
           allow(imap).to receive(:fetch).with([1], 'BODY.PEEK[HEADER]').and_return([email_header])
           allow(imap).to receive(:logout)
 
-          result = described_class.new(channel: imap_email_channel).perform
+          result = []
+          described_class.new(channel: imap_email_channel).perform { |mail| result << mail }
 
           expect(result).to be_empty
           expect(imap).not_to have_received(:fetch).with(1, 'RFC822')
@@ -159,13 +162,42 @@ RSpec.describe Imap::FetchEmailService do
           allow(imap).to receive(:fetch).with(valid_message_seq_num, 'BODY.PEEK[]').and_return([imap_fetch_mail])
           allow(imap).to receive(:logout)
 
-          result = described_class.new(channel: imap_email_channel).perform
+          result = []
+          described_class.new(channel: imap_email_channel).perform { |mail| result << mail }
 
           expect(result.length).to eq 1
           expect(result[0].message_id).to eq email_object.message_id
           expect(imap).to have_received(:fetch).with(empty_message_id_seq_nums, 'BODY.PEEK[HEADER]')
           expect(imap).to have_received(:fetch).with([valid_message_seq_num], 'BODY.PEEK[HEADER]')
           expect(imap).to have_received(:fetch).with(valid_message_seq_num, 'BODY.PEEK[]')
+        end
+      end
+
+      it 'hands over each email before fetching the body of the next one' do
+        travel_to '26.10.2020 10:00'.to_datetime do
+          first_message_id = Mail.read_from_string(eml_content_with_message_id).message_id
+          second_eml_content = eml_content_with_message_id.sub(/^Message-ID:[^\r\n]*/, 'Message-ID: <second-message@example.com>')
+          headers = [
+            Net::IMAP::FetchData.new(1, 'BODY[HEADER]' => eml_content_with_message_id),
+            Net::IMAP::FetchData.new(2, 'BODY[HEADER]' => second_eml_content)
+          ]
+          events = []
+
+          allow(imap).to receive(:search).with(%w[SINCE 25-Oct-2020]).and_return([1, 2])
+          allow(imap).to receive(:fetch).with([1, 2], 'BODY.PEEK[HEADER]').and_return(headers)
+          allow(imap).to receive(:fetch).with(1, 'BODY.PEEK[]') do
+            events << 'fetched 1'
+            [Net::IMAP::FetchData.new(1, 'BODY[]' => eml_content_with_message_id)]
+          end
+          allow(imap).to receive(:fetch).with(2, 'BODY.PEEK[]') do
+            events << 'fetched 2'
+            [Net::IMAP::FetchData.new(2, 'BODY[]' => second_eml_content)]
+          end
+          allow(imap).to receive(:logout)
+
+          described_class.new(channel: imap_email_channel).perform { |mail| events << "handed over #{mail.message_id}" }
+
+          expect(events).to eq(['fetched 1', "handed over #{first_message_id}", 'fetched 2', 'handed over second-message@example.com'])
         end
       end
     end

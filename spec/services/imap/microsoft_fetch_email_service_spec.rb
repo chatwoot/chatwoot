@@ -37,7 +37,8 @@ RSpec.describe Imap::MicrosoftFetchEmailService do
           allow(imap).to receive(:fetch).with(1, 'BODY.PEEK[]').and_return([imap_fetch_mail])
           allow(imap).to receive(:logout)
 
-          result = described_class.new(channel: microsoft_channel).perform
+          result = []
+          described_class.new(channel: microsoft_channel).perform { |mail| result << mail }
 
           expect(refresh_token_service).to have_received(:access_token)
 
@@ -63,7 +64,8 @@ RSpec.describe Imap::MicrosoftFetchEmailService do
           allow(imap).to receive(:fetch).with(1, 'BODY.PEEK[]').and_return([imap_fetch_mail])
           allow(imap).to receive(:logout)
 
-          result = described_class.new(channel: microsoft_channel, interval: 8).perform
+          result = []
+          described_class.new(channel: microsoft_channel, interval: 8).perform { |mail| result << mail }
 
           expect(refresh_token_service).to have_received(:access_token)
 

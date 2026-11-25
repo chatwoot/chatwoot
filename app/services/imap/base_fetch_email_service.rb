@@ -9,11 +9,11 @@ class Imap::BaseFetchEmailService
     # Override this method
   end
 
-  def perform
-    inbound_emails = fetch_emails
+  # Yields each new email as soon as its body is fetched. The caller saves it before the next body is
+  # downloaded, so a sync holds one email in memory instead of up to MAX_MESSAGES_PER_SYNC.
+  def perform(&)
+    fetch_emails(&)
     terminate_imap_connection
-
-    inbound_emails
   end
 
   private
@@ -47,9 +47,9 @@ class Imap::BaseFetchEmailService
   end
 
   def fetch_mail_for_channel
-    message_ids_with_seq = fetch_message_ids_with_sequence
-    message_ids_with_seq.filter_map do |message_id_with_seq|
-      process_message_id(message_id_with_seq)
+    fetch_message_ids_with_sequence.each do |message_id_with_seq|
+      inbound_mail = process_message_id(message_id_with_seq)
+      yield inbound_mail if inbound_mail
     end
   end
 

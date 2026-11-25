@@ -1,6 +1,6 @@
 class Imap::FetchEmailService < Imap::BaseFetchEmailService
-  def fetch_emails
-    fetch_mail_for_channel
+  def fetch_emails(&)
+    fetch_mail_for_channel(&)
   end
 
   private

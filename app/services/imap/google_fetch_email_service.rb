@@ -1,8 +1,8 @@
 class Imap::GoogleFetchEmailService < Imap::BaseFetchEmailService
-  def fetch_emails
+  def fetch_emails(&)
     return if channel.provider_config['access_token'].blank?
 
-    fetch_mail_for_channel
+    fetch_mail_for_channel(&)
   end
 
   private
