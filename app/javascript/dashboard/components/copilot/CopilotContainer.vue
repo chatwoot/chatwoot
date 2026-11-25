@@ -120,24 +120,40 @@ const setAssistant = async assistant => {
   });
 };
 
-const isExpanded = computed(() => route.name === 'copilot_index');
+const isOnCopilotPage = computed(() => route.name === 'copilot_index');
+// Expanded inside a conversation, the panel covers the conversation in place instead of opening the Copilot page.
+// Leaving the conversation route clears the selected chat, and Copilot would lose the conversation it answers about.
+const isExpandedInConversation = ref(false);
+const isExpanded = computed(
+  () => isOnCopilotPage.value || isExpandedInConversation.value
+);
 
 const copilotPage = () => ({
   name: 'copilot_index',
   params: { threadId: selectedCopilotThreadId.value || '' },
 });
-watch([selectedCopilotThreadId, isExpanded], () => {
-  if (isExpanded.value) router.replace(copilotPage());
+watch([selectedCopilotThreadId, isOnCopilotPage], () => {
+  if (isOnCopilotPage.value) router.replace(copilotPage());
 });
 
 const shouldShowCopilotPanel = computed(() => {
   const { is_copilot_panel_open: isCopilotPanelOpen } = uiSettings.value;
   return (
     isCopilotAvailable.value &&
-    (isCopilotPanelOpen || isExpanded.value) &&
+    (isCopilotPanelOpen || isOnCopilotPage.value) &&
     !uiFlags.value.fetchingList
   );
 });
+watch(shouldShowCopilotPanel, isOpen => {
+  if (!isOpen) isExpandedInConversation.value = false;
+});
+// A page opened while expanded would load behind the panel, so the panel returns to its normal width beside it.
+watch(
+  () => route.path,
+  () => {
+    isExpandedInConversation.value = false;
+  }
+);
 
 // The panel can already be open on load, for someone who used Copilot before the dot existed. They have seen Copilot,
 // so the dot is used up here too, not only when an entry point opens the panel.
@@ -151,19 +167,23 @@ watch(
 );
 
 const leaveCopilotPage = () => {
-  if (!isExpanded.value) return;
+  if (!isOnCopilotPage.value) return;
 
   if (window.history.state?.back) router.back();
   else router.replace({ name: 'home' });
 };
 
 const toggleExpand = () => {
-  if (isExpanded.value) {
+  if (isExpandedInConversation.value) {
+    isExpandedInConversation.value = false;
+  } else if (isOnCopilotPage.value) {
     updateUISettings({
       is_contact_sidebar_open: false,
       is_copilot_panel_open: true,
     });
     leaveCopilotPage();
+  } else if (currentChat.value?.id) {
+    isExpandedInConversation.value = true;
   } else {
     router.push(copilotPage());
   }
@@ -333,7 +353,8 @@ useEmitter(BUS_EVENTS.ASK_COPILOT, async message => {
   router.push({ name: 'copilot_index' });
   const isSent = await sendMessage(message);
   useTrack(COPILOT_EVENTS.SEND_MESSAGE);
-  if (!isSent) draft.value = message;
+  // Text typed while the send was pending is newer than the failed question, so it stays.
+  if (!isSent && !draft.value) draft.value = message;
 });
 
 const stopCopilot = async () => {

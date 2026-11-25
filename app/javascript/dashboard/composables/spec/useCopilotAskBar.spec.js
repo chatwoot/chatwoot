@@ -8,6 +8,8 @@ const testState = vi.hoisted(() => ({
 }));
 const assistants = ref([]);
 const assistantFlags = ref({});
+const inboxes = ref([]);
+const inboxFlags = ref({});
 const uiSettings = ref({});
 
 vi.mock('dashboard/composables/useConfig', () => ({
@@ -24,7 +26,12 @@ vi.mock('dashboard/composables/useUISettings', () => ({
 }));
 vi.mock('dashboard/composables/store', () => ({
   useMapGetter: key =>
-    key === 'captainAssistants/getUIFlags' ? assistantFlags : assistants,
+    ({
+      'captainAssistants/getRecords': assistants,
+      'captainAssistants/getUIFlags': assistantFlags,
+      'inboxes/getInboxes': inboxes,
+      'inboxes/getUIFlags': inboxFlags,
+    })[key],
 }));
 
 describe('useCopilotAskBar', () => {
@@ -34,6 +41,8 @@ describe('useCopilotAskBar', () => {
     testState.enabledFlags = ['captain_integration'];
     assistants.value = [{ id: 7 }];
     assistantFlags.value = { fetchingList: false };
+    inboxes.value = [{ id: 1 }];
+    inboxFlags.value = { isFetching: false };
     uiSettings.value = {};
   });
 
@@ -73,6 +82,19 @@ describe('useCopilotAskBar', () => {
 
     expect(showAskBar.value).toBe(false);
     expect(isAskBarLoading.value).toBe(true);
+  });
+
+  it('hides the ask bar when the user has no inbox, so the launcher stays', () => {
+    inboxes.value = [];
+
+    expect(useCopilotAskBar().showAskBar.value).toBe(false);
+  });
+
+  it('counts the ask bar as loading until the inboxes arrive', () => {
+    inboxes.value = [];
+    inboxFlags.value = { isFetching: true };
+
+    expect(useCopilotAskBar().isAskBarLoading.value).toBe(true);
   });
 
   it('hides the ask bar while the Copilot panel is open', () => {

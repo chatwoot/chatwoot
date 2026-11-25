@@ -147,7 +147,8 @@ describe('CopilotContainer', () => {
     });
   });
 
-  it('opens its own page from the expand button', async () => {
+  it('opens its own page from the expand button when no conversation is open', async () => {
+    testState.refs.getSelectedChat.value = {};
     const wrapper = mountComponent();
     await flushPromises();
     const copilot = wrapper.findComponent({ name: 'Copilot' });
@@ -162,6 +163,7 @@ describe('CopilotContainer', () => {
   });
 
   it('takes the open chat along when it expands', async () => {
+    testState.refs.getSelectedChat.value = {};
     const wrapper = mountComponent();
     await flushPromises();
     const copilot = wrapper.findComponent({ name: 'Copilot' });
@@ -174,6 +176,31 @@ describe('CopilotContainer', () => {
       name: 'copilot_index',
       params: { threadId: 42 },
     });
+  });
+
+  it('expands in place inside a conversation and keeps asking about it', async () => {
+    const wrapper = mountComponent();
+    await flushPromises();
+    const copilot = wrapper.findComponent({ name: 'Copilot' });
+
+    copilot.vm.$emit('toggleExpand');
+    await nextTick();
+
+    expect(testState.router.push).not.toHaveBeenCalled();
+    expect(copilot.props('isExpanded')).toBe(true);
+
+    await copilot.props('onSendMessage')('Draft a reply');
+
+    expect(testState.dispatch).toHaveBeenCalledWith(
+      'copilotThreads/create',
+      expect.objectContaining({ conversation_id: 1 })
+    );
+
+    copilot.vm.$emit('toggleExpand');
+    await nextTick();
+
+    expect(copilot.props('isExpanded')).toBe(false);
+    expect(testState.router.push).not.toHaveBeenCalled();
   });
 
   it('puts the open chat in the address when its page opens', async () => {
@@ -332,6 +359,30 @@ describe('CopilotContainer', () => {
     expect(wrapper.findComponent({ name: 'Copilot' }).props('draft')).toBe(
       'Typed question'
     );
+    wrapper.unmount();
+  });
+
+  it('keeps text typed while a question asked outside the panel failed to send', async () => {
+    let rejectSend;
+    testState.dispatch.mockImplementation(action =>
+      action === 'copilotThreads/create'
+        ? new Promise((resolve, reject) => {
+            rejectSend = reject;
+          })
+        : Promise.resolve()
+    );
+    const wrapper = mountComponent();
+    await flushPromises();
+    const copilot = wrapper.findComponent({ name: 'Copilot' });
+
+    emitter.emit(BUS_EVENTS.ASK_COPILOT, 'First question');
+    await nextTick();
+    copilot.vm.$emit('update:draft', 'Second question');
+    await nextTick();
+    rejectSend(new Error('Could not send'));
+    await flushPromises();
+
+    expect(copilot.props('draft')).toBe('Second question');
     wrapper.unmount();
   });
 
