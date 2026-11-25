@@ -141,6 +141,7 @@ RSpec.describe Message do
             source_id: message.conversation.contact_inbox.source_id
           },
           last_activity_at: message.conversation.last_activity_at.to_i,
+          last_message_at: message.conversation.last_message_at&.to_f,
           unread_count: message.conversation.unread_incoming_messages.count
         },
         sentiment: {},
@@ -477,6 +478,31 @@ RSpec.describe Message do
     it 'updates conversation last_activity_at when created' do
       message.save!
       expect(message.created_at).to eq message.conversation.last_activity_at
+    end
+
+    it 'keeps the latest public message across internal activity and delayed messages' do
+      conversation = message.conversation
+      account = conversation.account
+      newest = Time.current.change(usec: 123_456)
+      public_reply = create(:message, :bot_message, conversation: conversation, account: account, created_at: newest)
+      create(:message, conversation: conversation, account: account, created_at: newest + 1.minute, private: true)
+      create(:message, conversation: conversation, account: account, created_at: newest + 2.minutes, message_type: :activity)
+      create(:message, conversation: conversation, account: account, created_at: newest - 1.minute)
+      public_reply.update!(status: :read)
+
+      expect(conversation.reload.last_message_at).to eq(newest)
+      expect(conversation.push_event_data[:last_message_at]).to eq(newest.to_f)
+      template = create(:message, conversation: conversation, account: account, message_type: :template, created_at: newest + 1.hour)
+      expect(template.push_event_data[:conversation][:last_message_at]).to eq((newest + 1.hour).to_f)
+    end
+
+    it 'rolls back the message if its conversation activity cannot be saved' do
+      conversation = message.conversation
+      allow(conversation).to receive(:record_message_activity!).and_raise(ActiveRecord::StatementInvalid)
+
+      expect { message.save! }.to raise_error(ActiveRecord::StatementInvalid)
+      expect(conversation.messages).to be_empty
+      expect(conversation.reload.last_message_at).to be_nil
     end
 
     it 'updates contact last_activity_at when created' do
