@@ -212,3 +212,32 @@ app/jobs/whatsapp/session/history_media_job.rb: Keep downloads within the histor
 .bundler-audit.yml: Mitigate slow-client attacks before suppressing the advisories  # PR#991, user accepted the reachable DoS until the upstream sync
 app/models/attachment.rb: Reserve the video-note flag for provider-confirmed notes  # PR#1013 r2→r3: attachment metadata is caller-shaped by design in MessageBuilder; reading direction instead dropped the phone's own notes
 app/javascript/dashboard/components-next/message/bubbles/VideoNote.vue: Make video-note playback available before metadata loads  # PR#1013 r5: the same useLoadWithRetry gate upstream's Video bubble puts on every video in the dashboard
+# PR#1018: the note is tagged by the message builder when the message is composed, and that is
+# where the caption and one-file rules run. Changing it afterwards takes an attachment meta write
+# through AttachmentsController#update or an edit of the text before a queued send leaves, neither
+# of which any client does to a note; the connector still refuses the result, so the message turns
+# red instead of going out wrong.
+app/models/concerns/composed_attachment_checks.rb: Enforce the caption rule when an outbound message is updated  # PR#1018
+# PR#1018: swagger/ is upstream's file, byte-identical to the release we track, and the fork's other
+# message flags (is_voice_message, attachments_metadata) are not in it either. Documenting a fork
+# parameter there is a conflict in every sync; the PR body documents it.
+app/builders/messages/message_builder.rb: Expose the video-note flag in the messages API schema  # PR#1018
+# PR#1018: a connector older than 1.1.0 deployed on its own ignores the field and delivers an
+# ordinary video, so nothing is lost and nothing fails; the image ships 1.1.0 pinned, and a separate
+# deployment is told to keep the connector current for the rest of the channel anyway.
+app/builders/messages/message_builder.rb: Check connector support before sending a video note  # PR#1018
+# PR#1018: `is_video_note[]=false` is a malformed request, and the repo rule is to fix the client
+# rather than add coercions; the sibling `is_voice_message` casts the same way.
+app/builders/messages/message_builder.rb: Reject non-scalar video-note flags before casting  # PR#1018
+# PR#1018: a codec-qualified MIME (`video/mp4; codecs=avc1`) is classified as a document by
+# FileTypeHelper for every video upload, with or without this flag. Pre-existing, and the
+# classifier's to fix, not this PR's.
+app/builders/messages/message_builder.rb: Recognize video MIME types with codec parameters  # PR#1018
+# PR#1018: it takes a note recorded with its WhatsApp id and a text, then reported failed by
+# WhatsApp, then retried by an agent. Even then the connector refuses the caption and the message
+# turns red with the reason; nothing wrong reaches the contact.
+app/models/concerns/composed_attachment_checks.rb: Check recorded video notes before retrying delivery  # PR#1018
+# PR#1018: a web widget reply that a caller sends with both a source_id and is_video_note is a
+# combination no client produces; the worst case is a circle in the dashboard for a video the
+# widget plays as a rectangle.
+app/builders/messages/message_builder.rb: Keep source-ID-tagged widget replies as ordinary videos  # PR#1018

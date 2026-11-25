@@ -22,6 +22,10 @@ en:
     messages:
       deleted: This message was deleted
   errors:
+    attachments:
+      video_note:
+        with_text: A video note carries no text. Send the text as a message of its own.
+        not_alone: A video note goes alone. Send the other files in messages of their own.
     articles:
       invalid_sort: Unknown article order. Use updated_at, created_at, title or views, prefixed with - for descending.
     request:

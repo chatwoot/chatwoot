@@ -53,8 +53,8 @@ class Whatsapp::Session::Outbound::AttachmentAdapter
     file = attachment.file
     content::Media.new(
       kind: kind, mime: file.content_type, filename: file.filename.to_s, caption: caption.presence,
-      voice_note: voice_note?, size: file.byte_size, ref: media_ref.url(url, mime: file.content_type,
-                                                                             size: file.byte_size),
+      voice_note: voice_note?, video_note: video_note, size: file.byte_size,
+      ref: media_ref.url(url, mime: file.content_type, size: file.byte_size),
       **measurements
     )
   end
@@ -130,6 +130,11 @@ class Whatsapp::Session::Outbound::AttachmentAdapter
     return 'sticker' if attachment.file.content_type == 'image/webp'
 
     KINDS.fetch(attachment.file_type, 'document')
+  end
+
+  # Absent rather than false when it does not apply: the contract omits the flag unless it is true.
+  def video_note
+    true if attachment.video_note?
   end
 
   # `is_recorded_audio` is the older fazer.ai key (transcode pipeline and old messages).

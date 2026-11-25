@@ -22,6 +22,10 @@ es:
     messages:
       deleted: Este mensaje fue eliminado
   errors:
+    attachments:
+      video_note:
+        with_text: La videonota no lleva texto. Envía el texto en un mensaje aparte.
+        not_alone: La videonota va sola. Envía los demás archivos en mensajes aparte.
     articles:
       invalid_sort: Orden de artículos desconocido. Usa updated_at, created_at, title o views, con - delante para orden descendente.
     request:

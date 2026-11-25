@@ -28,6 +28,44 @@ RSpec.describe Whatsapp::Session::Outbound::AttachmentAdapter do
     expect(media.voice_note).to be(true)
   end
 
+  # The flag the connector turns into a PtvMessage. Absent rather than false when it does not
+  # apply, which is how the contract carries it.
+  describe 'a video note' do
+    def sent(file_type:, content_type:, meta:)
+      attachment.file.blob.update!(content_type: content_type)
+      attachment.update!(file_type: file_type, meta: meta)
+      described_class.new(attachment.reload, channel: channel).perform
+    end
+
+    it 'asks the connector for a video note when the video is tagged as one' do
+      media = sent(file_type: :video, content_type: 'video/mp4', meta: { 'is_video_note' => true })
+
+      expect(media.kind).to eq('video')
+      expect(media.video_note).to be(true)
+      expect(media.to_h).to include('video_note' => true)
+    end
+
+    it 'sends an untagged video as an ordinary one' do
+      media = sent(file_type: :video, content_type: 'video/mp4', meta: {})
+
+      expect(media.to_h).not_to have_key('video_note')
+    end
+
+    it 'sends a video whose tag is false as an ordinary one' do
+      media = sent(file_type: :video, content_type: 'video/mp4', meta: { 'is_video_note' => false })
+
+      expect(media.to_h).not_to have_key('video_note')
+    end
+
+    # The connector refuses the flag on anything but a video, so carrying it would turn a
+    # picture that sends today into a refusal.
+    it 'never asks for one on a picture' do
+      media = sent(file_type: :image, content_type: 'image/png', meta: { 'is_video_note' => true })
+
+      expect(media.to_h).not_to have_key('video_note')
+    end
+  end
+
   # What the recipient's client lays the bubble out from before a byte has arrived. All of
   # it read from what ActiveStorage already analysed, except the waveform, which no analyser
   # produces.

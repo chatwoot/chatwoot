@@ -23,6 +23,7 @@
 
 class Attachment < ApplicationRecord
   include Rails.application.routes.url_helpers
+  include ComposedAttachmentChecks
 
   ACCEPTABLE_FILE_TYPES = %w[
     text/csv text/plain text/rtf text/xml
@@ -43,12 +44,6 @@ class Attachment < ApplicationRecord
   has_one_attached :file
   before_save :set_extension
   validate :acceptable_file
-  # Off by default on purpose. Only the paths where we compose a message and are about to send it
-  # turn this on, because a refusal on an ingested attachment raises inside the provider webhook
-  # and loses the whole message instead of storing an odd one.
-  attr_accessor :refuse_empty_file
-
-  validate :file_is_not_empty, if: :refuse_empty_file
   validates :external_url, length: { maximum: Limits::URL_LENGTH_LIMIT }
   enum :file_type, { image: 0, audio: 1, video: 2, file: 3, location: 4, fallback: 5, share: 6, story_mention: 7,
                      contact: 8, ig_reel: 9, ig_post: 10, ig_story: 11, embed: 12 }
@@ -57,6 +52,13 @@ class Attachment < ApplicationRecord
     location: :location_metadata, fallback: :fallback_data, contact: :contact_metadata,
     audio: :audio_metadata, video: :video_metadata, embed: :embed_data
   }.freeze
+
+  # A video WhatsApp plays in a circle. The mark is written by the session layer on one that
+  # arrives and by the message builder on one that is sent, and only a boolean counts: a string
+  # `"true"` from a multipart request is not one.
+  def video_note?
+    video? && meta.to_h['is_video_note'] == true
+  end
 
   def push_event_data
     return unless file_type
@@ -148,9 +150,9 @@ class Attachment < ApplicationRecord
     metadata = file_metadata
     # WhatsApp plays a video note in a circle, and this is all the dashboard has to tell one
     # from the ordinary video it also is.
-    # Only the boolean the session writer stores, on an incoming note or on the echo of one
-    # recorded on the connected phone. A string from an API upload's metadata does not count.
-    metadata[:is_video_note] = true if meta&.[]('is_video_note') == true
+    # Only a boolean: the session writer stores one on an incoming note or on the echo of one
+    # recorded on the connected phone, and the message builder casts the API's flag to one.
+    metadata[:is_video_note] = true if video_note?
     return metadata if instagram_incoming_message?
 
     metadata.merge({ data_url: inline_storage_url })
@@ -234,16 +236,6 @@ class Attachment < ApplicationRecord
     return false unless message.inbox.channel_type == 'Channel::WebWidget'
 
     true
-  end
-
-  # Separate from `acceptable_file`, which runs only on a web widget inbox: which *types* an inbox
-  # accepts is a per-channel policy, while a file with no bytes is useless on every channel. Who
-  # gets refused is decided by `refuse_empty_file`, not by the message type, and the flag lives in
-  # memory only, so reloading a row that was stored before this existed never refuses it later.
-  def file_is_not_empty
-    return unless file.attached? && file.byte_size.to_i.zero?
-
-    errors.add(:file, 'is empty')
   end
 
   def acceptable_file

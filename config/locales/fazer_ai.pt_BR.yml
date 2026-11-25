@@ -22,6 +22,10 @@ pt_BR:
     messages:
       deleted: Esta mensagem foi excluída
   errors:
+    attachments:
+      video_note:
+        with_text: O vídeo recado não leva texto. Envie o texto numa mensagem separada.
+        not_alone: O vídeo recado vai sozinho. Envie os outros arquivos em mensagens separadas.
     articles:
       invalid_sort: Ordenação de artigos desconhecida. Use updated_at, created_at, title ou views, com - na frente para ordem decrescente.
     request:

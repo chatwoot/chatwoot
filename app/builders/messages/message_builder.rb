@@ -17,6 +17,7 @@ class Messages::MessageBuilder
     @attachments = params[:attachments]
     @is_recorded_audio = params[:is_recorded_audio]
     @is_voice_message = ActiveModel::Type::Boolean.new.cast(params[:is_voice_message])
+    @is_video_note = ActiveModel::Type::Boolean.new.cast(params[:is_video_note])
     @transcode_audio = params[:transcode_audio]
     @attachments_metadata = normalize_attachments_metadata(params[:attachments_metadata])
     @automation_rule = content_attributes&.dig(:automation_rule_id)
@@ -75,6 +76,7 @@ class Messages::MessageBuilder
       attachment.meta = metadata if metadata.present?
       attachment.file_type = attachment_file_type(uploaded_attachment)
       tag_voice_message(attachment)
+      tag_video_note(attachment)
       transcode_attachment(attachment, file_like_source(uploaded_attachment)) if should_transcode?(attachment)
     end
   end
@@ -135,6 +137,38 @@ class Messages::MessageBuilder
     attachment.meta = (attachment.meta || {}).merge('is_voice_message' => true)
   end
 
+  # The same rule as the voice flag, for the note WhatsApp plays in a circle: the message-level
+  # flag reaches a video whose own entry says nothing about it, and the entry wins when it does.
+  # Only where a note can actually go out as one. Anywhere else the dashboard would draw a circle
+  # for a video the recipient gets as a rectangle, so a per-file entry is dropped there too.
+  def tag_video_note(attachment)
+    return drop_video_note(attachment) unless video_note_destination?
+    return unless @is_video_note && attachment.file_type == 'video'
+    return if attachment.meta.to_h.key?('is_video_note')
+
+    attachment.meta = (attachment.meta || {}).merge('is_video_note' => true)
+  end
+
+  def drop_video_note(attachment)
+    attachment.meta = attachment.meta.except('is_video_note') if attachment.meta.to_h.key?('is_video_note')
+  end
+
+  # Where a note keeps its mark: a WhatsApp contact reached through the native connector, an API
+  # inbox, which sends nothing itself, and any message that arrived or already went out. Not a
+  # private note, which never leaves, and not the other providers and channels, which would deliver
+  # the same request as an ordinary video (Uazapi and Baileys are #1017).
+  def video_note_destination?
+    return false if @private
+    # Arrived, or already went out elsewhere and is only being recorded: either way it is a note
+    # somebody recorded, and nothing here will send it.
+    return true if @message_type == 'incoming' || @params[:source_id].present?
+
+    channel = @conversation.inbox.channel
+    return true if channel.is_a?(Channel::Api)
+
+    channel.is_a?(Channel::Whatsapp) && channel.provider == 'native'
+  end
+
   def process_metadata(attachment)
     meta = {}
     meta.merge!(recorded_audio_metadata(attachment) || {})
@@ -162,9 +196,9 @@ class Messages::MessageBuilder
   # A multipart request carries every value as a string, so `is_voice_message=false` arrives as
   # the string "false", which is `present?` and reads at both providers as an explicit yes. The
   # sibling top-level parameter is cast in the constructor; these were not, and the wrong value
-  # was reaching the database rather than being misread on the way out. Only these two keys are
+  # was reaching the database rather than being misread on the way out. Only these keys are
   # touched: everything else a caller puts in the metadata is theirs to shape.
-  BOOLEAN_ATTACHMENT_METADATA_KEYS = %w[is_voice_message is_recorded_audio].freeze
+  BOOLEAN_ATTACHMENT_METADATA_KEYS = %w[is_voice_message is_recorded_audio is_video_note].freeze
 
   def cast_metadata_flags(values)
     return values unless values.is_a?(Hash)
