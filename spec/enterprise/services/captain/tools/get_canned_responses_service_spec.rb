@@ -20,31 +20,50 @@ RSpec.describe Captain::Tools::GetCannedResponsesService do
   end
 
   it 'returns the full text of the named canned responses, ignoring case and a leading slash' do
-    result = tool.execute(names: '/dpa, trial-code')
+    result = tool.execute(names: ['/dpa', 'trial-code'])
 
-    expect(result).to include("Saved reply dpa:\nEmail legal@example.com")
+    expect(result).to include("Saved reply DPA:\nEmail legal@example.com")
     expect(result).to include("Saved reply trial-code:\nUse the trial code")
   end
 
   it 'says when a name does not exist' do
-    expect(tool.execute(names: 'refund-policy')).to include('No saved reply named refund-policy.')
+    expect(tool.execute(names: ['refund-policy'])).to include('No saved reply named refund-policy.')
   end
 
   it 'never returns another account’s canned responses' do
     create(:canned_response, account: create(:account), short_code: 'refund-policy', content: 'Another account refund policy.')
 
-    expect(tool.execute(names: 'refund-policy')).not_to include('Another account')
+    expect(tool.execute(names: ['refund-policy'])).not_to include('Another account')
+  end
+
+  it 'returns the exact name when another name differs only by case' do
+    create(:canned_response, account: account, short_code: 'dpa', content: 'Our short DPA summary.')
+
+    exact = tool.execute(names: ['DPA'])
+
+    expect(exact).to include('Email legal@example.com')
+    expect(exact).not_to include('short DPA summary')
+    expect(tool.execute(names: ['dpa'])).to include('Our short DPA summary.')
+  end
+
+  it 'reads a name that contains a comma' do
+    create(:canned_response, account: account, short_code: 'refund, EU', content: 'EU refunds take 14 days.')
+
+    expect(tool.execute(names: ['refund, EU'])).to include("Saved reply refund, EU:\nEU refunds take 14 days.")
   end
 
   it 'rejects malformed names' do
-    expect(tool.execute(names: '')).to include('one to three saved reply names')
-    expect(tool.execute(names: ['dpa'])).to include('one to three saved reply names')
+    expect(tool.execute(names: 'dpa')).to include('one to three saved reply names')
+    expect(tool.execute(names: [])).to include('one to three saved reply names')
+    expect(tool.execute(names: [1])).to include('one to three saved reply names')
+    expect(tool.execute(names: [''])).to include('one to three saved reply names')
+    expect(tool.execute(names: %w[a b c d])).to include('one to three saved reply names')
     expect(tool.execute).to include('one to three saved reply names')
   end
 
   it 'stops after the call limit for one draft' do
-    described_class::MAX_CALLS.times { tool.execute(names: 'dpa') }
+    described_class::MAX_CALLS.times { tool.execute(names: ['dpa']) }
 
-    expect(tool.execute(names: 'dpa')).to include('limit')
+    expect(tool.execute(names: ['dpa'])).to include('limit')
   end
 end

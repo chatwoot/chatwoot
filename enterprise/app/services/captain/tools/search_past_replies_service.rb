@@ -85,14 +85,15 @@ class Captain::Tools::SearchPastRepliesService < RubyLLM::Tool
     @account.account_users.find_by(user_id: @user.id)&.administrator?
   end
 
-  # Like the dashboard's SQL message search: this account, the search window, newest first, every word present.
+  # Like the dashboard's SQL message search: this account, the search window, newest first, every word present. Only
+  # conversations the agent can open are searched, so replies they cannot read do not take the candidate places.
   def database_candidate_ids(query)
     words = query.scan(/[[:alnum:]]+/).select { |word| word.length >= MIN_WORD_LENGTH }.uniq.first(MAX_DATABASE_WORDS)
     return [] if words.empty?
 
     content = Message.arel_table[:content]
     relation = words.reduce(recent_agent_replies) { |scope, word| scope.where(content.matches("%#{Message.sanitize_sql_like(word)}%")) }
-    relation.reorder(created_at: :desc).limit(CANDIDATE_LIMIT).pluck(:id)
+    relation.where(conversation_id: allowed_conversations.select(:id)).reorder(created_at: :desc).limit(CANDIDATE_LIMIT).pluck(:id)
   end
 
   def recent_agent_replies
@@ -101,9 +102,12 @@ class Captain::Tools::SearchPastRepliesService < RubyLLM::Tool
             .where.not(conversation_id: @conversation.id)
   end
 
+  def allowed_conversations
+    accessible_conversations(account: @account, user: @user).where.not(id: @conversation.id)
+  end
+
   # The index can lag behind the database, so each hit is checked against the same rules plus the agent's access.
   def verified_replies(candidate_ids)
-    allowed_conversations = accessible_conversations(account: @account, user: @user).where.not(id: @conversation.id)
     Message.where(id: candidate_ids, account_id: @account.id, private: false, message_type: :outgoing, sender_type: 'User')
            .where(conversation_id: allowed_conversations.select(:id))
            .includes(:conversation)

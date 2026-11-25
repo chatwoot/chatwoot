@@ -5,12 +5,17 @@ class Captain::Tools::GetCannedResponsesService < RubyLLM::Tool
 
   MAX_CALLS = 3
   MAX_NAMES = 3
-  NAMES_LENGTH = (1..300)
+  NAME_LENGTH = (1..255)
   INDEX_ENTRY_LIMIT = 150
   INDEX_PREVIEW_LENGTH = 80
 
   description 'Read the full text of saved replies, by their names from the saved reply list'
-  parameter :names, description: 'Names of the saved replies to read, separated by commas', required: true
+  # A list, not comma-separated text, because saved reply names can contain commas.
+  parameters type: 'object', required: %w[names], additionalProperties: false,
+             properties: {
+               names: { type: 'array', items: { type: 'string' }, minItems: 1, maxItems: MAX_NAMES,
+                        description: 'Names of the saved replies to read, exactly as listed' }
+             }
 
   # One line per canned response, its name and the start of its text, for the prompt.
   def self.index_for(account)
@@ -37,24 +42,39 @@ class Captain::Tools::GetCannedResponsesService < RubyLLM::Tool
   end
 
   def execute(names: nil, **)
-    return 'Give one to three saved reply names, separated by commas.' unless names.is_a?(String) && NAMES_LENGTH.cover?(names.strip.length)
+    requested = requested_names(names)
+    return 'Give a list of one to three saved reply names.' if requested.nil?
     return 'The limit for reading saved replies in this draft has been reached.' if @calls >= MAX_CALLS
 
     @calls += 1
-    requested = names.split(',').map { |name| name.strip.delete_prefix('/').downcase }.compact_blank.uniq.first(MAX_NAMES)
-    found = @account.canned_responses.where(CannedResponse.arel_table[:short_code].lower.in(requested)).to_a
+    lookups = requested.flat_map { |name| [name, name.delete_prefix('/')] }.map(&:downcase).uniq
+    found = @account.canned_responses.where(CannedResponse.arel_table[:short_code].lower.in(lookups)).to_a
     log_call(requested.size, found.size)
-    format_result(requested, found)
+    requested.map { |name| format_entry(name, best_match(found, name)) }.join
   end
 
   private
 
-  def format_result(requested, found)
-    by_name = found.index_by { |canned_response| canned_response.short_code.downcase }
-    requested.map do |name|
-      canned_response = by_name[name]
-      canned_response ? "\nSaved reply #{name}:\n#{canned_response.content}\n" : "\nNo saved reply named #{name}.\n"
-    end.join
+  def requested_names(names)
+    return unless names.is_a?(Array) && names.size.between?(1, MAX_NAMES) && names.all?(String)
+
+    cleaned = names.map(&:strip).uniq
+    cleaned if cleaned.all? { |name| NAME_LENGTH.cover?(name.length) }
+  end
+
+  # Names are unique only with their case, so the exact name wins over one that differs in case. The model sometimes
+  # adds the "/" agents type before a saved reply, so the name without it is tried too.
+  def best_match(found, name)
+    candidates = [name, name.delete_prefix('/')].uniq
+    candidates.each do |candidate|
+      exact = found.find { |canned_response| canned_response.short_code == candidate }
+      return exact if exact
+    end
+    found.find { |canned_response| candidates.any? { |candidate| canned_response.short_code.casecmp?(candidate) } }
+  end
+
+  def format_entry(name, canned_response)
+    canned_response ? "\nSaved reply #{canned_response.short_code}:\n#{canned_response.content}\n" : "\nNo saved reply named #{name}.\n"
   end
 
   def log_call(requested_count, found_count)

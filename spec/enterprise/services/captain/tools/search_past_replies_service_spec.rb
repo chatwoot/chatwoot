@@ -155,6 +155,16 @@ RSpec.describe Captain::Tools::SearchPastRepliesService do
       expect(result).not_to include('Other account', 'Hidden inbox', 'Private note', 'Bot:', 'This conversation')
     end
 
+    it 'finds the agent reply even when newer matches in inboxes they cannot open would fill every candidate place' do
+      hidden_conversation = create(:conversation, account: account, inbox: create(:inbox, account: account))
+      (described_class::CANDIDATE_LIMIT + 1).times do
+        create(:message, account: account, conversation: hidden_conversation, message_type: :outgoing, sender: agent,
+                         content: 'Hidden inbox: click export here.')
+      end
+
+      expect(tool.execute(query: 'click export')).to include('Agent reply: Open Contacts and click Export.')
+    end
+
     it 'skips replies older than the search window' do
       reply.update!(created_at: (Limits.search_time_range_limit_days + 1).days.ago)
 
