@@ -213,6 +213,20 @@ describe 'Rack::Attack auth throttles' do
       expect(throttle_key(name, Rack::MockRequest.env_for('/api/v1/accounts/1/conversations', headers.merge(method: 'POST')))).to be_nil
     end
 
+    it 'keys the conversation filter by the bearer API token' do
+      env = Rack::MockRequest.env_for('/api/v1/accounts/1/conversations/filter?page=2', 'HTTP_AUTHORIZATION' => 'Bearer api-token', :method => 'POST')
+      expect(throttle_key('/api/v1/accounts/:account_id/conversations/filter/user', env)).to eq('api-token:1')
+    end
+
+    it 'keeps other filter routes and non-POST requests out of the conversation filter throttle' do
+      name = '/api/v1/accounts/:account_id/conversations/filter/user'
+      headers = { 'HTTP_AUTHORIZATION' => 'Bearer api-token', :method => 'POST' }
+      %w[/api/v1/accounts/1/contacts/filter /api/v1/accounts/1/conversations /api/v1/accounts/1/conversations/5].each do |path|
+        expect(throttle_key(name, Rack::MockRequest.env_for(path, headers))).to be_nil
+      end
+      expect(throttle_key(name, Rack::MockRequest.env_for('/api/v1/accounts/1/conversations/filter', headers.merge(method: 'GET')))).to be_nil
+    end
+
     it 'gives the bearer token precedence over other identity headers' do
       headers = { 'HTTP_AUTHORIZATION' => 'Bearer api-token', 'HTTP_UID' => 'other-user', 'HTTP_API_ACCESS_TOKEN' => 'other-token' }
       expect(throttle_key('/api/v2/accounts/:account_id/reports/user', env.merge(headers))).to eq('api-token:1')

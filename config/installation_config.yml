@@ -396,6 +396,10 @@
   display_title: Webhook URL to post security analysis
   value:
   description: Used to notify Chatwoot about account abuses, potential threads (Should be a Discord Webhook URL)
+- name: CHATWOOT_DPA_SIGNING_URL
+  display_title: 'DPA Signing URL'
+  value:
+  description: 'Link customers open from the billing page to sign the Data Processing Agreement. Shown to account administrators on Chatwoot Cloud only.'
 # ------- End of Chatwoot Internal Config for Self Hosted ----#
 
 # ------- Compliance Related Config ----#
