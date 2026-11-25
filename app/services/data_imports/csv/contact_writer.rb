@@ -5,15 +5,12 @@ class DataImports::Csv::ContactWriter
   COMPANY_FIELDS = %w[company_name company_domain].freeze
   DIAGNOSTIC_FIELDS = %w[errors].freeze
 
-  def initialize(account, fields)
+  def initialize(account)
     @account = account
-    @fields = fields.except(*DIAGNOSTIC_FIELDS)
-    @fields['email'] = @fields['email'].strip.downcase if @fields['email'].present?
-    phone = @fields['phone_number']&.strip&.delete_prefix("'")
-    @fields['phone_number'] = phone.start_with?('+') ? phone : "+#{phone}" if phone.present?
   end
 
-  def perform
+  def perform(fields)
+    @fields = normalize_fields(fields)
     labels = validated_labels
     contact = matched_contact || @account.contacts.new
     outcome = contact.new_record? ? 'created' : 'updated'
@@ -31,6 +28,14 @@ class DataImports::Csv::ContactWriter
 
   private
 
+  def normalize_fields(fields)
+    fields = fields.except(*DIAGNOSTIC_FIELDS)
+    fields['email'] = fields['email'].strip.downcase if fields['email'].present?
+    phone = fields['phone_number']&.strip&.delete_prefix("'")
+    fields['phone_number'] = phone.start_with?('+') ? phone : "+#{phone}" if phone.present?
+    fields
+  end
+
   def matched_contact
     contacts = %w[identifier email phone_number].filter_map do |field|
       next if @fields[field].blank?
@@ -45,10 +50,22 @@ class DataImports::Csv::ContactWriter
   def assign_fields(contact)
     contact.assign_attributes(@fields.slice(*STANDARD_FIELDS).compact_blank)
     contact.additional_attributes = contact.additional_attributes.to_h.merge(@fields.slice('city').compact_blank)
-    custom_fields = @fields.except(*STANDARD_FIELDS, *COMPANY_FIELDS, 'labels').compact_blank
     contact.custom_attributes = contact.custom_attributes.to_h.merge(custom_fields)
     contact.updated_at = Time.current
     contact.created_at ||= Time.current
+  end
+
+  def custom_fields
+    fields = @fields.except(*STANDARD_FIELDS, *COMPANY_FIELDS, 'labels').compact_blank
+    fields['company_domain'] = @fields['company_domain'] if @fields['company_domain'].present? && preserve_company_domain?
+    fields
+  end
+
+  def preserve_company_domain?
+    return @preserve_company_domain if defined?(@preserve_company_domain)
+
+    @preserve_company_domain = !@account.feature_enabled?('companies') &&
+                               @account.custom_attribute_definitions.contact_attribute.exists?(attribute_key: 'company_domain')
   end
 
   def apply_company_fields(contact)

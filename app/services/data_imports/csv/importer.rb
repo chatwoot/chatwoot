@@ -86,7 +86,7 @@ class DataImports::Csv::Importer
 
       begin
         DataImportItem.transaction(requires_new: true) do
-          contact, outcome = DataImports::Csv::ContactWriter.new(@data_import.account, item.metadata.fetch('fields')).perform
+          contact, outcome = contact_writer.perform(item.metadata.fetch('fields'))
           item.update!(status: :imported, chatwoot_record_type: 'Contact', chatwoot_record_id: contact.id,
                        attempt_count: item.attempt_count + 1, last_error_code: nil, last_error_message: nil,
                        metadata: item.metadata.merge('outcome' => outcome))
@@ -97,6 +97,10 @@ class DataImports::Csv::Importer
       record_progress(item)
       true
     end
+  end
+
+  def contact_writer
+    @contact_writer ||= DataImports::Csv::ContactWriter.new(@data_import.account)
   end
 
   def record_progress(item)

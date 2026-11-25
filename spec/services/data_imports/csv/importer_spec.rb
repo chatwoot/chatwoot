@@ -123,6 +123,19 @@ RSpec.describe DataImports::Csv::Importer do
       expect(contact.additional_attributes).to include('company_name' => 'North Star', 'company_domain' => 'https://north-star.example/about')
       expect(contact.custom_attributes).to eq('tier' => 'gold')
     end
+
+    it 'still imports a defined company_domain custom field', :aggregate_failures do
+      account.disable_features!('companies')
+      create(:custom_attribute_definition, account: account, attribute_key: 'company_domain',
+                                           attribute_model: :contact_attribute, attribute_display_type: :text)
+      existing = create(:contact, account: account, email: 'new@example.com', custom_attributes: { company_domain: 'old.example' })
+
+      DataImports::Csv::PreparationJob.perform_now(data_import, run_id)
+      importer.import_contacts_page
+
+      expect(existing.reload.custom_attributes).to include('company_domain' => 'https://north-star.example/about')
+      expect(existing.company_id).to be_nil
+    end
   end
 
   context 'when publishing rejected rows' do
