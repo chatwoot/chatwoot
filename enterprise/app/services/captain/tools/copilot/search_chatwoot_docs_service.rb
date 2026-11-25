@@ -3,7 +3,8 @@
 # when the search returned a link inside the configured portal.
 class Captain::Tools::Copilot::SearchChatwootDocsService < Captain::Tools::BaseTool
   CONFIG_KEY = 'CAPTAIN_CHATWOOT_DOCS_URL'.freeze
-  # The search ranks by matching words, so the right article is sometimes fourth or fifth.
+  # With embedding search on, one search returns at most five articles, sorted by their position in the guide rather
+  # than by relevance, so the tool reads all of them.
   MAX_ARTICLES = 5
   # Long enough for the longest user guide articles, whose plan and comparison tables often sit near the end.
   MAX_ARTICLE_CHARACTERS = 15_000
