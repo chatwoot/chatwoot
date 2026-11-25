@@ -2,10 +2,6 @@ module Enterprise::Api::V1::Accounts::InboxesController
   extend ActiveSupport::Concern
   include Concerns::TwilioVoiceCredentials
 
-  def inbox_attributes
-    super + ee_inbox_attributes
-  end
-
   def enable_whatsapp_calling
     return unless ensure_whatsapp_calling_supported
 
@@ -56,10 +52,6 @@ module Enterprise::Api::V1::Accounts::InboxesController
     head :ok
   rescue StandardError => e
     render_could_not_create_error(e.message)
-  end
-
-  def ee_inbox_attributes
-    [auto_assignment_config: [:max_assignment_limit]]
   end
 
   private

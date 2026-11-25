@@ -425,7 +425,7 @@ onMounted(() => {
         @update:model-value="handleToggleAutoAssignment"
       >
         <template
-          v-if="enableAutoAssignment && (isEnterprise || hasAssignmentV2)"
+          v-if="enableAutoAssignment"
           #editor
         >
           <!-- assignment_v2 UI -->
@@ -670,7 +670,7 @@ onMounted(() => {
           </template>
 
           <!-- Old UI for non-assignment_v2 -->
-          <template v-else-if="isEnterprise">
+          <template v-else>
             <div class="p-4">
               <woot-input
                 v-model="maxAssignmentLimit"

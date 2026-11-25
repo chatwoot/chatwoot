@@ -200,7 +200,11 @@ class Inbox < ApplicationRecord
   end
 
   def member_ids_with_assignment_capacity
-    members.ids
+    limit = auto_assignment_config['max_assignment_limit']
+    return members.ids if !enable_auto_assignment? || limit.blank?
+
+    overloaded_agent_ids = conversations.open.where.not(assignee_id: nil).group(:assignee_id).count.select { |_, count| count >= limit.to_i }.keys
+    members.ids - overloaded_agent_ids
   end
 
   def auto_assignment_v2_enabled?
@@ -254,7 +258,10 @@ class Inbox < ApplicationRecord
   end
 
   def ensure_valid_max_assignment_limit
-    # overridden in enterprise/app/models/enterprise/inbox.rb
+    return if auto_assignment_config['max_assignment_limit'].blank?
+    return if auto_assignment_config['max_assignment_limit'].to_i.positive?
+
+    errors.add(:auto_assignment_config, 'max_assignment_limit must be greater than 0')
   end
 
   def delete_round_robin_agents
