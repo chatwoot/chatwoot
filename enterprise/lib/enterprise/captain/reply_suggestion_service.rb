@@ -23,7 +23,7 @@ module Enterprise::Captain::ReplySuggestionService
   def offer_search_tool?
     return @offer_search_tool if defined?(@offer_search_tool)
 
-    @offer_search_tool = use_search_tool? && searchable_faqs.approved.exists?
+    @offer_search_tool = use_search_tool? && Captain::AssistantResponse.for_reply_search(account: account, assistant: search_assistant).exists?
   end
 
   # With the tool, the prompt lists canned responses by name and the model reads only the ones it needs, so the trace
@@ -96,11 +96,6 @@ module Enterprise::Captain::ReplySuggestionService
 
   def build_past_replies_tool
     Captain::Tools::SearchPastRepliesService.new(account: account, user: user, conversation: conversation, source: past_replies_source)
-  end
-
-  # Same scope as Captain::Tools::SearchReplyDocumentationService#search_responses.
-  def searchable_faqs
-    search_assistant.present? ? search_assistant.responses : account.captain_assistant_responses
   end
 
   def search_assistant
