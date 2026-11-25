@@ -96,15 +96,12 @@ const channelList = computed(() => {
   const voiceUnavailable =
     Object.keys(enabledFeatures.value).length > 0 &&
     !enabledFeatures.value.channel_voice;
-  const voiceUnavailableDescription = isOnChatwootCloud.value
-    ? t('INBOX_MGMT.ADD.AUTH.CHANNEL.VOICE.PLAN_REQUIRED')
-    : t('INBOX_MGMT.ADD.AUTH.CHANNEL.VOICE.NOT_ENABLED');
 
   channels.push({
     key: 'voice',
     title: t('INBOX_MGMT.ADD.AUTH.CHANNEL.VOICE.TITLE'),
     description: voiceUnavailable
-      ? voiceUnavailableDescription
+      ? t('INBOX_MGMT.ADD.AUTH.CHANNEL.VOICE.NOT_ENABLED')
       : t('INBOX_MGMT.ADD.AUTH.CHANNEL.VOICE.DESCRIPTION'),
     icon: 'i-woot-voice',
   });
