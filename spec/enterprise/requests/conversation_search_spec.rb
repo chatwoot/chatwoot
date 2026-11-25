@@ -14,10 +14,13 @@ RSpec.describe 'Ranked conversation search', type: :request do
     create(:inbox_member, user: agent, inbox: inbox)
     account.enable_features!('advanced_search', 'advanced_search_conversations')
     allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(true)
-    allow(SearchIndexing::ConversationSearchQuery).to receive(:new).and_return(instance_double(SearchIndexing::ConversationSearchQuery, body: {}))
+    query = instance_double(SearchIndexing::ConversationSearchQuery, body: {}, message_counts_body: { size: 0 })
+    allow(SearchIndexing::ConversationSearchQuery).to receive(:new).and_return(query)
     allow(Searchkick).to receive(:client).and_return(client)
     allow(client).to receive(:search).and_return('_shards' => { 'failed' => 0 },
-                                                 'hits' => { 'hits' => [{ 'fields' => { 'conversation_id' => [conversation.id] } }] })
+                                                 'hits' => { 'hits' => [{ '_score' => 10, 'fields' => { 'conversation_id' => [conversation.id] } }] })
+    allow(client).to receive(:search).with(index: 'messages_test', body: { size: 0 })
+                                     .and_return('_shards' => { 'failed' => 0 }, 'aggregations' => { 'conversations' => { 'buckets' => [] } })
     without_partial_double_verification do
       allow(Message).to receive(:search_index).and_return(Searchkick::Index.new('messages_test'))
     end
@@ -44,5 +47,12 @@ RSpec.describe 'Ranked conversation search', type: :request do
     allow(client).to receive(:search).and_raise(Faraday::ConnectionFailed)
     get "/api/v1/accounts/#{account.id}/search/conversations", params: params, headers: headers
     expect(response.parsed_body['meta']).to eq('error' => true)
+  end
+
+  it 'reports failed message counting as a retryable search error' do
+    allow(client).to receive(:search).with(index: 'messages_test', body: { size: 0 }).and_raise(Faraday::ConnectionFailed)
+    get "/api/v1/accounts/#{account.id}/search/conversations", params: params, headers: headers
+    expect(response.parsed_body['meta']).to eq('error' => true)
+    expect(response.parsed_body.dig('payload', 'conversations')).to be_empty
   end
 end

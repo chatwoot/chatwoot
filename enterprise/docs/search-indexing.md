@@ -108,18 +108,32 @@ for grouping. The existing advanced-search message index must be available.
 
 One multi-index query matches conversation display IDs/subjects and the existing
 message content, email subjects and transcripts. It groups hits by conversation ID,
-ranking each conversation by its best OpenSearch `_score`, with conversation ID as
-the tie-breaker. Multiple matching messages do not add their scores together. Global
-term statistics are requested across shards. Contact name/email/phone/identifier do
+selecting up to 10,000 candidates by their best OpenSearch `_score`, with conversation
+ID as the tie-breaker. Global term statistics are requested across shards. A second
+query counts matching messages for these candidates, using the same account, inbox,
+text and message time-window conditions. It includes all candidate buckets on each
+shard so counts are complete. Conversation documents do not contribute to the count.
+
+The entire candidate window is reranked before pagination using
+`best_score * (1 + min(0.5, 0.15 * ln(max(matching_message_count, 1))))`.
+Zero or one matching message adds no bonus; two add about 10%, ten about 35%, and
+the bonus caps at 50%. Conversation ID descending breaks equal adjusted scores.
+Candidates outside the initial 10,000 remain excluded, even if their message count
+could have promoted them. This is a relevance-selected window, not the global top
+10,000 after the message-count bonus. Both queries rerun on each page; they transfer
+at most 10,000 hits/count buckets but can examine many matching message documents.
+Production latency and capacity need validation with representative tenant workloads.
+
+Contact name/email/phone/identifier do
 not contribute to this path; PostgreSQL only loads records and checks current tenant,
 inbox/custom-role permissions and conversation activity dates. Contact and message
 tabs retain their existing behavior. Message matching retains the configured message
 search time window.
 
 Ranked results show at most 25 conversations at a time, with Next results and Previous
-results. Pagination covers the first 10,000 ranked conversation groups. Current
-permission/date checks may reduce the visible results within that window. Internal
-candidate fetches are capped at 500 groups and continue until the visible page is
+results. Pagination covers the reranked candidate window. Current permission/date
+checks may reduce the visible results within that window. SQL permission checks
+use batches of at most 500 candidates and continue until the visible page is
 filled or the window is exhausted; no intermediate empty batch is shown. The engine
 search is never replaced by SQL text matching because a query is broad.
 

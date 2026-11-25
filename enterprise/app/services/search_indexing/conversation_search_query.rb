@@ -12,15 +12,29 @@ class SearchIndexing::ConversationSearchQuery
     {
       timeout: '1s', _source: false, fields: ['conversation_id'], track_total_hits: false,
       query: { bool: {
-        filter: [{ term: { account_id: @account.id } }, { terms: { inbox_id: @inbox_ids } }],
+        filter: account_filters,
         should: [conversation_query, message_query], minimum_should_match: 1
       } },
-      # Each conversation is ranked by its best hit, not by how many messages it has.
+      # Select the candidate window by its best hits before applying the matching-message bonus.
       collapse: { field: 'conversation_id' }, sort: [{ _score: :desc }, { conversation_id: :desc }]
     }
   end
 
+  def message_counts_body(conversation_ids)
+    {
+      timeout: '1s', size: 0, track_total_hits: false,
+      query: { bool: { filter: account_filters + [{ terms: { conversation_id: conversation_ids } }], must: message_query } },
+      # Include every candidate on every shard so counts do not depend on shard-local top buckets.
+      aggs: { conversations: { terms: { field: 'conversation_id', size: conversation_ids.size,
+                                        shard_size: conversation_ids.size, order: { _key: :asc } } } }
+    }
+  end
+
   private
+
+  def account_filters
+    [{ term: { account_id: @account.id } }, { terms: { inbox_id: @inbox_ids } }]
+  end
 
   def conversation_query
     { bool: {

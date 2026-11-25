@@ -27,4 +27,17 @@ RSpec.describe SearchIndexing::ConversationSearchQuery do
     expect(Searchkick).to have_received(:search).with('renewal', model: Message, fields: described_class::MESSAGE_FIELDS,
                                                                  where: { created_at: { gte: since } })
   end
+
+  it 'counts matching messages for only the selected candidates, tenant, inboxes and message time window' do
+    body = query.message_counts_body([12, 34])
+    expect(body[:size]).to eq(0)
+    expect(body[:query][:bool][:filter]).to eq([
+                                                 { term: { account_id: account.id } }, { terms: { inbox_id: [42] } },
+                                                 { terms: { conversation_id: [12, 34] } }
+                                               ])
+    expect(body[:query][:bool][:must]).to eq(bool: { filter: { term: { _index: 'messages_test' } }, must: message_query })
+    expect(body[:aggs][:conversations][:terms]).to eq(field: 'conversation_id', size: 2, shard_size: 2, order: { _key: :asc })
+    expect(Searchkick).to have_received(:search).with('renewal', model: Message, fields: described_class::MESSAGE_FIELDS,
+                                                                 where: { created_at: { gte: since } })
+  end
 end
