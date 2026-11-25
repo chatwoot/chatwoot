@@ -19,6 +19,7 @@ export const FEATURE_FLAGS = {
   INBOX_MANAGEMENT: 'inbox_management',
   INTEGRATIONS: 'integrations',
   LABELS: 'labels',
+  LAST_MESSAGE_SORT: 'last_message_sort',
   MACROS: 'macros',
   HELP_CENTER: 'help_center',
   REPORTS: 'reports',

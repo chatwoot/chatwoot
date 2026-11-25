@@ -31,11 +31,7 @@ class Captain::Tools::SearchReplyDocumentationService < RubyLLM::Tool
   private
 
   def search_responses(query)
-    if @assistant.present?
-      @assistant.responses.approved.search(query, account_id: @account.id)
-    else
-      @account.captain_assistant_responses.approved.search(query, account_id: @account.id)
-    end
+    Captain::AssistantResponse.for_reply_search(account: @account, assistant: @assistant).search(query, account_id: @account.id)
   end
 
   def format_response(response)

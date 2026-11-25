@@ -208,6 +208,23 @@ RSpec.describe Crm::Leadsquared::Mappers::ConversationMapper do
       end
     end
 
+    context 'when an email reply carries the quoted thread' do
+      let(:email_inbox) { create(:inbox, account: account, channel: create(:channel_email, account: account)) }
+      let(:email_conversation) { create(:conversation, account: account, inbox: email_inbox) }
+
+      it 'leaves the quoted thread out of the agent reply' do
+        create(:message, conversation: email_conversation, sender: contact, content: 'Where is my order?', message_type: :incoming)
+        create(:message, conversation: email_conversation, sender: user, message_type: :outgoing,
+                         content: "It ships today.\n\n> On Monday Jane Smith wrote:\n>\n> Where is my order?")
+
+        result = described_class.map_transcript_activity(hook, email_conversation)
+
+        expect(result).to include('John Doe: It ships today.')
+        expect(result).not_to include('wrote:')
+        expect(result.scan('Where is my order?').size).to eq(1)
+      end
+    end
+
     context 'when messages exceed the ACTIVITY_NOTE_MAX_SIZE' do
       it 'truncates messages to stay within the character limit' do
         # Create a large number of messages with reasonably sized content

@@ -30,6 +30,7 @@ RSpec.describe Mailbox::ConversationFinder do
     context 'when in_reply_to strategy finds conversation' do
       before do
         conversation.update!(uuid: '12345678-1234-1234-1234-123456789012')
+        mail.to = 'test@example.com'
         mail.in_reply_to = 'conversation/12345678-1234-1234-1234-123456789012/messages/123@example.com'
       end
 

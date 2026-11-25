@@ -9,6 +9,7 @@ import { useBranding } from 'shared/composables/useBranding';
 
 import BillingCard from './components/BillingCard.vue';
 import DetailItem from './components/DetailItem.vue';
+import LegalComplianceCard from './components/LegalComplianceCard.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import ButtonV4 from 'next/button/Button.vue';
@@ -186,10 +187,10 @@ onMounted(loadSummary);
       />
     </template>
     <template #body>
-      <section class="grid gap-4">
+      <section class="grid gap-3">
         <div
           v-if="isStale"
-          class="rounded-xl border border-n-amber-5 bg-n-amber-2 px-5 py-4"
+          class="rounded-xl border border-n-amber-5 bg-n-amber-2 px-4 py-3"
         >
           <p class="text-sm font-medium text-n-amber-12">
             {{ $t('BILLING_SETTINGS.SHOPIFY.STALE_TITLE') }}
@@ -201,7 +202,7 @@ onMounted(loadSummary);
 
         <div
           v-if="hasError && !summary"
-          class="rounded-xl border border-n-weak bg-n-solid-2 px-5 py-8 text-center"
+          class="rounded-xl border border-n-weak bg-n-solid-2 px-4 py-6 text-center"
         >
           <p class="text-base font-medium text-n-slate-12">
             {{ $t('BILLING_SETTINGS.SHOPIFY.ERROR_TITLE') }}
@@ -265,6 +266,8 @@ onMounted(loadSummary);
             />
           </div>
         </BillingCard>
+
+        <LegalComplianceCard />
       </section>
     </template>
   </SettingsLayout>

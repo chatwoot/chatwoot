@@ -909,6 +909,8 @@
       "CALLING_CUSTOMERS": {
         "TITLE": "Calling customers",
         "DESCRIPTION": "WhatsApp needs the customer's permission before you call them.",
+        "CALLBACK_PERMISSION": "Ask callers for permission to call back",
+        "CALLBACK_PERMISSION_HELP": "After a customer calls, WhatsApp asks if you can call them back. If they allow it, agents can call them without sending a permission request.",
         "PERMISSION_MESSAGE": "Permission request message",
         "PERMISSION_PLACEHOLDER": "Can we call you on WhatsApp about your request?",
         "PERMISSION_HELP": "Sent when an agent calls a customer who hasn't allowed calls yet. Leave empty to use the default."
@@ -1221,6 +1223,35 @@
         "EXPECTED_URL": "Expected URL",
         "COPY_URL": "Copy webhook URL",
         "COPY_SUCCESS": "Webhook URL copied to clipboard"
+      },
+      "CALLING": {
+        "TITLE": "WhatsApp calling",
+        "DESCRIPTION": "Checks that Meta has this number set up to make and receive calls through this inbox.",
+        "UNVERIFIED_HINT": "Meta didn't return this check. Reload the page to try again.",
+        "STATUSES": {
+          "ENABLED": "Enabled",
+          "DISABLED": "Disabled",
+          "CONFIGURED": "Configured",
+          "MISSING": "Missing",
+          "ELIGIBLE": "No restrictions",
+          "RESTRICTED": "Restricted",
+          "UNVERIFIED": "Unable to verify"
+        },
+        "META_STATUS": {
+          "LABEL": "Calling at Meta",
+          "DISABLED_HINT": "Calling is turned off for this number at Meta, so customers can't call it and agents can't place calls.",
+          "FIX_BUTTON": "Enable calling at Meta"
+        },
+        "WEBHOOK_SUBSCRIPTION": {
+          "LABEL": "Call webhook subscription",
+          "APP_NOT_SUBSCRIBED": "The Meta app isn't subscribed to this WhatsApp Business Account, so no calls or messages reach this inbox. Register the webhook to subscribe it again.",
+          "CALLS_FIELD_MISSING": "The Meta app connected to this inbox isn't subscribed to the \"calls\" webhook field. Add \"calls\" under WhatsApp Business Account in the app's Webhooks settings in the Meta App Dashboard."
+        },
+        "ELIGIBILITY": {
+          "LABEL": "Calling eligibility",
+          "RESTRICTED_BUSINESS_INITIATED_CALLING": "Meta has paused outgoing calls and call permission requests until {date} because too many customers blocked or reported calls. It lifts on its own.",
+          "RESTRICTED_USER_INITIATED_CALLING": "Meta has paused incoming calls and hidden the call button until {date} because too many customers blocked or reported calls. It lifts on its own."
+        }
       }
     },
     "SETTINGS": "Settings",
