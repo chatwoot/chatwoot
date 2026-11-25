@@ -102,6 +102,7 @@ const mountComponent = () =>
           template: '<div>{{ label }}: {{ value }}</div>',
         },
         ButtonV4: ButtonStub,
+        LegalComplianceCard: true,
       },
     },
   });

@@ -91,3 +91,5 @@ class InstallationConfig < ApplicationRecord
     errors.add(:base, "#{value} is not a valid app version. Use a version like 4.10.0.")
   end
 end
+
+InstallationConfig.prepend_mod_with('InstallationConfig')

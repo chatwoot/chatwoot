@@ -58,6 +58,12 @@
       "last_activity_at_desc": {
         "TEXT": "Last activity: Newest first"
       },
+      "last_message_at_desc": {
+        "TEXT": "Last message: Newest first"
+      },
+      "last_message_at_asc": {
+        "TEXT": "Last message: Oldest first"
+      },
       "created_at_desc": {
         "TEXT": "Created at: Newest first"
       },
