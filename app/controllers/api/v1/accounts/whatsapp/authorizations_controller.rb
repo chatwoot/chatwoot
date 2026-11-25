@@ -21,7 +21,7 @@ class Api::V1::Accounts::Whatsapp::AuthorizationsController < Api::V1::Accounts:
   def ensure_embedded_signup_enabled
     return if params[:inbox_id].present?
     return unless ChatwootApp.chatwoot_cloud?
-    return if Current.account.feature_enabled?('whatsapp_embedded_signup_inbox_creation')
+    return if Whatsapp::EmbeddedSignupEligibility.new(Current.account).enabled?
 
     raise Pundit::NotAuthorizedError
   end

@@ -30,8 +30,9 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
           expect(response.parsed_body['error']).to include('code')
         end
 
-        it 'blocks channel creation on Chatwoot Cloud when embedded signup is disabled for the account' do
+        it 'blocks channel creation on Chatwoot Cloud after the trial when embedded signup is disabled' do
           allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+          account.update!(created_at: 16.days.ago)
           account.disable_features!('whatsapp_embedded_signup_inbox_creation')
 
           expect(Whatsapp::EmbeddedSignupService).not_to receive(:new)
