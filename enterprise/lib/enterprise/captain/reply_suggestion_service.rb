@@ -15,7 +15,7 @@ module Enterprise::Captain::ReplySuggestionService
   def offer_search_tool?
     return @offer_search_tool if defined?(@offer_search_tool)
 
-    @offer_search_tool = use_search_tool? && searchable_faqs.approved.exists?
+    @offer_search_tool = use_search_tool? && Captain::AssistantResponse.for_reply_search(account: account, assistant: search_assistant).exists?
   end
 
   def prompt_variables
@@ -26,11 +26,6 @@ module Enterprise::Captain::ReplySuggestionService
 
   def build_search_tool
     Captain::Tools::SearchReplyDocumentationService.new(account: account, assistant: search_assistant)
-  end
-
-  # Same scope as Captain::Tools::SearchReplyDocumentationService#search_responses.
-  def searchable_faqs
-    search_assistant.present? ? search_assistant.responses : account.captain_assistant_responses
   end
 
   def search_assistant
