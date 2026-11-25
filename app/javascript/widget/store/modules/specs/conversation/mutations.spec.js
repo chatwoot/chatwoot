@@ -138,6 +138,17 @@ describe('#mutations', () => {
       expect(state.uiFlags.typingDismissedForMessageId).toEqual(1);
     });
 
+    it('clears the dismissal when typing starts again', () => {
+      const state = {
+        uiFlags: { isAgentTyping: false, typingDismissedForMessageId: 2 },
+        conversations: { 1: { id: 1 }, 2: { id: 2 } },
+      };
+      mutations.toggleAgentTypingStatus(state, { status: 'on' });
+      // The typing timeout ends the new session without dismissing it.
+      mutations.toggleAgentTypingStatus(state, { status: 'off' });
+      expect(state.uiFlags.typingDismissedForMessageId).toBeNull();
+    });
+
     it('keeps the dismissal when the server copy replaces the temporary message', () => {
       const state = {
         uiFlags: { isAgentTyping: true, typingDismissedForMessageId: null },
@@ -297,6 +308,24 @@ describe('#mutations', () => {
       const state = { conversations: { 1: { id: 1 } } };
       mutations.deleteMessage(state, 1);
       expect(state.conversations).toEqual({});
+    });
+
+    it('moves the typing dismissal to the new last message', () => {
+      const state = {
+        uiFlags: { typingDismissedForMessageId: 2 },
+        conversations: { 1: { id: 1 }, 2: { id: 2 } },
+      };
+      mutations.deleteMessage(state, 2);
+      expect(state.uiFlags.typingDismissedForMessageId).toEqual(1);
+    });
+
+    it('keeps the typing dismissal when another message is deleted', () => {
+      const state = {
+        uiFlags: { typingDismissedForMessageId: 2 },
+        conversations: { 1: { id: 1 }, 2: { id: 2 } },
+      };
+      mutations.deleteMessage(state, 1);
+      expect(state.uiFlags.typingDismissedForMessageId).toEqual(2);
     });
   });
 

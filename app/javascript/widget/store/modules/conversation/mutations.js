@@ -9,6 +9,9 @@ const carryTypingDismissal = ($state, tempId, id) => {
   }
 };
 
+const lastMessageId = conversations =>
+  Object.values(conversations).pop()?.id ?? null;
+
 export const mutations = {
   clearConversations($state) {
     $state.conversations = {};
@@ -105,6 +108,7 @@ export const mutations = {
 
   deleteMessage($state, id) {
     delete $state.conversations[id];
+    carryTypingDismissal($state, id, lastMessageId($state.conversations));
     // [VITE] In Vue 3 proxy objects, we can't delete properties by setting them to undefined
     // Instead, we have to use the delete operator
     // $state.conversations[id] = undefined;
@@ -112,11 +116,13 @@ export const mutations = {
 
   toggleAgentTypingStatus($state, { status, dismiss = false }) {
     $state.uiFlags.isAgentTyping = status === 'on';
-    if (dismiss) {
-      const messages = Object.values($state.conversations);
-      $state.uiFlags.typingDismissedForMessageId = messages.length
-        ? messages[messages.length - 1].id
-        : null;
+    if (status === 'on') {
+      // A new typing session supersedes an earlier typing_off.
+      $state.uiFlags.typingDismissedForMessageId = null;
+    } else if (dismiss) {
+      $state.uiFlags.typingDismissedForMessageId = lastMessageId(
+        $state.conversations
+      );
     }
   },
 
