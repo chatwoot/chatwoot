@@ -665,7 +665,7 @@
           },
           "VOICE": {
             "TITLE": "Voice",
-            "DESCRIPTION": "Make and receive phone calls",
+            "DESCRIPTION": "Connect your phone number",
             "NOT_ENABLED": "Voice is not enabled for this account."
           }
         }
