@@ -25,6 +25,7 @@ get:
         enum: ['all', 'open', 'resolved', 'pending', 'snoozed']
         default: 'open'
       description: Filter by conversation status.
+    - $ref: '#/components/parameters/conversation_sort'
     - name: q
       in: query
       schema:
