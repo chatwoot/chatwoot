@@ -145,6 +145,10 @@ const generalMenuItems = computed(() => {
   return items;
 });
 
+// The editor clears hasSelection when it loses focus, and pressing the menu
+// takes focus, so the menu keeps the anchor it was opened with.
+const isAnchoredToSelection = props.hasSelection && props.isEditorMenuPopover;
+
 const menuRef = useTemplateRef('menuRef');
 const { height: menuHeight } = useElementSize(menuRef);
 const { width: windowWidth } = useWindowSize();
@@ -191,8 +195,8 @@ const handleSubMenuItemClick = (parentItem, subItem) => {
   <DropdownBody
     ref="menuRef"
     class="min-w-56 [&>ul]:gap-3 z-50 [&>ul]:px-4 [&>ul]:py-3.5"
-    :class="{ 'selection-menu': hasSelection && isEditorMenuPopover }"
-    :style="hasSelection && isEditorMenuPopover ? selectionMenuStyle : {}"
+    :class="{ 'selection-menu': isAnchoredToSelection }"
+    :style="isAnchoredToSelection ? selectionMenuStyle : {}"
   >
     <div v-if="menuItems.length > 0" class="flex flex-col items-start gap-2.5">
       <div

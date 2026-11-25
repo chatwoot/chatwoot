@@ -70,6 +70,7 @@ const chatStatusOptions = computed(() => [
   },
 ]);
 
+const sortOptions = useMapGetter('getConversationSortOptions');
 const chatSortOptions = computed(() => [
   {
     label: t('CHAT_LIST.SORT_ORDER_ITEMS.last_activity_at_asc.TEXT'),
@@ -78,6 +79,14 @@ const chatSortOptions = computed(() => [
   {
     label: t('CHAT_LIST.SORT_ORDER_ITEMS.last_activity_at_desc.TEXT'),
     value: 'last_activity_at_desc',
+  },
+  {
+    label: t('CHAT_LIST.SORT_ORDER_ITEMS.last_message_at_desc.TEXT'),
+    value: 'last_message_at_desc',
+  },
+  {
+    label: t('CHAT_LIST.SORT_ORDER_ITEMS.last_message_at_asc.TEXT'),
+    value: 'last_message_at_asc',
   },
   {
     label: t('CHAT_LIST.SORT_ORDER_ITEMS.created_at_desc.TEXT'),
@@ -112,6 +121,11 @@ const chatSortOptions = computed(() => [
     value: 'waiting_since_desc',
   },
 ]);
+const availableChatSortOptions = computed(() =>
+  chatSortOptions.value.filter(option =>
+    sortOptions.value.includes(option.value)
+  )
+);
 
 const activeChatStatusLabel = computed(
   () =>
@@ -193,7 +207,7 @@ useEmitter(CMD_SWITCH_SORT, handleSortChange);
         </span>
         <SelectMenu
           :model-value="chatSortFilter"
-          :options="chatSortOptions"
+          :options="availableChatSortOptions"
           :label="activeChatSortLabel"
           :sub-menu-position="isOnExpandedLayout ? 'left' : 'right'"
           @update:model-value="handleSortChange"

@@ -33,6 +33,26 @@ RSpec.describe 'Conversations API', type: :request do
         expect(body[:data][:meta].keys).to include(:all_count, :mine_count, :assigned_count, :unassigned_count)
         expect(body[:data][:payload].first[:uuid]).to eq(conversation.uuid)
         expect(body[:data][:payload].first[:messages].first[:id]).to eq(message.id)
+        expect(body[:data][:payload].first[:last_message_at]).to eq(message.reload.created_at.to_f)
+      end
+
+      it 'sorts by latest public message with empty conversations last' do
+        account.enable_features!(:last_message_sort)
+        first = create(:message, conversation: conversation, account: account, created_at: 1.hour.ago)
+        newer = create(:conversation, account: account, inbox: conversation.inbox)
+        empty = create(:conversation, account: account, inbox: conversation.inbox)
+        second = create(:message, conversation: newer, account: account)
+        create(:message, conversation: conversation, account: account, private: true)
+
+        get "/api/v1/accounts/#{account.id}/conversations", params: { sort_by: 'last_message_at_desc' }, headers: agent.create_new_auth_token
+        expect(response).to have_http_status(:success)
+        rows = response.parsed_body.dig('data', 'payload')
+        expected = [
+          [newer.display_id, second.reload.created_at.to_f],
+          [conversation.display_id, first.reload.created_at.to_f],
+          [empty.display_id, nil]
+        ]
+        expect(rows.pluck('id', 'last_message_at')).to eq(expected)
       end
 
       it 'lists a conversation whose assignee no longer exists as unassigned' do

@@ -126,6 +126,31 @@ describe WebhookListener do
     end
   end
 
+  describe '#message_updated' do
+    let(:event_name) { :'message.updated' }
+    let!(:message_updated_event) { Events::Base.new(event_name, Time.zone.now, message: message) }
+
+    context 'when webhook is configured and event is subscribed' do
+      it 'includes the updated message status when a newer message exists' do
+        webhook = create(:webhook, subscriptions: ['message_updated'], inbox: inbox, account: account)
+        newer_message = create(:message, account: account, inbox: inbox, conversation: conversation)
+        message.update!(status: :delivered)
+
+        expect(WebhookJob).to receive(:perform_later).with(
+          webhook.url,
+          hash_including(
+            event: 'message_updated', id: message.id, status: 'delivered',
+            conversation: hash_including(messages: [hash_including(id: newer_message.id, status: 'sent')])
+          ),
+          :account_webhook,
+          secret: webhook.secret, delivery_id: instance_of(String)
+        ).once
+
+        listener.message_updated(message_updated_event)
+      end
+    end
+  end
+
   describe '#conversation_created' do
     let(:event_name) { :'conversation.created' }
 

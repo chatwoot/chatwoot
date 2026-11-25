@@ -3,7 +3,7 @@ class Api::V1::Accounts::Companies::ConversationsController < Api::V1::Accounts:
   before_action :set_counts
 
   def index
-    @conversations = Conversations::SortService.apply(company_conversations, params[:sort_by])
+    @conversations = Conversations::SortService.apply(company_conversations, params[:sort_by], account: Current.account)
                                                .includes(:assignee, :contact, :inbox, :taggings)
                                                .preload(ai_assignee: { avatar_attachment: [:blob] })
                                                .page(params[:page] || 1)
