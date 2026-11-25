@@ -496,13 +496,12 @@ RSpec.describe Message do
       expect(template.push_event_data[:conversation][:last_message_at]).to eq((newest + 1.hour).to_f)
     end
 
-    it 'commits the public message time with the message' do
+    it 'rolls back the message if its conversation activity cannot be saved' do
       conversation = message.conversation
-      described_class.transaction(requires_new: true) do
-        message.save!
-        expect(conversation.reload.last_message_at).to eq(message.reload.created_at)
-        raise ActiveRecord::Rollback
-      end
+      allow(conversation).to receive(:record_message_activity!).and_raise(ActiveRecord::StatementInvalid)
+
+      expect { message.save! }.to raise_error(ActiveRecord::StatementInvalid)
+      expect(conversation.messages).to be_empty
       expect(conversation.reload.last_message_at).to be_nil
     end
 

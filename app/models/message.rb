@@ -143,7 +143,8 @@ class Message < ApplicationRecord
   has_one :csat_survey_response, dependent: :destroy_async
   has_many :notifications, as: :primary_actor, dependent: :destroy_async
 
-  after_create :set_conversation_activity
+  # Channel builders can download attachments after inserting the message. Lock the conversation only when ready to commit.
+  before_commit :set_conversation_activity, on: :create
   after_create_commit :execute_after_create_commit_callbacks
 
   after_update_commit :dispatch_update_event
