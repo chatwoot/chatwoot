@@ -95,11 +95,9 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def update
-    resolve_legacy_company = params[:resolve_legacy_company].to_s == 'true'
     ActiveRecord::Base.transaction do
-      @contact.lock! if params.key?(:company_id) || resolve_legacy_company
       @contact.assign_attributes(contact_update_params)
-      Contacts::CompanyAssociationService.new.associate_company_from_name(@contact) if resolve_legacy_company
+      Contacts::CompanyAssociationService.new.associate_company_from_name(@contact) if params[:resolve_legacy_company].to_s == 'true'
       @contact.save!
     end
     process_avatar_from_url
