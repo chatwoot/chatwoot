@@ -49,7 +49,8 @@ class Captain::ReplySuggestionService < Captain::BaseTaskService
   end
 
   def formatted_conversation
-    LlmFormatter::ConversationLlmFormatter.new(conversation).format(token_limit: TOKEN_LIMIT, include_timestamps: agent_reply_draft?)
+    transcript = LlmFormatter::ConversationLlmFormatter.new(conversation).format(token_limit: TOKEN_LIMIT, include_timestamps: agent_reply_draft?)
+    agent_reply_draft? ? "<conversation>\n#{transcript}\n</conversation>" : transcript
   end
 
   # Newest edits first, whole responses only, until the character limit. Read in batches so a large library is not
