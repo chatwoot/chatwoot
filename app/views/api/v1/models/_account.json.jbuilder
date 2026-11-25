@@ -29,7 +29,6 @@ end
 json.domain @account.domain
 features = @account.enabled_features
 features.delete(Shopify::FeatureGate::ACCOUNT_FEATURE) unless Shopify::FeatureGate.enabled?(account: @account)
-features[Whatsapp::EmbeddedSignupEligibility::FEATURE] = true if Whatsapp::EmbeddedSignupEligibility.new(@account).enabled?
 json.features features
 json.id @account.id
 json.locale @account.locale
