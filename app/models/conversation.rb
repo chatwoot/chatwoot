@@ -13,6 +13,7 @@
 #  first_reply_created_at :datetime
 #  identifier             :string
 #  last_activity_at       :datetime         not null
+#  last_message_at        :datetime
 #  priority               :integer
 #  snoozed_until          :datetime
 #  status                 :integer          default("open"), not null
@@ -37,6 +38,8 @@
 #  conv_acid_inbid_stat_asgnid_idx                    (account_id,inbox_id,status,assignee_id)
 #  index_conversations_on_account_id                  (account_id)
 #  index_conversations_on_account_id_and_display_id   (account_id,display_id) UNIQUE
+#  index_conversations_on_account_newest_message      (account_id,last_message_at DESC NULLS LAST,display_id DESC)
+#  index_conversations_on_account_oldest_message      (account_id,last_message_at,display_id)
 #  index_conversations_on_assignee_id_and_account_id  (assignee_id,account_id)
 #  index_conversations_on_campaign_id                 (campaign_id)
 #  index_conversations_on_contact_id                  (contact_id)
@@ -58,6 +61,7 @@
 class Conversation < ApplicationRecord
   include Labelable
   include LlmFormattable
+  include ConversationMessageActivity
   include AssignmentHandler
   include AutoAssignmentHandler
   include ActivityMessageHandler

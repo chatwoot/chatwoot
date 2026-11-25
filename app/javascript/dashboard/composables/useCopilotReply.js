@@ -89,6 +89,8 @@ export function useCopilotReply() {
   const generatedContent = ref('');
   const followUpContext = ref(null);
   const abortController = ref(null);
+  // The action whose text was last accepted into the editor, for send analytics.
+  const acceptedAction = ref(null);
 
   // Tracking state
   const currentAction = ref(null);
@@ -327,6 +329,7 @@ export function useCopilotReply() {
    */
   function accept() {
     const content = generatedContent.value;
+    acceptedAction.value = currentAction.value;
 
     // Track "Applied" event
     if (currentAction.value) {
@@ -358,6 +361,7 @@ export function useCopilotReply() {
     isContentReady,
     generatedContent,
     followUpContext,
+    acceptedAction,
 
     isActive,
     isButtonDisabled,

@@ -55,6 +55,9 @@ export function useSnoozeSuggestions() {
   const snoozeCommands = ({ page, text, context }) => {
     if (page || !text || !context.scopes?.includes('conversation')) return [];
     if (currentChat.value?.status !== wootConstants.STATUS_TYPE.OPEN) return [];
+    // A bare number at the root is an id being searched, not a snooze time.
+    // The parser reads digits in any script, so the check does too.
+    if (/^\p{Nd}+$/u.test(text)) return [];
 
     return suggestionsFor(SNOOZE_CONVERSATION_PAGE, text).map(item => ({
       ...item,

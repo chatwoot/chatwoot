@@ -109,6 +109,8 @@ en:
       cannot_revoke_current: You cannot revoke the current session.
 
   errors:
+    installation_config:
+      invalid_dpa_signing_url: 'DPA Signing URL must be an HTTPS link to %{host}.'
     bandwidth:
       token_request_failed: "Unable to reach Bandwidth authentication. Please try again later."
       invalid_configuration: 'Provide a valid Bandwidth account ID, application ID, client ID, and client secret.'
