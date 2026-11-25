@@ -9,7 +9,6 @@ class Public::Api::V1::Portals::BaseController < PublicController
   after_action :disallow_search_indexing
 
   PORTAL_LAYOUTS = %w[classic documentation].freeze
-  TRACKING_PARAMETERS = %w[gclid fbclid msclkid].freeze
 
   private
 
@@ -19,9 +18,7 @@ class Public::Api::V1::Portals::BaseController < PublicController
     # Match the sitemap's host policy; translated articles keep their own slugs.
     root = @portal.custom_domain || ChatwootApp.help_center_root
     root = "https://#{root}" unless root.include?('://')
-    url = "#{root.chomp('/')}#{path}"
-    query = request.query_parameters.except(*TRACKING_PARAMETERS).reject { |key, _| key.start_with?('utm_') }.to_query
-    query.present? ? "#{url}?#{query}" : url
+    "#{root.chomp('/')}#{path}"
   end
 
   def canonical_page?

@@ -31,10 +31,10 @@ RSpec.describe 'Public Help Center canonical URLs', type: :request do
       let(:layout) { portal_layout }
 
       routes.each do |route|
-        it "canonicalizes slash and tracking variants of #{route}" do
+        it "uses the public route without trailing slashes or query strings for #{route}" do
           path = public_send(route)
 
-          get "#{path}/", params: { utm_source: 'newsletter', utm_campaign: 'launch', gclid: 'ad', fbclid: 'social', msclkid: 'click' }
+          get "#{path}/", params: { query: 'canais & contas', utm_source: 'newsletter' }
 
           expect(response).to have_http_status(:ok)
           expect(canonical_links).to eq(["https://help.example.test#{path}"])
@@ -45,15 +45,6 @@ RSpec.describe 'Public Help Center canonical URLs', type: :request do
           expect(response).to have_http_status(:ok)
           expect(canonical_links).to eq(["https://help.example.test#{path}"])
           expect(Nokogiri::HTML5(response.body).at_css('main').text.squish).to eq(original_content)
-        end
-
-        it "preserves non-tracking query values on #{route}" do
-          path = public_send(route)
-
-          get path, params: { theme: 'dark', query: 'canais & contas', page: 2, utm_medium: 'email' }
-
-          expect(response).to have_http_status(:ok)
-          expect(canonical_links).to eq(["https://help.example.test#{path}?page=2&query=canais+%26+contas&theme=dark"])
         end
 
         it "keeps #{route} embeds free of canonical links" do
