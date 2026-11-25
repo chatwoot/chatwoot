@@ -15,3 +15,5 @@ vendor/bundle
 .DS_Store
 *.swp
 *~
+livechat_export
+livechat_export.sh

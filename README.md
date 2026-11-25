@@ -121,6 +121,14 @@ Chatwoot now supports 1-Click deployment to DigitalOcean as a kubernetes app.
 
 For other supported options, checkout our [deployment page](https://chatwoot.com/deploy).
 
+### MT custom deployment
+- Create the tag for deploy following the convention `v.4.19.1-mt.<version>`.
+- On the main folder run `docker build -f docker/Dockerfile -t mt/chatwoot:v4.19.1-mt.<version> .` to build the new image.
+- The deploy the image `docker save mt/chatwoot:v4.19.1-mt.<version> | gzip | ssh deploy@<server_ip> 'gunzip | docker load'`
+- Then ssh into server.
+- Move inside the progect folder (the one with the docker-compose.yaml file).
+- And run `docker compose up -d`
+
 ## Security
 
 Looking to report a vulnerability? Please refer our [SECURITY.md](./SECURITY.md) file.
