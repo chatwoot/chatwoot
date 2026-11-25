@@ -554,6 +554,7 @@ class DataImports::Importer
     skipped_entries, imported_entries = writable_entries.partition { |entry| entry.prepared_message.content.blank? }
     attributes_by_source_id = imported_entries.to_h { |entry| [entry.source_id, entry.prepared_message.attributes] }
     messages = insert_messages(imported_entries, attributes_by_source_id)
+    advance_last_message_at(conversation, messages)
     upsert_message_mappings(conversation, imported_entries, skipped_entries, messages)
 
     MessageBatchResult.new(
@@ -728,6 +729,7 @@ class DataImports::Importer
       result = Message.insert_all!([prepared.attributes], returning: %w[id])
       message = Message.find(result.rows.first.first)
     end
+    advance_last_message_at(conversation, [message])
     record_message_mapping(entry, message)
     increment_stat('messages', 'imported')
     message
@@ -842,6 +844,11 @@ class DataImports::Importer
 
   def message_text(value, format)
     format == 'text' ? value.to_s.squish : sanitized_text(value)
+  end
+
+  def advance_last_message_at(conversation, messages)
+    timestamp = messages.select(&:public_chat_message?).map(&:created_at).max
+    @account.conversations.advance_last_message_at(conversation.id, timestamp) if timestamp
   end
 
   def update_conversation_activity(conversation)
