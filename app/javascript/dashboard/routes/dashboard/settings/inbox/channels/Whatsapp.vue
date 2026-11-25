@@ -11,12 +11,17 @@ import ChannelSelector from 'dashboard/components/ChannelSelector.vue';
 import Banner from 'dashboard/components-next/banner/Banner.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { META_RESTRICTION_STATUS_URL } from 'dashboard/constants/globals';
 
 const route = useRoute();
 const router = useRouter();
 const { t } = useI18n();
-const { isMetaInboxCreationDisabled } = useAccount();
+const {
+  isCloudFeatureEnabled,
+  isOnChatwootCloud,
+  isMetaInboxCreationDisabled,
+} = useAccount();
 
 const PROVIDER_TYPES = {
   WHATSAPP: 'whatsapp',
@@ -43,16 +48,29 @@ const isWhatsappEmbeddedSignupDisabled = computed(
   () => isMetaInboxCreationDisabled.value
 );
 
+const hasWhatsappEmbeddedSignup = computed(
+  () =>
+    hasWhatsappAppId.value &&
+    (!isOnChatwootCloud.value ||
+      isCloudFeatureEnabled(FEATURE_FLAGS.WHATSAPP_EMBEDDED_SIGNUP_FLOW))
+);
+
 const shouldShowWhatsappEmbeddedSignup = computed(
   () =>
-    selectedProvider.value === PROVIDER_TYPES.WHATSAPP && hasWhatsappAppId.value
+    selectedProvider.value === PROVIDER_TYPES.WHATSAPP &&
+    hasWhatsappEmbeddedSignup.value
+);
+
+const shouldUseManualSetup = computed(
+  () =>
+    isWhatsappEmbeddedSignupDisabled.value || !hasWhatsappEmbeddedSignup.value
 );
 
 const availableProviders = computed(() => [
   {
     key: PROVIDER_TYPES.WHATSAPP,
     title: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_CLOUD'),
-    description: isWhatsappEmbeddedSignupDisabled.value
+    description: shouldUseManualSetup.value
       ? t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_CLOUD_MANUAL_SETUP_DESC')
       : t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_CLOUD_DESC'),
     icon: 'i-woot-whatsapp',
@@ -66,15 +84,14 @@ const availableProviders = computed(() => [
 ]);
 
 const providerSelectionDescription = computed(() =>
-  isWhatsappEmbeddedSignupDisabled.value
+  shouldUseManualSetup.value
     ? t('INBOX_MGMT.ADD.WHATSAPP.SELECT_PROVIDER.RESTRICTION_DESCRIPTION')
     : t('INBOX_MGMT.ADD.WHATSAPP.SELECT_PROVIDER.DESCRIPTION')
 );
 
 const selectProvider = providerValue => {
   const targetProvider =
-    providerValue === PROVIDER_TYPES.WHATSAPP &&
-    isWhatsappEmbeddedSignupDisabled.value
+    providerValue === PROVIDER_TYPES.WHATSAPP && shouldUseManualSetup.value
       ? PROVIDER_TYPES.WHATSAPP_MANUAL
       : providerValue;
 

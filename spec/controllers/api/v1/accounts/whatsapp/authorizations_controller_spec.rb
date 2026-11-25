@@ -30,10 +30,25 @@ RSpec.describe 'WhatsApp Authorization API', type: :request do
           expect(response.parsed_body['error']).to include('code')
         end
 
-        it 'creates a Coexistence inbox on Chatwoot Cloud without a use-case submission or business_id' do
+        it 'blocks channel creation on Chatwoot Cloud when embedded signup is disabled for the account' do
           allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
           account.disable_features!('whatsapp_embedded_signup_inbox_creation')
 
+          expect(Whatsapp::EmbeddedSignupService).not_to receive(:new)
+
+          post "/api/v1/accounts/#{account.id}/whatsapp/authorization",
+               params: {
+                 code: 'test_code',
+                 business_id: 'test_business_id',
+                 waba_id: 'test_waba_id'
+               },
+               headers: administrator.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:unauthorized)
+        end
+
+        it 'does not require business_id (coexistence completions omit it)' do
           whatsapp_channel = create(:channel_whatsapp, account: account, validate_provider_config: false, sync_templates: false)
           inbox = create(:inbox, account: account, channel: whatsapp_channel)
           embedded_signup_service = instance_double(Whatsapp::EmbeddedSignupService)
