@@ -42,9 +42,9 @@ services:
     restart: always
     post_start:
       - command:
-        - sh
-        - '-c'
-        - 'until pg_isready -h postgres -p 5432; do echo "Waiting for database..."; sleep 2; done && bundle exec rails db:chatwoot_prepare'
+          - sh
+          - '-c'
+          - 'until pg_isready -h postgres -p 5432; do echo "Waiting for database..."; sleep 2; done && bundle exec rails db:chatwoot_prepare'
     healthcheck:
       test:
         - CMD-SHELL
@@ -59,10 +59,12 @@ services:
     volumes:
       - 'storage:/app/storage'
     depends_on:
+      rails:
+        condition: service_healthy
       postgres:
-        condition: service_healthy
+        condition: service_started
       redis:
-        condition: service_healthy
+        condition: service_started
     environment:
       - NODE_ENV=production
       - RAILS_ENV=production
@@ -131,4 +133,3 @@ services:
       interval: 20s
       timeout: 20s
       retries: 10
-
