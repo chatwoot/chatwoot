@@ -57,10 +57,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     next_cursor = response.dig('paging', 'cursors', 'after')
     return response['data'] if next_cursor.blank?
 
-    rest = fetch_whatsapp_templates(after: next_cursor)
-    return nil if rest.nil?
-
-    response['data'] + rest
+    (rest = fetch_whatsapp_templates(after: next_cursor)) ? response['data'] + rest : nil
   end
 
   def validate_provider_config?
