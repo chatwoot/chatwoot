@@ -69,6 +69,8 @@ class ActionCableConnector extends BaseActionCableConnector {
       // The store upserts by ID, so an updated approval card replaces the old one.
       'copilot.message.updated': this.onCopilotMessageCreated,
       'captain.playground.response': this.onCaptainPlaygroundResponse,
+      'captain.reply_suggestion.ready': data =>
+        emitter.emit(BUS_EVENTS.CAPTAIN_REPLY_SUGGESTION_READY, data),
       'voice_call.incoming': this.onVoiceCallIncoming,
       'voice_call.accepted': this.onVoiceCallAccepted,
       'voice_call.outbound_connected': this.onVoiceCallOutboundConnected,

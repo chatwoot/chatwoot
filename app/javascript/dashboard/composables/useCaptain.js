@@ -12,6 +12,11 @@ import { useI18n } from 'vue-i18n';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import TasksAPI from 'dashboard/api/captain/tasks';
 import { CAPTAIN_ERROR_TYPES } from 'dashboard/composables/captain/constants';
+import {
+  waitForReplySuggestion,
+  REPLY_SUGGESTION_TIMEOUT_ERROR,
+  REPLY_SUGGESTION_DISCONNECTED_ERROR,
+} from 'dashboard/composables/captain/waitForReplySuggestion';
 
 export function useCaptain() {
   const store = useStore();
@@ -158,11 +163,24 @@ export function useCaptain() {
    * @returns {Promise<{message: string, followUpContext?: Object}>} The reply suggestion and optional follow-up context.
    */
   const getReplySuggestion = async (options = {}) => {
+    const requestedConversationId = conversationId.value;
     try {
-      const { data } = await TasksAPI.replySuggestion(
-        conversationId.value,
+      const { data: initialData } = await TasksAPI.replySuggestion(
+        requestedConversationId,
         options.signal
       );
+      // With the agent-draft flag the server answers with a request ID and sends the draft over the live connection.
+      const data = initialData.request_id
+        ? await waitForReplySuggestion({
+            requestId: initialData.request_id,
+            conversationId: requestedConversationId,
+            signal: options.signal,
+          })
+        : initialData;
+      if (data.error) {
+        useAlert(data.error);
+        return { message: '', errorType: CAPTAIN_ERROR_TYPES.API_ERROR };
+      }
       const {
         message: generatedMessage,
         follow_up_context: followUpContext,
@@ -177,6 +195,16 @@ export function useCaptain() {
       }
       return { message: generatedMessage, followUpContext, noReplyReason };
     } catch (error) {
+      if (error.name === REPLY_SUGGESTION_TIMEOUT_ERROR) {
+        useAlert(t('INTEGRATION_SETTINGS.OPEN_AI.REPLY_SUGGESTION_TIMEOUT'));
+        return { message: '', errorType: REPLY_SUGGESTION_TIMEOUT_ERROR };
+      }
+      if (error.name === REPLY_SUGGESTION_DISCONNECTED_ERROR) {
+        useAlert(
+          t('INTEGRATION_SETTINGS.OPEN_AI.REPLY_SUGGESTION_DISCONNECTED')
+        );
+        return { message: '', errorType: REPLY_SUGGESTION_DISCONNECTED_ERROR };
+      }
       handleAPIError(error);
       return { message: '', errorType: getErrorType(error) };
     }

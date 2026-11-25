@@ -23,6 +23,8 @@ class Api::V1::Accounts::Captain::TasksController < Api::V1::Accounts::BaseContr
   end
 
   def reply_suggestion
+    return enqueue_reply_suggestion if Current.account.feature_enabled?(Captain::ReplySuggestionService::AGENT_REPLY_FEATURE)
+
     result = Captain::ReplySuggestionService.new(
       account: Current.account,
       conversation_display_id: params[:conversation_display_id],
@@ -48,8 +50,21 @@ class Api::V1::Accounts::Captain::TasksController < Api::V1::Accounts::BaseContr
   def authorize_conversation
     return if params[:conversation_display_id].blank? && %w[rewrite follow_up].include?(action_name)
 
-    conversation = Current.account.conversations.find_by!(display_id: params[:conversation_display_id])
-    authorize conversation, :show?
+    @conversation = Current.account.conversations.find_by!(display_id: params[:conversation_display_id])
+    authorize @conversation, :show?
+  end
+
+  # With the agent-draft flag the draft is written in a background job, which sends it to this agent over the live
+  # connection. The request ID lets the reply box ignore a result meant for an older request.
+  def enqueue_reply_suggestion
+    request_id = SecureRandom.uuid
+    Captain::ReplySuggestionJob.perform_later(
+      account: Current.account,
+      user: Current.user,
+      conversation_display_id: @conversation.display_id,
+      request_id: request_id
+    )
+    render json: { request_id: request_id }, status: :accepted
   end
 
   def render_result(result)
