@@ -89,15 +89,15 @@ onMounted(() => {
       :description="t('COPILOT_SETTINGS.TOOLS.BUILT_IN.DESCRIPTION')"
     >
       <ul
-        class="flex flex-col divide-y divide-n-weak rounded-xl outline outline-1 -outline-offset-1 outline-n-weak"
+        class="flex flex-col divide-y divide-n-weak rounded-xl outline outline-1 outline-n-container bg-n-solid-2"
       >
         <li
           v-for="tool in builtInTools"
           :key="tool.key"
-          class="flex flex-wrap items-center gap-3 p-4"
+          class="flex flex-wrap items-center gap-3 px-5 py-4"
         >
           <div
-            class="flex items-center justify-center rounded-lg size-9 shrink-0 bg-n-alpha-2 text-n-slate-12"
+            class="flex items-center justify-center rounded-lg size-10 shrink-0 bg-n-alpha-2 text-n-slate-12"
           >
             <Icon v-if="tool.icon" :icon="tool.icon" class="size-5" />
             <template v-else>
@@ -112,7 +112,7 @@ onMounted(() => {
             </template>
           </div>
           <div class="flex flex-col flex-1 min-w-0 gap-0.5">
-            <h6 class="text-heading-3 text-n-slate-12">{{ tool.title }}</h6>
+            <h3 class="text-heading-3 text-n-slate-12">{{ tool.title }}</h3>
             <span class="text-body-main text-n-slate-11">
               {{ tool.description }}
             </span>
@@ -120,20 +120,23 @@ onMounted(() => {
           <Button
             v-if="tool.key === 'FAQS'"
             :label="t('COPILOT_SETTINGS.TOOLS.GROUPS.FAQS.MANAGE')"
-            size="sm"
-            variant="faded"
-            color="slate"
+            sm
+            faded
+            slate
             @click="emit('manageKnowledge')"
           />
           <router-link
             v-else-if="!tool.isConnected"
             :to="accountScopedRoute('settings_integrations_linear')"
+            class="shrink-0"
           >
             <Button
               :label="t('COPILOT_SETTINGS.TOOLS.CONNECT_LINEAR')"
-              size="sm"
-              variant="faded"
-              color="slate"
+              sm
+              faded
+              slate
+              trailing-icon
+              icon="i-lucide-arrow-right"
             />
           </router-link>
           <Label
@@ -167,11 +170,11 @@ onMounted(() => {
         <div
           v-for="option in addOptions"
           :key="option.key"
-          class="flex flex-col items-start gap-3 p-4 rounded-xl outline outline-1 -outline-offset-1 outline-n-weak"
+          class="flex flex-col items-start gap-3 p-4 rounded-xl outline outline-1 outline-n-weak bg-n-solid-1"
         >
           <div class="flex items-center justify-between w-full gap-2">
             <div
-              class="flex items-center justify-center rounded-lg size-9 shrink-0 bg-n-alpha-2 text-n-slate-12"
+              class="flex items-center justify-center rounded-lg size-10 shrink-0 bg-n-alpha-2 text-n-slate-12"
             >
               <Icon :icon="option.icon" class="size-5" />
             </div>
@@ -181,7 +184,7 @@ onMounted(() => {
             />
           </div>
           <div class="flex flex-col gap-0.5">
-            <h6 class="text-heading-3 text-n-slate-12">{{ option.title }}</h6>
+            <h3 class="text-heading-3 text-n-slate-12">{{ option.title }}</h3>
             <span class="text-body-main text-n-slate-11">
               {{ option.description }}
             </span>

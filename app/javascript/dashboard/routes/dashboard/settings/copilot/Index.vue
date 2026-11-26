@@ -63,7 +63,15 @@ const showOnHome = computed({
       <BaseSettingsHeader
         :title="t('COPILOT_SETTINGS.TITLE')"
         :description="t('COPILOT_SETTINGS.DESCRIPTION')"
-      />
+      >
+        <template v-if="captainEnabled" #tabs>
+          <TabBar
+            :tabs="tabs"
+            :initial-active-tab="activeTabIndex"
+            @tab-changed="onTabChanged"
+          />
+        </template>
+      </BaseSettingsHeader>
     </template>
     <template #body>
       <div v-if="captainEnabled" class="flex flex-col gap-6">
@@ -71,11 +79,6 @@ const showOnHome = computed({
           v-model="showOnHome"
           :header="t('COPILOT_SETTINGS.HOME_SCREEN.TITLE')"
           :description="t('COPILOT_SETTINGS.HOME_SCREEN.DESCRIPTION')"
-        />
-        <TabBar
-          :tabs="tabs"
-          :initial-active-tab="activeTabIndex"
-          @tab-changed="onTabChanged"
         />
         <ToolsTab
           v-if="activeTab === TABS.TOOLS"
