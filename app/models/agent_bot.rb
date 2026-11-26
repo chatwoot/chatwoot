@@ -70,3 +70,4 @@ class AgentBot < ApplicationRecord
 end
 
 AgentBot.include_mod_with('Audit::AgentBot')
+AgentBot.include_mod_with('SearchIndexing::AiAssignee')

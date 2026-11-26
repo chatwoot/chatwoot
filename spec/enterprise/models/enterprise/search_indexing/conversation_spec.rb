@@ -146,6 +146,13 @@ RSpec.describe Enterprise::SearchIndexing::Conversation do
     expect(reindex_queue.reserve).to eq([conversation.id.to_s])
   end
 
+  it 'queues changes to filter fields' do
+    conversation = create(:conversation, account: account)
+    reindex_queue.clear
+    conversation.update!(status: :resolved, priority: :urgent)
+    expect(reindex_queue.reserve).to eq([conversation.id.to_s])
+  end
+
   it 'does not reindex conversations when contact details change' do
     conversation = create(:conversation, account: account)
     reindex_queue.clear

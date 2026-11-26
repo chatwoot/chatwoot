@@ -151,3 +151,32 @@ programming errors remain visible. Missing setup must be corrected operationally
 Disable either reader flag to restore legacy conversation search. Disabling
 `advanced_search_conversations` also stops ordinary live conversation indexing; reindex
 the account after reenabling to catch up. No account completion marker is written.
+
+## Conversation filters
+
+The filter PR adds status, priority and assignment/team fields to the document.
+Run `bundle exec rails search:setup_conversations` to apply additive mappings, then
+reindex accounts to populate the additional fields. Filtering starts using the index
+for supported requests as soon as the PR is deployed and the account flag is on;
+there is no mapping-version or backfill-completion gate. Until populated, filters
+and counts can omit historical conversations.
+
+The first slice supports administrators, with status, inbox, assignee, team,
+priority and creation/activity conditions. AND/OR precedence, null handling,
+human/bot assignment counts and date/timezone boundaries follow the existing API.
+Creation/activity sorting supports the first 10,000 results. The `last_message_at_asc`
+and `last_message_at_desc` sorts remain on SQL, including their `last_message_sort`
+account flag, nulls-last ordering and display-ID tie-breaker. The public-message clock
+is separate from activity and is not added to the search document by this layer.
+SQL checks selected rows against current account ownership, permissions and filter conditions; stale
+page candidates and known engine availability failures use the full SQL request.
+
+Agents, custom roles, labels, custom attributes, unsupported sorts and deeper pages
+keep the existing SQL path. Counts and matches retain normal indexing lag.
+Disable the account flag to restore SQL reads and stop ordinary indexing.
+
+Team/user/bot/Captain deletion and bulk agent removal can bypass conversation
+callbacks. Their account-scoped refresh jobs scan old indexed references in bounded
+pages and use Searchkick to load current records. User and global-bot deletion
+capture affected account IDs and refresh them independently. These jobs maintain
+live assignment changes; they do not audit coverage or mark accounts ready.

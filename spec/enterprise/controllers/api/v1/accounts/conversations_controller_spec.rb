@@ -4,6 +4,35 @@ RSpec.describe 'Conversations API', type: :request do
   let(:account) { create(:account) }
   let(:administrator) { create(:user, account: account, role: :administrator) }
 
+  describe 'POST /api/v1/accounts/{account.id}/conversations/filter with indexing enabled' do
+    include_context 'with conversation search queue'
+
+    let(:conversation) { create(:conversation, account: account, status: :open) }
+    let(:client) { instance_double(OpenSearch::Client) }
+
+    before do
+      allow(ChatwootApp).to receive(:advanced_search_allowed?).and_return(true)
+      account.enable_features!('advanced_search_conversations')
+      allow(Searchkick).to receive(:client).and_return(client)
+      allow(client).to receive(:search).and_return(
+        '_shards' => { 'failed' => 0 },
+        'hits' => { 'total' => { 'value' => 1, 'relation' => 'eq' }, 'hits' => [{ '_id' => conversation.id.to_s }] },
+        'aggregations' => { 'mine' => { 'doc_count' => 0 }, 'unassigned' => { 'doc_count' => 1 } }
+      )
+    end
+
+    it 'preserves the API payload and counts when indexed filtering is active' do
+      post "/api/v1/accounts/#{account.id}/conversations/filter",
+           headers: administrator.create_new_auth_token,
+           params: { payload: [{ attribute_key: 'status', filter_operator: 'equal_to', values: ['open'] }] }, as: :json
+
+      expect(response).to have_http_status(:ok)
+      expect(response.parsed_body['payload'].pluck('id')).to eq([conversation.display_id])
+      expect(response.parsed_body['meta']).to include('all_count' => 1, 'unassigned_count' => 1)
+      expect(client).to have_received(:search)
+    end
+  end
+
   describe 'GET /api/v1/accounts/{account.id}/conversations/:id' do
     it 'omits a missing Captain assistant owner' do
       conversation = create(:conversation, account: account)
