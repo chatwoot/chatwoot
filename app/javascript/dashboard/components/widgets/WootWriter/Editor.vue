@@ -211,6 +211,7 @@ const cannedSearchKey = ref('');
 const variableSearchKey = ref('');
 const emojiSearchKey = ref('');
 const macroSearchKey = ref('');
+const hasMentionMatches = ref(false);
 const range = ref(null);
 const isTextSelected = ref(false); // Tracks text selection and prevents unnecessary re-renders on mouse selection
 const showSelectionMenu = ref(false);
@@ -273,6 +274,10 @@ const shouldShowUserMentions = computed(() => {
   return showUserMentions.value && props.isPrivate;
 });
 
+const isMentionListOpen = computed(() => {
+  return shouldShowUserMentions.value && hasMentionMatches.value;
+});
+
 // The picker owns the search field, so it takes focus while open. Dismissing it hands
 // focus back; selecting one does so through the insert itself. The suggestion stays
 // active in the document, so the picker only reopens once the trigger is typed afresh.
@@ -302,16 +307,35 @@ const onSelectMacro = macro => {
   emit('executeMacro', macro);
 };
 
+// The package matcher also takes the text after the caret; the query ends at the caret.
+const triggerBeforeCaret = (trigger, minChars) => {
+  const matchWord = triggerCharacters(trigger, minChars);
+
+  return $position => {
+    const match = matchWord($position);
+    if (!match) return null;
+
+    const { from } = match.range;
+    const queryStart = from + trigger.length;
+    if ($position.pos - queryStart < minChars) return null;
+
+    return {
+      range: { from, to: $position.pos },
+      text: $position.doc.textBetween(queryStart, $position.pos),
+    };
+  };
+};
+
 function createSuggestionPlugin({
   trigger,
   minChars = 0,
   showMenu,
   searchTerm,
   isAllowed = () => true,
-  interceptEnter = false,
+  interceptEnter = () => false,
 }) {
   return suggestionsPlugin({
-    matcher: triggerCharacters(trigger, minChars),
+    matcher: triggerBeforeCaret(trigger, minChars),
     suggestionClass: '',
     onEnter: args => {
       if (!isAllowed()) return false;
@@ -333,7 +357,7 @@ function createSuggestionPlugin({
       return false;
     },
     onKeyDown: ({ event }) => {
-      return event.keyCode === 13 && showMenu.value && interceptEnter;
+      return event.keyCode === 13 && showMenu.value && interceptEnter();
     },
   });
 }
@@ -349,13 +373,14 @@ const plugins = computed(() => {
       showMenu: showToolsMenu,
       searchTerm: toolSearchKey,
       isAllowed: () => props.enableCaptainTools,
-      interceptEnter: true,
+      interceptEnter: () => true,
     }),
     createSuggestionPlugin({
       trigger: '@',
       showMenu: showUserMentions,
       searchTerm: mentionSearchKey,
       isAllowed: () => props.isPrivate || !props.enableCaptainTools,
+      interceptEnter: () => isMentionListOpen.value,
     }),
     createSuggestionPlugin({
       trigger: '/',
@@ -403,7 +428,7 @@ const sendWithSignature = computed(() => {
   return false;
 });
 
-watch(shouldShowUserMentions, updatedValue => {
+watch(isMentionListOpen, updatedValue => {
   emit('toggleUserMention', updatedValue);
 });
 watch(shouldShowCannedResponses, updatedValue => {
@@ -963,10 +988,10 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, content => {
   >
     <TagAgents
       v-if="shouldShowUserMentions"
+      v-model:has-matches="hasMentionMatches"
       :caret-position="caretPosition"
       :search-key="mentionSearchKey"
       @close="dismissUserMentions"
-      @remove-trigger="removeSuggestionTrigger"
       @select-agent="content => insertSpecialContent('mention', content)"
     />
     <CannedResponse

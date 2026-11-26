@@ -20,6 +20,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  hideSearch: {
+    type: Boolean,
+    default: false,
+  },
   previewLayout: {
     type: String,
     default: 'side',
@@ -39,7 +43,9 @@ const listRef = useTemplateRef('listRef');
 const searchRef = useTemplateRef('searchRef');
 
 const listboxId = useId();
-const optionId = index => `${listboxId}-${index}`;
+const previewId = `${listboxId}-preview`;
+
+const optionId = item => `${listboxId}-${item.id}`;
 
 const selectedItem = computed(() => props.items[selectedIndex.value]);
 
@@ -96,6 +102,7 @@ defineExpose({ scrollSelectedIntoView });
   >
     <div class="flex flex-col min-h-0" :class="listClass">
       <div
+        v-if="!hideSearch"
         class="relative flex items-center flex-shrink-0 h-11 px-3 border-b border-n-strong"
       >
         <Icon icon="i-lucide-search" class="size-4 text-n-slate-10" />
@@ -107,12 +114,15 @@ defineExpose({ scrollSelectedIntoView });
           aria-autocomplete="list"
           aria-expanded="true"
           :aria-controls="listboxId"
-          :aria-activedescendant="items.length ? optionId(selectedIndex) : null"
+          :aria-activedescendant="selectedItem && optionId(selectedItem)"
           :aria-label="searchPlaceholder"
           class="w-full h-full px-2 text-sm bg-transparent outline-none text-n-slate-12 placeholder:text-n-slate-10 reset-base"
           :placeholder="searchPlaceholder"
         />
       </div>
+      <span v-else class="sr-only" aria-live="polite">
+        {{ selectedItem?.label }} {{ selectedItem?.group }}
+      </span>
       <div
         v-if="$slots.filters"
         class="flex-shrink-0 min-w-0 px-1 pt-1 pb-1.5"
@@ -121,52 +131,67 @@ defineExpose({ scrollSelectedIntoView });
         <slot name="filters" />
       </div>
       <div ref="listRef" class="flex-1 p-1 overflow-y-auto">
-        <ul :id="listboxId" role="listbox" class="m-0 list-none">
+        <ul
+          :id="listboxId"
+          role="listbox"
+          :aria-label="searchPlaceholder"
+          class="m-0 list-none"
+        >
           <template v-for="(item, index) in items" :key="item.id">
             <li
               v-if="groupFor(index)"
               role="presentation"
-              class="px-2 pb-1 text-xs font-medium text-n-slate-10"
-              :class="index === 0 ? '' : 'pt-2'"
+              class="px-2 pt-2 pb-1 text-xs font-medium text-n-slate-10"
             >
               {{ groupFor(index) }}
             </li>
             <li
-              :id="optionId(index)"
+              :id="optionId(item)"
               :data-index="index"
               role="option"
               :aria-selected="index === selectedIndex"
+              :aria-describedby="
+                hasPreview && index === selectedIndex ? previewId : null
+              "
               class="flex items-center w-full gap-2 px-2 py-1 overflow-hidden rounded-lg cursor-pointer text-start"
               :class="index === selectedIndex ? 'bg-n-alpha-black2' : ''"
               @mousemove="selectedIndex = index"
               @click="emit('select', index)"
             >
               <slot
-                name="leading"
+                name="item"
                 :item="item"
                 :selected="index === selectedIndex"
-              />
-              <span class="flex flex-col min-w-0 gap-0.5">
-                <span
-                  v-dompurify-html="item.title"
-                  class="max-w-full min-w-0 text-sm font-medium truncate text-n-slate-12"
+              >
+                <slot
+                  name="leading"
+                  :item="item"
+                  :selected="index === selectedIndex"
                 />
-                <span
-                  v-if="item.subtitle"
-                  v-dompurify-html="item.subtitle"
-                  class="max-w-full min-w-0 text-xs truncate text-n-slate-11"
-                />
-              </span>
+                <span class="flex flex-col min-w-0 gap-0.5">
+                  <span
+                    v-dompurify-html="item.title"
+                    class="max-w-full min-w-0 text-sm font-medium truncate text-n-slate-12"
+                  />
+                  <span
+                    v-if="item.subtitle"
+                    v-dompurify-html="item.subtitle"
+                    class="max-w-full min-w-0 text-xs truncate text-n-slate-11"
+                  />
+                </span>
+              </slot>
             </li>
           </template>
         </ul>
         <div
-          v-if="!items.length"
           role="status"
-          class="flex items-center px-2 py-1.5 text-sm text-n-slate-11"
+          class="flex items-center text-sm text-n-slate-11"
+          :class="{ 'px-2 py-1.5': !items.length }"
         >
-          <Spinner v-if="isLoading" :size="16" />
-          <template v-else>{{ emptyLabel }}</template>
+          <template v-if="!items.length">
+            <Spinner v-if="isLoading" :size="16" />
+            <template v-else>{{ emptyLabel }}</template>
+          </template>
         </div>
       </div>
     </div>
@@ -180,7 +205,7 @@ defineExpose({ scrollSelectedIntoView });
         </span>
       </div>
       <div class="relative flex-1 min-h-0">
-        <div class="absolute inset-0 overflow-y-auto">
+        <div :id="previewId" class="absolute inset-0 overflow-y-auto">
           <slot name="preview" :item="selectedItem" />
         </div>
       </div>
