@@ -1,5 +1,5 @@
 <script setup>
-import { computed, reactive, ref } from 'vue';
+import { computed, reactive, ref, toRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useToggle, useElementSize } from '@vueuse/core';
 import { useVuelidate } from '@vuelidate/core';
@@ -14,6 +14,8 @@ import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Switch from 'dashboard/components-next/switch/Switch.vue';
 import Policy from 'dashboard/components/policy.vue';
+import ScenarioToolSuggestions from './ScenarioToolSuggestions.vue';
+import { useScenarioToolSuggestions } from './useScenarioToolSuggestions';
 
 const props = defineProps({
   id: {
@@ -82,6 +84,16 @@ const state = reactive({
   instruction: '',
 });
 
+const {
+  suggestions,
+  isChecking,
+  linkMissingTools,
+  keepSuggestion,
+  keepAllSuggestions,
+  removeSuggestion,
+  resetSuggestions,
+} = useScenarioToolSuggestions(toRef(state, 'instruction'));
+
 const instructionContentRef = ref();
 
 const [isEditing, toggleEditing] = useToggle();
@@ -98,6 +110,7 @@ const startEdit = () => {
     instruction: props.instruction,
     tools: props.tools,
   });
+  resetSuggestions();
   toggleEditing(true);
 };
 
@@ -121,9 +134,10 @@ const descriptionError = computed(() =>
     : ''
 );
 
-const onClickUpdate = () => {
+const onClickUpdate = async () => {
   v$.value.$touch();
   if (v$.value.$invalid) return;
+  if (await linkMissingTools()) return;
   emit('update', { ...state });
   toggleEditing(false);
 };
@@ -272,6 +286,13 @@ const LINK_INSTRUCTION_CLASS =
         :show-character-count="false"
         enable-captain-tools
       />
+      <ScenarioToolSuggestions
+        v-if="suggestions.length"
+        :suggestions="suggestions"
+        @keep="keepSuggestion"
+        @keep-all="keepAllSuggestions"
+        @remove="removeSuggestion"
+      />
       <div class="flex items-center gap-3">
         <Button
           faded
@@ -283,6 +304,8 @@ const LINK_INSTRUCTION_CLASS =
         <Button
           sm
           :label="t('CAPTAIN.ASSISTANTS.SCENARIOS.UPDATE.UPDATE')"
+          :is-loading="isChecking"
+          :disabled="isChecking"
           @click="onClickUpdate"
         />
       </div>

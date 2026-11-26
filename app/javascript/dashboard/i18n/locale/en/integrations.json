@@ -1368,6 +1368,13 @@
           "CANCEL": "Cancel",
           "UPDATE": "Update changes"
         },
+        "TOOL_SUGGESTIONS": {
+          "TITLE": "Linked a tool this scenario describes | Linked {count} tools this scenario describes",
+          "DESCRIPTION": "Captain only uses tools linked with {'@'}. Review them, then save.",
+          "KEEP_ALL": "Keep all",
+          "KEEP": "Keep",
+          "REMOVE": "Remove"
+        },
         "STATUS": {
           "ENABLED": "Enabled",
           "DISABLED": "Disabled",

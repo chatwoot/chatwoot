@@ -28,6 +28,12 @@ class CaptainScenarios extends ApiClient {
     });
   }
 
+  suggestTools({ assistantId, instruction }) {
+    return axios.post(`${this.url}/${assistantId}/scenarios/tool_suggestions`, {
+      instruction,
+    });
+  }
+
   delete({ assistantId, id }) {
     return axios.delete(`${this.url}/${assistantId}/scenarios/${id}`);
   }

@@ -22,6 +22,16 @@ class Api::V1::Accounts::Captain::ScenariosController < Api::V1::Accounts::BaseC
     head :no_content
   end
 
+  def tool_suggestions
+    result = Captain::ScenarioToolSuggestionService.new(assistant: @assistant, instruction: params.require(:instruction)).perform
+
+    if result[:error]
+      render json: { error: result[:error] }, status: :unprocessable_content
+    else
+      render json: result
+    end
+  end
+
   private
 
   def set_assistant
