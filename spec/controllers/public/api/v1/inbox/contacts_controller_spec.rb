@@ -24,6 +24,28 @@ RSpec.describe 'Public Inbox Contacts API', type: :request do
       db_contact = api_channel.account.contacts.find_by(identifier: identifier)
       expect(db_contact).not_to be_nil
     end
+
+    context 'when the inbox requires HMAC' do
+      before { api_channel.update!(hmac_mandatory: true) }
+
+      it 'rejects a contact without an identifier hash' do
+        expect do
+          post "/public/api/v1/inboxes/#{api_channel.identifier}/contacts", params: { identifier: 'contact-identifier' }
+        end.not_to change(Contact, :count)
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'creates a contact with the identifier hash of the provided identifier' do
+        identifier_hash = OpenSSL::HMAC.hexdigest('sha256', api_channel.hmac_token, 'contact-identifier')
+
+        post "/public/api/v1/inboxes/#{api_channel.identifier}/contacts",
+             params: { identifier: 'contact-identifier', identifier_hash: identifier_hash }
+
+        expect(response).to have_http_status(:success)
+        expect(api_channel.account.contacts.find_by(identifier: 'contact-identifier')).not_to be_nil
+      end
+    end
   end
 
   describe 'GET /public/api/v1/inboxes/{identifier}/contact/{source_id}' do
