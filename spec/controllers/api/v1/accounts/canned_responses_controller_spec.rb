@@ -129,6 +129,16 @@ RSpec.describe 'Canned Responses API', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(account.canned_responses.count).to eq(1)
       end
+
+      it 'does not create the canned response when a file id is not a string' do
+        post "/api/v1/accounts/#{account.id}/canned_responses",
+             params: { short_code: 'guide', content: 'Here is the guide', files: [123] },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(account.canned_responses.count).to eq(1)
+      end
     end
   end
 
