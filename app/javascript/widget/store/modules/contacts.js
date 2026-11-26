@@ -42,7 +42,7 @@ export const actions = {
       // Ignore error
     }
   },
-  setUser: async ({ dispatch }, { identifier, user: userObject }) => {
+  setUser: async ({ dispatch }, { identifier, user: userObject, userHash }) => {
     try {
       const {
         email,
@@ -76,6 +76,9 @@ export const actions = {
         data: { widget_auth_token: widgetAuthToken },
       } = await ContactsAPI.setUser(identifier, user);
       updateWidgetAuthToken(widgetAuthToken);
+      // Tells the SDK that the server accepted this user.
+      // The SDK can then skip the same call on later page loads.
+      sendMessage({ event: 'setUserCookie', data: { userHash } });
       dispatch('get');
       if (identifierHash || widgetAuthToken) {
         dispatch('conversation/clearConversations', {}, { root: true });
