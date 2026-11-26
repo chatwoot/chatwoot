@@ -11,7 +11,6 @@ import {
   CHANGE_TYPES,
   adaptCannedResponse,
 } from 'dashboard/helper/cannedResponseHelper';
-import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import MessageFormatter from 'shared/helpers/MessageFormatter';
 
 import Button from 'dashboard/components-next/button/Button.vue';
@@ -21,6 +20,7 @@ import FileChip from 'dashboard/components-next/message/chips/File.vue';
 import ChannelName from 'dashboard/routes/dashboard/settings/inbox/components/ChannelName.vue';
 
 const props = defineProps({
+  inboxes: { type: Array, required: true },
   content: { type: String, required: true },
   files: { type: Array, required: true },
 });
@@ -44,7 +44,6 @@ const STATUS_DOT_CLASSES = {
 
 const { t } = useI18n();
 
-const inboxes = useMapGetter('inboxes/getInboxes');
 const currentUser = useMapGetter('getCurrentUser');
 
 const selectedChannel = ref(null);
@@ -64,12 +63,10 @@ const statusOf = changes => {
 
 const previews = computed(() => {
   const uploadedFiles = props.files.filter(file => file.signed_id);
-  // X inboxes can no longer be added, so one left from before gets no preview
-  const channelInboxes = inboxes.value.filter(
+  const channelInboxes = props.inboxes.filter(
     (inbox, index) =>
-      inbox.channel_type !== INBOX_TYPES.TWITTER &&
-      inboxes.value.findIndex(item => channelOf(item) === channelOf(inbox)) ===
-        index
+      props.inboxes.findIndex(item => channelOf(item) === channelOf(inbox)) ===
+      index
   );
 
   return channelInboxes.map(inbox => {

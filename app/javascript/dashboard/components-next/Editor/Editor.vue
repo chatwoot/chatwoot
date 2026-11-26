@@ -33,6 +33,7 @@ const emit = defineEmits([
   'update:modelValue',
   'executeCopilotAction',
   'attachCannedFiles',
+  'toggleImageUpload',
 ]);
 
 const slots = useSlots();
@@ -123,6 +124,7 @@ watch(
           (...args) => emit('executeCopilotAction', ...args)
         "
         @attach-canned-files="emit('attachCannedFiles', $event)"
+        @toggle-image-upload="emit('toggleImageUpload', $event)"
       />
       <div
         v-if="showCharacterCount || slots.actions"

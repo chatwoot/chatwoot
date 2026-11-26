@@ -5,6 +5,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
@@ -27,6 +28,7 @@ const shortCode = ref(props.cannedResponse.short_code ?? '');
 const content = ref(props.cannedResponse.content ?? '');
 const files = ref(props.cannedResponse.files ?? []);
 const isSaving = ref(false);
+const pendingImageUploads = ref(0);
 
 const v$ = useVuelidate(
   {
@@ -38,6 +40,11 @@ const v$ = useVuelidate(
 
 const isEditing = computed(() => !!props.cannedResponse.id);
 
+// X inboxes can no longer be added, so one left from before gets no preview
+const previewInboxes = computed(() =>
+  inboxes.value.filter(inbox => inbox.channel_type !== INBOX_TYPES.TWITTER)
+);
+
 const title = computed(() =>
   isEditing.value
     ? `${t('CANNED_MGMT.EDIT.TITLE')} - ${props.cannedResponse.short_code}`
@@ -48,8 +55,13 @@ const canSave = computed(
   () =>
     !v$.value.$invalid &&
     !isSaving.value &&
+    !pendingImageUploads.value &&
     files.value.every(file => file.signed_id)
 );
+
+const onImageUpload = isUploading => {
+  pendingImageUploads.value += isUploading ? 1 : -1;
+};
 
 const save = async () => {
   if (!canSave.value) return;
@@ -114,6 +126,7 @@ const save = async () => {
             :enable-canned-responses="false"
             enable-variables
             channel-type="Context::CannedResponse"
+            @toggle-image-upload="onImageUpload"
           />
           <CannedResponseFiles v-model="files" />
           <p class="mb-0 text-label-small text-n-slate-11">
@@ -121,7 +134,8 @@ const save = async () => {
           </p>
         </div>
         <CannedResponsePreview
-          v-if="inboxes.length"
+          v-if="previewInboxes.length"
+          :inboxes="previewInboxes"
           :content="content"
           :files="files"
         />

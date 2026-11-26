@@ -114,6 +114,7 @@ const emit = defineEmits([
   'toggleMacrosMenu',
   'executeMacro',
   'attachCannedFiles',
+  'toggleImageUpload',
   'clearSelection',
   'blur',
   'focus',
@@ -640,6 +641,7 @@ function onImageInsertInEditor(fileUrl) {
 }
 
 async function uploadImageToStorage(file) {
+  emit('toggleImageUpload', true);
   try {
     const { fileUrl } = await uploadFile(file);
     if (fileUrl) {
@@ -656,6 +658,8 @@ async function uploadImageToStorage(file) {
     useAlert(
       t('PROFILE_SETTINGS.FORM.MESSAGE_SIGNATURE_SECTION.IMAGE_UPLOAD_ERROR')
     );
+  } finally {
+    emit('toggleImageUpload', false);
   }
 }
 

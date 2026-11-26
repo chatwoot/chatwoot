@@ -115,6 +115,16 @@ describe('Editor', () => {
       expect(lastContent()).toContain('![](https://cdn.test/shot.png)');
     });
 
+    it('reports when an image upload starts and ends', async () => {
+      mountEditor({ props: { channelType: 'Context::CannedResponse' } });
+
+      editorPaste([image]);
+      expect(wrapper.emitted('toggleImageUpload')).toEqual([[true]]);
+
+      await flushPromises();
+      expect(wrapper.emitted('toggleImageUpload')).toEqual([[true], [false]]);
+    });
+
     it('writes a dropped image into the message and skips other files', async () => {
       mountEditor({ props: { channelType: 'Context::CannedResponse' } });
 
