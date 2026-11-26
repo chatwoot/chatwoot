@@ -21,6 +21,7 @@ import ConversationResolveAttributesModal from 'dashboard/components-next/Conver
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAlert } from 'dashboard/composables';
 import { useBulkActions } from 'dashboard/composables/chatlist/useBulkActions';
+import { useConversationStatsRefetch } from 'dashboard/composables/chatlist/useConversationStatsRefetch';
 import { useFilter } from 'shared/composables/useFilter';
 import { useTrack } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
@@ -828,9 +829,9 @@ function toggleSelectAll(check) {
   selectAllConversations(check, conversationList);
 }
 
-useEmitter('fetch_conversation_stats', () => {
-  if (hasAppliedFiltersOrActiveFolders.value) return;
-  store.dispatch('conversationStats/get', conversationFilters.value);
+useConversationStatsRefetch({
+  filters: conversationFilters,
+  isDisabled: hasAppliedFiltersOrActiveFolders,
 });
 useEmitter(CMD_SWITCH_TAB, updateAssigneeTab);
 useEmitter(CMD_MARK_UNREAD, markAsUnread);
