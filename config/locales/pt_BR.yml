@@ -17,6 +17,16 @@
 #To learn more, please read the Rails Internationalization guide
 #available at https://guides.rubyonrails.org/i18n.html.
 pt_BR:
+  instagram:
+    no_accounts: 'Nenhuma conta do Instagram foi compartilhada. Conecte-se novamente e selecione uma conta profissional do Instagram.'
+    connection_expired: 'Esta conexão com o Instagram expirou. Por favor, inicie o processo novamente.'
+    authorization_expired: 'Esta autorização do Instagram expirou. Por favor, inicie a conexão novamente.'
+    wrong_account: 'Reconecte usando a conta do Instagram já vinculada a esta caixa de entrada.'
+    invalid_account: 'Selecione uma conta do Instagram compartilhada durante esta conexão.'
+    subscription_failed: 'Não foi possível ativar as mensagens do Instagram. Por favor, verifique as permissões do aplicativo e conecte-se novamente.'
+    missing_credentials: 'Configure o ID e o segredo do aplicativo Meta para login unificado, bem como o ID de configuração, no painel Super Admin antes de conectar o Instagram.'
+    request_failed: 'O Instagram não conseguiu concluir a solicitação. Por favor, tente novamente.'
+    encryption_required: 'Configure as chaves de criptografia do Active Record antes de ativar o login unificado do Instagram.'
   hello: 'Olá, mundo'
   administrator_notifications:
     captain:
@@ -31,6 +41,22 @@ pt_BR:
       success: 'Canal reautenticado com sucesso'
       not_required: 'Reautenticação não é necessária para esta caixa de entrada'
       invalid_channel: 'Tipo de canal inválido para reautenticar'
+    voice_settings:
+      unsupported_inbox: 'Esta configuração exige uma caixa de entrada com chamadas ativadas'
+    call_announcements:
+      invalid_settings: 'Informe um valor booleano para enabled e um texto para o anúncio'
+      message_required: 'Adicione a mensagem que as pessoas ouvirão ao ligar'
+      default_unanswered: "No momento, não conseguimos atender sua chamada. Assim que possível, entraremos em contato."
+      message_too_long: 'O anúncio deve ter no máximo 1000 caracteres'
+      invalid_timeout: 'O tempo de toque deve ser um número inteiro de segundos entre %{min} e %{max}'
+    call_hours:
+      closed_every_day: 'Defina pelo menos um dia de atendimento na caixa de entrada antes de aplicar o horário de atendimento às chamadas do WhatsApp'
+      whatsapp_failed: "Não foi possível aplicar o horário de atendimento às chamadas do WhatsApp: %{error}"
+    missed_call_message:
+      default: "Não conseguimos atender sua chamada. Responda por aqui e entraremos em contato assim que possível."
+      invalid: 'A mensagem de chamada perdida deve ter no máximo %{max} caracteres'
+    call_routing:
+      invalid_settings: 'Escolha quem recebe o toque, um intervalo de toque de %{step_min} a %{step_max} segundos, um tempo de finalização de 0 a %{cooldown_max} segundos e o que acontece fora do horário de atendimento'
   auth:
     saml:
       invalid_email: 'Por favor, insira um endereço de e-mail válido'
@@ -67,8 +93,24 @@ pt_BR:
     sessions:
       cannot_revoke_current: Você não pode revogar a sessão atual.
   errors:
+    bandwidth:
+      token_request_failed: "Não foi possível acessar o serviço de autenticação da Bandwidth. Por favor, tente novamente mais tarde."
+      invalid_configuration: 'Informe um ID de conta, um ID de aplicativo, um ID de cliente e um segredo de cliente válidos da Bandwidth.'
+      authentication_failed: 'Não foi possível autenticar com a Bandwidth. Confira o ID e o segredo do cliente e tente novamente.'
+    account_saml_settings:
+      invalid_certificate: deve ser um certificado X.509 válido em formato PEM
+      metadata_url:
+        invalid_url: deve ser uma URL HTTPS válida
+        blocked_address: aponta para um endereço inacessível. Use um nome de host público para seu provedor de identidade
+        http_error: retornou um erro. Verifique se esta é a URL de metadados do seu provedor de identidade
+        unreachable: não pôde ser acessado. Verifique se o seu provedor de identidade está online e possui um certificado TLS válido
+        too_large: retornou uma resposta grande demais para ser considerada metadados SAML
+        not_metadata: não retornou metadados SAML do provedor de identidade
     notification_subscription:
       voip_attributes_required: Uma assinatura push VoIP precisa de um device_id e um push_token
+    account_user:
+      no_work_preference: Pelo menos uma das opções Receber conversas ou Receber chamadas de voz deve permanecer ativada
+      invalid_work_preference: Receber conversas e Receber chamadas de voz devem ter o valor true ou false
     account:
       not_authorized: Você não está autorizado a acessar esta conta
       email_limit_exceeded: O limite diário de envio de e-mails desta conta foi atingido
@@ -89,6 +131,13 @@ pt_BR:
       failed: Registro falhou
     voice:
       call_already_accepted: '%{agent_name} já está atendendo a chamada.'
+      announcement_audio_mismatch: 'O áudio gerado não corresponde ao texto do anúncio. O anúncio salvo permanece igual. Por favor, tente novamente.'
+      announcement_generation_failed: "Não foi possível gerar o áudio do anúncio. Confira a configuração do Captain AI e tente novamente. O anúncio salvo permanece igual."
+      call_timed_out: 'A chamada expirou antes que você pudesse entrar.'
+      invalid_hold: "Não foi possível atualizar a chamada. Por favor, tente novamente."
+      not_handling_agent: 'Somente o agente que está na chamada pode colocá-la em espera ou retomá-la.'
+      cannot_end_call: 'Somente o agente responsável pela chamada pode encerrá-la.'
+      hold_failed: 'Não foi possível alterar o estado de espera da chamada. Por favor, tente novamente.'
     assignment_policy:
       not_found: Política de atribuição não encontrada
     attachments:
@@ -108,12 +157,15 @@ pt_BR:
       sso_not_enabled: O SSO via SAML não está habilitado para esta instalação
       multi_account_invitation_not_allowed: Usuários associados a outra conta não podem ser adicionados enquanto o SAML estiver habilitado
     conversations:
+      anonymous_caller_reply: 'Não é possível enviar mensagens porque o número de telefone de quem está ligando não está disponível.'
       resolved: A conversa está resolvida e não aceita novas mensagens
       unread_counts:
         feature_not_enabled: O recurso de contagem de conversas não lidas não está habilitado para esta conta
     data_import:
       data_type:
         invalid: Tipo de dado inválido
+      csv:
+        blank_format_marker: 'O registro %{row_number} tem um valor em branco em %{column}. Mantenha %{version} nessa coluna em todas as linhas. Importe novos contatos em um CSV separado, sem essa coluna.'
     contacts:
       import:
         failed: Arquivo vazio
@@ -141,6 +193,9 @@ pt_BR:
     categories:
       locale:
         unique: deve ser único na categoria e no portal
+    articles:
+      meta:
+        noindex_not_boolean: noindex deve ser true ou false
     dyte:
       invalid_message_type: 'Tipo de mensagem inválido. Ação não permitida'
       realtimekit_credentials_required: 'As credenciais do Cloudflare RealtimeKit são obrigatórias. Exclua a integração existente do Dyte e crie-a novamente usando as credenciais do Cloudflare RealtimeKit.'
@@ -187,6 +242,7 @@ pt_BR:
     openai:
       invalid_api_key: 'A chave da API da OpenAI é inválida ou revogada. Por favor, verifique sua chave no seu painel da OpenAI.'
     inboxes:
+      bot_provider_conflict: 'Desconecte %{current_provider} antes de conectar %{requested_provider}'
       imap:
         socket_error: Por favor, verifique a conexão de rede, endereço IMAP e tente novamente.
         no_response_error: Por favor, verifique as credenciais de IMAP e tente novamente.
@@ -250,8 +306,6 @@ pt_BR:
     mfa:
       enabled: MFA habilitado com sucesso
       disabled: MFA desativado com sucesso
-    account_saml_settings:
-      invalid_certificate: deve ser um certificado X.509 válido em formato PEM
   reports:
     period: Reportando o período %{since} a %{until}
     utc_warning: O relatório gerado está em fuso horário UTC
@@ -328,6 +382,15 @@ pt_BR:
   conversations:
     captain:
       handoff: 'Transferindo para que outro agente dê assistência.'
+    unverified_contact_match:
+      note: |-
+        Este visitante informou dados de contato que pertencem a um contato existente. Como não foi possível verificar a identidade do visitante, a conversa não foi vinculada a esse contato e os dados não foram salvos.
+
+        %{matches}
+
+        Se você confirmar que o visitante é a mesma pessoa, mescle os contatos no painel de contato.
+      email: '- E-mail: `%{value}`, corresponde a [`%{contact_name}`](%{contact_url})'
+      phone_number: '- Telefone: `%{value}`, corresponde a [`%{contact_name}`](%{contact_url})'
     messages:
       instagram_story_content: '%{story_sender} mencionou você na conversa: '
       instagram_deleted_story_content: Este Story não está mais disponível.
@@ -341,6 +404,7 @@ pt_BR:
         request_contact_info: 'Gostaria de compartilhar seu número de telefone conosco?'
         unsupported_message: 'Esta mensagem não está disponível.'
       voice_call:
+        unknown_caller: 'Número desconhecido'
         twilio: 'Chamada de Voz'
         whatsapp: 'Chamada do WhatsApp'
       delivery_status:
@@ -383,6 +447,9 @@ pt_BR:
       sla:
         added: '%{user_name} adicionou política de SLA %{sla_name}'
         removed: '%{user_name} removeu a política de SLA %{sla_name}'
+      auto_translate:
+        disabled: '%{user_name} desativou a tradução automática nesta conversa'
+        enabled: '%{user_name} ativou a tradução automática nesta conversa'
       linear:
         issue_created: 'Problema linear %{issue_id} foi criado por %{user_name}'
         issue_linked: 'Problema linear %{issue_id} foi vinculado por %{user_name}'
@@ -396,6 +463,7 @@ pt_BR:
         not_sent_due_to_messaging_window: 'Auto-resolver mensagem não enviada devido a restrições de envio de mensagens'
       muted: '%{user_name} silenciou a conversa'
       unmuted: '%{user_name} reativou a conversa'
+      via_copilot: '%{activity} via Copilot'
       auto_resolution_message: 'Resolvendo a conversa dado que está inativa por um tempo. Por favor, inicie uma nova conversa se precisar de mais ajuda.'
     templates:
       greeting_message_body: '%{account_name} normalmente responde em algumas horas.'
@@ -477,20 +545,55 @@ pt_BR:
       name: 'LeadSquared'
       short_description: 'Sincronize seus contatos e conversas com LeadSquared CRM.'
       description: 'Sincronize seus contatos e conversas com LeadSquared CRM. Essa integração cria automaticamente leads em LeadSquared quando novos contatos são adicionados, e registra a atividade de conversação para fornecer à sua equipe de vendas um contexto completo.'
+  conversation_monitors:
+    slack_alert:
+      not_connected: requer uma integração ativa com o Slack
+      title: 'Monitor acionado: %{name}'
+      matched: Monitor acionado
+      summary: '%{conversation} com %{contact}'
+      conversation: 'Conversa #%{id}'
+      inbox: Caixa de Entrada
+      assignee: Agente atribuído
+      unassigned: Não atribuídas
+      status: Status
+      confidence: Confiança
+      unknown: Desconhecido
+      condition: Condição
   captain:
     copilot_message_required: A mensagem é obrigatória
     copilot_error: 'Conecte com um assistente a esta caixa de entrada para usar Copilot'
     copilot_limit: 'Você está sem créditos de Copilot. Pode comprar mais créditos na seção de faturamento.'
+    copilot_disabled: 'Copilot is not available on this account.'
     upgrade: 'Atualize seu plano para habilitar o Captain AI'
     disabled: 'O Captain AI está desativado para esta conta.'
     api_key_missing: 'A chave de API do Captain AI não está configurada.'
     copilot:
       using_tool: 'Usando a ferramenta %{function_name}'
+      approval_superseded: 'O agente enviou uma nova mensagem em vez de aprovar esta alteração.'
+      approval_rejected: 'O agente rejeitou esta alteração.'
+      approval_already_decided: 'Esta alteração já foi aprovada ou rejeitada.'
+      approval_expired: 'O agente não aprovou esta alteração em até %{minutes} minutos.'
+      approval_expired_notice: 'Esta alteração expirou. Peça ao Copilot para propô-la novamente.'
+      stopped: 'O agente interrompeu esta ação antes da conclusão.'
+      still_working: 'O Copilot ainda está processando sua última mensagem. Interrompa o processamento ou aguarde a resposta.'
       completed_tool_call: 'Uso da ferramenta %{function_name} concluída'
       invalid_tool_call: 'Ferramenta inválida'
       tool_not_available: 'Ferramenta indisponível'
       reply_suggestion_discarded: 'A conversa foi alterada enquanto o Copilot elaborava a resposta, por isso a sugestão foi descartada.'
       reply_suggestion_failed: "O Copilot não conseguiu gerar uma resposta. Por favor, tente novamente."
+      step_failed: "Não foi possível concluir esta etapa"
+      steps:
+        search_documentation: 'Pesquisando na base de conhecimento'
+        search_articles: 'Pesquisando artigos da Central de Ajuda'
+        get_article: 'Lendo um artigo'
+        search_contacts: 'Pesquisando contatos'
+        get_contact: 'Consultando um contato'
+        get_conversation: 'Lendo uma conversa'
+        search_linear_issues: 'Pesquisando tarefas no Linear'
+        get_data: 'Buscando registros correspondentes'
+        display: 'Preparando os resultados'
+        get_report: 'Lendo os relatórios'
+        get_account_directory: 'Consultando agentes, caixas de entrada e times'
     documents:
       limit_exceeded: 'Limite de documento excedido'
       pdf_format_error: 'Deve ser um arquivo PDF'
@@ -526,6 +629,7 @@ pt_BR:
     custom_tool:
       slug_generation_failed: 'Não foi possível gerar um slug único após 5 tentativas'
       limit_exceeded: 'Você pode criar no máximo %{limit} ferramentas personalizadas por assistente'
+      invalid_source: 'A origem deve ser instalada ou personalizada'
       installed_read_only: 'As ferramentas instaladas por meio de um manifesto são somente leitura. Você só pode ativá-las, desativá-las ou alterar a verificação de e-mail.'
       headers:
         invalid: 'deve ser um objeto com nomes e valores de cabeçalhos'
@@ -540,6 +644,27 @@ pt_BR:
         invalid: 'deve ser um objeto'
         unknown: 'possui configurações desconhecidas: %{names}'
         not_boolean: 'os valores devem ser verdadeiro ou falso'
+    param_sources:
+      invalid: 'As origens dos parâmetros de %{tool} devem ser um objeto'
+      unknown_param: '%{tool} não tem parâmetros com os nomes %{names}'
+      invalid_source: 'Em %{tool}, o parâmetro %{name} tem uma origem inválida'
+      fixed_value_blank: 'Em %{tool}, o parâmetro %{name} precisa de um valor fixo'
+      fixed_value_type: 'Em %{tool}, o parâmetro %{name} precisa de um valor fixo do tipo %{type}'
+      fixed_value_unsupported: 'Em %{tool}, o parâmetro %{name} é do tipo %{type} e não aceita um valor fixo'
+      one_verified_email: '%{tool} só pode ter um parâmetro de e-mail verificado'
+      verified_email_type: 'Em %{tool}, o parâmetro %{name} deve ser do tipo string para receber o e-mail verificado'
+    mcp_server:
+      disabled: 'Os servidores MCP estão desativados nesta conta'
+      token_rejected: 'O servidor rejeitou o token. Confira o token e o nome do cabeçalho.'
+      not_oauth: 'Este servidor não usa autenticação OAuth'
+      reserved_header: '%{name} é definido pela conexão MCP e não pode armazenar o token'
+      tools:
+        duplicate: 'Cada ferramenta só pode ser selecionada uma vez.'
+        invalid_selection: 'Cada ferramenta selecionada deve ser um objeto com o nome da ferramenta, e suas configurações devem ser um objeto'
+        missing: 'O servidor não oferece mais %{tool}.'
+        not_approved: '%{tool} ainda não foi aprovada. Selecione-a na lista de ferramentas para aprová-la.'
+        changed_again: '%{tool} mudou novamente no servidor. Revise a nova versão antes de aprová-la.'
+        name_clash: 'O Captain não consegue distinguir estas ferramentas: %{names}. Selecione apenas uma delas.'
     tools_manifest:
       invalid_source: 'Insira um conjunto de ferramentas do catálogo de ferramentas do Captain no formato chatwoot/tools/folder'
       invalid_configuration: 'Configuração inválida'
@@ -674,6 +799,7 @@ pt_BR:
       invalid_configuration: 'Configuração de analytics inválida'
     articles:
       captain_not_available: 'A tradução requer que o Captain esteja ativado para esta conta'
+      cannot_overwrite_original: "Não é possível traduzir para o idioma original do artigo. Edite o original diretamente."
       locale_not_available: 'Localidade não disponível neste portal'
       category_not_found: 'Categoria não encontrada neste portal'
       no_articles_found: 'Nenhum artigo encontrado para processar'
@@ -686,6 +812,8 @@ pt_BR:
       subject: 'Termine de configurar %{custom_domain}'
     ssl_status:
       custom_domain_not_configured: 'Domínio personalizado não está configurado'
+    remove_locale:
+      default_locale: 'O idioma padrão não pode ser removido'
   installation:
     onboarding:
       heading: 'Olá, boas-vindas ao Chatwoot 👋'
@@ -700,6 +828,9 @@ pt_BR:
       subscribe: 'Assine as notas de versão e newsletters e participe de pesquisas de opinião sobre o produto.'
       submit: 'Concluir Configuração'
   super_admin:
+    billing:
+      past_due: O pagamento da sua instalação está em atraso. Atualize a forma de pagamento ou pague a fatura pendente para evitar o cancelamento da assinatura.
+      resolve_payment: Resolver pagamento
     account_suspension:
       categories:
         spam: 'Spam'
@@ -762,7 +893,7 @@ pt_BR:
         conversation_completion: 'Avaliador de conclusão de conversas inativas'
         editor: 'Editores'
         assistant: 'Assistente'
-        copilot: 'Copilot'
+        copilot_workflows: 'Copilot'
         document_faq_generation: 'Geração de FAQs para documentos'
         conversation_faq_generation: 'Geração de FAQs para conversas'
         conversation_faq_matching: 'Correspondência de FAQs da conversa'
@@ -823,6 +954,12 @@ pt_BR:
       password: 'Senha'
       password_placeholder: 'Senha'
       submit: 'Entrar'
+      mfa_code: 'Código de autenticação'
+      mfa_code_placeholder: 'Código de 6 dígitos ou código de recuperação'
+      mfa_submit: 'Verificar'
+      mfa_invalid: 'Código inválido. Por favor, tente novamente.'
+      mfa_expired: 'Sua tentativa de login expirou. Por favor, entre novamente.'
+      mfa_attempts_exhausted: 'Muitas tentativas com códigos inválidos. Por favor, tente novamente em alguns minutos.'
     navigation:
       label: 'Super Administrador'
       suffix: 'Console do Super Administrador'
@@ -933,7 +1070,7 @@ pt_BR:
           other: 'Nenhum tipo de notificação push está habilitado para %{names}. Este usuário não recebe notificações push dessas contas.'
       calls:
         heading: 'Chamadas recebidas'
-        description: 'Define se uma chamada toca no telefone deste usuário enquanto o aplicativo está em segundo plano ou fechado. Com o aplicativo aberto, as chamadas tocam pela conexão ativa.'
+        description: "Define se o telefone deste usuário toca ao receber chamadas quando o aplicativo está fechado ou em segundo plano. Com o aplicativo aberto, as chamadas elegíveis tocam pela conexão ativa."
         accounts_heading: 'Contas'
         setup:
           heading: 'Configuração de push'
@@ -969,6 +1106,7 @@ pt_BR:
           ringing_off: 'Não, as Chamadas no celular estão desativadas'
           no_inboxes: 'Não, não há caixas de entrada de voz'
           not_online: 'Não, não está online'
+          calls_off: 'Não, Receber chamadas de voz está desativado'
           no_device: 'Não, nenhum telefone registrado'
           push_unavailable: 'Somente com o aplicativo aberto'
         assigned_only: 'Chamadas atribuídas ao usuário'
@@ -1028,6 +1166,8 @@ pt_BR:
       agents_over_limit: 'Você tem %{count} agentes. Adicione mais licenças para adicionar mais usuários.'
       current_plan: 'Plano atual'
       refresh: 'Atualizar'
+      refresh_succeeded: 'Status da instância atualizado'
+      refresh_failed: 'Não foi possível conectar ao Chatwoot Hub. Tente novamente mais tarde.'
       manage: 'Gerenciar'
       installation_identifier: 'Identificador da Instalação'
       need_help: 'Precisa de ajuda?'

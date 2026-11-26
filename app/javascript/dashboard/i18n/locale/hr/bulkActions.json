@@ -1,10 +1,10 @@
 {
   "BULK_ACTION": {
     "CONVERSATIONS_SELECTED": "{conversationCount} conversations selected",
-    "NONE": "None",
-    "CLEAR_SELECTION": "Clear",
-    "ASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {agentName}? | Are you sure you want to assign {n} conversations to {agentName}?",
-    "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
+    "NONE": "Nijedno",
+    "CLEAR_SELECTION": "Očisti",
+    "ASSIGN_AGENT_CONFIRMATION_LABEL": "Želite li dodijeliti {n} razgovor djelatniku {agentName}? | Želite li dodijeliti {n} razgovora djelatniku {agentName}?",
+    "UNASSIGN_AGENT_CONFIRMATION_LABEL": "Želite li ukloniti dodjelu djelatnika za {n} razgovor? | Želite li ukloniti dodjelu djelatnika za {n} razgovora?",
     "YES": "Yes",
     "CANCEL": "Odustani",
     "SEARCH_INPUT_PLACEHOLDER": "Search",
@@ -27,26 +27,26 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "Assign labels",
-      "REMOVE_LABELS": "Remove labels",
+      "REMOVE_LABELS": "Ukloni oznake",
       "ASSIGN_SELECTED_LABELS": "Assign selected labels",
-      "REMOVE_SELECTED_LABELS": "Remove selected labels",
+      "REMOVE_SELECTED_LABELS": "Ukloni odabrane oznake",
       "ASSIGN_SUCCESFUL": "Labels assigned successfully.",
       "ASSIGN_FAILED": "Failed to assign labels. Please try again.",
-      "REMOVE_SUCCESFUL": "Labels removed successfully.",
-      "REMOVE_FAILED": "Failed to remove labels. Please try again."
+      "REMOVE_SUCCESFUL": "Oznake su uspješno uklonjene.",
+      "REMOVE_FAILED": "Uklanjanje oznaka nije uspjelo. Pokušajte ponovno."
     },
     "TEAMS": {
       "NONE": "None",
-      "ASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to assign {n} conversation to {teamName}? | Are you sure you want to assign {n} conversations to {teamName}?",
-      "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Are you sure you want to unassign {n} conversation? | Are you sure you want to unassign {n} conversations?",
+      "ASSIGN_TEAM_CONFIRMATION_LABEL": "Želite li dodijeliti {n} razgovor timu {teamName}? | Želite li dodijeliti {n} razgovora timu {teamName}?",
+      "UNASSIGN_TEAM_CONFIRMATION_LABEL": "Želite li ukloniti dodjelu tima za {n} razgovor? | Želite li ukloniti dodjelu tima za {n} razgovora?",
       "ASSIGN_SUCCESFUL": "Teams assigned successfully.",
       "ASSIGN_FAILED": "Failed to assign team. Please try again."
     },
     "MACROS": {
-      "EXECUTE_MACRO": "Execute macro",
-      "EXECUTE_CONFIRMATION_LABEL": "Are you sure you want to run {macroName} on {n} conversation? | Are you sure you want to run {macroName} on {n} conversations?",
-      "QUEUED": "Macro queued for {count} conversation. | Macro queued for {count} conversations.",
-      "QUEUED_WITH_MISSING_ATTRIBUTES": "Macro queued for {count} conversation. It currently lacks required attributes and may remain open. | Macro queued for {count} conversations. At least one currently lacks required attributes and may remain open."
+      "EXECUTE_MACRO": "Pokreni makronaredbu",
+      "EXECUTE_CONFIRMATION_LABEL": "Želite li pokrenuti makronaredbu {macroName} za {n} razgovor? | Želite li pokrenuti makronaredbu {macroName} za {n} razgovora?",
+      "QUEUED": "Makronaredba je dodana u red čekanja za {count} razgovor. | Makronaredba je dodana u red čekanja za {count} razgovora.",
+      "QUEUED_WITH_MISSING_ATTRIBUTES": "Makronaredba je dodana u red čekanja za {count} razgovor. Trenutačno mu nedostaju obavezni atributi pa može ostati otvoren. | Makronaredba je dodana u red čekanja za {count} razgovora. Najmanje jednom trenutačno nedostaju obavezni atributi pa može ostati otvoren."
     }
   }
 }

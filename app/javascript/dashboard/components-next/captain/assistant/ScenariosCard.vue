@@ -209,7 +209,7 @@ const LINK_INSTRUCTION_CLASS =
         <div ref="instructionContentRef">
           <p
             v-dompurify-html:toolLinks="formatMessage(instruction, false)"
-            class="text-sm text-n-slate-12 py-4 mb-0 prose prose-sm min-w-0 break-words max-w-none"
+            class="text-sm text-n-slate-12 py-4 mb-0 prose prose-bubble min-w-0 break-words max-w-none"
             :class="LINK_INSTRUCTION_CLASS"
           />
         </div>

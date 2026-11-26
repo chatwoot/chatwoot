@@ -82,6 +82,18 @@ const handleDismiss = slug => {
   }, 200);
 };
 
+const handleDismissAll = () => {
+  const slugs = unDismissedPosts.value.map(post => post.slug);
+  dismissingCards.value = slugs;
+  setTimeout(() => {
+    // Skips MAX_DISMISSED_SLUGS so posts past the cap don't come back; fetchChangelog prunes stale slugs
+    updateUISettings({
+      changelog_dismissed_slugs: [...dismissedSlugs.value, ...slugs],
+    });
+    dismissingCards.value = [];
+  }, 200);
+};
+
 const handleReadMore = () => {
   const currentPost = unDismissedPosts.value[currentIndex.value];
   if (currentPost?.slug) {
@@ -114,6 +126,7 @@ onMounted(() => {
     class="min-h-[240px] z-10"
     @read-more="handleReadMore"
     @dismiss="handleDismiss"
+    @dismiss-all="handleDismissAll"
     @img-click="handleImgClick"
   />
   <template v-else />

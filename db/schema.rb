@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2026_11_03_142055) do
+ActiveRecord::Schema[7.1].define(version: 2026_11_25_100456) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -436,7 +436,6 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_03_142055) do
     t.index ["account_id"], name: "index_captain_assistant_responses_on_account_id"
     t.index ["assistant_id"], name: "index_captain_assistant_responses_on_assistant_id"
     t.index ["documentable_id", "documentable_type"], name: "idx_cap_asst_resp_on_documentable"
-    t.index ["embedding"], name: "vector_idx_knowledge_entries_embedding", using: :ivfflat
     t.index ["status"], name: "index_captain_assistant_responses_on_status"
   end
 
@@ -537,6 +536,42 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_03_142055) do
     t.index ["captain_assistant_id", "inbox_id"], name: "index_captain_inboxes_on_captain_assistant_id_and_inbox_id", unique: true
     t.index ["captain_assistant_id"], name: "index_captain_inboxes_on_captain_assistant_id"
     t.index ["inbox_id"], name: "index_captain_inboxes_on_inbox_id"
+  end
+
+  create_table "captain_mcp_servers", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "assistant_id", null: false
+    t.text "url", null: false
+    t.string "name", null: false
+    t.string "auth_type", default: "none", null: false
+    t.string "auth_header"
+    t.jsonb "auth_config", default: {}
+    t.jsonb "oauth_credentials", default: {}
+    t.string "status", default: "active", null: false
+    t.text "last_error"
+    t.boolean "enabled", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_captain_mcp_servers_on_account_id"
+    t.index ["assistant_id", "url"], name: "index_captain_mcp_servers_on_assistant_id_and_url", unique: true
+  end
+
+  create_table "captain_mcp_tools", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "mcp_server_id", null: false
+    t.string "name", null: false
+    t.string "captain_name", null: false
+    t.jsonb "approved_definition", default: {}, null: false
+    t.string "approved_digest", null: false
+    t.jsonb "param_sources", default: {}, null: false
+    t.jsonb "settings", default: {}, null: false
+    t.boolean "enabled", default: true, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "review_state", default: "current", null: false
+    t.index ["account_id"], name: "index_captain_mcp_tools_on_account_id"
+    t.index ["captain_name"], name: "index_captain_mcp_tools_on_captain_name", unique: true
+    t.index ["mcp_server_id", "name"], name: "index_captain_mcp_tools_on_mcp_server_id_and_name", unique: true
   end
 
   create_table "captain_message_reports", force: :cascade do |t|
@@ -650,12 +685,14 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_03_142055) do
 
   create_table "channel_instagram", force: :cascade do |t|
     t.string "access_token", null: false
-    t.datetime "expires_at", null: false
+    t.datetime "expires_at"
     t.integer "account_id", null: false
     t.string "instagram_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "provider_name"
+    t.string "auth_type", default: "instagram_login", null: false
+    t.string "configuration_id"
     t.index ["instagram_id"], name: "index_channel_instagram_on_instagram_id", unique: true
   end
 
@@ -676,6 +713,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_03_142055) do
     t.jsonb "provider_config", default: {}
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "secret"
+    t.boolean "callback_auth_enforced", default: true, null: false
     t.index ["phone_number"], name: "index_channel_sms_on_phone_number", unique: true
   end
 
@@ -796,6 +835,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_03_142055) do
     t.boolean "hmac_verified", default: false
     t.string "pubsub_token"
     t.index ["contact_id"], name: "index_contact_inboxes_on_contact_id"
+    t.index ["contact_id", "inbox_id"], name: "index_contact_inboxes_on_contact_id_and_inbox_id"
     t.index ["inbox_id", "source_id"], name: "index_contact_inboxes_on_inbox_id_and_source_id", unique: true
     t.index ["inbox_id"], name: "index_contact_inboxes_on_inbox_id"
     t.index ["pubsub_token"], name: "index_contact_inboxes_on_pubsub_token", unique: true
@@ -942,6 +982,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_03_142055) do
     t.datetime "updated_at", null: false
     t.string "icon", default: "chat-3-line", null: false
     t.string "icon_color", default: "#3B82F6", null: false
+    t.string "slack_channel_id"
     t.index ["account_id"], name: "index_conversation_monitors_on_account_id"
     t.index ["user_id"], name: "index_conversation_monitors_on_user_id"
   end
@@ -1018,9 +1059,12 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_03_142055) do
     t.bigint "assignee_agent_bot_id"
     t.string "ai_assignee_type"
     t.datetime "status_changed_at"
+    t.datetime "last_message_at"
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"
     t.index ["account_id", "inbox_id", "status", "assignee_id"], name: "conv_acid_inbid_stat_asgnid_idx"
+    t.index ["account_id", "last_message_at", "display_id"], name: "index_conversations_on_account_newest_message", order: { last_message_at: "DESC NULLS LAST", display_id: :desc }
+    t.index ["account_id", "last_message_at", "display_id"], name: "index_conversations_on_account_oldest_message"
     t.index ["account_id", "status", "created_at"], name: "index_conversations_on_account_id_status_created_at"
     t.index ["account_id"], name: "index_conversations_on_account_id"
     t.index ["assignee_id", "account_id"], name: "index_conversations_on_assignee_id_and_account_id"
@@ -1032,6 +1076,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_03_142055) do
     t.index ["identifier", "account_id"], name: "index_conversations_on_identifier_and_account_id"
     t.index ["inbox_id"], name: "index_conversations_on_inbox_id"
     t.index ["priority"], name: "index_conversations_on_priority"
+    t.index ["sla_policy_id"], name: "index_conversations_on_sla_policy_id", where: "(sla_policy_id IS NOT NULL)"
     t.index ["status", "account_id"], name: "index_conversations_on_status_and_account_id"
     t.index ["status", "priority"], name: "index_conversations_on_status_and_priority"
     t.index ["team_id"], name: "index_conversations_on_team_id"
@@ -1206,6 +1251,28 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_03_142055) do
     t.index ["user_id"], name: "index_dashboard_apps_on_user_id"
   end
 
+  create_table "data_exports", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "initiated_by_id"
+    t.string "name", null: false
+    t.string "data_type", default: "contacts", null: false
+    t.integer "status", default: 0, null: false
+    t.jsonb "export_options", default: {}, null: false
+    t.string "active_run_id"
+    t.integer "processed_records", default: 0, null: false
+    t.integer "total_records"
+    t.text "error_message"
+    t.datetime "started_at"
+    t.datetime "completed_at"
+    t.datetime "notification_sent_at"
+    t.datetime "artifacts_expired_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "id"], name: "index_data_exports_on_account_id_and_id"
+    t.index ["completed_at"], name: "index_data_exports_on_unexpired_completion", where: "(artifacts_expired_at IS NULL)"
+    t.index ["initiated_by_id"], name: "index_data_exports_on_initiated_by_id"
+  end
+
   create_table "data_import_errors", force: :cascade do |t|
     t.bigint "data_import_id", null: false
     t.bigint "data_import_item_id"
@@ -1235,6 +1302,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_03_142055) do
     t.jsonb "metadata", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["data_import_id", "id"], name: "index_pending_data_import_items", where: "(status = 0)"
     t.index ["chatwoot_record_type", "chatwoot_record_id"], name: "idx_data_import_items_on_record"
     t.index ["data_import_id", "source_object_type", "source_object_id"], name: "idx_data_import_items_on_import_and_source", unique: true
     t.index ["data_import_id"], name: "index_data_import_items_on_data_import_id"
@@ -1467,6 +1535,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_03_142055) do
     t.index ["account_id", "inbox_id"], name: "index_messages_on_account_id_and_inbox_id"
     t.index ["account_id"], name: "index_messages_on_account_id"
     t.index ["content"], name: "index_messages_on_content", opclass: :gin_trgm_ops, using: :gin
+    t.index ["conversation_id", "account_id", "created_at"], name: "index_messages_on_conv_account_created_desc", order: { created_at: :desc }
     t.index ["conversation_id", "account_id", "message_type", "created_at"], name: "index_messages_on_conversation_account_type_created"
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
     t.index ["created_at"], name: "index_messages_on_created_at"
@@ -1607,6 +1676,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_03_142055) do
     t.float "value_in_business_hours"
     t.datetime "event_start_time", precision: nil
     t.datetime "event_end_time", precision: nil
+    t.index ["account_id", "created_at"], name: "index_reporting_events_on_account_id_and_created_at"
     t.index ["account_id", "name", "created_at"], name: "reporting_events__account_id__name__created_at"
     t.index ["account_id", "name", "inbox_id", "created_at"], name: "index_reporting_events_for_response_distribution"
     t.index ["account_id"], name: "index_reporting_events_on_account_id"
@@ -1832,6 +1902,8 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_03_142055) do
   add_foreign_key "conversation_monitor_work_items", "conversations", on_delete: :cascade
   add_foreign_key "conversation_monitors", "accounts", on_delete: :cascade
   add_foreign_key "conversation_monitors", "users", on_delete: :nullify
+  add_foreign_key "data_exports", "accounts"
+  add_foreign_key "data_exports", "users", column: "initiated_by_id", on_delete: :nullify
   add_foreign_key "inboxes", "portals"
   add_foreign_key "shopify_custom_apps", "accounts"
   add_foreign_key "user_sessions", "users"

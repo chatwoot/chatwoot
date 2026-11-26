@@ -57,7 +57,7 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
 
   def destroy
     Current.account.with_lock do
-      @hook.destroy!
+      destroy_integration_hook!
       Current.account.shopify_custom_app&.destroy!
     end
     head :ok

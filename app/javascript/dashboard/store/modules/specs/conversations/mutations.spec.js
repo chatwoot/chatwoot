@@ -13,6 +13,37 @@ vi.mock('shared/helpers/mitt', () => ({
 import { emitter } from 'shared/helpers/mitt';
 
 describe('#mutations', () => {
+  it('preserves the latest public time across message events, conversation updates and page refreshes', () => {
+    const state = {
+      allConversations: [{ id: 1, messages: [], updated_at: 10 }],
+      selectedChatId: null,
+    };
+    const message = {
+      id: 9,
+      conversation_id: 1,
+      created_at: 20,
+      conversation: { last_message_at: 20.5 },
+    };
+    mutations[types.ADD_MESSAGE](state, message);
+    expect(state.allConversations[0].last_message_at).toBe(20.5);
+    mutations[types.ADD_MESSAGE](state, {
+      ...message,
+      id: 10,
+      private: true,
+      conversation: { last_message_at: 15 },
+    });
+    mutations[types.UPDATE_CONVERSATION](state, {
+      id: 1,
+      updated_at: 30,
+      last_message_at: null,
+    });
+    mutations[types.SET_ALL_CONVERSATION](state, [
+      { id: 1, last_message_at: 18 },
+    ]);
+    mutations[types.REPLACE_CONVERSATION_LIST](state, [{ id: 1 }]);
+    expect(state.allConversations[0].last_message_at).toBe(20.5);
+  });
+
   describe('#EMPTY_ALL_CONVERSATION', () => {
     it('empty conversations', () => {
       const state = { allConversations: [{ id: 1 }], selectedChatId: 1 };

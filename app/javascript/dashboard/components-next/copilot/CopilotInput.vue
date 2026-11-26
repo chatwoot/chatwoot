@@ -6,10 +6,20 @@ const props = defineProps({
     type: Function,
     required: true,
   },
+  // While Copilot works, the button stops it instead of sending. The agent can still type the next message.
+  isWorking: {
+    type: Boolean,
+    default: false,
+  },
+  onStop: {
+    type: Function,
+    default: () => {},
+  },
 });
 const message = defineModel({ type: String, default: '' });
 const textareaRef = ref(null);
 const isSending = ref(false);
+const isStopping = ref(false);
 
 const adjustHeight = () => {
   if (!textareaRef.value) return;
@@ -24,7 +34,7 @@ const focus = () => textareaRef.value?.focus();
 
 const sendMessage = async () => {
   const sentMessage = message.value;
-  if (!sentMessage.trim() || isSending.value) return;
+  if (!sentMessage.trim() || isSending.value || props.isWorking) return;
 
   isSending.value = true;
   // A click on the send button moves focus to it, and the button stays disabled until the request ends.
@@ -43,6 +53,15 @@ const sendMessage = async () => {
     }
   } finally {
     isSending.value = false;
+  }
+};
+
+const stop = async () => {
+  isStopping.value = true;
+  try {
+    await props.onStop();
+  } finally {
+    isStopping.value = false;
   }
 };
 
@@ -75,8 +94,20 @@ onMounted(() => {
       @keydown.enter.exact="handleEnterKey"
     />
     <button
+      v-if="isWorking"
+      :disabled="isStopping"
+      :aria-label="$t('CAPTAIN.COPILOT.STOP')"
+      :title="$t('CAPTAIN.COPILOT.STOP')"
+      class="absolute end-1 top-1/2 -translate-y-1/2 h-9 w-10 flex items-center justify-center text-n-slate-11 hover:text-n-blue-11 disabled:cursor-not-allowed disabled:opacity-60"
+      type="button"
+      @click="stop"
+    >
+      <i class="i-ph-stop-fill" />
+    </button>
+    <button
+      v-else
       :disabled="isSending"
-      class="absolute ltr:right-1 rtl:left-1 top-1/2 -translate-y-1/2 h-9 w-10 flex items-center justify-center text-n-slate-11 hover:text-n-blue-11 disabled:cursor-not-allowed disabled:opacity-60"
+      class="absolute end-1 top-1/2 -translate-y-1/2 h-9 w-10 flex items-center justify-center text-n-slate-11 hover:text-n-blue-11 disabled:cursor-not-allowed disabled:opacity-60"
       type="submit"
     >
       <i class="i-ph-arrow-up" />

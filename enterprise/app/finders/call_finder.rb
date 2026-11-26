@@ -21,9 +21,6 @@ class CallFinder
 
   private
 
-  # Admins and report managers see the whole account; everyone else only sees calls they
-  # handled within conversations they can still access. A request for ringing calls is
-  # the ring's recovery, so everyone gets only their own calls and the rings meant for them.
   def filter_by_visibility
     own = @calls.where(accepted_by_agent_id: @current_user.id, conversation_id: accessible_conversations)
     if ringing_requested?
@@ -89,7 +86,8 @@ class CallFinder
   end
 
   def paginated_calls
-    @calls.includes(:contact, :conversation, :accepted_by_agent, inbox: :channel)
+    # Preloads the recording because every row renders recording_url
+    @calls.includes(:contact, :conversation, :accepted_by_agent, inbox: :channel, recording_attachment: :blob)
           .order(created_at: :desc)
           .page(@params[:page] || 1)
           .per(RESULTS_PER_PAGE)

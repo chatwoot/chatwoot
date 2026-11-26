@@ -15,7 +15,7 @@ RSpec.describe Captain::Tools::SearchDocumentationService do
 
   describe '#description' do
     it 'returns the service description' do
-      expect(service.description).to eq('Search and retrieve documentation from knowledge base')
+      expect(service.description).to start_with("Search the business's own approved FAQs")
     end
   end
 

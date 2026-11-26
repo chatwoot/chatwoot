@@ -13,6 +13,39 @@ RSpec.describe Captain::Copilot::TurnService do
     InstallationConfig.find_or_create_by(name: 'CAPTAIN_OPEN_AI_API_KEY') { |config| config.value = 'test-key' }
   end
 
+  it 'answers with its own prompt, which names the business and leaves out the old prompt' do
+    thread.assistant.update!(config: thread.assistant.config.merge('product_name' => 'Acme Travel', 'feature_citation' => true))
+    prompt = service.instance_variable_get(:@messages).first[:content]
+
+    expect(prompt).to start_with('You are Copilot').and include('support the customers of Acme Travel')
+    expect(prompt).not_to include('[Identity]')
+  end
+
+  it 'sends account problems to Chatwoot support only on Cloud, and to the installation administrator when self-hosted' do
+    allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
+    cloud = described_class.new(run, run.claim).instance_variable_get(:@messages).first[:content]
+    allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
+    self_hosted = described_class.new(run, run.claim).instance_variable_get(:@messages).first[:content]
+
+    expect(cloud).to include("suggest Chatwoot support or the account's administrator, who can.")
+    expect(self_hosted).to include('suggest the administrator of this Chatwoot installation, who can.')
+    expect(self_hosted).not_to include('Chatwoot support')
+  end
+
+  it 'offers the Chatwoot docs search only when its URL is set, and tells Copilot to use it' do
+    allow(GlobalConfig).to receive(:get_value).and_call_original
+    allow(GlobalConfig).to receive(:get_value).with('CAPTAIN_CHATWOOT_DOCS_URL').and_return('https://docs.example.com/hc/user-guide')
+    with_docs = described_class.new(run, run.claim)
+    allow(GlobalConfig).to receive(:get_value).with('CAPTAIN_CHATWOOT_DOCS_URL').and_return('')
+    without_docs = described_class.new(run, run.claim)
+
+    expect(with_docs.instance_variable_get(:@tools).map(&:name)).to include('search_chatwoot_docs')
+    expect(with_docs.instance_variable_get(:@messages).first[:content]).to include('call search_chatwoot_docs first')
+    expect(without_docs.instance_variable_get(:@tools).map(&:name)).not_to include('search_chatwoot_docs')
+    expect(without_docs.instance_variable_get(:@messages).first[:content]).to include("you cannot check Chatwoot's documentation")
+    expect(without_docs.instance_variable_get(:@messages).first[:content]).not_to include('search_chatwoot_docs')
+  end
+
   # RubyLLM calls these around every tool call.
   it 'writes one plain line per step, marks a failed step, and adds a warning line for a failed tool without a step line' do
     service.send(:start_tool_call, RubyLLM::ToolCall.new(id: 'call-1', name: 'search_contacts', arguments: {}))

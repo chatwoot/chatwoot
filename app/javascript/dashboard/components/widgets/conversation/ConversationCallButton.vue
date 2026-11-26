@@ -14,6 +14,7 @@ import { useWhatsappCallSession } from 'dashboard/composables/useWhatsappCallSes
 import { useCallsStore } from 'dashboard/stores/calls';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { dateFormat } from 'shared/helpers/timeHelper';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { useAlert } from 'dashboard/composables';
 import { ExceptionWithMessage } from 'shared/helpers/CustomErrors';
@@ -62,9 +63,34 @@ const isCallButtonLoading = computed(() =>
     : !!contactsUiFlags.value?.isInitiatingCall
 );
 
+const getContact = useMapGetter('contacts/getContact');
+
+// Saved from the customer's WhatsApp answer; with it, the call connects without a permission request
+const callbackPermission = computed(() => {
+  const sender = props.chat?.meta?.sender;
+  const attributes =
+    getContact.value?.(sender?.id)?.additional_attributes ||
+    sender?.additional_attributes;
+  return attributes?.whatsapp_call_permissions?.[props.inbox?.id];
+});
+
+const whatsappCallTooltip = computed(() => {
+  const permission = callbackPermission.value;
+  if (permission?.permanent) {
+    return t('CONVERSATION.HEADER.WHATSAPP_CALL_CAN_CALL_BACK');
+  }
+  const expiresAt = Date.parse(permission?.expires_at);
+  if (expiresAt > Date.now()) {
+    return t('CONVERSATION.HEADER.WHATSAPP_CALL_CAN_CALL_BACK_UNTIL', {
+      date: dateFormat(expiresAt / 1000, 'd MMM'),
+    });
+  }
+  return t('CONVERSATION.HEADER.WHATSAPP_CALL');
+});
+
 const callButtonTooltip = computed(() =>
   isWhatsappVoiceInbox.value
-    ? t('CONVERSATION.HEADER.WHATSAPP_CALL')
+    ? whatsappCallTooltip.value
     : t('CONVERSATION.HEADER.VOICE_CALL')
 );
 
@@ -100,7 +126,11 @@ const startWhatsappCall = async () => {
       provider: VOICE_CALL_PROVIDERS.WHATSAPP,
     });
   } catch (error) {
-    useAlert(error?.message || t('CONVERSATION.HEADER.WHATSAPP_CALL_FAILED'));
+    useAlert(
+      error?.response?.data?.error ||
+        error?.message ||
+        t('CONVERSATION.HEADER.WHATSAPP_CALL_FAILED')
+    );
   }
 };
 
@@ -118,6 +148,7 @@ const startTwilioCall = async () => {
       conversationId: response?.conversation_id ?? props.chat.id,
       inboxId: props.inbox?.id,
       callDirection: VOICE_CALL_DIRECTION.OUTBOUND,
+      provider: VOICE_CALL_PROVIDERS.TWILIO,
     });
   } catch (error) {
     useAlert(

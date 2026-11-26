@@ -24,9 +24,14 @@ describe Webhooks::Twitter do
     end
 
     context 'with direct_message attachment params' do
+      let!(:media_request) do
+        stub_request(:get, 'https://pbs.twimg.com/media/DOhM30VVwAEpIHq.jpg')
+          .with(headers: { 'Authorization' => /\AOAuth / })
+          .to_return(status: 200, body: 'image', headers: { 'Content-Type' => 'image/jpeg' })
+      end
+
       before do
-        stub_request(:get, 'http://pbs.twimg.com/media/DOhM30VVwAEpIHq.jpg')
-          .to_return(status: 200, body: '', headers: {})
+        allow(SsrfFilter::DEFAULT_RESOLVER).to receive(:call).with('pbs.twimg.com').and_return([IPAddr.new('93.184.216.34')])
       end
 
       it 'creates incoming message with attachments in the twitter inbox' do
@@ -35,6 +40,30 @@ describe Webhooks::Twitter do
         expect(twitter_inbox.conversations.count).to be 1
         expect(twitter_inbox.messages.count).to be 1
         expect(twitter_inbox.messages.last.attachments.count).to be 1
+        expect(media_request).to have_been_requested
+      end
+
+      it 'does not download media from hosts other than twitter media hosts' do
+        other_request = stub_request(:get, 'https://example.com/image.jpg').to_return(status: 200, body: 'image')
+        dm_image_params[:direct_message_events][0][:message_create][:message_data][:attachment][:media].merge!(
+          media_url: 'https://example.com/image.jpg', media_url_https: 'https://example.com/image.jpg'
+        )
+
+        twitter_webhook.new(dm_image_params).consume
+
+        expect(twitter_inbox.messages.count).to be 1
+        expect(twitter_inbox.messages.last.attachments.count).to be 0
+        expect(other_request).not_to have_been_requested
+      end
+
+      it 'does not download media over plain http' do
+        http_request = stub_request(:get, 'http://pbs.twimg.com/media/DOhM30VVwAEpIHq.jpg').to_return(status: 200, body: 'image')
+        dm_image_params[:direct_message_events][0][:message_create][:message_data][:attachment][:media].delete(:media_url_https)
+
+        twitter_webhook.new(dm_image_params).consume
+
+        expect(twitter_inbox.messages.last.attachments.count).to be 0
+        expect(http_request).not_to have_been_requested
       end
     end
 

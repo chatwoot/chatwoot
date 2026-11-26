@@ -7,6 +7,7 @@
     "PLACEHOLDER": "Izberite možnost ...",
     "EMPTY_SEARCH_RESULTS": "No items found for the search term `{searchTerm}`",
     "EMPTY_STATE": "Ni rezultatov.",
+    "LOADING": "Nalaganje...",
     "SEARCH_PLACEHOLDER": "Iskanje ...",
     "MORE": "+{count} more"
   },

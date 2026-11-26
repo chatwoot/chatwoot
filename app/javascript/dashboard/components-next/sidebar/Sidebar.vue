@@ -110,10 +110,10 @@ const hasFilteredUnreadCounts = computed(() => {
   );
 });
 
-const hasDataImport = computed(() => {
+const hasCaptainMcpServers = computed(() => {
   return isFeatureEnabledonAccount.value(
     accountId.value,
-    FEATURE_FLAGS.DATA_IMPORT
+    FEATURE_FLAGS.CAPTAIN_MCP_SERVERS
   );
 });
 
@@ -575,8 +575,16 @@ const menuItems = computed(() => {
         },
         {
           name: 'Tools',
-          label: t('SIDEBAR.CAPTAIN_TOOLS'),
-          activeOn: ['captain_tools_index', 'captain_tools_explore'],
+          label: hasCaptainMcpServers.value
+            ? t('SIDEBAR.CAPTAIN_TOOLS_AND_MCP')
+            : t('SIDEBAR.CAPTAIN_TOOLS'),
+          activeOn: [
+            'captain_tools_index',
+            'captain_tools_installed',
+            'captain_tools_custom',
+            'captain_tools_explore',
+            'captain_mcp_servers_index',
+          ],
           to: accountScopedRoute('captain_assistants_index', {
             navigationPath: 'captain_tools_index',
           }),
@@ -925,16 +933,12 @@ const menuItems = computed(() => {
           icon: 'i-lucide-blocks',
           to: accountScopedRoute('settings_applications'),
         },
-        ...(hasDataImport.value
-          ? [
-              {
-                name: 'Settings Data',
-                label: t('SIDEBAR.DATA'),
-                icon: 'i-lucide-database',
-                to: accountScopedRoute('settings_data_imports'),
-              },
-            ]
-          : []),
+        {
+          name: 'Settings Data',
+          label: t('SIDEBAR.DATA'),
+          icon: 'i-lucide-database',
+          to: accountScopedRoute('settings_data_imports'),
+        },
         {
           name: 'Settings Audit Logs',
           label: t('SIDEBAR.AUDIT_LOGS'),

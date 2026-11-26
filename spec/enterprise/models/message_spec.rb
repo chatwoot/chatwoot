@@ -201,6 +201,16 @@ RSpec.describe Message do
       expect([template, reply].map { |message| message.content_attributes['translation_pending'] }).to eq([true, true])
     end
 
+    it 'marks fixed texts that a bot flags for the contact language' do
+      assistant = create(:captain_assistant, account: conversation.account)
+      fixed_text = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :outgoing,
+                                    sender: assistant, content: 'Hello', content_attributes: { 'translate_for_contact' => true })
+      reply = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :outgoing,
+                               sender: assistant, content: 'Hello')
+
+      expect([fixed_text, reply].map { |message| message.content_attributes.key?('translation_pending') }).to eq([true, false])
+    end
+
     it 'leaves contact messages, private notes, bot replies, activity and forwarded replies alone' do
       incoming = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :incoming,
                                   content: 'Bonjour')
@@ -222,6 +232,16 @@ RSpec.describe Message do
                                sender: agent, content: 'Hello')
 
       expect(reply.content_attributes).not_to have_key('translation_pending')
+    end
+
+    it 'does nothing while auto translate is off for the conversation' do
+      conversation.update!(auto_translate_disabled: true)
+      template = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :template,
+                                  content: 'Hello')
+      reply = create(:message, account: conversation.account, inbox: conversation.inbox, conversation: conversation, message_type: :outgoing,
+                               sender: agent, content: 'Hello')
+
+      expect([template, reply].map { |message| message.content_attributes.key?('translation_pending') }).to eq([false, false])
     end
   end
 end

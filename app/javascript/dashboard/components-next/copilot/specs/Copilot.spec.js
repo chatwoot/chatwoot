@@ -9,6 +9,8 @@ import CopilotThinkingGroup from '../CopilotThinkingGroup.vue';
 import CopilotReviewProgress from '../CopilotReviewProgress.vue';
 import CopilotLoader from '../CopilotLoader.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
+import Label from 'dashboard/components-next/label/Label.vue';
+import { useTrack } from 'dashboard/composables';
 
 vi.mock('vue-i18n', () => ({
   useI18n: () => ({ t: key => key }),
@@ -56,6 +58,18 @@ describe('Copilot', () => {
     ).toEqual(['History', 'New chat', 'GENERAL.CLOSE']);
   });
 
+  it('offers Stop while Copilot works on a message, but not in a new chat', () => {
+    const assistants = [{ id: 7, name: 'Support' }];
+    const working = mountComponent({
+      assistants,
+      messages: [{ id: 1, message_type: 'user', message: { content: 'Hi' } }],
+    });
+    const empty = mountComponent({ assistants, messages: [] });
+
+    expect(working.findComponent(CopilotInput).props('isWorking')).toBe(true);
+    expect(empty.findComponent(CopilotInput).props('isWorking')).toBe(false);
+  });
+
   it('opens a past chat and starts a new one', async () => {
     const thread = { id: 42, title: 'Older question' };
     const wrapper = mountComponent({ threads: [thread] });
@@ -71,6 +85,23 @@ describe('Copilot', () => {
 
     await header.vm.$emit('click', 'new');
     expect(wrapper.emitted('reset')).toHaveLength(1);
+  });
+
+  it('leaves the history view when a chat is selected from outside the panel', async () => {
+    const thread = { id: 42, title: 'Older question' };
+    const wrapper = mountComponent({ threads: [thread] });
+    const header = wrapper.findComponent(SidebarActionsHeader);
+    const historyRow = () =>
+      wrapper
+        .findAll('button')
+        .find(button => button.text().includes(thread.title));
+
+    await header.vm.$emit('click', 'history');
+    expect(historyRow()).toBeDefined();
+
+    await wrapper.setProps({ selectedThreadId: 99 });
+
+    expect(historyRow()).toBeUndefined();
   });
 
   it('hides the assistant selector for a saved chat', () => {
@@ -162,6 +193,33 @@ describe('Copilot', () => {
     }
   );
 
+  it('stops working when the agent stops their message, until they send another', () => {
+    const assistants = [{ id: 7, name: 'Support' }];
+    const stopped = {
+      id: 1,
+      message_type: 'user',
+      message: { content: 'Hi', status: 'stopped' },
+    };
+    const wrapper = mountComponent({
+      assistants,
+      messages: [stopped, step(2, 'Finding matching records')],
+    });
+    const next = mountComponent({
+      assistants,
+      messages: [
+        stopped,
+        { id: 3, message_type: 'user', message: { content: 'And now?' } },
+      ],
+    });
+
+    expect(wrapper.findComponent(CopilotInput).props('isWorking')).toBe(false);
+    expect(wrapper.findComponent(CopilotLoader).exists()).toBe(false);
+    expect(wrapper.findComponent(CopilotThinkingGroup).props('isActive')).toBe(
+      false
+    );
+    expect(next.findComponent(CopilotInput).props('isWorking')).toBe(true);
+  });
+
   it('shows only the newest step while Copilot works on it', async () => {
     const wrapper = mount(CopilotThinkingGroup, {
       props: {
@@ -239,6 +297,86 @@ describe('Copilot', () => {
     ]);
     expect(wrapper.findAll('.i-lucide-sparkles')).toHaveLength(1);
     expect(wrapper.findAll('.i-lucide-check')).toHaveLength(2);
+  });
+
+  it('records how each workflow turn ended, but not the old Copilot answers', async () => {
+    const question = {
+      id: 1,
+      message_type: 'user',
+      message: { content: 'Hi' },
+    };
+    const answer = (id, message) => ({
+      id,
+      message_type: 'assistant',
+      message,
+    });
+    const wrapper = mountComponent({ messages: [question] });
+    useTrack.mockClear();
+
+    await wrapper.setProps({
+      messages: [question, answer(2, { content: 'Done', run_id: 9 })],
+    });
+    await wrapper.setProps({
+      messages: [
+        question,
+        answer(2, { content: 'Done', run_id: 9 }),
+        { ...question, id: 3 },
+      ],
+    });
+    await wrapper.setProps({
+      messages: [
+        question,
+        answer(2, { content: 'Done', run_id: 9 }),
+        { ...question, id: 3 },
+        answer(4, { content: 'Failed', run_id: 10, status: 'failed' }),
+      ],
+    });
+    await wrapper.setProps({ messages: [question] });
+    await wrapper.setProps({
+      messages: [question, answer(5, { content: 'Old' })],
+    });
+
+    expect(useTrack.mock.calls.map(([event]) => event)).toEqual([
+      'Copilot: Workflow turn finished',
+      'Copilot: Workflow turn failed',
+    ]);
+  });
+
+  it('does not record a turn when a past chat opens while one runs', async () => {
+    const question = {
+      id: 1,
+      message_type: 'user',
+      message: { content: 'Hi' },
+    };
+    const pastAnswer = {
+      id: 2,
+      message_type: 'assistant',
+      message: { content: 'Earlier answer', run_id: 8 },
+    };
+    const wrapper = mountComponent({
+      messages: [question],
+      selectedThreadId: 1,
+    });
+    useTrack.mockClear();
+
+    await wrapper.setProps({
+      messages: [question, pastAnswer],
+      selectedThreadId: 2,
+    });
+
+    expect(useTrack).not.toHaveBeenCalled();
+  });
+
+  it('labels Copilot beta', () => {
+    const wrapper = mount(Copilot, {
+      props: { onSendMessage: vi.fn() },
+      global: {
+        mocks: { $t: key => key },
+        stubs: { CopilotEmptyState: true, CopilotInput: true },
+      },
+    });
+
+    expect(wrapper.findComponent(Label).props('label')).toBe('GENERAL.BETA');
   });
 
   it('preserves a draft while a saved chat is loading', async () => {

@@ -60,6 +60,26 @@ RSpec.describe Captain::Tools::CopilotHttpTool, type: :model do
       expect(tool.perform(tool_context)).to eq('{"found": true}')
     end
 
+    it 'does not report a sent request as failed when reading the verified email afterwards fails' do
+      custom_tool.update!(http_method: 'POST', endpoint_url: 'https://example.com/refunds', request_template: '{"email": "{{ email }}"}')
+      refund = stub_request(:post, 'https://example.com/refunds').to_return(status: 200, body: '{"refunded": true}')
+      verification = instance_double(Captain::EmailVerification)
+      allow(verification).to receive(:verified_email).and_invoke(-> { 'jane@example.com' }, -> { raise Redis::CannotConnectError })
+      allow(Captain::EmailVerification).to receive(:new).with(conversation).and_return(verification)
+
+      expect { tool.perform(tool_context, email: 'jane@example.com') }.to raise_error(Redis::CannotConnectError)
+      expect(refund).to have_been_requested.once
+    end
+
+    it 'says the email is not verified when the request fails' do
+      stub_request(:get, %r{\Ahttps://example.com/customers}).to_return(status: 500)
+
+      result = tool.perform(tool_context, email: 'typed@example.com')
+
+      expect(result).to include('An error occurred while executing the request')
+      expect(result).to include('was not verified by the customer')
+    end
+
     it 'runs with another email the agent passes for a reply suggestion' do
       custom_tool.update!(param_schema: [{ 'name' => 'email', 'type' => 'string', 'description' => 'Email' }],
                           endpoint_url: 'https://example.com/customers?email={{ email | url_encode }}',

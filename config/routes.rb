@@ -115,6 +115,7 @@ Rails.application.routes.draw do
             resources :message_reports, only: [:create]
             resources :bulk_actions, only: [:create]
             resources :copilot_threads, only: [:index, :create] do
+              post :stop, on: :member
               resources :copilot_messages, only: [:index, :create]
             end
             resources :copilot_runs, only: [] do
@@ -124,10 +125,19 @@ Rails.application.routes.draw do
             resources :custom_tools do
               post :test, on: :collection
             end
+            resources :mcp_servers, only: [:index, :show, :create, :update, :destroy] do
+              post :discover, on: :collection
+              member do
+                get :live_tools
+                get :authorization_url
+                post :approve_tool
+              end
+            end
             resource :tools_manifest, only: [] do
               get :installed
               post :preview
               post :install
+              delete :uninstall
             end
             resources :documents, only: [:index, :show, :create, :destroy] do
               post :sync, on: :member
@@ -286,6 +296,12 @@ Rails.application.routes.draw do
               post :call, on: :member, to: 'calls#create' if ChatwootApp.enterprise?
             end
           end
+          resources :data_exports, only: [:index, :show, :create] do
+            member do
+              get :download
+              post :rerun
+            end
+          end
           resources :data_imports, only: [:index, :show, :create] do
             collection do
               post :validate_source
@@ -296,6 +312,7 @@ Rails.application.routes.draw do
               post :abandon
               get :error_logs
               get :skip_logs
+              get :rejected_rows
             end
           end
           resources :csat_survey_responses, only: [:index] do
@@ -321,6 +338,7 @@ Rails.application.routes.draw do
               member do
                 post :accept
                 post :reject
+                post :dismiss
                 post :terminate
                 post :upload_recording
               end
@@ -356,7 +374,10 @@ Rails.application.routes.draw do
               post :disable_whatsapp_calling, on: :member
               post :set_inbound_calls, on: :member
               post :set_call_recording, on: :member
+              post :set_whatsapp_callback_permission, on: :member
               resources :call_announcements, only: [:update], param: :kind, controller: 'inboxes/call_announcements'
+              resource :call_routing, only: [:update], controller: 'inboxes/call_routings'
+              resource :whatsapp_call_hours, only: [:show, :update], controller: 'inboxes/whatsapp_call_hours'
             end
 
             resource :csat_template, only: [:show, :create], controller: 'inbox_csat_templates' do
@@ -417,6 +438,8 @@ Rails.application.routes.draw do
 
           namespace :instagram do
             resource :authorization, only: [:create]
+            post 'accounts', to: 'connections#accounts'
+            resources :connections, only: [:create]
           end
 
           namespace :tiktok do
@@ -429,7 +452,6 @@ Rails.application.routes.draw do
 
           namespace :whatsapp do
             resource :authorization, only: [:create]
-            resource :access_request, only: [:create] if ChatwootApp.enterprise?
             post 'manual/preview', to: 'manual_setup#preview'
             post 'manual/connect', to: 'manual_setup#connect'
             get 'manual/:inbox_id/webhook_status', to: 'manual_setup#webhook_status'
@@ -459,6 +481,7 @@ Rails.application.routes.draw do
                 post :add_participant_to_meeting
               end
             end
+            resource :shopify_storefront_widget, only: [:show, :update]
             resource :shopify_custom_app, controller: 'shopify_custom_apps', only: [:show, :create, :update, :destroy]
             resource :shopify, controller: 'shopify', only: [:destroy] do
               collection do
@@ -489,6 +512,7 @@ Rails.application.routes.draw do
             member do
               patch :archive
               delete :logo
+              delete :remove_locale
               post :send_instructions
               get :ssl_status
             end
@@ -505,6 +529,7 @@ Rails.application.routes.draw do
             end
             resources :articles do
               post :reorder, on: :collection
+              get :preview_token, on: :member
             end
           end
 
@@ -636,6 +661,7 @@ Rails.application.routes.draw do
               post :toggle_deletion
               post :topup_checkout
               get :topup_options
+              get :legal_compliance
             end
           end
         end
@@ -713,15 +739,15 @@ Rails.application.routes.draw do
 
   # ----------------------------------------------------------------------
   # Used in mailer templates
-  resource :app, only: [:index] do
-    resources :accounts do
+  scope path: 'app', as: 'app' do
+    resources :accounts, only: [:show] do
       resources :conversations, only: [:show]
     end
   end
 
   # ----------------------------------------------------------------------
   # Routes for channel integrations
-  mount Facebook::Messenger::Server, at: 'bot'
+  mount Integrations::Facebook::WebhookServer, at: 'bot'
   get 'webhooks/twitter', to: 'api/v1/webhooks#twitter_crc'
   post 'webhooks/twitter', to: 'api/v1/webhooks#twitter_events'
   post 'webhooks/line/:line_channel_id', to: 'webhooks/line#process_payload'
@@ -771,6 +797,7 @@ Rails.application.routes.draw do
   get 'instagram/callback', to: 'instagram/callbacks#show'
   get 'tiktok/callback', to: 'tiktok/callbacks#show'
   get 'notion/callback', to: 'notion/callbacks#show'
+  get 'captain/mcp/callback', to: 'captain/mcp_callbacks#show' if ChatwootApp.enterprise?
   # ----------------------------------------------------------------------
   # Routes for external service verifications
   get '.well-known/assetlinks.json' => 'android_app#assetlinks'

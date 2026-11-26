@@ -147,21 +147,188 @@ RSpec.describe 'Public Articles API', type: :request do
       expect(article.reload.views).to eq 0 # View count should not increment on show
     end
 
-    it 'does not increment the view count if the article is not published' do
-      draft_article = create(:article, category: category, status: :draft, portal: portal, account_id: account.id, author_id: agent.id, views: 0)
-      get "/hc/#{portal.slug}/articles/#{draft_article.slug}"
-      expect(response).to have_http_status(:success)
-      expect(draft_article.reload.views).to eq 0
+    describe 'page metadata' do
+      let(:article_path) { "/hc/#{portal.slug}/articles/#{translated_article.slug}" }
+      let(:page_head) { Nokogiri::HTML5(response.body).at_css('head') }
+      let(:metadata) { page_head.css('meta').to_h { |tag| [tag['property'] || tag['name'], tag['content']] } }
+
+      %w[classic documentation].each do |layout|
+        context "with the #{layout} layout" do
+          before do
+            portal.update!(config: portal.config.merge('layout' => layout,
+                                                       'locale_translations' => { 'es' => { 'page_title' => 'Centro de ayuda' } }))
+          end
+
+          it 'uses the localized article title and summary when SEO overrides are absent' do
+            translated_article.update!(title: 'Configurar <canales> & opciones', description: 'Pasos para configurar & revisar.')
+            create(:installation_config, name: 'OG_IMAGE_CDN_URL', value: 'https://cdn.example.com')
+
+            get article_path
+
+            expect(response).to have_http_status(:ok)
+            expect(page_head.at_css('title').text).to eq("#{translated_article.title} | Centro de ayuda")
+            expect(metadata).to include(
+              'title' => translated_article.title, 'og:title' => translated_article.title, 'twitter:title' => translated_article.title,
+              'description' => translated_article.description, 'og:description' => translated_article.description,
+              'twitter:description' => translated_article.description, 'og:type' => 'article'
+            )
+            expect(metadata['og:image']).to start_with('https://cdn.example.com/og?')
+            expect(metadata['twitter:image']).to eq(metadata['og:image'])
+          end
+
+          it 'preserves authored SEO overrides' do
+            translated_article.update!(meta: { 'title' => 'Título para búsqueda', 'description' => 'Descripción para búsqueda' })
+
+            get article_path
+
+            expect(response).to have_http_status(:ok)
+            expect(metadata).to include(
+              'og:title' => 'Título para búsqueda', 'twitter:title' => 'Título para búsqueda',
+              'description' => 'Descripción para búsqueda', 'og:description' => 'Descripción para búsqueda',
+              'twitter:description' => 'Descripción para búsqueda'
+            )
+          end
+
+          it 'uses a short plain-text Markdown excerpt when the summary is absent' do
+            content = "## Pasos\n\nConfigura **canales** con un [enlace](https://example.test). #{'Sigue los pasos. ' * 20}"
+            translated_article.update!(description: nil, content: content)
+
+            get article_path
+
+            expect(response).to have_http_status(:ok)
+            description = metadata['description']
+            expect(description).to start_with('Pasos Configura canales con un enlace.')
+            expect(description.length).to be <= 160
+            expect(description).not_to include('**', 'https://example.test')
+            expect(metadata).to include('og:description' => description, 'twitter:description' => description)
+          end
+
+          it 'keeps the title and omits descriptions in a blank draft preview' do
+            translated_article.update!(status: :draft, description: nil, content: nil, meta: { 'title' => ' ', 'description' => ' ' })
+
+            get article_path, params: { preview_token: translated_article.preview_token }
+
+            expect(response).to have_http_status(:ok)
+            expect(metadata).to include('og:title' => translated_article.title, 'twitter:title' => translated_article.title)
+            expect(metadata.keys).not_to include('description', 'og:description', 'twitter:description')
+          end
+        end
+      end
     end
 
-    it 'returns not found for an archived article' do
-      archived_article = create(:article, category: category, status: :archived, portal: portal, author: agent)
+    %i[draft archived].each do |status|
+      it "returns not found for a #{status} article without a preview token" do
+        unpublished_article = create(:article, category: category, status: status, portal: portal, author: agent)
 
-      get "/hc/#{portal.slug}/articles/#{archived_article.slug}"
-      expect(response).to have_http_status(:not_found)
+        get "/hc/#{portal.slug}/articles/#{unpublished_article.slug}"
+        expect(response).to have_http_status(:not_found)
+        expect(response.body).to include(I18n.t('public_portal.404.title'))
 
-      get "/hc/#{portal.slug}/articles/#{archived_article.slug}.json"
+        get "/hc/#{portal.slug}/articles/#{unpublished_article.slug}.json"
+        expect(response).to have_http_status(:not_found)
+      end
+
+      it "renders a #{status} article with its preview token" do
+        unpublished_article = create(:article, category: category, status: status, portal: portal, author: agent, content: 'Unreleased content')
+
+        get "/hc/#{portal.slug}/articles/#{unpublished_article.slug}", params: { preview_token: unpublished_article.preview_token }
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include('Unreleased content')
+      end
+    end
+
+    it 'returns not found for a preview token of an article in another portal' do
+      draft_article = create(:article, category: category, status: :draft, portal: portal, author: agent)
+      foreign_article = create(:article, status: :draft)
+
+      get "/hc/#{portal.slug}/articles/#{draft_article.slug}", params: { preview_token: foreign_article.preview_token }
+
       expect(response).to have_http_status(:not_found)
+    end
+
+    it 'returns not found for a preview token used on another article URL' do
+      draft_article = create(:article, category: category, status: :draft, portal: portal, author: agent)
+      other_draft = create(:article, category: category, status: :draft, portal: portal, author: agent)
+
+      get "/hc/#{portal.slug}/articles/#{other_draft.slug}", params: { preview_token: draft_article.preview_token }
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it 'returns not found when the preview token has expired' do
+      draft_article = create(:article, category: category, status: :draft, portal: portal, author: agent)
+      preview_token = draft_article.preview_token
+
+      travel(Article::PREVIEW_TOKEN_EXPIRY + 1.minute) do
+        get "/hc/#{portal.slug}/articles/#{draft_article.slug}", params: { preview_token: preview_token }
+      end
+
+      expect(response).to have_http_status(:not_found)
+    end
+
+    it 'skips portal analytics on a preview of an unpublished article' do
+      portal.update!(config: portal.config.merge('analytics' => { 'ga4_measurement_id' => 'G-TEST123' }))
+      draft_article = create(:article, category: category, status: :draft, portal: portal, author: agent)
+
+      get "/hc/#{portal.slug}/articles/#{draft_article.slug}", params: { preview_token: draft_article.preview_token }
+      expect(response.body).not_to include('G-TEST123')
+
+      get "/hc/#{portal.slug}/articles/#{article.slug}"
+      expect(response.body).to include('G-TEST123')
+    end
+
+    it 'skips portal analytics on a preview link after the article is published' do
+      portal.update!(config: portal.config.merge('analytics' => { 'ga4_measurement_id' => 'G-TEST123' }))
+
+      get "/hc/#{portal.slug}/articles/#{article.slug}", params: { preview_token: article.preview_token }
+
+      expect(response.body).not_to include('G-TEST123')
+    end
+
+    it 'treats a published article with an invalid preview token as a normal public page' do
+      portal.update!(config: portal.config.merge('analytics' => { 'ga4_measurement_id' => 'G-TEST123' }))
+      other_draft = create(:article, category: category, status: :draft, portal: portal, author: agent)
+
+      ['junk', other_draft.preview_token].each do |preview_token|
+        get "/hc/#{portal.slug}/articles/#{article.slug}", params: { preview_token: preview_token }
+
+        expect(response.body).to include('G-TEST123')
+        expect(response.headers['X-Robots-Tag']).to be_nil
+      end
+    end
+
+    it 'marks a preview of an unpublished article as noindex' do
+      draft_article = create(:article, category: category, status: :draft, portal: portal, author: agent)
+
+      get "/hc/#{portal.slug}/articles/#{draft_article.slug}", params: { preview_token: draft_article.preview_token }
+      expect(response.headers['X-Robots-Tag']).to eq('noindex')
+
+      get "/hc/#{portal.slug}/articles/#{article.slug}"
+      expect(response.headers['X-Robots-Tag']).to be_nil
+    end
+
+    it 'skips the web widget on a preview of an unpublished article' do
+      web_widget = create(:channel_widget, account: account)
+      portal.update!(channel_web_widget: web_widget)
+      draft_article = create(:article, category: category, status: :draft, portal: portal, author: agent)
+
+      get "/hc/#{portal.slug}/articles/#{draft_article.slug}", params: { preview_token: draft_article.preview_token }
+      expect(response.body).not_to include(web_widget.website_token)
+
+      get "/hc/#{portal.slug}/articles/#{article.slug}"
+      expect(response.body).to include(web_widget.website_token)
+    end
+
+    it 'hides the article actions menu on a preview of an unpublished article' do
+      portal.update!(config: portal.config.merge('layout' => 'documentation'))
+      draft_article = create(:article, category: category, status: :draft, portal: portal, author: agent)
+
+      get "/hc/#{portal.slug}/articles/#{draft_article.slug}", params: { preview_token: draft_article.preview_token }
+      expect(response.body).not_to include(I18n.t('public_portal.article_actions.view_markdown'))
+
+      get "/hc/#{portal.slug}/articles/#{article.slug}"
+      expect(response.body).to include(I18n.t('public_portal.article_actions.view_markdown'))
     end
 
     it 'returns the article with the id with a different locale' do

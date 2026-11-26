@@ -1,4 +1,5 @@
 import { MESSAGE_STATUS, MESSAGE_TYPE } from 'shared/constants/messages';
+import wootConstants from 'dashboard/constants/globals';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import languages from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import {
@@ -7,6 +8,7 @@ import {
   isForeign,
   isTranslatable,
   languageCode,
+  isLastMessageSort,
   sortComparator,
 } from './helpers';
 import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator';
@@ -31,6 +33,15 @@ export const getSelectedChatConversation = ({
   allConversations.filter(conversation => conversation.id === selectedChatId);
 
 const getters = {
+  getConversationSortOptions: (_, __, ___, rootGetters) => {
+    const enabled = rootGetters['accounts/isFeatureEnabledonAccount'](
+      rootGetters.getCurrentAccountId,
+      FEATURE_FLAGS.LAST_MESSAGE_SORT
+    );
+    return Object.values(wootConstants.SORT_BY_TYPE).filter(
+      key => enabled || !isLastMessageSort(key)
+    );
+  },
   getAllConversations: ({ allConversations, chatSortFilter: sortKey }) => {
     return allConversations.sort((a, b) => sortComparator(a, b, sortKey));
   },
@@ -210,8 +221,8 @@ const getters = {
     const accountId = rootGetters.getCurrentAccountId;
     const account = rootGetters['accounts/getAccount'](accountId) || {};
     const locale = rootGetters.getUISettings?.locale || account.locale || 'en';
-    const language =
-      _getters.getSelectedChat.additional_attributes?.conversation_language;
+    const { conversation_language: language, auto_translate_disabled } =
+      _getters.getSelectedChat.additional_attributes ?? {};
     const isFeatureEnabled = feature =>
       rootGetters['accounts/isFeatureEnabledonAccount'](accountId, feature);
     const googleConnected =
@@ -234,11 +245,12 @@ const getters = {
         !!language && languageCode(language) === languageCode(locale),
       language: enabled && language ? languageName(language) : '',
       agentLanguage: languageName(locale),
+      disabledInConversation: auto_translate_disabled === true,
     };
   },
 
   getMessageTranslationState: (_state, _getters) => messageId => {
-    const { enabled, locale, language, sameLanguage } =
+    const { enabled, locale, language, sameLanguage, disabledInConversation } =
       _getters.getAutoTranslate;
     const messages = _getters.getSelectedChat.messages ?? [];
     const message = messages.find(item => item.id === messageId) ?? {};
@@ -258,6 +270,7 @@ const getters = {
     return {
       pending:
         enabled &&
+        !disabledInConversation &&
         (foreign || (!!language && !sameLanguage)) &&
         !translation &&
         !attributes.translation_failed &&

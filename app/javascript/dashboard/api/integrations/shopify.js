@@ -7,6 +7,14 @@ class ShopifyAPI extends ApiClient {
     super('integrations/shopify', { accountScoped: true });
   }
 
+  getStorefrontWidget() {
+    return axios.get(`${this.url}_storefront_widget`);
+  }
+
+  saveStorefrontWidget(inboxId) {
+    return axios.put(`${this.url}_storefront_widget`, { inbox_id: inboxId });
+  }
+
   getCustomApp() {
     return axios.get(`${this.url}_custom_app`);
   }

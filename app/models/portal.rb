@@ -166,6 +166,18 @@ class Portal < ApplicationRecord
     config_value('social_profiles') || {}
   end
 
+  def remove_locale!(locale)
+    transaction do
+      update!(config: {
+                allowed_locales: allowed_locale_codes - [locale],
+                locale_translations: (config['locale_translations'] || {}).except(locale),
+                popular_content: (config['popular_content'] || {}).except(locale)
+              })
+      articles.where(locale: locale).destroy_all
+      categories.where(locale: locale).destroy_all
+    end
+  end
+
   private
 
   def normalize_config

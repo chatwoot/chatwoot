@@ -17,6 +17,73 @@ RSpec.describe CopilotRun do
                                           turn_limit: 3 })
   end
 
+  # Copilot needs Captain, so the plans that include Captain include Copilot workflows. No other flag is needed.
+  describe '#ensure_can_continue!' do
+    let(:account) { create(:account, custom_attributes: { 'plan_name' => plan_name }) }
+    let(:plan_name) { nil }
+
+    def continue_turn
+      turn.ensure_can_continue!(credits: false)
+    end
+
+    context 'when the account is on Chatwoot Cloud' do
+      before do
+        InstallationConfig.find_or_initialize_by(name: 'CHATWOOT_CLOUD_PLANS').update!(
+          value: [{ 'name' => 'Hacker', 'product_id' => ['plan_id_hacker'], 'price_ids' => ['price_hacker'] },
+                  { 'name' => 'Startups', 'product_id' => ['plan_id_startups'], 'price_ids' => ['price_startups'] }]
+        )
+        Enterprise::Billing::ReconcilePlanFeaturesService.new(account: account).perform
+      end
+
+      %w[Startups Business Enterprise].each do |paid_plan|
+        context "with the #{paid_plan} plan" do
+          let(:plan_name) { paid_plan }
+
+          it 'lets Copilot work' do
+            expect { continue_turn }.not_to raise_error
+          end
+        end
+      end
+
+      context 'with the free plan' do
+        let(:plan_name) { 'Hacker' }
+
+        it 'stops Copilot' do
+          expect { continue_turn }.to raise_error(Captain::Copilot::LimitExceededError, I18n.t('captain.copilot_disabled'))
+        end
+      end
+    end
+
+    context 'when the account is self-hosted' do
+      before do
+        InstallationConfig.find_or_initialize_by(name: 'ACCOUNT_LEVEL_FEATURE_DEFAULTS').update!(value: Featurable::FEATURE_LIST, locked: true)
+      end
+
+      it 'lets Copilot work on a paid Enterprise installation' do
+        allow(ChatwootApp).to receive(:self_hosted_paid?).and_return(true)
+
+        expect { continue_turn }.not_to raise_error
+      end
+
+      it 'stops Copilot on a community installation' do
+        allow(ChatwootHub).to receive(:pricing_plan).and_return('community')
+        account.enable_features!('captain_integration')
+        Internal::ReconcilePlanConfigService.new.perform
+
+        expect { continue_turn }.to raise_error(Captain::Copilot::LimitExceededError, I18n.t('captain.copilot_disabled'))
+      end
+    end
+
+    it 'stops Copilot when a Super Admin turns Captain off for the account' do
+      account.enable_features!('captain_integration')
+      expect { continue_turn }.not_to raise_error
+
+      account.disable_features!('captain_integration')
+
+      expect { continue_turn }.to raise_error(Captain::Copilot::LimitExceededError, I18n.t('captain.copilot_disabled'))
+    end
+  end
+
   describe 'validations' do
     it 'refuses a status that belongs to another kind of run' do
       expect(review.update(status: :awaiting_background_run)).to be false
@@ -106,6 +173,23 @@ RSpec.describe CopilotRun do
       expect(cards.reload.map { |card| card.message['progress'].slice('done', 'matched', 'failed') }).to eq(
         [{ 'done' => 2, 'matched' => 1, 'failed' => 1 }, { 'done' => 1, 'matched' => 1, 'failed' => 0 }]
       )
+    end
+  end
+
+  describe 'stopping a turn' do
+    it 'changes nothing when a step fails, so a turn never ends while its change can still be approved' do
+      turn.update!(status: :awaiting_background_run)
+      # The change has no approval card, so rejecting it raises after the turn has been released.
+      action = CopilotRun::Action.create!(
+        account: account, user: user, copilot_thread: thread, status: :awaiting_approval,
+        copilot_tool_call: turn.tool_calls.create!(call_id: 'act-1', name: 'act'),
+        context: { action: 'add_labels', arguments: { labels: ['billing'] }, target_ids: [1], approval_message_id: 0 }
+      )
+
+      expect { turn.stop }.to raise_error(ActiveRecord::RecordNotFound)
+      expect(turn.reload).to be_awaiting_background_run
+      expect(action.reload).to be_awaiting_approval
+      expect(message.reload.message).not_to include('status')
     end
   end
 

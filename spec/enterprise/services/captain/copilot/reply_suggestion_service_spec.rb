@@ -44,6 +44,8 @@ RSpec.describe Captain::Copilot::ReplySuggestionService do
 
   before do
     incoming_message
+    # Every thread starts with the agent's request, as the threads controller creates it.
+    copilot_thread.copilot_messages.create!(message_type: :user, message: { content: 'Suggest a reply' })
     allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
     allow(Captain::Assistant::AgentRunnerService).to receive(:new).with(
       hash_including(
@@ -184,6 +186,20 @@ RSpec.describe Captain::Copilot::ReplySuggestionService do
     )
   end
 
+  it 'drops a generated response without a message or a charge when the agent stops the request during the run' do
+    allow(runner).to receive(:generate_response) do
+      copilot_thread.stop
+      response
+    end
+
+    expect do
+      expect(service.generate_response['discarded']).to be true
+    end.not_to(change { account.reload.custom_attributes['captain_responses_usage'].to_i })
+
+    expect(copilot_thread.copilot_messages.assistant).to be_empty
+    expect(copilot_thread.copilot_messages.user.first.message['status']).to eq('stopped')
+  end
+
   it 'charges once when a failed attempt is retried successfully' do
     allow(runner).to receive(:generate_response).and_return(
       { 'error' => true, 'reasoning' => 'Temporary model failure.' },
@@ -268,7 +284,7 @@ RSpec.describe Captain::Copilot::ReplySuggestionService do
       Captain::Copilot::ReplySuggestionService::GenerationError,
       'The model request failed.'
     )
-    expect(copilot_thread.copilot_messages).to be_empty
+    expect(copilot_thread.copilot_messages.assistant).to be_empty
   end
 
   describe 'Langfuse metadata' do

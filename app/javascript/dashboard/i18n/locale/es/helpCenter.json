@@ -317,6 +317,11 @@
         }
       },
       "DELETE_LOCALE": {
+        "DIALOG": {
+          "TITLE": "Delete {locale}?",
+          "DESCRIPTION": "This will permanently delete {articles} and {categories} in this locale. This action cannot be undone.",
+          "CONFIRM": "Delete locale"
+        },
         "API": {
           "SUCCESS_MESSAGE": "Idioma eliminado del portal correctamente",
           "ERROR_MESSAGE": "No se puede eliminar el idioma del portal. Vuelve a intentarlo."
@@ -554,10 +559,16 @@
       "ARTICLES_HEADER": {
         "TABS": {
           "ALL": "All articles",
-          "MINE": "Mías",
           "DRAFT": "Borrador",
           "PUBLISHED": "Publicado",
           "ARCHIVED": "Archivado"
+        },
+        "AUTHOR": {
+          "LABEL": "Filter by author: {author}",
+          "ALL": "All authors",
+          "ME": "Yo",
+          "SELECTED": "Selected author",
+          "SEARCH_PLACEHOLDER": "Search teammates..."
         },
         "CATEGORY": {
           "ALL": "All categories"
@@ -574,9 +585,9 @@
           "SUBTITLE": "Write a rich article, let’s get started!",
           "BUTTON_LABEL": "New article"
         },
-        "MINE": {
-          "TITLE": "You haven't written any articles here",
-          "SUBTITLE": "All articles written by you show up here for quick access."
+        "AUTHOR": {
+          "TITLE": "No hay artículos coincidentes",
+          "SUBTITLE": "Try another author or change the selected filters."
         },
         "DRAFT": {
           "TITLE": "There are no articles in drafts",
@@ -801,6 +812,8 @@
           "SAVED": "Guardado"
         },
         "PREVIEW": "Previsualizar",
+        "PREVIEW_ERROR": "Could not open the preview. Please try again.",
+        "PREVIEW_POPUP_BLOCKED": "Allow popups for this site to open the preview.",
         "PUBLISH": "Publicar",
         "PUBLISH_CHANGES": "Publicar cambios",
         "PUBLISH_CHANGES_SUCCESS": "Cambios publicados con éxito",
@@ -816,6 +829,11 @@
         "DRAFT": "Borrador",
         "ARCHIVE": "Archive",
         "BACK_TO_ARTICLES": "Back to articles"
+      },
+      "NEWER_VERSION": {
+        "LABEL": "Load latest version",
+        "TOOLTIP": "This article was changed by a teammate or in another tab. Click to load the latest version.",
+        "LOAD_ERROR": "Couldn't load the latest version. Try again."
       },
       "PENDING_CHANGES_POPOVER": {
         "TITLE": "Cambios no publicados",
@@ -835,12 +853,19 @@
       },
       "ARTICLE_PROPERTIES": {
         "ARTICLE_PROPERTIES": "Article properties",
+        "ORIGINAL_ARTICLE": "Original article",
+        "ORIGINAL_ARTICLE_PLACEHOLDER": "This is the original article",
+        "ORIGINAL_ARTICLE_SEARCH": "Buscar artículos...",
+        "ORIGINAL_ARTICLE_EMPTY": "No se encontraron articulos",
         "META_DESCRIPTION": "Meta-descripción",
         "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
         "META_TITLE": "Título Meta",
         "META_TITLE_PLACEHOLDER": "Add meta title",
         "META_TAGS": "Meta etiquetas",
         "META_TAGS_PLACEHOLDER": "Add meta tags",
+        "SEARCH_ENGINE_VISIBILITY": "Show in search results",
+        "SEARCH_ENGINE_VISIBILITY_DESCRIPTION": "Turn off to keep this article out of Google and other search engines. It stays published and visible in your help center.",
+        "SEARCH_ENGINE_VISIBILITY_PORTAL_OVERRIDE": "Disabled because this help center is hidden from search results. Change it in Settings → SEO.",
         "SLUG": "Slug",
         "SLUG_PLACEHOLDER": "Add slug",
         "SLUG_USE_TITLE": "Use title as slug",
@@ -882,6 +907,9 @@
       "FORM": {
         "AVATAR": {
           "LABEL": "Logo",
+          "ADD_DARK_MODE": "Add dark mode logo",
+          "LIGHT_MODE": "Light mode",
+          "DARK_MODE": "Dark mode",
           "IMAGE_UPLOAD_ERROR": "¡No se pudo subir la imagen! Intente nuevamente",
           "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save changes to save the logo",
           "IMAGE_DELETE_SUCCESS": "Logo eliminado correctamente",
@@ -986,6 +1014,14 @@
         },
         "SAVE": "Guardar cambios"
       },
+      "SEO": {
+        "HEADER": "SEO",
+        "DESCRIPTION": "Control how search engines discover your help center.",
+        "SEARCH_ENGINE_VISIBILITY": {
+          "LABEL": "Show in search results",
+          "DESCRIPTION": "Let search engines like Google list this help center. When turned off, your help center works exactly the same for visitors. It just stops appearing in search engine results, which can take a few days or weeks."
+        }
+      },
       "INTEGRATIONS": {
         "HEADER": "Integraciones",
         "DESCRIPTION": "Conecta herramientas que amplían las funciones de tu centro de ayuda.",
@@ -1050,6 +1086,7 @@
         "GENERAL": "General",
         "DOMAIN": "Dominio",
         "APPEARANCE": "Apariencia",
+        "SEO": "SEO",
         "INTEGRATIONS": "Integraciones"
       },
       "API": {

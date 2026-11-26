@@ -7,9 +7,10 @@ import { useTrack } from 'dashboard/composables';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { CommandBar, createFrecency, useCommandBar } from '@chatwoot/jumpbar';
 import ConversationResolveAttributesModal from 'dashboard/components-next/ConversationWorkflow/ConversationResolveAttributesModal.vue';
-import { GENERAL_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import { COMMAND_BAR_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import {
   SNOOZE_CONVERSATION_PAGE,
+  SNOOZE_PAGES,
   pathScopes,
 } from 'dashboard/modules/command-bar/commands';
 import {
@@ -36,6 +37,7 @@ const props = defineProps({
 
 const PREFIXES = ['@', '#', '/', '?'];
 const atRoot = ({ page }) => !page;
+const onSnoozePage = ({ page }) => Boolean(SNOOZE_PAGES[page]);
 
 const store = useStore();
 const route = useRoute();
@@ -130,7 +132,12 @@ const sources = computed(() => {
     ...general,
     { id: 'account', commands: () => accountCommands.value },
     { id: 'help', commands: () => helpCommands.value },
-    { id: 'snooze_suggestions', search: searchSnoozeSuggestions },
+    {
+      id: 'snooze_suggestions',
+      minQuery: 1,
+      when: onSnoozePage,
+      search: searchSnoozeSuggestions,
+    },
     ...[
       {
         id: 'loaded_conversations',
@@ -158,7 +165,7 @@ bar.configure({
   onSelect: item => {
     // The snooze handler clears the right-clicked conversation itself once done.
     keepContextMenuChat = item.parent === SNOOZE_CONVERSATION_PAGE;
-    useTrack(GENERAL_EVENTS.COMMAND_BAR, {
+    useTrack(COMMAND_BAR_EVENTS.COMMAND_SELECTED, {
       section: item.section,
       action: item.title,
     });
@@ -167,6 +174,12 @@ bar.configure({
     if (!keepContextMenuChat) store.dispatch('setContextMenuChatId', null);
     keepContextMenuChat = false;
   },
+});
+
+watch(bar.isOpen, isOpen => {
+  if (isOpen) {
+    useTrack(COMMAND_BAR_EVENTS.OPENED, { page: bar.page.value?.id });
+  }
 });
 
 watch(

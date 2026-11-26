@@ -353,6 +353,17 @@ RSpec.describe Captain::Assistant, type: :model do
       expect(instructions).not_to include('You are drafting a reply for a support agent to review.')
     end
 
+    it 'renders the current time and context after the guardrails and before the decision framework' do
+      assistant.update!(guardrails: ['Never share internal pricing.'])
+      state = { conversation: { id: 1, display_id: 7 }, assistant_config: {} }
+
+      instructions = assistant.agent_instructions(Struct.new(:context).new({ state: state }))
+
+      expect(instructions.index('# Current Time')).to be > instructions.index('# Guardrails')
+      expect(instructions.index('# Current Context')).to be > instructions.index('# Current Time')
+      expect(instructions.index('# Decision Framework')).to be > instructions.index('# Current Context')
+    end
+
     it 'renders the separate Copilot reply suggestion prompt when requested' do
       assistant.update!(
         response_guidelines: ['Include the raw guide URL https://yc.ms/eglb1H.'],
@@ -411,6 +422,17 @@ RSpec.describe Captain::Assistant, type: :model do
       instructions = assistant.agent_instructions(Struct.new(:context).new({ state: state }))
 
       expect(instructions).to include('Email verified by one-time code: No', 'captain--tools--send_email_verification_code')
+    end
+
+    it 'leaves language hints out of the conversation context' do
+      additional_attributes = { 'browser_language' => 'fr', 'widget_language' => 'fr', 'initiated_at' => { 'timestamp' => 'heure normale' },
+                                'referer' => 'https://example.com/help' }
+      state = { conversation: { id: 1, display_id: 7, additional_attributes: additional_attributes }, assistant_config: {} }
+
+      instructions = assistant.agent_instructions(Struct.new(:context).new({ state: state }))
+
+      expect(instructions).to include('- referer: https://example.com/help')
+      expect(instructions).not_to include('browser_language', 'widget_language', 'initiated_at', 'heure normale')
     end
 
     it 'leaves out the verification steps when Captain cannot verify the customer' do

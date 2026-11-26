@@ -33,3 +33,8 @@ export const formatCurrencyAmount = (amount, code, options = {}) => {
     ...options,
   }).format(amount);
 };
+
+// External legal and compliance resources linked from the billing page.
+export const LEGAL_COMPLIANCE_LINKS = {
+  TRUST_CENTER_URL: 'https://trust.chatwoot.com',
+};

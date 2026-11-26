@@ -14,13 +14,16 @@ class Mailbox::ConversationFinderStrategies::InReplyToStrategy < Mailbox::Conver
   def find
     return nil if mail.in_reply_to.blank?
 
+    @channel = EmailChannelFinder.new(mail).perform
+    return nil unless @channel
+
     in_reply_to_addresses = sanitize_mailbox_value(Array.wrap(mail.in_reply_to))
 
     in_reply_to_addresses.each do |in_reply_to|
       # Try extracting UUID from patterns
       uuid = extract_uuid_from_patterns(in_reply_to)
       if uuid
-        conversation = Conversation.find_by(uuid: uuid)
+        conversation = Conversation.find_by(uuid: uuid, inbox_id: @channel.inbox.id)
         return conversation if conversation
       end
 
@@ -36,7 +39,7 @@ class Mailbox::ConversationFinderStrategies::InReplyToStrategy < Mailbox::Conver
 
   # Replies to a forwarded email start a new conversation with the forward recipient
   def conversation_from_source_id(message_id)
-    message = Message.find_by(source_id: message_id)
+    message = Message.find_by(source_id: message_id, inbox_id: @channel.inbox.id)
     message&.conversation unless message&.forwarded?
   end
 

@@ -1,6 +1,9 @@
 import { ref, computed } from 'vue';
 import { useCaptain } from 'dashboard/composables/useCaptain';
-import { useUISettings } from 'dashboard/composables/useUISettings';
+import {
+  useCopilotDot,
+  COPILOT_OPEN_SOURCES,
+} from 'dashboard/composables/useCopilotDot';
 import { useTrack } from 'dashboard/composables';
 import { CAPTAIN_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import {
@@ -78,7 +81,7 @@ function trackGenerationFailure({
  */
 export function useCopilotReply() {
   const { processEvent, followUp, currentChat } = useCaptain();
-  const { updateUISettings } = useUISettings();
+  const { openCopilot } = useCopilotDot();
 
   const showEditor = ref(false);
   const isGenerating = ref(false);
@@ -86,6 +89,8 @@ export function useCopilotReply() {
   const generatedContent = ref('');
   const followUpContext = ref(null);
   const abortController = ref(null);
+  // The action whose text was last accepted into the editor, for send analytics.
+  const acceptedAction = ref(null);
 
   // Tracking state
   const currentAction = ref(null);
@@ -155,10 +160,7 @@ export function useCopilotReply() {
    */
   async function execute(action, data) {
     if (action === 'ask_copilot') {
-      updateUISettings({
-        is_contact_sidebar_open: false,
-        is_copilot_panel_open: true,
-      });
+      openCopilot(COPILOT_OPEN_SOURCES.REPLY_EDITOR);
       return;
     }
 
@@ -327,6 +329,7 @@ export function useCopilotReply() {
    */
   function accept() {
     const content = generatedContent.value;
+    acceptedAction.value = currentAction.value;
 
     // Track "Applied" event
     if (currentAction.value) {
@@ -358,6 +361,7 @@ export function useCopilotReply() {
     isContentReady,
     generatedContent,
     followUpContext,
+    acceptedAction,
 
     isActive,
     isButtonDisabled,

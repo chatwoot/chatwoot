@@ -1,6 +1,7 @@
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute, useRouter } from 'vue-router';
+import { pathArea } from 'dashboard/modules/command-bar/commands';
 
 const AREA_LABELS = {
   conversations: 'SIDEBAR.CONVERSATIONS',
@@ -24,9 +25,7 @@ const AREA_LABELS = {
   portals: 'SIDEBAR.HELP_CENTER.TITLE',
 };
 
-const AREA_PATTERN = /^\/app\/accounts\/\d+\/([^/?#]+)/;
-
-const areaOf = path => AREA_LABELS[path.match(AREA_PATTERN)?.[1]];
+const areaOf = path => AREA_LABELS[pathArea(path)];
 
 export function useBackCommands() {
   const { t } = useI18n();

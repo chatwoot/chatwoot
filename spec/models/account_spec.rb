@@ -187,7 +187,9 @@ RSpec.describe Account do
         feature_mobile_voice_push: 1 << 12,
         feature_auto_translate: 1 << 13,
         feature_copilot_workflows: 1 << 14,
-        feature_shopify_custom_apps: 1 << 15
+        feature_shopify_custom_apps: 1 << 15,
+        feature_captain_mcp_servers: 1 << 16,
+        feature_last_message_sort: 1 << 17
       )
       expect(described_class.flag_mapping['feature_flags_ext_1'][:feature_whatsapp_manual_transfer]).to eq(1)
       expect(described_class.flag_mapping['feature_flags_ext_1'][:feature_data_import]).to eq(2)
@@ -497,13 +499,13 @@ RSpec.describe Account do
 
     describe 'with saved model preferences' do
       it 'returns saved preferences merged with defaults' do
-        account.update!(captain_models: { 'editor' => 'gpt-5-mini', 'assistant' => 'gpt-5.2' })
+        account.update!(captain_models: { 'editor' => 'gpt-5.1', 'assistant' => 'gpt-5.2' })
 
         prefs = account.captain_preferences
 
-        expect(prefs[:models]['editor']).to eq('gpt-5-mini')
+        expect(prefs[:models]['editor']).to eq('gpt-5.1')
         expect(prefs[:models]['assistant']).to eq('gpt-5.2')
-        expect(prefs[:models]['copilot']).to eq(Llm::Models.default_model_for('copilot'))
+        expect(prefs[:models]['copilot_workflows']).to eq(Llm::Models.default_model_for('copilot_workflows'))
       end
     end
 
@@ -515,7 +517,7 @@ RSpec.describe Account do
 
         expect(prefs[:features]['editor']).to be true
         expect(prefs[:features]['assistant']).to be true
-        expect(prefs[:features]['copilot']).to be false
+        expect(prefs[:features]['copilot_workflows']).to be false
       end
     end
 
@@ -528,7 +530,7 @@ RSpec.describe Account do
       end
 
       it 'accepts valid model for a feature' do
-        account.captain_models = { 'editor' => 'gpt-5-mini', 'help_center_query_translation' => 'gpt-5-mini' }
+        account.captain_models = { 'editor' => 'gpt-5.1', 'help_center_query_translation' => 'gpt-6-luna' }
 
         expect(account).to be_valid
       end

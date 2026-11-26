@@ -29,6 +29,16 @@ class Conversations::EventDataPresenter < SimpleDelegator
     )
   end
 
+  # The widget learns the conversation's id, inbox, read state and status, not the contact or the agents
+  def widget_data
+    {
+      id: display_id,
+      inbox_id: inbox_id,
+      contact_last_seen_at: contact_last_seen_at.to_i,
+      status: status
+    }
+  end
+
   private
 
   def push_messages
@@ -61,6 +71,7 @@ class Conversations::EventDataPresenter < SimpleDelegator
       agent_last_seen_at: agent_last_seen_at.to_i,
       contact_last_seen_at: contact_last_seen_at.to_i,
       last_activity_at: last_activity_at.to_i,
+      last_message_at: last_message_at&.to_f,
       timestamp: last_activity_at.to_i,
       created_at: created_at.to_i,
       updated_at: updated_at.to_f

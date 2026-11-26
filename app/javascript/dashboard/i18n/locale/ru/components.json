@@ -7,6 +7,7 @@
     "PLACEHOLDER": "Выберите параметр...",
     "EMPTY_SEARCH_RESULTS": "Не найдено элементов для поиска `{searchTerm}`",
     "EMPTY_STATE": "Результаты не найдены.",
+    "LOADING": "Загрузка...",
     "SEARCH_PLACEHOLDER": "Поиск...",
     "MORE": "+{count} еще"
   },

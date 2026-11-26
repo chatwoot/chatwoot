@@ -17,11 +17,13 @@ import CopilotLoader from './CopilotLoader.vue';
 import CopilotAgentMessage from './CopilotAgentMessage.vue';
 import CopilotAssistantMessage from './CopilotAssistantMessage.vue';
 import CopilotApprovalMessage from './CopilotApprovalMessage.vue';
+import { APPROVAL_STATUS } from './constants';
 import CopilotReviewProgress from './CopilotReviewProgress.vue';
 import CopilotThinkingGroup from './CopilotThinkingGroup.vue';
 import ToggleCopilotAssistant from './ToggleCopilotAssistant.vue';
 import CopilotEmptyState from './CopilotEmptyState.vue';
 import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader.vue';
+import Label from 'dashboard/components-next/label/Label.vue';
 import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
@@ -69,13 +71,13 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  canShowAvatar: {
-    type: Boolean,
-    default: false,
-  },
   onSendMessage: {
     type: Function,
     required: true,
+  },
+  onStop: {
+    type: Function,
+    default: () => {},
   },
 });
 
@@ -114,9 +116,7 @@ const supportsCaptainAvatar = () => {
 const CopilotAvatar = defineAsyncComponent(() => import('./CopilotAvatar.vue'));
 // The avatar emits unsupported when its graphics context is lost for good, so the logo comes back.
 const isAvatarSupported = ref(supportsCaptainAvatar());
-const showAvatar = computed(
-  () => props.canShowAvatar && isAvatarSupported.value
-);
+const showAvatar = computed(() => isAvatarSupported.value);
 
 const draft = ref('');
 const chatContainer = ref(null);
@@ -190,14 +190,26 @@ const isLastMessageFromAssistant = computed(() => {
   );
 });
 
+// Stopping marks the agent's message instead of answering it.
+const isLastRequestStopped = computed(() => {
+  const lastRequest = props.messages.findLast(
+    message => message.message_type === 'user'
+  );
+  return lastRequest?.message.status === 'stopped';
+});
+
 // An approval card waits on the agent, not on Copilot, so the loader stays hidden until they decide.
 const isCopilotWorking = computed(() => {
   const hasApprovalAwaitingDecision = props.messages.some(
     message =>
       message.message_type === 'assistant_approval' &&
-      message.message.approval.status === 'awaiting_approval'
+      message.message.approval.status === APPROVAL_STATUS.AWAITING
   );
-  return !isLastMessageFromAssistant.value && !hasApprovalAwaitingDecision;
+  return (
+    !isLastMessageFromAssistant.value &&
+    !hasApprovalAwaitingDecision &&
+    !isLastRequestStopped.value
+  );
 });
 
 // Only workflow steps save a run ID, so the old Copilot's steps keep the loader.
@@ -205,6 +217,12 @@ const hasLiveStep = (item, index) =>
   isCopilotWorking.value &&
   index === groupedMessages.value.length - 1 &&
   Boolean(item.messages.at(-1).message.run_id);
+
+// Copilot answers one message at a time, so while it works the agent can stop it but not send another message. A new
+// chat has no messages, so there is nothing to stop.
+const isStoppable = computed(
+  () => props.messages.length > 0 && isCopilotWorking.value
+);
 
 const showLoader = computed(() => {
   if (!isCopilotWorking.value) return false;
@@ -215,7 +233,7 @@ const showLoader = computed(() => {
     return item.message.progress.finished;
   }
   const { approval } = item.message;
-  if (approval?.status === 'approved') {
+  if (approval?.status === APPROVAL_STATUS.APPROVED) {
     return Boolean(approval.progress?.finished);
   }
   return true;
@@ -282,14 +300,27 @@ const { start: startReaction } = useTimeoutFn(
   { immediate: false }
 );
 // A turn that ends with a reply shows the happy face for a moment, and one that ends with a failed reply shows the
-// error face. Opening a past chat shows neither, because no turn was running.
-watch(turnAvatarState, (state, previousState) => {
-  if (previousState && !state && isLastMessageFromAssistant.value) {
-    const hasFailed = props.messages.at(-1).message.status === 'failed';
+// error face. Opening a past chat shows neither, even while a turn runs in the chat it leaves, because no turn ended.
+watch(
+  [turnAvatarState, () => props.selectedThreadId],
+  ([state, threadId], [previousState, previousThreadId]) => {
+    if (threadId !== previousThreadId) return;
+    if (!previousState || state || !isLastMessageFromAssistant.value) return;
+
+    const lastMessage = props.messages.at(-1).message;
+    const hasFailed = lastMessage.status === 'failed';
     reaction.value = hasFailed ? 'error' : 'happy';
     startReaction();
+    // Only a workflow turn saves its run ID on the answer.
+    if (lastMessage.run_id) {
+      useTrack(
+        hasFailed
+          ? COPILOT_EVENTS.WORKFLOW_TURN_FAILED
+          : COPILOT_EVENTS.WORKFLOW_TURN_FINISHED
+      );
+    }
   }
-});
+);
 
 const awakeAvatarState = computed(() => {
   if (turnAvatarState.value) return turnAvatarState.value;
@@ -365,6 +396,13 @@ const openThread = thread => {
   emit('selectThread', thread);
   showHistory.value = false;
 };
+// A chat selected from outside the panel, such as a starter prompt on the empty screen, replaces the history view.
+watch(
+  () => props.selectedThreadId,
+  threadId => {
+    if (threadId) showHistory.value = false;
+  }
+);
 // The store refreshes the message list for every thread's update, so only a new last message in this chat counts.
 // Watchers run before the DOM updates, so the position checked is the one the agent was reading.
 watch(
@@ -393,7 +431,11 @@ watch(
       :buttons="copilotButtons"
       @click="handleSidebarAction"
       @close="closeCopilotPanel"
-    />
+    >
+      <template #titleBadge>
+        <Label :label="t('GENERAL.BETA')" color="blue" compact />
+      </template>
+    </SidebarActionsHeader>
     <div v-if="showHistory" class="flex-1 overflow-y-auto px-3 py-3">
       <div class="w-full max-w-3xl mx-auto">
         <div class="mb-3 flex items-center justify-between">
@@ -444,7 +486,7 @@ watch(
     <div
       v-else
       ref="chatContainer"
-      class="flex-1 flex px-4 py-4 overflow-y-auto items-start"
+      class="flex-1 flex px-4 py-4 overflow-y-auto no-scrollbar items-start"
     >
       <p
         v-if="isLoadingSelectedThread"
@@ -506,7 +548,7 @@ watch(
       </CopilotEmptyState>
     </div>
 
-    <div v-show="!showHistory" class="mx-3 mt-px mb-2">
+    <div v-show="!showHistory" class="mx-4 mt-px mb-2">
       <div
         v-if="showAvatarDock"
         class="flex items-center gap-3 w-full max-w-3xl mx-auto mb-2 px-1"
@@ -541,9 +583,17 @@ watch(
         v-model="draft"
         class="mb-1 w-full max-w-3xl mx-auto"
         :on-send="sendMessage"
+        :is-working="isStoppable"
+        :on-stop="onStop"
         @focusin="wakeAvatar"
         @input="onDraftInput"
       />
+      <p
+        v-if="hasAssistants"
+        class="w-full max-w-3xl mx-auto mb-0 text-center text-xs text-n-slate-10"
+      >
+        {{ $t('CAPTAIN.COPILOT.DISCLAIMER') }}
+      </p>
     </div>
   </div>
 </template>

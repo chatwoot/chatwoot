@@ -29,6 +29,7 @@ RSpec.describe Conversations::EventDataPresenter do
         snoozed_until: conversation.snoozed_until,
         custom_attributes: conversation.custom_attributes,
         first_reply_created_at: nil,
+        last_message_at: nil,
         contact_last_seen_at: conversation.contact_last_seen_at.to_i,
         agent_last_seen_at: conversation.agent_last_seen_at.to_i,
         created_at: conversation.created_at.to_i,
@@ -42,6 +43,17 @@ RSpec.describe Conversations::EventDataPresenter do
     it 'returns push event payload' do
       # the exceptions are the values that would be added in enterprise edition.
       expect(presenter.push_data.except(:applied_sla, :sla_events)).to include(expected_data)
+    end
+  end
+
+  describe '#widget_data' do
+    it 'returns only the conversation id and state' do
+      expect(presenter.widget_data).to eq(
+        id: conversation.display_id,
+        inbox_id: conversation.inbox_id,
+        contact_last_seen_at: conversation.contact_last_seen_at.to_i,
+        status: conversation.status
+      )
     end
   end
 

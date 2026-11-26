@@ -178,6 +178,50 @@ RSpec.describe 'Profile API', type: :request do
         expect(agent.reload.valid_password?('Test1234!')).to be true
       end
 
+      it 'signs out other sessions and keeps the current one when the password changes' do
+        current_headers = agent.create_new_auth_token
+        other_clients = travel(1.minute) { Array.new(2) { agent.create_new_auth_token['client'] } }
+        other_clients.each { |client| agent.user_sessions.create!(client_id: client, last_activity_at: Time.current) }
+
+        put '/api/v1/profile',
+            params: { profile: { current_password: 'Test123!', password: 'Test1234!', password_confirmation: 'Test1234!' } },
+            headers: current_headers,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        agent.reload
+        expect(agent.tokens.keys).to eq([current_headers['client']])
+        expect(agent.user_sessions).to be_empty
+
+        get '/api/v1/profile', headers: current_headers, as: :json
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'signs out all sessions when the password changes through an access token' do
+        agent.create_new_auth_token
+
+        put '/api/v1/profile',
+            params: { profile: { current_password: 'Test123!', password: 'Test1234!', password_confirmation: 'Test1234!' } },
+            headers: { api_access_token: agent.access_token.token },
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(agent.reload.tokens).to be_empty
+      end
+
+      it 'keeps other sessions when the password is not changed' do
+        current_headers = agent.create_new_auth_token
+        other_client = agent.create_new_auth_token['client']
+
+        put '/api/v1/profile',
+            params: { profile: { name: 'test' } },
+            headers: current_headers,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(agent.reload.tokens.keys).to contain_exactly(current_headers['client'], other_client)
+      end
+
       it 'does not reset the display name if updates the password' do
         display_name = agent.display_name
 
@@ -242,7 +286,7 @@ RSpec.describe 'Profile API', type: :request do
       it 'populates the unconfirmed email' do
         new_email = Faker::Internet.email
         put '/api/v1/profile',
-            params: { profile: { email: new_email } },
+            params: { profile: { email: new_email, current_password: 'Test123!' } },
             headers: agent.create_new_auth_token,
             as: :json
 
@@ -250,6 +294,52 @@ RSpec.describe 'Profile API', type: :request do
         agent.reload
 
         expect(agent.unconfirmed_email).to eq(new_email)
+      end
+
+      it 'rejects the change when current password is missing' do
+        put '/api/v1/profile',
+            params: { profile: { email: Faker::Internet.email } },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(agent.reload.unconfirmed_email).to be_nil
+      end
+
+      it 'rejects the change when current password is invalid' do
+        put '/api/v1/profile',
+            params: { profile: { email: Faker::Internet.email, name: 'new name', current_password: 'wrong' } },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        agent.reload
+        expect(agent.unconfirmed_email).to be_nil
+        expect(agent.name).not_to eq('new name')
+      end
+
+      it 'rejects a change to an address that differs only by unicode case folding' do
+        user = create(:user, email: 'jess@example.com', password: 'Test123!', account: account, role: :agent)
+
+        put '/api/v1/profile',
+            params: { profile: { email: 'jeß@example.com' } },
+            headers: user.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(user.reload.unconfirmed_email).to be_nil
+      end
+
+      it 'does not require current password when the email is unchanged' do
+        put '/api/v1/profile',
+            params: { profile: { email: " #{agent.email.upcase} ", name: 'new name' } },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        agent.reload
+        expect(agent.name).to eq('new name')
+        expect(agent.unconfirmed_email).to be_nil
       end
     end
   end

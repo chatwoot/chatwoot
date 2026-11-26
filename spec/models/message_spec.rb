@@ -141,6 +141,7 @@ RSpec.describe Message do
             source_id: message.conversation.contact_inbox.source_id
           },
           last_activity_at: message.conversation.last_activity_at.to_i,
+          last_message_at: message.conversation.last_message_at&.to_f,
           unread_count: message.conversation.unread_incoming_messages.count
         },
         sentiment: {},
@@ -165,6 +166,26 @@ RSpec.describe Message do
       message = create(:message, sender: create(:user))
 
       expect(message.widget_sender_data).to eq(message.sender.push_event_data)
+    end
+  end
+
+  describe '#widget_push_event_data' do
+    it 'keeps the message event and reduces a contact sender to its type' do
+      message = create(:message, message_type: :incoming, sender: create(:contact, email: 'jane@example.com'))
+
+      expect(message.widget_push_event_data).to eq(message.push_event_data.merge(sender: { type: 'contact' }))
+    end
+
+    it 'keeps an agent sender' do
+      message = create(:message, sender: create(:user))
+
+      expect(message.widget_push_event_data).to eq(message.push_event_data)
+    end
+
+    it 'keeps an agent bot sender with the inbox avatar fallback' do
+      message = create(:message, sender: create(:agent_bot))
+
+      expect(message.widget_push_event_data[:sender]).to eq(message.sender.push_event_data(message.inbox))
     end
   end
 
@@ -269,15 +290,15 @@ RSpec.describe Message do
     let(:message) { build(:message, message_type: :incoming, conversation: conversation) }
 
     it 'reopens resolved conversation when the message is from a contact' do
-      conversation.resolved!
+      conversation.update!(status: :resolved, ai_assignee: create(:agent_bot, account: conversation.account))
       message.save!
-      expect(message.conversation.open?).to be true
+      expect(conversation.reload).to have_attributes(status: 'open', ai_assignee_type: nil, assignee_agent_bot_id: nil)
     end
 
     it 'reopens snoozed conversation when the message is from a contact' do
-      conversation.snoozed!
+      conversation.update!(status: :snoozed, ai_assignee: create(:agent_bot, account: conversation.account))
       message.save!
-      expect(message.conversation.open?).to be true
+      expect(conversation.reload).to have_attributes(status: 'open', ai_assignee_type: nil, assignee_agent_bot_id: nil)
     end
 
     it 'will not reopen if the conversation is muted' do
@@ -288,14 +309,15 @@ RSpec.describe Message do
     end
 
     it 'will mark the conversation as pending if the agent bot is active' do
-      agent_bot = create(:agent_bot)
+      agent_bot = create(:agent_bot, account: conversation.account)
       inbox = conversation.inbox
       inbox.agent_bot = agent_bot
       inbox.save!
-      conversation.resolved!
+      conversation.update!(status: :resolved, ai_assignee: agent_bot)
       message.save!
       expect(conversation.open?).to be false
       expect(conversation.pending?).to be true
+      expect(conversation.reload.ai_assignee).to eq(agent_bot)
     end
   end
 
@@ -429,6 +451,11 @@ RSpec.describe Message do
       expect(message.webhook_data.key?(:attachments)).to be false
     end
 
+    it 'contains the message status' do
+      message = create(:message, status: :delivered)
+      expect(message.webhook_data[:status]).to eq('delivered')
+    end
+
     it 'uses raw content without markdown rendering for webhook content' do
       message = create(:message, content: 'Test **bold** content')
 
@@ -451,6 +478,31 @@ RSpec.describe Message do
     it 'updates conversation last_activity_at when created' do
       message.save!
       expect(message.created_at).to eq message.conversation.last_activity_at
+    end
+
+    it 'keeps the latest public message across internal activity and delayed messages' do
+      conversation = message.conversation
+      account = conversation.account
+      newest = Time.current.change(usec: 123_456)
+      public_reply = create(:message, :bot_message, conversation: conversation, account: account, created_at: newest)
+      create(:message, conversation: conversation, account: account, created_at: newest + 1.minute, private: true)
+      create(:message, conversation: conversation, account: account, created_at: newest + 2.minutes, message_type: :activity)
+      create(:message, conversation: conversation, account: account, created_at: newest - 1.minute)
+      public_reply.update!(status: :read)
+
+      expect(conversation.reload.last_message_at).to eq(newest)
+      expect(conversation.push_event_data[:last_message_at]).to eq(newest.to_f)
+      template = create(:message, conversation: conversation, account: account, message_type: :template, created_at: newest + 1.hour)
+      expect(template.push_event_data[:conversation][:last_message_at]).to eq((newest + 1.hour).to_f)
+    end
+
+    it 'rolls back the message if its conversation activity cannot be saved' do
+      conversation = message.conversation
+      allow(conversation).to receive(:record_message_activity!).and_raise(ActiveRecord::StatementInvalid)
+
+      expect { message.save! }.to raise_error(ActiveRecord::StatementInvalid)
+      expect(conversation.messages).to be_empty
+      expect(conversation.reload.last_message_at).to be_nil
     end
 
     it 'updates contact last_activity_at when created' do

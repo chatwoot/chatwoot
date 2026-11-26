@@ -1,6 +1,9 @@
 module Enterprise::Concerns::Message
   extend ActiveSupport::Concern
 
+  # Marks a fixed bot message, written in the account language, for translation into the contact language.
+  TRANSLATE_FOR_CONTACT_ATTRIBUTE = 'translate_for_contact'.freeze
+
   included do
     include ConversationMonitors::MessageTracking
     has_one :call, dependent: :nullify
@@ -17,9 +20,10 @@ module Enterprise::Concerns::Message
     content_attributes['translation_pending'] = true
   end
 
-  # Bots and automations already write in the contact language.
+  # Bots and automations already write in the contact language, except for the fixed texts they flag.
   def translation_enabled?
-    account.auto_translate_enabled? && content.present? && !private? && (template? || translatable_agent_reply?)
+    conversation.auto_translate_enabled? && content.present? && !private? &&
+      (template? || translatable_agent_reply? || content_attributes[TRANSLATE_FOR_CONTACT_ATTRIBUTE] == true)
   end
 
   # Forwarded messages and WhatsApp templates must go out exactly as they are.

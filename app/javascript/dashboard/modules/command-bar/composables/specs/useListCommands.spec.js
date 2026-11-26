@@ -26,6 +26,12 @@ describe('useListCommands', () => {
       getChatListFilters: { assigneeType: 'me' },
       getChatStatusFilter: 'open',
       getChatSortFilter: 'last_activity_at_desc',
+      getConversationSortOptions: [
+        'last_activity_at_desc',
+        'priority_desc',
+        'created_at_desc',
+        'last_message_at_asc',
+      ],
       getAppliedConversationFilters: [],
       'customViews/getActiveFolderContactId': undefined,
     };
@@ -53,6 +59,7 @@ describe('useListCommands', () => {
     expect(ids).not.toContain('status-open');
     expect(ids).not.toContain('sort-last_activity_at_desc');
     expect(ids).toContain('sort-priority_desc');
+    expect(ids).toContain('sort-last_message_at_asc');
   });
 
   it('hides the tabs the user cannot open', () => {

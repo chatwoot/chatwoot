@@ -62,10 +62,12 @@ class Article < ApplicationRecord
   # Slugs that collide with help center routes (e.g. /hc/:slug/:locale/search)
   RESERVED_SLUGS = %w[search articles categories].freeze
   SLUG_RANDOM_BYTES = 4
+  PREVIEW_TOKEN_EXPIRY = 1.hour
 
   validates :account_id, presence: true
   validates :author_id, presence: true
   validates :title, presence: true
+  validates :content, :draft_content, length: { maximum: 50_000 }
   validates :content, presence: true, if: :published?
   validates :slug, exclusion: { in: RESERVED_SLUGS }
   validates :slug, uniqueness: true, format: { with: /\A[a-zA-Z0-9_-]+\z/ }, if: :will_save_change_to_slug?
@@ -77,7 +79,7 @@ class Article < ApplicationRecord
   before_create :add_position_to_article
   after_save :category_id_changed_action, if: :saved_change_to_category_id?
 
-  enum status: { draft: 0, published: 1, archived: 2 }
+  enum :status, { draft: 0, published: 1, archived: 2 }
 
   scope :in_translation_families, ->(root_ids) { where(id: root_ids).or(where(associated_article_id: root_ids)) }
   scope :search_by_category_slug, ->(category_slug) { where(categories: { slug: category_slug }) if category_slug.present? }
@@ -135,6 +137,10 @@ class Article < ApplicationRecord
 
   def public_locale
     category.present? ? category.locale : locale
+  end
+
+  def preview_token
+    signed_id(purpose: :preview, expires_in: PREVIEW_TOKEN_EXPIRY)
   end
 
   def draft!

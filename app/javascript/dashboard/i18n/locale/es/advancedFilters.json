@@ -75,6 +75,7 @@
       "VALUE_REQUIRED": "El valor es requerido",
       "ATTRIBUTE_KEY_REQUIRED": "Clave de atributo es requerida",
       "FILTER_OPERATOR_REQUIRED": "El operador de filtro es requerido",
+      "INVALID_FILTER_OPERATOR": "Select a valid operator for this attribute",
       "VALUE_MUST_BE_BETWEEN_1_AND_998": "El valor debe ser entre 1 y 998"
     },
     "GROUPS": {
