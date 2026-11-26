@@ -13,12 +13,22 @@ export function useCopilotAskBar() {
   const assistantFlags = useMapGetter('captainAssistants/getUIFlags');
   const inboxes = useMapGetter('inboxes/getInboxes');
   const inboxFlags = useMapGetter('inboxes/getUIFlags');
+  const currentAccountId = useMapGetter('getCurrentAccountId');
+  const getAccount = useMapGetter('accounts/getAccount');
+
+  // An account with the classic layout keeps the plain empty screen and the corner Copilot button.
+  const isClassicLayout = computed(
+    () =>
+      getAccount.value(currentAccountId.value)?.settings
+        ?.copilot_classic_layout === true
+  );
 
   const hasCopilot = computed(
     () =>
       isEnterprise &&
       !shouldShowPaywall(FEATURE_FLAGS.CAPTAIN) &&
-      isFeatureFlagEnabled(FEATURE_FLAGS.CAPTAIN)
+      isFeatureFlagEnabled(FEATURE_FLAGS.CAPTAIN) &&
+      !isClassicLayout.value
   );
 
   // With no inbox, the empty state shows onboarding instead of the ask bar, so the launcher must stay visible.
