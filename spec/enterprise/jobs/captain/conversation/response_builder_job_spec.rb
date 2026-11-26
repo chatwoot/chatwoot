@@ -392,7 +392,8 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         expect(Captain::ConversationEvents).to receive(:response_failed)
           .with(conversation: conversation, assistant: assistant, reason: 'standard_error', at: kind_of(Time))
         expect(Captain::ConversationEvents).to receive(:handed_off)
-          .with(conversation: conversation, assistant: assistant, source: 'generation_failure', reason_category: :tool_failure, at: kind_of(Time))
+          .with(conversation: conversation, assistant: assistant, source: 'generation_failure',
+                reason_category: :generation_failure, at: kind_of(Time))
 
         described_class.perform_now(conversation, assistant)
       end
@@ -403,7 +404,8 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         expect(Captain::ConversationEvents).to receive(:response_failed)
           .with(conversation: conversation, assistant: assistant, reason: 'standard_error', at: kind_of(Time))
         expect(Captain::ConversationEvents).to receive(:handed_off)
-          .with(conversation: conversation, assistant: assistant, source: 'generation_failure', reason_category: :tool_failure, at: kind_of(Time))
+          .with(conversation: conversation, assistant: assistant, source: 'generation_failure',
+                reason_category: :generation_failure, at: kind_of(Time))
 
         described_class.perform_now(conversation, assistant)
       end
@@ -511,6 +513,20 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         public_messages = conversation.messages.outgoing.where(private: false)
         expect(public_messages.count).to eq(1)
         expect(public_messages.last.content).to eq(I18n.t('conversations.captain.handoff'))
+      end
+
+      it 'does not record a tool failure handoff when HandoffTool skipped because a newer customer message arrived' do
+        allow(mock_agent_runner_service).to receive(:handoff_completed?).and_return(false)
+        allow(mock_agent_runner_service).to receive(:generate_response) do
+          create(:message, conversation: conversation, content: 'Connect me to an agent', message_type: :incoming)
+          { 'response' => 'Let me connect you', 'handoff_tool_called' => true }
+        end
+        expect(Captain::ConversationEvents).not_to receive(:handed_off)
+
+        described_class.perform_now(conversation, assistant, responding_to_message.id)
+
+        expect(conversation.reload.status).to eq('pending')
+        expect(conversation.messages.outgoing.count).to eq(0)
       end
     end
 
