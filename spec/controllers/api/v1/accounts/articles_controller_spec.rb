@@ -302,22 +302,23 @@ RSpec.describe 'Api::V1::Accounts::Articles', type: :request do
         expect(article.reload.title).to eq('Updated title')
       end
 
-      it 'stages draft-only fields without bumping updated_at' do
+      it 'stages a 50,000-character draft without bumping updated_at' do
+        draft_content = 'a' * 50_000
         expect do
           put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
-              params: { article: { draft_title: 'Draft title', draft_content: 'Draft body' } },
+              params: { article: { draft_title: 'Draft title', draft_content: draft_content } },
               headers: admin.create_new_auth_token
         end.not_to(change { article.reload.updated_at })
 
         expect(response).to have_http_status(:success)
         expect(article.draft_title).to eq('Draft title')
-        expect(article.draft_content).to eq('Draft body')
+        expect(article.draft_content).to eq(draft_content)
       end
 
       it 'rejects an over-length draft without persisting it' do
         expect do
           put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/articles/#{article.id}",
-              params: { article: { draft_content: 'a' * 20_001 } },
+              params: { article: { draft_content: 'a' * 50_001 } },
               headers: admin.create_new_auth_token
         end.not_to(change { article.reload.draft_content })
 
