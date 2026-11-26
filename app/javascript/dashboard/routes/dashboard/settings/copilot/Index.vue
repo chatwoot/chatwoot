@@ -17,12 +17,13 @@ const { t } = useI18n();
 const { currentAccount, updateAccount } = useAccount();
 const { captainEnabled } = useCaptain();
 
-const TABS = { TOOLS: 'tools', KNOWLEDGE: 'knowledge' };
+const TABS = { GENERAL: 'general', TOOLS: 'tools', KNOWLEDGE: 'knowledge' };
 const tabs = computed(() => [
+  { key: TABS.GENERAL, label: t('COPILOT_SETTINGS.TABS.GENERAL') },
   { key: TABS.TOOLS, label: t('COPILOT_SETTINGS.TABS.TOOLS') },
   { key: TABS.KNOWLEDGE, label: t('COPILOT_SETTINGS.TABS.KNOWLEDGE') },
 ]);
-const activeTab = ref(TABS.TOOLS);
+const activeTab = ref(TABS.GENERAL);
 const activeTabIndex = computed(() =>
   tabs.value.findIndex(tab => tab.key === activeTab.value)
 );
@@ -76,12 +77,13 @@ const showOnHome = computed({
     <template #body>
       <div v-if="captainEnabled" class="flex flex-col gap-6">
         <SettingsToggleSection
+          v-if="activeTab === TABS.GENERAL"
           v-model="showOnHome"
           :header="t('COPILOT_SETTINGS.HOME_SCREEN.TITLE')"
           :description="t('COPILOT_SETTINGS.HOME_SCREEN.DESCRIPTION')"
         />
         <ToolsTab
-          v-if="activeTab === TABS.TOOLS"
+          v-else-if="activeTab === TABS.TOOLS"
           :settings="copilotSettings"
           @manage-knowledge="activeTab = TABS.KNOWLEDGE"
         />

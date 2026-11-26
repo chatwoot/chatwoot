@@ -671,6 +671,7 @@
       "DESCRIPTION": "Agents see the Copilot ask bar and starter questions when no conversation is open. When this is off, they can still open Copilot from its button."
     },
     "TABS": {
+      "GENERAL": "General",
       "TOOLS": "Tools",
       "KNOWLEDGE": "Knowledge"
     },
