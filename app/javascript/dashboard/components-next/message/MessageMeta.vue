@@ -10,7 +10,7 @@ import { useMessageContext } from './provider.js';
 
 import { MESSAGE_STATUS, MESSAGE_TYPES } from './constants';
 
-const exactTimestamp = useExactTimestamp();
+const exactTimestamp = useExactTimestamp({ showSeconds: true });
 
 const {
   isAFacebookInbox,
