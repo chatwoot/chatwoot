@@ -36,6 +36,16 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(conversation.messages.first.content).to eq(params[:content])
       end
 
+      it 'returns updated_at in the format of the message events' do
+        post api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id),
+             params: { content: 'test-message' },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        message = conversation.messages.last
+        expect(response.parsed_body['updated_at']).to eq(message.push_event_data[:updated_at].as_json)
+      end
+
       it 'does not create the message' do
         params = { content: "#{'h' * 150 * 1000}a", private: true }
 
@@ -293,6 +303,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
                as: :json
 
         expect(response).to have_http_status(:success)
+        expect(response).to conform_schema(200)
         expect(message.reload.content).to eq 'This message was deleted'
         expect(message.reload.deleted).to be true
         expect(message.reload.content_attributes['bcc_emails']).to be_nil
@@ -337,6 +348,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
                as: :json
 
         expect(response).to have_http_status(:not_found)
+        expect(response).to conform_schema(404)
       end
     end
   end
@@ -418,6 +430,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
             id: message.id
           ), params: { status: 'failed', external_error: 'err' }, headers: agent.create_new_auth_token, as: :json
           expect(response).to have_http_status(:forbidden)
+          expect(response).to conform_schema(403)
         end
       end
 
@@ -445,6 +458,7 @@ RSpec.describe 'Conversation Messages API', type: :request do
           ), params: { status: 'failed', external_error: 'err123' }, headers: agent.create_new_auth_token, as: :json
 
           expect(response).to have_http_status(:success)
+          expect(response).to conform_schema(200)
           expect(message.reload.status).to eq('failed')
           expect(message.reload.external_error).to eq('err123')
         end
