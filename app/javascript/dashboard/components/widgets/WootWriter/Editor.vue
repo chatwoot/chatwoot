@@ -882,7 +882,8 @@ function createEditorView() {
         if (text) {
           view.dispatch(view.state.tr.insertText(text));
           emitOnChange();
-        } else if (isCannedResponseEditor.value) {
+        }
+        if (isCannedResponseEditor.value) {
           uploadInlineImages(files);
         }
       },

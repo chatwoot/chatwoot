@@ -82,9 +82,9 @@ const editorKeydown = init => {
 const image = new File(['image'], 'dashboard.png', { type: 'image/png' });
 const textFile = new File(['notes'], 'notes.txt', { type: 'text/plain' });
 
-const editorPaste = files => {
+const editorPaste = (files, text = '') => {
   const event = {
-    clipboardData: { files, getData: () => '' },
+    clipboardData: { files, getData: () => text },
     preventDefault: vi.fn(),
   };
   view.someProp('handleDOMEvents', handlers => handlers.paste?.(view, event));
@@ -109,6 +109,16 @@ describe('Editor', () => {
       mountEditor({ props: { channelType: 'Context::CannedResponse' } });
 
       editorPaste([image]);
+      await flushPromises();
+
+      expect(uploadFile).toHaveBeenCalledWith(image);
+      expect(lastContent()).toContain('![](https://cdn.test/shot.png)');
+    });
+
+    it('writes a pasted image into the message when the clipboard also has text', async () => {
+      mountEditor({ props: { channelType: 'Context::CannedResponse' } });
+
+      editorPaste([image], 'dashboard.png');
       await flushPromises();
 
       expect(uploadFile).toHaveBeenCalledWith(image);
