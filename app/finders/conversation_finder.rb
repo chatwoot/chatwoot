@@ -57,6 +57,7 @@ class ConversationFinder
   private
 
   def set_up
+    set_inboxes
     set_team
     set_assignee_type
 
@@ -66,6 +67,10 @@ class ConversationFinder
     filter_by_labels
     filter_by_query
     filter_by_source_id
+  end
+
+  def set_inboxes
+    @inbox_ids = @current_user.assigned_inboxes.where(id: params[:inbox_id]).pluck(:id) if params[:inbox_id]
   end
 
   def set_assignee_type
@@ -81,9 +86,7 @@ class ConversationFinder
 
     return unless params[:inbox_id]
 
-    # Pass the inbox ids as values. As a subquery, the planner can re-check the inbox once per conversation row.
-    inbox_ids = @current_user.assigned_inboxes.where(id: params[:inbox_id]).pluck(:id)
-    @conversations = @conversations.where(inbox_id: inbox_ids)
+    @conversations = @conversations.where(inbox_id: @inbox_ids)
   end
 
   def find_all_conversations
