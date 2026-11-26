@@ -27,8 +27,10 @@ class Api::V1::Accounts::Integrations::HooksController < Api::V1::Accounts::Inte
   end
 
   def destroy
-    @hook.destroy!
+    destroy_integration_hook!
     head :ok
+  rescue Shopify::StorefrontWidget::ProviderError => e
+    render json: { error: e.message }, status: :unprocessable_entity
   end
 
   private

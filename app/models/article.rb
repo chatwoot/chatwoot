@@ -67,6 +67,7 @@ class Article < ApplicationRecord
   validates :account_id, presence: true
   validates :author_id, presence: true
   validates :title, presence: true
+  validates :content, :draft_content, length: { maximum: 50_000 }
   validates :content, presence: true, if: :published?
   validates :slug, exclusion: { in: RESERVED_SLUGS }
   validates :slug, uniqueness: true, format: { with: /\A[a-zA-Z0-9_-]+\z/ }, if: :will_save_change_to_slug?
