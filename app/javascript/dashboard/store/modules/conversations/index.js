@@ -53,7 +53,6 @@ const advanceLastMessageAt = (conversation, timestamp) => {
 };
 
 const addOrReplaceMessage = (chat, message, selectedChatId) => {
-  advanceLastMessageAt(chat, message.conversation?.last_message_at);
   const pendingMessageIndex = findPendingMessageIndex(chat, message);
   if (pendingMessageIndex !== -1) {
     const storedMessage = chat.messages[pendingMessageIndex];
@@ -291,6 +290,7 @@ export const mutations = {
     });
     if (!chat) return;
 
+    advanceLastMessageAt(chat, message.conversation?.last_message_at);
     addOrReplaceMessage(chat, message, selectedChatId);
   },
 
@@ -298,15 +298,19 @@ export const mutations = {
     const chat = getConversationById(_state)(message.conversation_id);
     if (!chat) return;
 
-    const isStored = findPendingMessageIndex(chat, message) !== -1;
-    // Pending and failed sends hold a UUID until the server saves them.
-    const lastSavedMessage = chat.messages.findLast(storedMessage =>
-      Number.isInteger(storedMessage.id)
-    );
-    // The history load brings an older message that is not loaded, in its place.
-    if (!isStored && lastSavedMessage && message.id < lastSavedMessage.id) {
-      return;
+    advanceLastMessageAt(chat, message.conversation?.last_message_at);
+    // The list card reads its preview from this copy until the history loads.
+    const previewMessage = chat.last_non_activity_message;
+    if (
+      previewMessage?.id === message.id &&
+      !isOlderMessageVersion(message, previewMessage)
+    ) {
+      chat.last_non_activity_message = message;
     }
+
+    const isStored = findPendingMessageIndex(chat, message) !== -1;
+    // History loads fetch the messages older than the first stored one, each in its place.
+    if (!isStored && message.id < chat.messages[0]?.id) return;
 
     addOrReplaceMessage(chat, message, _state.selectedChatId);
   },
