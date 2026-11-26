@@ -19,6 +19,7 @@ class CannedResponse < ApplicationRecord
   validates :short_code, uniqueness: { scope: :account_id }
 
   belongs_to :account
+  has_many_attached :files
 
   scope :order_by_search, lambda { |search|
     short_code_starts_with = sanitize_sql_array(['WHEN short_code ILIKE ? THEN 1', "#{search}%"])

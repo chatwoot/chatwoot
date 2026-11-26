@@ -1,19 +1,21 @@
 class Api::V1::Accounts::CannedResponsesController < Api::V1::Accounts::BaseController
   before_action :fetch_canned_response, only: [:update, :destroy]
 
+  rescue_from ActiveSupport::MessageVerifier::InvalidSignature do
+    render_could_not_create_error(I18n.t('errors.attachments.invalid'))
+  end
+
   def index
-    render json: canned_responses
+    @canned_responses = canned_responses.with_attached_files
   end
 
   def create
     @canned_response = Current.account.canned_responses.new(canned_response_params)
     @canned_response.save!
-    render json: @canned_response
   end
 
   def update
     @canned_response.update!(canned_response_params)
-    render json: @canned_response
   end
 
   def destroy
@@ -28,7 +30,7 @@ class Api::V1::Accounts::CannedResponsesController < Api::V1::Accounts::BaseCont
   end
 
   def canned_response_params
-    params.require(:canned_response).permit(:short_code, :content)
+    params.require(:canned_response).permit(:short_code, :content).merge(params.permit(files: []))
   end
 
   def canned_responses
