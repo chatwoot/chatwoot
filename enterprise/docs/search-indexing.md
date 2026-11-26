@@ -164,8 +164,11 @@ and counts can omit historical conversations.
 The first slice supports administrators, with status, inbox, assignee, team,
 priority and creation/activity conditions. AND/OR precedence, null handling,
 human/bot assignment counts and date/timezone boundaries follow the existing API.
-Creation/activity sorting supports the first 10,000 results. SQL checks selected
-rows against current account ownership, permissions and filter conditions; stale
+Creation/activity sorting supports the first 10,000 results. The `last_message_at_asc`
+and `last_message_at_desc` sorts remain on SQL, including their `last_message_sort`
+account flag, nulls-last ordering and display-ID tie-breaker. The public-message clock
+is separate from activity and is not added to the search document by this layer.
+SQL checks selected rows against current account ownership, permissions and filter conditions; stale
 page candidates and known engine availability failures use the full SQL request.
 
 Agents, custom roles, labels, custom attributes, unsupported sorts and deeper pages

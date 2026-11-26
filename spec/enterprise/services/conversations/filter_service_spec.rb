@@ -65,6 +65,43 @@ RSpec.describe Conversations::FilterService do
     expect(client).not_to have_received(:search)
   end
 
+  context 'with last-message sorting' do
+    let(:conversation) do
+      create(:conversation, account: account, status: :open, last_message_at: 3.hours.ago, last_activity_at: 5.minutes.ago)
+    end
+    let!(:recent) { create(:conversation, account: account, last_message_at: 1.hour.ago, last_activity_at: 10.minutes.ago) }
+    let!(:tied) { create(:conversation, account: account, last_message_at: recent.reload.last_message_at, last_activity_at: 15.minutes.ago) }
+    let!(:notes_only) { create(:conversation, account: account, last_message_at: nil, last_activity_at: Time.current) }
+
+    before do
+      account.enable_features!('last_message_sort')
+      allow(Conversation).to receive(:default_per_page).and_return(2)
+    end
+
+    %w[asc desc].each do |direction|
+      context "when ordered #{direction}" do
+        let(:params) { super().merge(sort_by: "last_message_at_#{direction}") }
+        let(:expected_order) { direction == 'asc' ? [conversation, recent, tied, notes_only] : [tied, recent, conversation, notes_only] }
+
+        it 'uses SQL before pagination, preserving nulls-last and display-ID ties' do
+          expect(result[:conversations].to_a).to eq(expected_order.first(2))
+          expect(result[:count][:all_count]).to eq(4)
+          second_page = described_class.new(params.merge(page: 2), user, account).perform
+          expect(second_page[:conversations].to_a).to eq(expected_order.last(2))
+          expect(second_page[:count][:all_count]).to eq(4)
+          expect(client).not_to have_received(:search)
+        end
+
+        it 'uses the default last-activity order when the sort feature is disabled' do
+          account.disable_features!('last_message_sort')
+
+          expect(result[:conversations].to_a).to eq([notes_only, conversation])
+          expect(client).not_to have_received(:search)
+        end
+      end
+    end
+  end
+
   it 'preserves the ascending order of the legacy creation sort' do
     params[:sort_by] = 'sort_on_created_at'
     result
