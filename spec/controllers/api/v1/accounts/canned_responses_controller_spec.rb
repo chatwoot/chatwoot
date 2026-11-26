@@ -129,6 +129,39 @@ RSpec.describe 'Canned Responses API', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(account.canned_responses.count).to eq(1)
       end
+
+      it 'does not create the canned response when a file no longer exists' do
+        signed_id = blob.signed_id
+        blob.purge
+
+        post "/api/v1/accounts/#{account.id}/canned_responses",
+             params: { short_code: 'guide', content: 'Here is the guide', files: [signed_id] },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(account.canned_responses.count).to eq(1)
+      end
+
+      it 'does not create the canned response when files is not a list' do
+        post "/api/v1/accounts/#{account.id}/canned_responses",
+             params: { short_code: 'guide', content: 'Here is the guide', files: blob.signed_id },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(account.canned_responses.count).to eq(1)
+      end
+
+      it 'attaches a file once when it is listed twice' do
+        post "/api/v1/accounts/#{account.id}/canned_responses",
+             params: { short_code: 'guide', content: 'Here is the guide', files: [blob.signed_id, blob.signed_id] },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(account.canned_responses.find_by(short_code: 'guide').files.blobs).to eq([blob])
+      end
     end
   end
 
