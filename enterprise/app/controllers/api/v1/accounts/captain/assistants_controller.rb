@@ -4,7 +4,9 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
   before_action :set_assistant, only: [:show, :update, :destroy, :avatar, :playground, :metrics, :faq_stats, :summary, :drilldown]
 
   def index
-    @assistants = account_assistants.ordered.with_attached_avatar
+    @assistants = account_assistants.ordered.with_attached_avatar.includes(:captain_inboxes)
+    # One grouped count, so the Copilot settings page does not request faq_stats once per assistant
+    @approved_response_counts = Captain::AssistantResponse.approved.where(assistant_id: @assistants.map(&:id)).group(:assistant_id).count
   end
 
   def show; end

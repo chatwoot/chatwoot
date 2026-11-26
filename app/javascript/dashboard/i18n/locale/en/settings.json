@@ -690,7 +690,8 @@
         },
         "FAQS": {
           "TITLE": "Assistant FAQs",
-          "DESCRIPTION": "Searches the approved FAQs of {searched} of {total} assistants.",
+          "DESCRIPTION": "Searches the approved FAQs of {name}.",
+          "NONE": "Turned off. Choose an assistant in Knowledge to let Copilot search its FAQs.",
           "NO_ASSISTANTS": "Searches assistant FAQs once you create an assistant in Captain.",
           "MANAGE": "Manage"
         },
@@ -729,20 +730,15 @@
     },
     "KNOWLEDGE": {
       "TITLE": "Assistant knowledge",
-      "DESCRIPTION": "When an agent asks about your product, Copilot searches the approved FAQs of the assistants you turn on here.",
+      "DESCRIPTION": "When an agent asks about your product, Copilot searches the approved FAQs of the assistant you turn on here. You can turn on one assistant at a time.",
       "TABLE": {
         "ASSISTANT": "Assistant",
         "FAQS": "Approved FAQs",
-        "INBOXES": "Inboxes",
-        "USE": "Use"
+        "INBOXES": "Inboxes"
       },
       "NO_FAQS": "Nothing to search",
       "NO_INBOXES": "None",
       "EMPTY": "There are no assistants in this account yet. Create one in Captain, and Copilot can search its FAQs.",
-      "INCLUDE_NEW": {
-        "TITLE": "Include new assistants automatically",
-        "DESCRIPTION": "Copilot searches an assistant you create later without a visit to this page."
-      },
       "SUGGEST": {
         "TITLE": "Suggest an answer",
         "DESCRIPTION": "A suggested reply is written by the assistant connected to the conversation's inbox, with that assistant's guidelines and FAQs. Change it in the assistant's own settings."

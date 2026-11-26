@@ -31,6 +31,20 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
           { total_count: 3, page: 1 }
         )
       end
+
+      it 'returns the approved FAQ count and connected inbox IDs of each assistant' do
+        assistant = create(:captain_assistant, account: account)
+        empty_assistant = create(:captain_assistant, account: account)
+        inbox = create(:inbox, account: account)
+        create(:captain_inbox, captain_assistant: assistant, inbox: inbox)
+        create_list(:captain_assistant_response, 2, assistant: assistant)
+
+        get "/api/v1/accounts/#{account.id}/captain/assistants", headers: agent.create_new_auth_token, as: :json
+
+        payload = json_response[:payload].index_by { |item| item[:id] }
+        expect(payload[assistant.id]).to include(approved_responses_count: 2, inbox_ids: [inbox.id])
+        expect(payload[empty_assistant.id]).to include(approved_responses_count: 0, inbox_ids: [])
+      end
     end
   end
 

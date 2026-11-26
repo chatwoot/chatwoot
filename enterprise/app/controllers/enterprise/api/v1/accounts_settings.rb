@@ -25,7 +25,17 @@ module Enterprise::Api::V1::AccountsSettings
   def permitted_settings_attributes
     super + [
       { conversation_required_attributes: [] },
-      { copilot: {} }
+      { copilot: [:show_on_home, :assistant_id] }
     ]
+  end
+
+  # The account update replaces each top-level setting, so merge Copilot keys into the saved ones. A request that sends
+  # only the home screen switch then keeps the saved assistant.
+  def settings_params
+    permitted = super
+    return permitted unless permitted[:copilot].is_a?(ActionController::Parameters)
+
+    saved = @account.settings['copilot'] || {}
+    permitted.merge(copilot: saved.merge(permitted[:copilot].to_h))
   end
 end

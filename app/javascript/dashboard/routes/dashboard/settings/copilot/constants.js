@@ -24,10 +24,13 @@ export const COPILOT_BUILT_IN_TOOL_GROUPS = [
   },
 ];
 
-// An assistant saved on or off keeps that choice. Any other assistant follows "Include new assistants automatically",
-// which is on when it was never saved.
-export const isAssistantSearched = (settings, assistantId) => {
-  if (settings.assistant_ids?.includes(assistantId)) return true;
-  if (settings.excluded_assistant_ids?.includes(assistantId)) return false;
-  return settings.include_new_assistants !== false;
+// Copilot searches the FAQs of one assistant. A saved null means none. Accounts that never saved this page, or whose
+// saved assistant was deleted, get the first assistant in the list, which is also Copilot's last fallback today.
+export const findSearchedAssistant = (settings, assistants) => {
+  if (settings.assistant_id === null) return null;
+  return (
+    assistants.find(assistant => assistant.id === settings.assistant_id) ||
+    assistants[0] ||
+    null
+  );
 };

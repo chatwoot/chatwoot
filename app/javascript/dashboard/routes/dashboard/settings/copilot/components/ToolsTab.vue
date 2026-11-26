@@ -9,7 +9,7 @@ import {
 import { useAccount } from 'dashboard/composables/useAccount';
 import {
   COPILOT_BUILT_IN_TOOL_GROUPS,
-  isAssistantSearched,
+  findSearchedAssistant,
 } from '../constants';
 
 import SectionLayout from '../../account/components/SectionLayout.vue';
@@ -33,14 +33,13 @@ const linearIntegration = useFunctionGetter(
 );
 
 const knowledgeDescription = computed(() => {
-  const total = assistants.value.length;
-  if (!total) return t('COPILOT_SETTINGS.TOOLS.GROUPS.FAQS.NO_ASSISTANTS');
-  const searched = assistants.value.filter(assistant =>
-    isAssistantSearched(props.settings, assistant.id)
-  ).length;
+  if (!assistants.value.length) {
+    return t('COPILOT_SETTINGS.TOOLS.GROUPS.FAQS.NO_ASSISTANTS');
+  }
+  const assistant = findSearchedAssistant(props.settings, assistants.value);
+  if (!assistant) return t('COPILOT_SETTINGS.TOOLS.GROUPS.FAQS.NONE');
   return t('COPILOT_SETTINGS.TOOLS.GROUPS.FAQS.DESCRIPTION', {
-    searched,
-    total,
+    name: assistant.name,
   });
 });
 
