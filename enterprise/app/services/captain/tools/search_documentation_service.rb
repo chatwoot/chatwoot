@@ -2,7 +2,8 @@ class Captain::Tools::SearchDocumentationService < Captain::Tools::BaseTool
   def self.name
     'search_documentation'
   end
-  description 'Search and retrieve documentation from knowledge base'
+  description "Search the business's own approved FAQs about its products, policies and processes. " \
+              'It does not cover how to use Chatwoot.'
 
   parameter :query, description: 'Search Query', required: true
 
