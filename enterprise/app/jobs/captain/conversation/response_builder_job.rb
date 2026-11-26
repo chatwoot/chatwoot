@@ -81,7 +81,8 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       "[CAPTAIN][ResponseBuilderJob] Reply handoff for account=#{account.id} conversation=#{@conversation.display_id} " \
       "agent=#{@response['agent_name']}"
     )
-    hand_off_to_human
+    # Keep the customer's waiting time, as the HandoffTool path does, so next response SLAs and reply times start from their message.
+    hand_off_to_human(preserve_waiting_since: true)
     # The model decided to hand off, as with the handoff tool, so the event uses the tool source.
     record_v2_handoff(source: Captain::ConversationEvents::Sources::TOOL, reason_category: :customer_request)
     capture_assistant_session(result_message: @handoff_message, credits_consumed: 0.0)
@@ -122,9 +123,9 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     hand_off_to_human
   end
 
-  def hand_off_to_human
+  def hand_off_to_human(preserve_waiting_since: false)
     I18n.with_locale(@assistant.account.locale) do
-      create_handoff_message
+      create_handoff_message(preserve_waiting_since: preserve_waiting_since)
       @conversation.bot_handoff!
       send_out_of_office_message_if_applicable
     end

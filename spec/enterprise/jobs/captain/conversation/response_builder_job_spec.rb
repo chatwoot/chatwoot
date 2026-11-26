@@ -430,6 +430,15 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
           expect(public_messages.pluck(:content)).to eq([I18n.t('conversations.captain.handoff')])
         end
 
+        it "keeps the customer's waiting time" do
+          waiting_since = 10.minutes.ago.change(usec: 0)
+          conversation.update!(waiting_since: waiting_since)
+
+          described_class.perform_now(conversation, assistant)
+
+          expect(conversation.reload.waiting_since).to eq(waiting_since)
+        end
+
         it 'sends the reply when the handoff field is false' do
           allow(mock_agent_runner_service).to receive(:generate_response).and_return({
                                                                                        'response' => 'Our store opens at 9.',
