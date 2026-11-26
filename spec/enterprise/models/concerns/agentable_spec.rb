@@ -212,13 +212,19 @@ RSpec.describe Concerns::Agentable do
       expect(dummy_instance.send(:agent_response_schema)).to eq(Captain::ResponseSchema)
     end
 
+    it 'returns Captain::HandoffResponseSchema when the account has captain_reply_handoff' do
+      account.enable_features!('captain_reply_handoff')
+
+      expect(dummy_instance.send(:agent_response_schema)).to eq(Captain::HandoffResponseSchema)
+    end
+
     it 'defines complete structured response parts with nested citation indexes' do
       schema = Captain::ResponseSchema.new.to_json_schema
       response_parts = schema.dig('properties', 'response_parts')
       response_part = response_parts.dig('items', 'properties')
 
-      expect(schema['required']).to contain_exactly('response_parts', 'reasoning', 'handoff')
-      expect(schema['properties'].keys).to eq(%w[reasoning handoff response_parts])
+      expect(schema['required']).to contain_exactly('response_parts', 'reasoning')
+      expect(schema['properties'].keys).to eq(%w[reasoning response_parts])
       expect(response_parts).to include('type' => 'array', 'minItems' => 1)
       expect(response_part.dig('text', 'type')).to eq('string')
       expect(response_part.dig('citation_indexes', 'items', 'type')).to eq('integer')
@@ -226,10 +232,13 @@ RSpec.describe Concerns::Agentable do
       expect(schema['properties']).not_to have_key('response')
     end
 
-    it 'requires a boolean handoff decision on every reply' do
-      schema = Captain::ResponseSchema.new.to_json_schema
+    it 'requires a boolean handoff decision before the response parts in the handoff schema' do
+      schema = Captain::HandoffResponseSchema.new.to_json_schema
 
+      expect(schema['required']).to contain_exactly('reasoning', 'handoff', 'response_parts')
+      expect(schema['properties'].keys).to eq(%w[reasoning handoff response_parts])
       expect(schema.dig('properties', 'handoff', 'type')).to eq('boolean')
+      expect(schema['properties']['response_parts']).to eq(Captain::ResponseSchema.new.to_json_schema['properties']['response_parts'])
     end
   end
 

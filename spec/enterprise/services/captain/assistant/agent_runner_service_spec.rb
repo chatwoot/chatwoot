@@ -701,6 +701,12 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         expect(result['handoff']).to be(true)
       end
 
+      it 'does not add a handoff field when the original reply has none' do
+        result = service.generate_response(message_history: message_history)
+
+        expect(result).not_to have_key('handoff')
+      end
+
       it 'rejects a rewrite that changes the response part citation order' do
         channel_limit_rewrite[:rewrite_run_result].output['response_parts'].reverse!
         allow(ChatwootExceptionTracker).to receive(:new).and_return(

@@ -333,3 +333,7 @@
   display_name: Sort conversations by last message
   enabled: true
   column: feature_flags_ext_1
+- name: captain_reply_handoff
+  display_name: Captain reply handoff
+  enabled: false
+  column: feature_flags_ext_1
