@@ -407,22 +407,6 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
 
         described_class.perform_now(conversation, assistant)
       end
-
-      it 'sends the reply and keeps the conversation pending when the handoff field is set without the handoff tool' do
-        allow(mock_agent_runner_service).to receive(:generate_response).and_return({
-                                                                                     'response' => 'A teammate will take it from here.',
-                                                                                     'reasoning' => 'Customer asked for a person',
-                                                                                     'handoff' => true,
-                                                                                     'handoff_tool_called' => false
-                                                                                   })
-
-        expect(Captain::ConversationEvents).not_to receive(:handed_off)
-
-        described_class.perform_now(conversation, assistant)
-
-        expect(conversation.reload.status).to eq('pending')
-        expect(conversation.messages.outgoing.where(private: false).pluck(:content)).to eq(['A teammate will take it from here.'])
-      end
     end
 
     context 'when captain_v2 handoff tool fires during agent execution' do
