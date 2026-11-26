@@ -52,16 +52,28 @@ RSpec.describe Captain::ScenarioToolSuggestionService do
           tool_id: custom_tool.slug,
           tool_title: 'Get Order History',
           phrase: 'Check their order history',
-          replacement: "Check their order history using [@Get Order History](tool://#{custom_tool.slug})"
+          replacement: "Check their order history [@Get Order History](tool://#{custom_tool.slug})"
         },
         {
           tool_id: 'add_private_note',
           tool_title: 'Add Private Note',
           phrase: 'add a private note',
-          replacement: 'add a private note using [@Add Private Note](tool://add_private_note)'
+          replacement: 'add a private note [@Add Private Note](tool://add_private_note)'
         }
       ]
     )
+  end
+
+  context 'when the phrase appears more than once outside tool links' do
+    let(:instruction) { 'Do not add a private note for VIP customers. For everyone else, add a private note with the order number.' }
+
+    it 'drops the suggestion, because the editor could link the wrong occurrence' do
+      allow(service).to receive(:make_api_call).and_return(
+        message: { 'suggestions' => [{ 'phrase' => 'add a private note', 'tool_id' => 'add_private_note' }] }
+      )
+
+      expect(service.perform).to eq(suggestions: [])
+    end
   end
 
   it 'returns the error when the model call fails, without debiting Captain responses' do

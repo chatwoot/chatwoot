@@ -32,14 +32,16 @@ class Captain::ScenarioToolSuggestionService < Captain::BaseTaskService
   end
 
   # The model may return a tool that does not exist, one the instruction already links, or a phrase it rewrote.
-  # The editor replaces the phrase verbatim, so only phrases found outside existing tool links are kept.
+  # The editor replaces the phrase verbatim, so only phrases found exactly once outside existing tool links are kept.
+  # A phrase that appears twice could be linked at the wrong place, such as an action the instruction forbids.
   def valid_suggestions(message)
     suggestions = Array(message&.dig('suggestions')).filter_map do |suggestion|
       tool = available_tools.find { |available_tool| available_tool[:id] == suggestion['tool_id'] }
       phrase = suggestion['phrase'].to_s.strip
       next unless linkable?(tool, phrase)
 
-      { tool_id: tool[:id], tool_title: tool[:title], phrase: phrase, replacement: "#{phrase} using [@#{tool[:title]}](tool://#{tool[:id]})" }
+      # The link follows the admin's own words with no connecting word, so it reads the same in every language.
+      { tool_id: tool[:id], tool_title: tool[:title], phrase: phrase, replacement: "#{phrase} [@#{tool[:title]}](tool://#{tool[:id]})" }
     end
 
     suggestions.uniq { |suggestion| suggestion[:tool_id] }
@@ -49,7 +51,7 @@ class Captain::ScenarioToolSuggestionService < Captain::BaseTaskService
     return false if tool.nil? || phrase.blank?
     return false if extract_tool_ids_from_text(instruction).include?(tool[:id])
 
-    instruction.gsub(TOOL_REFERENCE_REGEX, '').include?(phrase)
+    instruction.gsub(TOOL_REFERENCE_REGEX, '').scan(phrase).one?
   end
 
   def event_name

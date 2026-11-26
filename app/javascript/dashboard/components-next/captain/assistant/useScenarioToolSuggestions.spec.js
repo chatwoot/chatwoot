@@ -16,7 +16,7 @@ const suggestion = (toolId, toolTitle, phrase) => ({
   tool_id: toolId,
   tool_title: toolTitle,
   phrase,
-  replacement: `${phrase} using [@${toolTitle}](tool://${toolId})`,
+  replacement: `${phrase} [@${toolTitle}](tool://${toolId})`,
 });
 
 describe('useScenarioToolSuggestions', () => {
@@ -55,7 +55,7 @@ describe('useScenarioToolSuggestions', () => {
         'Use [@add a private note to the contact](tool://add_contact_note) for profile notes, then check order history and add a private note.',
     });
     expect(instruction.value).toBe(
-      `Use [@add a private note to the contact](tool://add_contact_note) for profile notes, then check order history using ${ORDERS_LINK} and add a private note using ${NOTE_LINK}.`
+      `Use [@add a private note to the contact](tool://add_contact_note) for profile notes, then check order history ${ORDERS_LINK} and add a private note ${NOTE_LINK}.`
     );
     expect(suggestions.value.map(item => item.toolId)).toEqual([
       'add_private_note',
@@ -65,7 +65,7 @@ describe('useScenarioToolSuggestions', () => {
     removeSuggestion('custom_get_order_history');
 
     expect(instruction.value).toBe(
-      `Use [@add a private note to the contact](tool://add_contact_note) for profile notes, then check order history and add a private note using ${NOTE_LINK}.`
+      `Use [@add a private note to the contact](tool://add_contact_note) for profile notes, then check order history and add a private note ${NOTE_LINK}.`
     );
     expect(suggestions.value.map(item => item.toolId)).toEqual([
       'add_private_note',
@@ -98,6 +98,40 @@ describe('useScenarioToolSuggestions', () => {
 
     expect(await linkMissingTools()).toBe(false);
     expect(CaptainScenarios.suggestTools).toHaveBeenCalledTimes(2);
+  });
+
+  it('keeps what the admin typed during the check and checks the new text on the next save', async () => {
+    const instruction = ref('Add a private note.');
+    CaptainScenarios.suggestTools.mockImplementation(async () => {
+      instruction.value = 'Add a private note with the order number.';
+      return {
+        data: {
+          suggestions: [
+            suggestion(
+              'add_private_note',
+              'Add Private Note',
+              'Add a private note'
+            ),
+          ],
+        },
+      };
+    });
+    const { suggestions, linkMissingTools } =
+      useScenarioToolSuggestions(instruction);
+
+    expect(await linkMissingTools()).toBe(true);
+    expect(instruction.value).toBe('Add a private note with the order number.');
+    expect(suggestions.value).toEqual([]);
+
+    CaptainScenarios.suggestTools.mockResolvedValue({
+      data: { suggestions: [] },
+    });
+
+    expect(await linkMissingTools()).toBe(false);
+    expect(CaptainScenarios.suggestTools).toHaveBeenLastCalledWith({
+      assistantId: '7',
+      instruction: 'Add a private note with the order number.',
+    });
   });
 
   it('does not block saving when the check fails', async () => {

@@ -22,7 +22,7 @@ export const applyToolSuggestion = (instruction, { phrase, replacement }) => {
 
 export const revertToolSuggestion = (instruction, { phrase, toolId }) => {
   const linkedPhrase = new RegExp(
-    `${escapeRegExp(phrase)} using \\[[^\\]]*\\]\\(tool://${escapeRegExp(toolId)}\\)`
+    `${escapeRegExp(phrase)} \\[[^\\]]*\\]\\(tool://${escapeRegExp(toolId)}\\)`
   );
   return instruction.replace(linkedPhrase, phrase);
 };
@@ -33,19 +33,24 @@ export function useScenarioToolSuggestions(instruction) {
   const isChecking = ref(false);
   let reviewedInstruction = null;
 
-  // Returns true when it linked tools, so the form stays open for review instead of saving.
-  // A failed check never blocks saving.
+  // Returns true when the form should stay open: tools were linked for review, or the admin edited the
+  // instruction while the check ran. A failed check never blocks saving.
   const linkMissingTools = async () => {
     if (instruction.value === reviewedInstruction) return false;
 
+    const checkedInstruction = instruction.value;
     isChecking.value = true;
     try {
       const { data } = await CaptainScenarios.suggestTools({
         assistantId: route.params.assistantId,
-        instruction: instruction.value,
+        instruction: checkedInstruction,
       });
+      // The editor stays editable during the check. Linking the old text would erase what the admin typed,
+      // so drop this result and check the new text on the next save.
+      if (instruction.value !== checkedInstruction) return true;
+
       const linked = [];
-      let linkedInstruction = instruction.value;
+      let linkedInstruction = checkedInstruction;
       data.suggestions.forEach(suggestion => {
         const nextInstruction = applyToolSuggestion(
           linkedInstruction,

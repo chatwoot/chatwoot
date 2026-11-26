@@ -276,7 +276,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Scenarios', type: :request do
 
     it 'returns the suggestions for the instruction of the assistant' do
       suggestion = { tool_id: 'add_private_note', tool_title: 'Add Private Note', phrase: 'Add a private note',
-                     replacement: 'Add a private note using [@Add Private Note](tool://add_private_note)' }
+                     replacement: 'Add a private note [@Add Private Note](tool://add_private_note)' }
       allow(suggestion_service).to receive(:perform).and_return(suggestions: [suggestion])
 
       post path, params: { instruction: 'Add a private note' }, headers: admin.create_new_auth_token, as: :json
