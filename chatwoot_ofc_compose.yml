@@ -49,9 +49,6 @@ services:
       interval: 60s
       timeout: 20s
       retries: 10
-      # An upgrade migrates before the server answers, and on a large database that outlasts
-      # the 10 retries; without this window sidekiq's depends_on gives up and never starts.
-      start_period: 30m
 
   sidekiq:
     image: 'ghcr.io/rise-brasil/chatwoot:latest'
@@ -91,11 +88,9 @@ services:
       - config/sidekiq.yml
     restart: always
     healthcheck:
-      # The image's entrypoint holds the worker until migrations land, and its argv carries the
-      # word sidekiq meanwhile; only the real worker process counts as healthy.
       test:
         - CMD-SHELL
-        - 'ps aux | grep [s]idekiq | grep -qv entrypoints'
+        - 'ps aux | grep [s]idekiq'
       interval: 20s
       timeout: 20s
       retries: 10
