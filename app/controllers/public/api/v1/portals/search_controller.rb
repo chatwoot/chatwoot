@@ -24,7 +24,7 @@ class Public::Api::V1::Portals::SearchController < Public::Api::V1::Portals::Bas
   end
 
   def search_params
-    params.permit(:query, :locale, :sort, :status, :page).tap do |permitted|
+    params.permit(:query, :locale, :status, :page).tap do |permitted|
       permitted[:query] = @query
     end
   end

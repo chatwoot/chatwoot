@@ -38,7 +38,9 @@ RSpec.describe 'Public Articles API', type: :request do
           before { portal.update!(config: portal.config.merge('layout' => layout)) }
 
           it 'keeps pagination and filters on the portal article list' do
-            get "/hc/#{portal.slug}/en/articles.html", params: { page: 2, per_page: 1, sort: 'views', status: 'published', utm_source: 'newsletter' }
+            get "/hc/#{portal.slug}/en/articles.html", params: {
+              page: 2, per_page: 1, sort: 'views', status: 'published', theme: 'dark', utm_source: 'newsletter', gclid: 'click', unrelated: 'ignored'
+            }
 
             expect(response).to have_http_status(:success)
             page = Nokogiri::HTML5(response.body)
@@ -54,7 +56,9 @@ RSpec.describe 'Public Articles API', type: :request do
 
           it 'keeps the category route and search term on the category article list' do
             path = "/hc/#{portal.slug}/en/categories/#{category.slug}/articles"
-            get "#{path}/", params: { query: 'MyText', page: 2, per_page: 1, sort: 'views', utm_source: 'newsletter' }
+            get "#{path}/", params: {
+              query: 'MyText', page: 2, per_page: 1, sort: 'views', theme: 'dark', utm_source: 'newsletter', gclid: 'click', unrelated: 'ignored'
+            }
 
             expect(response).to have_http_status(:success)
             page = Nokogiri::HTML5(response.body)
@@ -209,7 +213,7 @@ RSpec.describe 'Public Articles API', type: :request do
           portal.update!(config: portal.config.merge('layout' => layout))
           path = "/hc/#{portal.slug}/articles/#{translated_article.slug}"
 
-          get "#{path}/", params: { query: 'canales', utm_source: 'newsletter' }
+          get "#{path}/", params: { query: 'canales', page: 2, theme: 'dark', utm_source: 'newsletter', unrelated: 'ignored' }
 
           expect(response).to have_http_status(:ok)
           page = Nokogiri::HTML5(response.body)

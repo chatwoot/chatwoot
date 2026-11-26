@@ -27,7 +27,7 @@ RSpec.describe Public::Api::V1::PortalsController, type: :request do
           end
 
           it 'uses the custom domain and localized route without trailing slashes or query strings' do
-            get "/hc/#{portal.slug}/pt_BR/", params: { query: 'canais', utm_source: 'newsletter' }
+            get "/hc/#{portal.slug}/pt_BR/", params: { query: 'canais', page: 2, theme: 'dark', utm_source: 'newsletter', unrelated: 'ignored' }
 
             expect(response).to have_http_status(:ok)
             page = Nokogiri::HTML5(response.body)

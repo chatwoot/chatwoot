@@ -20,15 +20,18 @@ RSpec.describe 'Public Help Center search', type: :request do
       let(:layout) { portal_layout }
 
       it 'keeps the search term and result page in the canonical URL' do
-        create_list(:article, 12, account: account, portal: portal, author: author, locale: 'hr', title: 'matchingcase')
+        create_list(:article, 12, account: account, portal: portal, author: author, locale: 'hr', title: 'matchingcase & guide')
 
-        get "/hc/#{portal.slug}/hr/search/", params: { query: ' matchingcase ', page: 2, status: 'published', utm_source: 'newsletter' }
+        get "/hc/#{portal.slug}/hr/search/", params: {
+          query: ' matchingcase & guide ', page: 2, status: 'published', sort: 'views', per_page: 1,
+          theme: 'dark', show_plain_layout: false, utm_source: 'newsletter', gclid: 'click', unrelated: 'ignored', host: 'wrong.example.com'
+        }
 
         expect(response).to have_http_status(:success)
         page = Nokogiri::HTML5(response.body)
         canonical_urls = page.css('head link[rel="canonical"]').map { |link| link['href'] }
-        expect(canonical_urls).to eq(["https://www.example.com/hc/#{portal.slug}/hr/search?page=2&query=matchingcase&status=published"])
-        expect(page.css('h3').count { |heading| heading.text.strip == 'matchingcase' }).to eq(2)
+        expect(canonical_urls).to eq(["https://www.example.com/hc/#{portal.slug}/hr/search?page=2&query=matchingcase+%26+guide&status=published"])
+        expect(page.css('h3').count { |heading| heading.text.strip == 'matchingcase & guide' }).to eq(2)
         content = page.at_css('main').text.squish
 
         get canonical_urls.first

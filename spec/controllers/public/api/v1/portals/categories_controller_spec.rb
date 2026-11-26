@@ -41,7 +41,7 @@ RSpec.describe 'Public Categories API', type: :request do
 
           it 'uses the localized category route without trailing slashes or query strings' do
             path = "/hc/#{portal.slug}/es/categories/#{localized_category.slug}"
-            get "#{path}/", params: { query: 'canales', utm_source: 'newsletter' }
+            get "#{path}/", params: { query: 'canales', page: 2, theme: 'dark', utm_source: 'newsletter', unrelated: 'ignored' }
 
             expect(response).to have_http_status(:ok)
             page = Nokogiri::HTML5(response.body)
