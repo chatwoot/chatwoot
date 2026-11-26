@@ -25,7 +25,8 @@ class Public::Api::V1::Portals::BaseController < PublicController
     return false if @is_plain_layout_enabled || @is_internal_preview
     return false if @portal.search_indexing_disabled? || @article&.noindex?
 
-    @portal.public_locale_codes.include?(@locale)
+    locale = @article ? @article.public_locale : @locale
+    @portal.public_locale_codes.include?(locale)
   end
 
   def show_plain_layout

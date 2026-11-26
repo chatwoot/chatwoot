@@ -288,6 +288,29 @@ RSpec.describe 'Public Articles API', type: :request do
             )
           end
 
+          it 'keeps canonical and social URLs for a public article with a draft display locale' do
+            portal.update!(config: portal.config.merge('draft_locales' => ['es']))
+            path = "/hc/#{portal.slug}/articles/#{article.slug}"
+
+            get path, params: { locale: 'es' }
+
+            expect(response).to have_http_status(:ok)
+            expect(Nokogiri::HTML5(response.body).at_css('html')['lang']).to eq('es')
+            canonical_url = "https://www.example.com#{path}"
+            expect(page_head.css('link[rel="canonical"]').map { |link| link['href'] }).to eq([canonical_url])
+            expect(metadata).to include('og:url' => canonical_url, 'twitter:url' => canonical_url)
+          end
+
+          it 'omits canonical and social URLs for a draft-locale article with a public display locale' do
+            portal.update!(config: portal.config.merge('draft_locales' => ['es']))
+
+            get article_path, params: { locale: 'en' }
+
+            expect(response).to have_http_status(:ok)
+            expect(page_head.css('link[rel="canonical"]')).to be_empty
+            expect(metadata.keys).not_to include('og:url', 'twitter:url')
+          end
+
           it 'uses a short plain-text Markdown excerpt when the summary is absent' do
             content = "## Pasos\n\nConfigura **canales** con un [enlace](https://example.test). #{'Sigue los pasos. ' * 20}"
             translated_article.update!(description: nil, content: content)
