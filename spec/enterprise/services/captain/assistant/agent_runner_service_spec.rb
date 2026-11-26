@@ -255,7 +255,7 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       complete_run('Billing', run_result(handoff: true))
 
       expect(Rails.logger).to have_received(:info).with(
-        include('Handoff field set without the handoff tool', "conversation=#{conversation.display_id}", 'agent=Billing',
+        include('Handoff field set without the handoff tool', "account=#{account.id}", "conversation=#{conversation.display_id}",
                 'agent_has_handoff_tool=false')
       )
       expect(root_span).to have_received(:set_attribute).with('langfuse.trace.metadata.handoff_without_tool', 'true')

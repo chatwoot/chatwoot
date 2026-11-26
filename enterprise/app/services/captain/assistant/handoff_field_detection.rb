@@ -18,7 +18,7 @@ module Captain::Assistant::HandoffFieldDetection
     agent_has_handoff_tool = agent_has_tool?(agent_name, handoff_tool_name)
     Rails.logger.info(
       "[CAPTAIN][AgentRunnerService] Handoff field set without the handoff tool for account=#{@assistant.account_id} " \
-      "conversation=#{@conversation&.display_id} agent=#{agent_name} agent_has_handoff_tool=#{agent_has_handoff_tool} source=#{@source}"
+      "conversation=#{@conversation&.display_id} agent_has_handoff_tool=#{agent_has_handoff_tool}"
     )
 
     root_span = context_wrapper&.context&.dig(:__otel_tracing, :root_span)
