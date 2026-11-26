@@ -256,6 +256,7 @@
     "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
     "DOCS": "Read documentation",
     "CHANGELOG": "Changelog",
+    "CHANGELOG_DISMISS_ALL": "Dismiss all",
     "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
@@ -690,6 +691,19 @@
       "TITLE": "Manage your subscription",
       "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
       "BUTTON_TXT": "Go to the billing portal"
+    },
+    "LEGAL_COMPLIANCE": {
+      "TITLE": "Legal & Compliance",
+      "DPA": {
+        "TITLE": "Data Processing Agreement (DPA)",
+        "DESCRIPTION": "Sign a Data Processing Agreement between your organization and Chatwoot.",
+        "BUTTON_TXT": "Sign DPA"
+      },
+      "TRUST_CENTER": {
+        "TITLE": "Security & Compliance",
+        "DESCRIPTION": "Review our security practices and compliance documentation.",
+        "BUTTON_TXT": "Trust Center"
+      }
     },
     "CAPTAIN": {
       "TITLE": "Captain",

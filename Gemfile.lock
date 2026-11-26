@@ -664,7 +664,7 @@ GEM
     procore-sift (1.0.0)
       activerecord (>= 6.1)
     public_suffix (7.0.5)
-    puma (7.2.2)
+    puma (7.2.3)
       nio4r (~> 2.0)
     pundit (2.3.0)
       activesupport (>= 3.0.0)
@@ -679,7 +679,7 @@ GEM
       rack (>= 2.0.0)
     rack-mini-profiler (4.0.1)
       rack (>= 1.2.0)
-    rack-protection (4.2.1)
+    rack-protection (4.2.2)
       base64 (>= 0.1.0)
       logger (>= 1.6.0)
       rack (>= 3.0.0, < 4)
@@ -851,7 +851,7 @@ GEM
       rb-fsevent (~> 0.9, >= 0.9.4)
       rb-inotify (~> 0.9, >= 0.9.7)
     schematist (1.1.0)
-    scout_apm (5.3.3)
+    scout_apm (5.8.0)
       parser
     scss_lint (0.60.0)
       sass (~> 3.5, >= 3.5.5)
@@ -1174,7 +1174,7 @@ DEPENDENCIES
   working_hours
 
 RUBY VERSION
-   ruby 3.4.4p34
+   ruby 3.4.13p195
 
 BUNDLED WITH
    2.5.16

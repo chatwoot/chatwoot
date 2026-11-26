@@ -398,7 +398,7 @@ class Rack::Attack
   end
 
   throttle('/api/v1/accounts/:account_id/conversations/user',
-           limit: ENV.fetch('RATE_LIMIT_CONVERSATIONS_LIST', '30').to_i, period: 1.minute) do |req|
+           limit: ENV.fetch('RATE_LIMIT_CONVERSATIONS_LIST', '1000').to_i, period: 1.minute) do |req|
     match_data = %r{\A/api/v1/accounts/(?<account_id>\d+)/conversations\z}.match(req.path_without_extensions)
     next unless match_data.present? && req.get?
 
@@ -407,7 +407,26 @@ class Rack::Attack
     "#{user_identifier}:#{match_data[:account_id]}" if user_identifier.present?
   end
 
+  throttle('/api/v1/accounts/:account_id/conversations/filter/user',
+           limit: ENV.fetch('RATE_LIMIT_CONVERSATIONS_FILTER', '1000').to_i, period: 1.minute) do |req|
+    match_data = %r{\A/api/v1/accounts/(?<account_id>\d+)/conversations/filter/?\z}.match(req.path_without_extensions)
+    next unless match_data.present? && req.post?
+
+    user_identifier = req.api_user_identifier
+
+    "#{user_identifier}:#{match_data[:account_id]}" if user_identifier.present?
+  end
+
   ## ----------------------------------------------- ##
+end
+
+Rack::Attack.throttled_responder = lambda do |request|
+  match_data = request.env['rack.attack.match_data']
+  period = match_data[:period].to_i
+  retry_after = period - (match_data[:epoch_time] % period)
+  body = { error: "Too many requests. Retry after #{retry_after} seconds.", retry_after: retry_after }
+
+  [429, { 'content-type' => 'application/json', 'retry-after' => retry_after.to_s }, [body.to_json]]
 end
 
 # Log blocked events

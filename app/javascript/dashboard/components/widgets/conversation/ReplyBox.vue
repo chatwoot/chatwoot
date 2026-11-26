@@ -668,14 +668,18 @@ export default {
     },
     getCopilotAcceptedMessage(replyType = this.effectiveReplyMode) {
       const key = this.getDraftKey(this.conversationIdByRoute, replyType);
-      return this.copilotAcceptedMessages[key] || '';
+      return this.copilotAcceptedMessages[key] || null;
     },
-    setCopilotAcceptedMessage(message, replyType = this.effectiveReplyMode) {
+    setCopilotAcceptedMessage(
+      message,
+      action,
+      replyType = this.effectiveReplyMode
+    ) {
       const key = this.getDraftKey(this.conversationIdByRoute, replyType);
-      this.copilotAcceptedMessages[key] = trimContent(
-        message || '',
-        this.maxLength
-      );
+      this.copilotAcceptedMessages[key] = {
+        content: trimContent(message || '', this.maxLength),
+        action,
+      };
     },
     clearCopilotAcceptedMessage(replyType = this.effectiveReplyMode) {
       const key = this.getDraftKey(this.conversationIdByRoute, replyType);
@@ -908,7 +912,7 @@ export default {
         this.hideEmojiPicker();
       }
     },
-    sendMessageAsMultipleMessages(message, copilotAcceptedMessage = '') {
+    sendMessageAsMultipleMessages(message, copilotAcceptedMessage = null) {
       const messages = this.getMultipleMessagesPayload(message);
       messages.forEach(messagePayload => {
         this.sendMessage(
@@ -920,7 +924,7 @@ export default {
     },
     sendMessageAnalyticsData(
       isPrivate,
-      { editorMessage = '', copilotAcceptedMessage = '' } = {}
+      { editorMessage = '', copilotAcceptedMessage = null } = {}
     ) {
       const normalizeForComparison = message => {
         let normalizedMessage = message || '';
@@ -941,7 +945,7 @@ export default {
       };
 
       const normalizedAcceptedMessage = normalizeForComparison(
-        copilotAcceptedMessage
+        copilotAcceptedMessage?.content
       );
       const normalizedEditorMessage = normalizeForComparison(editorMessage);
 
@@ -951,6 +955,7 @@ export default {
           channelType: this.channelType,
           editedBeforeSend:
             normalizedAcceptedMessage !== normalizedEditorMessage,
+          aiAction: copilotAcceptedMessage.action,
           isPrivate,
         });
       }
@@ -991,7 +996,7 @@ export default {
     async sendMessage(
       messagePayload,
       editorMessage = '',
-      copilotAcceptedMessage = ''
+      copilotAcceptedMessage = null
     ) {
       try {
         await this.$store.dispatch(
@@ -1230,6 +1235,13 @@ export default {
         private: this.isPrivate,
         sender: this.sender,
       };
+      // Tells the server whether the reply ends with the thread added here, so
+      // transcripts never strip a quote the agent wrote.
+      if (this.isAnEmailChannel && !this.isPrivate) {
+        messagePayload.contentAttributes = {
+          email_quote_appended: messageWithQuote !== message,
+        };
+      }
       messagePayload = this.setReplyToInPayload(messagePayload);
 
       if (this.attachedFiles && this.attachedFiles.length) {
@@ -1342,7 +1354,10 @@ export default {
     onSubmitCopilotReply() {
       const acceptedMessage = this.copilot.accept();
       this.message = acceptedMessage;
-      this.setCopilotAcceptedMessage(acceptedMessage);
+      this.setCopilotAcceptedMessage(
+        acceptedMessage,
+        this.copilot.acceptedAction.value
+      );
     },
     onInsertWhileCopilotActive(content) {
       if (!this.copilot.isActive.value) return;

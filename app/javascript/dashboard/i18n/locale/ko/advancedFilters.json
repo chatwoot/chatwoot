@@ -75,6 +75,7 @@
       "VALUE_REQUIRED": "값이 필요합니다.",
       "ATTRIBUTE_KEY_REQUIRED": "속성 키가 필요합니다.",
       "FILTER_OPERATOR_REQUIRED": "필터 연산자가 필요합니다.",
+      "INVALID_FILTER_OPERATOR": "Select a valid operator for this attribute",
       "VALUE_MUST_BE_BETWEEN_1_AND_998": "값은 1에서 998 사이여야 합니다."
     },
     "GROUPS": {

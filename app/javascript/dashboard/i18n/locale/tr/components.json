@@ -7,6 +7,7 @@
     "PLACEHOLDER": "Bir seçenek seçin...",
     "EMPTY_SEARCH_RESULTS": "No items found for the search term `{searchTerm}`",
     "EMPTY_STATE": "Sonuç bulunamadı.",
+    "LOADING": "Loading...",
     "SEARCH_PLACEHOLDER": "Ara...",
     "MORE": "+{count} more"
   },

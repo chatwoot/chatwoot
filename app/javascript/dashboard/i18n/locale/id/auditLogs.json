@@ -7,35 +7,35 @@
     "LEARN_MORE": "Learn more about audit logs",
     "SEARCH_404": "Tidak ada item yang cocok dengan kueri ini",
     "SIDEBAR_TXT": "<p><b>Catatan Audit</b> </p><p> Catatan Audit adalah jejak untuk peristiwa dan tindakan dalam Sistem Chatwoot. </p>",
-    "COUNT": "{n} event | {n} events",
+    "COUNT": "{n} peristiwa | {n} peristiwa",
     "FILTERS": {
-      "SEARCH_PLACEHOLDER": "Search by name or email",
-      "ALL_EVENTS": "All events",
-      "DATE_RANGE": "Date range",
+      "SEARCH_PLACEHOLDER": "Cari berdasarkan nama atau email",
+      "ALL_EVENTS": "Semua peristiwa",
+      "DATE_RANGE": "Rentang tanggal",
       "CLEAR_ALL": "Clear filters",
       "EVENT_TYPE_GROUPS": {
-        "ACCESS": "Access",
-        "AGENTS_TEAMS": "Agents & teams",
+        "ACCESS": "Akses",
+        "AGENTS_TEAMS": "Agen & tim",
         "CONFIGURATION": "Konfigurasi",
         "CONVERSATIONS": "Percakapan"
       },
       "EVENT_TYPES": {
-        "SIGN_IN_OUT": "Sign in / sign out",
+        "SIGN_IN_OUT": "Masuk / keluar",
         "AGENTS": "Agen",
         "TEAMS": "Tim",
-        "TEAM_MEMBERS": "Team members",
-        "INBOX_MEMBERS": "Inbox collaborators",
+        "TEAM_MEMBERS": "Anggota tim",
+        "INBOX_MEMBERS": "Kolaborator kotak masuk",
         "ACCOUNT": "Pengaturan akun",
         "INBOXES": "Kotak masuk",
         "WEBHOOKS": "Webhooks",
-        "AUTOMATION_RULES": "Automation rules",
+        "AUTOMATION_RULES": "Aturan otomatisasi",
         "MACROS": "Makro",
-        "CONVERSATION_DELETIONS": "Conversation deletions",
-        "MESSAGE_DELETIONS": "Message deletions"
+        "CONVERSATION_DELETIONS": "Penghapusan percakapan",
+        "MESSAGE_DELETIONS": "Penghapusan pesan"
       },
       "SORT": {
-        "NEWEST": "Newest first",
-        "OLDEST": "Oldest first"
+        "NEWEST": "Terbaru terlebih dahulu",
+        "OLDEST": "Terlama terlebih dahulu"
       }
     },
     "LIST": {
@@ -106,7 +106,7 @@
       "DELETE": "{agentName} deleted conversation #{id}"
     },
     "MESSAGE": {
-      "DELETE": "{agentName} deleted a message in conversation #{conversationId}"
+      "DELETE": "{agentName} menghapus pesan dalam percakapan #{conversationId}"
     }
   }
 }

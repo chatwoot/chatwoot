@@ -19,6 +19,10 @@ class Instagram::MessageText < Instagram::BaseMessageText
 
   private
 
+  def find_message_by_source_id(source_id)
+    channel.find_message_by_source_id(source_id)
+  end
+
   def process_successful_response(response)
     result = JSON.parse(response.body).with_indifferent_access
     {

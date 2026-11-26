@@ -21,7 +21,6 @@
 #  index_captain_assistant_responses_on_account_id    (account_id)
 #  index_captain_assistant_responses_on_assistant_id  (assistant_id)
 #  index_captain_assistant_responses_on_status        (status)
-#  vector_idx_knowledge_entries_embedding             (embedding) USING ivfflat
 #
 class Captain::AssistantResponse < ApplicationRecord
   self.table_name = 'captain_assistant_responses'
@@ -44,6 +43,11 @@ class Captain::AssistantResponse < ApplicationRecord
   scope :by_account, ->(account_id) { where(account_id: account_id) }
   scope :by_assistant, ->(assistant_id) { where(assistant_id: assistant_id) }
   scope :with_document, ->(document_id) { where(document_id: document_id) }
+  # The approved FAQs a reply suggestion can search: the inbox assistant's, or the whole account's without one.
+  scope :for_reply_search, lambda { |account:, assistant: nil|
+    relation = approved.where(account_id: account.id)
+    assistant.present? ? relation.where(assistant_id: assistant.id) : relation
+  }
 
   enum :status, { approved: 1 }
 

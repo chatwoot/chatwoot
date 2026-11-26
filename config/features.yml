@@ -319,6 +319,7 @@
   enabled: false
   premium: true
   column: feature_flags_ext_1
+  deprecated: true
 - name: shopify_custom_apps
   display_name: Shopify Custom Apps
   enabled: false
@@ -327,4 +328,8 @@
   display_name: Captain MCP servers
   enabled: false
   premium: true
+  column: feature_flags_ext_1
+- name: last_message_sort
+  display_name: Sort conversations by last message
+  enabled: true
   column: feature_flags_ext_1

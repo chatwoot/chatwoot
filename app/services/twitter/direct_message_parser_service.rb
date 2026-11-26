@@ -1,4 +1,6 @@
 class Twitter::DirectMessageParserService < Twitter::WebhooksBaseService
+  MEDIA_HOSTS = %w[ton.twitter.com pbs.twimg.com].freeze
+
   pattr_initialize [:payload]
 
   def perform
@@ -92,35 +94,44 @@ class Twitter::DirectMessageParserService < Twitter::WebhooksBaseService
     message_create_data['sender_id'] == @inbox.channel.profile_id
   end
 
-  def api_client
-    @api_client ||= begin
-      consumer = OAuth::Consumer.new(ENV.fetch('TWITTER_CONSUMER_KEY', nil), ENV.fetch('TWITTER_CONSUMER_SECRET', nil),
-                                     { site: 'https://api.twitter.com' })
-      token = { oauth_token: @inbox.channel.twitter_access_token, oauth_token_secret: @inbox.channel.twitter_access_token_secret }
-      OAuth::AccessToken.from_hash(consumer, token)
-    end
+  def media_url
+    (media['media_url_https'].presence || media['media_url']).to_s
+  end
+
+  def twitter_media_url?
+    uri = URI.parse(media_url)
+    uri.is_a?(URI::HTTPS) && uri.userinfo.nil? && uri.port == 443 && MEDIA_HOSTS.include?(uri.host.to_s.downcase)
+  rescue URI::InvalidURIError
+    false
+  end
+
+  def media_authorization_header
+    uri = URI.parse(media_url)
+    consumer = OAuth::Consumer.new(ENV.fetch('TWITTER_CONSUMER_KEY', nil), ENV.fetch('TWITTER_CONSUMER_SECRET', nil),
+                                   { site: "https://#{uri.host}" })
+    token = { oauth_token: @inbox.channel.twitter_access_token, oauth_token_secret: @inbox.channel.twitter_access_token_secret }
+    request = Net::HTTP::Get.new(uri)
+    OAuth::AccessToken.from_hash(consumer, token).sign!(request)
+    request['Authorization']
   end
 
   def save_media
     save_media_urls(media)
-    response = api_client.get(media['media_url'], [])
+    return unless media['type'] == 'photo' && twitter_media_url?
 
-    temp_file = Tempfile.new('twitter_attachment')
-    temp_file.binmode
-    temp_file << response.body
-    temp_file.rewind
-
-    return unless media['type'] == 'photo'
-
-    @message.attachments.new(
-      account_id: @inbox.account_id,
-      file_type: 'image',
-      file: {
-        io: temp_file,
-        filename: 'twitter_attachment',
-        content_type: media['type']
-      }
-    )
-    @message.save!
+    SafeFetch.fetch(media_url, headers: { 'Authorization' => media_authorization_header }) do |result|
+      @message.attachments.new(
+        account_id: @inbox.account_id,
+        file_type: 'image',
+        file: {
+          io: result.tempfile,
+          filename: 'twitter_attachment',
+          content_type: result.content_type
+        }
+      )
+      @message.save!
+    end
+  rescue SafeFetch::Error => e
+    Rails.logger.warn("[TWITTER] skipping media download: #{e.class}")
   end
 end
