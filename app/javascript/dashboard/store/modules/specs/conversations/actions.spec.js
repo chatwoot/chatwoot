@@ -471,7 +471,7 @@ describe('#actions', () => {
         message
       );
 
-      expect(localCommit.mock.calls).toEqual([[types.ADD_MESSAGE, message]]);
+      expect(localCommit.mock.calls).toEqual([[types.UPDATE_MESSAGE, message]]);
       expect(localDispatch.mock.calls).toEqual([
         ['getConversation', 10],
         ['getConversation', 20],

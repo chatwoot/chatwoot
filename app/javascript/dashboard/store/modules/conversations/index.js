@@ -1,7 +1,7 @@
 import types from '../../mutation-types';
 import getters, { getSelectedChatConversation } from './getters';
 import actions from './actions';
-import { findPendingMessageIndex } from './helpers';
+import { findPendingMessageIndex, isOlderMessageVersion } from './helpers';
 import { MESSAGE_STATUS } from 'shared/constants/messages';
 import wootConstants from 'dashboard/constants/globals';
 import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
@@ -49,6 +49,25 @@ const advanceLastMessageAt = (conversation, timestamp) => {
       timestamp > conversation.last_message_at)
   ) {
     conversation.last_message_at = timestamp;
+  }
+};
+
+const addOrReplaceMessage = (chat, message, selectedChatId) => {
+  advanceLastMessageAt(chat, message.conversation?.last_message_at);
+  const pendingMessageIndex = findPendingMessageIndex(chat, message);
+  if (pendingMessageIndex !== -1) {
+    const storedMessage = chat.messages[pendingMessageIndex];
+    if (isOlderMessageVersion(message, storedMessage)) return;
+    chat.messages[pendingMessageIndex] = message;
+    return;
+  }
+
+  chat.messages.push(message);
+  chat.timestamp = message.created_at;
+  const { conversation: { unread_count: unreadCount = 0 } = {} } = message;
+  chat.unread_count = unreadCount;
+  if (selectedChatId === chat.id) {
+    emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
   }
 };
 
@@ -272,19 +291,24 @@ export const mutations = {
     });
     if (!chat) return;
 
-    advanceLastMessageAt(chat, message.conversation?.last_message_at);
-    const pendingMessageIndex = findPendingMessageIndex(chat, message);
-    if (pendingMessageIndex !== -1) {
-      chat.messages[pendingMessageIndex] = message;
-    } else {
-      chat.messages.push(message);
-      chat.timestamp = message.created_at;
-      const { conversation: { unread_count: unreadCount = 0 } = {} } = message;
-      chat.unread_count = unreadCount;
-      if (selectedChatId === conversationId) {
-        emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
-      }
+    addOrReplaceMessage(chat, message, selectedChatId);
+  },
+
+  [types.UPDATE_MESSAGE](_state, message) {
+    const chat = getConversationById(_state)(message.conversation_id);
+    if (!chat) return;
+
+    const isStored = findPendingMessageIndex(chat, message) !== -1;
+    // Pending and failed sends hold a UUID until the server saves them.
+    const lastSavedMessage = chat.messages.findLast(storedMessage =>
+      Number.isInteger(storedMessage.id)
+    );
+    // The history load brings an older message that is not loaded, in its place.
+    if (!isStored && lastSavedMessage && message.id < lastSavedMessage.id) {
+      return;
     }
+
+    addOrReplaceMessage(chat, message, _state.selectedChatId);
   },
 
   [types.SET_AUTO_TRANSLATING](_state, { locale, messageIds, translating }) {

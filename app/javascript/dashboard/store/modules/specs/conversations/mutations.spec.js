@@ -239,6 +239,115 @@ describe('#mutations', () => {
       ]);
       expect(emitter.emit).not.toHaveBeenCalled();
     });
+
+    it('keeps the stored message when the incoming copy is older', () => {
+      const state = {
+        allConversations: [
+          {
+            id: 1,
+            messages: [
+              {
+                id: 5,
+                conversation_id: 1,
+                status: 'delivered',
+                updated_at: '2026-11-26T10:00:01.000Z',
+              },
+            ],
+          },
+        ],
+        selectedChatId: 1,
+      };
+      mutations[types.ADD_MESSAGE](state, {
+        id: 5,
+        conversation_id: 1,
+        status: 'sent',
+        updated_at: '2026-11-26T10:00:00.000Z',
+      });
+      expect(state.allConversations[0].messages).toEqual([
+        {
+          id: 5,
+          conversation_id: 1,
+          status: 'delivered',
+          updated_at: '2026-11-26T10:00:01.000Z',
+        },
+      ]);
+    });
+  });
+
+  describe('#UPDATE_MESSAGE', () => {
+    const buildState = messages => ({
+      allConversations: [{ id: 1, messages, timestamp: 1030 }],
+      selectedChatId: 2,
+    });
+
+    it('replaces a stored message', () => {
+      const state = buildState([
+        { id: 20, conversation_id: 1, status: 'sent' },
+        { id: 30, conversation_id: 1, status: 'sent' },
+      ]);
+      mutations[types.UPDATE_MESSAGE](state, {
+        id: 20,
+        conversation_id: 1,
+        status: 'read',
+      });
+      expect(state.allConversations[0].messages).toEqual([
+        { id: 20, conversation_id: 1, status: 'read' },
+        { id: 30, conversation_id: 1, status: 'sent' },
+      ]);
+    });
+
+    it('does not add a message older than the last stored message', () => {
+      const state = buildState([
+        { id: 30, conversation_id: 1, created_at: 1030 },
+      ]);
+      mutations[types.UPDATE_MESSAGE](state, {
+        id: 10,
+        conversation_id: 1,
+        status: 'read',
+        created_at: 1010,
+      });
+      expect(state.allConversations[0].messages).toEqual([
+        { id: 30, conversation_id: 1, created_at: 1030 },
+      ]);
+      expect(state.allConversations[0].timestamp).toBe(1030);
+    });
+
+    it('does not add an older message when the last stored message is a failed send', () => {
+      const failedMessage = {
+        id: '0f5c2b8e-5d1a-4a3e-9c47-2a3d1c6b7e90',
+        conversation_id: 1,
+        status: 'failed',
+      };
+      const state = buildState([
+        { id: 30, conversation_id: 1, created_at: 1030 },
+        failedMessage,
+      ]);
+      mutations[types.UPDATE_MESSAGE](state, {
+        id: 10,
+        conversation_id: 1,
+        status: 'read',
+        created_at: 1010,
+      });
+      expect(
+        state.allConversations[0].messages.map(message => message.id)
+      ).toEqual([30, failedMessage.id]);
+    });
+
+    it('adds a message newer than the last stored message', () => {
+      const state = buildState([
+        { id: 30, conversation_id: 1, created_at: 1030 },
+      ]);
+      mutations[types.UPDATE_MESSAGE](state, {
+        id: 31,
+        conversation_id: 1,
+        status: 'delivered',
+        created_at: 1031,
+      });
+      expect(
+        state.allConversations[0].messages.map(message => message.id)
+      ).toEqual([30, 31]);
+      expect(state.allConversations[0].timestamp).toBe(1031);
+    });
   });
 
   describe('#CHANGE_CONVERSATION_STATUS', () => {

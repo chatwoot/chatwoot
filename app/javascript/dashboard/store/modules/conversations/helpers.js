@@ -37,6 +37,12 @@ export const findPendingMessageIndex = (chat, message) => {
   );
 };
 
+// Event payloads are built when the event fires, so a late message.created can be older than a message.updated already applied.
+export const isOlderMessageVersion = (incoming, stored) => {
+  if (!incoming.updated_at || !stored.updated_at) return false;
+  return new Date(incoming.updated_at) < new Date(stored.updated_at);
+};
+
 export const filterByStatus = (chatStatus, filterStatus) =>
   filterStatus === 'all' ? true : chatStatus === filterStatus;
 
