@@ -102,7 +102,9 @@ Rails.application.routes.draw do
                 get :tools
               end
               resources :inboxes, only: [:index, :create, :destroy], param: :inbox_id
-              resources :scenarios
+              resources :scenarios do
+                post :tool_suggestions, on: :collection
+              end
             end
             resources :agent_sessions, only: [:show]
             resources :assistant_responses do

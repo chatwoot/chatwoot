@@ -1,0 +1,200 @@
+import { ref } from 'vue';
+import CaptainScenarios from 'dashboard/api/captain/scenarios';
+import { useScenarioToolSuggestions } from './useScenarioToolSuggestions';
+
+vi.mock('vue-router', () => ({
+  useRoute: () => ({ params: { assistantId: '7' } }),
+}));
+vi.mock('dashboard/api/captain/scenarios', () => ({
+  default: { suggestTools: vi.fn() },
+}));
+
+const NOTE_LINK = '[@Add Private Note](tool://add_private_note)';
+const ORDERS_LINK = '[@Get Order History](tool://custom_get_order_history)';
+
+const suggestion = (toolId, toolTitle, phrase) => ({
+  tool_id: toolId,
+  tool_title: toolTitle,
+  phrase,
+  replacement: `${phrase} [@${toolTitle}](tool://${toolId})`,
+});
+
+describe('useScenarioToolSuggestions', () => {
+  beforeEach(() => {
+    CaptainScenarios.suggestTools.mockReset();
+  });
+
+  it('links each suggested phrase outside existing tool links and lets the admin remove one', async () => {
+    const instruction = ref(
+      `Use [@add a private note to the contact](tool://add_contact_note) for profile notes, then check order history and add a private note.`
+    );
+    CaptainScenarios.suggestTools.mockResolvedValue({
+      data: {
+        suggestions: [
+          suggestion(
+            'add_private_note',
+            'Add Private Note',
+            'add a private note'
+          ),
+          suggestion(
+            'custom_get_order_history',
+            'Get Order History',
+            'order history'
+          ),
+          suggestion('update_priority', 'Update Priority', 'raise priority'),
+        ],
+      },
+    });
+    const { suggestions, linkMissingTools, removeSuggestion } =
+      useScenarioToolSuggestions(instruction);
+
+    expect(await linkMissingTools()).toBe(true);
+    expect(CaptainScenarios.suggestTools).toHaveBeenCalledWith({
+      assistantId: '7',
+      instruction:
+        'Use [@add a private note to the contact](tool://add_contact_note) for profile notes, then check order history and add a private note.',
+      signal: expect.any(AbortSignal),
+    });
+    expect(instruction.value).toBe(
+      `Use [@add a private note to the contact](tool://add_contact_note) for profile notes, then check order history ${ORDERS_LINK} and add a private note ${NOTE_LINK}.`
+    );
+    expect(suggestions.value.map(item => item.toolId)).toEqual([
+      'add_private_note',
+      'custom_get_order_history',
+    ]);
+
+    removeSuggestion('custom_get_order_history');
+
+    expect(instruction.value).toBe(
+      `Use [@add a private note to the contact](tool://add_contact_note) for profile notes, then check order history and add a private note ${NOTE_LINK}.`
+    );
+    expect(suggestions.value.map(item => item.toolId)).toEqual([
+      'add_private_note',
+    ]);
+  });
+
+  it('saves on the next attempt without checking the reviewed instruction again', async () => {
+    const instruction = ref('Add a private note.');
+    CaptainScenarios.suggestTools.mockResolvedValue({
+      data: {
+        suggestions: [
+          suggestion(
+            'add_private_note',
+            'Add Private Note',
+            'Add a private note'
+          ),
+        ],
+      },
+    });
+    const { linkMissingTools } = useScenarioToolSuggestions(instruction);
+
+    expect(await linkMissingTools()).toBe(true);
+    expect(await linkMissingTools()).toBe(false);
+    expect(CaptainScenarios.suggestTools).toHaveBeenCalledTimes(1);
+
+    instruction.value = `${instruction.value} Then resolve it.`;
+    CaptainScenarios.suggestTools.mockResolvedValue({
+      data: { suggestions: [] },
+    });
+
+    expect(await linkMissingTools()).toBe(false);
+    expect(CaptainScenarios.suggestTools).toHaveBeenCalledTimes(2);
+  });
+
+  it('keeps what the admin typed during the check and checks the new text on the next save', async () => {
+    const instruction = ref('Add a private note.');
+    CaptainScenarios.suggestTools.mockImplementation(async () => {
+      instruction.value = 'Add a private note with the order number.';
+      return {
+        data: {
+          suggestions: [
+            suggestion(
+              'add_private_note',
+              'Add Private Note',
+              'Add a private note'
+            ),
+          ],
+        },
+      };
+    });
+    const { suggestions, linkMissingTools } =
+      useScenarioToolSuggestions(instruction);
+
+    expect(await linkMissingTools()).toBe(true);
+    expect(instruction.value).toBe('Add a private note with the order number.');
+    expect(suggestions.value).toEqual([]);
+
+    CaptainScenarios.suggestTools.mockResolvedValue({
+      data: { suggestions: [] },
+    });
+
+    expect(await linkMissingTools()).toBe(false);
+    expect(CaptainScenarios.suggestTools).toHaveBeenLastCalledWith({
+      assistantId: '7',
+      instruction: 'Add a private note with the order number.',
+      signal: expect.any(AbortSignal),
+    });
+  });
+
+  it('does not save when the admin cancels while the check runs', async () => {
+    const instruction = ref('Add a private note.');
+    CaptainScenarios.suggestTools.mockImplementation(
+      ({ signal }) =>
+        new Promise((_resolve, reject) => {
+          signal.addEventListener('abort', () =>
+            reject(new DOMException('Aborted', 'AbortError'))
+          );
+        })
+    );
+    const { suggestions, isChecking, linkMissingTools, resetSuggestions } =
+      useScenarioToolSuggestions(instruction);
+
+    const pendingCheck = linkMissingTools();
+    expect(isChecking.value).toBe(true);
+    resetSuggestions();
+
+    expect(await pendingCheck).toBe(true);
+    expect(instruction.value).toBe('Add a private note.');
+    expect(suggestions.value).toEqual([]);
+    expect(isChecking.value).toBe(false);
+  });
+
+  it('removes a suggested link after the admin rewords the phrase before it', async () => {
+    const instruction = ref('Add a private note.');
+    CaptainScenarios.suggestTools.mockResolvedValue({
+      data: {
+        suggestions: [
+          suggestion(
+            'add_private_note',
+            'Add Private Note',
+            'Add a private note'
+          ),
+        ],
+      },
+    });
+    const { suggestions, linkMissingTools, removeSuggestion } =
+      useScenarioToolSuggestions(instruction);
+
+    await linkMissingTools();
+    instruction.value = instruction.value.replace(
+      'Add a private note',
+      'Add an internal note'
+    );
+    removeSuggestion('add_private_note');
+
+    expect(instruction.value).toBe('Add an internal note.');
+    expect(suggestions.value).toEqual([]);
+    expect(await linkMissingTools()).toBe(false);
+  });
+
+  it('does not block saving when the check fails', async () => {
+    const instruction = ref('Add a private note.');
+    CaptainScenarios.suggestTools.mockRejectedValue(new Error('timeout'));
+    const { linkMissingTools, isChecking } =
+      useScenarioToolSuggestions(instruction);
+
+    expect(await linkMissingTools()).toBe(false);
+    expect(instruction.value).toBe('Add a private note.');
+    expect(isChecking.value).toBe(false);
+  });
+});
