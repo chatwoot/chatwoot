@@ -29,7 +29,11 @@ const props = defineProps({
   medium: { type: String, default: '' },
 });
 
-const emit = defineEmits(['update:modelValue', 'executeCopilotAction']);
+const emit = defineEmits([
+  'update:modelValue',
+  'executeCopilotAction',
+  'attachCannedFiles',
+]);
 
 const slots = useSlots();
 
@@ -118,6 +122,7 @@ watch(
         @execute-copilot-action="
           (...args) => emit('executeCopilotAction', ...args)
         "
+        @attach-canned-files="emit('attachCannedFiles', $event)"
       />
       <div
         v-if="showCharacterCount || slots.actions"

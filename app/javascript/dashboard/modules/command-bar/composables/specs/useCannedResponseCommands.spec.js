@@ -91,6 +91,23 @@ describe('useCannedResponseCommands', () => {
     );
   });
 
+  it('hands the response to the reply box to attach its files', () => {
+    const response = {
+      id: 4,
+      short_code: 'hello',
+      content: 'Hi {{contact.name}}',
+      files: [{ signed_id: 'signed-pdf', filename: 'guide.pdf' }],
+    };
+    store.getters.getCannedResponses = [response];
+    const { cannedResponseCommands } = useCannedResponseCommands();
+    cannedResponseCommands.value[1].run();
+
+    expect(emitter.emit).toHaveBeenCalledWith(
+      BUS_EVENTS.ATTACH_CANNED_FILES,
+      response
+    );
+  });
+
   it('is empty away from a conversation', () => {
     useRoute.mockReturnValue({ name: 'contacts_dashboard_index' });
     const { cannedResponseCommands } = useCannedResponseCommands();

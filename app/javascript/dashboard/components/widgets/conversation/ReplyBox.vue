@@ -48,6 +48,7 @@ import {
   getReplyVariables,
   stripUnsupportedMarkdown,
 } from 'dashboard/helper/editorHelper';
+import { adaptCannedResponse } from 'dashboard/helper/cannedResponseHelper';
 import { useCopilotReply } from 'dashboard/composables/useCopilotReply';
 import { useMacroExecution } from 'dashboard/composables/useMacroExecution';
 import ConversationResolveAttributesModal from 'dashboard/components-next/ConversationWorkflow/ConversationResolveAttributesModal.vue';
@@ -649,6 +650,7 @@ export default {
       BUS_EVENTS.INSERT_INTO_RICH_EDITOR,
       this.onInsertWhileCopilotActive
     );
+    emitter.on(BUS_EVENTS.ATTACH_CANNED_FILES, this.attachCannedFiles);
   },
   unmounted() {
     document.removeEventListener('paste', this.onPaste);
@@ -662,6 +664,7 @@ export default {
       BUS_EVENTS.INSERT_INTO_RICH_EDITOR,
       this.onInsertWhileCopilotActive
     );
+    emitter.off(BUS_EVENTS.ATTACH_CANNED_FILES, this.attachCannedFiles);
   },
   methods: {
     openContactInfoTemplateModal() {
@@ -1168,6 +1171,29 @@ export default {
         });
       };
     },
+    // Canned response files are already uploaded, so they attach by signed id
+    attachCannedFiles(response) {
+      if (!this.showFileUpload && !this.isOnPrivateNote) return;
+
+      const { attachments } = adaptCannedResponse(response, {
+        channelType: this.isOnPrivateNote
+          ? 'Context::PrivateNote'
+          : this.channelType,
+        medium: this.inbox?.medium,
+        conversationType: this.conversationType,
+        isInstagramChannel: this.isAnInstagramChannel,
+        isOnPrivateNote: this.isOnPrivateNote,
+      });
+      attachments.forEach(file => {
+        this.attachedFiles.push({
+          currentChatId: this.currentChat.id,
+          resource: file,
+          isPrivate: this.isPrivate,
+          thumb: file.file_url,
+          blobSignedId: file.signed_id,
+        });
+      });
+    },
     removeAttachment(attachments) {
       this.attachedFiles = attachments;
     },
@@ -1191,9 +1217,8 @@ export default {
         let caption =
           this.isAnInstagramChannel || this.isATiktokChannel ? '' : message;
         this.attachedFiles.forEach(attachment => {
-          const attachedFile = this.globalConfig.directUploadsEnabled
-            ? attachment.blobSignedId
-            : attachment.resource.file;
+          const attachedFile =
+            attachment.blobSignedId || attachment.resource.file;
           let attachmentPayload = {
             conversationId: this.currentChat.id,
             files: [attachedFile],
@@ -1261,7 +1286,9 @@ export default {
               messagePayload.isVoiceMessage = true;
             }
           } else {
-            messagePayload.files.push(attachment.resource.file);
+            messagePayload.files.push(
+              attachment.blobSignedId || attachment.resource.file
+            );
           }
         });
       }
@@ -1504,6 +1531,7 @@ export default {
           @toggle-variables-menu="toggleVariablesMenu"
           @toggle-macros-menu="toggleMacrosMenu"
           @execute-macro="onExecuteMacro"
+          @attach-canned-files="attachCannedFiles"
           @clear-selection="clearEditorSelection"
           @execute-copilot-action="executeCopilotAction"
         >

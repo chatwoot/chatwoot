@@ -156,6 +156,22 @@ export const FORMATTING = {
       'redo',
     ],
   },
+  'Context::CannedResponse': {
+    marks: ['strong', 'em', 'code', 'link', 'strike'],
+    nodes: ['bulletList', 'orderedList', 'codeBlock', 'blockquote', 'image'],
+    menu: [
+      'strong',
+      'em',
+      'code',
+      'link',
+      'strike',
+      'bulletList',
+      'orderedList',
+      'imageUpload',
+      'undo',
+      'redo',
+    ],
+  },
   'Context::MessageSignature': {
     marks: ['strong', 'em', 'link'],
     nodes: ['image'],
@@ -283,7 +299,15 @@ export const MARKDOWN_PATTERNS = [
   },
   {
     type: 'image', // PM: image, eg: ![alt](url)
-    patterns: [{ pattern: /!\[([^\]]*)\]\([^)]+\)/g, replacement: '$1' }],
+    patterns: [
+      // An image alone in a list item takes the item with it, so no empty
+      // bullet is left behind.
+      {
+        pattern: /^[\t ]*(?:[-*+]|\d+[.)])[\t ]+!\[\]\([^)]+\)[\t ]*\n?/gm,
+        replacement: '',
+      },
+      { pattern: /!\[([^\]]*)\]\([^)]+\)/g, replacement: '$1' },
+    ],
   },
   {
     type: 'hardBreak', // PM: hard_break, eg: line\\\n or line  \n

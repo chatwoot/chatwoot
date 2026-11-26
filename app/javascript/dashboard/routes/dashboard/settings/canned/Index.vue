@@ -1,7 +1,6 @@
 <script setup>
 import { useAlert } from 'dashboard/composables';
-import AddCanned from './AddCanned.vue';
-import EditCanned from './EditCanned.vue';
+import CannedResponseDialog from './CannedResponseDialog.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import { computed, onMounted, ref } from 'vue';
@@ -274,19 +273,12 @@ usePageCommands(() => [
         </template>
       </BaseTable>
     </template>
-    <woot-modal v-model:show="showAddPopup" :on-close="hideAddPopup">
-      <AddCanned :on-close="hideAddPopup" />
-    </woot-modal>
-
-    <woot-modal v-model:show="showEditPopup" :on-close="hideEditPopup">
-      <EditCanned
-        v-if="showEditPopup"
-        :id="activeResponse.id"
-        :edshort-code="activeResponse.short_code"
-        :edcontent="activeResponse.content"
-        :on-close="hideEditPopup"
-      />
-    </woot-modal>
+    <CannedResponseDialog v-if="showAddPopup" @close="hideAddPopup" />
+    <CannedResponseDialog
+      v-if="showEditPopup"
+      :canned-response="activeResponse"
+      @close="hideEditPopup"
+    />
 
     <woot-delete-modal
       v-model:show="showDeleteConfirmationPopup"

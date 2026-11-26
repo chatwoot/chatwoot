@@ -284,6 +284,13 @@ describe('composeConversationHelper', () => {
       expect(helpers.prepareAttachmentPayload(files, false)).toEqual(['file1']);
     });
 
+    it('prepares a canned response file when direct uploads are off', () => {
+      const files = [{ blobSignedId: 'signed1', resource: {} }];
+      expect(helpers.prepareAttachmentPayload(files, false)).toEqual([
+        'signed1',
+      ]);
+    });
+
     it('prepares files that were not uploaded directly', () => {
       const files = [
         { blobSignedId: 'signed1' },

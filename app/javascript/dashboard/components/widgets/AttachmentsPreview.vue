@@ -32,7 +32,8 @@ const onRemoveAttachment = itemIndex => {
 
 const formatFileSize = file => {
   const size = file.byte_size || file.size;
-  return formatBytes(size, 0);
+  // An image moved out of a canned response has no known size
+  return size ? formatBytes(size, 0) : '';
 };
 
 const isTypeImage = file => {

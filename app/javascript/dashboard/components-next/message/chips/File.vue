@@ -61,7 +61,7 @@ const textColorClass = computed(() => {
   >
     <FileIcon class="flex-shrink-0" :file-type="fileDetails.type" />
     <span
-      class="flex-1 min-w-0 text-sm max-w-36"
+      class="flex-1 min-w-0 text-sm truncate"
       :title="fileDetails.name"
       :class="textColorClass"
     >

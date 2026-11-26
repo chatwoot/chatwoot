@@ -113,6 +113,7 @@ const emit = defineEmits([
   'toggleToolsMenu',
   'toggleMacrosMenu',
   'executeMacro',
+  'attachCannedFiles',
   'clearSelection',
   'blur',
   'focus',
@@ -129,6 +130,7 @@ const MAXIMUM_FILE_UPLOAD_SIZE = 4; // in MB
 const DEFAULT_FORMATTING = 'Context::Default';
 const PRIVATE_NOTE_FORMATTING = 'Context::PrivateNote';
 const MESSAGE_SIGNATURE_FORMATTING = 'Context::MessageSignature';
+const CANNED_RESPONSE_FORMATTING = 'Context::CannedResponse';
 const INLINE_IMAGE_PASTE_TYPES = [
   'image/png',
   'image/jpeg',
@@ -679,6 +681,18 @@ function onFileChange() {
   input.value = '';
 }
 
+// The canned response form has no reply box to take pasted or dropped files as
+// attachments, so images land in the text.
+const isCannedResponseEditor = computed(
+  () => props.channelType === CANNED_RESPONSE_FORMATTING
+);
+
+function uploadInlineImages(files) {
+  Array.from(files)
+    .filter(file => INLINE_IMAGE_PASTE_TYPES.includes(file.type))
+    .forEach(uploadImageIfWithinSizeLimit);
+}
+
 const allowsInlineImagePaste = computed(
   () =>
     !props.isPrivate &&
@@ -790,6 +804,11 @@ function insertSpecialContent(type, content) {
   useTrack(event_map[type]);
 }
 
+function onSelectCannedResponse(content, files) {
+  insertSpecialContent('cannedResponse', content);
+  emit('attachCannedFiles', { content, files });
+}
+
 function handleLineBreakWhenCmdAndEnterToSendEnabled(event) {
   if (
     hasPressedCommandAndEnter(event) &&
@@ -859,7 +878,17 @@ function createEditorView() {
         if (text) {
           view.dispatch(view.state.tr.insertText(text));
           emitOnChange();
+        } else if (isCannedResponseEditor.value) {
+          uploadInlineImages(files);
         }
+      },
+      drop: (view, event) => {
+        if (props.disabled || !isCannedResponseEditor.value) return false;
+        const { files } = event.dataTransfer;
+        if (!files.length) return false;
+        event.preventDefault();
+        uploadInlineImages(files);
+        return true;
       },
     },
   });
@@ -977,7 +1006,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, content => {
       :schema="editorSchema"
       @close="dismissCannedResponses"
       @remove-trigger="removeSuggestionTrigger"
-      @replace="content => insertSpecialContent('cannedResponse', content)"
+      @replace="onSelectCannedResponse"
     />
     <VariableList
       v-if="shouldShowVariables"

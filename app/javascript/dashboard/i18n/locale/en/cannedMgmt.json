@@ -43,24 +43,43 @@
     },
     "EDIT": {
       "TITLE": "Edit canned response",
-      "CANCEL_BUTTON_TEXT": "Cancel",
-      "FORM": {
-        "SHORT_CODE": {
-          "LABEL": "Short code",
-          "PLACEHOLDER": "Please enter a shortcode.",
-          "ERROR": "Short code is required."
-        },
-        "CONTENT": {
-          "LABEL": "Message",
-          "PLACEHOLDER": "Please write the message you want to save as a template to use later.",
-          "ERROR": "Message is required."
-        },
-        "SUBMIT": "Submit"
-      },
       "BUTTON_TEXT": "Edit",
       "API": {
         "SUCCESS_MESSAGE": "Canned response is updated successfully.",
         "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+      }
+    },
+    "FILES": {
+      "LABEL": "Attachments",
+      "ADD": "Add file",
+      "REMOVE": "Remove file",
+      "UPLOADING": "Uploading...",
+      "UPLOAD_ERROR": "Could not upload {fileName}. Please try again.",
+      "TYPE_NOT_SUPPORTED": "{fileName} is not a supported file type.",
+      "NOTE": "Formatting, images and files are adapted to each channel when this response is inserted into a reply. Check the preview to see what customers receive."
+    },
+    "PREVIEW": {
+      "TITLE": "Customer preview",
+      "EMPTY": "Write a message to see what customers receive.",
+      "STATUS": {
+        "UNCHANGED": "Sent as written",
+        "ADJUSTED": "Adjusted for this channel",
+        "BLOCKED": "Some content can't be sent"
+      },
+      "SHOW_MORE": "Show {count} more",
+      "SHOW_LESS": "Show less",
+      "CHANGES": {
+        "BOLD": "Bold is removed. The words stay.",
+        "ITALIC": "Italic is removed. The words stay.",
+        "CODE": "Code formatting is removed. The text stays.",
+        "STRIKETHROUGH": "Strikethrough is removed. The text stays.",
+        "QUOTE": "Quote formatting is removed. The text stays.",
+        "LINK": "Links are shown as text followed by the URL.",
+        "LIST": "Lists are sent as plain lines.",
+        "IMAGE_MOVED": "Images are moved out of the text and sent as separate messages after it.",
+        "IMAGE_BLOCKED": "Images this channel can't send are removed from the text.",
+        "FILE_SEPARATE": "Files are sent as separate messages after the text.",
+        "FILE_BLOCKED": "{fileName} can't be sent on this channel."
       }
     },
     "DELETE": {

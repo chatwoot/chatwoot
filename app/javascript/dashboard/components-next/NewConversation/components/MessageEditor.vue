@@ -17,6 +17,8 @@ const props = defineProps({
   copilot: { type: Object, default: null },
 });
 
+const emit = defineEmits(['attachCannedFiles']);
+
 const editorKey = computed(() => `editor-${props.channelType}-${props.medium}`);
 
 const { t } = useI18n();
@@ -89,6 +91,7 @@ const executeCopilotAction = (action, data) => {
           :channel-type="channelType"
           :medium="medium"
           @execute-copilot-action="executeCopilotAction"
+          @attach-canned-files="emit('attachCannedFiles', $event)"
         />
       </div>
     </Transition>

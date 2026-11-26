@@ -9,6 +9,7 @@ import {
   getEffectiveChannelType,
   stripUnsupportedMarkdown,
 } from 'dashboard/helper/editorHelper';
+import { adaptCannedResponse } from 'dashboard/helper/cannedResponseHelper';
 import {
   buildContactableInboxesList,
   prepareNewMessagePayload,
@@ -277,6 +278,22 @@ const handleAttachFile = files => {
   state.attachedFiles = files;
 };
 
+const attachCannedFiles = response => {
+  if (!inboxTypes.value.isEmailOrWebWidget) return;
+
+  const { attachments } = adaptCannedResponse(response, {
+    channelType: inboxChannelType.value,
+  });
+  state.attachedFiles = [
+    ...state.attachedFiles,
+    ...attachments.map(file => ({
+      resource: { ...file, id: file.signed_id },
+      thumb: file.file_url,
+      blobSignedId: file.signed_id,
+    })),
+  ];
+};
+
 const clearForm = () => {
   copilot.reset(false);
   Object.assign(state, {
@@ -419,6 +436,7 @@ useKeyboardEvents({
         :channel-type="inboxChannelType"
         :medium="targetInbox?.medium || ''"
         :copilot="copilot"
+        @attach-canned-files="attachCannedFiles"
       />
 
       <AttachmentPreviews

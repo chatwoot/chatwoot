@@ -115,7 +115,8 @@ export const prepareAttachmentPayload = (
     if (directUploadsEnabled && attachment.blobSignedId) {
       files.push(attachment.blobSignedId);
     } else {
-      files.push(attachment.resource.file);
+      // A canned response file is already uploaded and has no local file
+      files.push(attachment.resource.file ?? attachment.blobSignedId);
     }
   });
   return files;
