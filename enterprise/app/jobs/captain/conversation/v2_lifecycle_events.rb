@@ -23,7 +23,7 @@ module Captain::Conversation::V2LifecycleEvents
       conversation: @conversation,
       assistant: @assistant,
       source: source,
-      reason_category: :tool_failure,
+      reason_category: source == Captain::ConversationEvents::Sources::GENERATION_FAILURE ? :generation_failure : :tool_failure,
       at: Time.current
     )
   end

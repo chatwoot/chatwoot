@@ -712,6 +712,7 @@
           "UNSUPPORTED_REQUEST": "Unsupported request",
           "POLICY_RESTRICTION": "Policy restriction",
           "TOOL_FAILURE": "Tool failure",
+          "GENERATION_FAILURE": "AI response failure",
           "PENDING_CLARIFICATION": "Unresolved after inactivity",
           "PERCENTAGE": "({value}%)",
           "USAGE_LIMIT": "Usage limit",
