@@ -18,23 +18,12 @@ module Captain::Conversation::V2LifecycleEvents
     Captain::ConversationEvents.response_failed(conversation: @conversation, assistant: @assistant, reason: reason, at: Time.current)
   end
 
-  def record_v2_failure_handoff(source:)
+  def record_v2_handoff(source:, reason_category:)
     Captain::ConversationEvents.handed_off(
       conversation: @conversation,
       assistant: @assistant,
       source: source,
-      reason_category: :tool_failure,
-      at: Time.current
-    )
-  end
-
-  # The handoff field asks for a transfer only after the customer asked for a person or accepted one.
-  def record_v2_reply_handoff
-    Captain::ConversationEvents.handed_off(
-      conversation: @conversation,
-      assistant: @assistant,
-      source: Captain::ConversationEvents::Sources::REPLY,
-      reason_category: :customer_request,
+      reason_category: reason_category,
       at: Time.current
     )
   end

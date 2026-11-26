@@ -23,7 +23,6 @@ class Captain::Assistant::ResponseRewriter
     raise rewrite_run_result.error || 'Captain response rewrite failed' if rewrite_run_result.failed?
 
     rewritten_model_output = rewritten_response_with_original_citations(rewrite_run_result.output, response_parts)
-    keep_handoff_decision(rewritten_model_output, run_result.output)
     replace_final_assistant_output(run_result.context[:conversation_history], rewritten_model_output)
     replace_final_assistant_output(run_result.messages, rewritten_model_output)
     run_result.output = rewritten_model_output
@@ -41,15 +40,6 @@ class Captain::Assistant::ResponseRewriter
       'Keep the same number and order of response parts. Change only each text field. ' \
       'Preserve names, numbers, dates, links, warnings, and completed actions. Keep Markdown valid within each text field. Do not add facts. ' \
       "Return the complete structured response.\n\nResponse parts:\n#{response_parts.to_a.to_json}"
-  end
-
-  # The rewriter sees only the reply text, so keep the handoff decision the model made with the whole conversation.
-  # Only accounts with captain_reply_handoff have the field.
-  def keep_handoff_decision(rewritten_model_output, original_output)
-    original_output = original_output.with_indifferent_access
-    return unless original_output.key?(:handoff)
-
-    rewritten_model_output['handoff'] = original_output[:handoff]
   end
 
   def rewritten_response_with_original_citations(rewritten_model_output, original_response_parts)

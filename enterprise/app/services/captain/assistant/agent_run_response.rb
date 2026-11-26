@@ -41,7 +41,10 @@ module Captain::Assistant::AgentRunResponse
     run_result.context[:captain_v2_turn_start_index] = turn_start_index if turn_start_index
   end
 
+  # A reply that sets the handoff field is replaced by the handoff message, so its length does not matter.
   def response_too_long?(run_result)
+    return false if reply_handoff?(run_result)
+
     message_length_limit && customer_message_content(run_result).length > message_length_limit
   end
 

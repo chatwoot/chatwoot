@@ -63,7 +63,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       process_v2_handoff_response
     elsif v2_generation_errored?
       process_error_handoff
-    elsif reply_handoff?
+    elsif reply_handoff? && conversation_pending?
       process_reply_handoff
     elsif conversation_pending?
       process_standard_response
@@ -77,14 +77,13 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   # The reply tells the customer a person is taking over, but the model did not call HandoffTool.
   # Hand off the way a completed HandoffTool call does: send the handoff message instead of the reply.
   def process_reply_handoff
-    return unless conversation_pending?
-
     Rails.logger.info(
       "[CAPTAIN][ResponseBuilderJob] Reply handoff for account=#{account.id} conversation=#{@conversation.display_id} " \
       "agent=#{@response['agent_name']}"
     )
     hand_off_to_human
-    record_v2_reply_handoff
+    # The model decided to hand off, as with the handoff tool, so the event uses the tool source.
+    record_v2_handoff(source: Captain::ConversationEvents::Sources::TOOL, reason_category: :customer_request)
     capture_assistant_session(result_message: @handoff_message, credits_consumed: 0.0)
   end
 
@@ -107,7 +106,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     return unless v2_handoff_tool_completed? || conversation_pending?
 
     v2_handoff_tool_completed? ? process_v2_handoff : process_failure_handoff
-    record_v2_failure_handoff(source: Captain::ConversationEvents::Sources::TOOL) unless v2_handoff_tool_completed?
+    record_v2_handoff(source: Captain::ConversationEvents::Sources::TOOL, reason_category: :tool_failure) unless v2_handoff_tool_completed?
 
     capture_assistant_session(result_message: @handoff_message, credits_consumed: 0.0)
   end
@@ -177,7 +176,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     return if newer_customer_message_arrived?
 
     process_failure_handoff
-    record_v2_failure_handoff(source: Captain::ConversationEvents::Sources::GENERATION_FAILURE)
+    record_v2_handoff(source: Captain::ConversationEvents::Sources::GENERATION_FAILURE, reason_category: :tool_failure)
   end
 
   def log_error(error)

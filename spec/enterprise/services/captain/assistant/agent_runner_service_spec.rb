@@ -692,19 +692,13 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         expect(mock_runner).not_to have_received(:run).with(include('help.example.com'), any_args)
       end
 
-      it 'keeps the handoff decision from the original reply' do
+      it 'returns an oversized reply that sets the handoff field without rewriting it' do
         mock_result.output['handoff'] = true
-        channel_limit_rewrite[:rewrite_run_result].output['handoff'] = false
 
         result = service.generate_response(message_history: message_history)
 
         expect(result['handoff']).to be(true)
-      end
-
-      it 'does not add a handoff field when the original reply has none' do
-        result = service.generate_response(message_history: message_history)
-
-        expect(result).not_to have_key('handoff')
+        expect(mock_runner).to have_received(:run).once
       end
 
       it 'rejects a rewrite that changes the response part citation order' do

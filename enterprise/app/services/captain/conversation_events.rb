@@ -5,7 +5,6 @@ class Captain::ConversationEvents
     TIME_BASED = 'time_based'.freeze
     INFERENCE = 'inference'.freeze
     USAGE_LIMIT = 'usage_limit'.freeze
-    REPLY = 'reply'.freeze
   end
 
   class << self

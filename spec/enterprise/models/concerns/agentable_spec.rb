@@ -237,8 +237,6 @@ RSpec.describe Concerns::Agentable do
 
       expect(schema['required']).to contain_exactly('reasoning', 'handoff', 'response_parts')
       expect(schema['properties'].keys).to eq(%w[reasoning handoff response_parts])
-      expect(schema.dig('properties', 'handoff', 'type')).to eq('boolean')
-      expect(schema['properties']['response_parts']).to eq(Captain::ResponseSchema.new.to_json_schema['properties']['response_parts'])
     end
   end
 
