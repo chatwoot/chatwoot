@@ -29,6 +29,20 @@ RSpec.describe EnableAdvancedSearchConversationsForAllAccounts do
     expect(account.feature_enabled?('data_import')).to be(false)
   end
 
+  it 'preserves deployed last-message sort bits when enabling the separate search flag' do
+    enabled = create(:account)
+    disabled = create(:account)
+    enabled.update!(feature_flags_ext_1: 1 << 17)
+    disabled.update!(feature_flags_ext_1: 0)
+    expect(enabled.feature_enabled?('last_message_sort')).to be(true)
+    expect(enabled.feature_enabled?('advanced_search_conversations')).to be(false)
+
+    migrate
+
+    expect(enabled.reload.feature_flags_ext_1).to eq((1 << 17) | (1 << 18))
+    expect(disabled.reload.feature_flags_ext_1).to eq(1 << 18)
+  end
+
   it 'sets up missing defaults and leaves an explicit account opt-out usable afterward' do
     migrate
     account = create(:account)

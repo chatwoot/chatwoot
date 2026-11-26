@@ -49,6 +49,12 @@ Sidekiq; concurrent bulk jobs can finish out of order. This implementation delib
 uses Searchkick's behavior rather than recreating a reliable queue around it. Recover
 with a backfill/rebuild; a missing match cannot be recovered by SQL authorization.
 
+Message activity updates run before the database transaction commits, but search IDs
+are queued only after all surrounding transactions commit. Rolled-back messages do
+not enqueue. Redis errors and connection-pool checkout timeouts are captured through
+`ChatwootExceptionTracker` inside the enqueue callback so message delivery and later
+callbacks continue. The missed index update still requires reindexing for recovery.
+
 Before a code rollback, disable producers and drain/cancel this feature's queued,
 scheduled and retry jobs while their classes are available. Retain the index until
 its retirement is explicitly scheduled. Deployment enables live indexing when OpenSearch

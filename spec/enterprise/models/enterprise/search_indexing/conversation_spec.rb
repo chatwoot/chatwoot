@@ -61,6 +61,83 @@ RSpec.describe Enterprise::SearchIndexing::Conversation do
     expect(reindex_queue.reserve).to include(conversation.id.to_s)
   end
 
+  it 'queues message activity only after the outer transaction commits' do
+    conversation = create(:conversation, account: account)
+    reindex_queue.clear
+    message = nil
+    Message.transaction do
+      message = create(:message, conversation: conversation, account: account, created_at: 1.minute.ago)
+      expect(reindex_queue.length).to eq(0)
+    end
+
+    expect(reindex_queue.reserve).to eq([conversation.id.to_s])
+    expect(conversation.reload.last_message_at).to eq(message.reload.created_at)
+    expect(conversation.search_data['last_activity_at']).to eq(message.created_at)
+  end
+
+  it 'does not enqueue or advance clocks for a rolled-back message' do
+    conversation = create(:conversation, account: account)
+    activity = conversation.last_activity_at
+    reindex_queue.clear
+    Message.transaction do
+      create(:message, conversation: conversation, account: account)
+      raise ActiveRecord::Rollback
+    end
+
+    expect(reindex_queue.length).to eq(0)
+    expect(conversation.reload.last_message_at).to be_nil
+    expect(conversation.last_activity_at).to eq(activity)
+  end
+
+  it 'indexes private-note activity without advancing the last public message timestamp' do
+    conversation = create(:conversation, account: account)
+    public_message = create(:message, conversation: conversation, account: account, created_at: 2.minutes.ago)
+    reindex_queue.clear
+    note = create(:message, conversation: conversation, account: account, message_type: :outgoing, private: true, created_at: 1.minute.ago)
+
+    expect(reindex_queue.reserve).to eq([conversation.id.to_s])
+    expect(conversation.reload.last_message_at).to eq(public_message.reload.created_at)
+    expect(conversation.search_data['last_activity_at']).to eq(note.reload.created_at)
+  end
+
+  [ConnectionPool::TimeoutError, Redis::CannotConnectError, Redis::CommandError].each do |error_class|
+    it "reports #{error_class} without interrupting a committed reply or later callbacks" do
+      conversation = create(:conversation, account: account)
+      reindex_queue.clear
+      message = build(:message, conversation: conversation, account: account, message_type: :outgoing)
+      error = error_class.new('conversation search queue unavailable')
+      tracker = instance_double(ChatwootExceptionTracker, capture_exception: nil)
+      allow(search_index).to receive(:reindex_queue).and_return(reindex_queue)
+      allow(reindex_queue).to receive(:push).and_raise(error)
+      allow(ChatwootExceptionTracker).to receive(:new).with(error, account: account).and_return(tracker)
+      completed = []
+      allow(message).to receive(:set_conversation_activity).and_wrap_original do |original|
+        original.call
+        ActiveRecord.after_all_transactions_commit { completed << :after_indexing }
+      end
+
+      expect do
+        Message.transaction do
+          message.save!
+        end
+      end.to have_enqueued_job(SendReplyJob).with(message.id)
+
+      expect(message.reload).to be_persisted
+      expect(completed).to eq([:after_indexing])
+      # Both the first-reply conversation update and deferred message-activity enqueue failed.
+      expect(tracker).to have_received(:capture_exception).twice
+    end
+  end
+
+  it 'keeps unexpected producer errors visible' do
+    conversation = create(:conversation, account: account)
+    message = build(:message, conversation: conversation, account: account)
+    allow(search_index).to receive(:reindex_queue).and_return(reindex_queue)
+    allow(reindex_queue).to receive(:push).and_raise(ArgumentError, 'invalid queue arguments')
+
+    expect { message.save! }.to raise_error(ArgumentError, 'invalid queue arguments')
+  end
+
   it 'keeps deletion cleanup active after disabling writes' do
     conversation = create(:conversation, account: account)
     reindex_queue.clear
