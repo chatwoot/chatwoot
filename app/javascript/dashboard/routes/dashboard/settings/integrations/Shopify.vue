@@ -30,7 +30,7 @@ defineProps({
 });
 
 const store = useStore();
-const { isCloudFeatureEnabled } = useAccount();
+const { isCloudFeatureEnabled, isOnChatwootCloud } = useAccount();
 const isCustomAppSetupEnabled = computed(
   () =>
     !isCloudFeatureEnabled(FEATURE_FLAGS.SHOPIFY) &&
@@ -66,6 +66,7 @@ const hook = computed(() => {
 
 const canSetUpStorefront = computed(
   () =>
+    isOnChatwootCloud.value &&
     integration.value.enabled &&
     isCloudFeatureEnabled(FEATURE_FLAGS.SHOPIFY) &&
     hook.value.status &&

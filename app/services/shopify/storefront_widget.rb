@@ -24,6 +24,15 @@ class Shopify::StorefrontWidget
     }
   GRAPHQL
 
+  DELETE_METAFIELD_MUTATION = <<~GRAPHQL.freeze
+    mutation DeleteStorefrontWidget($metafields: [MetafieldIdentifierInput!]!) {
+      metafieldsDelete(metafields: $metafields) {
+        deletedMetafields { key }
+        userErrors { field message }
+      }
+    }
+  GRAPHQL
+
   def initialize(hook:)
     @hook = hook
   end
@@ -41,6 +50,17 @@ class Shopify::StorefrontWidget
     return if result && result['userErrors'].blank? && result['metafields'].present?
 
     raise ProviderError, 'Shopify did not save the storefront widget'
+  end
+
+  def clear!
+    app_installation = installation
+    return if app_installation['metafield'].nil?
+
+    identifier = { ownerId: app_installation.fetch('id'), namespace: NAMESPACE, key: KEY }
+    result = query(DELETE_METAFIELD_MUTATION, metafields: [identifier])['metafieldsDelete']
+    return if result && result['userErrors'] == [] && result['deletedMetafields']&.size == 1
+
+    raise ProviderError, 'Shopify did not remove the storefront widget'
   end
 
   def theme_editor_url

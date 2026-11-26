@@ -281,7 +281,14 @@ RSpec.describe 'Shopify Integration API', type: :request do
     end
 
     context 'when it is an administrator' do
-      it 'deletes the shopify integration' do
+      it 'deletes a Shopify integration with no storefront widget configured' do
+        graphql_client = instance_double(ShopifyAPI::Clients::Graphql::Admin)
+        allow(ShopifyAPI::Clients::Graphql::Admin).to receive(:new).and_return(graphql_client)
+        allow(graphql_client).to receive(:query).with(
+          query: Shopify::StorefrontWidget::INSTALLATION_QUERY,
+          variables: { namespace: 'chatwoot', key: 'website_token' }
+        ).and_return(ShopifyAPIResponse.new('data' => { 'currentAppInstallation' => { 'id' => 'gid://shopify/AppInstallation/123' } }))
+
         expect do
           delete "/api/v1/accounts/#{account.id}/integrations/shopify",
                  headers: admin.create_new_auth_token,

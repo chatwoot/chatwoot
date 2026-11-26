@@ -14,6 +14,7 @@ RSpec.describe 'Shopify storefront widget API', type: :request do
   end
 
   before do
+    allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
     account.enable_features!('shopify_integration')
     hook
     allow(GlobalConfigService).to receive(:load).and_call_original
@@ -82,6 +83,18 @@ RSpec.describe 'Shopify storefront widget API', type: :request do
     expect(client).not_to have_received(:query)
   end
 
+  it 'rejects storefront settings and saves on self-hosted installations' do
+    allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
+    headers = admin.create_new_auth_token
+
+    get url, headers: headers
+    expect(response).to have_http_status(:not_found)
+
+    put url, params: { inbox_id: inbox.id }, headers: headers, as: :json
+    expect(response).to have_http_status(:not_found)
+    expect(client).not_to have_received(:query)
+  end
+
   it 'does not show the storefront setup for custom-app installations' do
     hook.update!(settings: { 'custom_app_id' => 1 })
 
@@ -110,6 +123,65 @@ RSpec.describe 'Shopify storefront widget API', type: :request do
     put url, params: { inbox_id: inbox.id }, headers: admin.create_new_auth_token, as: :json
 
     expect(response).to have_http_status(:bad_gateway)
+  end
+
+  describe 'disconnecting the Shopify integration' do
+    let(:widget_identifier) { { ownerId: installation_id, namespace: 'chatwoot', key: 'website_token' } }
+
+    shared_examples 'Shopify storefront cleanup' do
+      it 'clears the Shopify binding before deleting the connection and preserves the inbox' do
+        stub_installation(inbox.channel.website_token)
+        allow(client).to receive(:query).with(
+          query: Shopify::StorefrontWidget::DELETE_METAFIELD_MUTATION,
+          variables: { metafields: [widget_identifier] }
+        ) do
+          expect(Integrations::Hook.exists?(hook.id)).to be true
+          shopify_response('metafieldsDelete' => { 'deletedMetafields' => [{ 'key' => 'website_token' }], 'userErrors' => [] })
+        end
+
+        delete disconnect_url, headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:ok)
+        expect(Integrations::Hook.exists?(hook.id)).to be false
+        expect(account.inboxes.exists?(inbox.id)).to be true
+        expect(client).to have_received(:query).with(query: Shopify::StorefrontWidget::DELETE_METAFIELD_MUTATION, variables: anything)
+      end
+
+      it 'keeps the connection if Shopify rejects cleanup' do
+        stub_installation(inbox.channel.website_token)
+        allow(client).to receive(:query).with(
+          query: Shopify::StorefrontWidget::DELETE_METAFIELD_MUTATION,
+          variables: { metafields: [widget_identifier] }
+        ).and_return(shopify_response('metafieldsDelete' => { 'deletedMetafields' => [], 'userErrors' => [{ 'message' => 'Access denied' }] }))
+
+        delete disconnect_url, headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(Integrations::Hook.exists?(hook.id)).to be true
+      end
+    end
+
+    context 'when disconnecting through the Shopify endpoint' do
+      let(:disconnect_url) { "/api/v1/accounts/#{account.id}/integrations/shopify" }
+
+      it_behaves_like 'Shopify storefront cleanup'
+
+      it 'disconnects a custom app without touching the public app storefront settings' do
+        hook.update!(settings: { 'custom_app_id' => 1 })
+
+        delete disconnect_url, headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:ok)
+        expect(Integrations::Hook.exists?(hook.id)).to be false
+        expect(client).not_to have_received(:query)
+      end
+    end
+
+    context 'when disconnecting through the generic hook endpoint' do
+      let(:disconnect_url) { api_v1_account_integrations_hook_url(account_id: account.id, id: hook.id) }
+
+      it_behaves_like 'Shopify storefront cleanup'
+    end
   end
 
   def stub_installation(token = nil)

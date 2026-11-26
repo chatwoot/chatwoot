@@ -24,8 +24,15 @@ class Api::V1::Accounts::Integrations::ShopifyStorefrontWidgetsController < Api:
     inbox = website_inboxes.find_by(id: inbox_id)
     return head :unprocessable_entity unless inbox
 
-    theme_editor_url = widget.theme_editor_url
-    widget.save!(website_token: inbox.channel.website_token)
+    theme_editor_url = @hook.with_lock do
+      next unless @hook.enabled? && public_app_hook?
+
+      editor_url = widget.theme_editor_url
+      widget.save!(website_token: inbox.channel.website_token)
+      editor_url
+    end
+    return head :not_found unless theme_editor_url
+
     render json: { inbox_id: inbox.id, theme_editor_url: theme_editor_url }
   end
 
@@ -36,10 +43,14 @@ class Api::V1::Accounts::Integrations::ShopifyStorefrontWidgetsController < Api:
   end
 
   def load_public_app
-    return head :not_found unless Shopify::FeatureGate.enabled?(account: Current.account)
+    return head :not_found unless ChatwootApp.chatwoot_cloud? && Shopify::FeatureGate.enabled?(account: Current.account)
 
     @hook = Current.account.hooks.enabled.find_by!(app_id: 'shopify')
-    head :not_found if @hook.settings&.fetch('custom_app_id', nil).present?
+    head :not_found unless public_app_hook?
+  end
+
+  def public_app_hook?
+    @hook.settings&.fetch('custom_app_id', nil).blank?
   end
 
   def website_inboxes
