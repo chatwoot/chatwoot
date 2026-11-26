@@ -5,6 +5,7 @@ class Captain::Assistant::AgentRunnerService
   include Captain::Assistant::RunnerCallbacksHelper
   include Captain::Assistant::AgentRunResponse
   include Captain::Assistant::RunnerInstrumentationHelper
+  include Captain::Assistant::HandoffFieldDetection
   include Captain::Assistant::TracePayloadHelper
   include Captain::Assistant::RunnerStateHelper
 
@@ -190,7 +191,9 @@ class Captain::Assistant::AgentRunnerService
     agent = @assistant.agent
     agent.clone(
       instructions: ->(context) { @assistant.agent_instructions(context, prompt_template: 'copilot_reply_suggestion') },
-      tools: copilot_tools(agent.tools.select(&:read_only?))
+      tools: copilot_tools(agent.tools.select(&:read_only?)),
+      # An agent reads the suggestion before sending it, so it keeps the response format without the handoff field.
+      response_schema: Captain::ResponseSchema
     )
   end
 
@@ -198,7 +201,8 @@ class Captain::Assistant::AgentRunnerService
 
   def runner
     @runner ||= begin
-      configured_runner = Agents::Runner.with_agents(*build_and_wire_agents)
+      @agents = build_and_wire_agents
+      configured_runner = Agents::Runner.with_agents(*@agents)
       configured_runner = add_usage_metadata_callback(configured_runner)
       configured_runner = add_callbacks_to_runner(configured_runner) if @callbacks.any?
       install_instrumentation(configured_runner)

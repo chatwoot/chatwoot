@@ -67,9 +67,7 @@ module Concerns::Agentable
   end
 
   def agent_response_schema
-    return Captain::HandoffResponseSchema if account&.feature_enabled?('captain_reply_handoff')
-
-    Captain::ResponseSchema
+    Captain::HandoffResponseSchema
   end
 
   def format_current_time(timezone)

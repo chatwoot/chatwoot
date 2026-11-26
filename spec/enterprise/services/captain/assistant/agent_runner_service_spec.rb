@@ -199,6 +199,92 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
       expect(configured_assistant.instructions.call(context)).to eq('Copilot instructions')
     end
+
+    it 'gives reply suggestions the response format without the handoff field' do
+      assistant_agent = Agents::Agent.new(name: 'assistant', response_schema: Captain::HandoffResponseSchema)
+      service = described_class.new(
+        assistant: assistant,
+        conversation: conversation,
+        run_options: run_options(source: described_class::REPLY_SUGGESTION_SOURCE)
+      )
+
+      allow(assistant).to receive(:agent).and_return(assistant_agent)
+
+      expect(service.send(:build_and_wire_agents).first.response_schema).to eq(Captain::ResponseSchema)
+    end
+  end
+
+  describe 'handoff field detection' do
+    let(:service) { described_class.new(assistant: assistant, conversation: conversation) }
+    let(:root_span) { instance_double(OpenTelemetry::Trace::Span, set_attribute: nil) }
+    let(:callbacks) { { tool_complete: [], run_complete: [] } }
+
+    def run_result(handoff:)
+      instance_double(
+        Agents::RunResult,
+        output: {
+          'reasoning' => 'Customer asked for a person',
+          'handoff' => handoff,
+          'response_parts' => [{ 'text' => 'A teammate will take it from here.', 'citation_indexes' => [] }]
+        }
+      )
+    end
+
+    def complete_run(agent_name, result)
+      context_wrapper = Struct.new(:context).new({ __otel_tracing: { root_span: root_span } })
+      callbacks[:run_complete].each { |callback| callback.call(agent_name, result, context_wrapper) }
+    end
+
+    before do
+      allow(ChatwootApp).to receive(:otel_enabled?).and_return(false)
+      allow(mock_agent).to receive_messages(name: 'Assistant', tools: [Captain::Tools::HandoffTool.new(assistant)])
+      allow(mock_scenario_agent).to receive_messages(name: 'Billing', tools: [])
+      allow(mock_runner).to receive(:on_tool_complete) do |&block|
+        callbacks[:tool_complete] << block
+        mock_runner
+      end
+      allow(mock_runner).to receive(:on_run_complete) do |&block|
+        callbacks[:run_complete] << block
+        mock_runner
+      end
+      allow(Rails.logger).to receive(:info)
+      service.send(:runner)
+    end
+
+    it 'records a reply that sets the handoff field when the handoff tool did not run' do
+      complete_run('Billing', run_result(handoff: true))
+
+      expect(Rails.logger).to have_received(:info).with(
+        include('Handoff field set without the handoff tool', "conversation=#{conversation.display_id}", 'agent=Billing',
+                'agent_has_handoff_tool=false')
+      )
+      expect(root_span).to have_received(:set_attribute).with('langfuse.trace.metadata.handoff_without_tool', 'true')
+      expect(root_span).to have_received(:set_attribute).with('langfuse.trace.metadata.agent_has_handoff_tool', 'false')
+    end
+
+    it 'records whether the writing agent had the handoff tool' do
+      complete_run('Assistant', run_result(handoff: true))
+
+      expect(root_span).to have_received(:set_attribute).with('langfuse.trace.metadata.agent_has_handoff_tool', 'true')
+    end
+
+    it 'records nothing when the handoff tool completed' do
+      tool_context = Struct.new(:context).new({ state: { captain_v2_handoff_tool_completed: true } })
+      handoff_tool_name = Captain::Tools::HandoffTool.new(assistant).name
+      callbacks[:tool_complete].each { |callback| callback.call(handoff_tool_name, 'ok', tool_context) }
+
+      complete_run('Assistant', run_result(handoff: true))
+
+      expect(Rails.logger).not_to have_received(:info).with(include('Handoff field set'))
+      expect(root_span).not_to have_received(:set_attribute)
+    end
+
+    it 'records nothing when the handoff field is false' do
+      complete_run('Assistant', run_result(handoff: false))
+
+      expect(Rails.logger).not_to have_received(:info).with(include('Handoff field set'))
+      expect(root_span).not_to have_received(:set_attribute)
+    end
   end
 
   describe '#generate_response' do
@@ -690,29 +776,6 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
           max_turns: 1
         )
         expect(mock_runner).not_to have_received(:run).with(include('help.example.com'), any_args)
-      end
-
-      it 'returns an oversized reply that sets the handoff field without rewriting it' do
-        mock_result.output['handoff'] = true
-
-        result = service.generate_response(message_history: message_history)
-
-        expect(result['handoff']).to be(true)
-        expect(mock_runner).to have_received(:run).once
-      end
-
-      it 'still rewrites an oversized reply suggestion that sets the handoff field' do
-        mock_result.output['handoff'] = true
-        suggestion_service = described_class.new(
-          assistant: assistant,
-          conversation: conversation,
-          run_options: run_options(source: described_class::REPLY_SUGGESTION_SOURCE)
-        )
-
-        result = suggestion_service.generate_response(message_history: message_history)
-
-        expect(mock_runner).to have_received(:run).twice
-        expect(result['response_parts'].pluck('text')).to eq(['Short first answer.', 'Short second answer.'])
       end
 
       it 'rejects a rewrite that changes the response part citation order' do
@@ -1218,13 +1281,13 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       expect(service.response_discarded?).to be true
     end
 
-    it 'does not register a run callback when OTEL and burst protection are disabled' do
+    it 'registers only the handoff field detection when OTEL and burst protection are disabled' do
       service = described_class.new(assistant: assistant, conversation: conversation)
       runner = instance_double(Agents::AgentRunner)
 
       allow(ChatwootApp).to receive(:otel_enabled?).and_return(false)
       allow(runner).to receive(:on_tool_complete).and_return(runner)
-      expect(runner).not_to receive(:on_run_complete)
+      expect(runner).to receive(:on_run_complete).once.and_return(runner)
 
       service.send(:add_usage_metadata_callback, runner)
     end
@@ -1292,34 +1355,6 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
       expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.credit_used', 'false')
       run_complete_callback.call('assistant', leaked_result, context_wrapper)
-    end
-
-    it 'sets credit_used=false when the reply sets the handoff field' do
-      service = described_class.new(assistant: assistant, conversation: conversation)
-      runner = instance_double(Agents::AgentRunner)
-      run_complete_callback = nil
-      span_class = Class.new do
-        def set_attribute(*); end
-      end
-      root_span = instance_double(span_class)
-      context_wrapper = Struct.new(:context).new({ __otel_tracing: { root_span: root_span } })
-      handoff_result = instance_double(
-        Agents::RunResult,
-        output: { 'response_parts' => [{ 'text' => 'Connecting you with our team now.', 'citation_indexes' => [] }],
-                  'reasoning' => 'Customer asked for a person', 'handoff' => true }
-      )
-
-      allow(ChatwootApp).to receive(:otel_enabled?).and_return(true)
-      allow(runner).to receive(:on_tool_complete).and_return(runner)
-      allow(runner).to receive(:on_run_complete) do |&block|
-        run_complete_callback = block
-        runner
-      end
-
-      service.send(:add_usage_metadata_callback, runner)
-
-      expect(root_span).to receive(:set_attribute).with('langfuse.trace.metadata.credit_used', 'false')
-      run_complete_callback.call('assistant', handoff_result, context_wrapper)
     end
 
     it 'marks the trace discarded and does not use credit when a newer message arrived' do

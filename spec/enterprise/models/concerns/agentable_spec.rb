@@ -54,7 +54,7 @@ RSpec.describe Concerns::Agentable do
         temperature: 0.8,
         thinking: { effort: :none },
         protocol: :responses,
-        response_schema: Captain::ResponseSchema
+        response_schema: Captain::HandoffResponseSchema
       )
 
       dummy_instance.agent
@@ -208,13 +208,7 @@ RSpec.describe Concerns::Agentable do
   end
 
   describe '#agent_response_schema' do
-    it 'returns Captain::ResponseSchema' do
-      expect(dummy_instance.send(:agent_response_schema)).to eq(Captain::ResponseSchema)
-    end
-
-    it 'returns Captain::HandoffResponseSchema when the account has captain_reply_handoff' do
-      account.enable_features!('captain_reply_handoff')
-
+    it 'returns Captain::HandoffResponseSchema' do
       expect(dummy_instance.send(:agent_response_schema)).to eq(Captain::HandoffResponseSchema)
     end
 

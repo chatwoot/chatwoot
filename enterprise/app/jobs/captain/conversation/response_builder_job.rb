@@ -63,29 +63,9 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       process_v2_handoff_response
     elsif v2_generation_errored?
       process_error_handoff
-    elsif reply_handoff? && conversation_pending?
-      process_reply_handoff
     elsif conversation_pending?
       process_standard_response
     end
-  end
-
-  def reply_handoff?
-    @response['handoff'] == true
-  end
-
-  # The reply tells the customer a person is taking over, but the model did not call HandoffTool.
-  # Hand off the way a completed HandoffTool call does: send the handoff message instead of the reply.
-  def process_reply_handoff
-    Rails.logger.info(
-      "[CAPTAIN][ResponseBuilderJob] Reply handoff for account=#{account.id} conversation=#{@conversation.display_id} " \
-      "agent=#{@response['agent_name']}"
-    )
-    # Keep the customer's waiting time, as the HandoffTool path does, so next response SLAs and reply times start from their message.
-    hand_off_to_human(preserve_waiting_since: true)
-    # The model decided to hand off, as with the handoff tool, so the event uses the tool source.
-    record_v2_handoff(source: Captain::ConversationEvents::Sources::TOOL, reason_category: :customer_request)
-    capture_assistant_session(result_message: @handoff_message, credits_consumed: 0.0)
   end
 
   def process_standard_response
@@ -107,7 +87,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     return unless v2_handoff_tool_completed? || conversation_pending?
 
     v2_handoff_tool_completed? ? process_v2_handoff : process_failure_handoff
-    record_v2_handoff(source: Captain::ConversationEvents::Sources::TOOL, reason_category: :tool_failure) unless v2_handoff_tool_completed?
+    record_v2_failure_handoff(source: Captain::ConversationEvents::Sources::TOOL) unless v2_handoff_tool_completed?
 
     capture_assistant_session(result_message: @handoff_message, credits_consumed: 0.0)
   end
@@ -116,16 +96,12 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   def v2_handoff_tool_completed? = @v2_handoff_tool_completed == true
 
   def process_failure_handoff
-    Rails.logger.info(
-      "[CAPTAIN][ResponseBuilderJob] Failure handoff for account=#{account.id} conversation=#{@conversation.display_id} " \
-      "reason=#{@response&.dig('action_reason')}"
-    )
-    hand_off_to_human
-  end
-
-  def hand_off_to_human(preserve_waiting_since: false)
     I18n.with_locale(@assistant.account.locale) do
-      create_handoff_message(preserve_waiting_since: preserve_waiting_since)
+      Rails.logger.info(
+        "[CAPTAIN][ResponseBuilderJob] Failure handoff for account=#{account.id} conversation=#{@conversation.display_id} " \
+        "reason=#{@response&.dig('action_reason')}"
+      )
+      create_handoff_message
       @conversation.bot_handoff!
       send_out_of_office_message_if_applicable
     end
@@ -177,7 +153,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     return if newer_customer_message_arrived?
 
     process_failure_handoff
-    record_v2_handoff(source: Captain::ConversationEvents::Sources::GENERATION_FAILURE, reason_category: :tool_failure)
+    record_v2_failure_handoff(source: Captain::ConversationEvents::Sources::GENERATION_FAILURE)
   end
 
   def log_error(error)

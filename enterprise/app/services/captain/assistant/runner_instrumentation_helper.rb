@@ -58,6 +58,8 @@ module Captain::Assistant::RunnerInstrumentationHelper
 
     return runner if reply_suggestion?
 
+    add_handoff_field_detection(runner, handoff_tool_name)
+
     if message_burst_protection_active?
       runner.on_run_complete do |_agent_name, result, context_wrapper|
         @response_discarded = newer_customer_message_arrived?
@@ -101,13 +103,8 @@ module Captain::Assistant::RunnerInstrumentationHelper
   end
 
   # A run whose reply leaked tool call text is retried or handed off, so it never consumes a credit.
-  # A reply that sets the handoff field is replaced by the handoff message, so it does not either.
   def credit_used?(result)
-    !@handoff_tool_called && !reply_handoff?(result) && !response_discarded? && !leaked_tool_call?(result)
-  end
-
-  def reply_handoff?(result)
-    result.output.is_a?(Hash) && result.output.with_indifferent_access[:handoff] == true
+    !@handoff_tool_called && !response_discarded? && !leaked_tool_call?(result)
   end
 
   def message_burst_protection_active? = @responding_to_message_id.present?

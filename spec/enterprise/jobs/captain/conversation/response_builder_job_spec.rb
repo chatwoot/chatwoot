@@ -408,49 +408,20 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
         described_class.perform_now(conversation, assistant)
       end
 
-      context 'when the reply sets the handoff field without calling the handoff tool' do
-        before do
-          allow(mock_agent_runner_service).to receive(:generate_response).and_return({
-                                                                                       'response' => 'Connecting you with our team now.',
-                                                                                       'reasoning' => 'Customer asked for a person',
-                                                                                       'handoff' => true,
-                                                                                       'handoff_tool_called' => false
-                                                                                     })
-        end
+      it 'sends the reply and keeps the conversation pending when the handoff field is set without the handoff tool' do
+        allow(mock_agent_runner_service).to receive(:generate_response).and_return({
+                                                                                     'response' => 'A teammate will take it from here.',
+                                                                                     'reasoning' => 'Customer asked for a person',
+                                                                                     'handoff' => true,
+                                                                                     'handoff_tool_called' => false
+                                                                                   })
 
-        it 'hands off with the handoff message instead of the reply, without using a response credit' do
-          expect(Captain::ConversationEvents).to receive(:handed_off)
-            .with(conversation: conversation, assistant: assistant, source: 'tool', reason_category: :customer_request, at: kind_of(Time))
+        expect(Captain::ConversationEvents).not_to receive(:handed_off)
 
-          described_class.perform_now(conversation, assistant)
+        described_class.perform_now(conversation, assistant)
 
-          expect(account.reload.usage_limits[:captain][:responses][:consumed]).to eq(0)
-          expect(conversation.reload.status).to eq('open')
-          public_messages = conversation.messages.outgoing.where(private: false)
-          expect(public_messages.pluck(:content)).to eq([I18n.t('conversations.captain.handoff')])
-        end
-
-        it "keeps the customer's waiting time" do
-          waiting_since = 10.minutes.ago.change(usec: 0)
-          conversation.update!(waiting_since: waiting_since)
-
-          described_class.perform_now(conversation, assistant)
-
-          expect(conversation.reload.waiting_since).to eq(waiting_since)
-        end
-
-        it 'sends the reply when the handoff field is false' do
-          allow(mock_agent_runner_service).to receive(:generate_response).and_return({
-                                                                                       'response' => 'Our store opens at 9.',
-                                                                                       'handoff' => false,
-                                                                                       'handoff_tool_called' => false
-                                                                                     })
-
-          described_class.perform_now(conversation, assistant)
-
-          expect(conversation.reload.status).to eq('pending')
-          expect(conversation.messages.outgoing.where(private: false).pluck(:content)).to eq(['Our store opens at 9.'])
-        end
+        expect(conversation.reload.status).to eq('pending')
+        expect(conversation.messages.outgoing.where(private: false).pluck(:content)).to eq(['A teammate will take it from here.'])
       end
     end
 
