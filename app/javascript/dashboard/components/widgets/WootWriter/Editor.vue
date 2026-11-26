@@ -278,6 +278,10 @@ const isMentionListOpen = computed(() => {
   return shouldShowUserMentions.value && hasMentionMatches.value;
 });
 
+// Tab, Enter, ArrowUp, ArrowDown. The editor also binds them (list indent, new paragraph
+// below a list), so the open mention list has to claim them first.
+const MENTION_LIST_KEY_CODES = [9, 13, 38, 40];
+
 // The picker owns the search field, so it takes focus while open. Dismissing it hands
 // focus back; selecting one does so through the insert itself. The suggestion stays
 // active in the document, so the picker only reopens once the trigger is typed afresh.
@@ -332,7 +336,7 @@ function createSuggestionPlugin({
   showMenu,
   searchTerm,
   isAllowed = () => true,
-  interceptEnter = () => false,
+  interceptKey = () => false,
 }) {
   return suggestionsPlugin({
     matcher: triggerBeforeCaret(trigger, minChars),
@@ -357,7 +361,7 @@ function createSuggestionPlugin({
       return false;
     },
     onKeyDown: ({ event }) => {
-      return event.keyCode === 13 && showMenu.value && interceptEnter();
+      return showMenu.value && interceptKey(event);
     },
   });
 }
@@ -373,14 +377,16 @@ const plugins = computed(() => {
       showMenu: showToolsMenu,
       searchTerm: toolSearchKey,
       isAllowed: () => props.enableCaptainTools,
-      interceptEnter: () => true,
+      interceptKey: event => event.keyCode === 13,
     }),
     createSuggestionPlugin({
       trigger: '@',
       showMenu: showUserMentions,
       searchTerm: mentionSearchKey,
       isAllowed: () => props.isPrivate || !props.enableCaptainTools,
-      interceptEnter: () => isMentionListOpen.value,
+      interceptKey: event =>
+        isMentionListOpen.value &&
+        MENTION_LIST_KEY_CODES.includes(event.keyCode),
     }),
     createSuggestionPlugin({
       trigger: '/',

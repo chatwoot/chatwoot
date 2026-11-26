@@ -147,15 +147,17 @@ describe('Editor', () => {
       await nextTick();
     };
 
-    const pressEnter = () =>
+    const press = (key, keyCode) =>
       view.dom.dispatchEvent(
         new KeyboardEvent('keydown', {
-          key: 'Enter',
-          keyCode: 13,
+          key,
+          keyCode,
           bubbles: true,
           cancelable: true,
         })
       );
+
+    const pressEnter = () => press('Enter', 13);
 
     it('counts as open only while somebody matches', async () => {
       const list = await mountNote();
@@ -163,6 +165,23 @@ describe('Editor', () => {
       await setMatches(list, false);
 
       expect(wrapper.emitted('toggleUserMention')).toEqual([[true], [false]]);
+    });
+
+    it('keeps the arrow and Tab keys from the bullet list being typed in', async () => {
+      mountEditor({
+        props: { modelValue: '- first\n- second', isPrivate: true },
+        stubs: { TagAgents: true },
+      });
+      const end = Selection.atEnd(view.state.doc);
+      view.dispatch(view.state.tr.setSelection(end).insertText(' @di'));
+      await nextTick();
+      await setMatches(wrapper.findComponent(TagAgents), true);
+      const note = view.state.doc.toJSON();
+
+      press('ArrowDown', 40);
+      press('Tab', 9);
+
+      expect(view.state.doc.toJSON()).toEqual(note);
     });
 
     it('takes Enter only while somebody matches', async () => {
