@@ -77,7 +77,7 @@ const resolveContent = message =>
 
 // Raw content, so the open conversation's contact never changes the results
 const records = computed(() =>
-  cannedResponses.value.map(({ id, short_code: shortCode, content }) => {
+  cannedResponses.value.map(({ id, short_code: shortCode, content, files }) => {
     const plainText = getPlainText(content)
       .normalize('NFC')
       .replace(/\s+/g, ' ')
@@ -85,6 +85,7 @@ const records = computed(() =>
     return {
       id,
       content,
+      files,
       shortCode,
       plainText,
       searchShortCode: normalizeForSearch(shortCode),
@@ -106,13 +107,14 @@ const items = computed(() =>
   filteredRecords.value.map(record => ({
     id: record.id,
     content: record.content,
+    files: record.files,
     label: `/${record.shortCode}`,
     title: highlightMatches(`/${record.shortCode}`),
     subtitle: highlightMatches(buildSnippet(record.plainText)),
   }))
 );
 
-const onSelect = item => emit('replace', item.content);
+const onSelect = item => emit('replace', item.content, item.files);
 
 onMounted(() => store.dispatch('getCannedResponse'));
 </script>

@@ -615,4 +615,66 @@ describe('ReplyBox', () => {
       wrapper.unmount();
     });
   });
+
+  describe('canned response files', () => {
+    const pdf = {
+      signed_id: 'signed-pdf',
+      filename: 'guide.pdf',
+      content_type: 'application/pdf',
+      byte_size: 1024,
+      file_url: '/guide.pdf',
+    };
+    const imageUrl =
+      'http://localhost:3000/rails/active_storage/blobs/redirect/signed-image/dashboard.png';
+    const content = `Here is the dashboard\n\n![](${imageUrl})`;
+
+    it('attaches the files of a response picked in the editor', async () => {
+      const { wrapper } = mountWith({
+        inbox: { channel_type: 'Channel::WebWidget' },
+      });
+      await flushPromises();
+
+      wrapper
+        .findComponent({ name: 'WootMessageEditor' })
+        .vm.$emit('attachCannedFiles', { content, files: [pdf] });
+
+      expect(wrapper.vm.attachedFiles).toEqual([
+        expect.objectContaining({
+          blobSignedId: 'signed-pdf',
+          thumb: '/guide.pdf',
+          resource: pdf,
+        }),
+      ]);
+      wrapper.unmount();
+    });
+
+    it('attaches the images of the text too where the channel cannot show them', async () => {
+      const { wrapper } = mountWith({
+        inbox: { channel_type: 'Channel::Whatsapp' },
+      });
+      await flushPromises();
+
+      emitter.emit(BUS_EVENTS.ATTACH_CANNED_FILES, { content, files: [pdf] });
+
+      expect(wrapper.vm.attachedFiles.map(file => file.blobSignedId)).toEqual([
+        'signed-image',
+        'signed-pdf',
+      ]);
+      wrapper.unmount();
+    });
+
+    it('sends an attached file by its signed id when direct uploads are off', async () => {
+      const { wrapper } = mountWith({
+        inbox: { channel_type: 'Channel::WebWidget' },
+      });
+      await flushPromises();
+
+      emitter.emit(BUS_EVENTS.ATTACH_CANNED_FILES, { content, files: [pdf] });
+
+      expect(wrapper.vm.getMessagePayload('Hello').files).toEqual([
+        'signed-pdf',
+      ]);
+      wrapper.unmount();
+    });
+  });
 });

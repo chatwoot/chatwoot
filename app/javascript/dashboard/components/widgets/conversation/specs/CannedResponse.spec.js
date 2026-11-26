@@ -6,7 +6,11 @@ import CannedResponse from '../CannedResponse.vue';
 
 const markup = '<form><input name=field></form><img src=x>';
 
-const mountPicker = ({ searchKey = '', contactName = 'Jane Doe' } = {}) => {
+const mountPicker = ({
+  searchKey = '',
+  contactName = 'Jane Doe',
+  files,
+} = {}) => {
   const store = createStore({
     getters: {
       getCannedResponses: () => [
@@ -14,6 +18,7 @@ const mountPicker = ({ searchKey = '', contactName = 'Jane Doe' } = {}) => {
           id: 1,
           short_code: 'greet',
           content: 'Hello {{contact.name}}, thanks for writing in.',
+          files,
         },
       ],
       getUIFlags: () => ({ fetchingList: false }),
@@ -46,6 +51,17 @@ describe('CannedResponse', () => {
       .map(node => node.text());
     expect(highlights).toEqual(['Hello']);
     expect(wrapper.text()).toContain('Hello Jane Doe, thanks for writing in.');
+  });
+
+  it('hands over the response with its files when it is selected', async () => {
+    const files = [{ signed_id: 'signed-pdf', filename: 'guide.pdf' }];
+    const wrapper = mountPicker({ files });
+
+    await listItem(wrapper).trigger('click');
+
+    expect(wrapper.emitted('replace')).toEqual([
+      ['Hello {{contact.name}}, thanks for writing in.', files],
+    ]);
   });
 
   it.each(['', 'hello'])(

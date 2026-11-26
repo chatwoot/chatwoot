@@ -1,9 +1,14 @@
 import { Selection } from '@chatwoot/prosemirror-schema';
-import { mount } from '@vue/test-utils';
-import { afterEach, describe, expect, it, vi } from 'vitest';
+import { flushPromises, mount } from '@vue/test-utils';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { nextTick } from 'vue';
 import { createStore } from 'vuex';
+import { uploadFile } from 'dashboard/helper/uploadHelper';
 import Editor from './Editor.vue';
+
+vi.mock('dashboard/helper/uploadHelper', () => ({
+  uploadFile: vi.fn(),
+}));
 
 vi.mock('vue-router', () => ({
   useRoute: () => ({ params: { accountId: 1 } }),
@@ -74,7 +79,83 @@ const editorKeydown = init => {
   return event;
 };
 
+const image = new File(['image'], 'dashboard.png', { type: 'image/png' });
+const textFile = new File(['notes'], 'notes.txt', { type: 'text/plain' });
+
+const editorPaste = (files, text = '') => {
+  const event = {
+    clipboardData: { files, getData: () => text },
+    preventDefault: vi.fn(),
+  };
+  view.someProp('handleDOMEvents', handlers => handlers.paste?.(view, event));
+};
+
+const editorDrop = files => {
+  const event = { dataTransfer: { files }, preventDefault: vi.fn() };
+  view.someProp('handleDOMEvents', handlers => handlers.drop?.(view, event));
+  return event;
+};
+
+const lastContent = () => wrapper.emitted('update:modelValue').at(-1)[0];
+
 describe('Editor', () => {
+  describe('images in the canned response editor', () => {
+    beforeEach(() => {
+      uploadFile.mockReset();
+      uploadFile.mockResolvedValue({ fileUrl: 'https://cdn.test/shot.png' });
+    });
+
+    it('writes a pasted image into the message', async () => {
+      mountEditor({ props: { channelType: 'Context::CannedResponse' } });
+
+      editorPaste([image]);
+      await flushPromises();
+
+      expect(uploadFile).toHaveBeenCalledWith(image);
+      expect(lastContent()).toContain('![](https://cdn.test/shot.png)');
+    });
+
+    it('writes a pasted image into the message when the clipboard also has text', async () => {
+      mountEditor({ props: { channelType: 'Context::CannedResponse' } });
+
+      editorPaste([image], 'dashboard.png');
+      await flushPromises();
+
+      expect(uploadFile).toHaveBeenCalledWith(image);
+      expect(lastContent()).toContain('![](https://cdn.test/shot.png)');
+    });
+
+    it('reports when an image upload starts and ends', async () => {
+      mountEditor({ props: { channelType: 'Context::CannedResponse' } });
+
+      editorPaste([image]);
+      expect(wrapper.emitted('toggleImageUpload')).toEqual([[true]]);
+
+      await flushPromises();
+      expect(wrapper.emitted('toggleImageUpload')).toEqual([[true], [false]]);
+    });
+
+    it('writes a dropped image into the message and skips other files', async () => {
+      mountEditor({ props: { channelType: 'Context::CannedResponse' } });
+
+      const event = editorDrop([textFile, image]);
+      await flushPromises();
+
+      expect(event.preventDefault).toHaveBeenCalled();
+      expect(uploadFile).toHaveBeenCalledTimes(1);
+      expect(lastContent()).toContain('![](https://cdn.test/shot.png)');
+    });
+
+    it('leaves a pasted image to the reply box on a conversation channel', async () => {
+      mountEditor({ props: { channelType: 'Channel::WebWidget' } });
+
+      editorPaste([image]);
+      await flushPromises();
+
+      expect(uploadFile).not.toHaveBeenCalled();
+    });
+  });
+
   describe('Enter with enter-to-send enabled', () => {
     it('prevents the line break on a normal Enter', () => {
       mountEditor();

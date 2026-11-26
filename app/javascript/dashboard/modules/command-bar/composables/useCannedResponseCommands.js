@@ -91,6 +91,7 @@ export function useCannedResponseCommands() {
           scopes: SCOPES,
           run: () => {
             emitter.emit(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, content);
+            emitter.emit(BUS_EVENTS.ATTACH_CANNED_FILES, response);
             useTrack(CONVERSATION_EVENTS.INSERTED_A_CANNED_RESPONSE);
           },
         };

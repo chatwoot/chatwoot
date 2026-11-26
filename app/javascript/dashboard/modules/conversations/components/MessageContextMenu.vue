@@ -3,7 +3,7 @@ import { useAlert } from 'dashboard/composables';
 import { mapGetters } from 'vuex';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
-import AddCannedModal from 'dashboard/routes/dashboard/settings/canned/AddCanned.vue';
+import AddCannedModal from 'dashboard/routes/dashboard/settings/canned/CannedResponseDialog.vue';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
@@ -174,16 +174,11 @@ export default {
 <template>
   <div class="context-menu">
     <!-- Add To Canned Responses -->
-    <woot-modal
+    <AddCannedModal
       v-if="isCannedResponseModalOpen && enabledOptions['cannedResponse']"
-      v-model:show="isCannedResponseModalOpen"
-      :on-close="hideCannedResponseModal"
-    >
-      <AddCannedModal
-        :response-content="plainTextContent"
-        :on-close="hideCannedResponseModal"
-      />
-    </woot-modal>
+      :canned-response="{ content: plainTextContent }"
+      @close="hideCannedResponseModal"
+    />
     <!-- Confirm Deletion -->
     <woot-delete-modal
       v-if="showDeleteModal && enabledOptions['delete']"
