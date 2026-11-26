@@ -143,6 +143,8 @@ class Message < ApplicationRecord
   has_one :csat_survey_response, dependent: :destroy_async
   has_many :notifications, as: :primary_actor, dependent: :destroy_async
 
+  # Channel builders can download attachments after inserting the message. Lock the conversation only when ready to commit.
+  before_commit :set_conversation_activity, on: :create
   after_create_commit :execute_after_create_commit_callbacks
 
   after_update_commit :dispatch_update_event
@@ -164,11 +166,16 @@ class Message < ApplicationRecord
     merge_sender_attributes(data)
   end
 
+  def public_chat_message?
+    !private? && !activity?
+  end
+
   def conversation_push_event_data
     {
       assignee_id: conversation.assignee_id,
       unread_count: conversation.unread_incoming_messages.count,
       last_activity_at: conversation.last_activity_at.to_i,
+      last_message_at: conversation.last_message_at&.to_f,
       contact_inbox: { source_id: conversation.contact_inbox.source_id }
     }
   end
@@ -213,7 +220,8 @@ class Message < ApplicationRecord
       message_type: message_type,
       private: private,
       sender: sender.try(:webhook_data),
-      source_id: source_id
+      source_id: source_id,
+      status: status
     }
     data[:attachments] = attachments.map(&:push_event_data) if attachments.present?
     data
@@ -368,7 +376,6 @@ class Message < ApplicationRecord
     # rails issue with order of active record callbacks being executed https://github.com/rails/rails/issues/20911
     reopen_conversation
     mark_pending_conversation_as_open_for_human_response
-    set_conversation_activity
     dispatch_create_events
     send_reply
     execute_message_template_hooks
@@ -491,9 +498,7 @@ class Message < ApplicationRecord
   end
 
   def set_conversation_activity
-    # rubocop:disable Rails/SkipsModelValidations
-    conversation.update_columns(last_activity_at: created_at, updated_at: Time.current)
-    # rubocop:enable Rails/SkipsModelValidations
+    conversation.record_message_activity!(self)
   end
 
   def reindex_for_search

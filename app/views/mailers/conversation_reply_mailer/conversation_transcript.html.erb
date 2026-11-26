@@ -1,11 +1,18 @@
 <% @messages.each do |message| %>
   <tr>
     <td>
-      <b><%= message.sender&.try(:available_name) || message.sender&.name || '' %></b>
+      <%# Agent email replies show the sender the customer saw, which follows the inbox's sender name setting. %>
+      <% if message.outgoing? && @inbox.email? && @inbox.professional? %>
+        <b><%= @inbox.sanitized_business_name %></b>
+      <% else %>
+        <b><%= message.sender&.try(:available_name) || message.sender&.name || '' %></b>
+      <% end %>
       <% if message.conversation.inbox&.inbox_type == 'Email' %>
         <div style="font-size: 90%; color: #899096; line-height: 16px">
           <% if message.content_attributes.dig(:email, :from).present? %>
             <div>From: <%= message.content_attributes.dig(:email, :from).join(", ") %></div>
+          <% elsif message.outgoing? %>
+            <div>From: <%= Email::FromBuilder.new(inbox: @inbox, message: message).build %></div>
           <% else %>
             <div>From: <%= message.sender&.try(:email) %></div>
           <% end %>

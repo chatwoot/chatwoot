@@ -41,6 +41,17 @@ const preserveConversationMessageState = (
   dataFetched: existingConversation.dataFetched,
 });
 
+// Delayed list responses and websocket events can arrive after a newer reply.
+const advanceLastMessageAt = (conversation, timestamp) => {
+  if (
+    timestamp != null &&
+    (conversation.last_message_at == null ||
+      timestamp > conversation.last_message_at)
+  ) {
+    conversation.last_message_at = timestamp;
+  }
+};
+
 // mutations
 export const mutations = {
   [types.SET_ALL_CONVERSATION](_state, conversationList) {
@@ -48,6 +59,10 @@ export const mutations = {
     conversationList.forEach(conversation => {
       const indexInCurrentList = newAllConversations.findIndex(
         c => c.id === conversation.id
+      );
+      advanceLastMessageAt(
+        conversation,
+        newAllConversations[indexInCurrentList]?.last_message_at
       );
       if (indexInCurrentList < 0) {
         newAllConversations.push(conversation);
@@ -71,7 +86,13 @@ export const mutations = {
     const selectedConversation = getConversationById(_state)(
       _state.selectedChatId
     );
+    const previousTimes = new Map(
+      _state.allConversations.map(chat => [chat.id, chat.last_message_at])
+    );
     const replacementList = [...conversationList];
+    replacementList.forEach(chat =>
+      advanceLastMessageAt(chat, previousTimes.get(chat.id))
+    );
     if (selectedConversation) {
       const selectedConversationIndex = replacementList.findIndex(
         conversation => conversation.id === selectedConversation.id
@@ -251,6 +272,7 @@ export const mutations = {
     });
     if (!chat) return;
 
+    advanceLastMessageAt(chat, message.conversation?.last_message_at);
     const pendingMessageIndex = findPendingMessageIndex(chat, message);
     if (pendingMessageIndex !== -1) {
       chat.messages[pendingMessageIndex] = message;
@@ -292,12 +314,14 @@ export const mutations = {
     if (index > -1) {
       const selectedConversation = allConversations[index];
 
+      advanceLastMessageAt(selectedConversation, conversation.last_message_at);
       // ignore out of order events
       if (conversation.updated_at < selectedConversation.updated_at) {
         return;
       }
 
       const { messages, ...updates } = conversation;
+      advanceLastMessageAt(updates, selectedConversation.last_message_at);
       allConversations[index] = { ...selectedConversation, ...updates };
       if (_state.selectedChatId === conversation.id) {
         emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);

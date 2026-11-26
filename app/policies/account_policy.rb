@@ -42,6 +42,10 @@ class AccountPolicy < ApplicationPolicy
   def topup_options?
     @account_user.administrator?
   end
+
+  def legal_compliance?
+    @account_user.administrator?
+  end
 end
 
 AccountPolicy.prepend_mod_with('AccountPolicy')
