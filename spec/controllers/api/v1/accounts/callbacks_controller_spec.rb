@@ -110,6 +110,22 @@ RSpec.describe 'Callbacks API', type: :request do
         end.not_to change(Channel::FacebookPage, :count)
 
         expect(response).to have_http_status(:unprocessable_entity)
+        expect(account.inboxes.find_by(name: 'Test Inbox')).to be_nil
+      end
+
+      it 'returns service unavailable without registering the page when Facebook is down' do
+        allow(koala_api).to receive(:get_object).with('me', { fields: 'id' })
+                                                .and_raise(Koala::Facebook::ServerError.new(503, 'Service Unavailable'))
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/callbacks/register_facebook_page",
+               headers: admin.create_new_auth_token,
+               params: valid_params,
+               as: :json
+        end.not_to change(Channel::FacebookPage, :count)
+
+        expect(response).to have_http_status(:service_unavailable)
+        expect(account.inboxes.find_by(name: 'Test Inbox')).to be_nil
       end
 
       it 'registers a new facebook page with avatar on redirect' do
