@@ -139,6 +139,21 @@ RSpec.describe 'Canned Responses API', type: :request do
         expect(response).to have_http_status(:unprocessable_entity)
         expect(account.canned_responses.count).to eq(1)
       end
+
+      it 'does not create the canned response with more files than a message can carry' do
+        signed_ids = Array.new(Message::NUMBER_OF_PERMITTED_ATTACHMENTS + 1) do |index|
+          ActiveStorage::Blob.create_and_upload!(io: StringIO.new('notes'), filename: "notes-#{index}.txt", content_type: 'text/plain').signed_id
+        end
+
+        post "/api/v1/accounts/#{account.id}/canned_responses",
+             params: { short_code: 'guide', content: 'Here is the guide', files: signed_ids },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['message']).to eq('Files cannot be more than 15')
+        expect(account.canned_responses.count).to eq(1)
+      end
     end
   end
 
