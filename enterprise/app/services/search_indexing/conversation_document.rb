@@ -14,6 +14,7 @@ class SearchIndexing::ConversationDocument
 
   def self.mappings
     { dynamic: false, properties: {
+      conversation_id: { type: 'alias', path: 'id' },
       id: { type: 'long' }, account_id: { type: 'long' }, contact_id: { type: 'long' }, inbox_id: { type: 'long' }, display_id: { type: 'long' },
       display_id_text: { type: 'text', analyzer: 'substring' }, mail_subject: { type: 'text', analyzer: 'substring' },
       created_at: { type: 'date' }, last_activity_at: { type: 'date' }

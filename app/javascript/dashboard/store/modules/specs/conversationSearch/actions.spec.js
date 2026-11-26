@@ -115,6 +115,55 @@ describe('#actions', () => {
   });
 
   describe('#conversationSearch', () => {
+    it('keeps the current ranked page when the engine reports an error', async () => {
+      axios.get.mockResolvedValue({
+        data: { payload: { conversations: [] }, meta: { error: true } },
+      });
+      await expect(
+        actions.conversationSearch({ commit }, { q: 'test', cursor: '25' })
+      ).resolves.toBe(false);
+      expect(commit).toHaveBeenCalledWith(
+        types.CONVERSATION_SEARCH_SET_UI_FLAG,
+        { hasError: true }
+      );
+      expect(commit).not.toHaveBeenCalledWith(
+        types.CONVERSATION_SEARCH_REPLACE,
+        []
+      );
+    });
+
+    it('ignores a stale response and its cursor after a new search starts', async () => {
+      let finishOld;
+      axios.get.mockImplementationOnce(
+        () =>
+          new Promise(resolve => {
+            finishOld = resolve;
+          })
+      );
+      const oldRequest = actions.conversationSearch({ commit }, { q: 'old' });
+      axios.get.mockResolvedValueOnce({
+        data: {
+          payload: { conversations: [{ id: 2 }] },
+          meta: { has_more: false },
+        },
+      });
+      await actions.conversationSearch({ commit }, { q: 'new' });
+      finishOld({
+        data: {
+          payload: { conversations: [{ id: 1 }] },
+          meta: { has_more: true, next_cursor: '123' },
+        },
+      });
+      await oldRequest;
+      expect(commit).not.toHaveBeenCalledWith(types.CONVERSATION_SEARCH_SET, [
+        { id: 1 },
+      ]);
+      expect(commit).not.toHaveBeenCalledWith(
+        types.CONVERSATION_SEARCH_SET_UI_FLAG,
+        { hasMore: true, nextCursor: '123' }
+      );
+    });
+
     it('should handle successful conversation search', async () => {
       axios.get.mockResolvedValue({
         data: { payload: { conversations: [{ id: 1 }] } },
@@ -122,19 +171,76 @@ describe('#actions', () => {
 
       await actions.conversationSearch({ commit }, { q: 'test', page: 1 });
       expect(commit.mock.calls).toEqual([
-        [types.CONVERSATION_SEARCH_SET_UI_FLAG, { isFetching: true }],
+        [
+          types.CONVERSATION_SEARCH_SET_UI_FLAG,
+          { isFetching: true, hasError: false },
+        ],
         [types.CONVERSATION_SEARCH_SET, [{ id: 1 }]],
-        [types.CONVERSATION_SEARCH_SET_UI_FLAG, { hasMore: false }],
+        [
+          types.CONVERSATION_SEARCH_SET_UI_FLAG,
+          { hasMore: false, nextCursor: null, ranked: false },
+        ],
         [types.CONVERSATION_SEARCH_SET_UI_FLAG, { isFetching: false }],
       ]);
+    });
+
+    it('keeps continuation available when a candidate batch has no visible rows', async () => {
+      axios.get.mockResolvedValue({
+        data: {
+          payload: { conversations: [] },
+          meta: { next_cursor: '123', has_more: true },
+        },
+      });
+      await actions.conversationSearch(
+        { commit },
+        { q: 'test', page: 2, cursor: '456' }
+      );
+      expect(commit).toHaveBeenCalledWith(
+        types.CONVERSATION_SEARCH_SET_UI_FLAG,
+        {
+          hasMore: true,
+          nextCursor: '123',
+          ranked: true,
+        }
+      );
+      expect(axios.get).toHaveBeenCalledWith(
+        expect.stringContaining('/conversations'),
+        expect.objectContaining({
+          params: expect.objectContaining({ conversation_cursor: '456' }),
+        })
+      );
+    });
+
+    it('honors an exhausted engine page even if it contains fifteen rows', async () => {
+      axios.get.mockResolvedValue({
+        data: {
+          payload: {
+            conversations: Array.from({ length: 15 }, (_, id) => ({ id })),
+          },
+          meta: { next_cursor: null, has_more: false },
+        },
+      });
+      await actions.conversationSearch({ commit }, { q: 'test' });
+      expect(commit).toHaveBeenCalledWith(
+        types.CONVERSATION_SEARCH_SET_UI_FLAG,
+        {
+          hasMore: false,
+          nextCursor: null,
+          ranked: true,
+        }
+      );
     });
 
     it('should handle failed conversation search', async () => {
       axios.get.mockRejectedValue({});
       await actions.conversationSearch({ commit }, { q: 'test' });
       expect(commit.mock.calls).toEqual([
-        [types.CONVERSATION_SEARCH_SET_UI_FLAG, { isFetching: true }],
+        [
+          types.CONVERSATION_SEARCH_SET_UI_FLAG,
+          { isFetching: true, hasError: false },
+        ],
         [types.CONVERSATION_SEARCH_SET_UI_FLAG, { isFetching: false }],
+        [types.CONVERSATION_SEARCH_SET_UI_FLAG, { hasError: true }],
       ]);
     });
   });

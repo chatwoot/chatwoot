@@ -47,7 +47,10 @@ RSpec.describe SearchIndexing::Conversations do
     allow(search_index).to receive(:exists?).and_return(false, true)
     allow(search_index).to receive(:index_options).and_return(mappings: described_class.name)
     allow(search_index).to receive(:create)
+    allow(Searchkick.client.indices).to receive(:put_mapping)
     2.times { described_class.setup! }
     expect(search_index).to have_received(:create).once.with(mappings: described_class.name)
+    expect(Searchkick.client.indices).to have_received(:put_mapping).once.with(index: search_index.name,
+                                                                               body: SearchIndexing::ConversationDocument.mappings)
   end
 end

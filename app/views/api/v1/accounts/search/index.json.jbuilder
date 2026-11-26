@@ -1,3 +1,4 @@
+json.meta conversation_search: @result[:conversation_search] if @result[:conversation_search]
 json.payload do
   json.conversations do
     json.array! @result[:conversations] do |conversation|

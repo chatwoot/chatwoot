@@ -26,13 +26,14 @@ class SearchAPI extends ApiClient {
     });
   }
 
-  conversations({ q, page = 1, since, until, signal }) {
+  conversations({ q, page = 1, since, until, cursor, signal }) {
     return axios.get(`${this.url}/conversations`, {
       params: {
         q,
         page: page,
         since,
         until,
+        ...(cursor && { conversation_cursor: cursor }),
       },
       signal,
     });

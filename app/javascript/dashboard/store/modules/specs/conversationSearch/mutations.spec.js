@@ -2,6 +2,16 @@ import types from '../../../mutation-types';
 import { mutations } from '../../conversationSearch';
 
 describe('#mutations', () => {
+  it('replaces a ranked page instead of accumulating more than 25 conversations', () => {
+    const state = {
+      conversationRecords: Array.from({ length: 25 }, (_, id) => ({ id })),
+    };
+    const nextPage = Array.from({ length: 25 }, (_, id) => ({ id: id + 25 }));
+    mutations[types.CONVERSATION_SEARCH_REPLACE](state, nextPage);
+    expect(state.conversationRecords).toEqual(nextPage);
+    expect(state.conversationRecords).toHaveLength(25);
+  });
+
   describe('#SEARCH_CONVERSATIONS_SET', () => {
     it('set records correctly', () => {
       const state = { records: [] };
@@ -156,12 +166,22 @@ describe('#mutations', () => {
         conversationRecords: [{ id: 1 }],
         messageRecords: [{ id: 1 }],
         articleRecords: [{ id: 1 }],
+        uiFlags: {
+          conversation: { isFetching: false, hasMore: true, nextCursor: '123' },
+        },
       };
       mutations[types.CLEAR_SEARCH_RESULTS](state);
       expect(state.contactRecords).toEqual([]);
       expect(state.conversationRecords).toEqual([]);
       expect(state.messageRecords).toEqual([]);
       expect(state.articleRecords).toEqual([]);
+      expect(state.uiFlags.conversation).toEqual({
+        isFetching: false,
+        hasMore: false,
+        nextCursor: null,
+        ranked: false,
+        hasError: false,
+      });
     });
   });
 });
