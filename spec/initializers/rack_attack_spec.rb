@@ -183,6 +183,20 @@ describe 'Rack::Attack auth throttles' do
     end
   end
 
+  describe 'mfa_login/token' do
+    let(:user) { create(:user) }
+
+    it 'keys other sign-in tokens by the raw token' do
+      setup_token = Mfa::SetupTokenService.new(user: user).generate_token
+      expect(throttle_key('mfa_login/token', json_env({ mfa_token: setup_token, otp_code: '123456' }))).to eq(setup_token)
+    end
+
+    it 'leaves MFA login tokens to the per-user throttle' do
+      mfa_token = Mfa::TokenService.new(user: user).generate_token
+      expect(throttle_key('mfa_login/token', json_env({ mfa_token: mfa_token, otp_code: '123456' }))).to be_nil
+    end
+  end
+
   describe 'reset_password/email' do
     it 'keys JSON requests by normalized email' do
       key = throttle_key('reset_password/email', json_env({ email: ' User@Example.COM ' }, '/auth/password'))

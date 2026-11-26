@@ -230,6 +230,10 @@ class Rack::Attack
     req.mfa_token_user_id if req.path_without_extensions == '/auth/sign_in' && req.post?
   end
 
+  throttle('mfa_login/token', limit: 10, period: 1.minute) do |req|
+    req.auth_param('mfa_token') if req.path_without_extensions == '/auth/sign_in' && req.post? && req.mfa_token_user_id.nil?
+  end
+
   # Separate rate limiting for enforced MFA setup verification attempts
   throttle('mfa_setup_login/ip', limit: 10, period: 1.minute) do |req|
     req.ip if req.path_without_extensions == '/auth/sign_in' && req.post? && req.auth_param('mfa_setup_token').present?
