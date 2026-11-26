@@ -552,11 +552,13 @@
         "PAID": "Paid",
         "PARTIALLY_REFUNDED": "Partially Refunded",
         "REFUNDED": "Refunded",
-        "VOIDED": "Voided"
+        "VOIDED": "Voided",
+        "EXPIRED": "Expired"
       },
       "FULFILLMENT_STATUS": {
         "FULFILLED": "Fulfilled",
         "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "RESTOCKED": "Restocked",
         "UNFULFILLED": "Unfulfilled"
       }
     }

@@ -2,7 +2,6 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
   include Shopify::IntegrationHelper
   before_action :ensure_shopify_enabled
   before_action :fetch_hook, except: [:auth, :complete_install]
-  before_action -> { Shopify::ApiContext.setup!(custom_app: @hook.shopify_custom_app) }, only: [:orders]
   before_action :check_authorization, only: [:auth, :complete_install, :destroy]
   before_action :validate_contact, only: [:orders]
 
@@ -27,12 +26,8 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
   end
 
   def orders
-    customers = fetch_customers
-    return render json: { orders: [] } if customers.empty?
-
-    orders = fetch_orders(customers.first['id'])
-    render json: { orders: orders }
-  rescue ShopifyAPI::Errors::HttpResponseError => e
+    render json: { orders: Shopify::OrderLookup.new(hook: @hook, contact: contact).perform }
+  rescue Shopify::OrderLookup::ProviderError, ShopifyAPI::Errors::HttpResponseError => e
     render json: { error: e.message }, status: :unprocessable_entity
   end
 
@@ -93,46 +88,6 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::In
     hooks = Integrations::Hook.where(account: Current.account, app_id: 'shopify')
     hooks = hooks.enabled if action_name == 'orders'
     @hook = hooks.first!
-  end
-
-  def fetch_customers
-    query = []
-    query << "email:#{contact.email}" if contact.email.present?
-    query << "phone:#{contact.phone_number}" if contact.phone_number.present?
-
-    shopify_client.get(
-      path: 'customers/search.json',
-      query: {
-        query: query.join(' OR '),
-        fields: 'id,email,phone'
-      }
-    ).body['customers'] || []
-  end
-
-  def fetch_orders(customer_id)
-    orders = shopify_client.get(
-      path: 'orders.json',
-      query: {
-        customer_id: customer_id,
-        status: 'any',
-        fields: 'id,email,created_at,total_price,currency,fulfillment_status,financial_status'
-      }
-    ).body['orders'] || []
-
-    orders.map do |order|
-      order.merge('admin_url' => "https://#{@hook.reference_id}/admin/orders/#{order['id']}")
-    end
-  end
-
-  def shopify_session
-    ShopifyAPI::Auth::Session.new(shop: @hook.reference_id, access_token: @hook.access_token)
-  end
-
-  def shopify_client
-    @shopify_client ||= ShopifyAPI::Clients::Rest::Admin.new(
-      session: shopify_session,
-      api_version: Shopify::ApiContext::API_VERSION
-    )
   end
 
   def validate_contact

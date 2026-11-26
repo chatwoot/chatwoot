@@ -73,17 +73,21 @@ RSpec.describe 'Shopify custom app setup', type: :request do
     create(:integrations_hook, :shopify, account: account, reference_id: shop_domain,
                                          access_token: 'custom-token', settings: { custom_app_id: custom_app.id })
     contact = create(:contact, account: account, email: 'customer@example.com')
-    stub_request(:get, %r{\Ahttps://test-store\.myshopify\.com/admin/api/[^/]+/customers/search\.json(?:\?|\z)})
-      .with(headers: { 'X-Shopify-Access-Token' => 'custom-token' })
-      .to_return(body: { customers: [{ id: 123 }] }.to_json, headers: { 'Content-Type' => 'application/json' })
-    stub_request(:get, %r{\Ahttps://test-store\.myshopify\.com/admin/api/[^/]+/orders\.json(?:\?|\z)})
-      .with(headers: { 'X-Shopify-Access-Token' => 'custom-token' })
-      .to_return(body: { orders: [{ id: 456 }] }.to_json, headers: { 'Content-Type' => 'application/json' })
+    order = {
+      legacyResourceId: '456', email: 'customer@example.com', createdAt: '2026-11-01T12:00:00Z',
+      displayFinancialStatus: 'PAID', displayFulfillmentStatus: 'UNFULFILLED',
+      totalPriceSet: { shopMoney: { amount: '100.00', currencyCode: 'USD' } }
+    }
+    stub_request(:post, "https://#{shop_domain}/admin/api/#{Shopify::ApiContext::API_VERSION}/graphql.json")
+      .with(headers: { 'X-Shopify-Access-Token' => 'custom-token' },
+            body: { query: Shopify::OrderLookup::QUERY, variables: { customerQuery: 'email:"customer@example.com"', orderLimit: 50 } })
+      .to_return(body: { data: { customers: { nodes: [{ orders: { nodes: [order] } }] } } }.to_json,
+                 headers: { 'Content-Type' => 'application/json' })
 
     get "#{integration_url}/orders", params: { contact_id: contact.id }, headers: headers, as: :json
 
     expect(response).to have_http_status(:ok)
-    expect(response.parsed_body.fetch('orders').first.fetch('id')).to eq(456)
+    expect(response.parsed_body.fetch('orders').first).to include('id' => 456, 'fulfillment_status' => nil, 'financial_status' => 'paid')
   end
 
   context 'with a Shopify installation link without a store path' do
