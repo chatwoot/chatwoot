@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 # Description: Install and manage a Chatwoot installation.
-# OS: Ubuntu 20.04 LTS, 22.04 LTS, 24.04 LTS
-# Script Version: 3.5.2
+# OS: Ubuntu 20.04 LTS, 22.04 LTS, 24.04 LTS, 26.04 LTS
+# Script Version: 3.6.0
 # Run this script as root
 
 set -eu -o errexit -o pipefail -o noclobber -o nounset
@@ -19,7 +19,7 @@ fi
 # option --output/-o requires 1 argument
 LONGOPTS=console,debug,help,install,Install:,logs:,restart,ssl,upgrade,Upgrade:,webserver,version,web-only,worker-only,convert:
 OPTIONS=cdhiI:l:rsuU:wvWK
-CWCTL_VERSION="3.5.2"
+CWCTL_VERSION="3.6.0"
 pg_pass=$(head /dev/urandom | tr -dc A-Za-z0-9 | head -c 15 ; echo '')
 CHATWOOT_HUB_URL="https://hub.2.chatwoot.com/events"
 
@@ -215,9 +215,9 @@ function install_dependencies() {
   curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor --yes -o /etc/apt/keyrings/nodesource.gpg
   NODE_MAJOR=24
   echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | sudo tee /etc/apt/sources.list.d/nodesource.list
-  echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg 16" > /etc/apt/sources.list.d/pgdg.list
-  wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-
+  # apt-key was removed in Ubuntu 26.04. Ubuntu 26.04 no longer ships PostgreSQL 16, so use the full PGDG repository.
+  curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo gpg --dearmor --yes -o /usr/share/keyrings/postgresql-archive-keyring.gpg
+  echo "deb [signed-by=/usr/share/keyrings/postgresql-archive-keyring.gpg] https://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
 
   apt-get update
 
@@ -227,7 +227,7 @@ function install_dependencies() {
       libssl-dev libyaml-dev libreadline-dev gnupg2 \
       postgresql-client-16 redis-tools \
       nodejs patch ruby-dev zlib1g-dev liblzma-dev \
-      libgmp-dev libncurses5-dev libffi-dev libgdbm6 libgdbm-dev sudo \
+      libgmp-dev libncurses-dev libffi-dev libgdbm6 libgdbm-dev sudo \
       python3-pip
   npm install -g pnpm
 }
@@ -336,7 +336,8 @@ function install_libvips() (
 #   None
 ##############################################################################
 function install_databases() {
-  apt-get install -y postgresql-16 postgresql-16-pgvector postgresql-contrib redis-server
+  # postgresql-16 ships the contrib modules. The postgresql-contrib metapackage would pull in the distro's default version.
+  apt-get install -y postgresql-16 postgresql-16-pgvector redis-server
 }
 
 ##############################################################################
@@ -1357,8 +1358,8 @@ function cwctl_upgrade_check() {
 ##############################################################################
 function install_packaging() {
   ubuntu_version=$(lsb_release -r | awk '{print $2}')
-  if [[ "$ubuntu_version" == "24.04" ]]; then
-    echo "Detected Ubuntu 24.04. Installing packaging library using apt."
+  if dpkg --compare-versions "$ubuntu_version" ge 24.04; then
+    echo "Detected Ubuntu $ubuntu_version. Installing packaging library using apt."
     apt-get install -y python3-packaging
   else
     echo "Installing packaging library using pip."
