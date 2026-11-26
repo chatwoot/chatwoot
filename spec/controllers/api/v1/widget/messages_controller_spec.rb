@@ -319,7 +319,10 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         travel_to(sent_at + 24.hours) { submit_csat_rating }
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.parsed_body['error']).to eq('You cannot update the CSAT survey after 1 day')
+        expect(response.parsed_body).to eq(
+          'error' => 'You cannot update the CSAT survey after 1 day',
+          'error_code' => 'csat_survey_expired'
+        )
         expect(csat_message.reload.content_attributes.dig('submitted_values', 'csat_survey_response', 'rating')).to eq(2)
       end
 
@@ -327,8 +330,23 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         travel_to(sent_at.to_date + 15.days) { submit_csat_rating }
 
         expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.parsed_body['error']).to eq('You cannot update the CSAT survey after 14 days')
+        expect(response.parsed_body).to eq(
+          'error' => 'You cannot update the CSAT survey after 14 days',
+          'error_code' => 'csat_survey_expired'
+        )
         expect(csat_message.reload.content_attributes['submitted_values']).to be_nil
+      end
+
+      it 'returns the query timeout error without marking a valid survey as expired' do
+        csat_message
+        allow(Message).to receive(:where).and_call_original
+        allow(Message).to receive(:where).with(conversation_id: a_kind_of(ActiveRecord::Relation))
+                                         .and_raise(ActiveRecord::QueryCanceled)
+
+        travel_to(sent_at + 14.days - 1.second) { submit_csat_rating }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body).to eq('error' => I18n.t('errors.database.query_canceled'))
       end
 
       it 'keeps the existing rating when a change arrives after the response window' do

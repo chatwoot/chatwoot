@@ -7,8 +7,7 @@ import StarRating from 'shared/components/StarRating.vue';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { getContrastingTextColor } from '@chatwoot/utils';
 
-// The widget API responds with 422 when the survey's response window has passed.
-const HTTP_UNPROCESSABLE_ENTITY = 422;
+const CSAT_SURVEY_EXPIRED_ERROR_CODE = 'csat_survey_expired';
 
 export default {
   components: {
@@ -119,7 +118,9 @@ export default {
           messageId: this.messageId,
         });
       } catch (error) {
-        if (error.response?.status === HTTP_UNPROCESSABLE_ENTITY) {
+        if (
+          error.response?.data?.error_code === CSAT_SURVEY_EXPIRED_ERROR_CODE
+        ) {
           this.isExpired = true;
           this.selectedRating =
             this.messageContentAttributes?.csat_survey_response?.rating ?? null;

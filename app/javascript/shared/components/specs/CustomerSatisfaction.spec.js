@@ -37,7 +37,7 @@ const selectFirstRating = async wrapper => {
 describe('CustomerSatisfaction', () => {
   it('shows the expired message and locks the survey when the rating is rejected as expired', async () => {
     const updateMessage = vi.fn().mockRejectedValue({
-      response: { status: 422 },
+      response: { status: 422, data: { error_code: 'csat_survey_expired' } },
     });
     const wrapper = mountSurvey(updateMessage);
 
@@ -53,7 +53,7 @@ describe('CustomerSatisfaction', () => {
 
   it('keeps the previously submitted rating when a change is rejected as expired', async () => {
     const updateMessage = vi.fn().mockRejectedValue({
-      response: { status: 422 },
+      response: { status: 422, data: { error_code: 'csat_survey_expired' } },
     });
     const wrapper = mountSurvey(updateMessage, {
       messageContentAttributes: { csat_survey_response: { rating: 3 } },
@@ -65,15 +65,23 @@ describe('CustomerSatisfaction', () => {
     expect(wrapper.findAll('.emoji-button')[2].classes()).toContain('selected');
   });
 
-  it('keeps the survey open when the update fails for another reason', async () => {
-    const updateMessage = vi.fn().mockRejectedValue({
-      response: { status: 500 },
-    });
+  it('allows a rating retry after an unrelated 422 response', async () => {
+    const updateMessage = vi
+      .fn()
+      .mockRejectedValueOnce({
+        response: { status: 422, data: { error: 'Database query canceled' } },
+      })
+      .mockResolvedValueOnce({});
     const wrapper = mountSurvey(updateMessage);
 
     await selectFirstRating(wrapper);
 
     expect(wrapper.find('h6').text()).toContain('CSAT.TITLE');
     expect(wrapper.find('.feedback-form').exists()).toBe(true);
+
+    await selectFirstRating(wrapper);
+
+    expect(updateMessage).toHaveBeenCalledTimes(2);
+    expect(wrapper.find('.emoji-button.selected').exists()).toBe(true);
   });
 });
