@@ -56,6 +56,7 @@
       "UPLOADING": "Uploading...",
       "UPLOAD_ERROR": "Could not upload {fileName}. Please try again.",
       "TYPE_NOT_SUPPORTED": "{fileName} is not a supported file type.",
+      "LIMIT": "A canned response can have up to {count} files.",
       "NOTE": "Formatting, images and files are adapted to each channel when this response is inserted into a reply. Check the preview to see what customers receive."
     },
     "PREVIEW": {

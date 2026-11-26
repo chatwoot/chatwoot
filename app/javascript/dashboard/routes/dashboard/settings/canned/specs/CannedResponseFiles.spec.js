@@ -61,6 +61,21 @@ describe('CannedResponseFiles', () => {
     );
   });
 
+  it('stops adding files at the number a message can carry', async () => {
+    const savedFiles = Array.from({ length: 14 }, (_, index) => ({
+      ...savedFile,
+      signed_id: `signed-saved-${index}`,
+    }));
+    const wrapper = mountFiles(savedFiles);
+
+    await selectFiles(wrapper, [png, pdf]);
+    await flushPromises();
+
+    expect(wrapper.props('modelValue')).toHaveLength(15);
+    expect(uploadFile).toHaveBeenCalledTimes(1);
+    expect(useAlert).toHaveBeenCalledWith('CANNED_MGMT.FILES.LIMIT');
+  });
+
   it('adds every file of a selection once it is uploaded', async () => {
     const wrapper = mountFiles([savedFile]);
 

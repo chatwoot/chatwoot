@@ -17,6 +17,9 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import FileIcon from 'dashboard/components-next/icon/FileIcon.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
+// A reply sends every file of the response in one message, which carries 15
+const MAX_FILES = 15;
+
 // A file has no `signed_id` until its upload finishes
 const files = defineModel({ type: Array, required: true });
 
@@ -74,14 +77,18 @@ const uploadPendingFile = async ({ upload, ...details }) => {
 };
 
 const addFiles = async selectedFiles => {
-  const pendingFiles = Array.from(selectedFiles ?? [])
-    .filter(isAllowed)
-    .map(file => ({
-      filename: file.name,
-      content_type: file.type,
-      byte_size: file.size,
-      upload: file,
-    }));
+  const allowedFiles = Array.from(selectedFiles ?? []).filter(isAllowed);
+  const remaining = MAX_FILES - files.value.length;
+  if (allowedFiles.length > remaining) {
+    useAlert(t('CANNED_MGMT.FILES.LIMIT', { count: MAX_FILES }));
+  }
+
+  const pendingFiles = allowedFiles.slice(0, remaining).map(file => ({
+    filename: file.name,
+    content_type: file.type,
+    byte_size: file.size,
+    upload: file,
+  }));
   if (!pendingFiles.length) return;
 
   // The model only reflects a write once the parent re-renders, so a selection
