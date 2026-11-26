@@ -259,6 +259,40 @@ describe ConversationFinder do
       end
     end
 
+    context 'with the statements it runs' do
+      def statements(&)
+        sqls = []
+        callback = lambda do |_name, _start, _finish, _id, payload|
+          sqls << payload[:sql] unless payload[:name].in?(%w[SCHEMA TRANSACTION])
+        end
+        ActiveSupport::Notifications.subscribed(callback, 'sql.active_record', &)
+        sqls
+      end
+
+      it 'does not load the inbox list or the account without an inbox filter' do
+        sqls = statements { described_class.new(user_1, { status: 'open' }).perform_meta_only }
+
+        expect(sqls.grep(/\ASELECT "inboxes"/)).to be_empty
+        expect(sqls.grep(/FROM "accounts"/)).to be_empty
+      end
+
+      it 'counts the requested inbox by its id instead of a subquery' do
+        sqls = statements { described_class.new(admin, { inbox_id: restricted_inbox.id }).perform_meta_only }
+
+        count_sql = sqls.grep(/COUNT\(\*\)/).sole
+        expect(count_sql).to include('"conversations"."inbox_id" = ')
+        expect(count_sql).not_to include('"inbox_id" IN (SELECT')
+      end
+
+      it 'counts nothing when the agent cannot access the requested inbox' do
+        create(:conversation, account: account, inbox: restricted_inbox)
+
+        result = described_class.new(user_1, { inbox_id: restricted_inbox.id }).perform_meta_only
+
+        expect(result[:count]).to eq(mine_count: 0, assigned_count: 0, unassigned_count: 0, all_count: 0)
+      end
+    end
+
     context 'with perform_meta_only' do
       let(:params) { { assignee_type: 'assigned' } }
 
