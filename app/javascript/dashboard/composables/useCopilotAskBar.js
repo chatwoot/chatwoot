@@ -16,11 +16,19 @@ export function useCopilotAskBar() {
   const currentAccountId = useMapGetter('getCurrentAccountId');
   const getAccount = useMapGetter('accounts/getAccount');
 
+  // An account with the classic layout keeps the plain empty screen and the corner Copilot button.
+  const isClassicLayout = computed(
+    () =>
+      getAccount.value(currentAccountId.value)?.settings
+        ?.copilot_classic_layout === true
+  );
+
   const hasCopilot = computed(
     () =>
       isEnterprise &&
       !shouldShowPaywall(FEATURE_FLAGS.CAPTAIN) &&
-      isFeatureFlagEnabled(FEATURE_FLAGS.CAPTAIN)
+      isFeatureFlagEnabled(FEATURE_FLAGS.CAPTAIN) &&
+      !isClassicLayout.value
   );
 
   // Admins can hide the ask bar in Settings > Copilot. Missing means shown. Loading checks this too, so the launcher

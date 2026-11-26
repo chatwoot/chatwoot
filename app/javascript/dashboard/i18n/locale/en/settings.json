@@ -781,6 +781,19 @@
       "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
       "BUTTON_TXT": "Go to the billing portal"
     },
+    "LEGAL_COMPLIANCE": {
+      "TITLE": "Legal & Compliance",
+      "DPA": {
+        "TITLE": "Data Processing Agreement (DPA)",
+        "DESCRIPTION": "Sign a Data Processing Agreement between your organization and Chatwoot.",
+        "BUTTON_TXT": "Sign DPA"
+      },
+      "TRUST_CENTER": {
+        "TITLE": "Security & Compliance",
+        "DESCRIPTION": "Review our security practices and compliance documentation.",
+        "BUTTON_TXT": "Trust Center"
+      }
+    },
     "CAPTAIN": {
       "TITLE": "Captain",
       "DESCRIPTION": "Manage usage and credits for Captain AI.",

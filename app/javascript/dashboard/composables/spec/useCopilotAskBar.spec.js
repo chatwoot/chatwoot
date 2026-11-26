@@ -72,6 +72,16 @@ describe('useCopilotAskBar', () => {
     expect(useCopilotAskBar().showAskBar.value).toBe(false);
   });
 
+  it('hides the ask bar for an account on the classic layout, so the launcher stays', () => {
+    account.value = { id: 1, settings: { copilot_classic_layout: true } };
+    assistantFlags.value = { fetchingList: true };
+
+    const { showAskBar, isAskBarLoading } = useCopilotAskBar();
+
+    expect(showAskBar.value).toBe(false);
+    expect(isAskBarLoading.value).toBe(false);
+  });
+
   it('hides the ask bar when no assistant exists to answer', () => {
     assistants.value = [];
 

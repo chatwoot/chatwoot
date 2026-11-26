@@ -81,6 +81,18 @@ RSpec.describe 'Passwords API', type: :request do
       expect(Current.user).to be_nil
     end
 
+    it 'signs out existing sessions and keeps only the newly issued one' do
+      existing_clients = Array.new(2) { user.create_new_auth_token['client'] }
+      existing_clients.each { |client| user.user_sessions.create!(client_id: client, last_activity_at: Time.current) }
+
+      reset_password(reset_token_for(user))
+
+      expect(response).to have_http_status(:success)
+      user.reload
+      expect(user.tokens.keys).to eq([response.headers['client']])
+      expect(user.user_sessions.pluck(:client_id)).to eq([response.headers['client']])
+    end
+
     context 'when account enforces MFA' do
       before do
         skip('Skipping since MFA is not configured in this environment') unless Chatwoot.encryption_configured?
@@ -94,6 +106,15 @@ RSpec.describe 'Passwords API', type: :request do
         expect(response.headers['access-token']).to be_nil
         expect(response.parsed_body['redirect_url']).to eq('/app/login')
         expect(user.reload.valid_password?('NewPassword1!')).to be true
+      end
+
+      it 'signs out existing sessions' do
+        user.create_new_auth_token
+
+        reset_password(reset_token_for(user))
+
+        expect(response).to have_http_status(:success)
+        expect(user.reload.tokens).to be_empty
       end
 
       it 'withholds tokens for enrolled users so reset cannot bypass their otp' do

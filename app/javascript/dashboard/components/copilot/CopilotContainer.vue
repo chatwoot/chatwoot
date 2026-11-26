@@ -121,11 +121,18 @@ const setAssistant = async assistant => {
 };
 
 const isOnCopilotPage = computed(() => route.name === 'copilot_index');
+// An account with the classic layout expands Copilot in place everywhere and never opens the Copilot page.
+const getAccount = useMapGetter('accounts/getAccount');
+const isClassicLayout = computed(
+  () =>
+    getAccount.value(currentAccountId.value)?.settings
+      ?.copilot_classic_layout === true
+);
 // Expanded inside a conversation, the panel covers the conversation in place instead of opening the Copilot page.
 // Leaving the conversation route clears the selected chat, and Copilot would lose the conversation it answers about.
-const isExpandedInConversation = ref(false);
+const isExpandedInPlace = ref(false);
 const isExpanded = computed(
-  () => isOnCopilotPage.value || isExpandedInConversation.value
+  () => isOnCopilotPage.value || isExpandedInPlace.value
 );
 
 const copilotPage = () => ({
@@ -145,13 +152,13 @@ const shouldShowCopilotPanel = computed(() => {
   );
 });
 watch(shouldShowCopilotPanel, isOpen => {
-  if (!isOpen) isExpandedInConversation.value = false;
+  if (!isOpen) isExpandedInPlace.value = false;
 });
 // A page opened while expanded would load behind the panel, so the panel returns to its normal width beside it.
 watch(
   () => route.path,
   () => {
-    isExpandedInConversation.value = false;
+    isExpandedInPlace.value = false;
   }
 );
 
@@ -174,16 +181,16 @@ const leaveCopilotPage = () => {
 };
 
 const toggleExpand = () => {
-  if (isExpandedInConversation.value) {
-    isExpandedInConversation.value = false;
+  if (isExpandedInPlace.value) {
+    isExpandedInPlace.value = false;
   } else if (isOnCopilotPage.value) {
     updateUISettings({
       is_contact_sidebar_open: false,
       is_copilot_panel_open: true,
     });
     leaveCopilotPage();
-  } else if (currentChat.value?.id) {
-    isExpandedInConversation.value = true;
+  } else if (currentChat.value?.id || isClassicLayout.value) {
+    isExpandedInPlace.value = true;
   } else {
     router.push(copilotPage());
   }

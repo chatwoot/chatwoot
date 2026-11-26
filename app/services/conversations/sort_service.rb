@@ -3,6 +3,8 @@ class Conversations::SortService
   SORT_OPTIONS = {
     'last_activity_at_asc' => %w[sort_on_last_activity_at asc],
     'last_activity_at_desc' => %w[sort_on_last_activity_at desc],
+    'last_message_at_asc' => %w[sort_on_last_message_at asc],
+    'last_message_at_desc' => %w[sort_on_last_message_at desc],
     'created_at_asc' => %w[sort_on_created_at asc],
     'created_at_desc' => %w[sort_on_created_at desc],
     'priority_asc' => %w[sort_on_priority asc],
@@ -19,8 +21,11 @@ class Conversations::SortService
     'sort_on_waiting_since' => %w[sort_on_waiting_since asc]
   }.with_indifferent_access.freeze
 
-  def self.apply(scope, sort_by)
+  def self.apply(scope, sort_by, account:)
     sort_method, sort_order = SORT_OPTIONS[sort_by] || SORT_OPTIONS[DEFAULT_SORT]
+    if sort_method == 'sort_on_last_message_at' && !account.feature_enabled?(:last_message_sort)
+      sort_method, sort_order = SORT_OPTIONS.fetch(DEFAULT_SORT)
+    end
     scope.public_send(sort_method, sort_order)
   end
 end

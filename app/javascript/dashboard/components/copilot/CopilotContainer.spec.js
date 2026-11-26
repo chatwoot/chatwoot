@@ -55,6 +55,7 @@ vi.mock('dashboard/composables/store', async () => {
     getSelectedChat: createRef({ id: 1 }),
     getLastEmailInSelectedChat: createRef({ message_type: 0 }),
     getCurrentAccountId: createRef(1),
+    'accounts/getAccount': createRef(() => ({ settings: {} })),
     'accounts/isFeatureEnabledonAccount': createRef(
       (accountId, flag) => flag === 'captain_integration'
     ),
@@ -123,6 +124,7 @@ describe('CopilotContainer', () => {
     window.history.replaceState(null, '');
     testState.refs.getSelectedChat.value = { id: 1 };
     testState.refs.getCurrentAccountId.value = 1;
+    testState.refs['accounts/getAccount'].value = () => ({ settings: {} });
     testState.refs['accounts/isFeatureEnabledonAccount'].value = (
       accountId,
       flag
@@ -160,6 +162,22 @@ describe('CopilotContainer', () => {
       name: 'copilot_index',
       params: { threadId: '' },
     });
+  });
+
+  it('expands in place without a conversation for an account on the classic layout', async () => {
+    testState.refs.getSelectedChat.value = {};
+    testState.refs['accounts/getAccount'].value = () => ({
+      settings: { copilot_classic_layout: true },
+    });
+    const wrapper = mountComponent();
+    await flushPromises();
+    const copilot = wrapper.findComponent({ name: 'Copilot' });
+
+    copilot.vm.$emit('toggleExpand');
+    await nextTick();
+
+    expect(testState.router.push).not.toHaveBeenCalled();
+    expect(copilot.props('isExpanded')).toBe(true);
   });
 
   it('takes the open chat along when it expands', async () => {
