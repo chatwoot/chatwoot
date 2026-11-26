@@ -1,12 +1,15 @@
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 import CaptainScenarios from 'dashboard/api/captain/scenarios';
+import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
 
 // A scenario agent only gets the tools its instruction links, so a plain "add a private note" never runs.
 // Before saving, the model finds such phrases; the form links them and lets the admin keep or remove each one.
 const TOOL_LINK_REGEX = /(\[[^\]]+\]\(tool:\/\/[^)]+\))/;
 
 const escapeRegExp = text => text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+const CHECK_CANCELLED = Symbol('checkCancelled');
 
 export const applyToolSuggestion = (instruction, { phrase, replacement }) => {
   const segments = instruction.split(TOOL_LINK_REGEX);
@@ -20,38 +23,47 @@ export const applyToolSuggestion = (instruction, { phrase, replacement }) => {
   return segments.join('');
 };
 
-export const revertToolSuggestion = (instruction, { phrase, toolId }) => {
-  const linkedPhrase = new RegExp(
-    `${escapeRegExp(phrase)} \\[[^\\]]*\\]\\(tool://${escapeRegExp(toolId)}\\)`
+// Removes the tool's link wherever it now sits, so it still works after the admin rewords the phrase before it.
+// The backend never suggests a tool the instruction already links, so this link is the one the check added.
+export const revertToolSuggestion = (instruction, toolId) => {
+  const toolLink = new RegExp(
+    ` ?\\[[^\\]]*\\]\\(tool://${escapeRegExp(toolId)}\\)`,
+    'g'
   );
-  return instruction.replace(linkedPhrase, phrase);
+  return instruction.replace(toolLink, '');
 };
 
 export function useScenarioToolSuggestions(instruction) {
   const route = useRoute();
   const suggestions = ref([]);
-  const isChecking = ref(false);
+  const { run, abort, isPending: isChecking } = useAbortableRequest();
   let reviewedInstruction = null;
 
-  // Returns true when the form should stay open: tools were linked for review, or the admin edited the
-  // instruction while the check ran. A failed check never blocks saving.
+  // Returns true when the form must not save: tools were linked for review, the admin edited the instruction
+  // while the check ran, or the admin cancelled. A failed check never blocks saving.
   const linkMissingTools = async () => {
     if (instruction.value === reviewedInstruction) return false;
 
     const checkedInstruction = instruction.value;
-    isChecking.value = true;
     try {
-      const { data } = await CaptainScenarios.suggestTools({
-        assistantId: route.params.assistantId,
-        instruction: checkedInstruction,
-      });
+      const response = await run(
+        signal =>
+          CaptainScenarios.suggestTools({
+            assistantId: route.params.assistantId,
+            instruction: checkedInstruction,
+            signal,
+          }),
+        { onAbort: CHECK_CANCELLED }
+      );
+      if (response === CHECK_CANCELLED) return true;
+
       // The editor stays editable during the check. Linking the old text would erase what the admin typed,
       // so drop this result and check the new text on the next save.
       if (instruction.value !== checkedInstruction) return true;
 
       const linked = [];
       let linkedInstruction = checkedInstruction;
-      data.suggestions.forEach(suggestion => {
+      response.data.suggestions.forEach(suggestion => {
         const nextInstruction = applyToolSuggestion(
           linkedInstruction,
           suggestion
@@ -72,8 +84,6 @@ export function useScenarioToolSuggestions(instruction) {
       return linked.length > 0;
     } catch {
       return false;
-    } finally {
-      isChecking.value = false;
     }
   };
 
@@ -84,8 +94,7 @@ export function useScenarioToolSuggestions(instruction) {
   };
 
   const removeSuggestion = toolId => {
-    const suggestion = suggestions.value.find(item => item.toolId === toolId);
-    instruction.value = revertToolSuggestion(instruction.value, suggestion);
+    instruction.value = revertToolSuggestion(instruction.value, toolId);
     reviewedInstruction = instruction.value;
     keepSuggestion(toolId);
   };
@@ -94,7 +103,9 @@ export function useScenarioToolSuggestions(instruction) {
     suggestions.value = [];
   };
 
+  // Also cancels a pending check, so a form the admin closed never saves when the check returns.
   const resetSuggestions = () => {
+    abort();
     suggestions.value = [];
     reviewedInstruction = null;
   };

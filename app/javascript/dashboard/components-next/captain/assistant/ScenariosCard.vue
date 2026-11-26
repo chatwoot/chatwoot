@@ -142,6 +142,11 @@ const onClickUpdate = async () => {
   toggleEditing(false);
 };
 
+const onClickCancel = () => {
+  resetSuggestions();
+  toggleEditing(false);
+};
+
 const instructionError = computed(() =>
   v$.value.instruction.$error
     ? t('CAPTAIN.ASSISTANTS.SCENARIOS.ADD.NEW.FORM.INSTRUCTION.ERROR')
@@ -299,7 +304,7 @@ const LINK_INSTRUCTION_CLASS =
           slate
           sm
           :label="t('CAPTAIN.ASSISTANTS.SCENARIOS.UPDATE.CANCEL')"
-          @click="toggleEditing(false)"
+          @click="onClickCancel"
         />
         <Button
           sm

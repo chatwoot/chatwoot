@@ -1,5 +1,5 @@
 <script setup>
-import { computed, reactive, toRef } from 'vue';
+import { computed, reactive, toRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useToggle } from '@vueuse/core';
 import { useVuelidate } from '@vuelidate/core';
@@ -69,7 +69,6 @@ const resetState = () => {
     description: '',
     instruction: '',
   });
-  resetSuggestions();
 };
 
 const onClickAdd = async () => {
@@ -83,9 +82,14 @@ const onClickAdd = async () => {
 };
 
 const onClickCancel = () => {
-  resetSuggestions();
   togglePopover(false);
 };
+
+// Cancel, a click outside and the Create button all close the form. Any of them cancels a pending check,
+// so the scenario is not created after the admin left.
+watch(showPopover, isOpen => {
+  if (!isOpen) resetSuggestions();
+});
 </script>
 
 <template>

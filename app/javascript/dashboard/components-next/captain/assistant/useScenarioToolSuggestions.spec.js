@@ -53,6 +53,7 @@ describe('useScenarioToolSuggestions', () => {
       assistantId: '7',
       instruction:
         'Use [@add a private note to the contact](tool://add_contact_note) for profile notes, then check order history and add a private note.',
+      signal: expect.any(AbortSignal),
     });
     expect(instruction.value).toBe(
       `Use [@add a private note to the contact](tool://add_contact_note) for profile notes, then check order history ${ORDERS_LINK} and add a private note ${NOTE_LINK}.`
@@ -131,7 +132,59 @@ describe('useScenarioToolSuggestions', () => {
     expect(CaptainScenarios.suggestTools).toHaveBeenLastCalledWith({
       assistantId: '7',
       instruction: 'Add a private note with the order number.',
+      signal: expect.any(AbortSignal),
     });
+  });
+
+  it('does not save when the admin cancels while the check runs', async () => {
+    const instruction = ref('Add a private note.');
+    CaptainScenarios.suggestTools.mockImplementation(
+      ({ signal }) =>
+        new Promise((_resolve, reject) => {
+          signal.addEventListener('abort', () =>
+            reject(new DOMException('Aborted', 'AbortError'))
+          );
+        })
+    );
+    const { suggestions, isChecking, linkMissingTools, resetSuggestions } =
+      useScenarioToolSuggestions(instruction);
+
+    const pendingCheck = linkMissingTools();
+    expect(isChecking.value).toBe(true);
+    resetSuggestions();
+
+    expect(await pendingCheck).toBe(true);
+    expect(instruction.value).toBe('Add a private note.');
+    expect(suggestions.value).toEqual([]);
+    expect(isChecking.value).toBe(false);
+  });
+
+  it('removes a suggested link after the admin rewords the phrase before it', async () => {
+    const instruction = ref('Add a private note.');
+    CaptainScenarios.suggestTools.mockResolvedValue({
+      data: {
+        suggestions: [
+          suggestion(
+            'add_private_note',
+            'Add Private Note',
+            'Add a private note'
+          ),
+        ],
+      },
+    });
+    const { suggestions, linkMissingTools, removeSuggestion } =
+      useScenarioToolSuggestions(instruction);
+
+    await linkMissingTools();
+    instruction.value = instruction.value.replace(
+      'Add a private note',
+      'Add an internal note'
+    );
+    removeSuggestion('add_private_note');
+
+    expect(instruction.value).toBe('Add an internal note.');
+    expect(suggestions.value).toEqual([]);
+    expect(await linkMissingTools()).toBe(false);
   });
 
   it('does not block saving when the check fails', async () => {
