@@ -59,7 +59,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     return unless @message.csat_survey_expired?
 
     error = I18n.t('errors.csat_survey.expired', days: Message::CSAT_SURVEY_RESPONSE_WINDOW_DAYS)
-    render json: { error: error }, status: :unprocessable_entity
+    render json: { error: error, error_code: 'csat_survey_expired' }, status: :unprocessable_entity
   end
 
   def set_conversation
