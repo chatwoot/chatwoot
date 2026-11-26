@@ -68,6 +68,42 @@ RSpec.describe Captain::Tools::Copilot::SearchChatwootDocsService do
       expect(titles).to eq(['PT A', 'EN A', 'PT B', 'EN B'])
     end
 
+    it 'reads every article from both searches, so a lower-placed article in the account locale is not dropped' do
+      account.update!(locale: 'es')
+      stub_portal('es')
+      spanish = (1..5).map { |index| search_result("#{index}-es", "ES #{index}") }
+      english = (1..5).map { |index| search_result("#{index}-en", "EN #{index}") }
+      stub_search('es', spanish)
+      stub_search('en', english)
+      (spanish + english).each { |article| stub_article(article[:link].split('/').last, 'Body') }
+
+      titles = service.execute(query: query).scan(/^Title: (.+)$/).flatten
+
+      expect(titles).to match_array((spanish + english).pluck(:title))
+    end
+
+    it 'skips an article that fails to load and keeps the others' do
+      stub_portal('en')
+      stub_search('en', [search_result('1-answer', 'Answer'), search_result('2-gone', 'Gone')])
+      stub_article('1-answer', 'The steps.')
+      stub_request(:get, "#{base_url}/articles/2-gone.md").to_return(status: 404)
+      allow(Rails.logger).to receive(:error)
+
+      result = service.execute(query: query)
+
+      expect(result).to include("Title: Answer\nURL: #{base_url}/articles/1-answer\n\nThe steps.")
+      expect(result).not_to include('Title: Gone')
+      expect(Rails.logger).to have_received(:error).with(%r{skipped /hc/user-guide/articles/2-gone})
+    end
+
+    it 'returns the error when none of the articles can be read' do
+      stub_portal('en')
+      stub_search('en', [search_result('1-gone', 'Gone')])
+      stub_request(:get, "#{base_url}/articles/1-gone.md").to_timeout
+
+      expect(service.execute(query: query)).to eq({ error: described_class::UNREACHABLE_MESSAGE })
+    end
+
     it 'keeps the default locale results when the account locale has no articles' do
       account.update!(locale: 'pt_BR')
       stub_portal('pt_BR')

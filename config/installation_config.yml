@@ -208,8 +208,8 @@
   locked: false
 - name: CAPTAIN_CHATWOOT_DOCS_URL
   display_title: 'Chatwoot Docs URL'
-  description: 'Base URL of the Chatwoot help center portal that Copilot searches to answer questions about using Chatwoot. Leave blank to turn the docs search off.'
-  value: 'https://www.chatwoot.com/hc/user-guide'
+  description: 'Base URL of the Chatwoot help center portal that Copilot searches to answer questions about using Chatwoot, such as https://www.chatwoot.com/hc/user-guide. Copilot sends its search queries to this address. Leave blank to turn the docs search off.'
+  value:
   locked: false
 - name: CAPTAIN_TOOLS_GITHUB_TOKEN
   display_title: 'Captain Tools GitHub Token'
