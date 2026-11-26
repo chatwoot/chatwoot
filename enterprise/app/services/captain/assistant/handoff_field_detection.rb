@@ -1,39 +1,34 @@
-# Log only: the reply goes out unchanged and the conversation stays with Captain. This counts replies that say a person
-# is taking over while the handoff tool did not run, so we can see how often it happens before the handoff field acts.
+# Log only: count replies that set the handoff field while the handoff tool was not called. The reply goes out unchanged
+# and the conversation stays pending, so we can see how often this happens before the field changes anything.
 module Captain::Assistant::HandoffFieldDetection
   include Integrations::LlmInstrumentationConstants
 
   private
 
   # Register this before the tracing callbacks, which finish the root span when the run completes.
-  def add_handoff_field_detection(runner, handoff_tool_name)
-    runner.on_run_complete do |agent_name, result, context_wrapper|
-      record_handoff_without_tool(agent_name, result, context_wrapper, handoff_tool_name)
+  def add_handoff_field_detection(runner)
+    runner.on_run_complete do |_agent_name, result, context_wrapper|
+      record_handoff_without_tool(result, context_wrapper)
     end
   end
 
-  def record_handoff_without_tool(agent_name, result, context_wrapper, handoff_tool_name)
-    return unless handoff_field_set?(result) && !handoff_completed?
+  def record_handoff_without_tool(result, context_wrapper)
+    return unless handoff_without_tool?(result)
 
-    agent_has_handoff_tool = agent_has_tool?(agent_name, handoff_tool_name)
     Rails.logger.info(
       "[CAPTAIN][AgentRunnerService] Handoff field set without the handoff tool for account=#{@assistant.account_id} " \
-      "conversation=#{@conversation&.display_id} agent_has_handoff_tool=#{agent_has_handoff_tool}"
+      "conversation=#{@conversation.display_id}"
     )
-
     root_span = context_wrapper&.context&.dig(:__otel_tracing, :root_span)
-    return unless root_span
-
-    root_span.set_attribute(format(ATTR_LANGFUSE_METADATA, 'handoff_without_tool'), 'true')
-    root_span.set_attribute(format(ATTR_LANGFUSE_METADATA, 'agent_has_handoff_tool'), agent_has_handoff_tool.to_s)
+    root_span&.set_attribute(format(ATTR_LANGFUSE_METADATA, 'handoff_without_tool'), 'true')
   end
 
-  def handoff_field_set?(result)
-    result.output.is_a?(Hash) && result.output.with_indifferent_access[:handoff] == true
-  end
+  # Skip the playground, which has no conversation, a handoff tool call even when it failed, because the job then hands off,
+  # leaked tool call text, which is retried, and a reply that a newer customer message discards.
+  def handoff_without_tool?(result)
+    return false unless result.output.is_a?(Hash) && result.output.with_indifferent_access[:handoff] == true
+    return false if @conversation.blank? || @handoff_tool_called || leaked_tool_call?(result)
 
-  def agent_has_tool?(agent_name, tool_name)
-    agent = @agents.find { |wired_agent| wired_agent.name == agent_name }
-    agent.present? && agent.tools.any? { |tool| tool.name == tool_name }
+    !newer_customer_message_arrived?
   end
 end

@@ -215,75 +215,77 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
   end
 
   describe 'handoff field detection' do
-    let(:service) { described_class.new(assistant: assistant, conversation: conversation) }
     let(:root_span) { instance_double(OpenTelemetry::Trace::Span, set_attribute: nil) }
     let(:callbacks) { { tool_complete: [], run_complete: [] } }
 
-    def run_result(handoff:)
+    def handoff_result(handoff: true, text: 'A teammate will take it from here.')
       instance_double(
         Agents::RunResult,
-        output: {
-          'reasoning' => 'Customer asked for a person',
-          'handoff' => handoff,
-          'response_parts' => [{ 'text' => 'A teammate will take it from here.', 'citation_indexes' => [] }]
-        }
+        output: { 'reasoning' => 'Customer asked for a person', 'handoff' => handoff,
+                  'response_parts' => [{ 'text' => text, 'citation_indexes' => [] }] }
       )
     end
 
-    def complete_run(agent_name, result)
+    def complete_run(service, result)
+      runner = instance_double(Agents::AgentRunner)
+      allow(runner).to receive(:on_tool_complete) do |&block|
+        callbacks[:tool_complete] << block
+        runner
+      end
+      allow(runner).to receive(:on_run_complete) do |&block|
+        callbacks[:run_complete] << block
+        runner
+      end
+      service.send(:add_usage_metadata_callback, runner)
+      yield if block_given?
+
       context_wrapper = Struct.new(:context).new({ __otel_tracing: { root_span: root_span } })
-      callbacks[:run_complete].each { |callback| callback.call(agent_name, result, context_wrapper) }
+      callbacks[:run_complete].each { |callback| callback.call('assistant', result, context_wrapper) }
     end
 
     before do
       allow(ChatwootApp).to receive(:otel_enabled?).and_return(false)
-      allow(mock_agent).to receive_messages(name: 'Assistant', tools: [Captain::Tools::HandoffTool.new(assistant)])
-      allow(mock_scenario_agent).to receive_messages(name: 'Billing', tools: [])
-      allow(mock_runner).to receive(:on_tool_complete) do |&block|
-        callbacks[:tool_complete] << block
-        mock_runner
-      end
-      allow(mock_runner).to receive(:on_run_complete) do |&block|
-        callbacks[:run_complete] << block
-        mock_runner
-      end
       allow(Rails.logger).to receive(:info)
-      service.send(:runner)
     end
 
-    it 'records a reply that sets the handoff field when the handoff tool did not run' do
-      complete_run('Billing', run_result(handoff: true))
+    it 'records a reply that sets the handoff field when the handoff tool was not called' do
+      complete_run(described_class.new(assistant: assistant, conversation: conversation), handoff_result)
 
       expect(Rails.logger).to have_received(:info).with(
-        include('Handoff field set without the handoff tool', "account=#{account.id}", "conversation=#{conversation.display_id}",
-                'agent_has_handoff_tool=false')
+        include('Handoff field set without the handoff tool', "account=#{account.id}", "conversation=#{conversation.display_id}")
       )
       expect(root_span).to have_received(:set_attribute).with('langfuse.trace.metadata.handoff_without_tool', 'true')
-      expect(root_span).to have_received(:set_attribute).with('langfuse.trace.metadata.agent_has_handoff_tool', 'false')
     end
 
-    it 'records whether the writing agent had the handoff tool' do
-      complete_run('Assistant', run_result(handoff: true))
-
-      expect(root_span).to have_received(:set_attribute).with('langfuse.trace.metadata.agent_has_handoff_tool', 'true')
-    end
-
-    it 'records nothing when the handoff tool completed' do
-      tool_context = Struct.new(:context).new({ state: { captain_v2_handoff_tool_completed: true } })
-      handoff_tool_name = Captain::Tools::HandoffTool.new(assistant).name
-      callbacks[:tool_complete].each { |callback| callback.call(handoff_tool_name, 'ok', tool_context) }
-
-      complete_run('Assistant', run_result(handoff: true))
+    it 'records nothing when the handoff tool was called' do
+      complete_run(described_class.new(assistant: assistant, conversation: conversation), handoff_result) do
+        tool_context = Struct.new(:context).new({ state: {} })
+        callbacks[:tool_complete].each { |callback| callback.call(Captain::Tools::HandoffTool.new(assistant).name, 'failed', tool_context) }
+      end
 
       expect(Rails.logger).not_to have_received(:info).with(include('Handoff field set'))
-      expect(root_span).not_to have_received(:set_attribute)
     end
 
     it 'records nothing when the handoff field is false' do
-      complete_run('Assistant', run_result(handoff: false))
+      complete_run(described_class.new(assistant: assistant, conversation: conversation), handoff_result(handoff: false))
 
       expect(Rails.logger).not_to have_received(:info).with(include('Handoff field set'))
-      expect(root_span).not_to have_received(:set_attribute)
+    end
+
+    it 'records nothing when a newer customer message discards the reply' do
+      responding_to_message = create(:message, conversation: conversation, message_type: :incoming)
+      service = described_class.new(assistant: assistant, conversation: conversation,
+                                    run_options: run_options(responding_to_message_id: responding_to_message.id))
+
+      complete_run(service, handoff_result) { create(:message, conversation: conversation, message_type: :incoming) }
+
+      expect(Rails.logger).not_to have_received(:info).with(include('Handoff field set'))
+    end
+
+    it 'records nothing when the reply is leaked tool call text, which is retried' do
+      complete_run(described_class.new(assistant: assistant, conversation: conversation), handoff_result(text: '{"reason":"customer asked"}'))
+
+      expect(Rails.logger).not_to have_received(:info).with(include('Handoff field set'))
     end
   end
 
