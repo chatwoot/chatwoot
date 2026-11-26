@@ -37,15 +37,15 @@ RSpec.describe 'Public Articles API', type: :request do
         context "with the #{layout} layout" do
           before { portal.update!(config: portal.config.merge('layout' => layout)) }
 
-          it 'keeps pagination and filters on the portal article list' do
+          it 'uses the public portal article-list route without query parameters' do
             get "/hc/#{portal.slug}/en/articles.html", params: {
-              page: 2, per_page: 1, sort: 'views', status: 'published', theme: 'dark', utm_source: 'newsletter', gclid: 'click', unrelated: 'ignored'
+              theme: 'dark', utm_source: 'newsletter', gclid: 'click', unrelated: 'ignored'
             }
 
             expect(response).to have_http_status(:success)
             page = Nokogiri::HTML5(response.body)
             canonical_urls = page.css('head link[rel="canonical"]').map { |link| link['href'] }
-            expect(canonical_urls).to eq(["https://www.example.com/hc/#{portal.slug}/en/articles?page=2&per_page=1&sort=views&status=published"])
+            expect(canonical_urls).to eq(["https://www.example.com/hc/#{portal.slug}/en/articles"])
             content = page.at_css('main').text.squish
 
             get canonical_urls.first
@@ -54,22 +54,29 @@ RSpec.describe 'Public Articles API', type: :request do
             expect(Nokogiri::HTML5(response.body).at_css('main').text.squish).to eq(content)
           end
 
-          it 'keeps the category route and search term on the category article list' do
+          it 'uses the public category article-list route without query parameters' do
             path = "/hc/#{portal.slug}/en/categories/#{category.slug}/articles"
             get "#{path}/", params: {
-              query: 'MyText', page: 2, per_page: 1, sort: 'views', theme: 'dark', utm_source: 'newsletter', gclid: 'click', unrelated: 'ignored'
+              theme: 'dark', utm_source: 'newsletter', gclid: 'click', unrelated: 'ignored'
             }
 
             expect(response).to have_http_status(:success)
             page = Nokogiri::HTML5(response.body)
             canonical_urls = page.css('head link[rel="canonical"]').map { |link| link['href'] }
-            expect(canonical_urls).to eq(["https://www.example.com#{path}?page=2&per_page=1&query=MyText&sort=views"])
+            expect(canonical_urls).to eq(["https://www.example.com#{path}"])
             content = page.at_css('main').text.squish
 
             get canonical_urls.first
 
             expect(response).to have_http_status(:success)
             expect(Nokogiri::HTML5(response.body).at_css('main').text.squish).to eq(content)
+          end
+
+          it 'does not canonicalize API-filtered article lists' do
+            get "/hc/#{portal.slug}/en/articles", params: { status: 'draft', sort: 'views', page: 2, per_page: 1 }
+
+            expect(response).to have_http_status(:success)
+            expect(Nokogiri::HTML5(response.body).css('head link[rel="canonical"]')).to be_empty
           end
         end
       end
@@ -97,6 +104,13 @@ RSpec.describe 'Public Articles API', type: :request do
       expect(response).to have_http_status(:success)
       response_data = JSON.parse(response.body, symbolize_names: true)[:payload]
       expect(response_data.length).to eq(2)
+    end
+
+    it 'preserves status filtering on the JSON API' do
+      get "/hc/#{portal.slug}/en/articles.json", params: { status: 'draft' }
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body['payload']).to be_empty
     end
 
     it 'get all articles with searched text query' do

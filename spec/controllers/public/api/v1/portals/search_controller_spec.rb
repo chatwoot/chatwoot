@@ -23,14 +23,14 @@ RSpec.describe 'Public Help Center search', type: :request do
         create_list(:article, 12, account: account, portal: portal, author: author, locale: 'hr', title: 'matchingcase & guide')
 
         get "/hc/#{portal.slug}/hr/search/", params: {
-          query: ' matchingcase & guide ', page: 2, status: 'published', sort: 'views', per_page: 1,
+          query: ' matchingcase & guide ', page: 2, sort: 'views', per_page: 1,
           theme: 'dark', show_plain_layout: false, utm_source: 'newsletter', gclid: 'click', unrelated: 'ignored', host: 'wrong.example.com'
         }
 
         expect(response).to have_http_status(:success)
         page = Nokogiri::HTML5(response.body)
         canonical_urls = page.css('head link[rel="canonical"]').map { |link| link['href'] }
-        expect(canonical_urls).to eq(["https://www.example.com/hc/#{portal.slug}/hr/search?page=2&query=matchingcase+%26+guide&status=published"])
+        expect(canonical_urls).to eq(["https://www.example.com/hc/#{portal.slug}/hr/search?page=2&query=matchingcase+%26+guide"])
         expect(page.css('h3').count { |heading| heading.text.strip == 'matchingcase & guide' }).to eq(2)
         content = page.at_css('main').text.squish
 
@@ -45,6 +45,16 @@ RSpec.describe 'Public Help Center search', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(Nokogiri::HTML5(response.body).at_css('head link[rel="canonical"]')['href']).to eq("https://www.example.com/hc/#{portal.slug}/hr/search")
+      end
+
+      it 'does not canonicalize internal status-filtered results' do
+        create(:article, account: account, portal: portal, author: author, locale: 'hr', title: 'matchingcase')
+
+        get "/hc/#{portal.slug}/hr/search", params: { query: 'matchingcase', status: 'draft' }
+
+        expect(response).to have_http_status(:success)
+        expect(response.body).to include('Nisu pronađeni rezultati')
+        expect(Nokogiri::HTML5(response.body).css('head link[rel="canonical"]')).to be_empty
       end
 
       it 'omits canonical links when the portal is hidden from search' do

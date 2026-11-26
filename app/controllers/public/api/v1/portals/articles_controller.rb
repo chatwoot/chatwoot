@@ -9,8 +9,7 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   layout 'portal'
 
   def index
-    path = url_for(list_params.compact_blank.to_h.merge(only_path: true, format: nil))
-    @canonical_url = canonical_url_for(path)
+    @canonical_url = canonical_url_for(url_for(only_path: true, format: nil)) if list_params.except(:locale).compact_blank.empty?
     @search_query = list_params[:query]
     @articles = @portal.articles.published.includes(:category, :author)
 
