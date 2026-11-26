@@ -181,5 +181,12 @@ RSpec.describe 'Public Inbox Contact Conversations API', type: :request do
       expect(response).to have_http_status(:success)
       expect(response.parsed_body.pluck('id')).to eq([conversation.display_id])
     end
+
+    it 'allows requests with the identifier hash of the contact and no identifier' do
+      get conversations_path, params: { identifier_hash: identifier_hash }
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body.pluck('id')).to eq([conversation.display_id])
+    end
   end
 end

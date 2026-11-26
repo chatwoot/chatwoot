@@ -109,6 +109,8 @@ en:
       cannot_revoke_current: You cannot revoke the current session.
 
   errors:
+    installation_config:
+      invalid_dpa_signing_url: 'DPA Signing URL must be an HTTPS link to %{host}.'
     bandwidth:
       token_request_failed: "Unable to reach Bandwidth authentication. Please try again later."
       invalid_configuration: 'Provide a valid Bandwidth account ID, application ID, client ID, and client secret.'
@@ -601,6 +603,7 @@ en:
         display: 'Preparing the results'
         get_report: 'Reading the reports'
         get_account_directory: 'Looking up agents, inboxes and teams'
+        search_chatwoot_docs: 'Searching the Chatwoot docs'
     documents:
       limit_exceeded: 'Document limit exceeded'
       pdf_format_error: 'must be a PDF file'

@@ -576,4 +576,54 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
       end
     end
   end
+
+  describe 'GET /enterprise/api/v1/accounts/{account.id}/legal_compliance' do
+    let(:path) { "/enterprise/api/v1/accounts/#{account.id}/legal_compliance" }
+    let(:dpa_signing_url) { 'https://app.hellosign.com/s/example' }
+
+    before do
+      InstallationConfig.where(name: 'CHATWOOT_DPA_SIGNING_URL').delete_all
+      InstallationConfig.create!(name: 'CHATWOOT_DPA_SIGNING_URL', value: dpa_signing_url)
+    end
+
+    it 'returns unauthorized for unauthenticated users' do
+      get path, as: :json
+
+      expect(response).to have_http_status(:unauthorized)
+    end
+
+    context 'when on Chatwoot Cloud' do
+      before { allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true) }
+
+      it 'returns the DPA signing URL to administrators' do
+        get path, headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body).to eq('dpa_signing_url' => dpa_signing_url)
+      end
+
+      it 'returns unauthorized for agents' do
+        get path, headers: agent.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'returns a nil DPA signing URL when none is configured' do
+        InstallationConfig.where(name: 'CHATWOOT_DPA_SIGNING_URL').delete_all
+
+        get path, headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['dpa_signing_url']).to be_nil
+      end
+    end
+
+    it 'returns not found on self-hosted installations' do
+      allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(false)
+
+      get path, headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:not_found)
+    end
+  end
 end

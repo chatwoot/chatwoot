@@ -1,14 +1,16 @@
 <%# locals: (article:, portal:, locale:, og_image_url: nil) %>
 <title><%= article.title %> | <%= portal.display_title(locale) %></title>
-<% if article.meta["title"].present? %>
-  <meta name="title" content="<%= article.meta["title"] %>">
-  <meta property="og:title" content="<%= article.meta["title"] %>">
-  <meta name="twitter:title" content="<%= article.meta["title"] %>">
-<% end %>
-<% if article.meta["description"].present? %>
-  <meta name="description" content="<%= article.meta["description"] %>">
-  <meta property="og:description" content="<%= article.meta["description"] %>">
-  <meta name="twitter:description" content="<%= article.meta["description"] %>">
+<% meta_title = article.meta["title"].presence || article.title %>
+<% meta_description = article.meta["description"].presence || article.description.presence ||
+                      ChatwootMarkdownRenderer.new(article.content.to_s).render_markdown_to_plain_text.squish.truncate(160, separator: ' ') %>
+<meta name="title" content="<%= meta_title %>">
+<meta property="og:title" content="<%= meta_title %>">
+<meta name="twitter:title" content="<%= meta_title %>">
+<meta property="og:type" content="article">
+<% if meta_description.present? %>
+  <meta name="description" content="<%= meta_description %>">
+  <meta property="og:description" content="<%= meta_description %>">
+  <meta name="twitter:description" content="<%= meta_description %>">
 <% end %>
 <% if article.meta["tags"].present? %>
   <meta name="tags" content="<%= article.meta["tags"].join(',') %>">

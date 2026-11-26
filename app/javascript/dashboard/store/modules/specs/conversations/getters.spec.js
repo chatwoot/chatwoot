@@ -13,6 +13,26 @@ import conversations from './conversations.fixtures';
 commonHelpers();
 
 describe('#getters', () => {
+  it.each([true, false])(
+    'offers last message sorting according to the account flag (%s)',
+    enabled => {
+      const isEnabled = vi.fn(() => enabled);
+      const options = getters.getConversationSortOptions(
+        {},
+        {},
+        {},
+        {
+          getCurrentAccountId: 9,
+          'accounts/isFeatureEnabledonAccount': isEnabled,
+        }
+      );
+      expect(isEnabled).toHaveBeenCalledWith(9, 'last_message_sort');
+      expect(options.includes('last_message_at_desc')).toBe(enabled);
+      expect(options.includes('last_message_at_asc')).toBe(enabled);
+      expect(options).toContain('last_activity_at_desc');
+    }
+  );
+
   describe('#getAllConversations', () => {
     it('returns conversations ordered by lastActivityAt in descending order if no sort order is available', () => {
       const state = { allConversations: [...conversations] };
