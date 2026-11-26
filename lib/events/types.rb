@@ -52,6 +52,11 @@ module Events::Types
   INBOX_CREATED = 'inbox.created'
   INBOX_UPDATED = 'inbox.updated'
 
+  # help center article events
+  ARTICLE_CREATED = 'article.created'
+  ARTICLE_UPDATED = 'article.updated'
+  ARTICLE_DELETED = 'article.deleted'
+
   # notification events
   NOTIFICATION_CREATED = 'notification.created'
   NOTIFICATION_DELETED = 'notification.deleted'

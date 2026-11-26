@@ -1,6 +1,6 @@
 <% content_for :head do %>
-  <%= render 'public/api/v1/portals/documentation_layout/categories/meta_head',
-             category: @category, portal: @portal, og_image_url: @og_image_url %>
+  <%= render 'public/api/v1/portals/categories/meta_head',
+             category: @category, portal: @portal, locale: @category.locale, og_image_url: @og_image_url %>
 <% end %>
 
 <div class="px-6 md:px-10 py-8 md:py-10">

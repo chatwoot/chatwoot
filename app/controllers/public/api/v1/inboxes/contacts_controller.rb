@@ -30,7 +30,7 @@ class Public::Api::V1::Inboxes::ContactsController < Public::Api::V1::InboxesCon
   end
 
   def process_hmac
-    return if params[:identifier_hash].blank? && !@inbox_channel.hmac_mandatory
+    return if identity_proof.none? && !@inbox_channel.hmac_mandatory
     return render_unauthorized('HMAC failed: Invalid Identifier Hash Provided') unless valid_hmac?
 
     @contact_inbox.update(hmac_verified: true) if @contact_inbox.present?
@@ -41,15 +41,11 @@ class Public::Api::V1::Inboxes::ContactsController < Public::Api::V1::InboxesCon
     return false if expected_identifier.blank?
     return false unless params[:identifier].to_s == expected_identifier
 
-    expected_hash = OpenSSL::HMAC.hexdigest(
-      'sha256',
-      @inbox_channel.hmac_token,
-      expected_identifier
-    )
-    identifier_hash = params[:identifier_hash].to_s
-    return false unless identifier_hash.bytesize == expected_hash.bytesize
+    identity_proof.verified?
+  end
 
-    ActiveSupport::SecurityUtils.secure_compare(identifier_hash, expected_hash)
+  def identity_proof
+    @identity_proof ||= ContactIdentity::Verifier.new(channel: @inbox_channel, identifier: hmac_identifier, params: params).perform
   end
 
   def hmac_identifier

@@ -106,6 +106,14 @@ class Portal < ApplicationRecord
     }
   end
 
+  def webhook_data
+    {
+      id: id,
+      name: name,
+      slug: slug
+    }
+  end
+
   def default_locale
     config_value('default_locale').presence || allowed_locale_codes.first || 'en'
   end

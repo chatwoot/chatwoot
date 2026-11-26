@@ -603,6 +603,7 @@ en:
         display: 'Preparing the results'
         get_report: 'Reading the reports'
         get_account_directory: 'Looking up agents, inboxes and teams'
+        search_chatwoot_docs: 'Searching the Chatwoot docs'
     documents:
       limit_exceeded: 'Document limit exceeded'
       pdf_format_error: 'must be a PDF file'

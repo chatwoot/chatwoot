@@ -452,7 +452,6 @@ Rails.application.routes.draw do
 
           namespace :whatsapp do
             resource :authorization, only: [:create]
-            resource :access_request, only: [:create] if ChatwootApp.enterprise?
             post 'manual/preview', to: 'manual_setup#preview'
             post 'manual/connect', to: 'manual_setup#connect'
             get 'manual/:inbox_id/webhook_status', to: 'manual_setup#webhook_status'
@@ -482,6 +481,7 @@ Rails.application.routes.draw do
                 post :add_participant_to_meeting
               end
             end
+            resource :shopify_storefront_widget, only: [:show, :update]
             resource :shopify_custom_app, controller: 'shopify_custom_apps', only: [:show, :create, :update, :destroy]
             resource :shopify, controller: 'shopify', only: [:destroy] do
               collection do
