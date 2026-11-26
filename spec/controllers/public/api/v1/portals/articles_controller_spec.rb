@@ -270,6 +270,9 @@ RSpec.describe 'Public Articles API', type: :request do
             )
             expect(metadata['og:image']).to start_with('https://cdn.example.com/og?')
             expect(metadata['twitter:image']).to eq(metadata['og:image'])
+            canonical_url = page_head.at_css('link[rel="canonical"]')['href']
+            expect(canonical_url).to be_present
+            expect(metadata).to include('og:url' => canonical_url, 'twitter:url' => canonical_url)
           end
 
           it 'preserves authored SEO overrides' do

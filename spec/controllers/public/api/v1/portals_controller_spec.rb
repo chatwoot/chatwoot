@@ -41,6 +41,26 @@ RSpec.describe Public::Api::V1::PortalsController, type: :request do
             expect(Nokogiri::HTML5(response.body).at_css('main').text.squish).to eq(content)
           end
 
+          it 'renders localized social metadata with og:url matching the canonical link' do
+            portal.update!(config: portal.config.merge(
+              'locale_translations' => { 'pt_BR' => { 'page_title' => 'Central de ajuda', 'header_text' => 'Como podemos ajudar?' } }
+            ))
+
+            get "/hc/#{portal.slug}/pt_BR"
+
+            expect(response).to have_http_status(:ok)
+            page_head = Nokogiri::HTML5(response.body).at_css('head')
+            metadata = page_head.css('meta').to_h { |tag| [tag['property'] || tag['name'], tag['content']] }
+            canonical_url = "https://www.example.com/hc/#{portal.slug}/pt_BR"
+            expect(page_head.at_css('title').text).to eq('Central de ajuda')
+            expect(page_head.at_css('link[rel="canonical"]')['href']).to eq(canonical_url)
+            expect(metadata).to include(
+              'og:title' => 'Central de ajuda', 'twitter:title' => 'Central de ajuda', 'og:type' => 'website',
+              'description' => 'Como podemos ajudar?', 'og:description' => 'Como podemos ajudar?',
+              'twitter:description' => 'Como podemos ajudar?', 'og:url' => canonical_url, 'twitter:url' => canonical_url
+            )
+          end
+
           it 'omits canonical links from plain embeds' do
             get "/hc/#{portal.slug}/pt_BR", params: { show_plain_layout: true, theme: 'dark' }
 

@@ -1,3 +1,7 @@
+<% content_for :head do %>
+  <%= render 'public/api/v1/portals/meta_head', portal: @portal, locale: @locale, og_image_url: @og_image_url %>
+<% end %>
+
 <%= render 'public/api/v1/portals/documentation_layout/hero', portal: @portal, popular_topics: @popular_topics, recommended: @recommended_categories.present? %>
 
 <section class="px-6 md:px-10 py-8 md:py-10">

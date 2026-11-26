@@ -20,6 +20,8 @@
 
 <% if @canonical_url.present? %>
   <link rel="canonical" href="<%= @canonical_url %>">
+  <meta property="og:url" content="<%= @canonical_url %>">
+  <meta name="twitter:url" content="<%= @canonical_url %>">
 <% end %>
 
 <% if @portal.logo.present? %>
