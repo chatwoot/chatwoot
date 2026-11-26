@@ -701,6 +701,20 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
         expect(mock_runner).to have_received(:run).once
       end
 
+      it 'still rewrites an oversized reply suggestion that sets the handoff field' do
+        mock_result.output['handoff'] = true
+        suggestion_service = described_class.new(
+          assistant: assistant,
+          conversation: conversation,
+          run_options: run_options(source: described_class::REPLY_SUGGESTION_SOURCE)
+        )
+
+        result = suggestion_service.generate_response(message_history: message_history)
+
+        expect(mock_runner).to have_received(:run).twice
+        expect(result['response_parts'].pluck('text')).to eq(['Short first answer.', 'Short second answer.'])
+      end
+
       it 'rejects a rewrite that changes the response part citation order' do
         channel_limit_rewrite[:rewrite_run_result].output['response_parts'].reverse!
         allow(ChatwootExceptionTracker).to receive(:new).and_return(
