@@ -216,7 +216,7 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
           {
             type: 'button',
             context: { from: whatsapp_channel.phone_number, id: 'wamid.template-message' },
-            button: { payload: '31059bf2-97a8-47de-b887-4e72f0335b67', text: 'Ya la tomé' }
+            button: { payload: 'reminder-1234', text: 'Done' }
           }
         end
 
@@ -224,10 +224,10 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
           described_class.new(inbox: whatsapp_channel.inbox, params: reply_params).perform
 
           message = whatsapp_channel.inbox.messages.last
-          expect(message.content).to eq('Ya la tomé')
+          expect(message.content).to eq('Done')
           expect(message.content_attributes['selected_reply']).to eq(
             'type' => 'button',
-            'button' => { 'payload' => '31059bf2-97a8-47de-b887-4e72f0335b67', 'text' => 'Ya la tomé' }
+            'button' => { 'payload' => 'reminder-1234', 'text' => 'Done' }
           )
         end
 
@@ -237,9 +237,9 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
           selected_reply = whatsapp_channel.inbox.messages.last.webhook_data[:content_attributes][:selected_reply]
           expect(selected_reply).to eq(
             'type' => 'button',
-            'button' => { 'payload' => '31059bf2-97a8-47de-b887-4e72f0335b67', 'text' => 'Ya la tomé' }
+            'button' => { 'payload' => 'reminder-1234', 'text' => 'Done' }
           )
-          expect(JSON.parse(selected_reply.to_json).dig('button', 'payload')).to eq('31059bf2-97a8-47de-b887-4e72f0335b67')
+          expect(JSON.parse(selected_reply.to_json).dig('button', 'payload')).to eq('reminder-1234')
         end
       end
 
