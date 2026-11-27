@@ -822,11 +822,9 @@
         "MANAGE_CONNECTION": "Manage connection",
         "HIDE_CONNECTION": "Hide connection",
         "UPDATE_CONNECTION": "Update connection",
-        "WHATSAPP_ENABLE": "Turn on WhatsApp calling",
-        "WHATSAPP_ENABLE_HELP": "Customers can call this number from WhatsApp. Agents answer in the browser, which needs microphone access.",
-        "META_ON": "Calling on at Meta",
-        "META_HELP": "Calls ring on this WhatsApp number",
-        "TURN_OFF": "Turn off calling"
+        "WHATSAPP": "WhatsApp calling",
+        "WHATSAPP_HELP": "Make and receive WhatsApp calls from this inbox. Agents need microphone access.",
+        "WHATSAPP_ACCEPT_INCOMING": "Accept incoming calls"
       },
       "INCOMING": {
         "TITLE": "When a call comes in",
