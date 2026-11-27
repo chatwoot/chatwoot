@@ -13,7 +13,7 @@ class Public::Api::V1::Inboxes::MessagesController < Public::Api::V1::InboxesCon
 
   def update
     if @message.csat_survey_expired?
-      error = I18n.t('errors.csat_survey.expired', days: Message::CSAT_SURVEY_RESPONSE_WINDOW_DAYS)
+      error = I18n.t('errors.csat_survey.expired', count: @message.inbox.csat_response_window_days)
       render json: { error: error }, status: :unprocessable_entity and return
     end
 

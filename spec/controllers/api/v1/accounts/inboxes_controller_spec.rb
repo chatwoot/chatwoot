@@ -1208,6 +1208,35 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(response).to have_http_status(:success)
       end
 
+      it 'saves and returns the configured response window' do
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+              params: { csat_config: csat_config.merge('response_window_days' => 1) },
+              headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(inbox.reload.csat_response_window_days).to eq(1)
+        expect(response.parsed_body.dig('csat_config', 'response_window_days')).to eq(1)
+      end
+
+      it 'preserves the response window when older clients update other CSAT settings' do
+        inbox.update!(csat_config: { response_window_days: 2 })
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+              params: { csat_config: csat_config }, headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(inbox.reload.csat_response_window_days).to eq(2)
+      end
+
+      it 'rejects invalid response windows without replacing the saved configuration' do
+        inbox.update!(csat_config: { response_window_days: 3 })
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+              params: { csat_config: csat_config.merge('response_window_days' => 0) },
+              headers: admin.create_new_auth_token, as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(inbox.reload.csat_response_window_days).to eq(3)
+      end
+
       context 'when CSAT is configured' do
         before do
           patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",

@@ -37,6 +37,31 @@ RSpec.describe 'Public Survey Responses API', type: :request do
       expect(data['csat_survey_response']['rating']).to eq 4
     end
 
+    it 'accepts responses beyond the default window when the inbox allows more time' do
+      conversation = create(:conversation)
+      conversation.inbox.update!(csat_config: { response_window_days: 30 })
+      message = create(:message, conversation: conversation, content_type: 'input_csat', created_at: 20.days.ago)
+
+      patch "/public/api/v1/csat_survey/#{conversation.uuid}", params: params, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(message.reload.submitted_values.dig('csat_survey_response', 'rating')).to eq(4)
+    end
+
+    it 'rejects a submission at the configured deadline without saving it' do
+      conversation = create(:conversation)
+      conversation.inbox.update!(csat_config: { response_window_days: 1 })
+      message = create(:message, conversation: conversation, content_type: 'input_csat', created_at: Time.current.change(usec: 0))
+
+      travel_to(message.created_at + 24.hours) do
+        patch "/public/api/v1/csat_survey/#{conversation.uuid}", params: params, as: :json
+      end
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['error']).to eq('You cannot update the CSAT survey after 1 day')
+      expect(message.reload.submitted_values).to be_nil
+    end
+
     it 'returns update error if CSAT message sent more than 14 days' do
       conversation = create(:conversation)
       message = create(:message, conversation: conversation, content_type: 'input_csat', created_at: 15.days.ago)

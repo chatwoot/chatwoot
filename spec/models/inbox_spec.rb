@@ -10,6 +10,30 @@ RSpec.describe Inbox do
     it { is_expected.to validate_presence_of(:name) }
   end
 
+  describe 'CSAT response window' do
+    let(:inbox) { build(:inbox, account: create(:account)) }
+
+    it 'defaults to 14 days without changing existing configuration' do
+      inbox.csat_config = { 'message' => 'Please rate us' }
+      expect(inbox.csat_response_window_days).to eq(14)
+      expect(inbox).to be_valid
+    end
+
+    it 'accepts a positive integer number of days' do
+      inbox.csat_config = { response_window_days: 3 }
+      expect(inbox).to be_valid
+      expect(inbox.csat_response_window_days).to eq(3)
+    end
+
+    [0, -1, 1.5, '2', nil, false].each do |days|
+      it "rejects #{days.inspect} as a response window" do
+        inbox.csat_config = { response_window_days: days }
+        expect(inbox).not_to be_valid
+        expect(inbox.errors[:csat_config]).to include('Response window must be a positive whole number of days')
+      end
+    end
+  end
+
   describe 'associations' do
     it { is_expected.to belong_to(:account) }
 
