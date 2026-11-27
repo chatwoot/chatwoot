@@ -14,6 +14,20 @@ RSpec.describe Voice::Captain::AssistantConfig do
     expect(tools).to include({ type: 'endCall' })
   end
 
+  it 'varies what Captain says while it looks something up' do
+    tools = described_class.new(assistant: assistant, voice: 'Elliot').to_h.dig(:model, :tools)
+    faq_lookup = tools.find { |tool| tool.dig(:function, :name) == 'captain--tools--faq_lookup' }
+
+    expect(faq_lookup[:messages]).to eq(described_class::LOOKUP_PHRASES.map { |phrase| { type: 'request-start', content: phrase } })
+  end
+
+  it 'tells the caller they are being connected when Captain hands off' do
+    tools = described_class.new(assistant: assistant, voice: 'Elliot').to_h.dig(:model, :tools)
+    handoff = tools.find { |tool| tool.dig(:function, :name) == 'captain--tools--handoff' }
+
+    expect(handoff[:messages]).to eq([{ type: 'request-start', content: described_class::HANDOFF_PHRASE }])
+  end
+
   it 'turns off background speech denoising' do
     plan = described_class.new(assistant: assistant, voice: 'Elliot').to_h[:backgroundSpeechDenoisingPlan]
 

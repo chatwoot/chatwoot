@@ -7,6 +7,14 @@ class Voice::Captain::AssistantConfig
   DEFAULT_VOICE = 'Elliot'.freeze
   # Vapi's denoisers drift on Twilio's bypass stream and stop passing the caller's audio to the transcriber
   DENOISING_OFF = { smartDenoisingPlan: { enabled: false }, fourierDenoisingPlan: { enabled: false } }.freeze
+  # Spoken while a tool runs, so the caller doesn't sit in silence
+  LOOKUP_PHRASES = [
+    'Let me check that for you.',
+    'Checking that for you.',
+    'Let me look that up.',
+    'Sure, let me find that.'
+  ].freeze
+  HANDOFF_PHRASE = 'Sure, connecting you to someone from our team now.'.freeze
 
   pattr_initialize [:assistant!, :voice!]
 
@@ -58,6 +66,8 @@ class Voice::Captain::AssistantConfig
       - Keep each reply to one or two short sentences in plain spoken language. No lists, links, markdown or emoji.
       - If asked, say that you are an AI assistant.
       - Before answering a question about the product, search the FAQs and answer only from the results. Never make up an answer.
+      - The FAQs are written to be read on a screen. Say the answer in your own words, the way a support person talks on the phone: the main point first, then offer more detail or the steps if the caller wants them.
+      - Never read out code, template variables, curly braces, URLs, file paths or symbols. Describe them in words instead, for example "a placeholder for the contact's email".
       - Phone audio is often misheard. If the question sounds odd or the FAQs have nothing on it, tell the caller what you heard and ask them to say it again.
       - Hand off to the team when the caller asks for a person, or when the FAQs still have no answer after the caller has repeated or rephrased the question. The caller is then connected to an agent.
       - When the caller's question is answered and they have nothing else, say goodbye and end the call.
@@ -89,14 +99,14 @@ class Voice::Captain::AssistantConfig
         parameters: tool.parameters_schema.to_h.except('strict', :strict)
       },
       server: server,
-      messages: [{ type: 'request-start', content: request_start_message(tool) }]
+      messages: request_start_messages(tool)
     }
   end
 
-  def request_start_message(tool)
-    return 'Sure, connecting you to someone from our team now.' if tool.is_a?(::Captain::Tools::HandoffTool)
-
-    'One moment.'
+  # Vapi picks one of several request-start messages each time, so the caller doesn't hear the same line before every answer
+  def request_start_messages(tool)
+    phrases = tool.is_a?(::Captain::Tools::HandoffTool) ? [HANDOFF_PHRASE] : LOOKUP_PHRASES
+    phrases.map { |phrase| { type: 'request-start', content: phrase } }
   end
 
   # Vapi doesn't attach stored credentials to a server URL sent in the request, so the secret goes in the headers
