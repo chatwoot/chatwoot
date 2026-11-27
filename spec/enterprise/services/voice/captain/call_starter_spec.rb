@@ -78,6 +78,18 @@ RSpec.describe Voice::Captain::CallStarter do
       expect(request.with { |req| JSON.parse(req.body).dig('assistant', 'voice', 'voiceId') == 'Sagar' }).to have_been_made
     end
 
+    it "tells Captain the caller's number and the inbox's time" do
+      inbox.update!(timezone: 'Asia/Kolkata')
+      request = stub_vapi
+
+      perform
+
+      expect(request.with do |req|
+        prompt = JSON.parse(req.body).dig('assistant', 'model', 'messages', 0, 'content')
+        prompt.include?("calling from #{from}") && prompt.include?('IST')
+      end).to have_been_made
+    end
+
     it 'speaks with Elliot until a voice is chosen' do
       request = stub_vapi
 

@@ -29,7 +29,12 @@ class Voice::Captain::CallStarter
   def start_vapi_call(conversation)
     vapi_call = Voice::Captain::VapiClient.new.create_call(
       customer_number: from,
-      assistant: Voice::Captain::AssistantConfig.new(assistant: inbox.captain_assistant, voice: inbox.channel.captain_voice).to_h
+      assistant: Voice::Captain::AssistantConfig.new(
+        assistant: inbox.captain_assistant,
+        voice: inbox.channel.captain_voice,
+        caller_number: from,
+        time_zone: inbox.timezone
+      ).to_h
     )
     session = Voice::Captain::CallSession.new(
       account_id: inbox.account_id,

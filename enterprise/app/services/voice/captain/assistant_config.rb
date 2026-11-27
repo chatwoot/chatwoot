@@ -16,7 +16,8 @@ class Voice::Captain::AssistantConfig
   ].freeze
   HANDOFF_PHRASE = 'Sure, connecting you to someone from our team now.'.freeze
 
-  pattr_initialize [:assistant!, :voice!]
+  # time_zone is the inbox's, as in chat, so dates like "Thursday" resolve the way the business means them
+  pattr_initialize [:assistant!, :voice!, :caller_number!, :time_zone!]
 
   def to_h
     {
@@ -55,9 +56,23 @@ class Voice::Captain::AssistantConfig
       "You are #{assistant.name}, an AI assistant answering phone calls for #{product_name}.",
       assistant.description,
       voice_rules,
+      call_context,
       list_section('Response guidelines', assistant.response_guidelines),
       list_section('Guardrails', assistant.guardrails)
     ].compact_blank.join("\n\n")
+  end
+
+  def call_context
+    <<~CONTEXT
+      Call details:
+      - The current time is #{current_time}. Use it to work out dates the caller mentions, like "tomorrow" or "Thursday".
+      - The caller is calling from #{caller_number}. When a tool needs the caller's phone number, use this one instead of asking for it.
+    CONTEXT
+  end
+
+  def current_time
+    zone = ActiveSupport::TimeZone[time_zone.to_s] || ActiveSupport::TimeZone['UTC']
+    Time.current.in_time_zone(zone).strftime('%A, %B %d, %Y %I:%M %p %Z')
   end
 
   def voice_rules
