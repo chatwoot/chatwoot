@@ -16,7 +16,7 @@ class Voice::Captain::CallStarter
     return unless callable_number?
 
     conversation = find_or_create_conversation
-    return unless conversation.pending?
+    return unless conversation.pending? && captain_engages?(conversation)
 
     start_vapi_call(conversation)
   rescue Voice::Captain::VapiClient::Error, HTTParty::Error, Net::OpenTimeout, Net::ReadTimeout => e
@@ -40,6 +40,15 @@ class Voice::Captain::CallStarter
     )
     session.save!(vapi_call[:id])
     vapi_call[:twiml]
+  end
+
+  # The assistant's Schedule and Audience apply to calls as they do to messages: a caller Captain doesn't
+  # serve right now is handed to the team, so the conversation opens and the call rings agents
+  def captain_engages?(conversation)
+    return true if inbox.captain_assistant.engages?(conversation.contact, conversation)
+
+    conversation.open!
+    false
   end
 
   # Vapi needs the caller's number; withheld numbers ring agents

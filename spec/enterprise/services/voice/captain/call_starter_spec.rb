@@ -85,6 +85,33 @@ RSpec.describe Voice::Captain::CallStarter do
       expect(request).not_to have_been_made
     end
 
+    context 'when the assistant answers only during business hours and the inbox is closed' do
+      before do
+        assistant.update!(config: assistant.config.merge('response_window' => 'business_hours'))
+        inbox.update!(working_hours_enabled: true)
+        inbox.working_hours.update_all(closed_all_day: true) # rubocop:disable Rails/SkipsModelValidations
+      end
+
+      it 'rings agents for a new caller' do
+        request = stub_vapi
+
+        expect(perform).to be_nil
+        expect(request).not_to have_been_made
+        expect(inbox.conversations.last).to be_open
+      end
+
+      it 'hands a conversation Captain was holding to the team' do
+        request = stub_vapi
+        contact_inbox = create(:contact_inbox, inbox: inbox, source_id: from)
+        conversation = create(:conversation, account: account, inbox: inbox, contact: contact_inbox.contact, contact_inbox: contact_inbox)
+        conversation.update_columns(status: Conversation.statuses[:pending]) # rubocop:disable Rails/SkipsModelValidations
+
+        expect(perform).to be_nil
+        expect(request).not_to have_been_made
+        expect(conversation.reload).to be_open
+      end
+    end
+
     it 'rings agents for a withheld number' do
       request = stub_vapi
 
