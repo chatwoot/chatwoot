@@ -189,6 +189,21 @@ RSpec.describe Portal do
       expect(portal.search_indexable_articles).not_to include(hidden_article)
     end
 
+    it 'leaves out articles whose public locale is a draft or not allowed' do
+      portal.update!(config: portal.config.merge('allowed_locales' => %w[en es fr], 'draft_locales' => ['es']))
+      draft_locale_article = create(:article, portal: portal, account: account, author: author, status: :published, locale: 'es')
+      removed_locale_article = create(:article, portal: portal, account: account, author: author, status: :published, locale: 'de')
+      public_category = create(:category, portal: portal, account: account, locale: 'fr', slug: 'public-fr')
+      draft_category = create(:category, portal: portal, account: account, locale: 'es', slug: 'draft-es')
+      in_public_category = create(:article, portal: portal, account: account, author: author, status: :published,
+                                            locale: 'es', category: public_category)
+      in_draft_category = create(:article, portal: portal, account: account, author: author, status: :published,
+                                           locale: 'en', category: draft_category)
+
+      expect(portal.search_indexable_articles).to include(visible_article, in_public_category)
+      expect(portal.search_indexable_articles).not_to include(draft_locale_article, removed_locale_article, in_draft_category)
+    end
+
     it 'returns no articles when the portal is hidden from search' do
       portal.update!(config: portal.config.merge('disable_search_indexing' => true))
 

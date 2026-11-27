@@ -91,10 +91,14 @@ class Portal < ApplicationRecord
     config_value('disable_search_indexing') == true
   end
 
+  # Published articles whose public page carries a canonical link; an article's public locale is its category's locale.
   def search_indexable_articles
     return [] if search_indexing_disabled?
 
-    articles.published.reject(&:noindex?)
+    published = articles.published.left_joins(:category)
+    in_public_locale = published.where(categories: { locale: public_locale_codes })
+                                .or(published.where(category_id: nil, locale: public_locale_codes))
+    in_public_locale.reject(&:noindex?)
   end
 
   # Max number of recommended categories/articles shown per locale.
