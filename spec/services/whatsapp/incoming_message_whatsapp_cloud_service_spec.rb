@@ -735,13 +735,32 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
       end
 
       context 'when the original message does not exist in Chatwoot' do
-        it 'does not set in_reply_to (discards the reply reference)' do
+        it 'keeps in_reply_to_external_id without setting in_reply_to' do
           described_class.new(inbox: whatsapp_channel.inbox, params: reply_params).perform
 
           reply_message = whatsapp_channel.inbox.messages.last
           expect(reply_message.content).to eq('This is a reply')
           expect(reply_message.content_attributes['in_reply_to']).to be_nil
-          expect(reply_message.content_attributes['in_reply_to_external_id']).to be_nil
+          expect(reply_message.content_attributes['in_reply_to_external_id']).to eq('wamid.ORIGINAL_MESSAGE_ID')
+        end
+      end
+
+      context 'when the original message is in a resolved conversation and the reply opens a new one' do
+        it 'keeps in_reply_to_external_id without setting in_reply_to' do
+          whatsapp_channel.inbox.update!(lock_to_single_conversation: false)
+          contact = create(:contact, phone_number: '+16503071063', account: whatsapp_channel.account)
+          contact_inbox = create(:contact_inbox, contact: contact, inbox: whatsapp_channel.inbox, source_id: '16503071063')
+          resolved_conversation = create(:conversation, contact: contact, inbox: whatsapp_channel.inbox,
+                                                        contact_inbox: contact_inbox, status: :resolved)
+          create(:message, conversation: resolved_conversation, message_type: :outgoing,
+                           source_id: 'wamid.ORIGINAL_MESSAGE_ID', content: 'Original message')
+
+          described_class.new(inbox: whatsapp_channel.inbox, params: reply_params).perform
+
+          reply_message = whatsapp_channel.inbox.messages.find_by!(source_id: 'wamid.REPLY_MESSAGE_ID')
+          expect(reply_message.conversation_id).not_to eq(resolved_conversation.id)
+          expect(reply_message.content_attributes['in_reply_to']).to be_nil
+          expect(reply_message.content_attributes['in_reply_to_external_id']).to eq('wamid.ORIGINAL_MESSAGE_ID')
         end
       end
     end

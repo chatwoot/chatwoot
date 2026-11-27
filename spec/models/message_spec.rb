@@ -710,6 +710,24 @@ RSpec.describe Message do
         new_message.send(:ensure_in_reply_to)
         expect(new_message.content_attributes[:in_reply_to]).to be_nil
       end
+
+      it 'keeps in_reply_to_external_id on an incoming message' do
+        new_message.send(:ensure_in_reply_to)
+        expect(new_message.content_attributes[:in_reply_to_external_id]).to eq('source-id-that-does-not-exist')
+      end
+
+      it 'keeps in_reply_to_external_id across later saves' do
+        new_message.save!
+        new_message.update!(status: :delivered)
+        expect(new_message.reload.content_attributes).to include('in_reply_to' => nil,
+                                                                 'in_reply_to_external_id' => 'source-id-that-does-not-exist')
+      end
+
+      it 'clears in_reply_to_external_id on an outgoing message' do
+        new_message.message_type = :outgoing
+        new_message.send(:ensure_in_reply_to)
+        expect(new_message.content_attributes[:in_reply_to_external_id]).to be_nil
+      end
     end
   end
 
