@@ -38,6 +38,16 @@ RSpec.describe 'Api::V1::Accounts::Captain::FaqSuggestions', type: :request do
       expect(response.parsed_body['meta']).to include('total_count' => 1)
     end
 
+    it 'supports API token authentication' do
+      get "/api/v1/accounts/#{account.id}/captain/faq_suggestions",
+          params: { assistant_id: assistant.id },
+          headers: { api_access_token: admin.access_token.token },
+          as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body['payload']).to contain_exactly(include('id' => suggestion.id))
+    end
+
     it 'returns only suggestions backed by conversations the agent can access' do
       create(:inbox_member, user: agent, inbox: inbox)
       hidden_inbox = create(:inbox, account: account)
