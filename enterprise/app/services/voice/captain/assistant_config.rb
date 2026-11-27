@@ -2,6 +2,8 @@
 # and its tools, which Vapi runs by calling our webhook.
 class Voice::Captain::AssistantConfig
   MAX_CALL_SECONDS = 30.minutes.to_i
+  # Vapi's denoisers drift on Twilio's bypass stream and stop passing the caller's audio to the transcriber
+  DENOISING_OFF = { smartDenoisingPlan: { enabled: false }, fourierDenoisingPlan: { enabled: false } }.freeze
 
   pattr_initialize [:assistant!]
 
@@ -19,6 +21,9 @@ class Voice::Captain::AssistantConfig
       server: server,
       serverMessages: ['end-of-call-report'],
       analysisPlan: { summaryPrompt: summary_prompt },
+      backgroundSpeechDenoisingPlan: DENOISING_OFF,
+      # Vapi plays office ambience behind phone calls unless this is off
+      backgroundSound: 'off',
       maxDurationSeconds: MAX_CALL_SECONDS
     }
   end

@@ -14,6 +14,16 @@ RSpec.describe Voice::Captain::AssistantConfig do
     expect(tools).to include({ type: 'endCall' })
   end
 
+  it 'turns off background speech denoising' do
+    plan = described_class.new(assistant: assistant).to_h[:backgroundSpeechDenoisingPlan]
+
+    expect(plan).to eq(smartDenoisingPlan: { enabled: false }, fourierDenoisingPlan: { enabled: false })
+  end
+
+  it 'turns off the background office sound' do
+    expect(described_class.new(assistant: assistant).to_h[:backgroundSound]).to eq('off')
+  end
+
   it 'sends the webhook secret with every tool and the call report' do
     config = described_class.new(assistant: assistant).to_h
 
