@@ -863,7 +863,14 @@
         "CAPTAIN_ANSWERS_HELP": "Captain answers each call from its FAQs, and transfers the caller to your team when they ask for a person or it can't help.",
         "ASSISTANT": "Assistant",
         "ASSISTANT_PLACEHOLDER": "Choose an assistant",
-        "ASSISTANT_HELP": "This is the inbox's Captain assistant, so it also replies to messages in this inbox."
+        "ASSISTANT_HELP": "This is the inbox's Captain assistant, so it also replies to messages in this inbox.",
+        "VOICE": "Voice",
+        "VOICES": {
+          "MALE_CANADIAN": "Male, Canadian",
+          "FEMALE_AMERICAN": "Female, American",
+          "FEMALE_INDIAN": "Female, Indian",
+          "MALE_INDIAN": "Male, Indian"
+        }
       },
       "UNANSWERED": {
         "TITLE": "If nobody answers",

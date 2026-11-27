@@ -291,6 +291,29 @@ describe('VoiceConfigurationPage', () => {
       expect(InboxesAPI.setCallRouting).not.toHaveBeenCalled();
     });
 
+    it('saves the chosen voice and offers its Vapi preview', async () => {
+      const wrapper = mountPage({
+        captain_answers_calls: true,
+        captain_assistant_id: 1,
+        captain_voice: 'Elliot',
+      });
+      await flushPromises();
+      const voiceSelect = wrapper.find(
+        'select[aria-label="INBOX_MGMT.CALL_SETTINGS.VOICE_AI.VOICE"]'
+      );
+
+      expect(voiceSelect.element.value).toBe('Elliot');
+
+      await voiceSelect.setValue('Naina');
+      await saveButton(wrapper).trigger('click');
+      await flushPromises();
+
+      expect(InboxesAPI.setCaptainCalls).toHaveBeenCalledWith(
+        387,
+        expect.objectContaining({ captainVoice: 'Naina' })
+      );
+    });
+
     it('keeps Save disabled until an assistant is chosen', async () => {
       const wrapper = mountPage();
       await flushPromises();

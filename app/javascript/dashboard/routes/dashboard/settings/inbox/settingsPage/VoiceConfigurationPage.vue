@@ -17,6 +17,11 @@ import CallMessagePlay from './calls/CallMessagePlay.vue';
 import TwilioCallingCard from './calls/TwilioCallingCard.vue';
 import { durationOptions } from './calls/callDurations';
 import {
+  CAPTAIN_VOICES,
+  DEFAULT_CAPTAIN_VOICE,
+  captainVoicePreviewUrl,
+} from './calls/captainVoices';
+import {
   useCallSettingsForm,
   sharedSavedValues,
   sharedSteps,
@@ -52,12 +57,13 @@ const savedValues = () => ({
   outOfHoursMessage: props.inbox.out_of_hours_call_message || '',
   captainAnswersCalls: !!props.inbox.captain_answers_calls,
   captainAssistantId: props.inbox.captain_assistant_id ?? '',
+  captainVoice: props.inbox.captain_voice || DEFAULT_CAPTAIN_VOICE,
 });
 
 const buildSteps = (changed, values) => {
   const { id } = props.inbox;
   const steps = sharedSteps(id, changed, values);
-  if (changed(['captainAnswersCalls', 'captainAssistantId'])) {
+  if (changed(['captainAnswersCalls', 'captainAssistantId', 'captainVoice'])) {
     steps.push(() => InboxesAPI.setCaptainCalls(id, values));
   }
   if (changed(['greeting'])) {
@@ -110,6 +116,13 @@ onMounted(async () => {
     label: assistant.name,
   }));
 });
+
+const voiceOptions = computed(() =>
+  CAPTAIN_VOICES.map(({ id, descriptionKey }) => ({
+    value: id,
+    label: `${id} · ${label(`VOICE_AI.VOICES.${descriptionKey}`)}`,
+  }))
+);
 
 // Captain needs an assistant to answer calls
 const canSave = computed(
@@ -207,6 +220,22 @@ const ringTimeOptions = computed(() =>
           <p class="text-body-main text-n-slate-11">
             {{ label('VOICE_AI.ASSISTANT_HELP') }}
           </p>
+        </div>
+        <div v-if="form.captainAnswersCalls" class="flex flex-col gap-1.5">
+          <label class="mb-0 text-heading-3 text-n-slate-12">
+            {{ label('VOICE_AI.VOICE') }}
+          </label>
+          <div class="flex items-center gap-2">
+            <Select
+              v-model="form.captainVoice"
+              :options="voiceOptions"
+              :aria-label="label('VOICE_AI.VOICE')"
+            />
+            <CallMessagePlay
+              :key="form.captainVoice"
+              :audio-url="captainVoicePreviewUrl(form.captainVoice)"
+            />
+          </div>
         </div>
       </CallSettingsSection>
 

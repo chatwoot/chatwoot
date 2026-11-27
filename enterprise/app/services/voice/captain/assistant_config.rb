@@ -2,10 +2,13 @@
 # and its tools, which Vapi runs by calling our webhook.
 class Voice::Captain::AssistantConfig
   MAX_CALL_SECONDS = 30.minutes.to_i
+  # Vapi's own voices an inbox can pick for Captain, all on Vapi Voices version 2
+  VOICES = %w[Elliot Savannah Naina Sagar].freeze
+  DEFAULT_VOICE = 'Elliot'.freeze
   # Vapi's denoisers drift on Twilio's bypass stream and stop passing the caller's audio to the transcriber
   DENOISING_OFF = { smartDenoisingPlan: { enabled: false }, fourierDenoisingPlan: { enabled: false } }.freeze
 
-  pattr_initialize [:assistant!]
+  pattr_initialize [:assistant!, :voice!]
 
   def to_h
     {
@@ -18,6 +21,7 @@ class Voice::Captain::AssistantConfig
         messages: [{ role: 'system', content: system_prompt }],
         tools: tools
       },
+      voice: { provider: 'vapi', voiceId: voice, version: 2 },
       server: server,
       serverMessages: ['end-of-call-report'],
       analysisPlan: { summaryPrompt: summary_prompt },

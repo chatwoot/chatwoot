@@ -183,6 +183,7 @@ if resource.twilio? && resource.channel.respond_to?(:voice_enabled?)
     json.partial! 'api/v1/models/call_routing', channel: resource.channel
     json.captain_answers_calls resource.channel.captain_answers_calls?
     json.captain_assistant_id resource.captain_assistant&.id
+    json.captain_voice resource.channel.captain_voice
   end
   json.account_auth_token_configured resource.channel.try(:account_auth_token_configured?) == true
   json.voice_configured resource.channel.try(:twiml_app_sid).present?

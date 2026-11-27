@@ -28,6 +28,11 @@ module Enterprise::Channel::TwilioSms
     provider_config['captain_answers_calls'] == true
   end
 
+  # The Vapi voice Captain speaks with on this inbox's calls
+  def captain_voice
+    provider_config['captain_voice'].presence || Voice::Captain::AssistantConfig::DEFAULT_VOICE
+  end
+
   def account_auth_token_configured?
     provider_config['account_auth_token_configured'] == true
   end

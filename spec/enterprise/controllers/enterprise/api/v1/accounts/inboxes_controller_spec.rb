@@ -241,6 +241,30 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
       expect(CaptainInbox.where(inbox: voice_channel.inbox).pluck(:captain_assistant_id)).to eq([assistant.id])
     end
 
+    it 'saves the voice Captain speaks with' do
+      assistant = create(:captain_assistant, account: account)
+
+      post "/api/v1/accounts/#{account.id}/inboxes/#{voice_channel.inbox.id}/set_captain_calls",
+           headers: admin.create_new_auth_token,
+           params: { captain_answers_calls: true, captain_assistant_id: assistant.id, captain_voice: 'Naina' },
+           as: :json
+
+      expect(response).to have_http_status(:ok)
+      expect(voice_channel.reload.captain_voice).to eq('Naina')
+    end
+
+    it 'rejects a voice that is not listed' do
+      assistant = create(:captain_assistant, account: account)
+
+      post "/api/v1/accounts/#{account.id}/inboxes/#{voice_channel.inbox.id}/set_captain_calls",
+           headers: admin.create_new_auth_token,
+           params: { captain_answers_calls: true, captain_assistant_id: assistant.id, captain_voice: 'Neha' },
+           as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(voice_channel.reload.captain_voice).to eq('Elliot')
+    end
+
     it 'needs an assistant to turn Captain on' do
       post "/api/v1/accounts/#{account.id}/inboxes/#{voice_channel.inbox.id}/set_captain_calls",
            headers: admin.create_new_auth_token,
@@ -287,7 +311,7 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
           headers: admin.create_new_auth_token,
           as: :json
 
-      expect(response.parsed_body).to include('captain_answers_calls' => true, 'captain_assistant_id' => assistant.id)
+      expect(response.parsed_body).to include('captain_answers_calls' => true, 'captain_assistant_id' => assistant.id, 'captain_voice' => 'Elliot')
     end
 
     it 'is rejected for a WhatsApp calling inbox' do

@@ -69,6 +69,23 @@ RSpec.describe Voice::Captain::CallStarter do
         .to have_been_made
     end
 
+    it "speaks with the inbox's chosen voice" do
+      request = stub_vapi
+      channel.update!(provider_config: channel.provider_config.merge('captain_voice' => 'Sagar'))
+
+      perform
+
+      expect(request.with { |req| JSON.parse(req.body).dig('assistant', 'voice', 'voiceId') == 'Sagar' }).to have_been_made
+    end
+
+    it 'speaks with Elliot until a voice is chosen' do
+      request = stub_vapi
+
+      perform
+
+      expect(request.with { |req| JSON.parse(req.body).dig('assistant', 'voice', 'voiceId') == 'Elliot' }).to have_been_made
+    end
+
     it 'returns nil and marks the call when Vapi fails, so agents are rung' do
       stub_vapi(status: 500, body: { error: 'boom' })
 
