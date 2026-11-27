@@ -21,7 +21,14 @@ class CaptainInbox < ApplicationRecord
   validates :inbox_id, uniqueness: true
   validate :ensure_exclusive_bot_provider
 
+  # The inbox payload names its Captain assistant, so dashboards cache-busting on inboxes refetch it
+  after_commit :refresh_inbox_cache, on: [:create, :destroy]
+
   private
+
+  def refresh_inbox_cache
+    inbox.update_account_cache
+  end
 
   def ensure_exclusive_bot_provider
     provider = inbox&.conflicting_bot_provider(:captain)

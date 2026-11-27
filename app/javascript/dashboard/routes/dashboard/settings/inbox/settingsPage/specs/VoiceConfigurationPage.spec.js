@@ -3,10 +3,12 @@ import { createI18n } from 'vue-i18n';
 import FloatingVue from 'floating-vue';
 import VoiceConfigurationPage from '../VoiceConfigurationPage.vue';
 import InboxesAPI from 'dashboard/api/inboxes';
+import CaptainAssistantAPI from 'dashboard/api/captain/assistant';
 
-const { dispatch, alert } = vi.hoisted(() => ({
+const { dispatch, alert, isCloudFeatureEnabled } = vi.hoisted(() => ({
   dispatch: vi.fn(),
   alert: vi.fn(),
+  isCloudFeatureEnabled: vi.fn(),
 }));
 
 vi.mock('vuex', async importOriginal => ({
@@ -14,13 +16,20 @@ vi.mock('vuex', async importOriginal => ({
   useStore: () => ({ dispatch }),
 }));
 vi.mock('dashboard/composables', () => ({ useAlert: alert }));
+vi.mock('dashboard/composables/useAccount', () => ({
+  useAccount: () => ({ isCloudFeatureEnabled }),
+}));
 vi.mock('dashboard/api/inboxes', () => ({
   default: {
     setInboundCalls: vi.fn(),
     setCallAnnouncement: vi.fn(),
     setCallRouting: vi.fn(),
     setCallRecording: vi.fn(),
+    setCaptainCalls: vi.fn(),
   },
+}));
+vi.mock('dashboard/api/captain/assistant', () => ({
+  default: { get: vi.fn() },
 }));
 
 const inbox = {
@@ -43,6 +52,7 @@ const inbox = {
   call_cooldown_seconds: 0,
   recording_enabled: true,
   transcription_enabled: true,
+  captain_answers_calls: false,
 };
 
 const mountPage = (overrides = {}) =>
@@ -62,6 +72,10 @@ describe('VoiceConfigurationPage', () => {
     vi.clearAllMocks();
     Object.values(InboxesAPI).forEach(fn => fn.mockResolvedValue({}));
     dispatch.mockResolvedValue({});
+    isCloudFeatureEnabled.mockReturnValue(true);
+    CaptainAssistantAPI.get.mockResolvedValue({
+      data: { payload: [{ id: 1, name: 'Rentomojo' }] },
+    });
   });
 
   it('shows a greeting that is off as an empty box', () => {
@@ -242,6 +256,65 @@ describe('VoiceConfigurationPage', () => {
       id: 387,
       formData: false,
       channel: { voice_enabled: false },
+    });
+  });
+
+  describe('Captain answering calls', () => {
+    const captainOption = wrapper =>
+      wrapper
+        .findAll('label')
+        .find(label =>
+          label.text().includes('CALL_SETTINGS.VOICE_AI.CAPTAIN_ANSWERS')
+        );
+
+    const assistantSelect = wrapper =>
+      wrapper.find(
+        'select[aria-label="INBOX_MGMT.CALL_SETTINGS.VOICE_AI.ASSISTANT"]'
+      );
+
+    it('saves the Captain switch with the chosen assistant', async () => {
+      const wrapper = mountPage();
+      await flushPromises();
+
+      await captainOption(wrapper).find('input').setValue(true);
+      await assistantSelect(wrapper).setValue(1);
+      await saveButton(wrapper).trigger('click');
+      await flushPromises();
+
+      expect(InboxesAPI.setCaptainCalls).toHaveBeenCalledWith(
+        387,
+        expect.objectContaining({
+          captainAnswersCalls: true,
+          captainAssistantId: 1,
+        })
+      );
+      expect(InboxesAPI.setCallRouting).not.toHaveBeenCalled();
+    });
+
+    it('keeps Save disabled until an assistant is chosen', async () => {
+      const wrapper = mountPage();
+      await flushPromises();
+
+      await captainOption(wrapper).find('input').setValue(true);
+
+      expect(saveButton(wrapper).attributes('disabled')).toBeDefined();
+    });
+
+    it('shows the assistant the inbox is connected to', async () => {
+      const wrapper = mountPage({
+        captain_answers_calls: true,
+        captain_assistant_id: 1,
+      });
+      await flushPromises();
+
+      expect(assistantSelect(wrapper).element.value).toBe('1');
+    });
+
+    it('is hidden on accounts without Captain', () => {
+      isCloudFeatureEnabled.mockReturnValue(false);
+
+      expect(captainOption(mountPage())).toBeUndefined();
+      expect(CaptainAssistantAPI.get).not.toHaveBeenCalled();
     });
   });
 

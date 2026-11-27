@@ -102,6 +102,13 @@ class Inboxes extends CacheEnabledApiClient {
     });
   }
 
+  setCaptainCalls(inboxId, { captainAnswersCalls, captainAssistantId }) {
+    return axios.post(`${this.url}/${inboxId}/set_captain_calls`, {
+      captain_answers_calls: captainAnswersCalls,
+      captain_assistant_id: captainAssistantId || null,
+    });
+  }
+
   setCallRouting(
     inboxId,
     {

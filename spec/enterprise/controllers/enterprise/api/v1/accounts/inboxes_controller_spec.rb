@@ -207,6 +207,118 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
     end
   end
 
+  describe 'POST /api/v1/accounts/{account.id}/inboxes/:id/set_captain_calls' do
+    let(:voice_channel) { create(:channel_twilio_sms, :with_voice, account: account) }
+
+    before do
+      allow(Twilio::VoiceWebhookSetupService).to receive(:new)
+        .and_return(instance_double(Twilio::VoiceWebhookSetupService, perform: "AP#{SecureRandom.hex(16)}"))
+    end
+
+    it 'turns Captain answering calls on with the chosen assistant' do
+      assistant = create(:captain_assistant, account: account)
+
+      post "/api/v1/accounts/#{account.id}/inboxes/#{voice_channel.inbox.id}/set_captain_calls",
+           headers: admin.create_new_auth_token,
+           params: { captain_answers_calls: true, captain_assistant_id: assistant.id },
+           as: :json
+
+      expect(response).to have_http_status(:ok)
+      expect(voice_channel.reload.captain_answers_calls?).to be true
+      expect(voice_channel.inbox.reload.captain_assistant).to eq(assistant)
+    end
+
+    it 'replaces the assistant the inbox was connected to' do
+      create(:captain_inbox, inbox: voice_channel.inbox, captain_assistant: create(:captain_assistant, account: account))
+      assistant = create(:captain_assistant, account: account)
+
+      post "/api/v1/accounts/#{account.id}/inboxes/#{voice_channel.inbox.id}/set_captain_calls",
+           headers: admin.create_new_auth_token,
+           params: { captain_answers_calls: true, captain_assistant_id: assistant.id },
+           as: :json
+
+      expect(response).to have_http_status(:ok)
+      expect(CaptainInbox.where(inbox: voice_channel.inbox).pluck(:captain_assistant_id)).to eq([assistant.id])
+    end
+
+    it 'needs an assistant to turn Captain on' do
+      post "/api/v1/accounts/#{account.id}/inboxes/#{voice_channel.inbox.id}/set_captain_calls",
+           headers: admin.create_new_auth_token,
+           params: { captain_answers_calls: true },
+           as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(voice_channel.reload.captain_answers_calls?).to be false
+    end
+
+    it 'rejects an assistant from another account' do
+      other_assistant = create(:captain_assistant)
+
+      post "/api/v1/accounts/#{account.id}/inboxes/#{voice_channel.inbox.id}/set_captain_calls",
+           headers: admin.create_new_auth_token,
+           params: { captain_answers_calls: true, captain_assistant_id: other_assistant.id },
+           as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(voice_channel.inbox.reload.captain_assistant).to be_nil
+    end
+
+    it 'turns Captain off and keeps the inbox connected to its assistant' do
+      assistant = create(:captain_assistant, account: account)
+      create(:captain_inbox, inbox: voice_channel.inbox, captain_assistant: assistant)
+      voice_channel.update!(provider_config: voice_channel.provider_config.merge('captain_answers_calls' => true))
+
+      post "/api/v1/accounts/#{account.id}/inboxes/#{voice_channel.inbox.id}/set_captain_calls",
+           headers: admin.create_new_auth_token,
+           params: { captain_answers_calls: false },
+           as: :json
+
+      expect(response).to have_http_status(:ok)
+      expect(voice_channel.reload.captain_answers_calls?).to be false
+      expect(voice_channel.inbox.reload.captain_assistant).to eq(assistant)
+    end
+
+    it 'shows the setting and the assistant on the inbox' do
+      assistant = create(:captain_assistant, account: account)
+      create(:captain_inbox, inbox: voice_channel.inbox, captain_assistant: assistant)
+      voice_channel.update!(provider_config: voice_channel.provider_config.merge('captain_answers_calls' => true))
+
+      get "/api/v1/accounts/#{account.id}/inboxes/#{voice_channel.inbox.id}",
+          headers: admin.create_new_auth_token,
+          as: :json
+
+      expect(response.parsed_body).to include('captain_answers_calls' => true, 'captain_assistant_id' => assistant.id)
+    end
+
+    it 'is rejected for a WhatsApp calling inbox' do
+      account.enable_features('channel_voice')
+      account.save!
+      whatsapp = create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
+                                           validate_provider_config: false, sync_templates: false)
+      whatsapp.update!(provider_config: whatsapp.provider_config.merge('calling_enabled' => true))
+
+      post "/api/v1/accounts/#{account.id}/inboxes/#{whatsapp.inbox.id}/set_captain_calls",
+           headers: admin.create_new_auth_token,
+           params: { captain_answers_calls: true },
+           as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['error']).to eq('Captain can answer calls only on Twilio voice inboxes')
+    end
+
+    it 'is forbidden for agents' do
+      agent = create(:user, account: account, role: :agent)
+
+      post "/api/v1/accounts/#{account.id}/inboxes/#{voice_channel.inbox.id}/set_captain_calls",
+           headers: agent.create_new_auth_token,
+           params: { captain_answers_calls: true },
+           as: :json
+
+      expect(response).to have_http_status(:unauthorized)
+      expect(voice_channel.reload.captain_answers_calls?).to be false
+    end
+  end
+
   describe 'PATCH /api/v1/accounts/{account.id}/inboxes/:id' do
     let(:inbox) { create(:inbox, account: account, auto_assignment_config: { max_assignment_limit: 5 }) }
 

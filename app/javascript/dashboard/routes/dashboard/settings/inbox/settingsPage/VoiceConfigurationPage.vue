@@ -1,7 +1,10 @@
 <script setup>
-import { computed, toRef } from 'vue';
+import { computed, onMounted, ref, toRef } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useAccount } from 'dashboard/composables/useAccount';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import InboxesAPI from 'dashboard/api/inboxes';
+import CaptainAssistantAPI from 'dashboard/api/captain/assistant';
 import Select from 'dashboard/components-next/select/Select.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -47,11 +50,16 @@ const savedValues = () => ({
   ringTimeSeconds: props.inbox.unanswered_call_timeout_seconds,
   missedCallMessage: props.inbox.unanswered_call_message || '',
   outOfHoursMessage: props.inbox.out_of_hours_call_message || '',
+  captainAnswersCalls: !!props.inbox.captain_answers_calls,
+  captainAssistantId: props.inbox.captain_assistant_id ?? '',
 });
 
 const buildSteps = (changed, values) => {
   const { id } = props.inbox;
   const steps = sharedSteps(id, changed, values);
+  if (changed(['captainAnswersCalls', 'captainAssistantId'])) {
+    steps.push(() => InboxesAPI.setCaptainCalls(id, values));
+  }
   if (changed(['greeting'])) {
     const message = values.greeting.trim();
     steps.push(() =>
@@ -85,6 +93,30 @@ const { form, isSaving, isDirty, save } = useCallSettingsForm(
   toRef(props, 'inbox'),
   savedValues,
   buildSteps
+);
+
+const { isCloudFeatureEnabled } = useAccount();
+const showsCaptainSection = computed(() =>
+  isCloudFeatureEnabled(FEATURE_FLAGS.CAPTAIN)
+);
+
+const assistantOptions = ref([]);
+onMounted(async () => {
+  if (!showsCaptainSection.value) return;
+
+  const { data } = await CaptainAssistantAPI.get();
+  assistantOptions.value = data.payload.map(assistant => ({
+    value: assistant.id,
+    label: assistant.name,
+  }));
+});
+
+// Captain needs an assistant to answer calls
+const canSave = computed(
+  () =>
+    isDirty.value &&
+    props.inbox.voice_enabled &&
+    (!form.value.captainAnswersCalls || !!form.value.captainAssistantId)
 );
 
 const ringTimeOptions = computed(() =>
@@ -150,6 +182,32 @@ const ringTimeOptions = computed(() =>
           :inbox-id="inbox.id"
           :saved-step-seconds="inbox.ring_step_seconds"
         />
+      </CallSettingsSection>
+
+      <CallSettingsSection
+        v-if="showsCaptainSection"
+        :title="label('VOICE_AI.TITLE')"
+        :description="label('VOICE_AI.DESCRIPTION')"
+      >
+        <CallSettingsOption
+          v-model="form.captainAnswersCalls"
+          :label="label('VOICE_AI.CAPTAIN_ANSWERS')"
+          :help="label('VOICE_AI.CAPTAIN_ANSWERS_HELP')"
+        />
+        <div v-if="form.captainAnswersCalls" class="flex flex-col gap-1.5">
+          <label class="mb-0 text-heading-3 text-n-slate-12">
+            {{ label('VOICE_AI.ASSISTANT') }}
+          </label>
+          <Select
+            v-model="form.captainAssistantId"
+            :options="assistantOptions"
+            :placeholder="label('VOICE_AI.ASSISTANT_PLACEHOLDER')"
+            :aria-label="label('VOICE_AI.ASSISTANT')"
+          />
+          <p class="text-body-main text-n-slate-11">
+            {{ label('VOICE_AI.ASSISTANT_HELP') }}
+          </p>
+        </div>
       </CallSettingsSection>
 
       <CallSettingsSection
@@ -224,7 +282,7 @@ const ringTimeOptions = computed(() =>
         <NextButton
           :label="label('SAVE')"
           :is-loading="isSaving"
-          :disabled="!isDirty || !inbox.voice_enabled"
+          :disabled="!canSave"
           @click="save"
         />
       </div>

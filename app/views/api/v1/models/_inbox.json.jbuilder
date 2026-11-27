@@ -181,6 +181,8 @@ if resource.twilio? && resource.channel.respond_to?(:voice_enabled?)
     json.out_of_hours_call_message out_of_hours.saved_message.to_s
     json.out_of_hours_call_audio_url out_of_hours.audio.attached? ? url_for(out_of_hours.audio) : nil
     json.partial! 'api/v1/models/call_routing', channel: resource.channel
+    json.captain_answers_calls resource.channel.captain_answers_calls?
+    json.captain_assistant_id resource.captain_assistant&.id
   end
   json.account_auth_token_configured resource.channel.try(:account_auth_token_configured?) == true
   json.voice_configured resource.channel.try(:twiml_app_sid).present?

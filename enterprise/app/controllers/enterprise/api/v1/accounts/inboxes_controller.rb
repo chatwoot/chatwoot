@@ -2,6 +2,7 @@ module Enterprise::Api::V1::Accounts::InboxesController
   extend ActiveSupport::Concern
   include Concerns::TwilioVoiceCredentials
   include Concerns::WhatsappCallingActions
+  include Concerns::CaptainCallActions
 
   def inbox_attributes
     super + ee_inbox_attributes

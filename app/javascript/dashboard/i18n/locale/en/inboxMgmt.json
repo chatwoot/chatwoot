@@ -856,6 +856,15 @@
         "ROUTING": "How calls are routed",
         "WHATSAPP_DESCRIPTION": "Who rings, and in what order."
       },
+      "VOICE_AI": {
+        "TITLE": "Voice AI",
+        "DESCRIPTION": "Let Captain pick up calls first.",
+        "CAPTAIN_ANSWERS": "Captain answers calls",
+        "CAPTAIN_ANSWERS_HELP": "Captain answers each call from its FAQs, and transfers the caller to your team when they ask for a person or it can't help.",
+        "ASSISTANT": "Assistant",
+        "ASSISTANT_PLACEHOLDER": "Choose an assistant",
+        "ASSISTANT_HELP": "This is the inbox's Captain assistant, so it also replies to messages in this inbox."
+      },
       "UNANSWERED": {
         "TITLE": "If nobody answers",
         "DESCRIPTION": "Also used straight away when no agent is available.",
