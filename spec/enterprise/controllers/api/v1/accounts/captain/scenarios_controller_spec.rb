@@ -258,4 +258,41 @@ RSpec.describe 'Api::V1::Accounts::Captain::Scenarios', type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/accounts/{account.id}/captain/assistants/{assistant.id}/scenarios/tool_suggestions' do
+    let(:path) { "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/scenarios/tool_suggestions" }
+    let(:suggestion_service) { instance_double(Captain::ScenarioToolSuggestionService) }
+
+    before do
+      allow(Captain::ScenarioToolSuggestionService).to receive(:new).and_return(suggestion_service)
+    end
+
+    it 'does not let agents request suggestions' do
+      post path, params: { instruction: 'Add a private note' }, headers: agent.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:unauthorized)
+      expect(Captain::ScenarioToolSuggestionService).not_to have_received(:new)
+    end
+
+    it 'returns the suggestions for the instruction of the assistant' do
+      suggestion = { tool_id: 'add_private_note', tool_title: 'Add Private Note', phrase: 'Add a private note',
+                     replacement: 'Add a private note [@Add Private Note](tool://add_private_note)' }
+      allow(suggestion_service).to receive(:perform).and_return(suggestions: [suggestion])
+
+      post path, params: { instruction: 'Add a private note' }, headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:success)
+      expect(json_response).to eq(suggestions: [suggestion])
+      expect(Captain::ScenarioToolSuggestionService).to have_received(:new).with(assistant: assistant, instruction: 'Add a private note')
+    end
+
+    it 'returns unprocessable content when the model call fails' do
+      allow(suggestion_service).to receive(:perform).and_return(error: 'LLM timeout')
+
+      post path, params: { instruction: 'Add a private note' }, headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:unprocessable_content)
+      expect(json_response).to eq(error: 'LLM timeout')
+    end
+  end
 end
