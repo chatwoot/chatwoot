@@ -15,10 +15,7 @@ class Public::Api::V1::Portals::BaseController < PublicController
   def canonical_url_for(path)
     return unless canonical_page?
 
-    # Match the sitemap's host policy; translated articles keep their own slugs.
-    root = @portal.custom_domain || ChatwootApp.help_center_root
-    root = "https://#{root}" unless root.include?('://')
-    "#{root.chomp('/')}#{path}"
+    "#{@portal.help_center_url}#{path}"
   end
 
   def canonical_page?

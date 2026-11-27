@@ -80,6 +80,13 @@ class Portal < ApplicationRecord
     define_method(key) { analytics[key].presence }
   end
 
+  # Public Help Center origin: the portal's custom domain, else HELPCENTER_URL or FRONTEND_URL.
+  def help_center_url
+    root = (custom_domain || ChatwootApp.help_center_root).to_s
+    root = "https://#{root}" if root.present? && root.exclude?('://')
+    root.chomp('/')
+  end
+
   def search_indexing_disabled?
     config_value('disable_search_indexing') == true
   end

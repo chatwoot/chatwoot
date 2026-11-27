@@ -54,7 +54,7 @@ RSpec.describe 'Public Articles API', type: :request do
             expect(Nokogiri::HTML5(response.body).at_css('main').text.squish).to eq(content)
           end
 
-          it 'uses the public category article-list route without query parameters' do
+          it 'points the category article list to the locale article list it duplicates' do
             path = "/hc/#{portal.slug}/en/categories/#{category.slug}/articles"
             get "#{path}/", params: {
               theme: 'dark', utm_source: 'newsletter', gclid: 'click', unrelated: 'ignored'
@@ -63,7 +63,7 @@ RSpec.describe 'Public Articles API', type: :request do
             expect(response).to have_http_status(:success)
             page = Nokogiri::HTML5(response.body)
             canonical_urls = page.css('head link[rel="canonical"]').map { |link| link['href'] }
-            expect(canonical_urls).to eq(["https://www.example.com#{path}"])
+            expect(canonical_urls).to eq(["https://www.example.com/hc/#{portal.slug}/en/articles"])
             content = page.at_css('main').text.squish
 
             get canonical_urls.first

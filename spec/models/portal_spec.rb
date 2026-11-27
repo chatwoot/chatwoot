@@ -151,6 +151,24 @@ RSpec.describe Portal do
     end
   end
 
+  describe '#help_center_url' do
+    let(:portal) { build(:portal) }
+
+    it 'uses the custom domain over the configured Help Center URL and adds https' do
+      portal.custom_domain = 'docs.example.com'
+
+      with_modified_env(HELPCENTER_URL: 'https://help.example.com') do
+        expect(portal.help_center_url).to eq('https://docs.example.com')
+      end
+    end
+
+    it 'uses HELPCENTER_URL before FRONTEND_URL and drops a trailing slash' do
+      with_modified_env(HELPCENTER_URL: 'https://help.example.com/', FRONTEND_URL: 'https://app.example.com') do
+        expect(portal.help_center_url).to eq('https://help.example.com')
+      end
+    end
+  end
+
   describe 'search indexing' do
     let!(:account) { create(:account) }
     let(:author) { create(:user, account: account) }
