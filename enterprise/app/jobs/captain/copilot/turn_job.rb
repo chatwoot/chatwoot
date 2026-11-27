@@ -61,6 +61,8 @@ class Captain::Copilot::TurnJob < ApplicationJob
   end
 
   def terminal_failure?(attempts, exception)
-    attempts >= MAX_ATTEMPTS || [Captain::Copilot::LimitExceededError, ArgumentError].any? { |type| exception.is_a?(type) }
+    # A prompt that is still too large after the turn replaced its results with handles would fail the same way again.
+    attempts >= MAX_ATTEMPTS ||
+      [Captain::Copilot::LimitExceededError, ArgumentError, RubyLLM::ContextLengthExceededError].any? { |type| exception.is_a?(type) }
   end
 end

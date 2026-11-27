@@ -89,4 +89,24 @@ RSpec.describe Captain::Copilot::TurnService do
     expect(steps).to be_empty
     expect(run.reload).to be_awaiting_background_run
   end
+
+  it 'saves a large result whole on its tool call and shows the model its outline, and the same outline on a replay' do
+    result = { 'issues' => Array.new(300) { |index| { 'key' => "SUP-#{index}", 'summary' => 'x' * 200 } } }
+    calls = 0
+    original = lambda do |**|
+      calls += 1
+      result
+    end
+    service.send(:start_tool_call, RubyLLM::ToolCall.new(id: 'call-1', name: 'search_contacts', arguments: {}))
+    view = service.perform_tool(Object.new, original, nil, {})
+    service.send(:finish_tool_call, view)
+    service.send(:start_tool_call, RubyLLM::ToolCall.new(id: 'call-1', name: 'search_contacts', arguments: {}))
+    replayed = service.perform_tool(Object.new, original, nil, {})
+
+    tool_call = run.tool_calls.find_by!(call_id: 'call-1')
+    expect(tool_call.result).to eq(result)
+    expect(view).to include(result_id: tool_call.id).and(satisfy { |value| !value.key?('issues') })
+    expect(replayed).to eq(view)
+    expect(calls).to eq(1)
+  end
 end

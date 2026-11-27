@@ -1,7 +1,7 @@
 class Captain::Copilot::TurnTranscript
-  # Earlier turns replayed whole, with their tool results and reasoning. Older ones keep what their tool calls did and the
-  # saved sets they made, so a thread kept open all day does not resend everything on every model call.
-  REPLAYED_TURNS = 3
+  # The newest earlier turns are replayed whole, with their reasoning, while they fit the history budget of
+  # Captain::Copilot::ContextBudget. Their large tool results show only a handle. Older turns keep what their tool calls
+  # did and the saved sets they made, so a thread kept open all day does not resend everything on every model call.
 
   def initialize(run, chat, protocol:)
     @run = run
@@ -14,7 +14,7 @@ class Captain::Copilot::TurnTranscript
 
   def load
     history = thread_history
-    @whole_turn_ids = history.filter_map(&:copilot_run).map(&:id).excluding(@run.id).last(REPLAYED_TURNS)
+    @whole_turns = whole_turns(history.filter_map(&:copilot_run).excluding(@run))
     history.each { |message| add_history(message) }
     @offset = @chat.messages.size
     state = @run.transcript
@@ -31,6 +31,31 @@ class Captain::Copilot::TurnTranscript
   end
 
   private
+
+  # The newest earlier turns whose replayed messages fit the history budget together, keyed by run ID.
+  def whole_turns(earlier_runs)
+    budget = Captain::Copilot::ContextBudget.history_budget(@chat)
+    used = 0
+    earlier_runs.reverse.each_with_object({}) do |prior, turns|
+      next unless prior.transcript['identity'] == @identity && prior.completed?
+
+      messages = replayed_messages(prior)
+      used += Captain::Copilot::ContextBudget.estimate(messages)
+      break turns if used > budget
+
+      turns[prior.id] = messages
+    end
+  end
+
+  def replayed_messages(prior)
+    tool_calls = prior.tool_calls.index_by(&:call_id)
+    prior.transcript.fetch('messages', []).map do |attributes|
+      attributes = attributes.symbolize_keys
+      next attributes unless attributes[:role] == 'tool'
+
+      attributes.merge(content: Captain::Copilot::ContextBudget.replay_content(attributes[:content], tool_calls[attributes[:tool_call_id]]))
+    end
+  end
 
   # The thread's messages up to and including this turn's, oldest first.
   def thread_history
@@ -51,8 +76,8 @@ class Captain::Copilot::TurnTranscript
   end
 
   def append_earlier_turn(prior)
-    if @whole_turn_ids.include?(prior.id) && prior.transcript['identity'] == @identity && prior.completed?
-      prior.transcript.fetch('messages', []).each { |attributes| @chat.add_message(attributes.symbolize_keys) }
+    if @whole_turns.key?(prior.id)
+      @whole_turns[prior.id].each { |attributes| @chat.add_message(attributes) }
       @replayed_run_ids << prior.id
     else
       steps = prior.tool_calls.includes(:background_run).order(:id).map { |tool_call| outline(tool_call) }
