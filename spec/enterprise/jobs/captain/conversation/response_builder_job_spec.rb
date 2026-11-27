@@ -407,6 +407,56 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
 
         described_class.perform_now(conversation, assistant)
       end
+
+      context 'with the transfer promise check' do
+        let(:transfer_promise_check) { instance_double(Captain::Conversation::TransferPromiseCheck, promised?: true) }
+
+        before do
+          allow(Captain::Conversation::TransferPromiseCheck).to receive(:new).and_return(transfer_promise_check)
+        end
+
+        it 'hands off instead of sending a reply that promises a person' do
+          allow(Captain::Conversation::TransferPromiseCheck).to receive(:mode).and_return('handoff')
+          expect(Captain::ConversationEvents).to receive(:handed_off)
+            .with(conversation: conversation, assistant: assistant, source: 'transfer_promise', reason_category: :tool_failure, at: kind_of(Time))
+
+          described_class.perform_now(conversation, assistant)
+
+          expect(Captain::Conversation::TransferPromiseCheck).to have_received(:new)
+            .with(conversation: conversation, reply: 'Hey, welcome to Captain V2')
+          expect(conversation.reload.status).to eq('open')
+          expect(conversation.messages.outgoing.pluck(:content)).to eq([I18n.t('conversations.captain.handoff')])
+          expect(account.reload.usage_limits[:captain][:responses][:consumed]).to eq(0)
+        end
+
+        it 'sends the reply when the check only logs' do
+          allow(Captain::Conversation::TransferPromiseCheck).to receive(:mode).and_return('shadow')
+
+          described_class.perform_now(conversation, assistant)
+
+          expect(conversation.reload.status).to eq('pending')
+          expect(conversation.messages.outgoing.last.content).to eq('Hey, welcome to Captain V2')
+        end
+
+        it 'sends the reply when Jev finds no promise' do
+          allow(Captain::Conversation::TransferPromiseCheck).to receive(:mode).and_return('handoff')
+          allow(transfer_promise_check).to receive(:promised?).and_return(false)
+
+          described_class.perform_now(conversation, assistant)
+
+          expect(conversation.reload.status).to eq('pending')
+          expect(conversation.messages.outgoing.last.content).to eq('Hey, welcome to Captain V2')
+        end
+
+        it 'does not ask Jev when the check is off' do
+          allow(Captain::Conversation::TransferPromiseCheck).to receive(:mode).and_return('off')
+
+          described_class.perform_now(conversation, assistant)
+
+          expect(Captain::Conversation::TransferPromiseCheck).not_to have_received(:new)
+          expect(conversation.messages.outgoing.last.content).to eq('Hey, welcome to Captain V2')
+        end
+      end
     end
 
     context 'when captain_v2 handoff tool fires during agent execution' do

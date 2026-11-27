@@ -54,7 +54,7 @@ RSpec.describe Concerns::Agentable do
         temperature: 0.8,
         thinking: { effort: :none },
         protocol: :responses,
-        response_schema: Captain::HandoffResponseSchema
+        response_schema: Captain::ResponseSchema
       )
 
       dummy_instance.agent
@@ -208,8 +208,8 @@ RSpec.describe Concerns::Agentable do
   end
 
   describe '#agent_response_schema' do
-    it 'returns Captain::HandoffResponseSchema' do
-      expect(dummy_instance.send(:agent_response_schema)).to eq(Captain::HandoffResponseSchema)
+    it 'returns Captain::ResponseSchema' do
+      expect(dummy_instance.send(:agent_response_schema)).to eq(Captain::ResponseSchema)
     end
 
     it 'defines complete structured response parts with nested citation indexes' do
@@ -224,13 +224,6 @@ RSpec.describe Concerns::Agentable do
       expect(response_part.dig('citation_indexes', 'items', 'type')).to eq('integer')
       expect(response_part.dig('citation_indexes', 'items', 'minimum')).to eq(1)
       expect(schema['properties']).not_to have_key('response')
-    end
-
-    it 'requires a boolean handoff decision before the response parts in the handoff schema' do
-      schema = Captain::HandoffResponseSchema.new.to_json_schema
-
-      expect(schema['required']).to contain_exactly('reasoning', 'handoff', 'response_parts')
-      expect(schema['properties'].keys).to eq(%w[reasoning handoff response_parts])
     end
   end
 

@@ -67,7 +67,7 @@ module Concerns::Agentable
   end
 
   def agent_response_schema
-    Captain::HandoffResponseSchema
+    Captain::ResponseSchema
   end
 
   def format_current_time(timezone)

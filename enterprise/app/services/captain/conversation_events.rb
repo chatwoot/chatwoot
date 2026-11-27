@@ -5,6 +5,7 @@ class Captain::ConversationEvents
     TIME_BASED = 'time_based'.freeze
     INFERENCE = 'inference'.freeze
     USAGE_LIMIT = 'usage_limit'.freeze
+    TRANSFER_PROMISE = 'transfer_promise'.freeze
   end
 
   class << self

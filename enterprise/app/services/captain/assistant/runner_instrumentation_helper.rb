@@ -58,7 +58,6 @@ module Captain::Assistant::RunnerInstrumentationHelper
 
     return runner if reply_suggestion?
 
-    add_handoff_field_detection(runner)
     if message_burst_protection_active?
       runner.on_run_complete do |_agent_name, result, context_wrapper|
         @response_discarded = newer_customer_message_arrived?
