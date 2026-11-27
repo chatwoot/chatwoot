@@ -37,7 +37,7 @@ RSpec.describe Voice::Captain::AssistantConfig do
 
     it 'gives the current time in the inbox time zone' do
       travel_to Time.utc(2026, 11, 26, 20, 0) do
-        expect(system_prompt).to include('The current time is Friday, November 27, 2026 01:30 AM IST')
+        expect(system_prompt).to include('The current time is Friday, November 27, 2026 01:30 AM IST (Asia/Kolkata)')
       end
     end
 

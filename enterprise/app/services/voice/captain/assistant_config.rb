@@ -72,7 +72,8 @@ class Voice::Captain::AssistantConfig
 
   def current_time
     zone = ActiveSupport::TimeZone[time_zone.to_s] || ActiveSupport::TimeZone['UTC']
-    Time.current.in_time_zone(zone).strftime('%A, %B %d, %Y %I:%M %p %Z')
+    # The IANA name goes along with the time, since tools like scheduling APIs take a time zone in that form
+    "#{Time.current.in_time_zone(zone).strftime('%A, %B %d, %Y %I:%M %p %Z')} (#{zone.tzinfo.name})"
   end
 
   def voice_rules
