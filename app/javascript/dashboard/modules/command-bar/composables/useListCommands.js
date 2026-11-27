@@ -36,6 +36,7 @@ export function useListCommands() {
 
   const listFilters = useMapGetter('getChatListFilters');
   const status = useMapGetter('getChatStatusFilter');
+  const sortOptions = useMapGetter('getConversationSortOptions');
   const sortBy = useMapGetter('getChatSortFilter');
   const appliedFilters = useMapGetter('getAppliedConversationFilters');
   const folderContactId = useMapGetter('customViews/getActiveFolderContactId');
@@ -104,7 +105,7 @@ export function useListCommands() {
       title: t('COMMAND_BAR.COMMANDS.SORT_BY'),
       section: section(),
       icon: ICON_SORT,
-      children: Object.values(wootConstants.SORT_BY_TYPE)
+      children: sortOptions.value
         .filter(key => key !== sortBy.value)
         .map(key =>
           option(

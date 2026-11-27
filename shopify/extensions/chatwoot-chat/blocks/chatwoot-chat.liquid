@@ -1,0 +1,13 @@
+{% assign website_token = app.metafields.chatwoot.website_token.value %}
+{% if website_token != blank %}
+  <div hidden data-chatwoot-website-token="{{ website_token | escape }}"></div>
+  <script src="{{ 'chatwoot-chat.js' | asset_url }}" defer></script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "t:chatwoot_chat.name",
+  "target": "body",
+  "settings": []
+}
+{% endschema %}

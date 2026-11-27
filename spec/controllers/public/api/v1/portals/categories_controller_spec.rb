@@ -32,6 +32,35 @@ RSpec.describe 'Public Categories API', type: :request do
       expect(response).to have_http_status(:success)
     end
 
+    describe 'page metadata' do
+      let(:localized_category) do
+        create(:category, portal: portal, locale: 'es', name: 'Configuración & canales', description: 'Guía de configuración.')
+      end
+
+      %w[classic documentation].each do |layout|
+        it "uses the localized category title and description in the #{layout} layout" do
+          portal.update!(config: portal.config.merge('layout' => layout,
+                                                     'locale_translations' => { 'es' => { 'page_title' => 'Centro de ayuda' } }))
+          create(:installation_config, name: 'OG_IMAGE_CDN_URL', value: 'https://cdn.example.com')
+
+          get "/hc/#{portal.slug}/#{localized_category.locale}/categories/#{localized_category.slug}"
+
+          expect(response).to have_http_status(:ok)
+          page_head = Nokogiri::HTML5(response.body).at_css('head')
+          metadata = page_head.css('meta').to_h { |tag| [tag['property'] || tag['name'], tag['content']] }
+          expected_title = 'Configuración & canales | Centro de ayuda'
+          expect(page_head.at_css('title').text).to eq(expected_title)
+          expect(metadata).to include(
+            'og:title' => expected_title, 'twitter:title' => expected_title, 'og:type' => 'website',
+            'description' => localized_category.description, 'og:description' => localized_category.description,
+            'twitter:description' => localized_category.description
+          )
+          expect(metadata['og:image']).to start_with('https://cdn.example.com/og?')
+          expect(metadata['twitter:image']).to eq(metadata['og:image'])
+        end
+      end
+    end
+
     it 'links to the matching translated category from the locale switcher' do
       category = portal.categories.first
       translation = create(:category, locale: 'es', portal: portal, associated_category_id: category.id)

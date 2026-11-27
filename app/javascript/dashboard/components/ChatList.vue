@@ -21,6 +21,7 @@ import ConversationResolveAttributesModal from 'dashboard/components-next/Conver
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAlert } from 'dashboard/composables';
 import { useBulkActions } from 'dashboard/composables/chatlist/useBulkActions';
+import { useConversationStatsRefetch } from 'dashboard/composables/chatlist/useConversationStatsRefetch';
 import { useFilter } from 'shared/composables/useFilter';
 import { useTrack } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
@@ -50,7 +51,10 @@ import {
   filterItemsByPermission,
 } from 'dashboard/helper/permissionsHelper.js';
 import { createFiltersMatcher } from '../store/modules/conversations/helpers/filterHelpers';
-import { sortComparator } from '../store/modules/conversations/helpers';
+import {
+  isLastMessageSort,
+  sortComparator,
+} from '../store/modules/conversations/helpers';
 import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
 import { ASSIGNEE_TYPE_TAB_PERMISSIONS } from 'dashboard/constants/permissions.js';
 
@@ -77,6 +81,8 @@ const resolveAttributesModalRef = ref(null);
 
 const activeAssigneeTab = ref(wootConstants.ASSIGNEE_TYPE.ME);
 const activeStatus = ref(wootConstants.STATUS_TYPE.OPEN);
+const sortOptions = useMapGetter('getConversationSortOptions');
+const accountUIFlags = useMapGetter('accounts/getUIFlags');
 const activeSortBy = ref(wootConstants.SORT_BY_TYPE.LAST_ACTIVITY_AT_DESC);
 const showAdvancedFilters = ref(false);
 // chatsOnView is to store the chats that are currently visible on the screen,
@@ -312,12 +318,6 @@ function filterByAssigneeTab(conversations) {
   return [...conversations];
 }
 
-function sortByUnreadStatus(conversations) {
-  return [...conversations].sort((a, b) =>
-    sortComparator(a, b, wootConstants.SORT_BY_TYPE.UNREAD)
-  );
-}
-
 const conversationList = computed(() => {
   let localConversationList = [];
 
@@ -349,9 +349,12 @@ const conversationList = computed(() => {
 
   if (
     !hasAppliedFiltersOrActiveFolders.value &&
-    activeSortBy.value === wootConstants.SORT_BY_TYPE.UNREAD
+    (activeSortBy.value === wootConstants.SORT_BY_TYPE.UNREAD ||
+      isLastMessageSort(activeSortBy.value))
   ) {
-    localConversationList = sortByUnreadStatus(localConversationList);
+    localConversationList.sort((a, b) =>
+      sortComparator(a, b, activeSortBy.value)
+    );
   }
 
   return localConversationList;
@@ -383,9 +386,7 @@ function setFiltersFromUISettings() {
   const { conversations_filter_by: filterBy = {} } = uiSettings.value;
   const { status, order_by: orderBy } = filterBy;
   activeStatus.value = status || wootConstants.STATUS_TYPE.OPEN;
-  activeSortBy.value = Object.values(wootConstants.SORT_BY_TYPE).includes(
-    orderBy
-  )
+  activeSortBy.value = sortOptions.value.includes(orderBy)
     ? orderBy
     : wootConstants.SORT_BY_TYPE.LAST_ACTIVITY_AT_DESC;
 }
@@ -828,14 +829,14 @@ function toggleSelectAll(check) {
   selectAllConversations(check, conversationList);
 }
 
-useEmitter('fetch_conversation_stats', () => {
-  if (hasAppliedFiltersOrActiveFolders.value) return;
-  store.dispatch('conversationStats/get', conversationFilters.value);
+useConversationStatsRefetch({
+  filters: conversationFilters,
+  isDisabled: hasAppliedFiltersOrActiveFolders,
 });
 useEmitter(CMD_SWITCH_TAB, updateAssigneeTab);
 useEmitter(CMD_MARK_UNREAD, markAsUnread);
 
-onMounted(() => {
+function initializeConversationList() {
   store.dispatch('setChatListFilters', conversationFilters.value);
   setFiltersFromUISettings();
   store.dispatch('setChatStatusFilter', activeStatus.value);
@@ -844,6 +845,20 @@ onMounted(() => {
   if (hasActiveFolders.value) {
     store.dispatch('campaigns/get');
   }
+}
+
+onMounted(() => {
+  const savedSort = uiSettings.value.conversations_filter_by?.order_by;
+  // Restore account-gated sorts after the in-flight account request settles.
+  if (isLastMessageSort(savedSort) && accountUIFlags.value.isFetchingItem) {
+    watch(
+      () => accountUIFlags.value.isFetchingItem,
+      initializeConversationList,
+      { once: true }
+    );
+    return;
+  }
+  initializeConversationList();
 });
 
 const deleteConversationDialogRef = ref(null);

@@ -82,9 +82,11 @@ describe('#actions', () => {
         [types.SET_INTEGRATIONS_UI_FLAG, { isDeleting: false }],
       ]);
     });
-    it('sends correct actions if API is error', async () => {
+    it('reports disconnect failure without marking the integration deleted', async () => {
       axios.delete.mockRejectedValue(errorMessage);
-      await actions.deleteIntegration({ commit });
+      await expect(
+        actions.deleteIntegration({ commit }, 'shopify')
+      ).rejects.toBe(errorMessage);
       expect(commit.mock.calls).toEqual([
         [types.SET_INTEGRATIONS_UI_FLAG, { isDeleting: true }],
         [types.SET_INTEGRATIONS_UI_FLAG, { isDeleting: false }],

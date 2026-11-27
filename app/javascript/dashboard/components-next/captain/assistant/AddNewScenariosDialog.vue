@@ -1,5 +1,5 @@
 <script setup>
-import { computed, reactive } from 'vue';
+import { computed, reactive, toRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useToggle } from '@vueuse/core';
 import { useVuelidate } from '@vuelidate/core';
@@ -10,6 +10,8 @@ import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
+import ScenarioToolSuggestions from './ScenarioToolSuggestions.vue';
+import { useScenarioToolSuggestions } from './useScenarioToolSuggestions';
 
 const emit = defineEmits(['add']);
 
@@ -31,6 +33,16 @@ const rules = {
 };
 
 const v$ = useVuelidate(rules, state);
+
+const {
+  suggestions,
+  isChecking,
+  linkMissingTools,
+  keepSuggestion,
+  keepAllSuggestions,
+  removeSuggestion,
+  resetSuggestions,
+} = useScenarioToolSuggestions(toRef(state, 'instruction'));
 
 const titleError = computed(() =>
   v$.value.title.$error
@@ -62,6 +74,7 @@ const resetState = () => {
 const onClickAdd = async () => {
   v$.value.$touch();
   if (v$.value.$invalid) return;
+  if (await linkMissingTools()) return;
 
   await emit('add', state);
   resetState();
@@ -71,6 +84,12 @@ const onClickAdd = async () => {
 const onClickCancel = () => {
   togglePopover(false);
 };
+
+// Cancel, a click outside and the Create button all close the form. Any of them cancels a pending check,
+// so the scenario is not created after the admin left.
+watch(showPopover, isOpen => {
+  if (!isOpen) resetSuggestions();
+});
 </script>
 
 <template>
@@ -135,6 +154,13 @@ const onClickCancel = () => {
           :show-character-count="false"
           enable-captain-tools
         />
+        <ScenarioToolSuggestions
+          v-if="suggestions.length"
+          :suggestions="suggestions"
+          @keep="keepSuggestion"
+          @keep-all="keepAllSuggestions"
+          @remove="removeSuggestion"
+        />
       </div>
 
       <div class="flex items-center justify-between w-full gap-3">
@@ -147,6 +173,8 @@ const onClickCancel = () => {
         />
         <Button
           :label="t('CAPTAIN.ASSISTANTS.SCENARIOS.ADD.NEW.FORM.CREATE')"
+          :is-loading="isChecking"
+          :disabled="isChecking"
           class="w-full"
           @click="onClickAdd"
         />
