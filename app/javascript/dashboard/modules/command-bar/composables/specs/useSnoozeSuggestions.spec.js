@@ -100,6 +100,33 @@ describe('useSnoozeSuggestions', () => {
     );
   });
 
+  it('treats a bare number at the root as a search, not a snooze time', () => {
+    const { snoozeCommands, searchSnoozeSuggestions } = useSnoozeSuggestions();
+    const request = { page: null, context: { scopes: ['conversation'] } };
+
+    expect(snoozeCommands({ ...request, text: '32001' })).toEqual([]);
+    expect(snoozeCommands({ ...request, text: '30 m' })).toHaveLength(1);
+    expect(
+      searchSnoozeSuggestions({ page: 'snooze_conversation', text: '30' })
+    ).toHaveLength(1);
+  });
+
+  it('treats a number typed in any script as a search at the root', async () => {
+    const { generateSnoozeSuggestions: parse } = await vi.importActual(
+      'dashboard/helper/snoozeHelpers'
+    );
+    generateSnoozeSuggestions.mockImplementation(parse);
+    const { snoozeCommands, searchSnoozeSuggestions } = useSnoozeSuggestions();
+    const request = { page: null, context: { scopes: ['conversation'] } };
+
+    ['٣٢٠٠١', '３２００１'].forEach(text => {
+      expect(
+        searchSnoozeSuggestions({ page: 'snooze_conversation', text })
+      ).not.toHaveLength(0);
+      expect(snoozeCommands({ ...request, text })).toEqual([]);
+    });
+  });
+
   it('stays quiet at the root away from an open conversation', () => {
     const { snoozeCommands } = useSnoozeSuggestions();
     const request = {

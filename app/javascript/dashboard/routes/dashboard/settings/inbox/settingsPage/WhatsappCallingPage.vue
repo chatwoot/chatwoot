@@ -46,6 +46,8 @@ const savedValues = () => ({
   missedCallMessageEnabled:
     props.inbox.provider_config?.missed_call_message_enabled === true,
   missedCallMessage: props.inbox.provider_config?.missed_call_message || '',
+  callbackPermissionEnabled:
+    props.inbox.provider_config?.callback_permission_enabled === true,
 });
 
 const buildSteps = (changed, values) => {
@@ -66,6 +68,15 @@ const buildSteps = (changed, values) => {
           },
         },
       })
+    );
+  }
+  // After the save above, which writes back the whole provider_config it was given
+  if (changed(['callbackPermissionEnabled'])) {
+    steps.push(() =>
+      InboxesAPI.setWhatsappCallbackPermission(
+        id,
+        values.callbackPermissionEnabled
+      )
     );
   }
   return [...steps, ...sharedSteps(id, changed, values)];
@@ -342,6 +353,11 @@ const applyInboxHours = async () => {
           :title="label('CALLING_CUSTOMERS.TITLE')"
           :description="label('CALLING_CUSTOMERS.DESCRIPTION')"
         >
+          <CallSettingsOption
+            v-model="form.callbackPermissionEnabled"
+            :label="label('CALLING_CUSTOMERS.CALLBACK_PERMISSION')"
+            :help="label('CALLING_CUSTOMERS.CALLBACK_PERMISSION_HELP')"
+          />
           <div class="flex flex-col gap-1.5">
             <label
               :for="`call-permission-request-${inbox.id}`"

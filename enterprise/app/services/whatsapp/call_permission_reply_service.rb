@@ -2,6 +2,8 @@ class Whatsapp::CallPermissionReplyService
   REQUESTS_KEY = 'call_permission_requests'.freeze
   REQUESTED_AT_KEY = 'call_permission_requested_at'.freeze
   MESSAGE_ID_KEY = 'call_permission_request_message_id'.freeze
+  # On the contact, per inbox: whether the customer lets that number call them, and until when
+  CONTACT_PERMISSIONS_KEY = 'whatsapp_call_permissions'.freeze
 
   pattr_initialize [:inbox!, :params!]
 
@@ -9,7 +11,10 @@ class Whatsapp::CallPermissionReplyService
     return unless inbox.channel.voice_enabled?
 
     reply_data = extract_reply_data
-    return unless reply_data&.dig(:accepted)
+    return unless reply_data
+
+    record_contact_permission(reply_data)
+    return unless reply_data[:accepted]
 
     conversation = find_requesting_conversation(reply_data[:context_id])
     return unless conversation
@@ -39,7 +44,25 @@ class Whatsapp::CallPermissionReplyService
 
     accepted = reply[:response] == 'accept'
     Rails.logger.info "[WHATSAPP CALL] call_permission_reply from=#{message[:from]} accepted=#{accepted} permanent=#{reply[:is_permanent]}"
-    { from_number: message[:from], accepted: accepted, context_id: message.dig(:context, :id) }
+    { sources: [message[:from], message[:from_user_id]].compact, accepted: accepted, context_id: message.dig(:context, :id),
+      permission: { 'permanent' => reply[:is_permanent] == true, 'expires_at' => expiry_time(reply[:expiration_timestamp]) } }
+  end
+
+  def expiry_time(timestamp)
+    Time.zone.at(timestamp.to_i).iso8601 if timestamp.present?
+  end
+
+  # Covers replies to our requests, WhatsApp's post-call prompt and its revocation after unanswered calls
+  def record_contact_permission(reply_data)
+    contact = inbox.contact_inboxes.find_by(source_id: reply_data[:sources])&.contact
+    return unless contact
+
+    contact.with_lock do
+      attributes = contact.additional_attributes || {}
+      permissions = attributes.fetch(CONTACT_PERMISSIONS_KEY, {}).except(inbox.id.to_s)
+      permissions[inbox.id.to_s] = reply_data[:permission] if reply_data[:accepted]
+      contact.update!(additional_attributes: attributes.merge(CONTACT_PERMISSIONS_KEY => permissions))
+    end
   end
 
   # Match the reply to the conversation whose request message it actually points

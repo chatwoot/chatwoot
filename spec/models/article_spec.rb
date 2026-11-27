@@ -89,25 +89,18 @@ RSpec.describe Article do
     it { is_expected.to belong_to(:author) }
   end
 
-  # This validation happens in ApplicationRecord
-  describe 'length validations' do
-    let(:article) do
-      create(:article, category_id: category_1.id, content: 'This is the content', description: 'this is the description',
-                       slug: 'this-is-title', title: 'this is title',
-                       portal_id: portal_1.id, author_id: user.id)
+  describe 'content length' do
+    let(:article) { build(:article, account: account, portal: portal_1, author: user) }
+
+    it 'accepts 50,000 characters' do
+      article.content = 'é' * 50_000
+      expect(article).to be_valid
     end
 
-    context 'when it validates content length' do
-      it 'valid when within limit' do
-        article.content = 'a' * 1000
-        expect(article.valid?).to be true
-      end
-
-      it 'invalid when crossed the limit' do
-        article.content = 'a' * 25_001
-        article.valid?
-        expect(article.errors[:content]).to include('is too long (maximum is 20000 characters)')
-      end
+    it 'rejects 50,001 characters' do
+      article.content = 'a' * 50_001
+      expect(article).not_to be_valid
+      expect(article.errors[:content]).to include('is too long (maximum is 50000 characters)')
     end
   end
 
@@ -315,6 +308,97 @@ RSpec.describe Article do
 
       expect(article).not_to be_valid
       expect(article.errors[:meta]).to include('noindex must be true or false')
+    end
+  end
+
+  describe '#webhook_data' do
+    it 'returns the article along with its account, portal, category and author' do
+      article = create(:article, portal: portal_1, category: category_1, author: user, account: account, title: 'Refund policy')
+
+      expect(article.webhook_data).to eq(
+        account: { id: account.id, name: account.name },
+        author: { id: user.id, name: user.name, email: user.email, type: 'user' },
+        category: { id: category_1.id, locale: 'en', name: category_1.name, slug: 'category_1' },
+        content: 'MyText',
+        created_at: article.created_at,
+        description: 'MyDescrption',
+        id: article.id,
+        locale: 'en',
+        meta: {},
+        portal: { id: portal_1.id, name: portal_1.name, slug: portal_1.slug },
+        position: article.position,
+        slug: article.slug,
+        status: 'published',
+        title: 'Refund policy',
+        updated_at: article.updated_at,
+        views: 0
+      )
+    end
+  end
+
+  describe 'event dispatch' do
+    let(:article) { create(:article, portal: portal_1, category: category_1, author: user, account: account, title: 'Refund policy') }
+
+    before do
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+    end
+
+    it 'dispatches article.created when an article is created' do
+      article
+
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch).with('article.created', kind_of(Time), article: article)
+    end
+
+    it 'dispatches article.updated with the changed attributes' do
+      article.update!(title: 'Returns policy')
+
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+        'article.updated', kind_of(Time),
+        article: article, changed_attributes: hash_including('title' => ['Refund policy', 'Returns policy'])
+      )
+    end
+
+    it 'does not dispatch article.updated when articles are reordered' do
+      neighbour = create(:article, portal: portal_1, category: category_1, author: user, account: account)
+
+      described_class.update_positions(portal: portal_1, positions_hash: { article.id => neighbour.position + 5 })
+
+      expect([neighbour.reload.position, article.reload.position]).to eq([10, 20])
+      expect(Rails.configuration.dispatcher).not_to have_received(:dispatch).with('article.updated', any_args)
+    end
+
+    it 'does not dispatch article.updated when only the staged draft changes' do
+      article.update!(draft_title: 'Draft title', draft_content: 'Draft body')
+
+      expect(Rails.configuration.dispatcher).not_to have_received(:dispatch).with('article.updated', any_args)
+    end
+
+    it 'leaves the staged draft out of the article.updated changes' do
+      article.update!(draft_title: 'Draft title', draft_content: 'Draft body')
+      article.update!(status: :archived, draft_title: nil, draft_content: nil)
+
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+        'article.updated', kind_of(Time),
+        article: article, changed_attributes: { 'status' => %w[published archived], 'updated_at' => [kind_of(Time), kind_of(Time)] }
+      )
+    end
+
+    it 'dispatches article.deleted with the article payload' do
+      article_data = article.webhook_data
+      article.destroy!
+
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch).with('article.deleted', kind_of(Time), article_data: article_data)
+    end
+
+    it 'does not dispatch article.deleted for articles removed along with their portal' do
+      article
+
+      perform_enqueued_jobs(only: ActiveRecord::DestroyAssociationAsyncJob) do
+        portal_1.destroy!
+      end
+
+      expect(described_class.exists?(article.id)).to be(false)
+      expect(Rails.configuration.dispatcher).not_to have_received(:dispatch).with('article.deleted', any_args)
     end
   end
 end

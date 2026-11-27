@@ -92,6 +92,11 @@ features:
         gpt-5.2,
       ]
     default: gpt-5.2
+  # Links the tools a scenario instruction describes in plain words. Runs when an admin saves a scenario.
+  scenario_tool_suggestion:
+    models: [gpt-6-luna, gpt-6.1-terra, gpt-6-sol, gpt-5.1, gpt-5.2]
+    default: gpt-6-sol
+    internal: true
   document_faq_generation:
     reasoning_effort: medium
     models:

@@ -33,7 +33,7 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
               as: :json
 
         expect(response).to have_http_status(:success)
-        expected_params = { contact: contact, params: params, discard_invalid_attrs: true }
+        expected_params = { contact: contact, params: params, contact_inbox: contact_inbox, discard_invalid_attrs: true }
         expect(ContactIdentifyAction).to have_received(:new).with(expected_params)
         expect(identify_action).to have_received(:perform)
       end
@@ -254,6 +254,52 @@ RSpec.describe '/api/v1/widget/contacts', type: :request do
               as: :json
 
         expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'without mandatory hmac' do
+      let(:web_widget) { create(:channel_widget, account: account, hmac_mandatory: false) }
+
+      it 'identifies the contact without verifying the session when no identifier hash is provided' do
+        patch '/api/v1/widget/contact/set_user',
+              params: params,
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact.reload.identifier).to eq('test')
+        expect(contact_inbox.reload.hmac_verified).to be(false)
+      end
+
+      it 'verifies the session when correct identifier hash is provided' do
+        patch '/api/v1/widget/contact/set_user',
+              params: params.merge(identifier_hash: correct_identifier_hash),
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact_inbox.reload.hmac_verified).to be(true)
+      end
+
+      it 'returns error when incorrect identifier hash is provided' do
+        patch '/api/v1/widget/contact/set_user',
+              params: params.merge(identifier_hash: incorrect_identifier_hash),
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+        expect(contact_inbox.reload.hmac_verified).to be(false)
+      end
+
+      it 'does not check the identifier hash when only custom attributes are provided' do
+        patch '/api/v1/widget/contact/set_user',
+              params: { website_token: web_widget.website_token, custom_attributes: { plan: 'pro' },
+                        identifier_hash: incorrect_identifier_hash },
+              headers: { 'X-Auth-Token' => token },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(contact_inbox.reload.hmac_verified).to be(false)
       end
     end
   end

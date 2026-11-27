@@ -73,6 +73,11 @@ properties:
       - $ref: '#/components/schemas/message'
       - type: 'null'
     description: The last non activity message
+  last_message_at:
+    type:
+      - number
+      - 'null'
+    description: Unix timestamp of the most recent public, non-activity message.
   last_activity_at:
     type: number
     description: The last activity at of the conversation

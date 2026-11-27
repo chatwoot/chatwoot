@@ -23,6 +23,9 @@ properties:
           'webwidget_triggered',
           'conversation_typing_on',
           'conversation_typing_off',
+          'article_created',
+          'article_updated',
+          'article_deleted',
         ]
     description: The events you want to subscribe to.
     example:

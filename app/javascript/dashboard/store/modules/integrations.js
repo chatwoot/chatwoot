@@ -97,8 +97,7 @@ export const actions = {
         id: integrationId,
         enabled: false,
       });
-      commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isDeleting: false });
-    } catch (error) {
+    } finally {
       commit(types.default.SET_INTEGRATIONS_UI_FLAG, { isDeleting: false });
     }
   },
