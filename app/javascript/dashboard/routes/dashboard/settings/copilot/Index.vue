@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useCaptain } from 'dashboard/composables/useCaptain';
+import { useBranding } from 'shared/composables/useBranding';
 
 import SettingsLayout from '../SettingsLayout.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
@@ -16,6 +17,7 @@ import KnowledgeTab from './components/KnowledgeTab.vue';
 const { t } = useI18n();
 const { currentAccount, updateAccount } = useAccount();
 const { captainEnabled } = useCaptain();
+const { replaceInstallationName } = useBranding();
 
 const TABS = { GENERAL: 'general', TOOLS: 'tools', KNOWLEDGE: 'knowledge' };
 const tabs = computed(() => [
@@ -63,7 +65,9 @@ const showOnHome = computed({
     <template #header>
       <BaseSettingsHeader
         :title="t('COPILOT_SETTINGS.TITLE')"
-        :description="t('COPILOT_SETTINGS.DESCRIPTION')"
+        :description="
+          replaceInstallationName(t('COPILOT_SETTINGS.DESCRIPTION'))
+        "
       >
         <template v-if="captainEnabled" #tabs>
           <TabBar
