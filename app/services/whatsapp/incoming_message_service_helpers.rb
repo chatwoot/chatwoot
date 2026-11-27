@@ -35,6 +35,16 @@ module Whatsapp::IncomingMessageServiceHelpers
       message.dig(:name, :formatted_name)
   end
 
+  def selected_reply_attributes(message)
+    if message[:button].present?
+      { id: message.dig(:button, :payload), title: message.dig(:button, :text), type: 'button' }
+    elsif message.dig(:interactive, :button_reply).present?
+      { id: message.dig(:interactive, :button_reply, :id), title: message.dig(:interactive, :button_reply, :title), type: 'button_reply' }
+    elsif message.dig(:interactive, :list_reply).present?
+      { id: message.dig(:interactive, :list_reply, :id), title: message.dig(:interactive, :list_reply, :title), type: 'list_reply' }
+    end
+  end
+
   def parse_flow_response_json(response_json)
     parsed_response = JSON.parse(response_json)
     parsed_response.is_a?(Hash) ? parsed_response : response_json

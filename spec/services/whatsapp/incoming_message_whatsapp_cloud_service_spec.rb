@@ -190,6 +190,96 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
       end
     end
 
+    context 'when a contact replies with a button or list selection' do
+      let(:reply_message) { {} }
+      let(:reply_params) do
+        {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                contacts: [{ profile: { name: 'Reply Contact' }, wa_id: sender_number }],
+                messages: [{
+                  from: sender_number,
+                  id: 'wamid.reply-message',
+                  timestamp: '1664799904'
+                }.merge(reply_message)]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+      end
+
+      context 'with a template quick reply button' do
+        let(:reply_message) do
+          {
+            type: 'button',
+            context: { from: whatsapp_channel.phone_number, id: 'wamid.template-message' },
+            button: { payload: '31059bf2-97a8-47de-b887-4e72f0335b67', text: 'Ya la tomé' }
+          }
+        end
+
+        it 'stores the button payload as the selected reply' do
+          described_class.new(inbox: whatsapp_channel.inbox, params: reply_params).perform
+
+          message = whatsapp_channel.inbox.messages.last
+          expect(message.content).to eq('Ya la tomé')
+          expect(message.content_attributes['selected_reply']).to eq(
+            'id' => '31059bf2-97a8-47de-b887-4e72f0335b67',
+            'title' => 'Ya la tomé',
+            'type' => 'button'
+          )
+        end
+      end
+
+      context 'with an interactive button reply' do
+        let(:reply_message) do
+          {
+            type: 'interactive',
+            interactive: { type: 'button_reply', button_reply: { id: 'confirm-yes', title: 'Yes' } }
+          }
+        end
+
+        it 'stores the button reply id as the selected reply' do
+          described_class.new(inbox: whatsapp_channel.inbox, params: reply_params).perform
+
+          message = whatsapp_channel.inbox.messages.last
+          expect(message.content).to eq('Yes')
+          expect(message.content_attributes['selected_reply']).to eq('id' => 'confirm-yes', 'title' => 'Yes', 'type' => 'button_reply')
+        end
+      end
+
+      context 'with an interactive list reply' do
+        let(:reply_message) do
+          {
+            type: 'interactive',
+            interactive: { type: 'list_reply', list_reply: { id: 'slot-morning', title: 'Morning', description: '9am - 12pm' } }
+          }
+        end
+
+        it 'stores the list reply id as the selected reply' do
+          described_class.new(inbox: whatsapp_channel.inbox, params: reply_params).perform
+
+          message = whatsapp_channel.inbox.messages.last
+          expect(message.content).to eq('Morning')
+          expect(message.content_attributes['selected_reply']).to eq('id' => 'slot-morning', 'title' => 'Morning', 'type' => 'list_reply')
+        end
+      end
+
+      context 'with a plain text message' do
+        let(:reply_message) { { type: 'text', text: { body: 'Hello' } } }
+
+        it 'does not store a selected reply' do
+          described_class.new(inbox: whatsapp_channel.inbox, params: reply_params).perform
+
+          message = whatsapp_channel.inbox.messages.last
+          expect(message.content).to eq('Hello')
+          expect(message.content_attributes).not_to have_key('selected_reply')
+        end
+      end
+    end
+
     context 'when invalid attachment message params' do
       let(:error_params) do
         {
