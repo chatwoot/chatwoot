@@ -35,14 +35,19 @@ module Whatsapp::IncomingMessageServiceHelpers
       message.dig(:name, :formatted_name)
   end
 
+  # Keep Meta's reply sub-object as-is (no renaming or filtering) under its own key.
   def selected_reply_attributes(message)
     if message[:button].present?
-      { id: message.dig(:button, :payload), title: message.dig(:button, :text), type: 'button' }
+      { type: 'button', button: plain_hash(message[:button]) }
     elsif message.dig(:interactive, :button_reply).present?
-      { id: message.dig(:interactive, :button_reply, :id), title: message.dig(:interactive, :button_reply, :title), type: 'button_reply' }
+      { type: 'button_reply', button_reply: plain_hash(message.dig(:interactive, :button_reply)) }
     elsif message.dig(:interactive, :list_reply).present?
-      { id: message.dig(:interactive, :list_reply, :id), title: message.dig(:interactive, :list_reply, :title), type: 'list_reply' }
+      { type: 'list_reply', list_reply: plain_hash(message.dig(:interactive, :list_reply)) }
     end
+  end
+
+  def plain_hash(object)
+    object.respond_to?(:to_unsafe_h) ? object.to_unsafe_h.to_hash : object.to_hash
   end
 
   def parse_flow_response_json(response_json)

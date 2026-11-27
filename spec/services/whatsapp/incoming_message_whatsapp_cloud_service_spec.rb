@@ -220,15 +220,44 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
           }
         end
 
-        it 'stores the button payload as the selected reply' do
+        it 'stores the Meta button object as-is under selected_reply.button' do
           described_class.new(inbox: whatsapp_channel.inbox, params: reply_params).perform
 
           message = whatsapp_channel.inbox.messages.last
           expect(message.content).to eq('Ya la tomé')
           expect(message.content_attributes['selected_reply']).to eq(
-            'id' => '31059bf2-97a8-47de-b887-4e72f0335b67',
-            'title' => 'Ya la tomé',
-            'type' => 'button'
+            'type' => 'button',
+            'button' => { 'payload' => '31059bf2-97a8-47de-b887-4e72f0335b67', 'text' => 'Ya la tomé' }
+          )
+        end
+
+        it 'exposes the selected reply in the webhook payload' do
+          described_class.new(inbox: whatsapp_channel.inbox, params: reply_params).perform
+
+          selected_reply = whatsapp_channel.inbox.messages.last.webhook_data[:content_attributes][:selected_reply]
+          expect(selected_reply).to eq(
+            'type' => 'button',
+            'button' => { 'payload' => '31059bf2-97a8-47de-b887-4e72f0335b67', 'text' => 'Ya la tomé' }
+          )
+          expect(JSON.parse(selected_reply.to_json).dig('button', 'payload')).to eq('31059bf2-97a8-47de-b887-4e72f0335b67')
+        end
+      end
+
+      context 'with a template quick reply button carrying unknown Meta fields' do
+        let(:reply_message) do
+          {
+            type: 'button',
+            button: { payload: 'opt-1', text: 'Option 1', id: 'future-meta-id', extra: { nested: 'value' } }
+          }
+        end
+
+        it 'preserves every field without renaming or filtering' do
+          described_class.new(inbox: whatsapp_channel.inbox, params: reply_params).perform
+
+          message = whatsapp_channel.inbox.messages.last
+          expect(message.content_attributes['selected_reply']).to eq(
+            'type' => 'button',
+            'button' => { 'payload' => 'opt-1', 'text' => 'Option 1', 'id' => 'future-meta-id', 'extra' => { 'nested' => 'value' } }
           )
         end
       end
@@ -241,12 +270,15 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
           }
         end
 
-        it 'stores the button reply id as the selected reply' do
+        it 'stores the Meta button_reply object as-is under selected_reply.button_reply' do
           described_class.new(inbox: whatsapp_channel.inbox, params: reply_params).perform
 
           message = whatsapp_channel.inbox.messages.last
           expect(message.content).to eq('Yes')
-          expect(message.content_attributes['selected_reply']).to eq('id' => 'confirm-yes', 'title' => 'Yes', 'type' => 'button_reply')
+          expect(message.content_attributes['selected_reply']).to eq(
+            'type' => 'button_reply',
+            'button_reply' => { 'id' => 'confirm-yes', 'title' => 'Yes' }
+          )
         end
       end
 
@@ -258,12 +290,15 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
           }
         end
 
-        it 'stores the list reply id as the selected reply' do
+        it 'stores the Meta list_reply object as-is, including description' do
           described_class.new(inbox: whatsapp_channel.inbox, params: reply_params).perform
 
           message = whatsapp_channel.inbox.messages.last
           expect(message.content).to eq('Morning')
-          expect(message.content_attributes['selected_reply']).to eq('id' => 'slot-morning', 'title' => 'Morning', 'type' => 'list_reply')
+          expect(message.content_attributes['selected_reply']).to eq(
+            'type' => 'list_reply',
+            'list_reply' => { 'id' => 'slot-morning', 'title' => 'Morning', 'description' => '9am - 12pm' }
+          )
         end
       end
 
