@@ -694,7 +694,7 @@
           "DESCRIPTION": "Searches the approved FAQs of {name}.",
           "NONE": "Turned off. Choose an assistant in Knowledge to let Copilot search its FAQs.",
           "NO_ASSISTANTS": "Searches assistant FAQs once you create an assistant in Captain.",
-          "MANAGE": "Manage"
+          "CHOOSE": "Choose assistant"
         },
         "LINEAR": {
           "TITLE": "Linear issues",

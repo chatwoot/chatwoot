@@ -119,7 +119,7 @@ onMounted(() => {
           </div>
           <Button
             v-if="tool.key === 'FAQS'"
-            :label="t('COPILOT_SETTINGS.TOOLS.GROUPS.FAQS.MANAGE')"
+            :label="t('COPILOT_SETTINGS.TOOLS.GROUPS.FAQS.CHOOSE')"
             sm
             faded
             slate
