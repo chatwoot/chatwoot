@@ -1,5 +1,6 @@
 <script setup>
-import { ref, nextTick, onMounted } from 'vue';
+import { ref, nextTick } from 'vue';
+import { useResizeObserver } from '@vueuse/core';
 
 const props = defineProps({
   onSend: {
@@ -77,9 +78,7 @@ const handleEnterKey = event => {
   sendMessage();
 };
 
-onMounted(() => {
-  nextTick(adjustHeight);
-});
+useResizeObserver(textareaRef, adjustHeight);
 </script>
 
 <template>
