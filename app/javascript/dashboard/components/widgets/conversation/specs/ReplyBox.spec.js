@@ -45,6 +45,7 @@ const buildStore = ({
   isMetaMessageSendingDisabled = false,
   uiSettings = {},
   signature = '',
+  lastEmail = null,
 }) =>
   createStore({
     state: {
@@ -74,7 +75,7 @@ const buildStore = ({
       getCurrentAccountId: () => 1,
       getMessageSignature: () => signature,
       getUISettings: () => uiSettings,
-      getLastEmailInSelectedChat: () => null,
+      getLastEmailInSelectedChat: () => lastEmail,
       'globalConfig/get': () => ({}),
       'globalConfig/isMetaMessageSendingDisabled': () =>
         isMetaMessageSendingDisabled,
@@ -102,6 +103,7 @@ const mountWith = ({
   isMetaMessageSendingDisabled,
   uiSettings,
   signature,
+  lastEmail,
 }) => {
   const store = buildStore({
     inbox,
@@ -112,6 +114,7 @@ const mountWith = ({
     isMetaMessageSendingDisabled,
     uiSettings,
     signature,
+    lastEmail,
   });
   const wrapper = shallowMount(ReplyBox, {
     global: {
@@ -557,6 +560,58 @@ describe('ReplyBox', () => {
       await nextTick();
 
       expect(wrapper.vm.message).toBe('Hello');
+      wrapper.unmount();
+    });
+  });
+
+  describe('email quote flag', () => {
+    const EMAIL_INBOX = {
+      channel_type: 'Channel::Email',
+      email: 'support@acme.inc',
+    };
+    const LAST_EMAIL = {
+      id: 5,
+      message_type: 0,
+      content: 'Where is my order?',
+      created_at: 1700000000,
+      content_attributes: { email: { from: ['priya@example.com'] } },
+    };
+    const mountEmail = () =>
+      mountWith({ inbox: EMAIL_INBOX, chat: REPLIABLE, lastEmail: LAST_EMAIL });
+
+    it('flags a reply that ends with the appended thread', () => {
+      const { wrapper } = mountEmail();
+
+      const payload = wrapper.vm.getMessagePayload('It ships today.');
+
+      expect(payload.message).toContain('> Where is my order?');
+      expect(payload.contentAttributes).toEqual({ email_quote_appended: true });
+      wrapper.unmount();
+    });
+
+    it('marks the reply as unquoted when the agent removed the thread', () => {
+      const { wrapper } = mountEmail();
+      wrapper.vm.isQuoteRemoved = true;
+
+      const payload = wrapper.vm.getMessagePayload('It ships today.');
+
+      expect(payload.message).toBe('It ships today.');
+      expect(payload.contentAttributes).toEqual({
+        email_quote_appended: false,
+      });
+      wrapper.unmount();
+    });
+
+    it('sends no flag on a private note', async () => {
+      const { wrapper } = mountEmail();
+      wrapper
+        .findComponent({ name: 'ReplyTopPanel' })
+        .vm.$emit('setReplyMode', REPLY_EDITOR_MODES.NOTE);
+      await nextTick();
+
+      const payload = wrapper.vm.getMessagePayload('Internal note');
+
+      expect(payload.contentAttributes).toBeUndefined();
       wrapper.unmount();
     });
   });

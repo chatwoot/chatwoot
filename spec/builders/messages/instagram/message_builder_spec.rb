@@ -18,6 +18,45 @@ describe Messages::Instagram::MessageBuilder do
   let!(:instagram_story_reply_event) { build(:instagram_story_reply_event).with_indifferent_access }
   let!(:instagram_message_reply_event) { build(:instagram_message_reply_event).with_indifferent_access }
 
+  context 'when downloading media for an existing conversation' do
+    # The second connection needs to see the conversation before the builder starts.
+    self.use_transactional_tests = false
+
+    let(:conversation) { create(:conversation, account: account, inbox: instagram_inbox) }
+    let(:other_connection) { Conversation.connection_pool.checkout }
+
+    after do
+      Conversation.connection_pool.checkin(other_connection)
+      perform_enqueued_jobs(only: [ActiveRecord::DestroyAssociationAsyncJob, ActiveStorage::PurgeJob]) do
+        account.conversations.destroy_all
+        account.contacts.destroy_all
+        account.inboxes.destroy_all
+        account.destroy!
+      end
+    end
+
+    it 'allows another writer to lock the conversation during the download' do
+      messaging = dm_params[:entry][0][:messaging][0]
+      messaging[:sender][:id] = conversation.contact_inbox.source_id
+      url = 'https://www.example.com/photo.png'
+      messaging[:message][:attachments] = [{ type: 'image', payload: { url: url } }]
+
+      lockable_id = nil
+      stub_request(:get, url).to_return do
+        query = Conversation.where(id: conversation.id).select(:id).lock('FOR NO KEY UPDATE SKIP LOCKED')
+        lockable_id = other_connection.select_value(query.arel)
+        { body: Rails.root.join('spec/assets/sample.png').binread, headers: { 'Content-Type' => 'image/png' } }
+      end
+
+      described_class.new(messaging, instagram_inbox).perform
+
+      expect(lockable_id).to eq(conversation.id)
+      message = conversation.messages.find_by!(source_id: messaging[:message][:mid])
+      expect(message.attachments.sole.file).to be_attached
+      expect(conversation.reload.last_message_at).to eq(message.created_at)
+    end
+  end
+
   describe '#perform' do
     before do
       instagram_channel.update(access_token: 'valid_instagram_token')

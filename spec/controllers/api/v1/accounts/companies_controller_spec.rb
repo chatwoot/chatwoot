@@ -6,6 +6,24 @@ RSpec.describe 'Companies API', type: :request do
 
   before { account.enable_features!(:companies) }
 
+  describe 'GET /api/v1/accounts/:account_id/companies/:company_id/conversations' do
+    it 'applies last message ordering within the company' do
+      account.enable_features!(:last_message_sort)
+      admin = create(:user, account: account, role: :administrator)
+      company = create(:company, account: account)
+      contact = create(:contact, account: account, company: company)
+      empty = create(:conversation, account: account, contact: contact)
+      latest = create(:conversation, account: account, contact: contact)
+      create(:message, account: account, conversation: latest)
+      create(:conversation, account: account)
+
+      get "/api/v1/accounts/#{account.id}/companies/#{company.id}/conversations",
+          params: { sort_by: 'last_message_at_asc' }, headers: admin.create_new_auth_token
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body.fetch('payload').pluck('id')).to eq([latest.display_id, empty.display_id])
+    end
+  end
+
   describe 'GET /api/v1/accounts/{account.id}/companies' do
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do

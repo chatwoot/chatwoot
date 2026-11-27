@@ -408,18 +408,18 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
     end
 
     context 'when put request is made with the email of an identified contact' do
-      it 'adds a private note to the conversation' do
+      it 'merges the visitor into the identified contact' do
         message = create(:message, content_type: 'input_email', account: account, inbox: web_widget.inbox, conversation: conversation)
         identified_contact = create(:contact, account: account, identifier: 'customer-1', email: 'customer@test.com')
+
         put api_v1_widget_message_url(message.id),
             params: { website_token: web_widget.website_token, contact: { email: 'customer@test.com' } },
             headers: { 'X-Auth-Token' => token },
             as: :json
 
         expect(response).to have_http_status(:success)
-        note = conversation.messages.find_by(private: true)
-        expect(note.content).to include('customer@test.com')
-        expect(note.content).to include("/contacts/#{identified_contact.id}")
+        expect(conversation.reload.contact_id).to eq identified_contact.id
+        expect { contact.reload }.to raise_error(ActiveRecord::RecordNotFound)
       end
     end
 

@@ -14,7 +14,12 @@ module Enterprise::Channel::Whatsapp
     with_call_settings_lock do
       apply_call_hours! if business_hours_calls_enabled?
       super
+      turn_on_callback_permission
     end
+  end
+
+  def update_callback_permission!(enabled)
+    with_call_settings_lock { apply_callback_permission!(enabled) }
   end
 
   def missed_call_message_enabled?
@@ -37,5 +42,23 @@ module Enterprise::Channel::Whatsapp
     response = provider.send_template(...)
     @last_provider_error = provider.last_error
     response
+  end
+
+  private
+
+  # Meta first, so the saved flag never claims a setting Meta refused
+  def apply_callback_permission!(enabled)
+    provider_service.update_callback_permission_status(enabled ? 'ENABLED' : 'DISABLED')
+    self.provider_config = provider_config.merge('callback_permission_enabled' => enabled)
+    save!(validate: false)
+  end
+
+  # On by default unless an admin turned it off; if Meta refuses, calling still turns on and the setting shows off
+  def turn_on_callback_permission
+    return if provider_config['callback_permission_enabled'] == false
+
+    apply_callback_permission!(true)
+  rescue StandardError => e
+    Rails.logger.warn "[WHATSAPP CALL] callback permission not turned on for channel #{id}: #{e.message}"
   end
 end

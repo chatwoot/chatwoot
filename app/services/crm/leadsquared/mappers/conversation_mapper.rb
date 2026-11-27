@@ -88,7 +88,7 @@ class Crm::Leadsquared::Mappers::ConversationMapper
   end
 
   def message_content(message)
-    message.content.presence || I18n.t('crm.no_content')
+    message.content_without_email_quoted_thread.presence || I18n.t('crm.no_content')
   end
 
   def attachment_info(message)

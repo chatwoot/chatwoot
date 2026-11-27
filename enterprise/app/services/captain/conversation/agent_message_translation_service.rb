@@ -81,14 +81,14 @@ class Captain::Conversation::AgentMessageTranslationService
     message.sender.ui_settings['locale'].presence if message.sender.is_a?(User)
   end
 
-  # Email: the reply box appends the earlier thread as "> " lines. Only the text above them is translated.
+  # Email: only the text above the quoted thread is translated.
 
   def reply
-    @reply ||= quoted_history.blank? ? message.content : message.content.delete_suffix(quoted_history).strip
+    @reply ||= message.content_without_email_quoted_thread
   end
 
   def quoted_history
-    @quoted_history ||= inbox.email? ? message.content[/^>.*\z/m].to_s : ''
+    @quoted_history ||= message.email_quoted_thread
   end
 
   def with_quoted_history(translated)

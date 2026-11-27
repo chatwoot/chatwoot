@@ -198,7 +198,7 @@ class ConversationFinder
 
   def conversations
     @conversations = conversations_base_query
-    @conversations = Conversations::SortService.apply(@conversations, params[:sort_by])
+    @conversations = Conversations::SortService.apply(@conversations, params[:sort_by], account: current_account)
 
     if params[:updated_within].present?
       @conversations.where('conversations.updated_at > ?', Time.zone.now - params[:updated_within].to_i.seconds)

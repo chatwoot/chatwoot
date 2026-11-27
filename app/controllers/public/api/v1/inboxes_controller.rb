@@ -33,8 +33,7 @@ class Public::Api::V1::InboxesController < PublicController
     identifier = @contact_inbox.contact.identifier
     return false if identifier.blank?
 
-    expected_hash = OpenSSL::HMAC.hexdigest('sha256', @inbox_channel.hmac_token, identifier)
-    ActiveSupport::SecurityUtils.secure_compare(params[:identifier_hash].to_s, expected_hash)
+    ContactIdentity::Verifier.new(channel: @inbox_channel, identifier: identifier, params: params).perform.verified?
   end
 
   def set_conversation

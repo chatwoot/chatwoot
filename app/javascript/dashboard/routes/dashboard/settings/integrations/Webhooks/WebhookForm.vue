@@ -21,6 +21,9 @@ const SUPPORTED_WEBHOOK_EVENTS = [
   'contact_updated',
   'conversation_typing_on',
   'conversation_typing_off',
+  'article_created',
+  'article_updated',
+  'article_deleted',
 ];
 
 export default {
