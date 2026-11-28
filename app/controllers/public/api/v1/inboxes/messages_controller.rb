@@ -6,6 +6,10 @@ class Public::Api::V1::Inboxes::MessagesController < Public::Api::V1::InboxesCon
   end
 
   def create
+    if in_reply_to.present? && !@conversation.messages.exists?(in_reply_to)
+      render json: { error: 'in_reply_to must reference a message in this conversation' }, status: :unprocessable_entity and return
+    end
+
     @message = @conversation.messages.new(message_params)
     build_attachment
     @message.save!
@@ -49,7 +53,7 @@ class Public::Api::V1::Inboxes::MessagesController < Public::Api::V1::InboxesCon
   end
 
   def permitted_params
-    params.permit(:content, :echo_id)
+    params.permit(:content, :echo_id, content_attributes: [:in_reply_to])
   end
 
   def set_message
@@ -63,8 +67,13 @@ class Public::Api::V1::Inboxes::MessagesController < Public::Api::V1::InboxesCon
       content: permitted_params[:content],
       inbox_id: @conversation.inbox_id,
       echo_id: permitted_params[:echo_id],
-      message_type: :incoming
+      message_type: :incoming,
+      content_attributes: in_reply_to.present? ? { in_reply_to: in_reply_to } : {}
     }
+  end
+
+  def in_reply_to
+    permitted_params.dig(:content_attributes, :in_reply_to)
   end
 
   def check_csat_locked
