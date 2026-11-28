@@ -1,7 +1,10 @@
 module Enterprise::MessageTemplates::HookExecutionService
+  INSTAGRAM_STORY_IMAGE_TYPES = %w[story_mention ig_story_reply].freeze
+
   def trigger_templates
     super
     return unless captain_conversation_message?
+    return if skipped_instagram_story?
 
     # Eligibility is demand-level: every inbound customer message in a
     # Captain-connected inbox counts, including conversations a human grabbed
@@ -44,6 +47,13 @@ module Enterprise::MessageTemplates::HookExecutionService
 
   def captain_conversation_message?
     message.captain_response_triggering? && captain_assistant_configured? && !inbox.external_bot_active?
+  end
+
+  def skipped_instagram_story?
+    return false unless inbox.instagram? && inbox.captain_assistant.config['skip_instagram_stories'].present?
+
+    # Instagram builders write image_type after create (same transaction), so read the committed row.
+    INSTAGRAM_STORY_IMAGE_TYPES.include?(message.reload.content_attributes[:image_type])
   end
 
   def perform_handoff
