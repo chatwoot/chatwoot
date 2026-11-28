@@ -35,10 +35,21 @@ class Channel::Telegram < ApplicationRecord
     "https://api.telegram.org/bot#{bot_token}"
   end
 
+  # Returns the ids of every Telegram message created for this Chatwoot message, in send order
   def send_message_on_telegram(message)
-    message_id = send_message(message) if message.outgoing_content.present?
-    message_id = Telegram::SendAttachmentsService.new(message: message).perform if message.attachments.present?
-    message_id
+    message_ids = []
+    message_ids << send_message(message) if message.outgoing_content.present?
+    message_ids.concat(Telegram::SendAttachmentsService.new(message: message).perform) if message.attachments.present?
+    message_ids.compact
+  end
+
+  # Saved right after each successful request, so an error later in the send (or a retry) can't lose the ids of what reached telegram.
+  # A retry resends the whole message, so ids from earlier partial attempts are kept as well.
+  # update_columns skips the message update events and validations, the ids are internal bookkeeping only used for deletion.
+  def record_telegram_message_ids(message, ids)
+    telegram_message_ids = (Array(message.external_source_ids['telegram_message_ids']) + ids).uniq
+    external_source_ids = message.external_source_ids.merge('telegram_message_ids' => telegram_message_ids)
+    message.update_columns(external_source_ids: external_source_ids) # rubocop:disable Rails/SkipsModelValidations
   end
 
   def get_telegram_profile_image(user_id)
@@ -110,7 +121,11 @@ class Channel::Telegram < ApplicationRecord
       business_connection_id: business_connection_id(message)
     )
     process_error(message, response)
-    response.parsed_response['result']['message_id'] if response.success?
+    return unless response.success?
+
+    message_id = response.parsed_response['result']['message_id']
+    record_telegram_message_ids(message, [message_id])
+    message_id
   end
 
   def reply_markup(message)

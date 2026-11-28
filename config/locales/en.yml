@@ -208,6 +208,11 @@ en:
     messages:
       search:
         time_range_limit_exceeded: 'Search is limited to the last %{days} days'
+      telegram_delete:
+        failed: 'Could not delete the message on Telegram: %{reason}'
+        expired: 'Telegram only allows deleting a message for the customer within 48 hours of sending it'
+      delete_on_channel:
+        invalid: 'delete_on_channel must be true or false'
     categories:
       locale:
         unique: should be unique in the category and portal

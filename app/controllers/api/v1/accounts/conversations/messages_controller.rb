@@ -1,5 +1,8 @@
 class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::Conversations::BaseController
+  DELETE_ON_CHANNEL_VALUES = %w[true false].freeze
+
   before_action :ensure_api_inbox, only: :update
+  before_action :validate_delete_on_channel, :delete_on_channel, only: :destroy
 
   def index
     @messages = message_finder.perform
@@ -90,7 +93,22 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   end
 
   def permitted_params
-    params.permit(:id, :target_language, :status, :external_error)
+    params.permit(:id, :target_language, :status, :external_error, :delete_on_channel)
+  end
+
+  # the deletion on the channel can't be undone, so only the documented boolean is accepted.
+  # Reads the raw param, as permit drops arrays and hashes, which would then pass as if the flag was absent.
+  def validate_delete_on_channel
+    value = params[:delete_on_channel]
+    return if value.nil? || DELETE_ON_CHANNEL_VALUES.include?(value.to_s)
+
+    render_could_not_create_error(I18n.t('errors.messages.delete_on_channel.invalid'))
+  end
+
+  # opt-in: deletes the message for the customer before destroy, so a refusal from the channel keeps it in Chatwoot too.
+  # As a callback it also runs before Enterprise's row lock, so the lock isn't held while waiting on the channel.
+  def delete_on_channel
+    Messages::DeleteOnChannelService.new(message: message).perform if permitted_params[:delete_on_channel].to_s == 'true'
   end
 
   def already_translated_content_available?

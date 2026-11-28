@@ -141,6 +141,9 @@ end
 
 json.provider resource.channel.try(:provider)
 
+## Seconds after sending in which messages can also be deleted for the customer, nil when the channel can't
+json.message_delete_window Messages::DeleteOnChannelService.delete_window(resource)&.to_i
+
 ## Telegram Attributes
 json.bot_name resource.channel.try(:bot_name) if resource.telegram?
 
