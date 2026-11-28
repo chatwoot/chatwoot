@@ -2,6 +2,8 @@
 import { ref, computed, watch } from 'vue';
 import { vOnClickOutside } from '@vueuse/components';
 import { useVuelidate } from '@vuelidate/core';
+import { email as emailValidator } from '@vuelidate/validators';
+import { splitEmailAddresses } from 'shared/helpers/emailHelper';
 
 import InlineInput from 'dashboard/components-next/inline-input/InlineInput.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
@@ -65,6 +67,9 @@ const isFocused = ref(props.autoOpenDropdown);
 
 const rules = computed(() => getValidationRules(props.type));
 const v$ = useVuelidate(rules, { newTag });
+const acceptsEmailLists = computed(
+  () => props.type === INPUT_TYPES.EMAIL && props.mode === MODE.MULTIPLE
+);
 
 const isNewTagInValidType = computed(() =>
   checkTagTypeValidity(props.type, newTag.value, v$.value)
@@ -108,13 +113,13 @@ const emitDataOnAdd = value => {
 };
 
 const updateValueAndFocus = value => {
-  tags.value.push(value);
+  tags.value = [...tags.value, value];
   newTag.value = '';
   modelValue.value = tags.value;
   tagInputRef.value?.focus();
 };
 
-const addTag = async () => {
+const addTag = async keyEvent => {
   const trimmedTag = newTag.value?.trim();
   if (!trimmedTag) return;
 
@@ -129,6 +134,23 @@ const addTag = async () => {
 
   if (!isValidatedType && !props.allowCreate && props.showDropdown) return;
 
+  if (acceptsEmailLists.value) {
+    const emails = splitEmailAddresses(trimmedTag);
+    if (
+      !emails.length ||
+      !emails.every(value => emailValidator.$validator(value))
+    ) {
+      await v$.value.$validate();
+      return;
+    }
+    keyEvent?.preventDefault();
+    emails.forEach(value => {
+      emitDataOnAdd(value);
+      updateValueAndFocus(value);
+    });
+    return;
+  }
+
   if (isValidatedType || props.allowCreate) {
     if (!(await v$.value.$validate())) return;
     emitDataOnAdd(trimmedTag);
@@ -137,7 +159,7 @@ const addTag = async () => {
 };
 
 const removeTag = index => {
-  tags.value.splice(index, 1);
+  tags.value = tags.value.filter((_, tagIndex) => tagIndex !== index);
   modelValue.value = tags.value;
   emit('remove', index);
 };
@@ -173,10 +195,28 @@ const handleFocus = () => {
 };
 
 const handleKeydown = event => {
-  if (event.key === ',') {
+  const isSeparator =
+    event.key === ',' || (acceptsEmailLists.value && event.key === ';');
+  if (!isSeparator) return;
+
+  if (!acceptsEmailLists.value || !newTag.value?.trim()) {
     event.preventDefault();
-    addTag();
   }
+  addTag(event);
+};
+
+const handlePaste = async event => {
+  if (!acceptsEmailLists.value) return;
+  const pastedText = event.clipboardData.getData('text');
+  if (splitEmailAddresses(pastedText).length < 2) return;
+
+  event.preventDefault();
+  const { selectionStart, selectionEnd } = event.target;
+  newTag.value =
+    newTag.value.slice(0, selectionStart) +
+    pastedText +
+    newTag.value.slice(selectionEnd);
+  await addTag();
 };
 
 const handleClickOutside = () => {
@@ -237,11 +277,12 @@ const handleBlur = e => emit('blur', e);
         class="w-full"
         :focus-on-mount="focusOnMount"
         :custom-input-class="`w-full ${isNewTagInValidType ? '!text-n-ruby-9 dark:!text-n-ruby-9' : ''}`"
-        @enter-press="addTag"
+        @enter-press="addTag()"
         @focus="handleFocus"
         @input="handleInput"
         @blur="handleBlur"
         @keydown="handleKeydown"
+        @paste="handlePaste"
       />
       <DropdownMenu
         v-if="showDropdownMenu"

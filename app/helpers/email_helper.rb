@@ -17,6 +17,13 @@ module EmailHelper
     end
   end
 
+  def process_email_string(email_string)
+    Array(email_string).flat_map do |value|
+      normalized = value.to_s.gsub(/[[:space:]\uFEFF]*@[[:space:]\uFEFF]*/, '@')
+      normalized.split(/[,;[:space:]\uFEFF]+/)
+    end.reject(&:empty?)
+  end
+
   # ref: https://www.rfc-editor.org/rfc/rfc5233.html
   # This is not a  mandatory requirement for email addresses, but it is a common practice.
   # john+test@xyc.com is the same as john@xyc.com

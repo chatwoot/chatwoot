@@ -1,9 +1,10 @@
 import { MESSAGE_TYPE } from 'shared/constants/messages';
 import { email as emailValidator } from '@vuelidate/validators';
+import { splitEmailAddresses } from 'shared/helpers/emailHelper';
 
 export const validEmailsByComma = value => {
   if (!value.length) return true;
-  const emails = value.replace(/\s+/g, '').split(',');
+  const emails = splitEmailAddresses(value);
   return emails.every(email => emailValidator.$validator(email));
 };
 
