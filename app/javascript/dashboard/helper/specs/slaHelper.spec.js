@@ -100,7 +100,7 @@ describe('#SLA Helpers', () => {
         const result = evaluateSLAStatus({ appliedSla, chat });
 
         expect(result.type).toBe('FRT');
-        expect(result.threshold).toBe('10m');
+        expect(result.threshold).toBe('5m');
         expect(result.icon).toBe('flame');
         expect(result.isSlaMissed).toBe(true);
       });
@@ -118,6 +118,83 @@ describe('#SLA Helpers', () => {
         };
 
         const result = evaluateSLAStatus({ appliedSla, chat });
+
+        expect(result.type).toBe('FRT');
+        expect(result.threshold).toBe('5m');
+        expect(result.icon).toBe('flame');
+        expect(result.isSlaMissed).toBe(true);
+      });
+
+      it('freezes missed FRT duration at first reply timestamp even when resolved later', () => {
+        const appliedSla = {
+          sla_frt_due_at: currentTimestamp - 7200,
+          sla_completed_at: currentTimestamp - 600,
+          sla_status: 'missed',
+        };
+        const chat = {
+          first_reply_created_at: currentTimestamp - 6900,
+          status: 'resolved',
+        };
+        const slaEvents = [
+          { event_type: 'frt', created_at: currentTimestamp - 7200 },
+        ];
+
+        const result = evaluateSLAStatus({ appliedSla, chat, slaEvents });
+
+        expect(result.type).toBe('FRT');
+        expect(result.threshold).toBe('5m');
+        expect(result.icon).toBe('flame');
+        expect(result.isSlaMissed).toBe(true);
+      });
+
+      it('freezes missed FRT duration at first reply timestamp when resolved before SLA job runs', () => {
+        const appliedSla = {
+          sla_frt_due_at: currentTimestamp - 7200,
+          sla_completed_at: currentTimestamp - 600,
+        };
+        const chat = {
+          first_reply_created_at: currentTimestamp - 6900,
+          status: 'resolved',
+        };
+
+        const result = evaluateSLAStatus({ appliedSla, chat });
+
+        expect(result.type).toBe('FRT');
+        expect(result.threshold).toBe('5m');
+        expect(result.icon).toBe('flame');
+        expect(result.isSlaMissed).toBe(true);
+      });
+
+      it('does not synthesize missed FRT for terminal hit SLA when first reply is sent after due date', () => {
+        const appliedSla = {
+          sla_frt_due_at: currentTimestamp - 7200,
+          sla_completed_at: currentTimestamp - 7500,
+          sla_status: 'hit',
+        };
+        const chat = {
+          first_reply_created_at: currentTimestamp - 6900,
+          status: 'open',
+        };
+
+        const result = evaluateSLAStatus({ appliedSla, chat });
+
+        expect(result.isSlaMissed).toBe(false);
+        expect(result.type).toBe('');
+      });
+
+      it('measures missed FRT event duration to first reply timestamp rather than completion or current time', () => {
+        const appliedSla = {
+          sla_frt_due_at: currentTimestamp - 7200,
+        };
+        const chat = {
+          first_reply_created_at: currentTimestamp - 6600,
+          status: 'open',
+        };
+        const slaEvents = [
+          { event_type: 'frt', created_at: currentTimestamp - 7000 },
+        ];
+
+        const result = evaluateSLAStatus({ appliedSla, chat, slaEvents });
 
         expect(result.type).toBe('FRT');
         expect(result.threshold).toBe('10m');
