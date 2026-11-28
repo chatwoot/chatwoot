@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Public::Api::V1::PortalsController, type: :request do
   let!(:account) { create(:account) }
   let!(:agent) { create(:user, account: account, role: :agent) }
-  let!(:portal) { create(:portal, slug: 'test-portal', account_id: account.id, custom_domain: 'www.example.com') }
+  let!(:portal) { create(:portal, slug: 'test-portal', account_id: account.id, custom_domain: 'www.example.com', config: { layout: 'classic' }) }
 
   before do
     create(:portal, slug: 'test-portal-1', account_id: account.id)

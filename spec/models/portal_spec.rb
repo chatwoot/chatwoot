@@ -88,6 +88,32 @@ RSpec.describe Portal do
     end
   end
 
+  describe '#layout' do
+    let(:account) { create(:account) }
+
+    it 'stores the documentation layout on a new portal' do
+      portal = create(:portal, account_id: account.id)
+
+      expect(portal.reload.config['layout']).to eq('documentation')
+    end
+
+    it 'keeps the layout chosen while creating the portal' do
+      portal = create(:portal, account_id: account.id, config: { layout: 'classic' })
+
+      expect(portal.reload.layout).to eq('classic')
+    end
+
+    it 'keeps a portal without a stored layout on classic when it is saved again' do
+      portal = build(:portal, account_id: account.id)
+      portal.save!(validate: false)
+
+      portal.update!(name: 'Renamed portal')
+
+      expect(portal.reload.layout).to eq('classic')
+      expect(portal.config).not_to have_key('layout')
+    end
+  end
+
   describe '#localized_value' do
     let!(:account) { create(:account) }
     let!(:portal) do

@@ -193,6 +193,7 @@ class Portal < ApplicationRecord
     config['allowed_locales'] = allowed_locale_codes
     config['default_locale'] = default_locale
     config['draft_locales'] = draft_locale_codes
+    config['layout'] ||= 'documentation' if new_record?
   end
 
   def validate_config

@@ -118,6 +118,16 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
         expect(json_response['custom_domain']).to eql('support.chatwoot.dev')
       end
 
+      it 'creates portal with the documentation layout by default' do
+        post "/api/v1/accounts/#{account.id}/portals",
+             params: { portal: { name: 'test_portal', slug: 'test_kbase' } },
+             headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body.dig('config', 'layout')).to eq('documentation')
+        expect(Portal.find_by(slug: 'test_kbase').config['layout']).to eq('documentation')
+      end
+
       it 'creates portal when custom_domain is omitted from request body' do
         portal_params = {
           portal: {
@@ -189,7 +199,7 @@ RSpec.describe 'Api::V1::Accounts::Portals', type: :request do
               { 'articles_count' => 0, 'categories_count' => 0, 'code' => 'es', 'draft' => true }
             ],
             'default_locale' => 'en',
-            'layout' => 'classic',
+            'layout' => 'documentation',
             'social_profiles' => {},
             'locale_translations' => {},
             'popular_content' => {},

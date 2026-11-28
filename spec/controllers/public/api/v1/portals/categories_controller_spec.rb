@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Public Categories API', type: :request do
   let!(:account) { create(:account) }
   let!(:portal) do
-    create(:portal, slug: 'test-portal', custom_domain: 'www.example.com', config: { allowed_locales: %w[en es] })
+    create(:portal, slug: 'test-portal', custom_domain: 'www.example.com', config: { allowed_locales: %w[en es], layout: 'classic' })
   end
 
   before do
