@@ -92,3 +92,9 @@ remove_orphan_conversations_job:
   cron: '0 */12 * * *'
   class: 'Internal::RemoveOrphanConversationsJob'
   queue: housekeeping
+
+# Searchkick owns the Redis ID buffer and creates the bulk jobs.
+conversation_search_index_job:
+  cron: '*/30 * * * * *'
+  class: 'ConversationSearchIndexJob'
+  queue: async_database_migration

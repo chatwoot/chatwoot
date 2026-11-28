@@ -1,3 +1,7 @@
+require Rails.root.join('lib/redis/searchkick_connection')
+
+Searchkick.redis = Redis::SearchkickConnection
+
 Searchkick.queue_name = :async_database_migration if ENV.fetch('OPENSEARCH_URL', '').present?
 
 api_key = ENV.fetch('OPENSEARCH_API_KEY', '').presence || ENV.fetch('ELASTICSEARCH_API_KEY', '').presence

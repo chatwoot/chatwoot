@@ -3,6 +3,8 @@ require Rails.root.join('lib/captain_response_dequeued_logger')
 
 schedule_file = 'config/schedule.yml'
 
+Sidekiq::Cron.configure { |config| config.cron_poll_interval = 10 }
+
 Sidekiq.configure_client do |config|
   config.redis = Redis::Config.app
 end
