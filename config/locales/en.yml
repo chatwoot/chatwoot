@@ -184,6 +184,9 @@ en:
         invalid: Invalid data type
       csv:
         blank_format_marker: 'Record %{row_number} has a blank %{column} value. Keep %{version} in this column for every row. Import new contacts in a separate CSV without this column.'
+    contact_identity:
+      signing_key:
+        limit_reached: 'An inbox can have at most %{limit} signing keys'
     contacts:
       import:
         failed: File is blank
