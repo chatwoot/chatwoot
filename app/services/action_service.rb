@@ -40,6 +40,10 @@ class ActionService
     @conversation.reload.add_labels(labels)
   end
 
+  def assign_agent_bot(agent_bot_ids = [])
+    Conversations::AssignmentService.new(conversation: @conversation, assignee_id: agent_bot_ids[0], assignee_type: 'AgentBot').perform
+  end
+
   def assign_agent(agent_ids = [])
     return @conversation.with_lock { @conversation.update!(assignee_id: nil) } if agent_ids[0] == 'nil'
 

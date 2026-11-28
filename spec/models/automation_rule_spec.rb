@@ -138,6 +138,65 @@ RSpec.describe AutomationRule do
     end
   end
 
+  describe 'assign_agent_bot action' do
+    let(:account) { create(:account) }
+    let(:bot) { create(:agent_bot, account: account) }
+
+    def rule_with_bot_ids(ids)
+      build(:automation_rule, account: account, actions: [{ 'action_name' => 'assign_agent_bot', 'action_params' => ids }])
+    end
+
+    it 'is valid with the id of one of the account bots' do
+      expect(rule_with_bot_ids([bot.id])).to be_valid
+    end
+
+    it 'is valid with the id of a global bot' do
+      expect(rule_with_bot_ids([create(:agent_bot).id])).to be_valid
+    end
+
+    it 'is invalid without a bot id' do
+      rule = rule_with_bot_ids([])
+
+      expect(rule).not_to be_valid
+      expect(rule.errors[:actions]).to eq(['Automation action assign_agent_bot needs the id of one agent bot of the account.'])
+    end
+
+    it 'is invalid with more than one bot id' do
+      expect(rule_with_bot_ids([bot.id, create(:agent_bot, account: account).id])).not_to be_valid
+    end
+
+    it 'is invalid with the id of a bot that does not exist' do
+      expect(rule_with_bot_ids([0])).not_to be_valid
+    end
+
+    it 'is invalid with the id of a bot of another account' do
+      expect(rule_with_bot_ids([create(:agent_bot, account: create(:account)).id])).not_to be_valid
+    end
+
+    it 'can still be deactivated after its bot was deleted' do
+      rule = create(:automation_rule, account: account, actions: [{ 'action_name' => 'assign_agent_bot', 'action_params' => [bot.id] }])
+      bot.destroy!
+
+      expect(rule.update(active: false)).to be true
+    end
+
+    it 'cannot be reactivated after its bot was deleted' do
+      rule = create(:automation_rule, account: account, actions: [{ 'action_name' => 'assign_agent_bot', 'action_params' => [bot.id] }])
+      rule.update!(active: false)
+      bot.destroy!
+
+      expect(rule.update(active: true)).to be false
+      expect(rule.errors[:actions]).to eq(['Automation action assign_agent_bot needs the id of one agent bot of the account.'])
+    end
+
+    it 'can still be renamed after its bot was deleted' do
+      rule = create(:automation_rule, account: account, actions: [{ 'action_name' => 'assign_agent_bot', 'action_params' => [bot.id] }])
+      bot.destroy!
+
+      expect(rule.update(name: 'Renamed')).to be true
+    end
+  end
+
   describe 'Captain conditions' do
     let(:account) { create(:account) }
     let(:rule) do

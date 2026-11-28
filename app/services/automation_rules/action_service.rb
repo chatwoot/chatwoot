@@ -1,7 +1,8 @@
 class AutomationRules::ActionService < ActionService
-  def initialize(rule, account, conversation)
+  def initialize(rule, account, conversation, message: nil)
     super(conversation)
     @rule = rule
+    @message = message
     @account = account
     Current.executed_by = rule
   end
@@ -21,6 +22,35 @@ class AutomationRules::ActionService < ActionService
   end
 
   private
+
+  # The sync AgentBotListener already ran for this message against the previous bot, so a bot assigned
+  # here would never receive the message that routed the conversation to it.
+  def assign_agent_bot(agent_bot_ids = [])
+    previous_bot = bot_that_got_the_message
+    bot = super
+    message = message_to_forward
+    return if message.nil? || bot.nil? || bot == previous_bot
+    return unless message.webhook_sendable? && bot.outgoing_url.present?
+
+    AgentBots::WebhookJob.perform_later(bot.outgoing_url, message.webhook_data.merge(event: 'message_created'),
+                                        :agent_bot_webhook, secret: bot.secret, delivery_id: SecureRandom.uuid)
+  end
+
+  # Mirrors AgentBotListener#agent_bots_for.
+  def bot_that_got_the_message
+    return @conversation.ai_assignee if @conversation.assignee_type == 'AgentBot'
+
+    agent_bot_inbox = @conversation.inbox.agent_bot_inbox
+    agent_bot_inbox.agent_bot if agent_bot_inbox&.active?
+  end
+
+  # A channel can create the first message before this async rule runs, and conversation events carry no message.
+  def message_to_forward
+    return @message if @message
+    return unless @rule.event_name == 'conversation_created'
+
+    @conversation.messages.incoming.first
+  end
 
   def send_attachment(blob_ids)
     return if conversation_a_tweet?

@@ -129,6 +129,7 @@
       "TITLE": "Edit Automation Rule",
       "SUBMIT": "Update",
       "CANCEL_BUTTON_TEXT": "Cancel",
+      "UNAVAILABLE_OPTION": "Unavailable ({id})",
       "API": {
         "SUCCESS_MESSAGE": "Automation rule updated successfully",
         "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
@@ -204,6 +205,7 @@
     },
     "ACTIONS": {
       "ASSIGN_AGENT": "Assign to Agent",
+      "ASSIGN_AGENT_BOT": "Assign a Bot",
       "ASSIGN_TEAM": "Assign a Team",
       "REMOVE_ASSIGNED_AGENT": "Remove Assigned Agent",
       "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",

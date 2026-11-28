@@ -743,6 +743,11 @@ export const AUTOMATION_ACTION_TYPES = [
     inputType: 'search_select',
   },
   {
+    key: 'assign_agent_bot',
+    label: 'ASSIGN_AGENT_BOT',
+    inputType: 'search_select',
+  },
+  {
     key: 'assign_team',
     label: 'ASSIGN_TEAM',
     inputType: 'search_select',

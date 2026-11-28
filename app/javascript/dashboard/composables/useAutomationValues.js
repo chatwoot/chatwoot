@@ -21,6 +21,7 @@ export default function useAutomationValues() {
   const getters = useStoreGetters();
   const { t } = useI18n();
   const agents = useMapGetter('agents/getVerifiedAgents');
+  const agentBots = useMapGetter('agentBots/getBots');
   const campaigns = useMapGetter('campaigns/getAllCampaigns');
   const contacts = useMapGetter('contacts/getContacts');
   const inboxes = useMapGetter('inboxes/getInboxes');
@@ -131,6 +132,7 @@ export default function useAutomationValues() {
 
     return getActionOptions({
       agents: agentsList,
+      agentBots: agentBots.value,
       labels: labels.value,
       teams: teams.value,
       slaPolicies: slaPolicies.value,
@@ -150,6 +152,7 @@ export default function useAutomationValues() {
     getConditionDropdownValues,
     getActionDropdownValues,
     agents,
+    agentBots,
     campaigns,
     contacts,
     inboxes,

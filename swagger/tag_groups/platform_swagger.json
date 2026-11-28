@@ -1144,7 +1144,7 @@
           },
           "actions": {
             "type": "array",
-            "description": "Array of actions which we perform when condition matches",
+            "description": "Array of actions which we perform when condition matches. The `assign_agent_bot` action takes the id of one agent bot of the account in `action_params` and hands the conversation to that bot (sets it pending and removes the human assignee).",
             "items": {
               "type": "object",
               "properties": {
@@ -5627,7 +5627,7 @@
           },
           "actions": {
             "type": "array",
-            "description": "Array of actions which you want to perform when condition matches, e.g add label support if message contains content help.",
+            "description": "Array of actions which you want to perform when condition matches, e.g add label support if message contains content help. Use `assign_agent_bot` with the id of one agent bot of the account in `action_params` to hand the conversation to that bot (sets it pending and removes the human assignee); any other value is rejected with 422.",
             "items": {
               "type": "object",
               "example": {
