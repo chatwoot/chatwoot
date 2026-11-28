@@ -9,6 +9,8 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import { FEATURE_FLAGS } from '../../../../featureFlags';
 import WithLabel from 'v3/components/Form/WithLabel.vue';
 import NextInput from 'next/input/Input.vue';
+import ComboBox from 'next/combobox/ComboBox.vue';
+import { languageOption } from 'shared/helpers/languageSearch';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import AccountId from './components/AccountId.vue';
@@ -28,6 +30,7 @@ export default {
     SectionLayout,
     WithLabel,
     NextInput,
+    ComboBox,
   },
   setup() {
     const { updateUISettings, uiSettings } = useUISettings();
@@ -70,9 +73,9 @@ export default {
     },
     languagesSortedByCode() {
       const enabledLanguages = [...this.enabledLanguages];
-      return enabledLanguages.sort((l1, l2) =>
-        l1.iso_639_1_code.localeCompare(l2.iso_639_1_code)
-      );
+      return enabledLanguages
+        .sort((l1, l2) => l1.iso_639_1_code.localeCompare(l2.iso_639_1_code))
+        .map(({ name, iso_639_1_code: code }) => languageOption(name, code));
     },
     isUpdating() {
       return this.uiFlags.isUpdating;
@@ -190,15 +193,15 @@ export default {
             :label="$t('GENERAL_SETTINGS.FORM.LANGUAGE.LABEL')"
             :error-message="$t('GENERAL_SETTINGS.FORM.LANGUAGE.ERROR')"
           >
-            <select v-model="locale" class="!mb-0 text-sm">
-              <option
-                v-for="lang in languagesSortedByCode"
-                :key="lang.iso_639_1_code"
-                :value="lang.iso_639_1_code"
-              >
-                {{ lang.name }}
-              </option>
-            </select>
+            <ComboBox
+              v-model="locale"
+              trigger-id="site-language"
+              :aria-label="$t('GENERAL_SETTINGS.FORM.LANGUAGE.LABEL')"
+              :options="languagesSortedByCode"
+              :has-error="v$.locale.$error"
+              :allow-deselect="false"
+              keyboard-navigation
+            />
           </WithLabel>
           <WithLabel
             v-if="featureCustomReplyDomainEnabled"

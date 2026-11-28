@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { languageOption } from 'shared/helpers/languageSearch';
 import { useStore } from 'dashboard/composables/store';
 import { useAlert, useTrack } from 'dashboard/composables';
 import { useRoute } from 'vue-router';
@@ -40,12 +41,7 @@ const draftedLocales = computed(() => {
 
 const locales = computed(() => {
   return Object.keys(allLocales)
-    .map(key => {
-      return {
-        value: key,
-        label: `${allLocales[key]} (${key})`,
-      };
-    })
+    .map(key => languageOption(`${allLocales[key]} (${key})`, key))
     .filter(locale => !addedLocales.value.includes(locale.value));
 });
 

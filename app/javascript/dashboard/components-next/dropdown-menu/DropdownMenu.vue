@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { matchesOptionSearch } from 'shared/helpers/languageSearch';
 
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import EmojiIcon from 'dashboard/components-next/emoji-icon-picker/EmojiIcon.vue';
@@ -75,8 +76,9 @@ const filteredMenuItems = computed(() => {
   if (props.disableLocalFiltering) return props.menuItems;
   if (!searchQuery.value) return flattenedMenuItems.value;
 
+  const query = searchQuery.value.toLowerCase();
   return flattenedMenuItems.value.filter(item =>
-    item.label.toLowerCase().includes(searchQuery.value.toLowerCase())
+    matchesOptionSearch(item, query)
   );
 });
 
@@ -94,7 +96,7 @@ const filteredMenuSections = computed(() => {
   return props.menuSections
     .map(section => {
       const filteredItems = (section.items || []).filter(item =>
-        item.label.toLowerCase().includes(query)
+        matchesOptionSearch(item, query)
       );
 
       return {

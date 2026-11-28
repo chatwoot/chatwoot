@@ -1,7 +1,8 @@
 <script setup>
-import { ref, computed, watch, nextTick } from 'vue';
+import { ref, computed, watch, nextTick, useId } from 'vue';
 import { OnClickOutside } from '@vueuse/components';
 import { useI18n } from 'vue-i18n';
+import { matchesOptionSearch } from 'shared/helpers/languageSearch';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBoxDropdown from 'dashboard/components-next/combobox/ComboBoxDropdown.vue';
@@ -19,6 +20,11 @@ const props = defineProps({
   displayLabel: { type: String, default: '' },
   modelValue: { type: [String, Number], default: '' },
   disabled: { type: Boolean, default: false },
+  allowDeselect: { type: Boolean, default: true },
+  keyboardNavigation: { type: Boolean, default: false },
+  labelledBy: { type: String, default: '' },
+  triggerId: { type: String, default: '' },
+  ariaLabel: { type: String, default: '' },
   searchPlaceholder: { type: String, default: '' },
   emptyState: { type: String, default: '' },
   message: { type: String, default: '' },
@@ -41,6 +47,9 @@ const selectedValue = ref(props.modelValue);
 const open = ref(false);
 const search = ref('');
 const dropdownRef = ref(null);
+const triggerRef = ref(null);
+const generatedId = useId();
+const triggerId = computed(() => props.triggerId || generatedId);
 const comboboxRef = ref(null);
 
 const filteredOptions = computed(() => {
@@ -52,7 +61,7 @@ const filteredOptions = computed(() => {
   // For local search, filter options based on search term
   const searchTerm = search.value.toLowerCase();
   return props.options.filter(option =>
-    option.label.toLowerCase().includes(searchTerm)
+    matchesOptionSearch(option, searchTerm)
   );
 });
 const selectPlaceholder = computed(() => {
@@ -65,16 +74,31 @@ const selectedLabel = computed(() => {
   return selected?.label ?? (props.displayLabel || selectPlaceholder.value);
 });
 
-const selectOption = option => {
-  if (selectedValue.value === option.value) {
-    selectedValue.value = '';
-    emit('update:modelValue', '');
-  } else {
-    selectedValue.value = option.value;
-    emit('update:modelValue', option.value);
-  }
+const closeDropdown = ({ restoreFocus = false } = {}) => {
   open.value = false;
+  if (restoreFocus && props.keyboardNavigation) {
+    triggerRef.value?.$el?.focus();
+  }
+};
+
+const selectOption = option => {
+  if (selectedValue.value !== option.value || props.allowDeselect) {
+    selectedValue.value =
+      selectedValue.value === option.value ? '' : option.value;
+    emit('update:modelValue', selectedValue.value);
+  }
+  closeDropdown({ restoreFocus: true });
   search.value = '';
+};
+
+const dismissOnFocusLeave = event => {
+  if (
+    props.keyboardNavigation &&
+    event.relatedTarget &&
+    !comboboxRef.value?.contains(event.relatedTarget)
+  ) {
+    closeDropdown();
+  }
 };
 
 const toggleDropdown = () => {
@@ -85,6 +109,12 @@ const toggleDropdown = () => {
     emit('open');
     nextTick(() => dropdownRef.value?.focus());
   }
+};
+
+const openWithArrow = event => {
+  if (!props.keyboardNavigation || open.value) return;
+  event.preventDefault();
+  toggleDropdown();
 };
 
 watch(
@@ -104,9 +134,17 @@ watch(
       'group/combobox': !disabled,
     }"
     @click.prevent
+    @focusout="dismissOnFocusLeave"
   >
     <OnClickOutside @trigger="open = false">
       <Button
+        :id="labelledBy || props.triggerId ? triggerId : undefined"
+        ref="triggerRef"
+        :type="keyboardNavigation ? 'button' : undefined"
+        :aria-labelledby="labelledBy ? `${labelledBy} ${triggerId}` : undefined"
+        :aria-label="ariaLabel ? `${ariaLabel}: ${selectedLabel}` : undefined"
+        :aria-expanded="keyboardNavigation ? open : undefined"
+        :aria-haspopup="keyboardNavigation ? 'listbox' : undefined"
         variant="outline"
         :color="hasError && !open ? 'ruby' : open ? 'blue' : 'slate'"
         :label="selectedLabel"
@@ -121,6 +159,7 @@ watch(
         }"
         :icon="open ? 'i-lucide-chevron-up' : 'i-lucide-chevron-down'"
         @click="toggleDropdown"
+        @keydown.down.up="openWithArrow"
       />
 
       <ComboBoxDropdown
@@ -133,8 +172,12 @@ watch(
         :selected-values="selectedValue"
         :direction="direction"
         :loading="loading"
+        :keyboard-navigation="keyboardNavigation"
+        :labelled-by="labelledBy"
+        :aria-label="ariaLabel"
         @search="emit('search', $event)"
         @select="selectOption"
+        @dismiss="closeDropdown({ restoreFocus: true })"
       />
 
       <p

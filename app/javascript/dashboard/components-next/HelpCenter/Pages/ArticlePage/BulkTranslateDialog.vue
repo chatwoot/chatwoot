@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { languageOption } from 'shared/helpers/languageSearch';
 import { useRoute, useRouter } from 'vue-router';
 import { useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
@@ -42,10 +43,9 @@ const currentLocale = computed(() => route.params.locale);
 const localeOptions = computed(() => {
   return props.allowedLocales
     .filter(locale => locale.code !== currentLocale.value)
-    .map(locale => ({
-      value: locale.code,
-      label: `${locale.name} (${locale.code})`,
-    }));
+    .map(locale =>
+      languageOption(`${locale.name} (${locale.code})`, locale.code)
+    );
 });
 
 const categoryOptions = computed(() => {

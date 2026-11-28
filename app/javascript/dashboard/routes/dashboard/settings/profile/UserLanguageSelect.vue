@@ -1,12 +1,13 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, useId } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useUISettings } from 'dashboard/composables/useUISettings';
+import { languageOption } from 'shared/helpers/languageSearch';
 
-import FormSelect from 'v3/components/Form/Select.vue';
+import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 
 defineProps({
   label: { type: String, default: '' },
@@ -18,16 +19,19 @@ const { updateUISettings, uiSettings } = useUISettings();
 const { enabledLanguages } = useConfig();
 const { currentAccount } = useAccount();
 
+const languageLabelId = useId();
 const currentLanguage = computed(() => uiSettings.value?.locale ?? '');
 
 const languageOptions = computed(() => [
   {
-    name: t(
+    label: t(
       'PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.USE_ACCOUNT_DEFAULT'
     ),
-    iso_639_1_code: '',
+    value: '',
   },
-  ...(enabledLanguages ?? []),
+  ...(enabledLanguages ?? []).map(({ name, iso_639_1_code: code }) =>
+    languageOption(name, code)
+  ),
 ]);
 
 const updateLanguage = async languageCode => {
@@ -75,29 +79,23 @@ const selectedValue = computed({
 <template>
   <div class="flex gap-2 justify-between w-full items-start">
     <div>
-      <label class="text-n-gray-12 font-medium leading-6 text-sm">
+      <label
+        :id="languageLabelId"
+        class="text-n-gray-12 font-medium leading-6 text-sm"
+      >
         {{ label }}
       </label>
       <p class="text-n-gray-11">
         {{ description }}
       </p>
     </div>
-    <FormSelect
+    <ComboBox
       v-model="selectedValue"
-      name="language"
-      spacing="compact"
-      class="min-w-28 mt-px"
+      :labelled-by="languageLabelId"
+      class="!w-64 shrink-0 max-w-[50%] mt-px"
       :options="languageOptions"
-      label=""
-    >
-      <option
-        v-for="option in languageOptions"
-        :key="option.iso_639_1_code || 'default'"
-        :value="option.iso_639_1_code"
-        :selected="option.iso_639_1_code === selectedValue"
-      >
-        {{ option.name }}
-      </option>
-    </FormSelect>
+      :allow-deselect="false"
+      keyboard-navigation
+    />
   </div>
 </template>
