@@ -68,6 +68,13 @@ class Whatsapp::Providers::BaseService
     end
   end
 
+  # Names the Messaging account to charge when the number has several; empty until a webhook confirms it.
+  # See: https://developers.facebook.com/documentation/business-messaging/whatsapp/account-model-evolution/messaging/
+  def messaging_account_params
+    messaging_account_id = whatsapp_channel.provider_config['messaging_account_id']
+    messaging_account_id.present? ? { messaging_account_id: messaging_account_id } : {}
+  end
+
   def create_buttons(items)
     buttons = []
     items.each do |item|

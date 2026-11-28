@@ -51,7 +51,7 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudService
   end
 
   def call_action_body(call_id, action, sdp_answer = nil)
-    body = { messaging_product: 'whatsapp', call_id: call_id, action: action }
+    body = { messaging_product: 'whatsapp', call_id: call_id, action: action, **messaging_account_params }
     body[:session] = { sdp: sdp_answer, sdp_type: 'answer' } if sdp_answer
     body
   end
@@ -66,7 +66,7 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudService
 
   def permission_request_body(recipient, body_text)
     {
-      messaging_product: 'whatsapp', recipient_type: 'individual', **recipient_params(recipient),
+      messaging_product: 'whatsapp', recipient_type: 'individual', **recipient_params(recipient), **messaging_account_params,
       type: 'interactive',
       interactive: {
         type: 'call_permission_request',
@@ -78,7 +78,7 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudService
 
   def initiate_call_body(recipient, sdp_offer)
     {
-      messaging_product: 'whatsapp', **call_recipient_params(recipient), action: 'connect',
+      messaging_product: 'whatsapp', **call_recipient_params(recipient), **messaging_account_params, action: 'connect',
       session: { sdp: sdp_offer, sdp_type: 'offer' }
     }.to_json
   end

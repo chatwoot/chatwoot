@@ -272,6 +272,54 @@ RSpec.describe Webhooks::WhatsappEventsJob do
     end
   end
 
+  context 'when a Cloud API messages webhook names its Messaging account' do
+    let(:status_webhook) do
+      {
+        object: 'whatsapp_business_account',
+        entry: [{
+          id: entry_id,
+          changes: [{
+            field: field,
+            value: {
+              metadata: { phone_number_id: channel.provider_config['phone_number_id'], display_phone_number: channel.phone_number.delete('+') },
+              statuses: [{ id: 'wamid.status', status: 'delivered' }]
+            }
+          }]
+        }]
+      }
+    end
+    let(:entry_id) { channel.provider_config['business_account_id'] }
+    let(:field) { 'messages' }
+
+    before { allow(Whatsapp::IncomingMessageWhatsappCloudService).to receive(:new).and_return(process_service) }
+
+    it 'confirms the stored WABA id as the Messaging account to send from' do
+      job.perform_now(status_webhook)
+
+      expect(channel.reload.provider_config['messaging_account_id']).to eq(entry_id)
+    end
+
+    context 'when entry.id is a different Messaging account' do
+      let(:entry_id) { '987654321' }
+
+      it 'does not confirm the stored WABA id' do
+        job.perform_now(status_webhook)
+
+        expect(channel.reload.provider_config).not_to have_key('messaging_account_id')
+      end
+    end
+
+    context 'when the webhook is not a messages event' do
+      let(:field) { 'account_update' }
+
+      it 'does not confirm the stored WABA id' do
+        job.perform_now(status_webhook)
+
+        expect(channel.reload.provider_config).not_to have_key('messaging_account_id')
+      end
+    end
+  end
+
   context 'when default provider' do
     it 'enqueue Whatsapp::IncomingMessageService' do
       stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook')

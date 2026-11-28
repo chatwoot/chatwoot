@@ -22,6 +22,17 @@ describe Whatsapp::Providers::WhatsappCloudService do
       expect(service.pre_accept_call('WACALL', 'sdp_answer')).to be true
     end
 
+    it 'names the confirmed Messaging account on call actions' do
+      whatsapp_channel.confirm_messaging_account('123456789')
+      accept = stub_request(:post, calls_url)
+               .with(body: hash_including(action: 'accept', messaging_account_id: '123456789'))
+               .to_return(status: 200, body: '{}', headers: headers)
+
+      service.accept_call('WACALL', 'sdp_answer')
+
+      expect(accept).to have_been_requested
+    end
+
     it 'returns false when Meta responds with a non-success status' do
       stub_request(:post, calls_url).to_return(status: 400, body: '{}', headers: headers)
 
