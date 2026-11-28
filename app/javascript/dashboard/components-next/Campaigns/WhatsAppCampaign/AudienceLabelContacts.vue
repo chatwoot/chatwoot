@@ -4,6 +4,7 @@ import { useI18n } from 'vue-i18n';
 import { useDebounceFn } from '@vueuse/core';
 
 import { useAbortableRequest } from 'dashboard/composables/useAbortableRequest';
+import { formatPhoneNumber } from 'shared/helpers/PhoneNumberHelper';
 import ContactAPI from 'dashboard/api/contacts';
 
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
@@ -159,7 +160,7 @@ const handleSearch = useDebounceFn(() => {
               </span>
             </div>
             <span class="truncate shrink-0 text-body-main text-n-slate-11">
-              {{ contact.phone_number || contact.email }}
+              {{ formatPhoneNumber(contact.phone_number) || contact.email }}
             </span>
           </div>
           <p
@@ -250,7 +251,7 @@ const handleSearch = useDebounceFn(() => {
               </span>
             </div>
             <span class="truncate shrink-0 text-body-main text-n-slate-11">
-              {{ contact.phone_number || contact.email }}
+              {{ formatPhoneNumber(contact.phone_number) || contact.email }}
             </span>
           </div>
           <p

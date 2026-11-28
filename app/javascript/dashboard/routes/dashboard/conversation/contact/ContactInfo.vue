@@ -19,6 +19,7 @@ import ComposeConversation from 'dashboard/components-next/NewConversation/Compo
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import VoiceCallButton from 'dashboard/components-next/Contacts/VoiceCallButton.vue';
 import InlineInput from 'dashboard/components-next/inline-input/InlineInput.vue';
+import { formatPhoneNumber } from 'shared/helpers/PhoneNumberHelper';
 import Flag from 'dashboard/components-next/flag/Flag.vue';
 
 export default {
@@ -62,6 +63,9 @@ export default {
     };
   },
   computed: {
+    formattedPhoneNumber() {
+      return formatPhoneNumber(this.contact.phone_number);
+    },
     ...mapGetters({
       uiFlags: 'contacts/getUIFlags',
       currentChat: 'getSelectedChat',
@@ -158,6 +162,11 @@ export default {
       this.isEditingName = false;
     },
     onFieldUpdate(field, value) {
+      if (field === 'phone_number') {
+        const cleanPhone = value ? value.replace(/[\s-]/g, '') : '';
+        this.updateContactField({ [field]: cleanPhone });
+        return;
+      }
       this.updateContactField({ [field]: value });
     },
     async updateContactField(attrs) {
@@ -285,6 +294,7 @@ export default {
             :value="contact.phone_number"
             icon="call"
             emoji="📞"
+            :display-value="formattedPhoneNumber"
             :title="$t('CONTACT_PANEL.PHONE_NUMBER')"
             show-copy
             editable
