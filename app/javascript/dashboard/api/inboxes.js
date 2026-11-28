@@ -15,6 +15,27 @@ class Inboxes extends CacheEnabledApiClient {
     return axios.get(`${this.url}/${inboxId}/campaigns`);
   }
 
+  getWhatsappCatalog(inboxId, { refresh } = {}) {
+    return axios.get(`${this.url}/${inboxId}/whatsapp_catalog`, {
+      params: refresh ? { refresh: 1 } : undefined,
+    });
+  }
+
+  getWhatsappCatalogProducts(
+    inboxId,
+    { after, q, collectionId, limit, refresh } = {}
+  ) {
+    return axios.get(`${this.url}/${inboxId}/whatsapp_catalog_products`, {
+      params: {
+        after: after || undefined,
+        q: q || undefined,
+        collection_id: collectionId || undefined,
+        limit: limit || undefined,
+        refresh: refresh ? 1 : undefined,
+      },
+    });
+  }
+
   deleteInboxAvatar(inboxId) {
     return axios.delete(`${this.url}/${inboxId}/avatar`);
   }
