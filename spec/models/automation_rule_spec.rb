@@ -409,4 +409,42 @@ RSpec.describe AutomationRule do
       expect(rule.pending_executions.pending.count).to eq(1)
     end
   end
+
+  describe 'whatsapp template action validation' do
+    let(:account) { create(:account) }
+    let(:whatsapp_inbox) { create(:channel_whatsapp, account: account, sync_templates: false, validate_provider_config: false).inbox }
+    let(:template_params) do
+      { inbox_id: whatsapp_inbox.id, content: 'Hello', template_params: { name: 'greeting', language: 'en', processed_params: {} } }
+    end
+    let(:rule) { build(:automation_rule, account: account, actions: [{ action_name: 'send_whatsapp_template', action_params: [template_params] }]) }
+
+    it 'accepts a template from a WhatsApp inbox of the account' do
+      expect(rule).to be_valid
+    end
+
+    it 'rejects an inbox that is not a WhatsApp inbox of the account' do
+      template_params[:inbox_id] = create(:inbox, account: account).id
+
+      expect(rule).not_to be_valid
+      expect(rule.errors[:actions]).to include('WhatsApp template actions need a WhatsApp inbox, a template and its message.')
+    end
+
+    it 'still deactivates a saved rule after its WhatsApp inbox is deleted' do
+      rule.save!
+      whatsapp_inbox.delete
+
+      expect(rule.reload.update(active: false)).to be(true)
+    end
+
+    it 'rejects a template without a language or with an empty or malformed value' do
+      template_params[:template_params][:processed_params] = { body: { '1' => '' } }
+      expect(rule).not_to be_valid
+
+      template_params[:template_params][:processed_params] = { body: ['Ana'] }
+      expect(rule).not_to be_valid
+
+      template_params[:template_params].merge!(processed_params: { body: { '1' => 'Ana' } }, language: nil)
+      expect(rule).not_to be_valid
+    end
+  end
 end

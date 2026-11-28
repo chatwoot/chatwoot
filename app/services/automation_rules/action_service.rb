@@ -45,6 +45,42 @@ class AutomationRules::ActionService < ActionService
     Messages::MessageBuilder.new(nil, @conversation, params).perform
   end
 
+  def send_whatsapp_template(params)
+    template = params[0]
+    # Templates belong to the inbox they were picked from; the rule may match conversations in other inboxes.
+    return unless @conversation.inbox_id == template[:inbox_id]
+    # Like campaigns, skip when a value renders blank (e.g. a contact without an email): WhatsApp rejects the template.
+    return if blank_template_value?(template[:template_params][:processed_params], template_drops)
+
+    message_params = {
+      content: template[:content],
+      private: false,
+      content_attributes: { automation_rule_id: @rule.id },
+      template_params: template[:template_params].merge(content_mode: 'raw_template')
+    }
+    Messages::MessageBuilder.new(nil, @conversation, message_params).perform
+  end
+
+  def blank_template_value?(value, drops)
+    case value
+    when Hash then value.values.any? { |item| blank_template_value?(item, drops) }
+    when Array then value.any? { |item| blank_template_value?(item, drops) }
+    when String then value.include?('{{') && Liquid::Template.parse(value).render(drops).blank?
+    else false
+    end
+  end
+
+  # The same variables Liquidable renders the template with when the message is created.
+  def template_drops
+    {
+      'contact' => ContactDrop.new(@conversation.contact),
+      'agent' => UserDrop.new(@conversation.assignee),
+      'conversation' => ConversationDrop.new(@conversation),
+      'inbox' => InboxDrop.new(@conversation.inbox),
+      'account' => AccountDrop.new(@account)
+    }
+  end
+
   def add_private_note(message)
     return if conversation_a_tweet?
 

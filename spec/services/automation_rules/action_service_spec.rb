@@ -289,4 +289,50 @@ RSpec.describe AutomationRules::ActionService do
       end
     end
   end
+
+  describe '#perform with send_whatsapp_template action' do
+    let(:whatsapp_channel) { create(:channel_whatsapp, account: account, sync_templates: false, validate_provider_config: false) }
+    let(:contact) { create(:contact, account: account, name: 'Ana') }
+    let(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: whatsapp_channel.inbox, source_id: '123456789') }
+    let(:whatsapp_conversation) do
+      create(:conversation, account: account, inbox: whatsapp_channel.inbox, contact: contact, contact_inbox: contact_inbox)
+    end
+    let(:template_rule) do
+      create(:automation_rule, account: account, actions: [{
+               action_name: 'send_whatsapp_template',
+               action_params: [{
+                 inbox_id: whatsapp_channel.inbox.id,
+                 content: 'Hello {{name}},  Your support ticket with ID: #{{ticket_id}} has been updated by the support agent.',
+                 template_params: {
+                   name: 'ticket_status_updated', namespace: '23423423_2342423_324234234_2343224', category: 'UTILITY', language: 'en',
+                   processed_params: { body: { name: '{{contact.name}}', ticket_id: '42' } }
+                 }
+               }]
+             }])
+    end
+
+    it 'adds the template to the conversation with its values rendered for the contact' do
+      described_class.new(template_rule, account, whatsapp_conversation).perform
+
+      message = whatsapp_conversation.messages.last
+      expect(message.content).to eq('Hello Ana,  Your support ticket with ID: #42 has been updated by the support agent.')
+      expect(message.content_attributes['automation_rule_id']).to eq(template_rule.id)
+      expect(message.additional_attributes['template_params']).to include(
+        'name' => 'ticket_status_updated', 'language' => 'en', 'content_mode' => 'rendered',
+        'processed_params' => { 'body' => { 'name' => 'Ana', 'ticket_id' => '42' } }
+      )
+    end
+
+    it 'skips conversations outside the template inbox' do
+      expect { described_class.new(template_rule, account, conversation).perform }.not_to change(Message, :count)
+    end
+
+    it 'skips the send when a value renders blank for the contact' do
+      contact.update!(email: nil)
+      template_rule.reload.actions[0]['action_params'][0]['template_params']['processed_params']['body']['name'] = '{{contact.email}}'
+      template_rule.save!
+
+      expect { described_class.new(template_rule, account, whatsapp_conversation).perform }.not_to change(Message, :count)
+    end
+  end
 end

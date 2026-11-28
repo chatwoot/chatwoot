@@ -1,6 +1,7 @@
 <script>
 import AutomationActionTeamMessageInput from './AutomationActionTeamMessageInput.vue';
 import AutomationActionFileInput from './AutomationFileInput.vue';
+import AutomationActionWhatsAppTemplateInput from './AutomationActionWhatsAppTemplateInput.vue';
 import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import SingleSelect from 'dashboard/components-next/filter/inputs/SingleSelect.vue';
@@ -13,6 +14,7 @@ export default {
   components: {
     AutomationActionTeamMessageInput,
     AutomationActionFileInput,
+    AutomationActionWhatsAppTemplateInput,
     WootMessageEditor,
     NextButton,
     SingleSelect,
@@ -99,7 +101,12 @@ export default {
       }));
     },
     isVerticalLayout() {
-      return ['team_message', 'textarea', 'email'].includes(this.inputType);
+      return [
+        'team_message',
+        'textarea',
+        'email',
+        'whatsapp_template',
+      ].includes(this.inputType);
     },
     castMessageVmodel: {
       get() {
@@ -214,6 +221,10 @@ export default {
         v-model="action_params"
         :teams="dropdownValues"
         :dropdown-max-height="dropdownMaxHeight"
+      />
+      <AutomationActionWhatsAppTemplateInput
+        v-else-if="inputType === 'whatsapp_template'"
+        v-model="castMessageVmodel"
       />
       <WootMessageEditor
         v-else-if="inputType === 'textarea'"

@@ -823,6 +823,11 @@ export const AUTOMATION_ACTION_TYPES = [
     inputType: 'textarea',
   },
   {
+    key: 'send_whatsapp_template',
+    label: 'SEND_WHATSAPP_TEMPLATE',
+    inputType: 'whatsapp_template',
+  },
+  {
     key: 'change_priority',
     label: 'CHANGE_PRIORITY',
     inputType: 'search_select',

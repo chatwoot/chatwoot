@@ -147,6 +147,50 @@ describe('validateAutomation', () => {
     const errors = validateAutomation(automationWithNoParamAction);
     expect(errors).toEqual({});
   });
+
+  describe('send_whatsapp_template action', () => {
+    const templateAction = processedParams => ({
+      action_name: 'send_whatsapp_template',
+      action_params: {
+        inbox_id: 1,
+        content: 'Hi {{1}}',
+        template_params: {
+          name: 'greeting',
+          language: 'en',
+          processed_params: processedParams,
+        },
+      },
+    });
+    const ruleWith = action => ({
+      name: 'Test',
+      description: 'Test',
+      event_name: 'conversation_updated',
+      conditions: [
+        {
+          attribute_key: 'status',
+          filter_operator: 'equal_to',
+          values: 'open',
+        },
+      ],
+      actions: [action],
+    });
+
+    it('accepts a template with every value filled in', () => {
+      const action = templateAction({
+        header: { media_url: 'https://example.com/a.png', media_name: '' },
+        body: { 1: '{{contact.name}}' },
+        buttons: [null, { type: 'url', parameter: 'abc' }],
+      });
+      expect(validateAutomation(ruleWith(action))).toEqual({});
+    });
+
+    it('rejects a template with an empty value', () => {
+      const action = templateAction({ body: { 1: '' } });
+      expect(validateAutomation(ruleWith(action))).toEqual({
+        action_0: 'WHATSAPP_TEMPLATE_INCOMPLETE',
+      });
+    });
+  });
 });
 
 describe('parseRouteFilters', () => {
