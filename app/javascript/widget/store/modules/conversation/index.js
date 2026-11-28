@@ -11,6 +11,8 @@ const state = {
     allMessagesLoaded: false,
     isFetchingList: false,
     isAgentTyping: false,
+    // Last message id when an agent or bot explicitly stopped typing
+    typingDismissedForMessageId: null,
     isCreating: false,
   },
   lastMessageId: null,

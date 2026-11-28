@@ -22,6 +22,7 @@ describe('Widget ActionCableConnector', () => {
         getters: {
           getCurrentAccountId: 1,
           getCurrentUserID: 1,
+          'conversationAttributes/getConversationParams': { id: 7 },
         },
       },
     };
@@ -49,5 +50,57 @@ describe('Widget ActionCableConnector', () => {
     expect(mockDispatch).toHaveBeenCalledWith(
       'conversationAttributes/getAttributes'
     );
+  });
+
+  describe('typing off', () => {
+    it('dismisses the typing indicator when an agent or bot explicitly stops typing', () => {
+      connector.onTypingOff({ conversation: { id: 7 }, is_private: false });
+
+      expect(mockDispatch).toHaveBeenCalledWith(
+        'conversation/toggleAgentTyping',
+        { status: 'off', dismiss: true }
+      );
+    });
+
+    it('does not dismiss it when typing only timed out', () => {
+      connector.onTypingOn({ conversation: { id: 7 }, is_private: false });
+      mockDispatch.mockClear();
+
+      vi.advanceTimersByTime(30000);
+
+      expect(mockDispatch).toHaveBeenCalledWith(
+        'conversation/toggleAgentTyping',
+        { status: 'off', dismiss: false }
+      );
+    });
+
+    it('dismisses it while the active conversation id is still loading', () => {
+      app.$store.getters['conversationAttributes/getConversationParams'] = {
+        id: '',
+      };
+
+      connector.onTypingOff({ conversation: { id: 7 }, is_private: false });
+
+      expect(mockDispatch).toHaveBeenCalledWith(
+        'conversation/toggleAgentTyping',
+        { status: 'off', dismiss: true }
+      );
+    });
+
+    it('does not dismiss it for a private note or another conversation', () => {
+      connector.onTypingOff({ conversation: { id: 7 }, is_private: true });
+      connector.onTypingOff({ conversation: { id: 8 }, is_private: false });
+
+      expect(mockDispatch).toHaveBeenNthCalledWith(
+        1,
+        'conversation/toggleAgentTyping',
+        { status: 'off', dismiss: false }
+      );
+      expect(mockDispatch).toHaveBeenNthCalledWith(
+        2,
+        'conversation/toggleAgentTyping',
+        { status: 'off', dismiss: false }
+      );
+    });
   });
 });

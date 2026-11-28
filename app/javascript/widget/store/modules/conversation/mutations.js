@@ -1,6 +1,17 @@
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import { findUndeliveredMessage } from './helpers';
 
+// typing_off can arrive before the server's copy of the contact's message
+// replaces the temporary one, so keep the dismissal on the replacement.
+const carryTypingDismissal = ($state, tempId, id) => {
+  if ($state.uiFlags?.typingDismissedForMessageId === tempId) {
+    $state.uiFlags.typingDismissedForMessageId = id;
+  }
+};
+
+const lastMessageId = conversations =>
+  Object.values(conversations).pop()?.id ?? null;
+
 export const mutations = {
   clearConversations($state) {
     $state.conversations = {};
@@ -31,6 +42,7 @@ export const mutations = {
       // messagesInbox[messageInConversation.id] = undefined;
       delete messagesInbox[messageInConversation.id];
       messagesInbox[id] = message;
+      carryTypingDismissal($state, messageInConversation.id, id);
     }
   },
 
@@ -46,6 +58,7 @@ export const mutations = {
       // messagesInbox[tempId] = undefined;
       delete messagesInbox[tempId];
       messagesInbox[id] = { ...message };
+      carryTypingDismissal($state, tempId, id);
     }
   },
 
@@ -95,13 +108,22 @@ export const mutations = {
 
   deleteMessage($state, id) {
     delete $state.conversations[id];
+    carryTypingDismissal($state, id, lastMessageId($state.conversations));
     // [VITE] In Vue 3 proxy objects, we can't delete properties by setting them to undefined
     // Instead, we have to use the delete operator
     // $state.conversations[id] = undefined;
   },
 
-  toggleAgentTypingStatus($state, { status }) {
+  toggleAgentTypingStatus($state, { status, dismiss = false }) {
     $state.uiFlags.isAgentTyping = status === 'on';
+    if (status === 'on') {
+      // A new typing session supersedes an earlier typing_off.
+      $state.uiFlags.typingDismissedForMessageId = null;
+    } else if (dismiss) {
+      $state.uiFlags.typingDismissedForMessageId = lastMessageId(
+        $state.conversations
+      );
+    }
   },
 
   setMetaUserLastSeenAt($state, lastSeen) {

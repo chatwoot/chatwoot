@@ -116,6 +116,66 @@ describe('#mutations', () => {
       mutations.toggleAgentTypingStatus(state, { status: 'off' });
       expect(state.uiFlags.isAgentTyping).toEqual(false);
     });
+
+    it('remembers the last message when typing is dismissed', () => {
+      const state = {
+        uiFlags: { isAgentTyping: true, typingDismissedForMessageId: null },
+        conversations: { 1: { id: 1 }, 2: { id: 2 } },
+      };
+      mutations.toggleAgentTypingStatus(state, {
+        status: 'off',
+        dismiss: true,
+      });
+      expect(state.uiFlags.typingDismissedForMessageId).toEqual(2);
+    });
+
+    it('keeps the dismissed message when typing is not dismissed', () => {
+      const state = {
+        uiFlags: { isAgentTyping: true, typingDismissedForMessageId: 1 },
+        conversations: { 1: { id: 1 }, 2: { id: 2 } },
+      };
+      mutations.toggleAgentTypingStatus(state, { status: 'off' });
+      expect(state.uiFlags.typingDismissedForMessageId).toEqual(1);
+    });
+
+    it('clears the dismissal when typing starts again', () => {
+      const state = {
+        uiFlags: { isAgentTyping: false, typingDismissedForMessageId: 2 },
+        conversations: { 1: { id: 1 }, 2: { id: 2 } },
+      };
+      mutations.toggleAgentTypingStatus(state, { status: 'on' });
+      // The typing timeout ends the new session without dismissing it.
+      mutations.toggleAgentTypingStatus(state, { status: 'off' });
+      expect(state.uiFlags.typingDismissedForMessageId).toBeNull();
+    });
+
+    it('keeps the dismissal when the server copy replaces the temporary message', () => {
+      const state = {
+        uiFlags: { isAgentTyping: true, typingDismissedForMessageId: null },
+        conversations: {
+          rand_id_123: { ...temporaryMessagePayload, id: 'rand_id_123' },
+        },
+      };
+      // typing_off overtakes the message.created broadcast.
+      mutations.toggleAgentTypingStatus(state, {
+        status: 'off',
+        dismiss: true,
+      });
+      mutations.pushMessageToConversation(state, incomingMessagePayload);
+      expect(state.uiFlags.typingDismissedForMessageId).toEqual(1);
+    });
+
+    it('keeps the dismissal when an attachment upload replaces the temporary message', () => {
+      const state = {
+        uiFlags: { typingDismissedForMessageId: 'rand_id_123' },
+        conversations: { rand_id_123: { id: 'rand_id_123' } },
+      };
+      mutations.updateAttachmentMessageStatus(state, {
+        message: { id: 5 },
+        tempId: 'rand_id_123',
+      });
+      expect(state.uiFlags.typingDismissedForMessageId).toEqual(5);
+    });
   });
 
   describe('#updateAttachmentMessageStatus', () => {
@@ -248,6 +308,24 @@ describe('#mutations', () => {
       const state = { conversations: { 1: { id: 1 } } };
       mutations.deleteMessage(state, 1);
       expect(state.conversations).toEqual({});
+    });
+
+    it('moves the typing dismissal to the new last message', () => {
+      const state = {
+        uiFlags: { typingDismissedForMessageId: 2 },
+        conversations: { 1: { id: 1 }, 2: { id: 2 } },
+      };
+      mutations.deleteMessage(state, 2);
+      expect(state.uiFlags.typingDismissedForMessageId).toEqual(1);
+    });
+
+    it('keeps the typing dismissal when another message is deleted', () => {
+      const state = {
+        uiFlags: { typingDismissedForMessageId: 2 },
+        conversations: { 1: { id: 1 }, 2: { id: 2 } },
+      };
+      mutations.deleteMessage(state, 1);
+      expect(state.uiFlags.typingDismissedForMessageId).toEqual(2);
     });
   });
 
