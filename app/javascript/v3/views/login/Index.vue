@@ -298,12 +298,14 @@ export default {
     handleMfaVerified(user) {
       // Continue with the requested Shopify, account, or conversation destination.
       this.handleImpersonation();
-      window.location = getLoginRedirectURL({
-        ssoAccountId: this.ssoAccountId,
-        ssoConversationId: this.ssoConversationId,
-        redirectUrl: this.redirectUrl,
-        user,
-      });
+      window.location.replace(
+        getLoginRedirectURL({
+          ssoAccountId: this.ssoAccountId,
+          ssoConversationId: this.ssoConversationId,
+          redirectUrl: this.redirectUrl,
+          user,
+        })
+      );
     },
     handleMfaCancel() {
       // User cancelled MFA, reset state
@@ -325,12 +327,14 @@ export default {
     },
     handleMfaSetupVerified(data) {
       this.handleImpersonation();
-      window.location = getLoginRedirectURL({
-        ssoAccountId: this.ssoAccountId,
-        ssoConversationId: this.ssoConversationId,
-        redirectUrl: this.redirectUrl,
-        user: data?.data,
-      });
+      window.location.replace(
+        getLoginRedirectURL({
+          ssoAccountId: this.ssoAccountId,
+          ssoConversationId: this.ssoConversationId,
+          redirectUrl: this.redirectUrl,
+          user: data?.data,
+        })
+      );
     },
     handleMfaSetupCancel() {
       this.mfaSetupRequired = false;
