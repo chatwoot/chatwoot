@@ -38,6 +38,7 @@ class Company < ApplicationRecord
   belongs_to :account
   has_many :contacts, dependent: :nullify
   before_validation :prepare_jsonb_attributes
+  before_validation :normalize_domain, if: :will_save_change_to_domain?
   after_create_commit :fetch_favicon, if: -> { domain.present? }
   after_update_commit :enqueue_contact_company_name_sync, if: :saved_change_to_name?
 
@@ -68,6 +69,10 @@ class Company < ApplicationRecord
   end
 
   private
+
+  def normalize_domain
+    self.domain = domain&.downcase
+  end
 
   def prepare_jsonb_attributes
     self.additional_attributes = {} unless additional_attributes.is_a?(Hash)

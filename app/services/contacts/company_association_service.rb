@@ -6,7 +6,20 @@ class Contacts::CompanyAssociationService
     name = contact.additional_attributes['company_name']&.strip
     return if name.blank? || name.length > Limits::COMPANY_NAME_LENGTH_LIMIT
 
-    contact.company = contact.account.companies.where('LOWER(name) = ?', name.downcase).first_or_create!(name: name)
+    contact.company = find_or_create_by_name_or_domain(contact.account, name: name)
+  end
+
+  def find_or_create_by_name_or_domain(account, name:, domain: nil)
+    name = name&.strip.presence
+    companies = account.companies
+
+    if domain.present?
+      companies.find_or_create_by!(domain: domain.downcase) do |company|
+        company.name = name || company_name_from_domain(company.domain)
+      end
+    elsif name
+      companies.where('LOWER(name) = ?', name.downcase).first_or_create!(name: name)
+    end
   end
 
   def associate_company_from_email(contact)
@@ -53,7 +66,11 @@ class Contacts::CompanyAssociationService
   end
 
   def derive_company_name(contact, domain)
-    contact.additional_attributes&.dig('company_name') || domain.split('.').first.tr('-_', ' ').titleize
+    contact.additional_attributes&.dig('company_name') || company_name_from_domain(domain)
+  end
+
+  def company_name_from_domain(domain)
+    domain.partition('.').first.tr('-_', ' ').titleize
   end
 
   def contact_attributes_with_company_name(contact, company)

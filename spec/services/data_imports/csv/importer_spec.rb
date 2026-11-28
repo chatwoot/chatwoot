@@ -64,6 +64,80 @@ RSpec.describe DataImports::Csv::Importer do
     end
   end
 
+  context 'when Companies is enabled' do
+    let(:csv) do
+      <<~CSV
+        name,email,company_name,company_domain
+        Updated,existing@example.com,Ignored, HTTPS://EXISTING.EXAMPLE/about
+        Same company,existing@example.com,,existing.example
+        Blank company,existing@example.com,,
+        New,new@example.com,,http://north-star.example/welcome?source=csv
+        By name,by-name@example.com,north star,
+        Rejected,bad-domain@example.com,,https://invalid-domain
+        Malformed,bad-url@example.com,,https://bad domain.example
+        Invalid contact,invalid-email,,orphan.example
+      CSV
+    end
+
+    it 'links contacts silently, updates counts, and rejects invalid rows', :aggregate_failures do
+      account.enable_features!('companies')
+      old_company = create(:company, account: account)
+      target_company = create(:company, account: account, name: 'Existing', domain: 'existing.example')
+      existing = create(:contact, account: account, company: old_company, email: 'existing@example.com')
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+
+      DataImports::Csv::PreparationJob.perform_now(data_import, run_id)
+      importer.import_contacts_page
+      importer.import_contacts_page
+      importer.finish!
+
+      expect(existing.reload.company).to eq(target_company)
+      expect(existing.additional_attributes['company_name']).to eq('Existing')
+      expect(existing.custom_attributes).to eq({})
+      expect(old_company.reload.contacts_count).to eq(0)
+      expect(target_company.reload.contacts_count).to eq(1)
+
+      company = account.companies.find_by!(domain: 'north-star.example')
+      expect(company.name).to eq('North Star')
+      expect(company.contacts.pluck(:email)).to contain_exactly('new@example.com', 'by-name@example.com')
+      expect(company.contacts_count).to eq(2)
+      expect(account.companies.count).to eq(3)
+      expect(data_import.reload).to be_completed_with_errors
+      expect(data_import.failed_records.download).to include('bad-domain@example.com', 'bad-url@example.com', 'orphan.example')
+      expect(Rails.configuration.dispatcher).not_to have_received(:dispatch).with(Events::Types::CONTACT_CREATED, anything, anything)
+      expect(Rails.configuration.dispatcher).not_to have_received(:dispatch).with(Events::Types::CONTACT_UPDATED, anything, anything)
+    end
+  end
+
+  context 'when Companies is disabled' do
+    let(:csv) { "name,email,company_name,company_domain,tier\nNew,new@example.com,North Star,https://north-star.example/about,gold\n" }
+
+    it 'stores company fields as additional attributes without linking a company', :aggregate_failures do
+      account.disable_features!('companies')
+
+      DataImports::Csv::PreparationJob.perform_now(data_import, run_id)
+      expect { importer.import_contacts_page }.not_to change(Company, :count)
+
+      contact = account.contacts.find_by!(email: 'new@example.com')
+      expect(contact.company_id).to be_nil
+      expect(contact.additional_attributes).to include('company_name' => 'North Star', 'company_domain' => 'https://north-star.example/about')
+      expect(contact.custom_attributes).to eq('tier' => 'gold')
+    end
+
+    it 'still imports a defined company_domain custom field', :aggregate_failures do
+      account.disable_features!('companies')
+      create(:custom_attribute_definition, account: account, attribute_key: 'company_domain',
+                                           attribute_model: :contact_attribute, attribute_display_type: :text)
+      existing = create(:contact, account: account, email: 'new@example.com', custom_attributes: { company_domain: 'old.example' })
+
+      DataImports::Csv::PreparationJob.perform_now(data_import, run_id)
+      importer.import_contacts_page
+
+      expect(existing.reload.custom_attributes).to include('company_domain' => 'https://north-star.example/about')
+      expect(existing.company_id).to be_nil
+    end
+  end
+
   context 'when publishing rejected rows' do
     before do
       DataImports::Csv::PreparationJob.perform_now(data_import, run_id)

@@ -17,6 +17,29 @@ RSpec.describe Company, type: :model do
     end
   end
 
+  describe 'domain normalization' do
+    it 'stores new and changed domains in lowercase' do
+      company = create(:company, domain: 'Acme.EXAMPLE')
+      expect(company.reload.domain).to eq('acme.example')
+
+      company.update!(domain: 'Updated.EXAMPLE')
+      expect(company.reload.domain).to eq('updated.example')
+    end
+
+    it 'keeps an unchanged legacy domain when the lowercase domain already exists' do
+      account = create(:company, domain: 'acme.example').account
+      described_class.lease_connection.insert_fixture(
+        { account_id: account.id, name: 'Legacy Acme', domain: 'Acme.EXAMPLE', created_at: Time.current, updated_at: Time.current },
+        'companies'
+      )
+      company = account.companies.find_by!(name: 'Legacy Acme')
+
+      company.update!(name: 'Updated Acme', domain: 'Acme.EXAMPLE')
+
+      expect(company.reload).to have_attributes(name: 'Updated Acme', domain: 'Acme.EXAMPLE')
+    end
+  end
+
   context 'with associations' do
     it { is_expected.to belong_to(:account) }
     it { is_expected.to have_many(:contacts).dependent(:nullify) }
