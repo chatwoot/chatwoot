@@ -1537,6 +1537,7 @@ ActiveRecord::Schema[7.1].define(version: 2026_11_25_100456) do
     t.index ["content"], name: "index_messages_on_content", opclass: :gin_trgm_ops, using: :gin
     t.index ["conversation_id", "account_id", "created_at"], name: "index_messages_on_conv_account_created_desc", order: { created_at: :desc }
     t.index ["conversation_id", "account_id", "message_type", "created_at"], name: "index_messages_on_conversation_account_type_created"
+    t.index ["conversation_id", "created_at"], name: "index_messages_on_conversation_id_and_created_at"
     t.index ["conversation_id"], name: "index_messages_on_conversation_id"
     t.index ["created_at"], name: "index_messages_on_created_at"
     t.index ["inbox_id"], name: "index_messages_on_inbox_id"
