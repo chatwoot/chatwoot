@@ -139,6 +139,7 @@ RUN apk update && apk upgrade --no-cache && apk add --no-cache \
   imagemagick \
   git \
   vips \
+  ffmpeg \
   && gem install bundler -v "$BUNDLER_VERSION"
 
 # Restrict libvips to its trusted image loaders when generating variants
