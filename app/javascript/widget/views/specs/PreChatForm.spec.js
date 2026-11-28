@@ -21,6 +21,7 @@ describe('PreChatForm view', () => {
       modules: {
         conversation: {
           namespaced: true,
+          state: { pendingCustomAttributes: {} },
           actions: { createConversation, clearConversations: vi.fn() },
         },
         conversationAttributes: {
@@ -61,6 +62,44 @@ describe('PreChatForm view', () => {
     // would race the contact merge on the server and write to a destroyed
     // contact
     expect(setCustomAttributes).not.toHaveBeenCalled();
+  });
+
+  it('merges pending conversation custom attributes set via the SDK before the conversation existed', async () => {
+    store = createStore({
+      modules: {
+        conversation: {
+          namespaced: true,
+          state: { pendingCustomAttributes: { referral_code: 'ABC123' } },
+          actions: { createConversation, clearConversations: vi.fn() },
+        },
+        conversationAttributes: {
+          namespaced: true,
+          actions: { clearConversationAttributes: vi.fn() },
+        },
+        contacts: {
+          namespaced: true,
+          actions: { setCustomAttributes, update: updateContact },
+        },
+      },
+    });
+    const wrapper = mountView();
+    wrapper.vm.onSubmit({
+      fullName: 'John',
+      emailAddress: 'john@example.com',
+      message: 'hey',
+      contactCustomAttributes: {},
+      conversationCustomAttributes: { order_id: '12345' },
+    });
+    await flushPromises();
+
+    expect(createConversation).toHaveBeenCalledWith(expect.anything(), {
+      fullName: 'John',
+      emailAddress: 'john@example.com',
+      message: 'hey',
+      phoneNumber: undefined,
+      customAttributes: { referral_code: 'ABC123', order_id: '12345' },
+      contactCustomAttributes: {},
+    });
   });
 
   it('sends contact custom attributes along with the contact update for campaigns', async () => {
