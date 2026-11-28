@@ -16,8 +16,9 @@ export function usePaymentStatus() {
     }
     return (
       currentAccount.value?.billing_provider === 'stripe' &&
-      currentAccount.value?.custom_attributes?.subscription_status ===
-        'past_due'
+      ['past_due', 'unpaid'].includes(
+        currentAccount.value?.custom_attributes?.subscription_status
+      )
     );
   });
 
