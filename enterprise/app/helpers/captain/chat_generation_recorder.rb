@@ -51,12 +51,19 @@ module Captain::ChatGenerationRecorder
       ATTR_GEN_AI_USAGE_INPUT_TOKENS => message.tokens.input,
       ATTR_GEN_AI_USAGE_OUTPUT_TOKENS => message.tokens.output,
       ATTR_GEN_AI_USAGE_REASONING_OUTPUT_TOKENS => message.tokens.thinking,
+      'langfuse.observation.usage_details' => usage_details(message.tokens),
       ATTR_LANGFUSE_OBSERVATION_INPUT => format_input_messages(chat),
       ATTR_LANGFUSE_OBSERVATION_OUTPUT => message.respond_to?(:content) ? message.content.to_s : nil,
       format(ATTR_LANGFUSE_OBSERVATION_METADATA, 'generation_stage') => generation_stage(message)
     }.merge(Captain::ResponsesConfig.metadata(chat, protocol: llm_protocol).transform_keys do |key|
       format(ATTR_LANGFUSE_OBSERVATION_METADATA, key)
     end.transform_values(&:to_s))
+  end
+
+  # tokens.input excludes cached reads and cache writes, so Langfuse needs both to count and price the whole prompt.
+  def usage_details(tokens)
+    { input: tokens.input, input_cache_read: tokens.cache_read, input_cache_creation: tokens.cache_write, output: tokens.output,
+      output_reasoning_tokens: tokens.thinking }.compact.to_json
   end
 
   def format_input_messages(chat)

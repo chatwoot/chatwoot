@@ -46,6 +46,27 @@ RSpec.describe Captain::Copilot::TurnService do
     expect(without_docs.instance_variable_get(:@messages).first[:content]).not_to include('search_chatwoot_docs')
   end
 
+  # The prompt cache reuses only an unchanged start of the prompt, so values that change every turn must come after it.
+  it 'keeps the instructions the same on every turn and saves the time and viewed conversation with each turn' do
+    conversation = create(:conversation, account: account)
+    turns = ['2026-01-05 09:00', '2026-01-05 09:07'].map do |time|
+      travel_to(Time.zone.parse(time)) do
+        turn = CopilotRun::Turn.create!(account: account, user: user, copilot_thread: thread, conversation_id: conversation.display_id,
+                                        copilot_message: create(:captain_copilot_message, account: account, copilot_thread: thread))
+        turn_service = described_class.new(turn, turn.claim)
+        allow(turn_service).to receive(:complete_with_number_check).and_return(:awaiting_background_run)
+        allow(turn_service).to receive(:wait_for_background_run)
+        turn_service.generate_response
+        [turn_service.instance_variable_get(:@messages), turn.reload.transcript['messages'].first['content']]
+      end
+    end
+
+    expect(turns.first.first).to eq(turns.last.first)
+    expect(turns.map(&:last)).to all(include("Conversation ID #{conversation.display_id}"))
+    expect(turns.first.last).to include('Current time: 2026-01-05T09:00:00')
+    expect(turns.last.last).to include('Current time: 2026-01-05T09:07:00')
+  end
+
   # RubyLLM calls these around every tool call.
   it 'writes one plain line per step, marks a failed step, and adds a warning line for a failed tool without a step line' do
     service.send(:start_tool_call, RubyLLM::ToolCall.new(id: 'call-1', name: 'search_contacts', arguments: {}))

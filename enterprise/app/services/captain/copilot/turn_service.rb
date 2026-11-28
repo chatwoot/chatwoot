@@ -31,15 +31,12 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
     @conversation = accessible_conversation(account: @account, user: @user, display_id: run.conversation_id) if run.conversation_id.present?
     @conversation_id = @conversation&.display_id
     @tools = build_tools
-    @messages = [system_message, account_message, viewed_conversation_message].compact
+    @messages = [system_message, account_message]
   end
 
   def generate_response
     llm = build_chat.with_tool_options(calls: :one, concurrency: false)
-    protocol = Captain::ResponsesConfig.options(model: @model, temperature: temperature, feature: @llm_feature)[:protocol]
-    @transcript = Captain::Copilot::TurnTranscript.new(@run, llm, protocol: protocol)
-    @transcript.load
-    @transcript.save(@token)
+    load_transcript(llm)
     params = instrumentation_params
     with_copilot_trace(params[:span_name], params, turn: @run, input: @run.copilot_message.message['content']) do |span|
       save_trace_carrier
@@ -52,6 +49,15 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
   end
 
   private
+
+  # A new turn adds its context once. A resumed turn already has it in its saved transcript.
+  def load_transcript(llm)
+    protocol = Captain::ResponsesConfig.options(model: @model, temperature: temperature, feature: @llm_feature)[:protocol]
+    @transcript = Captain::Copilot::TurnTranscript.new(@run, llm, protocol: protocol)
+    @transcript.load
+    llm.add_message(turn_context_message) if @run.transcript.blank?
+    @transcript.save(@token)
+  end
 
   def build_tools
     tools = TOOLS.map { |tool| tool.new(@assistant, user: @user) } +
