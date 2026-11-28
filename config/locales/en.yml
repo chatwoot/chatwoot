@@ -449,6 +449,8 @@ en:
         self_assigned: '%{user_name} self-assigned this conversation'
         assigned: 'Assigned to %{assignee_name} by %{user_name}'
         removed: 'Conversation unassigned by %{user_name}'
+        unavailable: 'Conversation could not be assigned: the agent is unavailable or does not exist'
+        not_inbox_member: 'Conversation could not be assigned to %{assignee_name}: not a member of this inbox'
       team:
         assigned: 'Assigned to %{team_name} by %{user_name}'
         assigned_with_assignee: 'Assigned to %{assignee_name} via %{team_name} by %{user_name}'

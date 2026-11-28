@@ -82,6 +82,21 @@ RSpec.describe Macros::ExecutionService, type: :service do
       end
     end
 
+    context 'when self is not a member of the inbox' do
+      let(:outsider) { create(:user, account: account) }
+      let(:outsider_service) { described_class.new(macro, conversation, outsider) }
+
+      it 'leaves the conversation unassigned and records why the assignment was skipped' do
+        expect do
+          outsider_service.send(:assign_agent, ['self'])
+        end.to have_enqueued_job(Conversations::ActivityMessageJob)
+          .with(conversation, hash_including(message_type: :activity,
+                                             content: "Conversation could not be assigned to #{outsider.name}: not a member of this inbox"))
+
+        expect(conversation.reload.assignee).to be_nil
+      end
+    end
+
     context 'when agent_ids contains nil' do
       it 'unassigns the conversation' do
         conversation.update!(assignee: user)

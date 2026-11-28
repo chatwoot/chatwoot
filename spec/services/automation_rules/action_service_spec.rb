@@ -287,6 +287,25 @@ RSpec.describe AutomationRules::ActionService do
 
         expect(conversation.reload.assignee).to eq(agent)
       end
+
+      context 'when the agent is not a member of the conversation inbox' do
+        let(:outsider) { create(:user, account: account) }
+
+        before do
+          rule.actions = [{ action_name: 'assign_agent', action_params: [outsider.id] }]
+          rule.save!
+        end
+
+        it 'leaves the conversation unassigned and records why the assignment was skipped' do
+          expect do
+            described_class.new(rule, account, conversation).perform
+          end.to have_enqueued_job(Conversations::ActivityMessageJob)
+            .with(conversation, hash_including(message_type: :activity,
+                                               content: "Conversation could not be assigned to #{outsider.name}: not a member of this inbox"))
+
+          expect(conversation.reload.assignee).to be_nil
+        end
+      end
     end
   end
 end
