@@ -31,10 +31,19 @@ export function useCopilotAskBar() {
       !isClassicLayout.value
   );
 
+  // Admins can hide the ask bar in Settings > Copilot. Missing means shown. Loading checks this too, so the launcher
+  // stays visible when the ask bar is turned off.
+  const isShownOnHome = computed(
+    () =>
+      getAccount.value(currentAccountId.value)?.settings?.copilot
+        ?.show_on_home !== false
+  );
+
   // With no inbox, the empty state shows onboarding instead of the ask bar, so the launcher must stay visible.
   const showAskBar = computed(
     () =>
       hasCopilot.value &&
+      isShownOnHome.value &&
       assistants.value.length > 0 &&
       inboxes.value.length > 0 &&
       !uiSettings.value.is_copilot_panel_open
@@ -43,6 +52,7 @@ export function useCopilotAskBar() {
   const isAskBarLoading = computed(
     () =>
       hasCopilot.value &&
+      isShownOnHome.value &&
       (assistantFlags.value.fetchingList || inboxFlags.value.isFetching)
   );
 

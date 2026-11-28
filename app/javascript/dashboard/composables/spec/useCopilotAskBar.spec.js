@@ -11,7 +11,7 @@ const assistantFlags = ref({});
 const inboxes = ref([]);
 const inboxFlags = ref({});
 const uiSettings = ref({});
-const accountSettings = ref({});
+const account = ref({});
 
 vi.mock('dashboard/composables/useConfig', () => ({
   useConfig: () => ({ isEnterprise: testState.isEnterprise }),
@@ -33,7 +33,7 @@ vi.mock('dashboard/composables/store', () => ({
       'inboxes/getInboxes': inboxes,
       'inboxes/getUIFlags': inboxFlags,
       getCurrentAccountId: ref(1),
-      'accounts/getAccount': ref(() => ({ settings: accountSettings.value })),
+      'accounts/getAccount': ref(() => account.value),
     })[key],
 }));
 
@@ -47,7 +47,7 @@ describe('useCopilotAskBar', () => {
     inboxes.value = [{ id: 1 }];
     inboxFlags.value = { isFetching: false };
     uiSettings.value = {};
-    accountSettings.value = {};
+    account.value = { id: 1, settings: {} };
   });
 
   it('shows the ask bar when Copilot can answer', () => {
@@ -73,7 +73,7 @@ describe('useCopilotAskBar', () => {
   });
 
   it('hides the ask bar for an account on the classic layout, so the launcher stays', () => {
-    accountSettings.value = { copilot_classic_layout: true };
+    account.value = { id: 1, settings: { copilot_classic_layout: true } };
     assistantFlags.value = { fetchingList: true };
 
     const { showAskBar, isAskBarLoading } = useCopilotAskBar();
@@ -115,5 +115,15 @@ describe('useCopilotAskBar', () => {
     uiSettings.value = { is_copilot_panel_open: true };
 
     expect(useCopilotAskBar().showAskBar.value).toBe(false);
+  });
+
+  it('hides the ask bar and keeps the launcher when an admin turns it off', () => {
+    account.value = { id: 1, settings: { copilot: { show_on_home: false } } };
+    assistantFlags.value = { fetchingList: true };
+
+    const { showAskBar, isAskBarLoading } = useCopilotAskBar();
+
+    expect(showAskBar.value).toBe(false);
+    expect(isAskBarLoading.value).toBe(false);
   });
 });

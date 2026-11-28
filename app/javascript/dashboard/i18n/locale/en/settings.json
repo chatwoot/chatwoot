@@ -433,7 +433,8 @@
     "DOCS": "Read docs",
     "SECURITY": "Security",
     "CAPTAIN_AI": "Captain",
-    "CONVERSATION_WORKFLOW": "Conversation Workflow"
+    "CONVERSATION_WORKFLOW": "Conversation Workflow",
+    "COPILOT": "Copilot"
   },
   "DATA_IMPORTS": {
     "HEADER": "Data",
@@ -659,6 +660,94 @@
     "API": {
       "SUCCESS": "Captain settings updated successfully.",
       "ERROR": "Failed to update Captain settings. Please try again."
+    }
+  },
+  "COPILOT_SETTINGS": {
+    "TITLE": "Copilot",
+    "DESCRIPTION": "Copilot helps your agents inside Chatwoot. Customers never see it.",
+    "LOADING": "Loading Copilot settings...",
+    "HOME_SCREEN": {
+      "TITLE": "Show Copilot on the conversations home screen",
+      "DESCRIPTION": "Agents see the Copilot ask bar and starter questions when no conversation is open. When this is off, they can still open Copilot from its button."
+    },
+    "TABS": {
+      "GENERAL": "General",
+      "TOOLS": "Tools",
+      "KNOWLEDGE": "Knowledge"
+    },
+    "TOOLS": {
+      "BUILT_IN": {
+        "TITLE": "Built-in tools",
+        "DESCRIPTION": "Copilot can always use these tools. Each agent sees only what their role allows."
+      },
+      "GROUPS": {
+        "CONVERSATIONS": {
+          "TITLE": "Conversations, contacts and reports",
+          "DESCRIPTION": "Reads conversations, contacts, reports and your team list. Makes bulk changes only after the agent approves them."
+        },
+        "ARTICLES": {
+          "TITLE": "Help center articles",
+          "DESCRIPTION": "Searches and reads your help center articles."
+        },
+        "FAQS": {
+          "TITLE": "Assistant FAQs",
+          "DESCRIPTION": "Searches the approved FAQs of {name}.",
+          "NONE": "Turned off. Choose an assistant in Knowledge to let Copilot search its FAQs.",
+          "NO_ASSISTANTS": "Searches assistant FAQs once you create an assistant in Captain.",
+          "CHOOSE": "Choose assistant"
+        },
+        "LINEAR": {
+          "TITLE": "Linear issues",
+          "DESCRIPTION": "Searches issues through your Linear integration.",
+          "NOT_CONNECTED_DESCRIPTION": "Connect Linear in Integrations to let Copilot search your issues."
+        }
+      },
+      "STATUS": {
+        "CONNECTED": "Connected"
+      },
+      "CONNECT_LINEAR": "Connect",
+      "CONNECTED": {
+        "TITLE": "Connected by you",
+        "DESCRIPTION": "Tools from your other apps. For each connection, you choose which tools Copilot may use.",
+        "EMPTY": "You have not connected any tools for Copilot yet."
+      },
+      "ADD_MORE": {
+        "TITLE": "Add more",
+        "DESCRIPTION": "Give Copilot tools from the apps your team already uses.",
+        "CATALOG": {
+          "TITLE": "From the catalog",
+          "DESCRIPTION": "Ready-made tools for common apps."
+        },
+        "MCP": {
+          "TITLE": "MCP server",
+          "DESCRIPTION": "Connect a server and choose which of its tools Copilot may use."
+        },
+        "CUSTOM": {
+          "TITLE": "Custom tool",
+          "DESCRIPTION": "Call your own API."
+        },
+        "COMING_SOON": "Coming soon"
+      }
+    },
+    "KNOWLEDGE": {
+      "TITLE": "Assistant knowledge",
+      "DESCRIPTION": "When an agent asks about your product, Copilot searches the approved FAQs of the assistant you turn on here. You can turn on one assistant at a time.",
+      "TABLE": {
+        "ASSISTANT": "Assistant",
+        "FAQS": "Approved FAQs",
+        "INBOXES": "Inboxes"
+      },
+      "NO_FAQS": "Nothing to search",
+      "NO_INBOXES": "None",
+      "EMPTY": "There are no assistants in this account yet. Create one in Captain, and Copilot can search its FAQs.",
+      "SUGGEST": {
+        "TITLE": "Suggest an answer",
+        "DESCRIPTION": "A suggested reply is written by the assistant connected to the conversation's inbox, with that assistant's guidelines and FAQs. Change it in the assistant's own settings."
+      }
+    },
+    "API": {
+      "SUCCESS": "Copilot settings updated successfully.",
+      "ERROR": "Could not update Copilot settings. Please try again."
     }
   },
   "BILLING_SETTINGS": {

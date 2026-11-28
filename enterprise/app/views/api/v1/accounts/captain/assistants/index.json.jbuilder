@@ -1,6 +1,8 @@
 json.payload do
   json.array! @assistants do |assistant|
     json.partial! 'api/v1/models/captain/assistant', formats: [:json], resource: assistant
+    json.approved_responses_count @approved_response_counts.fetch(assistant.id, 0)
+    json.inbox_ids assistant.captain_inboxes.map(&:inbox_id)
   end
 end
 

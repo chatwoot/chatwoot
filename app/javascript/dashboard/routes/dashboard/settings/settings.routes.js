@@ -27,6 +27,7 @@ import profile from './profile/profile.routes';
 import security from './security/security.routes';
 import conversationWorkflow from './conversationWorkflow/conversationWorkflow.routes';
 import captain from './captain/captain.routes';
+import copilot from './copilot/copilot.routes';
 import data from './data/data.routes';
 
 export default {
@@ -71,5 +72,6 @@ export default {
     ...security.routes,
     ...conversationWorkflow.routes,
     ...captain.routes,
+    ...copilot.routes,
   ],
 };

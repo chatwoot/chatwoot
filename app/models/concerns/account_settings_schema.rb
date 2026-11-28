@@ -32,6 +32,14 @@ module AccountSettingsSchema
           'type': %w[object null],
           'properties': CAPTAIN_FEATURE_PROPERTIES,
           'additionalProperties': false
+        },
+        'copilot': {
+          'type': %w[object null],
+          'properties': {
+            'show_on_home': { 'type': %w[boolean null] },
+            'assistant_id': { 'type': %w[integer null] }
+          },
+          'additionalProperties': false
         }
       },
     'required': [],
