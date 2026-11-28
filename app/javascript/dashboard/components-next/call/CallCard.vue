@@ -33,7 +33,7 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  showMute: {
+  showCallControls: {
     type: Boolean,
     default: false,
   },
@@ -48,6 +48,7 @@ defineEmits([
   'reject',
   'end',
   'toggleMute',
+  'toggleHold',
   'goToConversation',
   'dismiss',
   'sendDigit',
@@ -85,13 +86,13 @@ const isOutgoing = computed(
 const isWhatsapp = computed(
   () => props.call?.provider === VOICE_CALL_PROVIDERS.WHATSAPP
 );
-// A muted call plays hold music to the caller, who the agent still hears
+// A held caller hears hold music while the agent still hears them
 const isOnHold = computed(() => isOngoing.value && !!props.call?.onHold);
-// A Twilio caller can be held only once connected; an outbound call still rings before that
-const canMute = computed(
+// A Twilio caller can be muted or held only once connected; an outbound call still rings before that
+const canControlCall = computed(
   () =>
     isOngoing.value &&
-    props.showMute &&
+    props.showCallControls &&
     (isWhatsapp.value || props.call?.status === VOICE_CALL_STATUS.IN_PROGRESS)
 );
 
@@ -219,9 +220,9 @@ const channelIcon = computed(() =>
 
         <!-- Actions -->
         <div class="flex items-center gap-2 shrink-0">
-          <!-- Mute toggle: holds the caller with music while the agent still hears them -->
+          <!-- Mute toggle: silences the agent's mic; the mic is already off while on hold -->
           <NextButton
-            v-if="canMute"
+            v-if="canControlCall"
             v-tooltip.top="
               isMuted
                 ? $t('CONVERSATION.VOICE_WIDGET.UNMUTE')
@@ -232,8 +233,26 @@ const channelIcon = computed(() =>
             "
             :variant="isMuted ? 'solid' : 'faded'"
             :color="isMuted ? 'amber' : 'teal'"
+            :disabled="isOnHold"
             class="!rounded-full"
+            data-test-id="voice-call-mute-toggle"
             @click="$emit('toggleMute')"
+          />
+
+          <!-- Hold toggle: plays hold music to the caller while the agent still hears them -->
+          <NextButton
+            v-if="canControlCall"
+            v-tooltip.top="
+              isOnHold
+                ? $t('CONVERSATION.VOICE_WIDGET.RESUME')
+                : $t('CONVERSATION.VOICE_WIDGET.HOLD')
+            "
+            :icon="isOnHold ? 'i-ph-play-bold' : 'i-ph-pause-bold'"
+            :variant="isOnHold ? 'solid' : 'faded'"
+            :color="isOnHold ? 'amber' : 'teal'"
+            class="!rounded-full"
+            data-test-id="voice-call-hold-toggle"
+            @click="$emit('toggleHold')"
           />
 
           <!-- Accept call (incoming only) -->

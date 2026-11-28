@@ -11,6 +11,7 @@ import {
   sendWhatsappTerminateBeacon,
   cleanupWhatsappSession,
   setWhatsappCallOnHold,
+  setWhatsappMicMuted,
   isLocalWhatsappCall,
 } from 'dashboard/composables/useWhatsappCallSession';
 import {
@@ -260,18 +261,31 @@ const buildCallActions = ({ callsStore, whatsappSession, t }) => {
     callsStore.dismissCall(callSid);
   };
 
-  // Mute holds the caller: they hear hold music while the agent still hears them
+  // Mute only silences the agent's mic: the caller hears silence and the call stays live
+  const muteCall = ({ callSid, muted }) => {
+    const call = callsStore.activeCall;
+    if (call?.callSid !== callSid) return;
+    if (isWhatsappCall(call)) {
+      setWhatsappMicMuted(muted);
+    } else {
+      TwilioVoiceClient.setMuted(muted);
+    }
+    callsStore.setCallMuted(callSid, muted);
+  };
+
+  // Hold plays music to the caller while the agent still hears them; resume keeps the agent's mute choice
   const holdCall = async ({ conversationId, inboxId, callSid, hold }) => {
+    const micMuted = !!findCall(callSid)?.isMuted;
     try {
       if (isWhatsappCall(findCall(callSid))) {
-        await setWhatsappCallOnHold(hold);
+        await setWhatsappCallOnHold(hold, micMuted);
       } else {
         await VoiceAPI.setHold({ inboxId, conversationId, callSid, hold });
       }
       // The mic now belongs to whichever call is active, so a late reply for an ended call leaves it alone
       if (callsStore.activeCall?.callSid !== callSid) return;
       if (!isWhatsappCall(callsStore.activeCall)) {
-        TwilioVoiceClient.setMuted(hold);
+        TwilioVoiceClient.setMuted(hold || micMuted);
       }
       callsStore.setCallOnHold(callSid, hold);
     } catch (error) {
@@ -283,7 +297,14 @@ const buildCallActions = ({ callsStore, whatsappSession, t }) => {
     }
   };
 
-  return { endCall, joinCall, rejectIncomingCall, dismissCall, holdCall };
+  return {
+    endCall,
+    joinCall,
+    rejectIncomingCall,
+    dismissCall,
+    muteCall,
+    holdCall,
+  };
 };
 
 const buildReactiveSurface = callsStore => {

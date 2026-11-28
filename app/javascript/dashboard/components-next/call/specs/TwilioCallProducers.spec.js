@@ -105,6 +105,7 @@ const expectNormalizedTwilioCall = callsStore => {
     provider: VOICE_CALL_PROVIDERS.TWILIO,
     isActive: true,
     onHold: false,
+    isMuted: false,
   });
 };
 

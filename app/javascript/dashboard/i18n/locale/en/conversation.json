@@ -452,6 +452,8 @@
       "END_CALL": "End call",
       "MUTE": "Mute mic",
       "UNMUTE": "Unmute mic",
+      "HOLD": "Hold call",
+      "RESUME": "Resume call",
       "SHOW_KEYPAD": "Show keypad",
       "HIDE_KEYPAD": "Hide keypad",
       "KEYPAD": "Call keypad",

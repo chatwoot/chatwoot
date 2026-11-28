@@ -38,6 +38,7 @@ const {
   endCall: endCallSession,
   rejectIncomingCall,
   dismissCall,
+  muteCall,
   holdCall,
   formattedCallDuration,
 } = useCallSession();
@@ -71,12 +72,16 @@ const handleSendDigit = digit => {
   }
 };
 
-// Mute puts the caller on hold: they hear hold music while the agent keeps hearing them
-const isMuted = computed(() => !!activeCall.value?.onHold);
+const isMuted = computed(() => !!activeCall.value?.isMuted);
+
+const toggleMute = () => {
+  const call = activeCall.value;
+  muteCall({ callSid: call.callSid, muted: !call.isMuted });
+};
 
 // One hold or resume at a time, so a stale request can't land after a newer one
 const isHoldPending = ref(false);
-const toggleMute = async () => {
+const toggleHold = async () => {
   if (isHoldPending.value) return;
   const call = activeCall.value;
   isHoldPending.value = true;
@@ -303,13 +308,14 @@ onBeforeUnmount(stopRingtone);
       :call-info="getCallInfo(activeCall || primaryIncomingCall)"
       :duration="hasActiveCall ? formattedCallDuration : ''"
       :is-muted="isMuted"
-      :show-mute="hasActiveCall"
+      :show-call-controls="hasActiveCall"
       :show-keypad="showKeypad"
       @accept="handleJoinCall(primaryIncomingCall)"
       @reject="rejectIncomingCall(primaryIncomingCall?.callSid)"
       @dismiss="dismissCall(primaryIncomingCall?.callSid)"
       @end="handleEndCall"
       @toggle-mute="toggleMute"
+      @toggle-hold="toggleHold"
       @send-digit="handleSendDigit"
       @go-to-conversation="goToConversation(activeCall || primaryIncomingCall)"
     />

@@ -3,6 +3,7 @@ import {
   isWhatsappCallConnected,
   sendWhatsappDigits,
   setWhatsappCallOnHold,
+  setWhatsappMicMuted,
   useWhatsappCallSession,
 } from '../useWhatsappCallSession';
 
@@ -249,6 +250,28 @@ describe('setWhatsappCallOnHold', () => {
     expect(sender.replaceTrack).toHaveBeenLastCalledWith(micTrack);
     expect(micTrack.enabled).toBe(true);
     expect(audioContexts[0].close).toHaveBeenCalledOnce();
+  });
+
+  it('resumes a muted call with the mic still muted', async () => {
+    await useWhatsappCallSession().prepareOutboundOffer();
+    setWhatsappMicMuted(true);
+
+    await setWhatsappCallOnHold(true);
+    await setWhatsappCallOnHold(false, true);
+
+    expect(sender.replaceTrack).toHaveBeenLastCalledWith(micTrack);
+    expect(micTrack.enabled).toBe(false);
+  });
+
+  it('mutes and unmutes the mic without swapping the sent track', async () => {
+    await useWhatsappCallSession().prepareOutboundOffer();
+
+    setWhatsappMicMuted(true);
+    expect(micTrack.enabled).toBe(false);
+
+    setWhatsappMicMuted(false);
+    expect(micTrack.enabled).toBe(true);
+    expect(sender.replaceTrack).not.toHaveBeenCalled();
   });
 
   it('reuses the playing music when the hold is repeated', async () => {
