@@ -189,10 +189,10 @@ export default {
       this.companyName = additionalAttributes.company_name || '';
       this.companyId = this.contact.company_id || '';
       this.country = {
-        id: additionalAttributes.country_code || '',
+        id: this.contact.country_code || '',
         name:
-          additionalAttributes.country ||
-          this.$t('CONTACT_FORM.FORM.COUNTRY.SELECT_COUNTRY'),
+          countries.find(country => country.id === this.contact.country_code)
+            ?.name || this.$t('CONTACT_FORM.FORM.COUNTRY.SELECT_COUNTRY'),
       };
       this.city = additionalAttributes.city || '';
       this.description = additionalAttributes.description || '';
@@ -230,21 +230,18 @@ export default {
           this.socialProfileUserNames.whatsapp
         ),
       };
+      const { country, country_code, ...additionalAttributes } =
+        this.contact.additional_attributes || {};
       const contactObject = {
         id: this.contact.id,
         name: this.name,
         email: this.email,
         phone_number: this.setPhoneNumber,
+        country_code: this.country.id,
         additional_attributes: {
-          ...this.contact.additional_attributes,
+          ...additionalAttributes,
           description: this.description,
           company_name: this.companyName,
-          country_code: this.country.id,
-          country:
-            this.country.name ===
-            this.$t('CONTACT_FORM.FORM.COUNTRY.SELECT_COUNTRY')
-              ? ''
-              : this.country.name,
           city: this.city,
           social_profiles: socialProfileUserNames,
         },

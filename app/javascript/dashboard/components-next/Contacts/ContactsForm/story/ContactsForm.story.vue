@@ -36,12 +36,11 @@ const handleUpdate = updatedData => {
             name: 'Ophelia Folkard',
             email: 'ofolkardi@taobao.test',
             phoneNumber: '',
+            countryCode: '',
             additionalAttributes: {
               city: '',
-              country: '',
               description: '',
               companyName: '',
-              countryCode: '',
               socialProfiles: {
                 github: '',
                 twitter: '',

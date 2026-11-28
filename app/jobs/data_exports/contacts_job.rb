@@ -77,8 +77,15 @@ class DataExports::ContactsJob < ApplicationJob
   def write_batch(csv, batch, columns)
     labels = columns.include?('labels') ? labels_for(batch) : {}
     batch.each do |contact|
-      csv << columns.map { |column| column == 'labels' ? labels.fetch(contact.id, []).join(',') : contact.public_send(column) }
+      csv << columns.map { |column| column_value(contact, column, labels) }
     end
+  end
+
+  def column_value(contact, column, labels)
+    return labels.fetch(contact.id, []).join(',') if column == 'labels'
+    return contact.canonical_country_code if column == 'country_code'
+
+    contact.public_send(column)
   end
 
   def labels_for(batch)

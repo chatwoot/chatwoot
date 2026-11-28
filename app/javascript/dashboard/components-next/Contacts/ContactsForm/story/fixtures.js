@@ -3,6 +3,7 @@ export const contactData = {
   name: 'John Doe',
   email: 'johndoe@chatwoot.com',
   phoneNumber: '+918634322418',
+  countryCode: 'IN',
   additionalAttributes: {
     city: 'Kerala',
     country: 'India',

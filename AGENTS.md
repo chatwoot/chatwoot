@@ -21,6 +21,8 @@
 - Follow RuboCop and ESLint. Refactor responsibilities when size/complexity limits expose a problem; do not disable cops or exclude files to avoid that work. Any unavoidable suppression must be narrowly scoped and explain why the compliant approach is unsuitable.
 - Do not introduce `Thread.new` or monotonic-clock APIs such as `Process.clock_gettime(Process::CLOCK_MONOTONIC)` unless necessary and explicitly approved by the user. Prefer existing job/concurrency patterns.
 - Remove dead code and superseded implementations; do not keep alternate versions or commented-out logic.
+- Defer work that can safely ship separately. Keep PR fixes focused on related correctness, security, and CI blockers; report optional improvements and unrelated findings as follow-ups.
+- Flag fixes that require substantial architectural changes or materially expand scope before implementing them. Explain why the change is necessary and whether a smaller fix can ship first.
 
 ## Dependencies
 

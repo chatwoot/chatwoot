@@ -14,10 +14,10 @@ const buildContactFormData = contactParams => {
   const { additional_attributes = {}, ...contactProperties } = contactParams;
   Object.keys(contactProperties).forEach(key => {
     const value = contactProperties[key];
-    const shouldAppendBlankCompanyId =
-      key === 'company_id' && value !== undefined;
+    const shouldAppendBlankValue =
+      ['company_id', 'country_code'].includes(key) && value !== undefined;
 
-    if (value || shouldAppendBlankCompanyId) {
+    if (value || shouldAppendBlankValue) {
       formData.append(key, value ?? '');
     }
   });

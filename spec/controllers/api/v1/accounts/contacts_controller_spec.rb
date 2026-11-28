@@ -54,6 +54,23 @@ RSpec.describe 'Contacts API', type: :request do
         expect(contact_inboxes_source_ids).to include(contact_inbox.source_id)
       end
 
+      it 'returns canonical country attributes for contact display' do
+        contact.update!(additional_attributes: { country: 'United States' })
+
+        get "/api/v1/accounts/#{account.id}/contacts",
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        response_body = response.parsed_body
+        response_contact = response_body['payload'].find { |item| item['id'] == contact.id }
+
+        expect(response_contact['additional_attributes']).to include(
+          'country_code' => 'US',
+          'country' => 'United States'
+        )
+        expect(response_contact['country_code']).to eq('US')
+      end
+
       it 'returns all contacts without contact inboxes' do
         get "/api/v1/accounts/#{account.id}/contacts?include_contact_inboxes=false",
             headers: admin.create_new_auth_token,
@@ -334,6 +351,23 @@ RSpec.describe 'Contacts API', type: :request do
         expect(response.body).not_to include(contact1.email)
       end
 
+      it 'returns a schema-valid null country code when the country is unknown' do
+        contact2.update!(country_code: nil, additional_attributes: { country: 'Unknown country' })
+
+        get "/api/v1/accounts/#{account.id}/contacts/search",
+            params: { q: contact2.email },
+            headers: admin.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload'].first).to include('country_code' => nil)
+        expect(response).to conform_schema(200)
+
+        schema = JSON.parse(Rails.root.join('swagger/swagger.json').read)
+        country_schema = schema.dig('components', 'schemas', 'contact', 'properties', 'payload', 'items', 'properties', 'country_code')
+        expect(JSONSchemer.schema(country_schema).valid?(response.parsed_body['payload'].first['country_code'])).to be(true)
+      end
+
       it 'matches the contact ignoring the case in email' do
         get "/api/v1/accounts/#{account.id}/contacts/search",
             params: { q: 'Test@Test.com' },
@@ -593,6 +627,26 @@ RSpec.describe 'Contacts API', type: :request do
         expect(account.contacts.last).to be_lead
       end
 
+      it 'rejects an unrecognized country code on create' do
+        expect do
+          post "/api/v1/accounts/#{account.id}/contacts", headers: admin.create_new_auth_token,
+                                                          params: valid_params.merge(country_code: 'ZZ'), as: :json
+        end.not_to change(Contact, :count)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['attributes']).to include('country_code')
+      end
+
+      it 'honors an empty root country code on create' do
+        post "/api/v1/accounts/#{account.id}/contacts", headers: admin.create_new_auth_token,
+                                                        params: valid_params.merge(country_code: '', additional_attributes: { country: 'India' }),
+                                                        as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body.dig('payload', 'contact')).to include('country_code' => nil)
+        expect(account.contacts.last).to have_attributes(country_code: nil)
+      end
+
       it 'does not create the contact' do
         valid_params[:name] = 'test' * 999
 
@@ -648,6 +702,58 @@ RSpec.describe 'Contacts API', type: :request do
         # custom attributes are merged properly without overwriting existing ones
         expect(contact.custom_attributes).to eq({ 'test' => 'new test', 'test1' => 'test1', 'test2' => 'test2' })
         expect(contact.additional_attributes).to eq({ 'attr1' => 'attr1', 'attr2' => 'new attr2', 'attr3' => 'attr3' })
+      end
+
+      it 'rejects an unrecognized country code without changing the contact', :aggregate_failures do
+        contact.update!(country_code: 'IN', additional_attributes: { city: 'Bengaluru' })
+        original_attributes = contact.reload.attributes
+
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              headers: admin.create_new_auth_token,
+              params: { country_code: 'ZZ', additional_attributes: { city: 'Mysuru' } },
+              as: :json
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['attributes']).to include('country_code')
+        expect(contact.reload.attributes).to eq(original_attributes)
+      end
+
+      it 'rejects an object passed as a country code' do
+        expect do
+          patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+                headers: admin.create_new_auth_token,
+                params: valid_params.merge(country_code: { code: 'US' }),
+                as: :json
+        end.not_to(change { contact.reload.attributes })
+
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
+
+      it 'normalizes a root country write before persisting and returning it' do
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              headers: admin.create_new_auth_token,
+              params: { country_code: ' usa ', additional_attributes: { country_code: 'IN' } },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload']).to include('country_code' => 'US')
+        expect(contact.reload.country_code).to eq('US')
+        expect(contact.additional_attributes).to include('country_code' => 'US', 'country' => 'United States')
+      end
+
+      it 'honors an explicit country clear even when the request includes a legacy country' do
+        # Simulate an existing contact whose country is stored only in legacy attributes.
+        contact.update_columns(country_code: nil, additional_attributes: { country: 'India' }) # rubocop:disable Rails/SkipsModelValidations
+
+        patch "/api/v1/accounts/#{account.id}/contacts/#{contact.id}",
+              headers: admin.create_new_auth_token,
+              params: { country_code: nil, additional_attributes: { country: 'United States' } },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload']).to include('country_code' => nil)
+        expect(contact.reload.country_code).to be_nil
+        expect(contact.additional_attributes['country']).to be_nil
       end
 
       it 'prevents the update of contact of another account' do

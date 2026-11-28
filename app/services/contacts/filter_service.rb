@@ -22,11 +22,17 @@ class Contacts::FilterService < FilterService
     current_val = query_hash['values'][0]
     if query_hash['attribute_key'] == 'phone_number'
       "+#{current_val&.delete('+')}"
-    elsif query_hash['attribute_key'] == 'country_code'
-      current_val.downcase
     else
       current_val.is_a?(String) ? current_val.downcase : current_val
     end
+  end
+
+  def build_condition_query_string(current_filter, query_hash, current_index)
+    return super unless query_hash[:attribute_key] == 'country_code'
+
+    key = "country_predicate_#{current_index}"
+    @filter_values[key] = country_predicate(query_hash)
+    ":#{key} #{query_hash[:query_operator]}"
   end
 
   def base_relation
@@ -41,6 +47,29 @@ class Contacts::FilterService < FilterService
   end
 
   private
+
+  def country_predicate(query_hash)
+    value = query_hash['values'][0]
+    code = CountryCodeNormalizer.normalize(value) || value.to_s.strip.upcase
+    expression = canonical_country_expression
+    query_hash[:filter_operator] == 'equal_to' ? expression.eq(code) : expression.not_eq(code)
+  end
+
+  def canonical_country_expression
+    table = Contact.arel_table
+    attributes = table[:additional_attributes]
+    codes = table.cast(Arel::Nodes.build_quoted(CountryCodeNormalizer.country_codes_by_value.to_json), 'jsonb')
+    sources = [table[:country_code], json_text(attributes, 'country_code'), json_text(attributes, 'country')]
+    normalized = sources.map do |source|
+      trimmed = Arel::Nodes::NamedFunction.new('BTRIM', [source])
+      json_text(codes, table.lower(trimmed))
+    end
+    table.coalesce(*normalized)
+  end
+
+  def json_text(source, key)
+    Arel::Nodes::InfixOperation.new('->>', source, Arel::Nodes.build_quoted(key))
+  end
 
   def equals_to_filter_string(filter_operator, current_index)
     return "= :value_#{current_index}" if filter_operator == 'equal_to'

@@ -351,6 +351,40 @@ describe Contacts::FilterService do
         expect(result[:count]).to be 1
         expect(result[:contacts].first.id).to eq(en_contact.id)
       end
+
+      context 'with persisted legacy country aliases' do
+        let!(:canonical_contact) { create(:contact, :with_email, account: account, additional_attributes: { country_code: 'GB' }) }
+
+        before do
+          # Bypass write normalization to represent records created before this change.
+          en_contact.update_columns(country_code: nil, additional_attributes: { country_code: 'uk' }) # rubocop:disable Rails/SkipsModelValidations
+          create(:contact, :with_email, additional_attributes: { country_code: 'GB' })
+        end
+
+        ['uk', 'GB', 'United Kingdom'].each do |value|
+          it "matches legacy and canonical country values when filtering by #{value}" do
+            payload.first[:values] = [value]
+            params[:payload] = payload
+
+            result = filter_service.new(account, first_user, params).perform
+
+            expect(result[:contacts]).to contain_exactly(en_contact, canonical_contact)
+            expect(result[:count]).to eq(2)
+            expect(en_contact.reload.additional_attributes['country_code']).to eq('uk')
+          end
+
+          it "excludes legacy and canonical country values when filtering against #{value}" do
+            payload.first[:values] = [value]
+            payload.first[:filter_operator] = 'not_equal_to'
+            params[:payload] = payload
+
+            result = filter_service.new(account, first_user, params).perform
+
+            expect(result[:contacts]).to contain_exactly(el_contact, cs_contact)
+            expect(result[:count]).to eq(2)
+          end
+        end
+      end
     end
 
     context 'with custom attributes' do
