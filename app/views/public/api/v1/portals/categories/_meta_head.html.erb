@@ -1,6 +1,9 @@
 <%# locals: (category:, portal:, locale:, og_image_url: nil) %>
 <title><%= category.name %> | <%= portal.display_title(locale) %></title>
 <meta name="title" content="<%= category.name %> | <%= portal.display_title(locale) %>">
+<meta property="og:title" content="<%= category.name %> | <%= portal.display_title(locale) %>">
+<meta name="twitter:title" content="<%= category.name %> | <%= portal.display_title(locale) %>">
+<meta property="og:type" content="website">
 <% if category.description.present? %>
   <meta name="description" content="<%= category.description %>">
   <meta property="og:description" content="<%= category.description %>">

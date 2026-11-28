@@ -60,8 +60,16 @@ export function useNumberFormatter() {
     return new Intl.NumberFormat(resolvedLocale.value).format(num);
   };
 
+  const formatUnit = (num, unit) =>
+    new Intl.NumberFormat(resolvedLocale.value, {
+      style: 'unit',
+      unit,
+      unitDisplay: 'long',
+    }).format(num);
+
   return {
     formatCompactNumber,
     formatFullNumber,
+    formatUnit,
   };
 }

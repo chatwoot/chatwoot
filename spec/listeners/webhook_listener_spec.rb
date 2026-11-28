@@ -126,6 +126,31 @@ describe WebhookListener do
     end
   end
 
+  describe '#message_updated' do
+    let(:event_name) { :'message.updated' }
+    let!(:message_updated_event) { Events::Base.new(event_name, Time.zone.now, message: message) }
+
+    context 'when webhook is configured and event is subscribed' do
+      it 'includes the updated message status when a newer message exists' do
+        webhook = create(:webhook, subscriptions: ['message_updated'], inbox: inbox, account: account)
+        newer_message = create(:message, account: account, inbox: inbox, conversation: conversation)
+        message.update!(status: :delivered)
+
+        expect(WebhookJob).to receive(:perform_later).with(
+          webhook.url,
+          hash_including(
+            event: 'message_updated', id: message.id, status: 'delivered',
+            conversation: hash_including(messages: [hash_including(id: newer_message.id, status: 'sent')])
+          ),
+          :account_webhook,
+          secret: webhook.secret, delivery_id: instance_of(String)
+        ).once
+
+        listener.message_updated(message_updated_event)
+      end
+    end
+  end
+
   describe '#conversation_created' do
     let(:event_name) { :'conversation.created' }
 
@@ -364,6 +389,94 @@ describe WebhookListener do
         ).once
 
         listener.inbox_updated(inbox_updated_event)
+      end
+    end
+  end
+
+  describe '#article_created' do
+    let(:event_name) { :'article.created' }
+    let(:article) { create(:article, account: account, portal: create(:portal, account: account), author: user) }
+    let!(:article_created_event) { Events::Base.new(event_name, Time.zone.now, article: article) }
+
+    context 'when webhook is not configured' do
+      it 'does not trigger webhook' do
+        expect(WebhookJob).to receive(:perform_later).exactly(0).times
+        listener.article_created(article_created_event)
+      end
+    end
+
+    context 'when webhook is configured' do
+      it 'triggers webhook' do
+        webhook = create(:webhook, account: account, subscriptions: ['article_created'])
+        expect(WebhookJob).to receive(:perform_later).with(
+          webhook.url, article.webhook_data.merge(event: 'article_created'), :account_webhook,
+          secret: webhook.secret, delivery_id: instance_of(String)
+        ).once
+        listener.article_created(article_created_event)
+      end
+    end
+  end
+
+  describe '#article_updated' do
+    let(:event_name) { :'article.updated' }
+    let(:article) { create(:article, account: account, portal: create(:portal, account: account), author: user) }
+    let!(:article_updated_event) do
+      Events::Base.new(event_name, Time.zone.now, article: article, changed_attributes: { 'title' => ['Refund policy', article.title] })
+    end
+
+    context 'when webhook is not configured' do
+      it 'does not trigger webhook' do
+        expect(WebhookJob).to receive(:perform_later).exactly(0).times
+        listener.article_updated(article_updated_event)
+      end
+    end
+
+    context 'when webhook is configured and there are no changed attributes' do
+      it 'does not trigger webhook' do
+        create(:webhook, account: account, subscriptions: ['article_updated'])
+        unchanged_event = Events::Base.new(event_name, Time.zone.now, article: article, changed_attributes: {})
+
+        expect(WebhookJob).to receive(:perform_later).exactly(0).times
+        listener.article_updated(unchanged_event)
+      end
+    end
+
+    context 'when webhook is configured and there are changed attributes' do
+      it 'triggers webhook' do
+        webhook = create(:webhook, account: account, subscriptions: ['article_updated'])
+        changed_attributes_data = [{ 'title' => { previous_value: 'Refund policy', current_value: article.title } }]
+
+        expect(WebhookJob).to receive(:perform_later).with(
+          webhook.url,
+          article.webhook_data.merge(event: 'article_updated', changed_attributes: changed_attributes_data),
+          :account_webhook,
+          secret: webhook.secret, delivery_id: instance_of(String)
+        ).once
+        listener.article_updated(article_updated_event)
+      end
+    end
+  end
+
+  describe '#article_deleted' do
+    let(:event_name) { :'article.deleted' }
+    let(:article) { create(:article, account: account, portal: create(:portal, account: account), author: user) }
+    let!(:article_deleted_event) { Events::Base.new(event_name, Time.zone.now, article_data: article.webhook_data) }
+
+    context 'when webhook is not configured' do
+      it 'does not trigger webhook' do
+        expect(WebhookJob).to receive(:perform_later).exactly(0).times
+        listener.article_deleted(article_deleted_event)
+      end
+    end
+
+    context 'when webhook is configured' do
+      it 'triggers webhook' do
+        webhook = create(:webhook, account: account, subscriptions: ['article_deleted'])
+        expect(WebhookJob).to receive(:perform_later).with(
+          webhook.url, article.webhook_data.merge(event: 'article_deleted'), :account_webhook,
+          secret: webhook.secret, delivery_id: instance_of(String)
+        ).once
+        listener.article_deleted(article_deleted_event)
       end
     end
   end

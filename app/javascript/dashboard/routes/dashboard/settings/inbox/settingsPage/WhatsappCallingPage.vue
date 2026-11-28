@@ -6,6 +6,7 @@ import { useAlert } from 'dashboard/composables';
 import InboxesAPI from 'dashboard/api/inboxes';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import SettingsToggleSection from 'dashboard/components-next/Settings/SettingsToggleSection.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import CallSettingsSection from './calls/CallSettingsSection.vue';
@@ -32,16 +33,28 @@ const store = useStore();
 const { t } = useI18n();
 const label = key => t(`INBOX_MGMT.CALL_SETTINGS.${key}`);
 
+const MESSAGE_MAX_LENGTH = 1000;
+const PROVIDER_CONFIG_KEYS = [
+  'permissionRequestBody',
+  'missedCallMessageEnabled',
+  'missedCallMessage',
+];
+
 const savedValues = () => ({
   ...sharedSavedValues(props.inbox),
   permissionRequestBody:
     props.inbox.provider_config?.call_permission_request_body || '',
+  missedCallMessageEnabled:
+    props.inbox.provider_config?.missed_call_message_enabled === true,
+  missedCallMessage: props.inbox.provider_config?.missed_call_message || '',
+  callbackPermissionEnabled:
+    props.inbox.provider_config?.callback_permission_enabled === true,
 });
 
 const buildSteps = (changed, values) => {
   const { id } = props.inbox;
   const steps = [];
-  if (changed(['permissionRequestBody'])) {
+  if (changed(PROVIDER_CONFIG_KEYS)) {
     steps.push(() =>
       store.dispatch('inboxes/updateInbox', {
         id,
@@ -51,9 +64,20 @@ const buildSteps = (changed, values) => {
             ...props.inbox.provider_config,
             call_permission_request_body:
               values.permissionRequestBody.trim() || null,
+            missed_call_message_enabled: values.missedCallMessageEnabled,
+            missed_call_message: values.missedCallMessage.trim() || null,
           },
         },
       })
+    );
+  }
+  // After the save above, which writes back the whole provider_config it was given
+  if (changed(['callbackPermissionEnabled'])) {
+    steps.push(() =>
+      InboxesAPI.setWhatsappCallbackPermission(
+        id,
+        values.callbackPermissionEnabled
+      )
     );
   }
   return [...steps, ...sharedSteps(id, changed, values)];
@@ -159,52 +183,29 @@ const applyInboxHours = async () => {
 </script>
 
 <template>
-  <div
-    class="flex flex-col divide-y outline outline-1 -outline-offset-1 outline-n-weak rounded-xl divide-n-weak"
-  >
-    <CallSettingsSection
-      :title="label('CALLING.TITLE')"
-      :description="label('CALLING.DESCRIPTION')"
+  <div class="flex flex-col gap-4">
+    <SettingsToggleSection
+      :model-value="callingEnabled"
+      :header="label('CALLING.WHATSAPP')"
+      :description="label('CALLING.WHATSAPP_HELP')"
+      :disabled="isTogglingCalling || isSaving"
+      @update:model-value="toggleCalling"
     >
-      <div
-        class="flex flex-col gap-4"
-        :class="{ 'pointer-events-none opacity-60': isTogglingCalling }"
-      >
+      <template v-if="callingEnabled" #editor>
         <CallSettingsOption
-          v-if="!callingEnabled"
-          :model-value="false"
-          :label="label('CALLING.WHATSAPP_ENABLE')"
-          :help="label('CALLING.WHATSAPP_ENABLE_HELP')"
-          @update:model-value="toggleCalling"
+          v-model="form.inboundCallsEnabled"
+          :label="label('CALLING.WHATSAPP_ACCEPT_INCOMING')"
+          :help="label('CALLING.TAKE_INCOMING_HELP')"
+          class="mt-2"
+          :disabled="isTogglingCalling || isSaving"
         />
-        <template v-else>
-          <CallSettingsOption
-            v-model="form.inboundCallsEnabled"
-            :label="label('CALLING.TAKE_INCOMING')"
-            :help="label('CALLING.TAKE_INCOMING_HELP')"
-          />
-          <div class="flex flex-wrap items-center gap-2 text-body-main">
-            <span
-              class="px-2 py-0.5 rounded-md bg-n-teal-3 text-n-teal-11 font-mono text-sm"
-            >
-              {{ label('CALLING.META_ON') }}
-            </span>
-            <span class="text-n-slate-12">{{
-              label('CALLING.META_HELP')
-            }}</span>
-            <NextButton
-              :label="label('CALLING.TURN_OFF')"
-              link
-              ruby
-              sm
-              @click="toggleCalling(false)"
-            />
-          </div>
-        </template>
-      </div>
-    </CallSettingsSection>
+      </template>
+    </SettingsToggleSection>
 
-    <template v-if="callingEnabled">
+    <div
+      v-if="callingEnabled"
+      class="flex flex-col divide-y outline outline-1 -outline-offset-1 outline-n-weak rounded-xl divide-n-weak"
+    >
       <div
         class="flex flex-col divide-y divide-n-weak"
         :class="{ 'pointer-events-none opacity-60': isSaving }"
@@ -220,6 +221,39 @@ const applyInboxHours = async () => {
             :inbox-id="inbox.id"
             :saved-step-seconds="inbox.ring_step_seconds"
           />
+        </CallSettingsSection>
+
+        <CallSettingsSection
+          :title="label('UNANSWERED.TITLE')"
+          :description="label('UNANSWERED.WHATSAPP_DESCRIPTION')"
+        >
+          <CallSettingsOption
+            v-model="form.missedCallMessageEnabled"
+            :label="label('UNANSWERED.WHATSAPP_SEND')"
+            :help="label('UNANSWERED.WHATSAPP_SEND_HELP')"
+          />
+          <div
+            v-if="form.missedCallMessageEnabled"
+            class="flex flex-col gap-1.5"
+          >
+            <label
+              :for="`call-missed-message-${inbox.id}`"
+              class="mb-0 text-heading-3 text-n-slate-12"
+            >
+              {{ label('UNANSWERED.MESSAGE') }}
+            </label>
+            <TextArea
+              :id="`call-missed-message-${inbox.id}`"
+              v-model="form.missedCallMessage"
+              :placeholder="label('UNANSWERED.WHATSAPP_PLACEHOLDER')"
+              :max-length="MESSAGE_MAX_LENGTH"
+              show-character-count
+              auto-height
+            />
+            <p class="text-body-main text-n-slate-11">
+              {{ label('UNANSWERED.WHATSAPP_MESSAGE_HELP') }}
+            </p>
+          </div>
         </CallSettingsSection>
 
         <CallSettingsSection
@@ -297,6 +331,11 @@ const applyInboxHours = async () => {
           :title="label('CALLING_CUSTOMERS.TITLE')"
           :description="label('CALLING_CUSTOMERS.DESCRIPTION')"
         >
+          <CallSettingsOption
+            v-model="form.callbackPermissionEnabled"
+            :label="label('CALLING_CUSTOMERS.CALLBACK_PERMISSION')"
+            :help="label('CALLING_CUSTOMERS.CALLBACK_PERMISSION_HELP')"
+          />
           <div class="flex flex-col gap-1.5">
             <label
               :for="`call-permission-request-${inbox.id}`"
@@ -321,10 +360,10 @@ const applyInboxHours = async () => {
         <NextButton
           :label="label('SAVE')"
           :is-loading="isSaving"
-          :disabled="!isDirty"
+          :disabled="!isDirty || isTogglingCalling"
           @click="save"
         />
       </div>
-    </template>
+    </div>
   </div>
 </template>

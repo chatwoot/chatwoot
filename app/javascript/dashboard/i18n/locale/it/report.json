@@ -1,6 +1,19 @@
 {
   "MONITORS": {
     "TITLE": "Monitor",
+    "SLACK_ALERT": {
+      "TITLE": "Slack alerts",
+      "DESCRIPTION": "Post to a Slack channel when this monitor first matches a conversation from new live activity.",
+      "NONE": "Don't send alerts",
+      "PLACEHOLDER": "Seleziona un canale",
+      "LOADING": "Loading channels…",
+      "CONNECT": "Connect Slack",
+      "ON": "Attivo",
+      "OFF": "Disattivo",
+      "SAVED": "Slack alerts updated.",
+      "FETCH_FAILED": "Could not load channels. Open to retry.",
+      "SAVE_FAILED": "Could not update Slack alerts. Try again."
+    },
     "AUTOMATIONS": {
       "TITLE": "Automazioni",
       "DESCRIPTION": "Esegui azioni quando questo monitor rileva per la prima volta una conversazione da una nuova attività.",
@@ -131,8 +144,8 @@
     "COVERAGE_HELP": "Questo intervallo include periodi non controllati del tutto. I conteggi potrebbero essere incompleti.",
     "REFRESHED": "Ultimo aggiornamento alle {time}. Gli aggiornamenti compaiono automaticamente.",
     "USAGE": {
-      "LIMIT_REACHED": "Questo account ha usato le sue {limit} chiamate ai monitor per questo mese.",
-      "RESETS": "Nuove valutazioni e anteprime sono sospese fino al {time}. I risultati esistenti restano disponibili.",
+      "LIMIT_REACHED": "This account has used its {limit} AI classification calls for this month. Monitors, automation Captain conditions, and label and priority suggestions share this allowance.",
+      "RESETS": "Monitor evaluations and previews, automation Captain conditions, and label and priority suggestions are unavailable until {time}. Existing results remain available.",
       "REACHED_AT": "Limite raggiunto il {time}."
     },
     "STATES": {
@@ -156,7 +169,7 @@
       "PROVIDER_BUSY": "Il provider di valutazione è occupato. Le conversazioni in attesa richiedono un'altra valutazione.",
       "PROVIDER_UNAVAILABLE": "Il provider di valutazione non è disponibile temporaneamente. Gli aggiornamenti potrebbero subire ritardi.",
       "BUDGET_LIMIT": "È stata raggiunta la quota giornaliera di valutazioni. Il lavoro in sospeso riprenderà dopo l'azzeramento.",
-      "MONTHLY_LIMIT": "Questo account ha raggiunto la quota mensile dei monitor. Le valutazioni in sospeso riprenderanno il mese prossimo.",
+      "MONTHLY_LIMIT": "This account has reached its shared monthly AI classification allowance. Pending evaluations will resume next month.",
       "CONTEXT_LIMIT": "Alcune conversazioni sono troppo lunghe per essere valutate per intero. Sono escluse dai risultati.",
       "INVALID_PARAMETERS": "Controlla nome, condizione, intervallo di date e raggruppamento.",
       "TOO_MANY_BUCKETS": "Scegli un intervallo di date più breve o un raggruppamento più ampio. Un grafico può mostrare al massimo 744 barre.",

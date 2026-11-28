@@ -1,83 +1,120 @@
 {
   "STRIPE_INTEGRATION": {
-    "UNAVAILABLE": "Stripe is unavailable for this account. Contact your administrator to check the integration configuration.",
+    "UNAVAILABLE": "Stripe nije dostupan za ovaj račun. Obratite se administratoru radi provjere postavki integracije.",
     "TITLE": "Stripe",
-    "DESCRIPTION": "View customer details, subscriptions, and invoices alongside your conversations.",
-    "CONNECT": "Connect",
-    "DISCONNECT": "Disconnect from Chatwoot",
-    "DISCONNECT_NOTE": "Disconnecting removes the saved credentials from Chatwoot. Uninstall the app in Stripe to revoke its access there.",
-    "CONNECTED": "Connected",
-    "RECONNECT": "Reconnect Stripe",
-    "REAUTHORIZATION_REQUIRED": "Reconnect required",
-    "ACCOUNT": "Connected account",
+    "DESCRIPTION": "Pregledavajte podatke o kupcima, pretplate i račune uz svoje razgovore.",
+    "CONNECT": "Poveži",
+    "DISCONNECT": "Prekini vezu s Chatwootom",
+    "DISCONNECT_NOTE": "Prekidom veze uklanjaju se spremljeni pristupni podaci iz Chatwoota. Deinstalirajte aplikaciju u Stripeu kako biste joj ondje opozvali pristup.",
+    "CONNECTED": "Povezano",
+    "RECONNECT": "Ponovno poveži Stripe",
+    "REAUTHORIZATION_REQUIRED": "Potrebno je ponovno povezivanje",
+    "ACCOUNT": "Povezani račun",
     "ACCOUNT_ID": "Account ID",
-    "ENVIRONMENT": "Environment",
+    "ENVIRONMENT": "Okruženje",
     "SANDBOX": "Sandbox",
     "LIVE": "Live",
-    "CONNECTED_ON": "Connected on",
-    "OPEN_STRIPE": "Open Stripe dashboard",
-    "ERROR": "Unable to load Stripe. Please try again or reconnect the integration.",
-    "EMPTY": "No Stripe customer matches this contact's email.",
-    "NO_EMAIL": "Add an email to this contact to look up Stripe customers.",
-    "SELECT": "Select a matching customer",
+    "CONNECTED_ON": "Datum povezivanja",
+    "OPEN_STRIPE": "Otvori nadzornu ploču Stripea",
+    "ERROR": "Učitavanje Stripea nije uspjelo. Pokušajte ponovno ili ponovno povežite integraciju.",
+    "EMPTY": "Nijedan kupac u Stripeu ne odgovara adresi e-pošte ovog kontakta.",
+    "NO_EMAIL": "Dodajte adresu e-pošte ovom kontaktu za pronalaženje kupaca u Stripeu.",
+    "SELECT": "Odaberite odgovarajućeg kupca",
     "CUSTOMER_OPTION": "{name} — {id}",
-    "MORE": "Showing the first 100 matching customers. Refine the contact email if the customer is not listed.",
-    "SUBSCRIPTIONS": "Latest five subscriptions",
-    "SUBSCRIPTION": "Subscription",
-    "VIEW_SUBSCRIPTION": "View {name} subscription details",
-    "COPY_ID": "Copy ID",
-    "COPIED": "Copied",
-    "QUANTITY": "Quantity: {count}",
+    "MORE": "Prikazuje se prvih 100 odgovarajućih kupaca. Ako kupac nije na popisu, precizirajte adresu e-pošte kontakta.",
+    "SUBSCRIPTIONS": "Posljednjih pet pretplata",
+    "SUBSCRIPTION": "Pretplata",
+    "VIEW_SUBSCRIPTION": "Prikaži pojedinosti pretplate {name}",
+    "COPY_ID": "Kopiraj ID",
+    "COPIED": "Kopirano",
+    "QUANTITY": "Količina: {count}",
     "PRICE_INTERVAL": "{amount} / {interval}",
     "INTERVAL": {
-      "day": "day | {count} days",
-      "week": "week | {count} weeks",
-      "month": "month | {count} months",
-      "year": "year | {count} years"
+      "day": "dan | {count} dana",
+      "week": "tjedan | {count} tjedana",
+      "month": "mjesec | {count} mjeseci",
+      "year": "godina | {count} godina"
     },
-    "VARIABLE_PRICE": "Usage-based or tiered pricing",
-    "RENEWS": "Renews {date}",
-    "PERIOD_START": "Period starts {date}",
-    "PERIOD_END": "Period ends {date}",
-    "TRIAL_ENDS": "Trial ends {date}",
-    "CANCELS": "Cancels {date}",
-    "CANCELS_AT_PERIOD_END": "Cancels at the end of the billing period",
-    "CANCELED_ON": "Canceled {date}",
-    "MORE_ITEMS": "Additional subscription items are not shown.",
-    "PRICE_NOTE": "Prices are per unit, before discounts and taxes. They are not an estimate of the next invoice.",
-    "INVOICES": "Recent invoices",
-    "NO_SUBSCRIPTIONS": "No subscriptions found.",
-    "NO_INVOICES": "No invoices found."
+    "VARIABLE_PRICE": "Cijena prema korištenju ili cjenovnim razredima",
+    "RENEWS": "Obnavlja se {date}",
+    "PERIOD_START": "Razdoblje počinje {date}",
+    "PERIOD_END": "Razdoblje završava {date}",
+    "TRIAL_ENDS": "Probno razdoblje završava {date}",
+    "CANCELS": "Otkazuje se {date}",
+    "CANCELS_AT_PERIOD_END": "Otkazuje se na kraju obračunskog razdoblja",
+    "CANCELED_ON": "Otkazano {date}",
+    "MORE_ITEMS": "Dodatne stavke pretplate nisu prikazane.",
+    "PRICE_NOTE": "Cijene su po jedinici, prije popusta i poreza. Ne predstavljaju procjenu sljedećeg računa.",
+    "INVOICES": "Nedavni računi",
+    "NO_SUBSCRIPTIONS": "Nisu pronađene pretplate.",
+    "NO_INVOICES": "Nisu pronađeni računi."
   },
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
       "HEADER": "Shopify",
       "DELETE": {
         "TITLE": "Delete Shopify Integration",
-        "MESSAGE": "Are you sure you want to delete the Shopify integration?"
+        "MESSAGE": "Želite li zaista izbrisati Shopify integraciju? Izbrisat će se i spremljena konfiguracija prilagođene aplikacije te pristupni podaci za ovaj radni prostor."
       },
       "STORE_URL": {
         "TITLE": "Connect Shopify Store",
         "LABEL": "Store URL",
         "PLACEHOLDER": "your-store.myshopify.com",
         "HELP": "Enter your Shopify store's myshopify.com URL",
-        "INVALID_URL": "Please enter a valid Shopify store URL (e.g., your-store.myshopify.com)",
+        "INVALID_URL": "Unesite valjan URL Shopify trgovine (npr. your-store.myshopify.com)",
         "CANCEL": "Odustani",
         "SUBMIT": "Connect Store"
       },
       "HELP_TEXT": {
-        "TITLE": "How to use the Shopify Integration?",
-        "BODY": "With this integration, your Shopify store ***{storeDomain}*** is connected to your Chatwoot workspace. Here's what you can do:\n\n**Track orders in conversations:** When you open a conversation, the Shopify sidebar will automatically display recent orders for the customer based on their email address. This gives your support team instant context without switching tabs.\n\n**Access order details:** View order status, fulfillment status, and total amount directly within the conversation panel."
+        "TITLE": "Kako koristiti Shopify integraciju?",
+        "BODY": "Ovom je integracijom vaša Shopify trgovina ***{storeDomain}*** povezana s vašim Chatwoot radnim prostorom. Evo što možete raditi:\n\n**Pratite narudžbe u razgovorima:** Kada otvorite razgovor, Shopify bočna traka automatski će prikazati nedavne narudžbe kupca na temelju njegove adrese e-pošte. Vaš tim za podršku tako odmah dobiva kontekst bez promjene kartice.\n\n**Pristupite podacima o narudžbi:** Pregledavajte status narudžbe, status obrade i ukupan iznos izravno u panelu razgovora."
       },
       "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists.",
       "PENDING_INSTALL": {
-        "SUCCESS": "Shopify store connected successfully.",
-        "ERROR": "Unable to complete the Shopify installation. Please try again."
+        "SUCCESS": "Shopify trgovina uspješno je povezana.",
+        "ERROR": "Dovršavanje instalacije Shopify integracije nije uspjelo. Pokušajte ponovno."
       },
       "SELECT_ACCOUNT": {
-        "TITLE": "Choose a workspace",
-        "DESCRIPTION": "Select the workspace to connect to your Shopify store. To restore a previous connection, choose its original workspace.",
-        "UNAVAILABLE": "No eligible workspace or valid installation was found. Restart installation or sign in as a workspace administrator."
+        "TITLE": "Odaberite radni prostor",
+        "DESCRIPTION": "Odaberite radni prostor koji želite povezati sa svojom Shopify trgovinom. Za obnovu prethodne veze odaberite izvorni radni prostor.",
+        "UNAVAILABLE": "Nije pronađen odgovarajući radni prostor ni valjana instalacija. Ponovno pokrenite instalaciju ili se prijavite kao administrator radnog prostora."
+      },
+      "CUSTOM_APP": {
+        "TITLE": "Poveži putem vlastite Shopify aplikacije",
+        "ADVANCED": "Napredno postavljanje",
+        "DESCRIPTION": "Povežite trgovinu kako biste uz razgovore vidjeli narudžbe kupaca putem aplikacije koju izradite u Shopifyju.",
+        "BEFORE_START": "Potreban vam je administratorski pristup ovom radnom prostoru te dopuštenje za izradu i instalaciju aplikacija u Shopify trgovini. Povezuju se podaci o narudžbama; ne instalira se widget za razgovor uživo niti mijenja pretplata.",
+        "CREATE_TITLE": "1. Izradite aplikaciju u Shopifyju",
+        "CREATE_HELP": "Otvorite Shopify Dev Dashboard → Apps → Create app → Start from Dev Dashboard. Dajte naziv aplikaciji, zatim otvorite Settings → Credentials. Ostavite Shopify otvoren tijekom postavljanja.",
+        "OPEN_SHOPIFY": "Otvori Shopify Dev Dashboard ↗",
+        "DISTRIBUTION_HELP": "Izradite i objavite početnu verziju aplikacije s isključenim ugrađivanjem. Ako Shopify zahtijeva URL aplikacije, privremeno upotrijebite https://shopify.dev/apps/default-app-home. Odaberite Custom distribution, ograničite distribuciju na svoju trgovinu i kopirajte generiranu instalacijsku poveznicu. URL aplikacije zamijenit ćete u koraku 3.",
+        "DETAILS_TITLE": "2. Ovdje kopirajte podatke aplikacije",
+        "STORE": "Domena Shopify trgovine",
+        "STORE_HELP": "Upotrijebite trajnu adresu .myshopify.com bez https:// i dodatne putanje. Pronaći ćete je u postavkama Shopify trgovine.",
+        "CLIENT_ID": "ID klijenta",
+        "CREDENTIALS_HELP": "Kopirajte ID klijenta iz odjeljka Settings → Credentials svoje Shopify aplikacije.",
+        "SECRET": "Tajni ključ klijenta",
+        "SECRET_HELP": "Kopirajte tajni ključ klijenta iz istog odjeljka Credentials. Sprema se šifrirano i više se neće prikazivati.",
+        "SECRET_SAVED": "Tajni ključ klijenta već je spremljen. Ostavite polje prazno kako biste ga zadržali ili zalijepite novi iz Shopifyja.",
+        "INSTALL_URL": "Shopify poveznica za instalaciju",
+        "INSTALL_HELP": "Zalijepite cijelu instalacijsku poveznicu sa stranice Custom distribution svoje aplikacije. Mora pripadati toj aplikaciji i trgovini. Za ažuriranje spremljenih podataka ponovno zalijepite instalacijsku poveznicu.",
+        "SAVE": "Spremi i preuzmi URL-ove za postavljanje",
+        "UPDATE": "Ažuriraj podatke aplikacije",
+        "CONFIGURE_TITLE": "3. Dovršite postavljanje u Shopifyju",
+        "URL_HELP": "U verziji Shopify aplikacije postavite App URL i Allowed redirect URL na URL u nastavku. Isključite ugrađivanje aplikacije u Shopify administraciju.",
+        "SCOPES_HELP": "Dodajte sljedeće opsege pristupa administratorskom API-ju u verziju aplikacije:",
+        "WEBHOOK_HELP": "Konfigurirajte pretplatu na webhook događaj app/uninstalled i primjenjive webhook događaje zaštite privatnosti kako bi se slali na ovaj webhook URL:",
+        "RELEASE_HELP": "Spremite i objavite verziju aplikacije u Shopifyju. Provjerite je li aktivna i sadrži li navedene URL-ove i dopuštenja. Zatim povežite trgovinu i odobrite pristup u Shopifyju.",
+        "CONNECT": "Poveži trgovinu u Shopifyju",
+        "VERIFY_HELP": "Nakon odobrenja vratite se ovamo i otvorite razgovor s kupcem čija adresa e-pošte odgovara kupcu u Shopifyju kako biste provjerili njegove narudžbe.",
+        "DOCUMENTATION": "Pročitaj vodič za izradu Shopify aplikacije ↗",
+        "LOAD_ERROR": "Učitavanje konfiguracije aplikacije nije uspjelo. Osvježite stranicu prije nastavka.",
+        "SAVE_ERROR": "Spremanje podataka aplikacije nije uspjelo. Provjerite domenu trgovine, pristupne podatke i Shopify instalacijsku poveznicu. Radni prostor mora koristiti naplatu izvan Shopifyja.",
+        "CONNECT_ERROR": "Povezivanje aplikacije nije uspjelo. Provjerite je li njezina verzija aktivna i je li instalacijska poveznica aktualna pa pokušajte ponovno.",
+        "EDIT": "Uredi podatke aplikacije",
+        "RESET": "Poništi postavke",
+        "RESET_ERROR": "Poništavanje podataka aplikacije nije uspjelo. Pokušajte ponovno.",
+        "DETAILS_SAVED": "Podaci aplikacije su spremljeni. Za povezivanje dovršite Shopify postavke u nastavku."
       }
     },
     "HEADER": "Integrations",
@@ -96,11 +133,11 @@
       "SUBSCRIBED_EVENTS": "Subscribed Events",
       "LEARN_MORE": "Learn more about webhooks",
       "PAYWALL": {
-        "TITLE": "Webhooks are available on paid plans",
-        "AVAILABLE_ON": "Use webhooks to receive real-time events from your Chatwoot account.",
-        "UPGRADE_PROMPT": "Upgrade to the Startups, Business, or Enterprise plan to use webhooks.",
-        "UPGRADE_NOW": "Upgrade now",
-        "CANCEL_ANYTIME": "Change or cancel your plan anytime."
+        "TITLE": "Webhookovi su dostupni u plaćenim paketima",
+        "AVAILABLE_ON": "Koristite webhookove za primanje događaja sa svojeg Chatwoot računa u stvarnom vremenu.",
+        "UPGRADE_PROMPT": "Prijeđite na paket Startups, Business ili Enterprise za korištenje webhookova.",
+        "UPGRADE_NOW": "Nadogradi sada",
+        "CANCEL_ANYTIME": "Paket možete promijeniti ili otkazati u bilo kojem trenutku."
       },
       "SECRET": {
         "LABEL": "Secret",
@@ -129,7 +166,7 @@
             "CONTACT_UPDATED": "Contact updated",
             "CONVERSATION_TYPING_ON": "Conversation Typing On",
             "CONVERSATION_TYPING_OFF": "Conversation Typing Off",
-            "INBOX_UPDATED": "Inbox updated"
+            "INBOX_UPDATED": "Pretinac je ažuriran"
           }
         },
         "NAME": {
@@ -199,23 +236,23 @@
       "HELP_TEXT": {
         "TITLE": "Using Slack Integration",
         "BODY": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace. You can manage all your customer conversations right within the channel and never miss a message.\n\nHere are the main features of the integration:\n\n**Respond to conversations from within Slack:** To respond to a conversation in the ***{selectedChannelName}*** Slack channel, simply type out your message and send it as a thread. This will create a response back to the customer through Chatwoot. It's that simple!\n\n **Create private notes:** If you want to create private notes instead of replies, start your message with ***`note:`***. This ensures that your message is kept private and won't be visible to the customer.\n\n**Associate an agent profile:** If the person who replied on Slack has an agent profile in Chatwoot under the same email, the replies will be associated with that agent profile automatically. This means you can easily track who said what and when. On the other hand, when the replier doesn't have an associated agent profile, the replies will appear from the bot profile to the customer.",
-        "BODY_ALERT": "With this integration, all of your incoming conversations will be synced to the ***{selectedChannelName}*** channel in your Slack workspace, so your team can pick them up as soon as they come in.\n\nThis integration is set to **Alerts only**, which means the Slack thread is a safe space for internal discussion. Anything your team posts there stays in Slack and is never sent to the customer.\n\n**Respond to the customer from Chatwoot:** Open the conversation from the link shared in the thread and reply from the Chatwoot dashboard. Replies and private notes added in Chatwoot keep appearing in the Slack thread, so everyone stays in the loop.",
+        "BODY_ALERT": "Ovom će se integracijom svi vaši dolazni razgovori sinkronizirati s kanalom ***{selectedChannelName}*** u vašem Slack radnom prostoru kako bi ih vaš tim mogao preuzeti čim stignu.\n\nIntegracija je postavljena na **Samo obavijesti**, što znači da je Slack nit prostor za internu raspravu. Sve što vaš tim ondje objavi ostaje u Slacku i nikada se ne šalje kupcu.\n\n**Odgovorite kupcu iz Chatwoota:** Otvorite razgovor putem poveznice podijeljene u niti i odgovorite iz Chatwootove nadzorne ploče. Odgovori i privatne bilješke dodani u Chatwootu i dalje se prikazuju u Slack niti kako bi svi bili u tijeku.",
         "SELECTED": "selected"
       },
       "MESSAGE_MODE": {
-        "TITLE": "Slack thread behaviour",
-        "DESCRIPTION": "Decide whether replies in the Slack thread reach the customer or stay internal.",
+        "TITLE": "Ponašanje Slack niti",
+        "DESCRIPTION": "Odredite hoće li se odgovori u Slack niti slati kupcu ili ostati interni.",
         "OPTIONS": {
           "TWO_WAY": {
-            "LABEL": "Two-way sync",
-            "DESCRIPTION": "Replies in the Slack thread are sent to the customer. Start a message with `note:` to keep it internal."
+            "LABEL": "Dvosmjerna sinkronizacija",
+            "DESCRIPTION": "Odgovori u Slack niti šalju se kupcu. Započnite poruku s `note:` kako bi ostala interna."
           },
           "ALERT": {
-            "LABEL": "Alerts only",
-            "DESCRIPTION": "Conversations are posted to Slack for internal discussion only. Nothing in the thread reaches the customer."
+            "LABEL": "Samo obavijesti",
+            "DESCRIPTION": "Razgovori se objavljuju u Slacku samo za internu raspravu. Ništa iz niti ne šalje se kupcu."
           }
         },
-        "UPDATE_SUCCESS": "The Slack thread behaviour is updated successfully"
+        "UPDATE_SUCCESS": "Ponašanje Slack niti uspješno je ažurirano"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "Select a channel",
@@ -468,32 +505,32 @@
     },
     "GOOGLE_TRANSLATE": {
       "HEADER": "Google Translate",
-      "DELETE_MESSAGE": "Agents won't be able to translate messages with Google Translate anymore. If Google Translate is your translation service, auto-translate stops until you pick another one.",
+      "DELETE_MESSAGE": "Djelatnici više neće moći prevoditi poruke Google prevoditeljem. Ako je Google prevoditelj vaša usluga prevođenja, automatsko prevođenje prestat će raditi dok ne odaberete drugu uslugu.",
       "SETUP": {
-        "TITLE": "Set up Google Translate",
-        "DESCRIPTION": "You'll need a Google Cloud project. It takes about five minutes.",
+        "TITLE": "Postavi Google prevoditelj",
+        "DESCRIPTION": "Trebat će vam Google Cloud projekt. Postavljanje traje oko pet minuta.",
         "STEPS": {
           "ENABLE_API": {
-            "TITLE": "Turn on the Cloud Translation API",
-            "DESCRIPTION": "Pick a project in the Google Cloud console and enable the Cloud Translation API. Note the project ID.",
-            "LINK": "Open Cloud Translation API"
+            "TITLE": "Omogućite Cloud Translation API",
+            "DESCRIPTION": "Odaberite projekt u konzoli Google Cloud i omogućite Cloud Translation API. Zabilježite ID projekta.",
+            "LINK": "Otvori Cloud Translation API"
           },
           "CREATE_KEY": {
-            "TITLE": "Create a service account key",
-            "DESCRIPTION": "Create a service account with the Cloud Translation API User role. Then open it, go to Keys, and add a JSON key.",
-            "LINK": "Open service accounts"
+            "TITLE": "Izradite ključ servisnog računa",
+            "DESCRIPTION": "Izradite servisni račun s ulogom Cloud Translation API User. Zatim ga otvorite, idite na Keys i dodajte JSON ključ.",
+            "LINK": "Otvori servisne račune"
           },
           "CONNECT": {
-            "TITLE": "Connect it here",
-            "DESCRIPTION": "Click Connect, enter the project ID and paste the key file. We check it with Google before saving."
+            "TITLE": "Povežite ga ovdje",
+            "DESCRIPTION": "Kliknite Poveži, unesite ID projekta i zalijepite sadržaj datoteke ključa. Prije spremanja provjerit ćemo ga s Googleom."
           }
         }
       },
       "DETAILS": {
-        "PROJECT": "Google Cloud project",
-        "SERVICE": "Translation service",
-        "SERVICE_GOOGLE": "Google Translate handles all translation in your conversations. When auto-translate is on, it translates incoming messages into each agent's language and sends replies in the customer's language. Agents also use it when they translate a message from its menu.",
-        "SERVICE_OTHER": "Captain is selected as your translation service, so Google Translate isn't used right now. Auto-translate and the Translate action on messages both go through Captain. Switch the service to Google Translate to use this integration instead.",
+        "PROJECT": "Google Cloud projekt",
+        "SERVICE": "Usluga prevođenja",
+        "SERVICE_GOOGLE": "Google prevoditelj obrađuje sve prijevode u vašim razgovorima. Kada je automatsko prevođenje uključeno, prevodi dolazne poruke na jezik svakog djelatnika i šalje odgovore na jeziku kupca. Djelatnici ga koriste i kada prevode poruku putem njezina izbornika.",
+        "SERVICE_OTHER": "Captain je odabran kao vaša usluga prevođenja pa se Google prevoditelj trenutačno ne koristi. Automatsko prevođenje i radnja Prevedi na porukama koriste Captain. Promijenite uslugu na Google prevoditelj kako biste umjesto toga koristili ovu integraciju.",
         "CHANGE": "Change"
       }
     },
@@ -508,195 +545,194 @@
     }
   },
   "CAPTAIN": {
-    "NAME": "Captain",
     "HEADER_KNOW_MORE": "Saznaj više",
     "OVERVIEW": {
       "HEADER": "Pregled",
       "WELCOME": {
-        "LABEL": "Captain summary",
-        "LOADING": "Generating summary…"
+        "LABEL": "Captainov sažetak",
+        "LOADING": "Generiranje sažetka…"
       },
       "INBOX_BANNER": {
-        "TEXT": "This assistant isn't connected to any inbox yet, so it won't respond to conversations.",
-        "ACTION": "Connect inbox",
-        "DISMISS": "Dismiss"
+        "TEXT": "Ovaj asistent još nije povezan ni s jednim pretincem pa neće odgovarati u razgovorima.",
+        "ACTION": "Poveži pretinac",
+        "DISMISS": "Odbaci"
       },
       "COVERAGE_BANNER": {
-        "TEXT": "{count} FAQ suggestions are ready for review, keeping coverage at {coverage}%. Approve them so your assistant can resolve more on its own.",
-        "ACTION": "Review suggestions",
-        "DISMISS": "Dismiss"
+        "TEXT": "Broj prijedloga čestih pitanja spremnih za pregled: {count}. Pokrivenost je {coverage}%. Odobrite ih kako bi vaš asistent mogao samostalno riješiti više upita.",
+        "ACTION": "Pregledaj prijedloge",
+        "DISMISS": "Odbaci"
       },
       "RANGES": {
-        "INSUFFICIENT_HISTORY": "Not enough reporting history yet",
-        "THIS_WEEK": "This week",
-        "LAST_WEEK": "Last week",
-        "LAST_DAYS": "Last {count} days",
-        "THIS_MONTH": "This month",
-        "LAST_MONTH": "Last month"
+        "INSUFFICIENT_HISTORY": "Još nema dovoljno podataka za izvještavanje",
+        "THIS_WEEK": "Ovaj tjedan",
+        "LAST_WEEK": "Prošli tjedan",
+        "LAST_DAYS": "Posljednjih {count} dana",
+        "THIS_MONTH": "Ovaj mjesec",
+        "LAST_MONTH": "Prošli mjesec"
       },
       "METRICS": {
         "HANDLED": {
-          "LABEL": "Conversations handled",
-          "HINT": "Conversations where Captain replied to the customer or handed the conversation to your team."
+          "LABEL": "Obrađeni razgovori",
+          "HINT": "Razgovori u kojima je Captain odgovorio kupcu ili predao razgovor vašem timu."
         },
         "AUTO_RESOLUTION": {
-          "LABEL": "Auto-resolution rate",
-          "HINT": "The share of handled conversations Captain resolved without help from your team. Higher means Captain resolved more on its own."
+          "LABEL": "Postotak automatski riješenih razgovora",
+          "HINT": "Udio obrađenih razgovora koje je Captain riješio bez pomoći vašeg tima. Veći postotak znači da je Captain samostalno riješio više razgovora."
         },
         "HANDOFF": {
-          "LABEL": "Handoff rate",
-          "HINT": "The share of handled conversations Captain passed to your team. Lower means fewer conversations needed an agent."
+          "LABEL": "Postotak predanih razgovora",
+          "HINT": "Udio obrađenih razgovora koje je Captain predao vašem timu. Manji postotak znači da je manje razgovora zahtijevalo djelatnika."
         },
         "HOURS_SAVED": {
-          "LABEL": "Time saved",
-          "HINT": "An estimate of how much agent reply time Captain saved.",
-          "NOTE": "Based on two minutes saved for each public Captain reply."
+          "LABEL": "Ušteđeno vrijeme",
+          "HINT": "Procjena vremena koje je Captain uštedio djelatnicima pri odgovaranju.",
+          "NOTE": "Na temelju dvije minute uštede za svaki Captainov javni odgovor."
         },
         "REOPEN": {
-          "LABEL": "Reopen rate",
-          "HINT": "The share of Captain-resolved conversations that customers returned to later.",
-          "NOTE": "Lower means more resolutions stayed resolved."
+          "LABEL": "Postotak ponovno otvorenih razgovora",
+          "HINT": "Udio razgovora koje je Captain riješio, a kojima su se kupci naknadno vratili.",
+          "NOTE": "Manji postotak znači da je više razgovora ostalo riješeno."
         },
         "DEPTH": {
-          "LABEL": "Messages / conversation",
-          "HINT": "The average number of replies Captain sent in each conversation it handled.",
-          "NOTE": "A lower number can mean quicker answers, but complex questions may need more replies."
+          "LABEL": "Poruke / razgovor",
+          "HINT": "Prosječan broj odgovora koje je Captain poslao u svakom obrađenom razgovoru.",
+          "NOTE": "Manji broj može značiti brže odgovore, ali složena pitanja mogu zahtijevati više odgovora."
         }
       },
       "DRILLDOWN": {
-        "EMPTY": "No records found for this metric.",
-        "ERROR": "Could not load records. Please try again.",
-        "LOAD_MORE": "Load more",
-        "RESULT_COUNT_CONVERSATION": "{count} conversation | {count} conversations"
+        "EMPTY": "Nisu pronađeni zapisi za ovaj pokazatelj.",
+        "ERROR": "Učitavanje zapisa nije uspjelo. Pokušajte ponovno.",
+        "LOAD_MORE": "Učitaj više",
+        "RESULT_COUNT_CONVERSATION": "{count} razgovor | {count} razgovora"
       },
       "KNOWLEDGE": {
-        "TITLE": "Knowledge coverage",
-        "COVERAGE": "{pct}% approved",
-        "APPROVED": "Approved FAQs",
-        "SUGGESTIONS": "FAQ suggestions",
-        "DOCUMENTS": "Documents"
+        "TITLE": "Pokrivenost znanjem",
+        "COVERAGE": "{pct}% odobreno",
+        "APPROVED": "Odobrena česta pitanja",
+        "SUGGESTIONS": "Prijedlozi čestih pitanja",
+        "DOCUMENTS": "Dokumenti"
       },
       "LINKS": {
         "DOCS": {
-          "TITLE": "Captain docs",
-          "DESCRIPTION": "Guides and how-tos for Captain"
+          "TITLE": "Captainova dokumentacija",
+          "DESCRIPTION": "Vodiči i upute za Captain"
         },
         "PLAYGROUND": {
           "TITLE": "Poligon",
-          "DESCRIPTION": "Test this assistant's replies"
+          "DESCRIPTION": "Testirajte odgovore ovog asistenta"
         },
         "BILLING": {
-          "TITLE": "Billing",
-          "DESCRIPTION": "Manage credits and plan"
+          "TITLE": "Naplata",
+          "DESCRIPTION": "Upravljajte kreditima i paketom"
         }
       },
       "V2": {
         "DRILLDOWN": {
-          "HANDLED": "Episodes where Captain participated during the selected period.",
-          "RESOLVED": "Episodes resolved by Captain without a handoff or human reply before resolution.",
-          "HANDED_OFF": "Episodes handed off after Captain participated.",
-          "REOPENED": "Captain-resolved episodes that subsequently reopened.",
-          "DURABLE": "Captain-resolved episodes that remained closed for at least seven days.",
-          "CLOSED_WITH_TEAM": "Episodes where Captain participated but neither resolved autonomously nor handed off.",
-          "REOPENED_WITHIN_7_DAYS": "Captain-resolved episodes that reopened within seven days.",
-          "STAYED_CLOSED": "Captain-resolved episodes with no reopen recorded within seven days. Recent resolutions are included.",
-          "HANDOFF_REASON": "Episodes handed off for this reason: {reason}.",
-          "COUNT": "No episodes | 1 episode | {count} episodes",
-          "EPISODES_HINT": "A conversation can appear more than once if Captain handled it in separate episodes. Episodes are grouped by when they started.",
-          "STARTED_AT": "Episode started {time}",
-          "RETRY": "Try again"
+          "HANDLED": "Ciklusi obrade razgovora u kojima je Captain sudjelovao tijekom odabranog razdoblja.",
+          "RESOLVED": "Ciklusi obrade razgovora koje je Captain riješio bez predaje ili odgovora djelatnika prije rješavanja.",
+          "HANDED_OFF": "Ciklusi obrade razgovora predani nakon Captainova sudjelovanja.",
+          "REOPENED": "Ciklusi obrade razgovora koje je Captain riješio, a koji su naknadno ponovno otvoreni.",
+          "DURABLE": "Ciklusi obrade razgovora koje je Captain riješio i koji su ostali zatvoreni najmanje sedam dana.",
+          "CLOSED_WITH_TEAM": "Ciklusi obrade razgovora u kojima je Captain sudjelovao, ali ih nije samostalno riješio niti predao.",
+          "REOPENED_WITHIN_7_DAYS": "Ciklusi obrade razgovora koje je Captain riješio, a koji su ponovno otvoreni unutar sedam dana.",
+          "STAYED_CLOSED": "Ciklusi obrade razgovora koje je Captain riješio, bez zabilježenog ponovnog otvaranja unutar sedam dana. Uključena su i nedavna rješavanja.",
+          "HANDOFF_REASON": "Ciklusi obrade razgovora predani iz ovog razloga: {reason}.",
+          "COUNT": "Nema ciklusa obrade | 1 ciklus obrade | {count} ciklusa obrade",
+          "EPISODES_HINT": "Razgovor se može pojaviti više puta ako ga je Captain obrađivao u odvojenim ciklusima. Ciklusi se grupiraju prema vremenu početka.",
+          "STARTED_AT": "Ciklus obrade započeo je {time}",
+          "RETRY": "Pokušaj ponovno"
         },
-        "EMPTY": "No data available for this period.",
+        "EMPTY": "Nema dostupnih podataka za ovo razdoblje.",
         "SUMMARY": {
-          "GREETING": "Hello, {name}!",
-          "DEFAULT_NAME": "there",
-          "EMPTY": "Captain's performance summary will appear here when enough activity is available.",
-          "PREVIOUS": "Previous summary point",
-          "NEXT": "Next summary point"
+          "GREETING": "Pozdrav, {name}!",
+          "DEFAULT_NAME": "korisniče",
+          "EMPTY": "Sažetak Captainove uspješnosti prikazat će se ovdje kada bude dovoljno aktivnosti.",
+          "PREVIOUS": "Prethodna stavka sažetka",
+          "NEXT": "Sljedeća stavka sažetka"
         },
         "UNITS": {
-          "DAYS": "{value}d",
-          "HOURS": "{value}h",
+          "DAYS": "{value} d",
+          "HOURS": "{value} h",
           "MINUTES": "{value} min"
         },
         "METRICS": {
           "TIME_SAVED": {
-            "LABEL": "Saved in agent effort and time"
+            "LABEL": "Ušteda rada i vremena djelatnika"
           },
           "DURABLE": {
-            "LABEL": "Captain resolutions remained closed",
-            "NOT_APPLICABLE_HINT": "No resolutions in this period have seven days of follow-up yet. Durability is unavailable.",
-            "HINT": "The share of Captain-resolved conversations that were still closed seven days later.",
-            "NOTE": "Only resolutions old enough to observe for seven days are included."
+            "LABEL": "Captainovi riješeni razgovori ostali su zatvoreni",
+            "NOT_APPLICABLE_HINT": "Još nijedan riješeni razgovor u ovom razdoblju nije praćen sedam dana. Trajnost rješenja nije dostupna.",
+            "HINT": "Udio razgovora koje je Captain riješio, a koji su i sedam dana poslije ostali zatvoreni.",
+            "NOTE": "Uključeni su samo razgovori od čijeg je rješavanja prošlo najmanje sedam dana."
           },
           "MEDIAN_RESOLUTION": {
-            "LABEL": "Median resolution time",
-            "HINT": "The typical time from when a conversation reached Captain until it was resolved.",
-            "NOTE": "Lower means customers generally got resolved sooner."
+            "LABEL": "Medijan vremena rješavanja",
+            "HINT": "Tipično vrijeme od dolaska razgovora do Captaina do njegova rješavanja.",
+            "NOTE": "Manja vrijednost znači da su upiti kupaca uglavnom brže riješeni."
           },
           "DEPTH": {
-            "LABEL": "Messages per conversation"
+            "LABEL": "Poruke po razgovoru"
           },
-          "OF_TOTAL": "of {total}"
+          "OF_TOTAL": "od {total}"
         },
         "RESOLUTION_FLOW": {
-          "ARIA_LABEL": "Flow of handled conversations through Captain and team outcomes",
+          "ARIA_LABEL": "Tijek obrađenih razgovora kroz ishode Captaina i tima",
           "NODES": {
-            "HANDLED": "Handled",
-            "RESOLVED_BY_CAPTAIN": "Resolved by Captain",
-            "HANDED_OFF": "Handed off",
-            "CLOSED_WITH_TEAM": "Closed with team",
-            "REOPENED": "Reopened in 7d",
-            "STAYED_CLOSED": "Stayed closed",
-            "OTHER_REASONS": "Other reasons"
+            "HANDLED": "Obrađeno",
+            "RESOLVED_BY_CAPTAIN": "Riješio Captain",
+            "HANDED_OFF": "Predano",
+            "CLOSED_WITH_TEAM": "Zatvoreno uz sudjelovanje tima",
+            "REOPENED": "Ponovno otvoreno unutar 7 dana",
+            "STAYED_CLOSED": "Ostalo zatvoreno",
+            "OTHER_REASONS": "Ostali razlozi"
           }
         },
         "HANDOFF_REASONS": {
-          "TITLE": "Handoff reasons",
-          "CUSTOMER_REQUEST": "Customer requested",
-          "MISSING_KNOWLEDGE": "Missing knowledge",
-          "UNSUPPORTED_REQUEST": "Unsupported request",
-          "POLICY_RESTRICTION": "Policy restriction",
-          "TOOL_FAILURE": "Tool failure",
-          "PENDING_CLARIFICATION": "Pending customer clarification",
+          "TITLE": "Razlozi predaje razgovora",
+          "CUSTOMER_REQUEST": "Na zahtjev kupca",
+          "MISSING_KNOWLEDGE": "Nedostatak znanja",
+          "UNSUPPORTED_REQUEST": "Nepodržan zahtjev",
+          "POLICY_RESTRICTION": "Ograničenje pravilima",
+          "TOOL_FAILURE": "Pogreška alata",
+          "PENDING_CLARIFICATION": "Neriješeno nakon razdoblja neaktivnosti",
           "PERCENTAGE": "({value}%)",
-          "USAGE_LIMIT": "Usage limit",
-          "UNCLASSIFIED": "Unclassified"
+          "USAGE_LIMIT": "Ograničenje korištenja",
+          "UNCLASSIFIED": "Nerazvrstano"
         },
         "RESOLUTION_TREND": {
-          "TITLE": "Resolution trend",
-          "COMPARISON_LABEL": "Weekday-aligned comparison",
-          "COMPARISON_HINT": "Compare resolution rates on matching weekdays, such as Monday with Monday.",
-          "COMPARISON_NOTE": "Today is compared up to the same time of day.",
-          "CONVERSATION_COUNT": "Conversation count",
-          "RESOLUTION_RATE": "Resolution rate",
-          "CURRENT_PERIOD": "Current period",
+          "TITLE": "Trend rješavanja",
+          "COMPARISON_LABEL": "Usporedba prema danima u tjednu",
+          "COMPARISON_HINT": "Usporedite postotke riješenih razgovora za iste dane u tjednu, primjerice ponedjeljak s ponedjeljkom.",
+          "COMPARISON_NOTE": "Današnji se dan uspoređuje do istog doba dana.",
+          "CONVERSATION_COUNT": "Broj razgovora",
+          "RESOLUTION_RATE": "Postotak riješenih razgovora",
+          "CURRENT_PERIOD": "Trenutačno razdoblje",
           "PREVIOUS_PERIOD": "Previous period",
-          "HANDLED": "Handled",
-          "RESOLVED": "Resolved by Captain",
-          "ARIA_LABEL": "Handled and Captain-resolved conversations by reporting period",
-          "RATE_ARIA_LABEL": "Current and previous Captain resolution rates"
+          "HANDLED": "Obrađeno",
+          "RESOLVED": "Riješio Captain",
+          "ARIA_LABEL": "Obrađeni razgovori i razgovori koje je Captain riješio prema izvještajnom razdoblju",
+          "RATE_ARIA_LABEL": "Trenutačni i prethodni postotci razgovora koje je Captain riješio"
         },
         "CSAT": {
-          "TITLE": "Captain CSAT",
-          "AUTONOMOUS": "Captain-resolved conversations",
-          "AUTONOMOUS_HINT": "The average customer rating for conversations Captain resolved without help from your team.",
-          "ASSISTED": "Captain-assisted conversations",
-          "ASSISTED_HINT": "The average customer rating when Captain helped before your team resolved the conversation.",
-          "VS_HUMANS": "{value} vs humans"
+          "TITLE": "Captainov CSAT",
+          "AUTONOMOUS": "Razgovori koje je Captain riješio",
+          "AUTONOMOUS_HINT": "Prosječna ocjena kupaca za razgovore koje je Captain riješio bez pomoći vašeg tima.",
+          "ASSISTED": "Razgovori uz Captainovu pomoć",
+          "ASSISTED_HINT": "Prosječna ocjena kupaca kada je Captain pomogao prije nego što je vaš tim riješio razgovor.",
+          "VS_HUMANS": "{value} u odnosu na djelatnike"
         },
         "USAGE": {
-          "TITLE": "Usage",
+          "TITLE": "Korištenje",
           "CREDITS": "Credits",
-          "DOCUMENTS": "Documents",
-          "USED": "({percentage}% used)",
+          "DOCUMENTS": "Dokumenti",
+          "USED": "({percentage}% iskorišteno)",
           "VALUE": "{used}/{total}",
-          "REFRESH": "Refresh usage",
+          "REFRESH": "Osvježi podatke o korištenju",
           "BUY_MORE": "Buy more credits"
         },
         "KNOWLEDGE": {
-          "SUGGESTED": "Suggested FAQs",
-          "REVIEW": "Review FAQs"
+          "SUGGESTED": "Predložena česta pitanja",
+          "REVIEW": "Pregledaj česta pitanja"
         }
       }
     },
@@ -708,21 +744,27 @@
     },
     "COPILOT": {
       "TITLE": "Copilot",
+      "AVATAR_LABEL": "Captain",
       "TRY_THESE_PROMPTS": "Try these prompts",
+      "MORE_PROMPTS": "Više pitanja",
+      "DISCLAIMER": "Copilot može pogriješiti. Provjerite važne informacije.",
       "PANEL_TITLE": "Započnite s Copilotom",
       "KICK_OFF_MESSAGE": "Trebate brzi sažetak, želite provjeriti prethodne razgovore ili nacrtati bolji odgovor? Copilot je tu da ubrza stvari.",
       "SEND_MESSAGE": "Send message...",
+      "STOP": "Zaustavi Copilot",
       "EMPTY_MESSAGE": "Došlo je do pogreške pri generiranju odgovora. Molimo pokušajte ponovno.",
-      "LOADER": "Captain razmišlja",
+      "LOADER": "Copilot razmišlja",
       "YOU": "Vi",
       "USE": "Koristi ovo",
       "RESET": "Poništi",
-      "NEW_CHAT": "New chat",
-      "HISTORY": "Past chats",
-      "NO_HISTORY": "Your past Copilot chats will appear here.",
-      "LOAD_MORE": "Load more chats",
-      "LOADING_CHAT": "Loading chat...",
-      "LOADING_HISTORY": "Loading past chats...",
+      "NEW_CHAT": "Novi razgovor",
+      "HISTORY": "Prethodni razgovori",
+      "EXPAND": "Proširi",
+      "SHRINK": "Smanji",
+      "NO_HISTORY": "Vaši prethodni razgovori s Copilotom prikazat će se ovdje.",
+      "LOAD_MORE": "Učitaj još razgovora",
+      "LOADING_CHAT": "Učitavanje razgovora…",
+      "LOADING_HISTORY": "Učitavanje prethodnih razgovora…",
       "SHOW_STEPS": "Prikaži korake",
       "SELECT_ASSISTANT": "Odaberi asistenta",
       "PROMPTS": {
@@ -734,109 +776,221 @@
           "LABEL": "Predloži odgovor",
           "CONTENT": "Analiziraj upit kupca i nacrtaj odgovor koji učinkovito rješava njihove brige ili pitanja. Osiguraj da je odgovor jasan, sažet i pruža korisne informacije."
         },
-        "RATE": {
-          "LABEL": "Ocijeni ovaj razgovor",
-          "CONTENT": "Pregledajte razgovor kako biste vidjeli koliko dobro zadovoljava potrebe kupca. Podijelite ocjenu od 1 do 5 na temelju tona, jasnoće i učinkovitosti."
+        "WAITING_ON_ME": {
+          "LABEL": "Koji razgovori čekaju moj odgovor?",
+          "CONTENT": "Koji od mojih otvorenih razgovora zahtijevaju pozornost? Za svaki navedi što kupac treba i čeka li moj odgovor, počevši od najstarijeg. Ako mi nijedan razgovor nije dodijeljen, navedi to i prikaži otvorene razgovore bez dodijeljenog agenta."
         },
-        "HIGH_PRIORITY": {
-          "LABEL": "Razgovori visokog prioriteta",
-          "CONTENT": "Dajte mi sažetak svih otvorenih razgovora visokog prioriteta. Uključite ID razgovora, ime kupca (ako je dostupno), sadržaj posljednje poruke i dodijeljenog agenta. Grupirajte po statusu ako je relevantno."
+        "RECENT_CONVERSATIONS": {
+          "LABEL": "Što se dogodilo u posljednjih 10 razgovora?",
+          "CONTENT": "Sažmi posljednjih 10 razgovora: što je svaki kupac pitao i koji je trenutačni status razgovora."
         },
-        "LIST_CONTACTS": {
-          "LABEL": "Popis kontakata",
-          "CONTENT": "Pokaži mi popis top 10 kontakata. Uključi ime, e-mail ili broj telefona (ako je dostupno), vrijeme posljednjeg viđenja, oznake (ako ih ima)."
+        "TEAM_WORKLOAD": {
+          "LABEL": "Koliko otvorenih razgovora trenutačno ima svaki agent?",
+          "CONTENT": "Koliko otvorenih razgovora ima svaki agent? Uključi i broj otvorenih razgovora bez dodijeljenog agenta."
+        },
+        "CUSTOMER_HISTORY": {
+          "LABEL": "Zbog čega nam se ovaj kupac ranije obraćao?",
+          "CONTENT": "Pronađi prethodne razgovore s ovim kupcem i sažmi razlog svakog javljanja i kako je razgovor završio."
+        },
+        "CAN_CLOSE": {
+          "LABEL": "Koji su moji otvoreni razgovori završeni i spremni za rješavanje?",
+          "CONTENT": "Pregledaj moje otvorene razgovore i pronađi one u kojima je na kupčevo pitanje odgovoreno i nema preostalih radnji. Za svaki navedi kratak razlog i pitaj me prije označavanja razgovora riješenim."
+        },
+        "FOLLOW_UPS": {
+          "LABEL": "Jesam li kojem kupcu obećao/la informacije koje još nisam poslao/la?",
+          "CONTENT": "Pregledaj moje razgovore iz posljednjih 14 dana i pronađi one u kojima sam kupcu obećao/la obavijest ili naknadni odgovor koji još nisam poslao/la. Priloži poveznicu za svaki razgovor i navedi što sam obećao/la."
+        },
+        "UPSET_CUSTOMERS": {
+          "LABEL": "Koji kupci zvuče nezadovoljno i zašto?",
+          "CONTENT": "Pregledaj posljednjih 20 razgovora i pronađi kupce koji zvuče frustrirano ili nezadovoljno. Za svakog priloži poveznicu na razgovor i objasni što je pošlo po zlu."
+        },
+        "COMPARE_PERIODS": {
+          "LABEL": "Kakav je ovaj mjesec u usporedbi s prošlim?",
+          "CONTENT": "Usporedi posljednjih 30 dana s prethodnih 30 dana prema broju razgovora, riješenih razgovora, prosječnom vremenu prvog odgovora i prosječnom vremenu rješavanja. Istakni najveće promjene."
+        },
+        "SLOWEST_REPLIES": {
+          "LABEL": "Kojim agentima i pretincima treba najviše vremena za odgovor?",
+          "CONTENT": "Koji su agenti i pretinci imali najdulje prosječno vrijeme prvog odgovora u posljednjih 30 dana? Prikaži pet najsporijih u svakoj skupini i broj razgovora koje su obradili."
+        },
+        "LOW_RATINGS": {
+          "LABEL": "Zašto su nam kupci ovog mjeseca dali niske ocjene?",
+          "CONTENT": "Pronađi ocjene zadovoljstva kupaca 1 ili 2 iz posljednjih 30 dana, pročitaj pripadajuće razgovore i grupiraj uzroke nezadovoljstva u nekoliko jasnih kategorija. Za svaki razlog priloži poveznicu na primjer."
+        },
+        "MONTHLY_VOLUME": {
+          "LABEL": "Koliko smo razgovora primili u svakom od posljednjih šest mjeseci?",
+          "CONTENT": "Prikaži broj razgovora i riješenih razgovora za svaki od posljednjih šest mjeseci na grafikonu."
+        },
+        "COMPARE_INBOXES": {
+          "LABEL": "Koliko je svaki pretinac bio opterećen ovog mjeseca i koliko smo brzo odgovarali?",
+          "CONTENT": "Za svaki pretinac prikaži broj razgovora, riješenih razgovora i prosječno vrijeme prvog odgovora u posljednjih 30 dana."
+        },
+        "LOW_RATINGS_BY_AGENT": {
+          "LABEL": "Koji su agenti ovog mjeseca dobili niske ocjene i što je pošlo po zlu?",
+          "CONTENT": "Prebroji ocjene zadovoljstva kupaca 1 ili 2 iz posljednjih 30 dana prema dodijeljenom agentu. Zatim pročitaj razgovore i za svakog agenta navedi najčešće uzroke problema."
+        },
+        "LABEL_RESOLVED": {
+          "LABEL": "Dodaj oznake ovotjednim riješenim razgovorima koji ih nemaju",
+          "CONTENT": "Pronađi razgovore riješene u posljednjih 7 dana koji nemaju oznake i za svaki predloži jednu od postojećih oznaka. Pitaj me prije dodavanja oznaka."
+        },
+        "CAPTAIN_HANDOFFS": {
+          "LABEL": "Koliko je razgovora Captain ovog tjedna predao agentima i zašto?",
+          "CONTENT": "Koje je razgovore Captain u posljednjih 7 dana predao ljudskom agentu? Pročitaj ih i grupiraj razloge zbog kojih ih nije mogao sam dovršiti te za svaki navedi primjer."
         }
+      },
+      "APPROVAL": {
+        "APPROVE": "Odobri",
+        "CONFIRM": {
+          "SEND_REPLY": "Pošalji odgovor",
+          "ADD_NOTE": "Dodaj bilješku"
+        },
+        "EXPIRES_IN": "Istječe za {time}",
+        "REJECT": "Odbij",
+        "STOPPED": "Zaustavljeno",
+        "ERROR": "Spremanje odluke nije uspjelo. Pokušajte ponovno.",
+        "MORE_TARGETS": "i još {count}",
+        "PARTIAL_REVIEW": "Pregledano je samo {reviewed} od {total} razgovora. Preostalih {remaining} nije obuhvaćeno ovom promjenom.",
+        "ACTIONS": {
+          "ADD_LABELS": "Dodaj {labels} u {count} razgovor | Dodaj {labels} u {count} razgovora",
+          "ASSIGN_AGENT": "Dodijeli {count} razgovor: {agents} | Dodijeli {count} razgovora: {agents}",
+          "UNASSIGN_AGENT": "Ukloni dodijeljenog agenta iz {count} razgovora | Ukloni dodijeljenog agenta iz {count} razgovora",
+          "ASSIGN_TEAM": "Dodijeli {count} razgovor timu {team} | Dodijeli {count} razgovora timu {team}",
+          "REMOVE_TEAM": "Ukloni tim iz {count} razgovora | Ukloni tim iz {count} razgovora",
+          "SET_STATUS_OPEN": "Ponovno otvori {count} razgovor | Ponovno otvori {count} razgovora",
+          "SET_STATUS_RESOLVED": "Označi {count} razgovor riješenim | Označi {count} razgovora riješenima",
+          "SET_STATUS_PENDING": "Postavi {count} razgovor na čekanje | Postavi {count} razgovora na čekanje",
+          "SET_STATUS_SNOOZED": "Odgodi {count} razgovor do sljedećeg odgovora | Odgodi {count} razgovora do sljedećeg odgovora",
+          "SET_STATUS_SNOOZED_UNTIL": "Odgodi {count} razgovor do {time} | Odgodi {count} razgovora do {time}",
+          "SET_PRIORITY_URGENT": "Postavi prioritet za {count} razgovor na hitno | Postavi prioritet za {count} razgovora na hitno",
+          "SET_PRIORITY_HIGH": "Postavi prioritet za {count} razgovor na visoko | Postavi prioritet za {count} razgovora na visoko",
+          "SET_PRIORITY_MEDIUM": "Postavi prioritet za {count} razgovor na srednje | Postavi prioritet za {count} razgovora na srednje",
+          "SET_PRIORITY_LOW": "Postavi prioritet za {count} razgovor na nisko | Postavi prioritet za {count} razgovora na nisko",
+          "REMOVE_PRIORITY": "Ukloni prioritet za {count} razgovor | Ukloni prioritet za {count} razgovora",
+          "ADD_PRIVATE_NOTE": "Dodaj ovu internu bilješku u {count} razgovor: | Dodaj ovu internu bilješku u {count} razgovora:",
+          "SEND_REPLY": "Pošalji ovaj odgovor u {count} razgovor: | Pošalji ovaj odgovor u {count} razgovora:",
+          "SET_CUSTOM_ATTRIBUTES": "Postavi {attributes} za {count} razgovor | Postavi {attributes} za {count} razgovora",
+          "ADD_PARTICIPANTS": "Dodaj {agents} među sudionike {count} razgovora | Dodaj {agents} među sudionike {count} razgovora",
+          "APPLY_SLA": "Primijeni SLA {sla} na {count} razgovor | Primijeni SLA {sla} na {count} razgovora",
+          "MUTE": "Utišaj {count} razgovor | Utišaj {count} razgovora",
+          "UNMUTE": "Poništi utišavanje za {count} razgovor | Poništi utišavanje za {count} razgovora",
+          "ADD_CONTACT_LABELS": "Dodaj {labels} za {count} kontakt | Dodaj {labels} kontaktima ({count})",
+          "SET_CONTACT_ATTRIBUTES": "Postavi {attributes} za {count} kontakt | Postavi {attributes} kontaktima ({count})",
+          "BLOCK_CONTACTS": "Blokiraj {count} kontakt | Blokiraj kontakte ({count})",
+          "UNBLOCK_CONTACTS": "Odblokiraj {count} kontakt | Odblokiraj kontakte ({count})",
+          "ADD_CONTACT_NOTE": "Dodaj ovu bilješku za {count} kontakt: | Dodaj ovu bilješku kontaktima ({count}):"
+        },
+        "WARNINGS": {
+          "SEND_REPLY": "Kupac će primiti ovaj odgovor i slanje se ne može poništiti. | Broj kupaca koji će primiti ovaj odgovor: {count}. Slanje se ne može poništiti.",
+          "CSAT_SURVEY": "Kupci u pretincima s uključenim anketama o zadovoljstvu mogu primiti anketu.",
+          "MUTE": "Utišavanje označava ove razgovore riješenima i blokira svaki kontakt. Nove poruke blokiranog kontakta ne obavještavaju tim niti ponovno otvaraju razgovore.",
+          "BLOCK_CONTACTS": "Nove poruke blokiranog kontakta ne obavještavaju tim niti ponovno otvaraju razgovore."
+        },
+        "STATUS": {
+          "REJECTED": "Odbijeno",
+          "EXPIRED": "Isteklo"
+        },
+        "EXPIRED_HINT": "Zatražite od Copilota da to ponovno predloži.",
+        "PROGRESS": "Primjena: {done} od {total}",
+        "APPLIED": "Primijenjeno na {count}",
+        "APPLIED_OF": "Primijenjeno na {applied} od {total}",
+        "NOT_CHANGED": "Bez promjene: {count}"
+      },
+      "REVIEW": {
+        "RUNNING": "Pregled razgovora",
+        "FINISHED": "Pregledan {count} razgovor | Pregledano {count} razgovora",
+        "PROGRESS": "{done} od {total}",
+        "MATCHED": "Pronađeno podudaranja: {count}",
+        "FAILED": "Nije moguće pregledati: {count}"
       }
     },
     "PLAYGROUND": {
       "USER": "Vi",
       "ASSISTANT": "Asistent",
       "MESSAGE_PLACEHOLDER": "Unesite svoju poruku...",
-      "SEND_MESSAGE": "Send message",
+      "SEND_MESSAGE": "Pošalji poruku",
       "HEADER": "Poligon",
       "DESCRIPTION": "Koristite ovaj poligon za slanje poruka svom asistentu i provjerite odgovara li točno, brzo i u očekivanom tonu.",
       "CREDIT_NOTE": "Poruke poslane ovdje računaju se u vaše Captain kredite.",
-      "CLEAR_CONVERSATION": "Clear conversation",
-      "RESPONSE_ERROR": "Captain could not complete this test run. Review the setup and try again.",
+      "CLEAR_CONVERSATION": "Očisti razgovor",
+      "RESPONSE_ERROR": "Captain nije mogao dovršiti ovaj test. Provjerite postavke i pokušajte ponovno.",
       "SETUP": {
-        "TITLE": "Test setup",
-        "DESCRIPTION": "Changes here apply only to this playground session unless you explicitly save an item.",
-        "TOGGLE": "Toggle test setup",
-        "CLOSE": "Close test setup",
-        "RESET": "Reset test setup",
-        "TEMPORARY": "Temporary",
-        "SESSION_ONLY": "Session only",
-        "INCLUDE_IN_TEST": "Include in this test",
-        "ADD_TO_TEST": "Add to test (↵)",
-        "LOAD_ERROR": "The saved assistant setup could not be loaded.",
-        "INVALID_CONFIGURATION": "Complete or remove the included temporary scenarios before sending a message.",
-        "SAVE_SCENARIO_SUCCESS": "The scenario was saved and remains included in this test.",
-        "SAVE_SCENARIO_ERROR": "The scenario could not be saved.",
-        "SAVE_RULE_SUCCESS": "The rule was saved and remains included in this test.",
-        "SAVE_RULE_ERROR": "The rule could not be saved.",
-        "RULE_ALREADY_SAVED": "That exact rule is already saved, so no duplicate was created.",
+        "TITLE": "Postavke testa",
+        "DESCRIPTION": "Ovdje unesene promjene vrijede samo za ovu sesiju testnog okruženja, osim ako izričito spremite stavku.",
+        "TOGGLE": "Prikaži ili sakrij postavke testa",
+        "CLOSE": "Zatvori postavke testa",
+        "RESET": "Vrati postavke testa na početne vrijednosti",
+        "TEMPORARY": "Privremeno",
+        "SESSION_ONLY": "Samo za ovu sesiju",
+        "INCLUDE_IN_TEST": "Uključi u ovaj test",
+        "ADD_TO_TEST": "Dodaj u test (↵)",
+        "LOAD_ERROR": "Učitavanje spremljenih postavki asistenta nije uspjelo.",
+        "INVALID_CONFIGURATION": "Dovršite ili uklonite uključene privremene scenarije prije slanja poruke.",
+        "SAVE_SCENARIO_SUCCESS": "Scenarij je spremljen i ostaje uključen u ovaj test.",
+        "SAVE_SCENARIO_ERROR": "Spremanje scenarija nije uspjelo.",
+        "SAVE_RULE_SUCCESS": "Pravilo je spremljeno i ostaje uključeno u ovaj test.",
+        "SAVE_RULE_ERROR": "Spremanje pravila nije uspjelo.",
+        "RULE_ALREADY_SAVED": "Identično pravilo već je spremljeno pa nije izrađen duplikat.",
         "SCENARIOS": {
           "TAB_TITLE": "Scenarios",
-          "CREATE_TITLE": "Add a temporary scenario",
-          "CREATE_HINT": "Try a new behavior without changing the assistant configuration.",
-          "SAVED_SUMMARY": "Existing scenarios ({count})",
-          "ADD_PERMANENTLY": "Add scenario permanently",
-          "DISABLED": "Disabled",
-          "EMPTY": "This assistant has no saved scenarios.",
-          "COMPOSER_PLACEHOLDER": "Type a temporary scenario title...",
-          "COLLAPSE": "Collapse temporary scenario",
-          "EXPAND": "Expand temporary scenario",
-          "REMOVE": "Remove temporary scenario"
+          "CREATE_TITLE": "Dodaj privremeni scenarij",
+          "CREATE_HINT": "Isprobajte novo ponašanje bez promjene konfiguracije asistenta.",
+          "SAVED_SUMMARY": "Postojeći scenariji ({count})",
+          "ADD_PERMANENTLY": "Trajno dodaj scenarij",
+          "DISABLED": "Onemogućeno",
+          "EMPTY": "Ovaj asistent nema spremljenih scenarija.",
+          "COMPOSER_PLACEHOLDER": "Upišite naslov privremenog scenarija…",
+          "COLLAPSE": "Sažmi privremeni scenarij",
+          "EXPAND": "Proširi privremeni scenarij",
+          "REMOVE": "Ukloni privremeni scenarij"
         },
         "GUIDELINES": {
-          "TAB_TITLE": "Guidelines",
-          "CREATE_TITLE": "Add a temporary guideline",
-          "CREATE_HINT": "Test a response preference before adding it to the assistant.",
-          "SAVED_SUMMARY": "Existing guidelines ({count})",
-          "ADD_PERMANENTLY": "Add guideline permanently",
-          "EMPTY": "This assistant has no saved response guidelines.",
-          "COMPOSER_PLACEHOLDER": "Type a temporary guideline...",
+          "TAB_TITLE": "Smjernice",
+          "CREATE_TITLE": "Dodaj privremenu smjernicu",
+          "CREATE_HINT": "Testirajte željeni način odgovaranja prije dodavanja asistentu.",
+          "SAVED_SUMMARY": "Postojeće smjernice ({count})",
+          "ADD_PERMANENTLY": "Trajno dodaj smjernicu",
+          "EMPTY": "Ovaj asistent nema spremljenih smjernica za odgovaranje.",
+          "COMPOSER_PLACEHOLDER": "Upišite privremenu smjernicu…",
           "PLACEHOLDER": "Add a response guideline",
-          "REMOVE": "Remove temporary response guideline"
+          "REMOVE": "Ukloni privremenu smjernicu za odgovaranje"
         },
         "GUARDRAILS": {
           "TAB_TITLE": "Guardrails",
-          "CREATE_TITLE": "Add a temporary guardrail",
-          "CREATE_HINT": "Test a safety boundary before adding it to the assistant.",
-          "SAVED_SUMMARY": "Existing guardrails ({count})",
-          "ADD_PERMANENTLY": "Add guardrail permanently",
-          "EMPTY": "This assistant has no saved guardrails.",
-          "COMPOSER_PLACEHOLDER": "Type a temporary guardrail...",
+          "CREATE_TITLE": "Dodaj privremeno zaštitno pravilo",
+          "CREATE_HINT": "Testirajte sigurnosno ograničenje prije dodavanja asistentu.",
+          "SAVED_SUMMARY": "Postojeća zaštitna pravila ({count})",
+          "ADD_PERMANENTLY": "Trajno dodaj zaštitno pravilo",
+          "EMPTY": "Ovaj asistent nema spremljenih zaštitnih pravila.",
+          "COMPOSER_PLACEHOLDER": "Upišite privremeno zaštitno pravilo…",
           "PLACEHOLDER": "Add a guardrail",
-          "REMOVE": "Remove temporary guardrail"
+          "REMOVE": "Ukloni privremeno zaštitno pravilo"
         },
         "KNOWLEDGE": {
-          "TAB_TITLE": "Knowledge",
-          "AVAILABLE_TITLE": "Knowledge available to Captain",
-          "AVAILABLE_DESCRIPTION": "Saved sources are summarized here and managed outside the playground.",
-          "DOCUMENTS": "Documents",
+          "TAB_TITLE": "Znanje",
+          "AVAILABLE_TITLE": "Znanje dostupno Captainu",
+          "AVAILABLE_DESCRIPTION": "Spremljeni izvori ovdje su sažeto prikazani, a njima se upravlja izvan testnog okruženja.",
+          "DOCUMENTS": "Dokumenti",
           "FAQS": "FAQs",
-          "TEMPORARY_TITLE": "Temporary knowledge",
-          "ADD_PERMANENTLY": "Add document permanently",
-          "LABEL": "Reference text",
-          "PLACEHOLDER": "Paste or write new knowledge for this test",
-          "HINT": "This text is attached only to playground requests unless you add it as a document."
+          "TEMPORARY_TITLE": "Privremeno znanje",
+          "ADD_PERMANENTLY": "Trajno dodaj dokument",
+          "LABEL": "Referentni tekst",
+          "PLACEHOLDER": "Zalijepite ili napišite novo znanje za ovaj test",
+          "HINT": "Ovaj se tekst prilaže samo zahtjevima u testnom okruženju, osim ako ga dodate kao dokument."
         },
-        "SAVE_KNOWLEDGE_SUCCESS": "Knowledge added as a document.",
-        "SAVE_KNOWLEDGE_ERROR": "Unable to add knowledge as a document."
+        "SAVE_KNOWLEDGE_SUCCESS": "Znanje je dodano kao dokument.",
+        "SAVE_KNOWLEDGE_ERROR": "Dodavanje znanja kao dokumenta nije uspjelo."
       },
       "RUN_DETAILS": {
-        "SUMMARY": "Run details · {duration}ms",
-        "HANDLER_VALUE": "Handled by: {handler}",
-        "SCENARIOS": "No scenarios | One scenario | {count} scenarios",
-        "RULES": "{count} rules",
-        "KNOWLEDGE_ATTACHED": "Temporary knowledge was attached to this run.",
-        "NO_EVENTS": "No tool calls or scenario handoffs were recorded.",
+        "SUMMARY": "Pojedinosti izvođenja · {duration} ms",
+        "HANDLER_VALUE": "Obradio: {handler}",
+        "SCENARIOS": "Nema scenarija | Jedan scenarij | {count} scenarija",
+        "RULES": "Broj pravila: {count}",
+        "KNOWLEDGE_ATTACHED": "Ovom je izvođenju priloženo privremeno znanje.",
+        "NO_EVENTS": "Nisu zabilježena pozivanja alata ni predaje scenarijima.",
         "HANDOFF": "{from} → {to}",
         "STATUS": {
-          "RUNNING": "Running",
-          "COMPLETED": "Completed",
-          "FAILED": "Failed"
+          "RUNNING": "Izvođenje u tijeku",
+          "COMPLETED": "Dovršeno",
+          "FAILED": "Neuspješno"
         }
       }
     },
@@ -867,7 +1021,7 @@
       "ADD_NEW": "Create a new assistant",
       "DELETE": {
         "TITLE": "Are you sure to delete the assistant?",
-        "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase its custom tools and all generated knowledge.",
+        "DESCRIPTION": "Ova je radnja trajna. Brisanjem ovog asistenta uklonit ćete ga iz svih povezanih pretinaca te trajno izbrisati njegove prilagođene alate i sve generirano znanje.",
         "CONFIRM": "Da, izbriši",
         "SUCCESS_MESSAGE": "The assistant has been successfully deleted",
         "ERROR_MESSAGE": "There was an error deleting the assistant, please try again."
@@ -880,6 +1034,14 @@
       },
       "FORM": {
         "UPDATE": "Update",
+        "AVATAR": {
+          "LABEL": "Avatar",
+          "HELP_TEXT": "Prikazuje se uz odgovore ovog asistenta. Upotrijebite kvadratnu sliku u formatu JPEG, PNG, GIF ili WebP.",
+          "UPLOAD_SUCCESS": "Avatar je ažuriran",
+          "UPLOAD_ERROR": "Ažuriranje avatara nije uspjelo. Pokušajte ponovno.",
+          "DELETE_SUCCESS": "Avatar je uklonjen",
+          "DELETE_ERROR": "Uklanjanje avatara nije uspjelo. Pokušajte ponovno."
+        },
         "SECTIONS": {
           "BASIC_INFO": "Basic Information",
           "SYSTEM_MESSAGES": "System Messages",
@@ -907,7 +1069,7 @@
           "PLACEHOLDER": "Enter welcome message"
         },
         "HANDOFF_MESSAGE": {
-          "LABEL": "Handoff message",
+          "LABEL": "Poruka pri predaji razgovora",
           "PLACEHOLDER": "Enter handoff message"
         },
         "RESOLUTION_MESSAGE": {
@@ -915,33 +1077,33 @@
           "PLACEHOLDER": "Enter resolution message"
         },
         "INACTIVITY_RESOLUTION": {
-          "TITLE": "When customers stop replying",
-          "DESCRIPTION": "Choose how Captain handles the conversation.",
-          "MODE_LABEL": "Action when the customer stops replying",
-          "REVIEW_AFTER": "Review after",
-          "RESOLVE_AFTER": "Resolve after",
-          "ALWAYS_WARNING": "Captain will resolve every conversation after the selected time without reviewing it. Some conversations that still need help may be closed.",
-          "PENDING_INFO": "The conversation remains pending until the customer replies.",
+          "TITLE": "Kada kupci prestanu odgovarati",
+          "DESCRIPTION": "Odaberite kako Captain postupa s razgovorom.",
+          "MODE_LABEL": "Radnja kada kupac prestane odgovarati",
+          "REVIEW_AFTER": "Pregledaj nakon",
+          "RESOLVE_AFTER": "Riješi nakon",
+          "ALWAYS_WARNING": "Captain će riješiti svaki razgovor nakon odabranog vremena bez pregleda. Mogu se zatvoriti i razgovori u kojima je još potrebna pomoć.",
+          "PENDING_INFO": "Razgovor ostaje na čekanju dok kupac ne odgovori.",
           "RESOLUTION_MESSAGE": {
-            "TITLE": "Send a message when resolving",
-            "DESCRIPTION": "Captain sends this closing message before it resolves the conversation."
+            "TITLE": "Pošalji poruku pri rješavanju",
+            "DESCRIPTION": "Captain šalje ovu završnu poruku prije nego što riješi razgovor."
           },
           "MODES": {
             "DISABLED": {
-              "LABEL": "Wait for the customer",
-              "DESCRIPTION": "Captain does not resolve the conversation. Captain can still hand it off if the customer asks."
+              "LABEL": "Čekaj kupca",
+              "DESCRIPTION": "Captain ne rješava razgovor. I dalje ga može predati ako kupac to zatraži."
             },
             "LEGACY": {
-              "LABEL": "Always resolve",
-              "DESCRIPTION": "Captain resolves every conversation after the selected time."
+              "LABEL": "Uvijek riješi",
+              "DESCRIPTION": "Captain rješava svaki razgovor nakon odabranog vremena."
             },
             "EVALUATED": {
-              "LABEL": "Let Captain review it (recommended)",
-              "DESCRIPTION": "Captain decides whether to resolve the conversation or hand it off."
+              "LABEL": "Prepusti pregled Captainu (preporučeno)",
+              "DESCRIPTION": "Captain odlučuje hoće li riješiti ili predati razgovor."
             }
           },
-          "DURATION_HOURS_ARIA_LABEL": "Hours before action",
-          "DURATION_MINUTES_ARIA_LABEL": "Minutes before action",
+          "DURATION_HOURS_ARIA_LABEL": "Broj sati prije radnje",
+          "DURATION_MINUTES_ARIA_LABEL": "Broj minuta prije radnje",
           "DURATION_HOURS_SHORT": "{count} h",
           "DURATION_MINUTES_SHORT": "{count} min"
         },
@@ -958,45 +1120,45 @@
         },
         "AUDIENCE": {
           "EVERYONE": {
-            "LABEL": "Everyone",
-            "DESC": "Captain responds to every conversation in connected inboxes."
+            "LABEL": "Svi",
+            "DESC": "Captain odgovara u svakom razgovoru u povezanim pretincima."
           },
           "SPECIFIC": {
-            "LABEL": "Specific audience",
-            "DESC": "Captain responds only to customers who match the conditions below."
+            "LABEL": "Određena skupina korisnika",
+            "DESC": "Captain odgovara samo kupcima koji ispunjavaju uvjete u nastavku."
           },
-          "ADD_CONDITION": "Add condition",
-          "ADD_GROUP": "Add condition group",
-          "EMPTY_TITLE": "No conditions yet",
-          "EMPTY_BODY": "Add a condition to target specific customers, or a condition group to combine conditions with different and/or logic.",
-          "EMPTY_ERROR": "Add at least one condition for a specific audience.",
-          "MATCH_PREFIX": "Match",
-          "MATCH_SUFFIX": "of the following",
+          "ADD_CONDITION": "Dodaj uvjet",
+          "ADD_GROUP": "Dodaj skupinu uvjeta",
+          "EMPTY_TITLE": "Još nema uvjeta",
+          "EMPTY_BODY": "Dodajte uvjet za odabir određenih kupaca ili skupinu uvjeta za kombiniranje uvjeta različitom logikom I/ILI.",
+          "EMPTY_ERROR": "Dodajte barem jedan uvjet za određenu skupinu korisnika.",
+          "MATCH_PREFIX": "Ispuni",
+          "MATCH_SUFFIX": "od sljedećih uvjeta",
           "MATCH_ALL": "sve",
-          "MATCH_ANY": "any",
-          "GROUP_CONTACT": "Contact attributes",
-          "GROUP_CONVERSATION": "Conversation",
+          "MATCH_ANY": "bilo koji",
+          "GROUP_CONTACT": "Atributi kontakta",
+          "GROUP_CONVERSATION": "Razgovor",
           "GROUP_CUSTOM": "Dodatni atributi",
           "BROWSER_LANGUAGE": "Jezik preglednika",
-          "CONVERSATION_LANGUAGE": "First message language",
-          "LOGGED_IN": "Logged-in user",
-          "LOGGED_IN_TRUE": "Yes",
-          "LOGGED_IN_FALSE": "No"
+          "CONVERSATION_LANGUAGE": "Jezik prve poruke",
+          "LOGGED_IN": "Prijavljeni korisnik",
+          "LOGGED_IN_TRUE": "Da",
+          "LOGGED_IN_FALSE": "Ne"
         },
         "SCHEDULE": {
           "ALWAYS": {
-            "LABEL": "Anytime",
-            "DESC": "Captain responds to every conversation, regardless of time."
+            "LABEL": "U bilo kojem trenutku",
+            "DESC": "Captain odgovara u svakom razgovoru, bez obzira na vrijeme."
           },
           "BUSINESS_HOURS": {
-            "LABEL": "During business hours",
-            "DESC": "Captain responds only within each inbox's business hours."
+            "LABEL": "Tijekom radnog vremena",
+            "DESC": "Captain odgovara samo unutar radnog vremena pojedinog pretinca."
           },
           "OUTSIDE_BUSINESS_HOURS": {
-            "LABEL": "Outside business hours",
-            "DESC": "Captain responds only when each inbox is closed."
+            "LABEL": "Izvan radnog vremena",
+            "DESC": "Captain odgovara samo izvan radnog vremena pojedinog pretinca."
           },
-          "HINT": "Inboxes without business hours configured are always covered."
+          "HINT": "Pretinci bez postavljenog radnog vremena uvijek su obuhvaćeni."
         }
       },
       "EDIT": {
@@ -1014,15 +1176,15 @@
         "SYSTEM_SETTINGS": {
           "TITLE": "System settings",
           "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human.",
-          "DESCRIPTION_V2": "Manage what Captain does when customers stop replying and set the handoff message."
+          "DESCRIPTION_V2": "Upravljajte Captainovim postupcima kada kupci prestanu odgovarati i postavite poruku pri predaji razgovora."
         },
         "AUDIENCE": {
-          "TITLE": "Audience",
-          "DESCRIPTION": "Choose whether this assistant responds to everyone or only to a specific audience."
+          "TITLE": "Publika",
+          "DESCRIPTION": "Odaberite odgovara li ovaj asistent svima ili samo određenoj skupini korisnika."
         },
         "SCHEDULE": {
-          "TITLE": "Schedule",
-          "DESCRIPTION": "Choose when Captain replies. Outside this window, conversations are handed to your team."
+          "TITLE": "Raspored",
+          "DESCRIPTION": "Odaberite kada Captain odgovara. Izvan tog razdoblja razgovori se predaju vašem timu."
         },
         "CONTROL_ITEMS": {
           "TITLE": "The Fun Stuff",
@@ -1040,7 +1202,7 @@
         },
         "DELETE": {
           "TITLE": "Delete Assistant",
-          "DESCRIPTION": "This action is permanent. Deleting this assistant will remove it from all connected inboxes and permanently erase its custom tools and all generated knowledge.",
+          "DESCRIPTION": "Ova je radnja trajna. Brisanjem ovog asistenta uklonit ćete ga iz svih povezanih pretinaca te trajno izbrisati njegove prilagođene alate i sve generirano znanje.",
           "BUTTON_TEXT": "Delete {assistantName}"
         }
       },
@@ -1192,9 +1354,9 @@
           "UPDATE": "Update changes"
         },
         "STATUS": {
-          "ENABLED": "Enabled",
-          "DISABLED": "Disabled",
-          "TOGGLE": "Toggle {title}"
+          "ENABLED": "Omogućeno",
+          "DISABLED": "Onemogućeno",
+          "TOGGLE": "Uključi ili isključi: {title}"
         },
         "LIST": {
           "SEARCH_PLACEHOLDER": "Search..."
@@ -1211,9 +1373,9 @@
             "ERROR": "There was an error updating scenarios, please try again."
           },
           "TOGGLE": {
-            "ENABLED": "Scenario enabled successfully",
-            "DISABLED": "Scenario disabled successfully",
-            "ERROR": "There was an error updating the scenario status, please try again."
+            "ENABLED": "Scenarij je uspješno omogućen",
+            "DISABLED": "Scenarij je uspješno onemogućen",
+            "ERROR": "Ažuriranje statusa scenarija nije uspjelo. Pokušajte ponovno."
           },
           "DELETE": {
             "SUCCESS": "Scenarios deleted successfully",
@@ -1225,14 +1387,14 @@
     "DOCUMENTS": {
       "HEADER": "Documents",
       "ADD_NEW": "Create a new document",
-      "FAQ_COUNT": "{n} FAQ | {n} FAQs",
-      "USED_IN_CONVERSATIONS": "Used in {n} conversation | Used in {n} conversations",
-      "NO_USED_CONVERSATIONS": "No conversations found for this document.",
+      "FAQ_COUNT": "{n} često pitanje | {n} čestih pitanja",
+      "USED_IN_CONVERSATIONS": "Korišteno u {n} razgovoru | Korišteno u {n} razgovora",
+      "NO_USED_CONVERSATIONS": "Nisu pronađeni razgovori za ovaj dokument.",
       "SELECTED": "{count} selected",
       "SELECT_ALL": "Select all ({count})",
       "UNSELECT_ALL": "Unselect all ({count})",
       "BULK_DELETE_BUTTON": "Izbriši",
-      "BULK_SYNC_BUTTON": "Refresh",
+      "BULK_SYNC_BUTTON": "Osvježi",
       "BULK_DELETE": {
         "TITLE": "Delete documents?",
         "DESCRIPTION": "Are you sure you want to delete the selected documents? This action cannot be undone.",
@@ -1241,75 +1403,75 @@
         "ERROR_MESSAGE": "There was an error deleting the documents, please try again."
       },
       "BULK_SYNC": {
-        "SUCCESS_MESSAGE_ONE": "Refresh queued for 1 document",
-        "SUCCESS_MESSAGE": "Refresh queued for {count} documents",
-        "ZERO_MESSAGE": "No documents marked for refresh.",
-        "ERROR_MESSAGE": "There was an error queuing the refresh, please try again."
+        "SUCCESS_MESSAGE_ONE": "Osvježavanje je dodano u red čekanja za 1 dokument",
+        "SUCCESS_MESSAGE": "Osvježavanje je dodano u red čekanja za {count} dokumenata",
+        "ZERO_MESSAGE": "Nijedan dokument nije označen za osvježavanje.",
+        "ERROR_MESSAGE": "Dodavanje osvježavanja u red čekanja nije uspjelo. Pokušajte ponovno."
       },
       "SYNC": {
-        "QUEUED_MESSAGE": "Refresh queued. We'll update the document shortly.",
-        "ERROR_MESSAGE": "Could not queue refresh, please try again."
+        "QUEUED_MESSAGE": "Osvježavanje je dodano u red čekanja. Dokument ćemo uskoro ažurirati.",
+        "ERROR_MESSAGE": "Dodavanje osvježavanja u red čekanja nije uspjelo. Pokušajte ponovno."
       },
       "FILTERS": {
         "SOURCE": {
-          "ALL": "All sources",
-          "WEB": "Web pages",
-          "PDF": "PDFs"
+          "ALL": "Svi izvori",
+          "WEB": "Web-stranice",
+          "PDF": "PDF dokumenti"
         },
         "STATUS": {
-          "ANY": "Any status",
-          "UPDATED": "Updated",
-          "NEEDS_UPDATE": "Needs update",
-          "UPDATING": "Updating",
-          "FAILED": "Failed"
+          "ANY": "Bilo koji status",
+          "UPDATED": "Ažurirano",
+          "NEEDS_UPDATE": "Potrebno je ažuriranje",
+          "UPDATING": "Ažuriranje u tijeku",
+          "FAILED": "Neuspješno"
         },
         "SORT": {
-          "RECENTLY_UPDATED": "Recently updated",
-          "RECENTLY_CREATED": "Recently created",
-          "MOST_USED": "Most used in conversations"
+          "RECENTLY_UPDATED": "Nedavno ažurirano",
+          "RECENTLY_CREATED": "Nedavno izrađeno",
+          "MOST_USED": "Najčešće korišteno u razgovorima"
         },
-        "SEARCH_PLACEHOLDER": "Search..."
+        "SEARCH_PLACEHOLDER": "Pretraži..."
       },
       "SYNC_STATUS": {
-        "SYNCED": "last updated {time}",
-        "SYNCING": "updating...",
-        "STALE_SYNC": "update stalled",
-        "FAILED": "Failed to sync",
-        "NEVER_SYNCED": "not updated yet"
+        "SYNCED": "posljednje ažuriranje {time}",
+        "SYNCING": "ažuriranje…",
+        "STALE_SYNC": "ažuriranje je zastalo",
+        "FAILED": "Sinkronizacija nije uspjela",
+        "NEVER_SYNCED": "još nije ažurirano"
       },
       "SYNC_ERRORS": {
-        "NOT_FOUND": "Page not found",
-        "ACCESS_DENIED": "Access denied",
-        "TIMEOUT": "Page took too long to respond",
-        "CONTENT_EMPTY": "Page returned empty content",
-        "FETCH_FAILED": "Could not fetch page",
-        "SYNC_ERROR": "Unexpected error",
-        "DEFAULT": "Sync error"
+        "NOT_FOUND": "Stranica nije pronađena",
+        "ACCESS_DENIED": "Pristup je odbijen",
+        "TIMEOUT": "Stranici je trebalo predugo za odgovor",
+        "CONTENT_EMPTY": "Stranica je vratila prazan sadržaj",
+        "FETCH_FAILED": "Dohvaćanje stranice nije uspjelo",
+        "SYNC_ERROR": "Neočekivana pogreška",
+        "DEFAULT": "Pogreška sinkronizacije"
       },
       "RELATED_RESPONSES": {
         "TITLE": "Related FAQs",
-        "EMPTY": "No FAQs have been generated from this document yet."
+        "EMPTY": "Iz ovog dokumenta još nisu generirana česta pitanja."
       },
       "DETAILS": {
-        "DESCRIPTION": "Review the crawled content and the FAQs generated from this source.",
-        "SOURCE": "Source",
-        "GENERATED_FAQS": "Generated FAQs",
-        "USED_IN_CONVERSATIONS": "Used in conversations",
-        "LAST_UPDATED": "Last updated",
-        "NOT_AVAILABLE": "Not available",
-        "CONTENT_TAB": "Crawled content",
-        "PDF_TAB": "PDF details",
-        "CONTENT_TITLE": "Crawled content",
-        "PDF_TITLE": "PDF file",
-        "PDF_DESCRIPTION": "Review the original PDF source.",
-        "CHARACTER_COUNT": "{count} characters extracted",
-        "COPY_CONTENT": "Copy",
-        "COPY_SUCCESS": "Crawled content copied to clipboard",
-        "COPY_ERROR": "Could not copy crawled content",
-        "VIEW_RAW": "View raw",
-        "VIEW_PREVIEW": "View preview",
-        "UNREADABLE_CONTENT": "Readable content could not be extracted from this document. You can view the raw extracted content.",
-        "EMPTY_CONTENT": "No crawled content is available for this document yet."
+        "DESCRIPTION": "Pregledajte dohvaćeni sadržaj i česta pitanja generirana iz ovog izvora.",
+        "SOURCE": "Izvor",
+        "GENERATED_FAQS": "Generirana česta pitanja",
+        "USED_IN_CONVERSATIONS": "Korišteno u razgovorima",
+        "LAST_UPDATED": "Posljednje ažuriranje",
+        "NOT_AVAILABLE": "Nije dostupno",
+        "CONTENT_TAB": "Dohvaćeni sadržaj",
+        "PDF_TAB": "Pojedinosti PDF-a",
+        "CONTENT_TITLE": "Dohvaćeni sadržaj",
+        "PDF_TITLE": "PDF datoteka",
+        "PDF_DESCRIPTION": "Pregledajte izvorni PDF dokument.",
+        "CHARACTER_COUNT": "Broj izdvojenih znakova: {count}",
+        "COPY_CONTENT": "Kopiraj",
+        "COPY_SUCCESS": "Dohvaćeni sadržaj kopiran je u međuspremnik",
+        "COPY_ERROR": "Kopiranje dohvaćenog sadržaja nije uspjelo",
+        "VIEW_RAW": "Prikaži neobrađeni sadržaj",
+        "VIEW_PREVIEW": "Prikaži pretpregled",
+        "UNREADABLE_CONTENT": "Iz ovog dokumenta nije bilo moguće izdvojiti čitljiv sadržaj. Možete pregledati neobrađeni izdvojeni sadržaj.",
+        "EMPTY_CONTENT": "Za ovaj dokument još nema dohvaćenog sadržaja."
       },
       "FORM_DESCRIPTION": "Enter the URL of the document to add it as a knowledge source and choose the assistant to associate it with.",
       "CREATE": {
@@ -1349,74 +1511,101 @@
         "ERROR_MESSAGE": "There was an error deleting the document, please try again."
       },
       "OPTIONS": {
-        "VIEW_DETAILS": "View details",
-        "SYNC_NOW": "Refresh now",
-        "RETRY_SYNC": "Retry refresh",
+        "VIEW_DETAILS": "Prikaži pojedinosti",
+        "SYNC_NOW": "Osvježi sada",
+        "RETRY_SYNC": "Ponovi osvježavanje",
         "DELETE_DOCUMENT": "Delete Document"
       },
       "EMPTY_STATE": {
         "TITLE": "No documents available",
         "SUBTITLE": "Documents are used by your assistant to generate FAQs. You can import documents to provide context for your assistant.",
-        "FILTERED_TITLE": "No matching documents",
-        "FILTERED_SUBTITLE": "Try changing the source, status, or search term.",
+        "FILTERED_TITLE": "Nema odgovarajućih dokumenata",
+        "FILTERED_SUBTITLE": "Pokušajte promijeniti izvor, status ili pojam za pretraživanje.",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Captain Document",
           "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
         }
       }
     },
+    "TOOLS_NAV": {
+      "INSTALLED": "Instalirano",
+      "CUSTOM": "Prilagođeni alati",
+      "MCP_SERVERS": "MCP poslužitelji",
+      "CATALOG": "Katalog alata"
+    },
+    "TOOLS_PAGES": {
+      "INSTALLED": {
+        "HEADING": "Instalirano",
+        "DESCRIPTION": "Skupovi alata instalirani iz kataloga alata. Njihovi su alati samo za čitanje, a svaki možete uključiti ili isključiti.",
+        "EMPTY": "Za ovog asistenta još nisu instalirani skupovi alata.",
+        "REMOVE": {
+          "BUTTON": "Izbriši",
+          "TITLE": "Ukloniti {name}?",
+          "DESCRIPTION": "Time se svi alati tog skupa uklanjaju iz asistenta. Scenariji koji ih koriste više ih neće pozivati. Skup možete ponovno instalirati iz kataloga alata.",
+          "CONFIRM": "Izbriši",
+          "SUCCESS": "Uklonjeno: {name}",
+          "ERROR": "Uklanjanje skupa alata nije uspjelo."
+        }
+      },
+      "CUSTOM": {
+        "HEADING": "Prilagođeni alati",
+        "DESCRIPTION": "Alati koje sami definirate. Svaki poziva API krajnju točku koju konfigurirate."
+      },
+      "MCP_SERVERS": {
+        "DESCRIPTION": "MCP poslužitelji povezani s ovim asistentom i alati koje Captain može koristiti sa svakog od njih."
+      }
+    },
     "CUSTOM_TOOLS": {
       "HEADER": "Tools",
       "ADD_NEW": "Create a new tool",
       "CATALOG": {
-        "BUTTON": "Tools Catalog",
-        "HEADER": "Tools Catalog",
-        "DESCRIPTION": "Browse toolsets from the Captain tools catalog and install them on this assistant.",
-        "ALL": "All",
-        "EMPTY": "No toolsets in this category yet.",
-        "LOAD_ERROR": "Could not load the tools catalog. Check the catalog URL in the Captain settings.",
-        "TOOL_COUNT": "{n} tool | {n} tools",
+        "BUTTON": "Katalog alata",
+        "DESCRIPTION": "Pregledajte skupove alata iz Captainova kataloga alata i instalirajte ih ovom asistentu.",
+        "ALL": "Sve",
+        "EMPTY": "U ovoj kategoriji još nema skupova alata.",
+        "LOAD_ERROR": "Učitavanje kataloga alata nije uspjelo. Provjerite URL kataloga u Captainovim postavkama.",
+        "TOOL_COUNT": "{n} alat | {n} alata",
         "VERSION": "v{version}",
-        "UPDATED": "Updated {time}",
-        "REPOSITORY": "Repository",
+        "UPDATED": "Ažurirano {time}",
+        "REPOSITORY": "Repozitorij",
         "MANIFEST": "Manifest",
-        "CONFIGURATION": "Configuration",
-        "REQUIRED": "Required",
-        "DETAILS_ERROR": "Could not load the toolset details.",
-        "INSTALLED": "Installed",
-        "UPDATE_AVAILABLE": "Update available"
+        "CONFIGURATION": "Konfiguracija",
+        "REQUIRED": "Obavezno",
+        "DETAILS_ERROR": "Učitavanje pojedinosti skupa alata nije uspjelo.",
+        "INSTALLED": "Instalirano",
+        "UPDATE_AVAILABLE": "Dostupno je ažuriranje"
       },
       "INSTALL_LINK": {
-        "TITLE": "Choose an assistant",
-        "DESCRIPTION": "Pick the assistant to install this toolset on.",
-        "PLACEHOLDER": "Select an assistant",
-        "LOAD_ERROR": "Could not load your assistants. Reload the page to try again."
+        "TITLE": "Odaberite asistenta",
+        "DESCRIPTION": "Odaberite asistenta kojem želite instalirati ovaj skup alata.",
+        "PLACEHOLDER": "Odaberi asistenta",
+        "LOAD_ERROR": "Učitavanje vaših asistenata nije uspjelo. Osvježite stranicu i pokušajte ponovno."
       },
       "INSTALL_MANIFEST": {
-        "TITLE": "Install a toolset",
-        "DESCRIPTION": "Install a toolset from the Captain tools catalog.",
+        "TITLE": "Instaliraj skup alata",
+        "DESCRIPTION": "Instalirajte skup alata iz Captainova kataloga alata.",
         "VERSION_LABEL": "v{version} · {revision}",
-        "UPDATE_NOTE": "A different version is installed. Updating replaces its tools and keeps whether each one is enabled. Enter the secrets again.",
-        "TOOLS_LABEL": "Tools",
-        "CONFIGURATION_LABEL": "Configuration",
-        "CONTINUE": "Continue",
-        "INSTALL": "Install",
-        "UPDATE": "Update",
-        "REINSTALL": "Reinstall",
-        "REINSTALL_NOTE": "Some tools from this toolset were deleted. Reinstalling adds them back and keeps whether each one is enabled. Enter the secrets again.",
-        "ALREADY_INSTALLED": "Already installed",
-        "SUCCESS_MESSAGE": "Toolset installed",
-        "ERROR_MESSAGE": "Could not install the toolset",
-        "PREVIEW_ERROR": "Could not load the toolset"
+        "UPDATE_NOTE": "Instalirana je druga verzija. Ažuriranje zamjenjuje njezine alate i zadržava stanje uključenosti svakog alata. Ponovno unesite tajne podatke.",
+        "TOOLS_LABEL": "Alati",
+        "CONFIGURATION_LABEL": "Konfiguracija",
+        "CONTINUE": "Nastavi",
+        "INSTALL": "Instaliraj",
+        "UPDATE": "Ažuriraj",
+        "REINSTALL": "Ponovno instaliraj",
+        "REINSTALL_NOTE": "Neki su alati iz ovog skupa izbrisani. Ponovna instalacija vraća ih i zadržava stanje uključenosti svakog alata. Ponovno unesite tajne podatke.",
+        "ALREADY_INSTALLED": "Već instalirano",
+        "SUCCESS_MESSAGE": "Skup alata je instaliran",
+        "ERROR_MESSAGE": "Instalacija skupa alata nije uspjela",
+        "PREVIEW_ERROR": "Učitavanje skupa alata nije uspjelo"
       },
       "ASSISTANT_TOOLS_BANNER": {
-        "MESSAGE": "Custom tools are now managed per assistant. Switch assistants to customize their tools.",
-        "LEARN_MORE": "Learn more",
-        "DISMISS": "Dismiss announcement",
-        "MODAL_TITLE": "Your assistants now have their own tools",
-        "MODAL_DESCRIPTION": "Each assistant now has a separate list of custom tools. We copied your existing tools to every assistant, so nothing is missing.",
-        "MODAL_INSTRUCTIONS": "When you add, edit, turn off, or delete a tool, the change applies only to the assistant you're currently viewing. Switch assistants at the top of the page to review or customize their tools.",
-        "ACKNOWLEDGE": "Got it"
+        "MESSAGE": "Prilagođenim alatima sada se upravlja zasebno za svakog asistenta. Promijenite asistenta kako biste prilagodili njegove alate.",
+        "LEARN_MORE": "Saznaj više",
+        "DISMISS": "Zatvori obavijest",
+        "MODAL_TITLE": "Vaši asistenti sada imaju vlastite alate",
+        "MODAL_DESCRIPTION": "Svaki asistent sada ima zaseban popis prilagođenih alata. Kopirali smo vaše postojeće alate svakom asistentu pa ništa ne nedostaje.",
+        "MODAL_INSTRUCTIONS": "Kada dodate, uredite, isključite ili izbrišete alat, promjena vrijedi samo za asistenta kojeg trenutačno pregledavate. Promijenite asistenta na vrhu stranice kako biste pregledali ili prilagodili njegove alate.",
+        "ACKNOWLEDGE": "U redu"
       },
       "SOFT_LIMIT_WARNING": "Having more than 10 tools may reduce the assistant's reliability in selecting the right tool. Consider removing unused tools for better results.",
       "EMPTY_STATE": {
@@ -1430,24 +1619,24 @@
       "FORM_DESCRIPTION": "Configure your custom tool to connect with external APIs",
       "OPTIONS": {
         "EDIT_TOOL": "Edit tool",
-        "VIEW_TOOL": "View tool",
+        "VIEW_TOOL": "Prikaži alat",
         "DELETE_TOOL": "Delete tool"
       },
       "STATUS": {
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled",
-        "TOGGLE": "Toggle {title}"
+        "ENABLED": "Omogućeno",
+        "DISABLED": "Onemogućeno",
+        "TOGGLE": "Uključi ili isključi: {title}"
       },
       "TOGGLE": {
-        "ENABLED": "Tool enabled successfully",
-        "DISABLED": "Tool disabled successfully",
-        "ERROR": "Failed to update tool status"
+        "ENABLED": "Alat je uspješno omogućen",
+        "DISABLED": "Alat je uspješno onemogućen",
+        "ERROR": "Ažuriranje statusa alata nije uspjelo"
       },
       "DISABLE_CONFIRMATION": {
-        "TITLE": "Disable {title}?",
-        "DESCRIPTION_ONE": "This tool is used by {count} enabled scenario. Disabling it may cause that scenario to stop working as expected.",
-        "DESCRIPTION_OTHER": "This tool is used by {count} enabled scenarios. Disabling it may cause those scenarios to stop working as expected.",
-        "CONFIRM": "Disable tool"
+        "TITLE": "Onemogućiti {title}?",
+        "DESCRIPTION_ONE": "Ovaj alat koristi {count} omogućeni scenarij. Njegovim onemogućavanjem taj scenarij može prestati raditi kako se očekuje.",
+        "DESCRIPTION_OTHER": "Ovaj alat koristi {count} omogućenih scenarija. Njegovim onemogućavanjem ti scenariji mogu prestati raditi kako se očekuje.",
+        "CONFIRM": "Onemogući alat"
       },
       "CREATE": {
         "TITLE": "Create Custom Tool",
@@ -1455,9 +1644,9 @@
         "ERROR_MESSAGE": "Failed to create custom tool"
       },
       "VIEW": {
-        "TITLE": "Custom Tool Details",
-        "REQUEST": "Request and response",
-        "INSTALLED_NOTE": "This tool is read-only because it was installed from the Tools Catalog."
+        "TITLE": "Pojedinosti prilagođenog alata",
+        "REQUEST": "Zahtjev i odgovor",
+        "INSTALLED_NOTE": "Ovaj je alat samo za čitanje jer je instaliran iz Kataloga alata."
       },
       "EDIT": {
         "TITLE": "Edit Custom Tool",
@@ -1512,9 +1701,9 @@
           "LABEL": "Authentication Type"
         },
         "EMAIL_VERIFICATION": {
-          "LABEL": "Require email verification",
-          "DESCRIPTION": "Captain can use this tool only after the customer verifies their email with a one-time code.",
-          "IMPLIED": "A parameter takes the customer's verified email, so email verification is always required."
+          "LABEL": "Zahtijevaj potvrdu e-pošte",
+          "DESCRIPTION": "Captain može koristiti ovaj alat tek nakon što kupac potvrdi svoju adresu e-pošte jednokratnim kodom.",
+          "IMPLIED": "Parametar koristi potvrđenu adresu e-pošte kupca pa je potvrda e-pošte uvijek obvezna."
         },
         "AUTH_TYPES": {
           "NONE": "None",
@@ -1535,17 +1724,17 @@
           "API_VALUE_PLACEHOLDER": "Enter API key value"
         },
         "SECTIONS": {
-          "TEMPLATES": "Templates",
-          "TEMPLATES_HELP_TEXT": "Supports Liquid syntax, like {'{{'} order_id {'}}'} or {'{{'} response.status {'}}'}."
+          "TEMPLATES": "Predlošci",
+          "TEMPLATES_HELP_TEXT": "Podržava Liquid sintaksu, primjerice {'{{'} order_id {'}}'} ili {'{{'} response.status {'}}'}."
         },
         "HEADERS": {
-          "LABEL": "Headers",
-          "HELP_TEXT": "Static headers sent with every request. Values are sent exactly as entered; use Authentication for credentials.",
-          "NAME_PLACEHOLDER": "Header name (e.g., cal-api-version)",
-          "VALUE_PLACEHOLDER": "Header value",
-          "NAME_REQUIRED": "Header name is required",
-          "NAME_DUPLICATE": "Header names must be unique",
-          "ADD": "Add Header"
+          "LABEL": "Zaglavlja",
+          "HELP_TEXT": "Statička zaglavlja koja se šalju sa svakim zahtjevom. Vrijednosti se šalju točno kako su unesene; za pristupne podatke koristite Autentifikaciju.",
+          "NAME_PLACEHOLDER": "Naziv zaglavlja (npr. cal-api-version)",
+          "VALUE_PLACEHOLDER": "Vrijednost zaglavlja",
+          "NAME_REQUIRED": "Naziv zaglavlja je obvezan",
+          "NAME_DUPLICATE": "Nazivi zaglavlja moraju biti jedinstveni",
+          "ADD": "Dodaj zaglavlje"
         },
         "PARAMETERS": {
           "LABEL": "Parameters",
@@ -1572,19 +1761,19 @@
           "LABEL": "Required"
         },
         "RISK": {
-          "MEDIUM": "This tool may return customer data. Consider requiring email verification.",
-          "HIGH": "This tool looks like it reads or changes customer data. Require email verification so only a verified customer can use it.",
-          "TITLE": "Save without email verification?",
-          "GO_BACK": "Go back",
-          "SAVE_ANYWAY": "Save anyway",
-          "EMAIL_PARAM": "This email is not verified. A customer could type someone else's.",
-          "USE_VERIFIED_EMAIL": "Use verified email"
+          "MEDIUM": "Ovaj alat može vratiti podatke o kupcu. Razmotrite uključivanje obvezne potvrde e-pošte.",
+          "HIGH": "Čini se da ovaj alat čita ili mijenja podatke o kupcu. Zahtijevajte potvrdu e-pošte kako bi ga mogao koristiti samo potvrđeni kupac.",
+          "TITLE": "Spremiti bez potvrde e-pošte?",
+          "GO_BACK": "Vrati se",
+          "SAVE_ANYWAY": "Svejedno spremi",
+          "EMAIL_PARAM": "Ova adresa e-pošte nije potvrđena. Kupac bi mogao upisati tuđu adresu.",
+          "USE_VERIFIED_EMAIL": "Koristi potvrđenu adresu e-pošte"
         },
         "VERIFIED_VALUES": {
-          "ADD": "Add verified email",
-          "EMAIL": "Contact email",
-          "EMAIL_DESCRIPTION": "The contact's verified email address",
-          "HELP": "Filled by Chatwoot from the email the contact confirmed with a one-time code. Captain cannot see or change it in customer conversations."
+          "ADD": "Dodaj potvrđenu adresu e-pošte",
+          "EMAIL": "Adresa e-pošte kontakta",
+          "EMAIL_DESCRIPTION": "Potvrđena adresa e-pošte kontakta",
+          "HELP": "Chatwoot popunjava ovu vrijednost adresom e-pošte koju je kontakt potvrdio jednokratnim kodom. Captain je ne može vidjeti ni promijeniti u razgovorima s kupcima."
         },
         "REQUEST_TEMPLATE": {
           "LABEL": "Request Body Template (Optional)",
@@ -1599,10 +1788,166 @@
         }
       }
     },
+    "MCP_SERVERS": {
+      "HEADER": "MCP poslužitelji",
+      "CONNECT": "Poveži poslužitelj",
+      "EMPTY_STATE": {
+        "TITLE": "Još nema MCP poslužitelja",
+        "SUBTITLE": "Povežite MCP poslužitelj i odaberite koje njegove alate Captain može koristiti u razgovorima."
+      },
+      "LOAD_ERROR": "Učitavanje MCP poslužitelja nije uspjelo.",
+      "STATUS": {
+        "ACTIVE": "Aktivno",
+        "NEEDS_SIGN_IN": "Potrebna je prijava",
+        "TOKEN_REJECTED": "Token je odbijen",
+        "NEEDS_TOKEN": "Potreban je token, ponovno povežite poslužitelj",
+        "LAST_REQUEST_FAILED": "Posljednji zahtjev nije uspio",
+        "TOGGLE": "Uključi ili isključi {name}"
+      },
+      "AUTH_TYPES": {
+        "NONE": "Bez prijave",
+        "OAUTH": "OAuth",
+        "TOKEN": "Pristupni token"
+      },
+      "TOOL_COUNT": "{n} alat | {n} alata",
+      "NO_TOOLS": "Još nema odabranih alata.",
+      "ACTIONS": {
+        "MANAGE_TOOLS": "Upravljaj alatima",
+        "SIGN_IN": "Prijava",
+        "RECONNECT": "Ponovno poveži",
+        "UPDATE_TOKEN": "Ažuriraj token",
+        "DELETE": "Ukloni poslužitelj"
+      },
+      "UPDATE_TOKEN": {
+        "TITLE": "Ažuriraj token za {name}",
+        "DESCRIPTION": "Chatwoot provjerava novi token na poslužitelju prije spremanja.",
+        "CONFIRM": "Spremi token",
+        "SUCCESS": "Token je ažuriran.",
+        "ERROR": "Ažuriranje tokena nije uspjelo."
+      },
+      "SIGN_IN": {
+        "SUCCESS": "Prijavljeni ste na poslužitelj. Odaberite alate koje Captain može koristiti.",
+        "FAILED": "Prijava na poslužitelj nije uspjela. Pokušajte ponovno.",
+        "ERROR": "Pokretanje prijave nije uspjelo.",
+        "OPENING_TITLE": "Otvaranje prijave za {name}",
+        "OPENING_DESCRIPTION": "Chatwoot priprema prijavu na poslužitelj. Stranica za prijavu otvorit će se uskoro."
+      },
+      "DELETE": {
+        "TITLE": "Ukloniti {name}?",
+        "DESCRIPTION": "Captain više neće koristiti alate ovog poslužitelja. Možete ga ponovno povezati kasnije.",
+        "CONFIRM": "Izbriši",
+        "SUCCESS": "Poslužitelj je uklonjen.",
+        "ERROR": "Uklanjanje poslužitelja nije uspjelo."
+      },
+      "TOGGLE": {
+        "ENABLED": "Poslužitelj je uključen.",
+        "DISABLED": "Poslužitelj je isključen.",
+        "ERROR": "Ažuriranje poslužitelja nije uspjelo."
+      },
+      "WHO": {
+        "VERIFIED": "Provjereni kupci",
+        "ANYONE": "Bilo koji kupac"
+      },
+      "SUGGESTIONS": {
+        "TITLE": "Popularni poslužitelji"
+      },
+      "DIALOG": {
+        "CONNECT_TITLE": "Poveži MCP poslužitelj",
+        "MANAGE_TITLE": "Upravljaj alatima za {name}",
+        "STEPS": {
+          "TOOLS": "Alati",
+          "PARAMETERS": "Parameters",
+          "REVIEW": "Pregledaj"
+        },
+        "TOKEN_LABEL": "Pristupni token",
+        "CHANGED": "Promijenjeno na poslužitelju",
+        "NO_LIVE_TOOLS": "Poslužitelj ne nudi nijedan alat.",
+        "PARAMS_TITLE": "Odredite tko popunjava svaki parametar",
+        "PARAMS_DESCRIPTION": "Captain popunjava parametre na temelju razgovora. Parametri koje popunjava Chatwoot nisu vidljivi Captainu pa ih kupac ne može promijeniti.",
+        "NO_PARAMS": "Nema parametara. Captain poziva ovaj alat bez dodatnih vrijednosti.",
+        "PARAM_COUNT": "{n} parametar | Parametara: {n}",
+        "REQUIRED": "potreban",
+        "SOURCES": {
+          "MODEL": "Captain popunjava",
+          "VERIFIED_EMAIL": "Potvrđena adresa e-pošte",
+          "FIXED": "Fiksna vrijednost"
+        },
+        "FIXED_PLACEHOLDER": "Vrijednost",
+        "HINTS": {
+          "MODEL": "Captain popunjava ovu vrijednost na temelju razgovora.",
+          "VERIFIED_EMAIL": "Chatwoot popunjava ovo polje adresom e-pošte koju je kupac potvrdio jednokratnim kodom.",
+          "FIXED": "Chatwoot uvijek šalje ovu vrijednost.",
+          "EMAIL": "Ova adresa e-pošte nije potvrđena. Kupac bi mogao upisati tuđu adresu.",
+          "ID": "Captain popunjava ovaj ID. Kupac može navesti bilo koji ID koji zna, a vlasništvo nad zapisom ne provjerava se."
+        },
+        "USE_VERIFIED_EMAIL": "Koristi potvrđenu adresu e-pošte",
+        "REQUIRE_VERIFICATION": "Zahtijevaj potvrđenu adresu e-pošte prije pokretanja alata",
+        "REQUIRE_VERIFICATION_LOCKED": "Uključeno jer jedan parametar koristi potvrđenu adresu e-pošte.",
+        "REVIEW_COLUMNS": {
+          "FINGERPRINT": "Fingerprint"
+        },
+        "SOURCE_SUMMARY": {
+          "MODEL": "Captain",
+          "VERIFIED_EMAIL": "potvrđena adresa e-pošte"
+        },
+        "BACK": "Natrag",
+        "CONTINUE": "Nastavi",
+        "SAVE": "Spremi",
+        "SAVED": "Alati su spremljeni.",
+        "SAVE_ERROR": "Spremanje alata nije uspjelo.",
+        "CHECK_ERROR": "Provjera poslužitelja nije uspjela.",
+        "TOOLS_ERROR": "Učitavanje alata poslužitelja nije uspjelo.",
+        "FIXED_VALUE_MISSING": "Unesite fiksnu vrijednost za {param} u alatu {tool}.",
+        "REVIEW_CHANGE": "Pregledaj promjenu",
+        "APPROVED_VERSION": "Odobreno",
+        "LIVE_VERSION": "Trenutačno na poslužitelju",
+        "APPROVED_PARAMETERS": "Odobreni parametri",
+        "LIVE_PARAMETERS": "Parametri trenutačno na poslužitelju",
+        "NOW_READ_ONLY": "Poslužitelj sada označava ovaj alat kao alat samo za čitanje. Captain će ga koristiti i pri predlaganju odgovora te nakon novih poruka kupaca.",
+        "NOW_WRITES": "Poslužitelj sada označava ovaj alat kao alat koji mijenja podatke. Captain ga više neće koristiti pri predlaganju odgovora.",
+        "CHANGE_WARNING": "Captain neće koristiti ovaj alat dok ne odobrite promjenu. Poslužitelj može opisom utjecati na Captainovo ponašanje. Odobrite samo tekst koji biste i sami napisali.",
+        "APPROVE_CHANGE": "Odobri promjenu",
+        "KEEP_OFF": "Ostavi isključeno",
+        "CHANGE_APPROVED": "Promjena je odobrena.",
+        "APPROVE_ERROR": "Odobravanje promjene nije uspjelo.",
+        "MISSING_TOOLS": "Poslužitelj više ne navodi ove odobrene alate. Spremanjem će biti uklonjeni: {names}",
+        "SERVER": {
+          "DESCRIPTION": "Zalijepite URL udaljenog MCP poslužitelja ili odaberite neki od popularnih.",
+          "URL_LABEL": "URL poslužitelja",
+          "HEADER_PLACEHOLDER": "Naziv zaglavlja, primjerice X-API-Key",
+          "URL_PLACEHOLDER": "mcp.primjer.com/mcp",
+          "NEEDS_TOKEN": "Ovaj poslužitelj zahtijeva pristupni token.",
+          "TOKEN_HELP": "Chatwoot ga pohranjuje šifrirano. Svi razgovori s kupcima koriste istu prijavu pa poslužitelj vidi zahtjeve kao da dolaze od vaše tvrtke.",
+          "CUSTOM_HEADER": "Pošalji u prilagođenom zaglavlju",
+          "CONNECT": "Poveži",
+          "CONTINUE_TO": "Nastavi na {name}",
+          "REDIRECT_HINT": "Prijavite se na {name}, a zatim se vratite ovamo."
+        },
+        "TOOLS": {
+          "TITLE": "Odaberite alate",
+          "DESCRIPTION": "Captain koristi samo alate koje odaberete. Svaki je vezan uz ovdje prikazanu definiciju. Opisi dolaze s poslužitelja.",
+          "SELECTED": "Odabran {selected} od {total}",
+          "SELECT_ALL": "Odaberi sve alate",
+          "CLEAR": "Poništi odabir",
+          "SEARCH": "Pretraži alate"
+        },
+        "REVIEW": {
+          "TITLE": "Pregledaj",
+          "DESCRIPTION": "Captain počinje koristiti te alate u razgovorima čim spremite promjene.",
+          "NO_TOOLS": "Nije odabran nijedan alat. Spremanjem ćete ukloniti sve alate ovog poslužitelja."
+        },
+        "ACTIONS": {
+          "REVIEW": "Pregledaj",
+          "SAVE": "Spremi {n} alat | Spremi {n} alata"
+        },
+        "PARAMS_NONE_SELECTED": "Vratite se i odaberite barem jedan alat."
+      },
+      "NEEDS_REVIEW": "Potrebna je provjera"
+    },
     "RESPONSES": {
       "HEADER": "FAQs",
       "ADD_NEW": "Create new FAQ",
-      "NO_USED_CONVERSATIONS": "No conversations found for this FAQ.",
+      "NO_USED_CONVERSATIONS": "Nisu pronađeni razgovori za ovo često pitanje.",
       "DOCUMENTABLE": {
         "CONVERSATION": "Conversation #{id}"
       },
@@ -1611,7 +1956,7 @@
       "UNSELECT_ALL": "Unselect all ({count})",
       "SEARCH_PLACEHOLDER": "Search FAQs...",
       "ERRORS": {
-        "LOAD": "There was an error loading FAQs. Please try again."
+        "LOAD": "Učitavanje čestih pitanja nije uspjelo. Pokušajte ponovno."
       },
       "BULK_DELETE_BUTTON": "Izbriši",
       "BULK_DELETE": {
@@ -1629,8 +1974,8 @@
         "ERROR_MESSAGE": "There was an error deleting the FAQ, please try again."
       },
       "SUGGESTIONS_BANNER": {
-        "TITLE": "Captain grouped recurring customer questions into FAQ suggestions.",
-        "ACTION": "Review suggestions"
+        "TITLE": "Captain je grupirao ponavljajuća pitanja kupaca u prijedloge čestih pitanja.",
+        "ACTION": "Pregledaj prijedloge"
       },
       "FORM_DESCRIPTION": "Add a question and its corresponding answer to the knowledge base and select the assistant it should be associated with.",
       "CREATE": {
@@ -1672,40 +2017,40 @@
       }
     },
     "FAQ_SUGGESTIONS": {
-      "HEADER": "FAQ suggestions",
-      "SEARCH_PLACEHOLDER": "Search suggestions...",
-      "QUEUE_COUNT": "{count} suggestion to review | {count} suggestions to review",
-      "QUEUE_HINT": "Ranked by customer demand",
-      "SOURCE_COUNT": "{count} conversation | {count} conversations",
-      "REVIEW": "Review sources",
-      "APPROVE": "Approve",
-      "APPROVE_FAQ": "Approve FAQ",
-      "DISMISS": "Dismiss",
-      "SAVE": "Save changes",
+      "HEADER": "Prijedlozi čestih pitanja",
+      "SEARCH_PLACEHOLDER": "Pretraži prijedloge…",
+      "QUEUE_COUNT": "{count} prijedlog za pregled | {count} prijedloga za pregled",
+      "QUEUE_HINT": "Poredano prema učestalosti upita kupaca",
+      "SOURCE_COUNT": "{count} razgovor | {count} razgovora",
+      "REVIEW": "Pregledaj izvore",
+      "APPROVE": "Odobri",
+      "APPROVE_FAQ": "Odobri često pitanje",
+      "DISMISS": "Odbaci",
+      "SAVE": "Spremi promjene",
       "DETAILS": {
-        "TITLE": "Review FAQ suggestion",
-        "DESCRIPTION": "Captain grouped {count} conversation into this suggestion. Review the evidence and refine the FAQ before approval. | Captain grouped {count} conversations into this suggestion. Review the evidence and refine the FAQ before approval.",
-        "SOURCES": "Source conversations",
-        "SOURCE_PROGRESS": "{visible} of {total}",
-        "NO_SOURCES": "No accessible source conversations were found.",
-        "RETRY": "Retry"
+        "TITLE": "Pregledaj prijedlog čestog pitanja",
+        "DESCRIPTION": "Captain je objedinio {count} razgovor u ovaj prijedlog. Pregledajte izvore i doradite često pitanje prije odobravanja. | Captain je objedinio {count} razgovora u ovaj prijedlog. Pregledajte izvore i doradite često pitanje prije odobravanja.",
+        "SOURCES": "Izvorni razgovori",
+        "SOURCE_PROGRESS": "{visible} od {total}",
+        "NO_SOURCES": "Nisu pronađeni dostupni izvorni razgovori.",
+        "RETRY": "Pokušaj ponovno"
       },
       "EMPTY_STATE": {
-        "TITLE": "The review queue is clear",
-        "SUBTITLE": "New FAQ suggestions will appear here when they are ready to review.",
-        "CLEAR_SEARCH": "Clear search"
+        "TITLE": "Nema prijedloga za pregled",
+        "SUBTITLE": "Novi prijedlozi čestih pitanja prikazat će se ovdje kada budu spremni za pregled.",
+        "CLEAR_SEARCH": "Očisti pretragu"
       },
       "SUCCESS": {
-        "APPROVED": "FAQ approved and added to Captain's knowledge.",
-        "DISMISSED": "Suggestion dismissed.",
-        "SAVED": "Suggestion updated."
+        "APPROVED": "Često pitanje je odobreno i dodano Captainovu znanju.",
+        "DISMISSED": "Prijedlog je odbačen.",
+        "SAVED": "Prijedlog je ažuriran."
       },
       "ERRORS": {
-        "LOAD": "There was an error loading FAQ suggestions. Please try again.",
-        "LOAD_DETAILS": "There was an error loading the source conversations.",
-        "APPROVE": "There was an error approving the FAQ. Please try again.",
-        "DISMISS": "There was an error dismissing the suggestion. Please try again.",
-        "SAVE": "There was an error saving the suggestion. Please try again."
+        "LOAD": "Učitavanje prijedloga čestih pitanja nije uspjelo. Pokušajte ponovno.",
+        "LOAD_DETAILS": "Učitavanje izvornih razgovora nije uspjelo.",
+        "APPROVE": "Odobravanje čestog pitanja nije uspjelo. Pokušajte ponovno.",
+        "DISMISS": "Odbacivanje prijedloga nije uspjelo. Pokušajte ponovno.",
+        "SAVE": "Spremanje prijedloga nije uspjelo. Pokušajte ponovno."
       }
     },
     "INBOXES": {

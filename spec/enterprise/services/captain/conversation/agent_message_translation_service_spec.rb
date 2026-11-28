@@ -122,6 +122,18 @@ RSpec.describe Captain::Conversation::AgentMessageTranslationService do
     expect(email.content_attributes.dig('email', 'html_content', 'reply')).to include('<p>Bonjour</p>').and include('<blockquote>')
   end
 
+  it 'translates a blockquote the agent wrote in an email along with the rest of the reply' do
+    email_inbox = create(:inbox, account: account, channel: create(:channel_email, account: account))
+    email_conversation = create(:conversation, account: account, inbox: email_inbox, additional_attributes: { 'conversation_language' => 'fr' })
+    reply = "Here is our policy:\n\n> Returns accepted within 30 days.\n\nI have approved your refund."
+    email = create(:message, account: account, inbox: email_inbox, conversation: email_conversation, message_type: :outgoing, sender: user,
+                             content: reply, content_attributes: { translation_pending: true, email: { subject: 'Re: Commande' } })
+
+    described_class.new(message: email).perform
+
+    expect(Captain::Llm::MessageTranslationService).to have_received(:new).with(hash_including(text: reply))
+  end
+
   it 'stores the rendered email html as plain strings so the update can be broadcast' do
     email_inbox = create(:inbox, account: account, channel: create(:channel_email, account: account))
     email_conversation = create(:conversation, account: account, inbox: email_inbox, additional_attributes: { 'conversation_language' => 'fr' })
@@ -174,6 +186,20 @@ RSpec.describe Captain::Conversation::AgentMessageTranslationService do
     allow(google).to receive(:detect).and_raise(Signet::AuthorizationError, 'invalid_grant')
     allow(google).to receive(:translate).and_raise(OpenSSL::PKey::RSAError, 'Neither PUB key nor PRIV key')
     allow(Integrations::GoogleTranslate::ProcessorService).to receive(:new).and_return(google)
+    expect(ChatwootExceptionTracker).not_to receive(:new)
+
+    described_class.new(message: message).perform
+
+    expect(message.reload.content).to eq('Hello there')
+    expect(message.content_attributes).to eq('translation_failed' => true)
+  end
+
+  it 'sends the reply as written when a stored Google credential type is unsupported' do
+    allow(Integrations::GoogleTranslate::CredentialsValidator).to receive(:valid?).and_return(true)
+    hook = create(:integrations_hook, :google_translate, account: account)
+    hook.update_columns(settings: hook.settings.merge('credentials' => 'credentials.json')) # rubocop:disable Rails/SkipsModelValidations
+    account.update!(translation_provider: 'google_translate')
+    expect(Google::Cloud::Translate::V3::TranslationService::Client).not_to receive(:new)
     expect(ChatwootExceptionTracker).not_to receive(:new)
 
     described_class.new(message: message).perform

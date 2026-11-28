@@ -86,7 +86,8 @@ class CallFinder
   end
 
   def paginated_calls
-    @calls.includes(:contact, :conversation, :accepted_by_agent, inbox: :channel)
+    # Preloads the recording because every row renders recording_url
+    @calls.includes(:contact, :conversation, :accepted_by_agent, inbox: :channel, recording_attachment: :blob)
           .order(created_at: :desc)
           .page(@params[:page] || 1)
           .per(RESULTS_PER_PAGE)

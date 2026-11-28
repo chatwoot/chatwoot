@@ -95,6 +95,13 @@ class Inboxes extends CacheEnabledApiClient {
     });
   }
 
+  setWhatsappCallbackPermission(inboxId, enabled) {
+    return axios.post(
+      `${this.url}/${inboxId}/set_whatsapp_callback_permission`,
+      { enabled }
+    );
+  }
+
   setCallRecording(inboxId, { recordingEnabled, transcriptionEnabled }) {
     return axios.post(`${this.url}/${inboxId}/set_call_recording`, {
       recording_enabled: recordingEnabled,

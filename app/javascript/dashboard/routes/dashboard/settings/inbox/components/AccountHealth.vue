@@ -8,6 +8,7 @@ import ButtonV4 from 'next/button/Button.vue';
 import Avatar from 'next/avatar/Avatar.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import { useAlert } from 'dashboard/composables';
+import WhatsappCallingHealth from './WhatsappCallingHealth.vue';
 
 const props = defineProps({
   healthData: {
@@ -26,9 +27,17 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  isEnablingCalling: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const emit = defineEmits(['registerWebhook', 'goToConfiguration']);
+const emit = defineEmits([
+  'registerWebhook',
+  'goToConfiguration',
+  'enableCalling',
+]);
 
 const { t, te } = useI18n();
 const { resolvedLocale } = useLocale();
@@ -726,6 +735,15 @@ const handleCopyWebhookUrl = async url => {
             </div>
           </div>
         </div>
+
+        <WhatsappCallingHealth
+          v-if="healthData.calling"
+          :calling="healthData.calling"
+          :is-enabling-calling="isEnablingCalling"
+          :is-registering-webhook="isRegisteringWebhook"
+          @enable-calling="emit('enableCalling')"
+          @register-webhook="handleRegisterWebhook"
+        />
       </div>
 
       <div v-else-if="errorState" class="pt-2">

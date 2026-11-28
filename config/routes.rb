@@ -102,7 +102,9 @@ Rails.application.routes.draw do
                 get :tools
               end
               resources :inboxes, only: [:index, :create, :destroy], param: :inbox_id
-              resources :scenarios
+              resources :scenarios do
+                post :tool_suggestions, on: :collection
+              end
             end
             resources :agent_sessions, only: [:show]
             resources :assistant_responses do
@@ -374,6 +376,7 @@ Rails.application.routes.draw do
               post :disable_whatsapp_calling, on: :member
               post :set_inbound_calls, on: :member
               post :set_call_recording, on: :member
+              post :set_whatsapp_callback_permission, on: :member
               resources :call_announcements, only: [:update], param: :kind, controller: 'inboxes/call_announcements'
               resource :call_routing, only: [:update], controller: 'inboxes/call_routings'
               resource :whatsapp_call_hours, only: [:show, :update], controller: 'inboxes/whatsapp_call_hours'
@@ -451,7 +454,6 @@ Rails.application.routes.draw do
 
           namespace :whatsapp do
             resource :authorization, only: [:create]
-            resource :access_request, only: [:create] if ChatwootApp.enterprise?
             post 'manual/preview', to: 'manual_setup#preview'
             post 'manual/connect', to: 'manual_setup#connect'
             get 'manual/:inbox_id/webhook_status', to: 'manual_setup#webhook_status'
@@ -481,6 +483,7 @@ Rails.application.routes.draw do
                 post :add_participant_to_meeting
               end
             end
+            resource :shopify_storefront_widget, only: [:show, :update]
             resource :shopify_custom_app, controller: 'shopify_custom_apps', only: [:show, :create, :update, :destroy]
             resource :shopify, controller: 'shopify', only: [:destroy] do
               collection do
@@ -660,6 +663,7 @@ Rails.application.routes.draw do
               post :toggle_deletion
               post :topup_checkout
               get :topup_options
+              get :legal_compliance
             end
           end
         end

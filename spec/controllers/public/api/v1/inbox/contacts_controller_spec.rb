@@ -24,6 +24,28 @@ RSpec.describe 'Public Inbox Contacts API', type: :request do
       db_contact = api_channel.account.contacts.find_by(identifier: identifier)
       expect(db_contact).not_to be_nil
     end
+
+    context 'when the inbox requires HMAC' do
+      before { api_channel.update!(hmac_mandatory: true) }
+
+      it 'rejects a contact without an identifier hash' do
+        expect do
+          post "/public/api/v1/inboxes/#{api_channel.identifier}/contacts", params: { identifier: 'contact-identifier' }
+        end.not_to change(Contact, :count)
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'creates a contact with the identifier hash of the provided identifier' do
+        identifier_hash = OpenSSL::HMAC.hexdigest('sha256', api_channel.hmac_token, 'contact-identifier')
+
+        post "/public/api/v1/inboxes/#{api_channel.identifier}/contacts",
+             params: { identifier: 'contact-identifier', identifier_hash: identifier_hash }
+
+        expect(response).to have_http_status(:success)
+        expect(api_channel.account.contacts.find_by(identifier: 'contact-identifier')).not_to be_nil
+      end
+    end
   end
 
   describe 'GET /public/api/v1/inboxes/{identifier}/contact/{source_id}' do
@@ -100,6 +122,20 @@ RSpec.describe 'Public Inbox Contacts API', type: :request do
       expect(response).to have_http_status(:unauthorized)
       expect(contact.reload.name).not_to eq 'John Smith'
       expect(contact_inbox.reload.hmac_verified).to be(false)
+    end
+
+    it 'does not merge an anonymous session into an identified contact with the same email' do
+      anonymous_contact = create(:contact, account: api_channel.account)
+      anonymous_session = create(:contact_inbox, contact: anonymous_contact, inbox: api_channel.inbox)
+      create(:contact, account: api_channel.account, identifier: 'customer-1', email: 'customer@test.com', name: 'Customer',
+                       phone_number: '+919999888877')
+
+      patch "/public/api/v1/inboxes/#{api_channel.identifier}/contacts/#{anonymous_session.source_id}",
+            params: { email: 'customer@test.com' }
+
+      expect(response).to have_http_status(:success)
+      expect(response.parsed_body).to include('id' => anonymous_contact.id, 'name' => anonymous_contact.name, 'phone_number' => nil)
+      expect(anonymous_session.reload.contact_id).to eq anonymous_contact.id
     end
   end
 end

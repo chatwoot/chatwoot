@@ -87,20 +87,20 @@
         "MFA_BUTTON": "Manage Two-Factor Authentication"
       },
       "SESSIONS_SECTION": {
-        "TITLE": "Active Sessions",
-        "NOTE": "These are the devices currently logged in to your account.",
-        "CURRENT": "Current session",
-        "REVOKE": "Revoke",
-        "REVOKE_SUCCESS": "Session revoked successfully",
-        "REVOKE_ERROR": "Unable to revoke session. Please try again.",
-        "FETCH_ERROR": "Unable to fetch sessions. Please try again.",
-        "LAST_ACTIVE": "Last active",
-        "UNKNOWN_DEVICE": "Unknown device"
+        "TITLE": "Aktivne sesije",
+        "NOTE": "Ovo su uređaji trenutačno prijavljeni na vaš račun.",
+        "CURRENT": "Trenutačna sesija",
+        "REVOKE": "Opozovi",
+        "REVOKE_SUCCESS": "Sesija je uspješno opozvana",
+        "REVOKE_ERROR": "Opozivanje sesije nije uspjelo. Pokušajte ponovno.",
+        "FETCH_ERROR": "Dohvaćanje sesija nije uspjelo. Pokušajte ponovno.",
+        "LAST_ACTIVE": "Posljednja aktivnost",
+        "UNKNOWN_DEVICE": "Nepoznati uređaj"
       },
       "ACCESS_TOKEN": {
         "TITLE": "Pristupni token",
         "NOTE": "This token can be used if you are building an API based integration",
-        "PAID_PLAN_NOTE": "API access tokens are available on paid plans.",
+        "PAID_PLAN_NOTE": "API pristupni tokeni dostupni su u plaćenim paketima.",
         "COPY": "Kopiraj",
         "RESET": "Reset",
         "CONFIRM_RESET": "Are you sure?",
@@ -158,7 +158,7 @@
         "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
         "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA",
-        "VOICE_CALL_MISSED": "Send email notifications when you miss a call"
+        "VOICE_CALL_MISSED": "Šalji obavijesti e-poštom kada propustim poziv"
       },
       "NOTIFICATIONS": {
         "TITLE": "Notification preferences",
@@ -174,7 +174,7 @@
           "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
           "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
           "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA",
-          "VOICE_CALL_MISSED": "You miss a call"
+          "VOICE_CALL_MISSED": "Propustite poziv"
         },
         "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
       },
@@ -195,7 +195,7 @@
         "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
         "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
         "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA",
-        "VOICE_CALL_MISSED": "Send push notifications when you miss a call"
+        "VOICE_CALL_MISSED": "Šalji push obavijesti kada propustim poziv"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Profilna slika"
@@ -256,6 +256,7 @@
     "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
     "DOCS": "Read documentation",
     "CHANGELOG": "Changelog",
+    "CHANGELOG_DISMISS_ALL": "Odbaci sve",
     "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
@@ -266,13 +267,13 @@
     "RESEND_VERIFICATION_MAIL": "Resend verification email",
     "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
     "IMPERSONATION": {
-      "MESSAGE": "You are impersonating {name} ({email}). Any action you take will appear as this user.",
-      "STOP": "Stop impersonating"
+      "MESSAGE": "Djelujete kao {name} ({email}). Sve radnje koje poduzmete prikazivat će se kao radnje tog korisnika.",
+      "STOP": "Prestani djelovati kao drugi korisnik"
     },
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Account Suspended",
-      "MESSAGE": "Your account is suspended. Please reach out to the support team for more information.",
-      "MANAGE_BILLING": "Manage billing"
+      "MESSAGE": "Vaš je račun obustavljen zbog aktivnosti koja bi mogla kršiti naša pravila. Ako smatrate da je riječ o pogrešci, obratite se našem timu za podršku.",
+      "MANAGE_BILLING": "Upravljaj naplatom"
     },
     "NO_ACCOUNTS": {
       "TITLE": "No account found",
@@ -286,7 +287,7 @@
       "BUTTON_TEXT": "Copy",
       "CODEPEN": "Otvori u CodePenu",
       "COPY_SUCCESSFUL": "Copied to clipboard",
-      "COPY_ERROR": "Unable to copy to clipboard. Please try again."
+      "COPY_ERROR": "Kopiranje u međuspremnik nije uspjelo. Pokušajte ponovno."
     },
     "SHOW_MORE_BLOCK": {
       "SHOW_MORE": "Show More",
@@ -333,12 +334,13 @@
     "COMPANIES": "Companies",
     "ALL_COMPANIES": "All Companies",
     "CAPTAIN": "Captain",
-    "CALLS": "Calls",
+    "CALLS": "Pozivi",
     "CAPTAIN_ASSISTANTS": "Assistants",
     "CAPTAIN_OVERVIEW": "Pregled",
     "CAPTAIN_DOCUMENTS": "Documents",
     "CAPTAIN_RESPONSES": "FAQs",
     "CAPTAIN_TOOLS": "Tools",
+    "CAPTAIN_TOOLS_AND_MCP": "Alati i MCP",
     "CAPTAIN_SCENARIOS": "Scenarios",
     "CAPTAIN_PLAYGROUND": "Playground",
     "CAPTAIN_INBOXES": "Inboxes",
@@ -348,11 +350,11 @@
     "AGENT_BOTS": "Botovi",
     "AUDIT_LOGS": "Audit Logovi",
     "INBOXES": "Inboxes",
-    "WHATSAPP_TEMPLATES": "Templates",
+    "WHATSAPP_TEMPLATES": "Predlošci",
     "NOTIFICATIONS": "Notifications",
     "CANNED_RESPONSES": "Canned Responses",
     "INTEGRATIONS": "Integrations",
-    "DATA": "Data",
+    "DATA": "Podaci",
     "PROFILE_SETTINGS": "Postavke profila",
     "ACCOUNT_SETTINGS": "Account Settings",
     "APPLICATIONS": "Applications",
@@ -399,25 +401,34 @@
       "SETTINGS": "Postavke"
     },
     "CHANNELS": "Channels",
+    "ACCEPT_CONVERSATIONS": {
+      "TEXT": "Primaj razgovore",
+      "INFO_SHORT": "Novi razgovori automatski će vam se dodjeljivati."
+    },
+    "ACCEPT_CALLS": {
+      "TEXT": "Primaj glasovne pozive",
+      "INFO_SHORT": "Primaj dolazne pozive na webu i mobitelu."
+    },
+    "WORK_PAUSED": "Nećete primati nove razgovore ni pozive dok ponovno ne budete online.",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Mark offline automatically",
       "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard.",
       "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
-    "SORT_TOOLTIP": "Sort",
-    "SORT_BY": "Sort by",
+    "SORT_TOOLTIP": "Poredaj",
+    "SORT_BY": "Poredaj prema",
     "SORT_GROUPS": {
-      "CREATED": "Sort by date of creation",
-      "ALPHABETICAL": "Sort in alphabetical order",
-      "UNREAD_COUNT": "Sort by unread count"
+      "CREATED": "Poredaj prema datumu izrade",
+      "ALPHABETICAL": "Poredaj abecednim redom",
+      "UNREAD_COUNT": "Poredaj prema broju nepročitanih"
     },
     "SORT_OPTIONS": {
-      "CREATED_DESC": "Newest first",
-      "CREATED_ASC": "Oldest first",
-      "ALPHABETICAL_ASC": "Ascending (A - Z)",
-      "ALPHABETICAL_DESC": "Descending (Z - A)",
-      "UNREAD_COUNT_DESC": "Highest first",
-      "UNREAD_COUNT_ASC": "Lowest first"
+      "CREATED_DESC": "Od najnovijeg",
+      "CREATED_ASC": "Od najstarijeg",
+      "ALPHABETICAL_ASC": "Uzlazno (A – Z)",
+      "ALPHABETICAL_DESC": "Silazno (Z – A)",
+      "UNREAD_COUNT_DESC": "Od najvećeg",
+      "UNREAD_COUNT_ASC": "Od najmanjeg"
     },
     "DOCS": "Pročitaj članke",
     "SECURITY": "Security",
@@ -425,114 +436,185 @@
     "CONVERSATION_WORKFLOW": "Conversation Workflow"
   },
   "DATA_IMPORTS": {
-    "HEADER": "Data",
-    "DESCRIPTION": "Bring your existing contacts and past conversations into this account from another support tool. Each import runs in the background, so you can keep working while it finishes, track its progress, and review anything that was skipped along the way.",
-    "LOADING": "Fetching imports",
-    "DEFAULT_IMPORT_NAME": "Intercom import",
+    "HEADER": "Podaci",
+    "DESCRIPTION": "Uvezite podatke o kupcima i upravljajte izvozom kontakata.",
+    "LOADING": "Dohvaćanje uvoza i izvoza",
+    "DEFAULT_IMPORT_NAME": "Uvoz iz Intercoma",
     "DEFAULT_IMPORT_NAMES": {
-      "INTERCOM": "Intercom import",
-      "FRESHDESK": "Freshdesk import"
+      "CSV": "Uvoz kontakata – {date}",
+      "INTERCOM": "Uvoz iz Intercoma – {date}",
+      "FRESHDESK": "Uvoz iz Freshdeska – {date}"
     },
     "TABS": {
-      "IMPORT": "Import",
-      "EXPORT": "Export"
+      "IMPORT": "Uvoz",
+      "EXPORT": "Izvoz"
     },
     "TYPES": {
-      "CONTACTS": "Contacts",
-      "CONVERSATIONS": "Conversations",
-      "MESSAGES": "Messages"
+      "CONTACTS": "Kontakti",
+      "CONVERSATIONS": "Razgovori",
+      "MESSAGES": "Poruke"
     },
     "DRAWER": {
-      "TITLE": "New import",
-      "SOURCE": "Source",
-      "NAME": "Import name",
-      "NAME_PLACEHOLDER": "July support migration",
-      "ACCESS_KEY": "Intercom access key",
-      "ACCESS_KEY_PLACEHOLDER": "Paste your Intercom access key",
-      "INTERCOM_ACCESS_KEY": "Intercom access key",
-      "INTERCOM_ACCESS_KEY_PLACEHOLDER": "Paste your Intercom access key",
-      "FRESHDESK_API_KEY": "Freshdesk API key",
-      "FRESHDESK_API_KEY_PLACEHOLDER": "Paste your Freshdesk API key",
-      "FRESHDESK_DOMAIN": "Freshdesk domain",
+      "TITLE": "Novi uvoz",
+      "SOURCE": "Izvor",
+      "NAME": "Naziv uvoza",
+      "NAME_PLACEHOLDER": "Migracija podrške u srpnju",
+      "ACCESS_KEY": "Intercom pristupni ključ",
+      "ACCESS_KEY_PLACEHOLDER": "Zalijepite svoj Intercom pristupni ključ",
+      "INTERCOM_ACCESS_KEY": "Intercom pristupni ključ",
+      "INTERCOM_ACCESS_KEY_PLACEHOLDER": "Zalijepite svoj Intercom pristupni ključ",
+      "FRESHDESK_API_KEY": "Freshdesk API ključ",
+      "FRESHDESK_API_KEY_PLACEHOLDER": "Zalijepite svoj Freshdesk API ključ",
+      "FRESHDESK_DOMAIN": "Freshdesk domena",
       "FRESHDESK_DOMAIN_PLACEHOLDER": "acme.freshdesk.com",
-      "DATA_TYPES": "Data to import",
-      "VALIDATING": "Validating access key...",
-      "VALID_KEY": "Access key validated.",
-      "INVALID_KEY": "Could not validate this access key.",
-      "ACTIVE_IMPORT": "Wait for the active import to finish before starting another one.",
+      "DATA_TYPES": "Podaci za uvoz",
+      "VALIDATING": "Provjera pristupnog ključa…",
+      "VALID_KEY": "Pristupni ključ je potvrđen.",
+      "INVALID_KEY": "Provjera ovog pristupnog ključa nije uspjela.",
+      "ACTIVE_IMPORT": "Na ovom računu već je pokrenut uvoz. Pričekajte njegov završetak prije pokretanja novog.",
       "CANCEL": "Odustani",
       "IMPORT": "Import"
     },
-    "EXPORT": {
-      "TITLE": "Exports are on the way",
-      "DESCRIPTION": "Export your contacts and conversations out of this account. This workflow is coming soon.",
-      "COMING_SOON": "Coming soon"
+    "CSV": {
+      "ROW_ERRORS": "Pogreške u redcima",
+      "SOURCE": "CSV datoteka",
+      "FILE": "CSV datoteka s kontaktima",
+      "HELP": "Upotrijebite nazive stupaca iz primjera i postojeće oznake. Dopušteno je do 250.000 redaka i 1 MiB po polju.",
+      "SILENT_UPDATES": "Postojeći kontakti koji se podudaraju ažuriraju se. Uvoz ne pokreće automatizacije kontakata ni webhook zahtjeve.",
+      "INVALID_FILE": "Odaberite nepraznu CSV datoteku veličine do 50 MiB.",
+      "SAMPLE": "Preuzmi primjer CSV datoteke",
+      "UPLOADING": "Učitavanje: {percent} %. Obrada počinje nakon dovršetka učitavanja.",
+      "OUTCOMES": "Stvoreno: {created} · Ažurirano: {updated} · Neuspjelo: {failed}",
+      "PROCESSED": "od {total} obrađeno",
+      "REJECTED_HELP": "Preuzmite odbijene retke, ispravite ih i učitajte kao novi uvoz. Datoteke su dostupne 30 dana.",
+      "DOWNLOAD_REJECTED": "Preuzmi odbijene retke",
+      "EXPIRED": "Izvorna datoteka i datoteka odbijenih redaka više nisu dostupne. Ponovno učitajte novu datoteku za uvoz kontakata.",
+      "FILE_REMOVED": "Ova je datoteka uklonjena nakon 30 dana.",
+      "CHOOSE_FILE": "Kliknite za učitavanje ili povucite i ispustite datoteku",
+      "FILE_LIMIT": "Samo CSV · do 50 MiB",
+      "REMOVE_FILE": "Ukloni datoteku",
+      "PREVIEW_TITLE": "Pregled datoteke",
+      "PREVIEW_DESCRIPTION": "Prikazuje se najviše {count} redaka. Datoteka se učitava kada pokrenete uvoz.",
+      "PREVIEW_LOADING": "Učitavanje pregleda...",
+      "PREVIEW_ERROR": "Pregled CSV datoteke nije uspio. I dalje možete pokrenuti uvoz radi provjere datoteke.",
+      "PREVIEW_EMPTY": "U ovoj datoteci nisu pronađeni podatkovni redci.",
+      "REJECTED_TITLE": "Neke retke treba provjeriti",
+      "CREATED": "Stvoreno",
+      "UPDATED": "Ažurirano",
+      "FAILED": "Neuspješno"
     },
     "TABLE": {
-      "TITLE": "Recent imports",
-      "EMPTY": "No imports yet",
-      "EMPTY_DESCRIPTION": "Start an import to bring your existing customer history into this account.",
-      "NEW_IMPORT": "Import",
-      "COUNT": "{count} imports",
-      "UNNAMED": "Untitled import",
-      "IMPORTED_COUNT": "{count} imported",
-      "VIEW": "View import",
+      "TITLE": "Nedavni uvozi",
+      "EMPTY": "Još nema uvoza",
+      "EMPTY_DESCRIPTION": "Uvezite kontakte iz CSV datoteke ili prenesite povijest kupaca iz drugog alata za podršku.",
+      "NEW_IMPORT": "Novi uvoz",
+      "COUNT": "Broj uvoza: {count}",
+      "UNNAMED": "Uvoz bez naziva",
+      "IMPORTED_COUNT": "Uvezeno: {count}",
+      "VIEW": "Prikaži uvoz",
       "NAME": "Ime",
-      "TYPE": "Type",
+      "TYPE": "Vrsta",
       "STATUS": "Status",
-      "IMPORTED": "Imported",
-      "CREATED": "Created",
-      "RETRY": "Retry",
-      "ABANDON": "Abandon"
+      "IMPORTED": "Uvezeno",
+      "CREATED": "Stvoreno",
+      "RETRY": "Pokušaj ponovno",
+      "RESUME": "Nastavi",
+      "ABANDON": "Prekini uvoz"
     },
     "DETAIL": {
-      "BACK": "Back to imports",
-      "ERRORS": "Errors",
-      "SKIP_LOGS": "Skip logs",
-      "SOURCE": "Source",
-      "IMPORT_TYPES": "Import types",
-      "CREATED": "Created",
+      "BACK": "Natrag na uvoze i izvoze",
+      "ERRORS": "Pogreške",
+      "SKIP_LOGS": "Zapisi o preskočenim stavkama",
+      "SOURCE": "Izvor",
+      "IMPORT_TYPES": "Vrste uvoza",
+      "CREATED": "Stvoreno",
       "DURATION": "Duration",
-      "INITIATED_BY": "Started by",
-      "PROGRESS": "Import progress",
-      "PROGRESS_WITH_TOTAL": "{imported} of {total} imported",
-      "PROGRESS_WITHOUT_TOTAL": "{imported} imported",
-      "PROGRESS_OF_TOTAL": "of {total} imported",
-      "PROGRESS_IMPORTED": "imported",
-      "LAST_UPDATED_TOOLTIP": "Last updated {time}",
-      "NO_SKIP_LOGS": "No skipped or failed records recorded.",
-      "DOWNLOAD_SKIP_LOGS": "Download CSV",
-      "DOWNLOAD_ERROR_LOGS": "Download CSV",
-      "ALL_SKIP_LOGS": "All",
-      "KIND": "Kind",
-      "NO_ERRORS": "No errors recorded.",
+      "INITIATED_BY": "Pokrenuo",
+      "PROGRESS": "Napredak uvoza",
+      "PROGRESS_WITH_TOTAL": "Uvezeno {imported} od {total}",
+      "PROGRESS_WITHOUT_TOTAL": "Uvezeno: {imported}",
+      "PROGRESS_OF_TOTAL": "od ukupno {total} uvezeno",
+      "PROGRESS_IMPORTED": "uvezeno",
+      "LAST_UPDATED_TOOLTIP": "Posljednje ažuriranje {time}",
+      "NO_SKIP_LOGS": "Nema zabilježenih preskočenih ni neuspjelih zapisa.",
+      "DOWNLOAD_SKIP_LOGS": "Preuzmi CSV",
+      "DOWNLOAD_ERROR_LOGS": "Preuzmi CSV",
+      "ALL_SKIP_LOGS": "Sve",
+      "KIND": "Vrsta",
+      "NO_ERRORS": "Nema zabilježenih pogrešaka.",
       "ERROR_CODE": "Code",
-      "SOURCE_OBJECT": "Source object",
+      "SOURCE_OBJECT": "Izvorni objekt",
       "MESSAGE": "Poruka"
     },
     "MONITOR": {
-      "LIVE": "Live updates every {seconds}s",
-      "LAST_UPDATED": "Last updated {time}",
-      "REFRESH": "Refresh",
-      "REFRESHING": "Refreshing",
+      "LIVE": "Ažuriranja u stvarnom vremenu svakih {seconds} s",
+      "LAST_UPDATED": "Posljednje ažuriranje {time}",
+      "REFRESH": "Osvježi",
+      "REFRESHING": "Osvježavanje",
       "STAGES": {
-        "unknown": "Waiting for update",
-        "queued": "Queued",
-        "contacts": "Importing contacts",
-        "conversations": "Importing conversations",
-        "finalizing": "Finalizing import",
-        "completed": "Completed",
-        "completed_with_errors": "Completed with errors",
-        "failed": "Failed",
-        "abandoned": "Abandoned"
+        "unknown": "Čeka se ažuriranje",
+        "queued": "U redu čekanja",
+        "preparing": "Provjera i priprema CSV datoteke",
+        "contacts": "Uvoz kontakata",
+        "conversations": "Uvoz razgovora",
+        "finalizing": "Dovršavanje uvoza",
+        "completed": "Dovršeno",
+        "completed_with_errors": "Dovršeno s pogreškama",
+        "failed": "Neuspješno",
+        "abandoned": "Uvoz je prekinut"
       }
     },
     "ALERTS": {
-      "IMPORT_STARTED": "Import has started.",
-      "IMPORT_RETRIED": "Import has been queued to resume.",
-      "IMPORT_RETRY_FAILED": "Could not retry the import.",
-      "IMPORT_ABANDONED": "Import has been abandoned.",
-      "IMPORT_FAILED": "Could not start the import."
+      "LOAD_FAILED": "Osvježavanje uvoza i izvoza nije uspjelo. Pokušajte ponovno.",
+      "IMPORT_STARTED": "Uvoz je pokrenut.",
+      "IMPORT_RETRIED": "Uvoz je dodan u red čekanja za nastavak.",
+      "IMPORT_RETRY_FAILED": "Ponovni pokušaj uvoza nije uspio.",
+      "IMPORT_ABANDONED": "Uvoz je prekinut.",
+      "IMPORT_FAILED": "Pokretanje uvoza nije uspjelo."
+    },
+    "STATUS": {
+      "PENDING": "U redu čekanja",
+      "PROCESSING": "U tijeku",
+      "COMPLETED": "Dovršeno",
+      "COMPLETED_WITH_ERRORS": "Dovršeno s pogreškama",
+      "FAILED": "Neuspješno",
+      "ABANDONED": "Uvoz je prekinut"
+    }
+  },
+  "DATA_EXPORTS": {
+    "INITIATOR": "Pokrenuo/la {name} dana {date}",
+    "TITLE": "Izvoz kontakata",
+    "NEW": "Izvezi kontakte",
+    "START": "Pokreni izvoz",
+    "EMPTY": "Još nema izvoza",
+    "ALL_CONTACTS": "Svi kontakti",
+    "FILTERED_CONTACTS": "Kontakti koji odgovaraju trenutačnim filtrima",
+    "SCOPE": "Kontakti za izvoz: {scope}",
+    "DESCRIPTION": "Izvezite odabrane kontakte u CSV. Podaci se preuzimaju u trenutku pokretanja izvoza.",
+    "PROCESSED": "Izvezeno kontakata: {count}",
+    "ESTIMATE": "Procijenjeni ukupni broj: {count}. Može se promijeniti tijekom ažuriranja kontakata.",
+    "DOWNLOAD": "Preuzmi CSV",
+    "RERUN": "Pokreni ponovno",
+    "STALLED": "Ovaj izvoz više ne prikazuje napredak. Pokrenite ga ponovno kako biste izradili novi izvoz.",
+    "EXPIRED": "Preuzimanje više nije dostupno. Ponovno pokrenite izvoz kako biste izradili novu datoteku.",
+    "RETENTION": "Izvezene datoteke dostupne su 30 dana nakon završetka.",
+    "ERROR": "Učitavanje ili pokretanje izvoza nije uspjelo. Pokušajte ponovno.",
+    "LOAD_ERROR": "Učitavanje izvoza nije uspjelo. Pokušajte ponovno.",
+    "RETRY": "Pokušaj ponovno",
+    "LOAD_OLDER": "Učitaj starije izvoze",
+    "LOAD_OLDER_ERROR": "Učitavanje starijih izvoza nije uspjelo. Pokušajte ponovno.",
+    "DOWNLOAD_ERROR": "Ova datoteka više nije dostupna. Osvježite stranicu za prikaz trenutačnog statusa.",
+    "DRAFT_UNAVAILABLE": "Odabir za izvoz nije dostupan ili je istekao. Vratite se u Kontakte i ponovno odaberite Izvoz. Izvoz nije pokrenut.",
+    "EMPTY_DESCRIPTION": "Izvezite kontakte u CSV datoteku. Ovdje će se prikazati povijest izvoza i datoteke za preuzimanje.",
+    "NOTIFICATION": "Poslat ćemo vam e-poruku kada CSV bude spreman. Ovdje možete pratiti napredak i preuzeti ga.",
+    "FILE_FORMAT": "CSV datoteka (.csv)",
+    "SELECTION": "Kontakti",
+    "PROGRESS": "Napredak izvoza",
+    "FILE_READY": "Vaš izvoz je spreman",
+    "IN_PROGRESS": "Priprema CSV datoteke. Možete napustiti ovu stranicu dok izvoz traje.",
+    "TABLE": {
+      "EXPORTED": "Izvezeno",
+      "COUNT": "Prikazan {count} izvoz | Prikazano {count} izvoza"
     }
   },
   "CAPTAIN_SETTINGS": {
@@ -566,8 +648,8 @@
       "AUDIO_TRANSCRIPTION": {
         "TITLE": "Audio Transcription",
         "DESCRIPTION": "Automatically convert voice messages and call recordings into searchable text transcripts.",
-        "MODEL_TITLE": "Audio Transcription Model",
-        "MODEL_DESCRIPTION": "Select the AI model to use for converting audio messages into text transcripts"
+        "MODEL_TITLE": "Model za izradu prijepisa zvuka",
+        "MODEL_DESCRIPTION": "Odaberite AI model za pretvaranje zvučnih poruka u tekstualne prijepise"
       },
       "HELP_CENTER_SEARCH": {
         "TITLE": "Help Center Search Indexing",
@@ -581,8 +663,8 @@
   },
   "BILLING_SETTINGS": {
     "PAYMENT_RECOVERY": {
-      "DESCRIPTION": "Your payment is past due. Update your payment method or pay the outstanding invoice in the billing portal to keep your subscription active.",
-      "ACTION": "Resolve payment"
+      "DESCRIPTION": "Plaćanje nije podmireno u roku. Ažurirajte način plaćanja ili podmirite neplaćeni račun na portalu za naplatu kako bi vaša pretplata ostala aktivna.",
+      "ACTION": "Podmiri plaćanje"
     },
     "TITLE": "Naplata",
     "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
@@ -591,17 +673,17 @@
       "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses",
       "SEAT_COUNT": "Number of seats",
       "RENEWS_ON": "Renews on",
-      "CANCELS_ON": "Cancels on",
-      "CURRENCY": "Currency"
+      "CANCELS_ON": "Datum otkazivanja",
+      "CURRENCY": "Valuta"
     },
     "CURRENCY": {
       "SELECT": {
-        "TITLE": "Choose your billing currency",
-        "DESCRIPTION": "Select the currency you'd like to be billed in. This can't be changed once your subscription is created."
+        "TITLE": "Odaberite valutu naplate",
+        "DESCRIPTION": "Odaberite valutu u kojoj želite da vam se naplaćuje. Nakon izrade pretplate nije je moguće promijeniti."
       },
       "OPTIONS": {
-        "USD": "US Dollar (USD)",
-        "BRL": "Brazilian Real (BRL)"
+        "USD": "Američki dolar (USD)",
+        "BRL": "Brazilski real (BRL)"
       }
     },
     "VIEW_PRICING": "View Pricing",
@@ -626,35 +708,35 @@
     },
     "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again.",
     "SHOPIFY": {
-      "TITLE": "Billing through Shopify",
-      "DESCRIPTION": "Your Chatwoot subscription is billed and managed securely through Shopify.",
-      "UNAVAILABLE": "Shopify billing is unavailable right now. Please contact support if this continues.",
-      "LOADING": "Checking your Shopify subscription...",
-      "PLAN_TITLE": "Shopify subscription",
-      "PLAN_DESCRIPTION": "Choose or manage your Chatwoot plan securely in Shopify.",
-      "CURRENT_PLAN": "Current plan",
+      "TITLE": "Naplata putem Shopifyja",
+      "DESCRIPTION": "Vaša Chatwoot pretplata sigurno se naplaćuje i njome se upravlja putem Shopifyja.",
+      "UNAVAILABLE": "Naplata putem Shopifyja trenutačno nije dostupna. Ako se problem nastavi, obratite se podršci.",
+      "LOADING": "Provjera vaše Shopify pretplate…",
+      "PLAN_TITLE": "Shopify pretplata",
+      "PLAN_DESCRIPTION": "Sigurno odaberite svoj Chatwoot paket ili upravljajte njime u Shopifyju.",
+      "CURRENT_PLAN": "Trenutačni paket",
       "SUBSCRIPTION_STATUS": "Status",
-      "PRICE": "Price",
-      "PER_MONTH": "{price} / month",
-      "PER_YEAR": "{price} / year",
-      "TRIAL_ENDS_ON": "Trial ends on",
+      "PRICE": "Cijena",
+      "PER_MONTH": "{price} / mjesec",
+      "PER_YEAR": "{price} / godina",
+      "TRIAL_ENDS_ON": "Završetak probnog razdoblja",
       "RENEWS_ON": "Renews on",
-      "ACCESS_UNTIL": "Access until",
-      "LAST_VERIFIED": "Last verified",
-      "VIEW_PLANS": "View plans in Shopify",
-      "MANAGE_PLAN": "Manage in Shopify",
-      "RETRY": "Try again",
-      "ERROR_TITLE": "We could not verify your Shopify subscription",
-      "ERROR_DESCRIPTION": "Try again in a moment. Your last verified access has not been changed.",
-      "STALE_TITLE": "Showing your last verified subscription",
-      "STALE_DESCRIPTION": "Shopify could not be reached. Your access has not been changed.",
+      "ACCESS_UNTIL": "Pristup do",
+      "LAST_VERIFIED": "Posljednja provjera",
+      "VIEW_PLANS": "Pogledaj pakete u Shopifyju",
+      "MANAGE_PLAN": "Upravljaj u Shopifyju",
+      "RETRY": "Pokušaj ponovno",
+      "ERROR_TITLE": "Provjera vaše Shopify pretplate nije uspjela",
+      "ERROR_DESCRIPTION": "Pokušajte ponovno za trenutak. Vaš posljednji potvrđeni pristup nije promijenjen.",
+      "STALE_TITLE": "Prikazuje se vaša posljednja potvrđena pretplata",
+      "STALE_DESCRIPTION": "Povezivanje sa Shopifyjem nije uspjelo. Vaš pristup nije promijenjen.",
       "STATUS": {
-        "PENDING": "Pending",
-        "ACTIVE": "Active",
-        "TRIALING": "Trial",
-        "CANCELLED": "Cancellation scheduled",
-        "EXPIRED": "Expired",
-        "MISSING": "No active plan"
+        "PENDING": "Na čekanju",
+        "ACTIVE": "Aktivno",
+        "TRIALING": "Probno razdoblje",
+        "CANCELLED": "Otkazivanje je zakazano",
+        "EXPIRED": "Isteklo",
+        "MISSING": "Nema aktivnog paketa"
       }
     },
     "TOPUP": {
@@ -670,7 +752,7 @@
       "PURCHASE": "Purchase Credits",
       "LOADING": "Loading options...",
       "FETCH_ERROR": "Failed to load credit options. Please try again.",
-      "RETRY": "Retry",
+      "RETRY": "Pokušaj ponovno",
       "PURCHASE_ERROR": "Failed to process purchase. Please try again.",
       "PURCHASE_SUCCESS": "Successfully added {credits} credits to your account",
       "CONFIRM": {
@@ -687,13 +769,22 @@
     "DESCRIPTION": "Manage your account security settings.",
     "LINK_TEXT": "Learn more about SAML SSO",
     "SAML_DISABLED_MESSAGE": "SAML SSO is currently disabled. Please contact your administrator to enable this feature.",
-    "NO_SETTINGS_AVAILABLE": "No security settings are available for this installation. Configure MFA encryption keys to enable two-factor enforcement.",
+    "NO_SETTINGS_AVAILABLE": "Za ovu instalaciju nema dostupnih sigurnosnih postavki. Postavite MFA ključeve za šifriranje kako biste omogućili obveznu dvofaktorsku autentifikaciju.",
     "SAML": {
       "TITLE": "SAML SSO",
       "NOTE": "Configure SAML single sign-on for your account. Users will authenticate through your identity provider instead of using email/password.",
       "ACS_URL": {
         "LABEL": "ACS URL",
         "TOOLTIP": "Assertion Consumer Service URL - Configure this URL in your IdP as the destination for SAML responses"
+      },
+      "SOURCE": {
+        "METADATA_URL": "URL metapodataka",
+        "MANUAL": "Ručno"
+      },
+      "METADATA_URL": {
+        "LABEL": "URL metapodataka",
+        "HELP": "SSO URL, ID entiteta i certifikat za potpisivanje učitavaju se s ovog URL-a. Automatski se ažuriraju kada se približi istek certifikata. Ako ih vaš pružatelj identiteta promijeni ranije, kliknite Osvježi metapodatke.",
+        "PLACEHOLDER": "https://sso.example.com/saml/metadata"
       },
       "SSO_URL": {
         "LABEL": "SSO URL",
@@ -721,14 +812,18 @@
         "PLACEHOLDER": "https://your-idp.com/saml"
       },
       "UPDATE_BUTTON": "Update SAML Settings",
+      "REFRESH_BUTTON": "Osvježi metapodatke",
       "API": {
         "SUCCESS": "SAML settings updated successfully",
+        "REFRESH_SUCCESS": "Metapodaci su osvježeni od vašeg pružatelja identiteta",
+        "REFRESH_ERROR": "Osvježavanje metapodataka nije uspjelo",
         "ERROR": "Failed to update SAML settings",
         "ERROR_LOADING": "Failed to load SAML settings",
         "DISABLED": "SAML settings disabled successfully"
       },
       "VALIDATION": {
         "REQUIRED_FIELDS": "SSO URL, Identity Provider Entity ID, and Certificate are required fields",
+        "METADATA_URL_ERROR": "Unesite valjan URL metapodataka",
         "SSO_URL_ERROR": "Please enter a valid SSO URL",
         "CERTIFICATE_ERROR": "Certificate is required",
         "IDP_ENTITY_ID_ERROR": "Identity Provider Entity ID is required"
@@ -969,13 +1064,13 @@
         },
         "FAIR_DISTRIBUTION": {
           "LABEL": "Fair distribution policy",
-          "DESCRIPTION": "Set the maximum number of conversations that can be assigned per agent within a time window to avoid overloading any one agent. This required field defaults to 100 conversations per hour.",
+          "DESCRIPTION": "Ograničite razgovore po agentu unutar vremenskog okvira kako biste izbjegli preopterećenje. Zadano je 100 po satu.",
           "INPUT_MAX": "Assign max",
           "DURATION": "Conversations per agent in every"
         },
         "EXCLUDE_OLDER_THAN": {
-          "LABEL": "Skip stale conversations",
-          "DESCRIPTION": "Skip unassigned conversations older than this. Defaults to 7 days; clear to disable."
+          "LABEL": "Preskoči stare razgovore",
+          "DESCRIPTION": "Preskočite nedodijeljene razgovore starije od zadanog razdoblja. Zadano je 7 dana; ispraznite polje za isključivanje."
         },
         "INBOXES": {
           "LABEL": "Added inboxes",

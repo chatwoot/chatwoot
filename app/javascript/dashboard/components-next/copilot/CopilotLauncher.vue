@@ -9,11 +9,14 @@ import {
   useCopilotDot,
   COPILOT_OPEN_SOURCES,
 } from 'dashboard/composables/useCopilotDot';
+import { useCopilotAskBar } from 'dashboard/composables/useCopilotAskBar';
+import { isAConversationRoute } from 'dashboard/helper/routeHelpers';
 import { useMapGetter } from 'dashboard/composables/store';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 const route = useRoute();
 
-const { uiSettings } = useUISettings();
+const { uiSettings, isOnExpandedLayout } = useUISettings();
+const { showAskBar, isAskBarLoading } = useCopilotAskBar();
 const { showDot, trackDotShown, openCopilot } = useCopilotDot();
 
 const isConversationRoute = computed(() => {
@@ -31,6 +34,13 @@ const isConversationRoute = computed(() => {
   return CONVERSATION_ROUTES.includes(route.name);
 });
 
+const hasAskBar = computed(
+  () =>
+    isAConversationRoute(route.name, true, false) &&
+    !isOnExpandedLayout.value &&
+    (showAskBar.value || isAskBarLoading.value)
+);
+
 const currentAccountId = useMapGetter('getCurrentAccountId');
 const isFeatureEnabledonAccount = useMapGetter(
   'accounts/isFeatureEnabledonAccount'
@@ -44,7 +54,9 @@ const showCopilotLauncher = computed(() => {
   return (
     isCaptainEnabled &&
     !uiSettings.value.is_copilot_panel_open &&
-    !isConversationRoute.value
+    !isConversationRoute.value &&
+    route.name !== 'copilot_index' &&
+    !hasAskBar.value
   );
 });
 

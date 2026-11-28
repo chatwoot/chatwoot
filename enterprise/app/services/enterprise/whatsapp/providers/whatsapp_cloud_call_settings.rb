@@ -10,6 +10,11 @@ module Enterprise::Whatsapp::Providers::WhatsappCloudCallSettings
     update_calling_settings(call_hours: call_hours)
   end
 
+  # 'ENABLED' makes WhatsApp ask callers whether the business may call them back
+  def update_callback_permission_status(status)
+    update_calling_settings(callback_permission_status: status)
+  end
+
   def calling_settings
     response = HTTParty.get(
       "#{calls_phone_id_path}/settings", headers: api_headers, timeout: SETTINGS_REQUEST_TIMEOUT_SECONDS

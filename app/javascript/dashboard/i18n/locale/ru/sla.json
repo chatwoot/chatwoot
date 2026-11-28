@@ -87,6 +87,12 @@
     "ADD": {
       "TITLE": "Добавить SLA",
       "DESC": "Дружелюбные обещания отличного обслуживания!",
+      "SUCCESS": {
+        "TITLE": "SLA created",
+        "DESC": "SLAs are applied to conversations through automation rules. Create an automation to start tracking this SLA.",
+        "LATER": "Later",
+        "CREATE_AUTOMATION": "Create automation"
+      },
       "API": {
         "SUCCESS_MESSAGE": "SLA успешно добавлен",
         "ERROR_MESSAGE": "Произошла ошибка, пожалуйста, попробуйте снова"

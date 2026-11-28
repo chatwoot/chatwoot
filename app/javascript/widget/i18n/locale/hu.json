@@ -133,6 +133,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "Népszerű cikkek",
     "VIEW_ALL_ARTICLES": "Mutasd az összes bejegyzést",
+    "IFRAME_ERROR": "Az URL üres vagy érvénytelen. A tartalom megjelenítése nem lehetséges.",
     "IFRAME_LOAD_ERROR": "Hiba történt a cikk betöltése során, kérjük, frissítse az oldalt, és próbálja meg újra."
   },
   "ATTACHMENTS": {

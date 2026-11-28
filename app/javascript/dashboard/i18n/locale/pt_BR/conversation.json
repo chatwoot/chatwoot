@@ -52,6 +52,7 @@
     "CLICK_HERE": "Clique aqui",
     "LOADING_INBOXES": "Carregando caixas de entrada",
     "LOADING_CONVERSATIONS": "Carregando conversas",
+    "ANONYMOUS_CALLER_CANNOT_REPLY": "Não é possível enviar mensagens porque o número de telefone de quem está ligando não está disponível.",
     "CANNOT_REPLY": "Você não pode responder porque",
     "24_HOURS_WINDOW": "Restrições de janela de mensagem de 24 horas",
     "48_HOURS_WINDOW": "Restrição da janela de mensagens de 48 horas",
@@ -140,6 +141,8 @@
       "MISSED_CALL": "Chamada perdida",
       "MISSED_CALL_INBOUND_SUBTEXT": "Nenhum atendente atendeu",
       "MISSED_CALL_DECLINED_BY": "Recusado por {agentName}",
+      "MISSED_CALL_OUTSIDE_HOURS": "Fora do horário de atendimento",
+      "MISSED_CALL_NOBODY_ONLINE": "Ninguém estava online",
       "CALL_ENDED": "Chamada encerrada",
       "HANDLED_BY": "Atendido por {agentName}",
       "NOT_ANSWERED_YET": "Ainda não respondido",
@@ -150,7 +153,8 @@
       "JOIN_CALL": "Entrar na chamada",
       "CALL_BACK": "Retornar chamada",
       "TRANSCRIPT_SHOW_MORE": "Ver mais",
-      "TRANSCRIPT_SHOW_LESS": "Mostrar menos"
+      "TRANSCRIPT_SHOW_LESS": "Mostrar menos",
+      "DISMISS_FAILED": "Não foi possível dispensar a chamada. Ela pode continuar tocando nas outras abas."
     },
     "HEADER": {
       "RESOLVE_ACTION": "Resolver",
@@ -171,6 +175,13 @@
       "VOICE_CALL_FAILED": "Não foi possível iniciar a chamada.",
       "WHATSAPP_CALL_PERMISSION_REQUESTED": "Solicitação de permissão de chamada enviada ao contato. Tente novamente após a aceitação.",
       "WHATSAPP_CALL_PERMISSION_PENDING": "Uma solicitação de permissão de chamada já foi enviada recentemente. Tente novamente após o contato aceitar.",
+      "AUTO_TRANSLATE": {
+        "TURN_OFF": "Desativar tradução automática",
+        "TURN_ON": "Ativar tradução automática",
+        "TURNED_OFF": "A tradução automática está desativada nesta conversa",
+        "TURNED_ON": "A tradução automática está ativada nesta conversa",
+        "UPDATE_FAILED": "Não foi possível alterar a tradução automática desta conversa. Por favor, tente novamente."
+      },
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -438,6 +449,14 @@
       "END_CALL": "Encerrar chamada",
       "MUTE": "Silenciar microfone",
       "UNMUTE": "Desilenciar microfone",
+      "SHOW_KEYPAD": "Mostrar teclado numérico",
+      "HIDE_KEYPAD": "Ocultar teclado numérico",
+      "KEYPAD": "Teclado numérico da chamada",
+      "STAR": "Asterisco",
+      "POUND": "Cerquilha",
+      "KEYPAD_SEND_FAILED": "Não foi possível enviar o tom do teclado",
+      "ON_HOLD": "Em espera",
+      "HOLD_FAILED": "Não foi possível alterar o estado de espera da chamada. Por favor, tente novamente.",
       "VIEW_CHAT_HISTORY": "Ver histórico da conversa",
       "GO_TO_CONVERSATION": "Ir para a conversa"
     }

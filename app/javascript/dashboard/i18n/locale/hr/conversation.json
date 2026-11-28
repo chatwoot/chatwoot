@@ -1,11 +1,11 @@
 {
   "CONVERSATION": {
     "REFERRAL": {
-      "AD_LABEL": "Ad",
-      "POST_LABEL": "Post",
-      "VIEW_AD": "View ad",
-      "WELCOME_MESSAGE_LABEL": "Pre-filled message: ",
-      "REPLIED_BELOW": "Customer replied below"
+      "AD_LABEL": "Oglas",
+      "POST_LABEL": "Objava",
+      "VIEW_AD": "Prikaži oglas",
+      "WELCOME_MESSAGE_LABEL": "Unaprijed ispunjena poruka: ",
+      "REPLIED_BELOW": "Kupac je odgovorio u nastavku"
     },
     "SELECT_A_CONVERSATION": "Please select a conversation from left pane",
     "CSAT_REPLY_MESSAGE": "Please rate the conversation",
@@ -21,12 +21,12 @@
     "SEARCH_MESSAGES": "Search for messages in conversations",
     "VIEW_ORIGINAL": "View original",
     "VIEW_TRANSLATED": "View translated",
-    "TRANSLATING": "Translating…",
-    "TRANSLATING_TO": "Translating to {language}…",
-    "VIEW_ORIGINAL_IN": "View original ({language})",
-    "VIEW_TRANSLATED_IN": "View translated ({language})",
-    "TRANSLATION_FAILED": "Could not translate, sent as typed",
-    "CONTACT_TRANSLATION_FAILED": "Could not translate",
+    "TRANSLATING": "Prevođenje…",
+    "TRANSLATING_TO": "Prevođenje na {language}…",
+    "VIEW_ORIGINAL_IN": "Prikaži izvornik ({language})",
+    "VIEW_TRANSLATED_IN": "Prikaži prijevod ({language})",
+    "TRANSLATION_FAILED": "Prijevod nije uspio, poruka je poslana u izvornom obliku",
+    "CONTACT_TRANSLATION_FAILED": "Prijevod nije uspio",
     "EMPTY_STATE": {
       "CMD_BAR": "to open command menu",
       "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
@@ -41,34 +41,35 @@
     "UNREAD_MESSAGES": "Unread Messages",
     "UNREAD_MESSAGE": "Unread Message",
     "CONTACT_HISTORY": {
-      "OLDER": "Previous conversation",
-      "NEWER": "Next conversation",
-      "OLDER_WITH": "Previous conversation with {name} · {time}",
-      "NEWER_WITH": "Next conversation with {name} · {time}",
-      "CUSTOMER": "this customer",
-      "REPLY_TO_OLDER": "Reply to this older conversation",
-      "GO_TO_LATEST": "Go to latest conversation"
+      "OLDER": "Prethodni razgovor",
+      "NEWER": "Sljedeći razgovor",
+      "OLDER_WITH": "Prethodni razgovor s kontaktom {name} · {time}",
+      "NEWER_WITH": "Sljedeći razgovor s kontaktom {name} · {time}",
+      "CUSTOMER": "ovaj kupac",
+      "REPLY_TO_OLDER": "Odgovori na ovaj stariji razgovor",
+      "GO_TO_LATEST": "Idi na najnoviji razgovor"
     },
     "CLICK_HERE": "Click here",
     "LOADING_INBOXES": "Loading inboxes",
     "LOADING_CONVERSATIONS": "Loading Conversations",
+    "ANONYMOUS_CALLER_CANNOT_REPLY": "Poruke nije moguće slati jer telefonski broj ovog pozivatelja nije dostupan.",
     "CANNOT_REPLY": "You cannot reply due to",
     "24_HOURS_WINDOW": "24 hour message window restriction",
     "48_HOURS_WINDOW": "48 hour message window restriction",
     "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "This conversation is not assigned to you. Would you like to assign this conversation to yourself?",
     "ASSIGN_TO_ME": "Assign to me",
-    "BOT_HANDOFF_MESSAGE": "This conversation is currently handled by {assigneeName}.",
-    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "an AI agent",
-    "BOT_HANDOFF_ACTION": "Take over",
+    "BOT_HANDOFF_MESSAGE": "Ovaj razgovor trenutačno vodi {assigneeName}.",
+    "BOT_HANDOFF_FALLBACK_ASSIGNEE": "AI asistent",
+    "BOT_HANDOFF_ACTION": "Preuzmi razgovor",
     "BOT_HANDOFF_REOPEN_ACTION": "Mark conversation open",
     "BOT_HANDOFF_SUCCESS": "Conversation has been handed over to you",
     "BOT_HANDOFF_ERROR": "Failed to take over the conversation. Please try again.",
     "TWILIO_WHATSAPP_CAN_REPLY": "You can only reply to this conversation using a template message due to",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "24 hour message window restriction",
     "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
-    "INSTAGRAM_RESTRICTION_BANNER": "Instagram messaging is currently affected by an API-level issue on Meta’s side, not a problem with Chatwoot. Some messages or actions may be delayed or unavailable. We’re working closely with Meta to resolve it as quickly as possible.",
-    "INSTAGRAM_RESTRICTION_STATUS_LINK": "View status updates",
+    "INSTAGRAM_RESTRICTION_BANNER": "Slanje poruka na Instagramu trenutačno je otežano zbog poteškoće s API-jem na strani Mete, a ne zbog problema s Chatwootom. Neke poruke ili radnje mogu kasniti ili biti nedostupne. Blisko surađujemo s Metom kako bismo što prije riješili poteškoću.",
+    "INSTAGRAM_RESTRICTION_STATUS_LINK": "Prikaži status usluge",
     "REPLYING_TO": "You are replying to:",
     "REMOVE_SELECTION": "Remove Selection",
     "DOWNLOAD": "Download",
@@ -87,24 +88,24 @@
     "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "UNSUPPORTED_MESSAGE_TIKTOK": "This message is unsupported. You can view this message on the TikTok app.",
-    "UNSUPPORTED_MESSAGE_WHATSAPP_TITLE": "Message content unavailable",
-    "UNSUPPORTED_MESSAGE_WHATSAPP": "We’re unable to display this message because Meta hasn’t provided its content. This can happen with WhatsApp Coexistence setups. To view the message, please check it in your WhatsApp Business app.",
-    "UNSUPPORTED_MESSAGE_WHATSAPP_DETAILS": "For more details, refer to {documentation}.",
-    "UNSUPPORTED_MESSAGE_WHATSAPP_LEARN_MORE": "Meta’s documentation",
-    "WHATSAPP_FLOW_RESPONSE": "Submitted a flow response",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_TITLE": "Sadržaj poruke nije dostupan",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "Ovu poruku ne možemo prikazati jer Meta nije dostavila njezin sadržaj. To se može dogoditi kada se WhatsApp Business aplikacija i API upotrebljavaju zajedno (WhatsApp Coexistence). Poruku možete pogledati u svojoj aplikaciji WhatsApp Business.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_DETAILS": "Za više pojedinosti pogledajte {documentation}.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP_LEARN_MORE": "Metina dokumentacija",
+    "WHATSAPP_FLOW_RESPONSE": "Poslan je odgovor na obrazac Flow",
     "WHATSAPP_REFERRAL": {
-      "AD": "Ad"
+      "AD": "Oglas"
     },
     "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
     "FAIL_DELETE_MESSSAGE": "Couldn't delete message! Try again",
     "NO_RESPONSE": "No response",
     "REQUEST_CONTACT_INFO": {
-      "ACTION": "Ask the customer to share their WhatsApp phone number",
-      "PENDING_ACTION": "Contact information request pending",
+      "ACTION": "Zatraži od kupca da podijeli svoj telefonski broj za WhatsApp",
+      "PENDING_ACTION": "Zahtjev za podatke za kontakt čeka odgovor",
       "STATES": {
-        "PENDING": "Waiting for contact information",
-        "SHARED": "Phone number shared",
-        "IDENTITY_CONFLICT": "Phone number needs review"
+        "PENDING": "Čekaju se podaci za kontakt",
+        "SHARED": "Telefonski broj je podijeljen",
+        "IDENTITY_CONFLICT": "Telefonski broj treba provjeriti"
       }
     },
     "RESPONSE": "Response",
@@ -112,23 +113,23 @@
     "FEEDBACK_TITLE": "Feedback",
     "REPLY_MESSAGE_NOT_FOUND": "Message not available",
     "CAPTAIN_GENERATION": {
-      "TITLE": "How was this reply generated?",
-      "GENERATED_BY": "Generated by Captain",
-      "LOADING": "Loading details…",
-      "EMPTY": "No generation details available for this message.",
-      "TIMELINE": "Generation steps",
-      "STEP_TOOL": "Called {name}",
-      "STEP_HANDOFF": "Handed off to {name}",
-      "REASONING": "Reasoning",
-      "SOURCES": "Knowledge base",
-      "SOURCES_SUMMARY": "{count} result | {count} results",
-      "MODEL": "Generated with {model}",
-      "CREDITS": "Credits: {credits}"
+      "TITLE": "Kako je ovaj odgovor generiran?",
+      "GENERATED_BY": "Odgovor je generirao Captain",
+      "LOADING": "Učitavanje pojedinosti…",
+      "EMPTY": "Za ovu poruku nisu dostupne pojedinosti o generiranju.",
+      "TIMELINE": "Koraci generiranja",
+      "STEP_TOOL": "Pozvan alat: {name}",
+      "STEP_HANDOFF": "Razgovor je predan: {name}",
+      "REASONING": "Obrazloženje",
+      "SOURCES": "Baza znanja",
+      "SOURCES_SUMMARY": "{count} rezultat | {count} rezultata",
+      "MODEL": "Generirano modelom {model}",
+      "CREDITS": "Krediti: {credits}"
     },
     "CARD": {
       "SHOW_LABELS": "Show labels",
       "HIDE_LABELS": "Hide labels",
-      "LABELS_COUNT": "{count} labels"
+      "LABELS_COUNT": "Broj oznaka: {count}"
     },
     "VOICE_CALL": {
       "INCOMING_CALL": "Incoming call",
@@ -136,21 +137,24 @@
       "CALL_IN_PROGRESS": "Call in progress",
       "NO_ANSWER": "No answer",
       "NO_ANSWER_OUTBOUND_LABEL": "No answer",
-      "NO_ANSWER_OUTBOUND_SUBTEXT": "Contact didn't pick up",
+      "NO_ANSWER_OUTBOUND_SUBTEXT": "Kontakt se nije javio",
       "MISSED_CALL": "Missed call",
-      "MISSED_CALL_INBOUND_SUBTEXT": "No agent picked up",
-      "MISSED_CALL_DECLINED_BY": "Declined by {agentName}",
+      "MISSED_CALL_INBOUND_SUBTEXT": "Nijedan djelatnik nije se javio",
+      "MISSED_CALL_DECLINED_BY": "Poziv je odbio djelatnik {agentName}",
+      "MISSED_CALL_OUTSIDE_HOURS": "Izvan radnog vremena",
+      "MISSED_CALL_NOBODY_ONLINE": "Nitko nije bio online",
       "CALL_ENDED": "Call ended",
-      "HANDLED_BY": "Handled by {agentName}",
+      "HANDLED_BY": "Poziv je vodio djelatnik {agentName}",
       "NOT_ANSWERED_YET": "Not answered yet",
-      "CALLING": "Calling…",
+      "CALLING": "Pozivanje…",
       "THEY_ANSWERED": "They answered",
       "YOU_ANSWERED": "You answered",
-      "AGENT_ANSWERED": "{agentName} answered",
+      "AGENT_ANSWERED": "Na poziv je odgovorio djelatnik {agentName}",
       "JOIN_CALL": "Join call",
-      "CALL_BACK": "Call back",
-      "TRANSCRIPT_SHOW_MORE": "Show more",
-      "TRANSCRIPT_SHOW_LESS": "Show less"
+      "CALL_BACK": "Uzvrati poziv",
+      "TRANSCRIPT_SHOW_MORE": "Prikaži više",
+      "TRANSCRIPT_SHOW_LESS": "Prikaži manje",
+      "DISMISS_FAILED": "Nije moguće odbaciti poziv. Možda će nastaviti zvoniti u drugim karticama."
     },
     "HEADER": {
       "RESOLVE_ACTION": "Resolve",
@@ -160,17 +164,24 @@
       "OPEN": "More",
       "CLOSE": "Close",
       "DETAILS": "details",
-      "COPY_ID_SUCCESS": "Conversation ID copied to clipboard",
+      "COPY_ID_SUCCESS": "ID razgovora kopiran je u međuspremnik",
       "SNOOZED_UNTIL": "Snoozed until",
       "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
       "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
       "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply",
-      "WHATSAPP_CALL": "Start WhatsApp call",
-      "WHATSAPP_CALL_FAILED": "Could not start the WhatsApp call.",
-      "VOICE_CALL": "Start call",
-      "VOICE_CALL_FAILED": "Could not start the call.",
-      "WHATSAPP_CALL_PERMISSION_REQUESTED": "Sent a call permission request to the contact. Try again once they accept.",
-      "WHATSAPP_CALL_PERMISSION_PENDING": "Call permission request already sent recently. Try again once the contact accepts.",
+      "WHATSAPP_CALL": "Pokreni WhatsApp poziv",
+      "WHATSAPP_CALL_FAILED": "Pokretanje WhatsApp poziva nije uspjelo.",
+      "VOICE_CALL": "Pokreni poziv",
+      "VOICE_CALL_FAILED": "Pokretanje poziva nije uspjelo.",
+      "WHATSAPP_CALL_PERMISSION_REQUESTED": "Kontaktu je poslan zahtjev za dopuštenje poziva. Pokušajte ponovno kada ga prihvati.",
+      "WHATSAPP_CALL_PERMISSION_PENDING": "Zahtjev za dopuštenje poziva već je nedavno poslan. Pokušajte ponovno kada ga kontakt prihvati.",
+      "AUTO_TRANSLATE": {
+        "TURN_OFF": "Isključi automatsko prevođenje",
+        "TURN_ON": "Uključi automatsko prevođenje",
+        "TURNED_OFF": "Automatsko prevođenje isključeno je za ovaj razgovor",
+        "TURNED_ON": "Automatsko prevođenje uključeno je za ovaj razgovor",
+        "UPDATE_FAILED": "Promjena automatskog prevođenja za ovaj razgovor nije uspjela. Pokušajte ponovno."
+      },
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -195,30 +206,30 @@
     },
     "PICKER": {
       "VARIABLE": {
-        "SEARCH_PLACEHOLDER": "Search variables",
-        "DESCRIPTION": "Description",
-        "VALUE": "Value",
-        "NO_VALUE": "No value for this conversation"
+        "SEARCH_PLACEHOLDER": "Pretraži varijable",
+        "DESCRIPTION": "Opis",
+        "VALUE": "Vrijednost",
+        "NO_VALUE": "Nema vrijednosti za ovaj razgovor"
       },
       "EMOJI": {
-        "SEARCH_PLACEHOLDER": "Search emojis",
-        "EMPTY_STATE": "Type to search emojis"
+        "SEARCH_PLACEHOLDER": "Pretraži emoji",
+        "EMPTY_STATE": "Upišite pojam za pretraživanje emotikona"
       },
       "MACRO": {
-        "SEARCH_PLACEHOLDER": "Search macros",
-        "ACTION_COUNT": "1 action | {count} actions"
+        "SEARCH_PLACEHOLDER": "Traži makro",
+        "ACTION_COUNT": "1 radnja | {count} radnji"
       },
       "MENTION": {
-        "SEARCH_PLACEHOLDER": "Search agents and teams",
+        "SEARCH_PLACEHOLDER": "Pretraži djelatnike i timove",
         "FILTER": {
-          "ALL": "All"
+          "ALL": "Sve"
         },
-        "AVAILABILITY": "Availability",
+        "AVAILABILITY": "Raspoloživost",
         "ROLE": "Uloga",
-        "AUTO_ASSIGN": "Auto assign",
-        "ENABLED": "Enabled",
-        "DISABLED": "Disabled",
-        "YOU_ARE_A_MEMBER": "You are a member of this team"
+        "AUTO_ASSIGN": "Automatski dodijeli",
+        "ENABLED": "Omogućeno",
+        "DISABLED": "Onemogućeno",
+        "YOU_ARE_A_MEMBER": "Član ste ovog tima"
       }
     },
     "CUSTOM_SNOOZE": {
@@ -227,14 +238,14 @@
       "CANCEL": "Odustani"
     },
     "SUGGESTIONS": {
-      "SUGGEST": "Suggest with Captain",
-      "EMPTY": "No new suggestions",
+      "SUGGEST": "Zatraži prijedloge od Captaina",
+      "EMPTY": "Nema novih prijedloga",
       "ACCEPT": "Accept",
-      "APPLY_HINT": "Click to apply",
-      "REJECT": "Dismiss",
-      "ACCEPT_ALL": "Accept all",
-      "ERROR": "Could not load suggestions. Please try again.",
-      "APPLY_ERROR": "Could not apply the suggested labels. Please try again."
+      "APPLY_HINT": "Kliknite za primjenu",
+      "REJECT": "Odbaci",
+      "ACCEPT_ALL": "Prihvati sve",
+      "ERROR": "Učitavanje prijedloga nije uspjelo. Pokušajte ponovno.",
+      "APPLY_ERROR": "Primjena predloženih oznaka nije uspjela. Pokušajte ponovno."
     },
     "PRIORITY": {
       "TITLE": "Prioritet",
@@ -272,8 +283,8 @@
       },
       "ASSIGN_AGENT": "Assign agent",
       "ASSIGN_LABEL": "Assign label",
-      "SEARCH_LABELS": "Search labels",
-      "NO_LABELS_FOUND": "No labels found",
+      "SEARCH_LABELS": "Pretraži oznake",
+      "NO_LABELS_FOUND": "Nema pronađenih oznaka",
       "AGENTS_LOADING": "Loading agents...",
       "ASSIGN_TEAM": "Assign team",
       "DELETE": "Delete conversation",
@@ -326,27 +337,27 @@
       "TIP_AUDIORECORDER_ICON": "Record audio",
       "TIP_AUDIORECORDER_PERMISSION": "Allow access to audio",
       "TIP_AUDIORECORDER_ERROR": "Could not open the audio",
-      "AUDIO_CONVERSION_FAILED": "Audio conversion failed. Please try again.",
+      "AUDIO_CONVERSION_FAILED": "Pretvorba zvuka nije uspjela. Pokušajte ponovno.",
       "DRAG_DROP": "Drag and drop here to attach",
       "IMAGE_UPLOAD_SUCCESS": "Image uploaded successfully",
       "START_AUDIO_RECORDING": "Start audio recording",
       "STOP_AUDIO_RECORDING": "Stop audio recording",
       "COPILOT_THINKING": "Copilot razmišlja",
       "EMAIL_HEAD": {
-        "TO": "To",
+        "TO": "Prima",
         "CC": {
-          "LABEL": "Cc",
+          "LABEL": "Kopija",
           "PLACEHOLDER": "Emails separated by commas",
           "ERROR": "Please enter valid email addresses"
         },
         "BCC": {
-          "LABEL": "Bcc",
+          "LABEL": "Skrivena kopija",
           "PLACEHOLDER": "Emails separated by commas",
           "ERROR": "Please enter valid email addresses"
         },
         "SUBJECT": {
-          "LABEL": "Subject",
-          "PLACEHOLDER": "Enter a subject"
+          "LABEL": "Predmet",
+          "PLACEHOLDER": "Unesite predmet"
         }
       },
       "UNDEFINED_VARIABLES": {
@@ -358,9 +369,9 @@
         }
       },
       "QUOTED_REPLY": {
-        "SHOW_TOOLTIP": "Show trimmed content",
-        "HIDE_TOOLTIP": "Hide trimmed content",
-        "REMOVE": "Remove quoted text"
+        "SHOW_TOOLTIP": "Prikaži skriveni citirani tekst",
+        "HIDE_TOOLTIP": "Sakrij citirani tekst",
+        "REMOVE": "Ukloni citirani tekst"
       }
     },
     "VISIBLE_TO_AGENTS": "Private Note: Only visible to you and your team",
@@ -390,7 +401,7 @@
     "CONTEXT_MENU": {
       "COPY": "Copy",
       "REPLY_TO": "Reply to this message",
-      "FORWARD_EMAIL": "Forward email",
+      "FORWARD_EMAIL": "Proslijedi e-poruku",
       "DELETE": "Izbriši",
       "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
       "TRANSLATE": "Translate",
@@ -403,22 +414,22 @@
         "CANCEL": "Odustani"
       },
       "REPORT_MESSAGE": {
-        "LABEL": "Report message",
-        "TITLE": "Report Captain message",
-        "DESCRIPTION": "Found an issue with this AI response? Let us know what went wrong and our team will review it to help improve Captain's accuracy.",
-        "PROBLEM_TYPE": "Problem type",
-        "PROBLEM_TYPE_PLACEHOLDER": "Select a problem type",
-        "DESCRIPTION_LABEL": "Description",
-        "DESCRIPTION_PLACEHOLDER": "Describe the problem in detail",
-        "SUBMIT": "Report",
-        "SUCCESS": "Thanks for reporting. Our team will take a look.",
-        "ERROR": "Could not report this message. Please try again.",
+        "LABEL": "Prijavi poruku",
+        "TITLE": "Prijavi Captainovu poruku",
+        "DESCRIPTION": "Primijetili ste problem s ovim AI odgovorom? Opišite što nije u redu, a naš će tim pregledati prijavu kako bi poboljšao točnost Captaina.",
+        "PROBLEM_TYPE": "Vrsta problema",
+        "PROBLEM_TYPE_PLACEHOLDER": "Odaberite vrstu problema",
+        "DESCRIPTION_LABEL": "Opis",
+        "DESCRIPTION_PLACEHOLDER": "Detaljno opišite problem",
+        "SUBMIT": "Prijavi",
+        "SUCCESS": "Hvala na prijavi. Naš će je tim pregledati.",
+        "ERROR": "Prijava ove poruke nije uspjela. Pokušajte ponovno.",
         "REASONS": {
-          "incorrect_information": "Incorrect information",
-          "inappropriate_response": "Inappropriate response",
-          "incomplete_response": "Incomplete response",
-          "outdated_information": "Outdated information",
-          "other": "Other"
+          "incorrect_information": "Netočne informacije",
+          "inappropriate_response": "Neprimjeren odgovor",
+          "incomplete_response": "Nepotpun odgovor",
+          "outdated_information": "Zastarjele informacije",
+          "other": "Ostalo"
         }
       }
     },
@@ -433,13 +444,21 @@
       "NOT_ANSWERED_YET": "Not answered yet",
       "HANDLED_IN_ANOTHER_TAB": "Being handled in another tab",
       "REJECT_CALL": "Reject",
-      "DISMISS_CALL": "Dismiss",
+      "DISMISS_CALL": "Odbaci",
       "JOIN_CALL": "Join call",
       "END_CALL": "End call",
-      "MUTE": "Mute mic",
-      "UNMUTE": "Unmute mic",
-      "VIEW_CHAT_HISTORY": "View chat history",
-      "GO_TO_CONVERSATION": "Go to conversation thread"
+      "MUTE": "Isključi mikrofon",
+      "UNMUTE": "Uključi mikrofon",
+      "SHOW_KEYPAD": "Prikaži tipkovnicu za biranje",
+      "HIDE_KEYPAD": "Sakrij tipkovnicu za biranje",
+      "KEYPAD": "Tipkovnica za biranje",
+      "STAR": "Zvjezdica",
+      "POUND": "Ljestve",
+      "KEYPAD_SEND_FAILED": "Slanje tona tipkovnice nije uspjelo",
+      "ON_HOLD": "Poziv na čekanju",
+      "HOLD_FAILED": "Promjena statusa čekanja nije uspjela. Pokušajte ponovno.",
+      "VIEW_CHAT_HISTORY": "Prikaži povijest razgovora",
+      "GO_TO_CONVERSATION": "Idi na razgovor"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -506,19 +525,19 @@
       "MACROS": "Macros",
       "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders",
-      "SHARED_FILES": "Attachments"
+      "SHARED_FILES": "Privici"
     },
     "SHARED_FILES": {
-      "EMPTY": "No attachments yet",
-      "DOWNLOAD": "Download file",
-      "DOWNLOAD_ERROR": "Could not download the file. Please try again.",
-      "MEDIA_HEADING": "Media",
-      "FILES_HEADING": "Files",
-      "VIEW_ALL": "View all",
-      "SHOW_LESS": "Show less",
+      "EMPTY": "Još nema privitaka",
+      "DOWNLOAD": "Preuzmi datoteku",
+      "DOWNLOAD_ERROR": "Preuzimanje datoteke nije uspjelo. Pokušajte ponovno.",
+      "MEDIA_HEADING": "Mediji",
+      "FILES_HEADING": "Datoteke",
+      "VIEW_ALL": "Prikaži sve",
+      "SHOW_LESS": "Prikaži manje",
       "MORE_COUNT": "+{count}",
-      "UNTITLED_FILE": "Untitled file",
-      "JUMP_TO_MESSAGE": "Jump to message"
+      "UNTITLED_FILE": "Datoteka bez naziva",
+      "JUMP_TO_MESSAGE": "Idi na poruku"
     },
     "SHOPIFY": {
       "ORDER_ID": "Order #{id}",
@@ -568,16 +587,16 @@
     "BCC": "Bcc",
     "CC": "Cc",
     "SUBJECT": "Subject",
-    "DATE": "Date",
+    "DATE": "Datum",
     "EXPAND": "Expand email"
   },
   "FORWARD_EMAIL": {
-    "HEADER_TITLE": "---------- Forwarded message ---------",
+    "HEADER_TITLE": "---------- Proslijeđena poruka ---------",
     "TO_LABEL": "To:",
-    "TO_PLACEHOLDER": "Enter at least 2 characters to search by email",
-    "MESSAGE_PLACEHOLDER": "Add a message (optional)",
-    "FORWARDED_TO": "Forwarded to {emails}",
-    "CONTACT_CANNOT_SEE": "{name} cannot see this"
+    "TO_PLACEHOLDER": "Unesite najmanje 2 znaka za pretraživanje prema adresi e-pošte",
+    "MESSAGE_PLACEHOLDER": "Dodajte poruku (neobavezno)",
+    "FORWARDED_TO": "Proslijeđeno na {emails}",
+    "CONTACT_CANNOT_SEE": "Ovo nije vidljivo kontaktu {name}"
   },
   "CONVERSATION_PARTICIPANTS": {
     "SIDEBAR_MENU_TITLE": "Participating",
@@ -588,7 +607,7 @@
     "REMANING_PARTICIPANT_TEXT": "+{count} other",
     "TOTAL_PARTICIPANTS_TEXT": "{count} people are participating.",
     "TOTAL_PARTICIPANT_TEXT": "{count} person is participating.",
-    "NO_PARTICIPANTS_TEXT": "No one is participating!",
+    "NO_PARTICIPANTS_TEXT": "Nitko ne sudjeluje!",
     "WATCH_CONVERSATION": "Join conversation",
     "YOU_ARE_WATCHING": "You are participating",
     "API": {

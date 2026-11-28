@@ -32,6 +32,20 @@ RSpec.describe Captain::Copilot::TurnService do
     expect(self_hosted).not_to include('Chatwoot support')
   end
 
+  it 'offers the Chatwoot docs search only when its URL is set, and tells Copilot to use it' do
+    allow(GlobalConfig).to receive(:get_value).and_call_original
+    allow(GlobalConfig).to receive(:get_value).with('CAPTAIN_CHATWOOT_DOCS_URL').and_return('https://docs.example.com/hc/user-guide')
+    with_docs = described_class.new(run, run.claim)
+    allow(GlobalConfig).to receive(:get_value).with('CAPTAIN_CHATWOOT_DOCS_URL').and_return('')
+    without_docs = described_class.new(run, run.claim)
+
+    expect(with_docs.instance_variable_get(:@tools).map(&:name)).to include('search_chatwoot_docs')
+    expect(with_docs.instance_variable_get(:@messages).first[:content]).to include('call search_chatwoot_docs first')
+    expect(without_docs.instance_variable_get(:@tools).map(&:name)).not_to include('search_chatwoot_docs')
+    expect(without_docs.instance_variable_get(:@messages).first[:content]).to include("you cannot check Chatwoot's documentation")
+    expect(without_docs.instance_variable_get(:@messages).first[:content]).not_to include('search_chatwoot_docs')
+  end
+
   # RubyLLM calls these around every tool call.
   it 'writes one plain line per step, marks a failed step, and adds a warning line for a failed tool without a step line' do
     service.send(:start_tool_call, RubyLLM::ToolCall.new(id: 'call-1', name: 'search_contacts', arguments: {}))

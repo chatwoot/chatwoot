@@ -133,6 +133,7 @@
   "PORTAL": {
     "POPULAR_ARTICLES": "Beliebte Artikel",
     "VIEW_ALL_ARTICLES": "Alle Artikel anzeigen",
+    "IFRAME_ERROR": "URL ist leer oder ungültig. Inhalt kann nicht angezeigt werden.",
     "IFRAME_LOAD_ERROR": "Beim Laden des Artikels ist ein Fehler aufgetreten. Bitte aktualisieren Sie die Seite und versuchen Sie es erneut."
   },
   "ATTACHMENTS": {

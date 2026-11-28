@@ -65,10 +65,7 @@
         "CANCEL": "Cancel",
         "SUBMIT": "Connect Store"
       },
-      "HELP_TEXT": {
-        "TITLE": "How to use the Shopify Integration?",
-        "BODY": "With this integration, your Shopify store ***{storeDomain}*** is connected to your Chatwoot workspace. Here's what you can do:\n\n**Track orders in conversations:** When you open a conversation, the Shopify sidebar will automatically display recent orders for the customer based on their email address. This gives your support team instant context without switching tabs.\n\n**Access order details:** View order status, fulfillment status, and total amount directly within the conversation panel."
-      },
+      "CONNECTED_DESCRIPTION": "View Shopify order details in the conversation sidebar.",
       "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists.",
       "PENDING_INSTALL": {
         "SUCCESS": "Shopify store connected successfully.",
@@ -78,6 +75,23 @@
         "TITLE": "Choose a workspace",
         "DESCRIPTION": "Select the workspace to connect to your Shopify store. To restore a previous connection, choose its original workspace.",
         "UNAVAILABLE": "No eligible workspace or valid installation was found. Restart installation or sign in as a workspace administrator."
+      },
+      "STOREFRONT_WIDGET": {
+        "TITLE": "Storefront chat",
+        "DESCRIPTION": "Choose the inbox that will receive shopper messages.",
+        "INBOX_LABEL": "Website inbox",
+        "SELECT_INBOX": "Select an inbox",
+        "NO_INBOXES": "Add a Website inbox in Settings → Inboxes to set up storefront chat.",
+        "SAVE": "Save inbox",
+        "CHANGE_INBOX": "Change inbox",
+        "STOREFRONT_LABEL": "Shopify theme",
+        "OPEN_THEME_EDITOR": "Open theme editor",
+        "ENABLE_IN_SHOPIFY": "If you previously pasted the Chatwoot snippet into your Shopify theme, remove it before enabling the app embed. In App embeds, turn on Chatwoot chat and save. Send a test message from your storefront and check that it arrives in the selected inbox.",
+        "RECONNECT": "Reconnect Shopify",
+        "RECONNECT_HELP": "Shopify rejected the saved connection. Reconnect your store to continue setting up storefront chat.",
+        "LOAD_ERROR": "Could not load your storefront chat settings.",
+        "SAVE_ERROR": "Could not save the inbox for storefront chat.",
+        "RETRY": "Try again"
       },
       "CUSTOM_APP": {
         "TITLE": "Connect using your own Shopify app",
@@ -166,7 +180,10 @@
             "CONTACT_UPDATED": "Contact updated",
             "CONVERSATION_TYPING_ON": "Conversation Typing On",
             "CONVERSATION_TYPING_OFF": "Conversation Typing Off",
-            "INBOX_UPDATED": "Inbox updated"
+            "INBOX_UPDATED": "Inbox updated",
+            "ARTICLE_CREATED": "Help center article created",
+            "ARTICLE_UPDATED": "Help center article updated",
+            "ARTICLE_DELETED": "Help center article deleted"
           }
         },
         "NAME": {
@@ -351,7 +368,8 @@
     "DELETE": {
       "BUTTON_TEXT": "Delete",
       "API": {
-        "SUCCESS_MESSAGE": "Integration deleted successfully"
+        "SUCCESS_MESSAGE": "Integration deleted successfully",
+        "ERROR_MESSAGE": "Could not disconnect the integration. Please try again."
       }
     },
     "CONNECT": {
@@ -746,7 +764,8 @@
       "TITLE": "Copilot",
       "AVATAR_LABEL": "Captain",
       "TRY_THESE_PROMPTS": "Try these prompts",
-      "MORE_PROMPTS": "More questions",
+      "ASK_PLACEHOLDER": "Ask about your conversations...",
+      "OPEN": "Open Copilot",
       "DISCLAIMER": "Copilot can make mistakes. Check important info.",
       "PANEL_TITLE": "Get started with Copilot",
       "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
@@ -775,18 +794,6 @@
         "SUGGEST": {
           "LABEL": "Suggest an answer",
           "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
-        },
-        "RATE": {
-          "LABEL": "Rate this conversation",
-          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
-        },
-        "HIGH_PRIORITY": {
-          "LABEL": "High priority conversations",
-          "CONTENT": "Give me a summary of all high priority open conversations. Include the conversation ID, customer name (if available), last message content, and assigned agent. Group by status if relevant."
-        },
-        "LIST_CONTACTS": {
-          "LABEL": "List contacts",
-          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
         },
         "WAITING_ON_ME": {
           "LABEL": "Which of my conversations are waiting for my reply?",
@@ -1364,6 +1371,13 @@
         "UPDATE": {
           "CANCEL": "Cancel",
           "UPDATE": "Update changes"
+        },
+        "TOOL_SUGGESTIONS": {
+          "TITLE": "Linked a tool this scenario describes | Linked {count} tools this scenario describes",
+          "DESCRIPTION": "Captain only uses tools linked with {'@'}. Review them, then save.",
+          "KEEP_ALL": "Keep all",
+          "KEEP": "Keep",
+          "REMOVE": "Remove"
         },
         "STATUS": {
           "ENABLED": "Enabled",

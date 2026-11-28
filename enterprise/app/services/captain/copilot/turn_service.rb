@@ -1,6 +1,5 @@
 # Answers an agent's Copilot message with the workflow tools. Each step is saved on the turn's run, so a retried or resumed
-# turn continues where it stopped. Captain::Copilot::ChatService answers with the old Copilot prompt when the
-# copilot_workflows flag is off.
+# turn continues where it stopped.
 class Captain::Copilot::TurnService < Llm::BaseAiService
   include Captain::ChatHelper
   include Captain::Copilot::ConversationAccess
@@ -9,19 +8,18 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
   include Captain::Copilot::TurnPrompt
 
   MAX_MODEL_CALLS = 20
-  # Copilot's tools without search_conversation, which dumps full transcripts into context; get_data and review_conversations replace it.
+  # Tools that read one record or search Captain's knowledge. get_data and review_conversations read many conversations.
   TOOLS = [Captain::Tools::SearchDocumentationService, Captain::Tools::Copilot::GetConversationService,
            Captain::Tools::Copilot::GetContactService, Captain::Tools::Copilot::GetArticleService,
            Captain::Tools::Copilot::SearchArticlesService, Captain::Tools::Copilot::SearchContactsService,
            Captain::Tools::Copilot::SearchLinearIssuesService, Captain::Tools::Copilot::GetReportService,
-           Captain::Tools::Copilot::GetAccountDirectoryService].freeze
+           Captain::Tools::Copilot::GetAccountDirectoryService, Captain::Tools::Copilot::SearchChatwootDocsService].freeze
   WORKFLOW_TOOLS = [Captain::Tools::Copilot::GetDataService, Captain::Tools::Copilot::ReviewConversationsService,
                     Captain::Tools::Copilot::ContinueReviewService, Captain::Tools::Copilot::DisplayService,
                     Captain::Tools::Copilot::ActService].freeze
   TOOLS_WITH_CARD = %w[review_conversations continue_review act].freeze
 
   def initialize(run, token)
-    # Workflows have their own model setting, so the copilot_workflows flag leaves Copilot unchanged for other accounts.
     super(feature: 'copilot_workflows', account: run.account)
     @run = run
     @token = token

@@ -87,6 +87,12 @@
     "ADD": {
       "TITLE": "Dodaj",
       "DESC": "Prijazne obljube za odlično storitev!",
+      "SUCCESS": {
+        "TITLE": "SLA created",
+        "DESC": "SLAs are applied to conversations through automation rules. Create an automation to start tracking this SLA.",
+        "LATER": "Later",
+        "CREATE_AUTOMATION": "Create automation"
+      },
       "API": {
         "SUCCESS_MESSAGE": "SLA je bil uspešno dodan",
         "ERROR_MESSAGE": "Prišlo je do napake, prosimo, poskusite znova"

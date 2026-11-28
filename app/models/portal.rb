@@ -106,6 +106,14 @@ class Portal < ApplicationRecord
     }
   end
 
+  def webhook_data
+    {
+      id: id,
+      name: name,
+      slug: slug
+    }
+  end
+
   def default_locale
     config_value('default_locale').presence || allowed_locale_codes.first || 'en'
   end
@@ -168,7 +176,11 @@ class Portal < ApplicationRecord
 
   def remove_locale!(locale)
     transaction do
-      update!(config: { allowed_locales: allowed_locale_codes - [locale] })
+      update!(config: {
+                allowed_locales: allowed_locale_codes - [locale],
+                locale_translations: (config['locale_translations'] || {}).except(locale),
+                popular_content: (config['popular_content'] || {}).except(locale)
+              })
       articles.where(locale: locale).destroy_all
       categories.where(locale: locale).destroy_all
     end

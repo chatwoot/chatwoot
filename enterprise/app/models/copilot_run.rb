@@ -117,11 +117,11 @@ class CopilotRun < ApplicationRecord
     true
   end
 
-  # Checked before every model call and batch of changes, so turning the feature off or running out of credits also
-  # stops work in flight. Changes make no model call, so they skip the credit check.
+  # Checked before every model call and batch of changes, so losing Captain on a plan change or running out of credits
+  # also stops work in flight. Changes make no model call, so they skip the credit check.
   def ensure_can_continue!(credits: true)
     account.reload
-    raise Captain::Copilot::LimitExceededError, I18n.t('captain.copilot_workflows_disabled') unless account.feature_enabled?('copilot_workflows')
+    raise Captain::Copilot::LimitExceededError, I18n.t('captain.copilot_disabled') unless account.feature_enabled?('captain_integration')
     return if !credits || account.usage_limits[:captain][:responses][:current_available].positive?
 
     raise Captain::Copilot::LimitExceededError, I18n.t('captain.copilot_limit')

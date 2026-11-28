@@ -32,6 +32,14 @@ describe Whatsapp::Providers::WhatsappCloudService do
   describe 'calling settings' do
     let(:settings_url) { 'https://graph.facebook.com/v22.0/123456789/settings' }
 
+    it 'sends only the callback permission setting, leaving the other calling settings alone' do
+      update = stub_request(:post, settings_url).with(body: { calling: { callback_permission_status: 'ENABLED' } }.to_json)
+                                                .to_return(status: 200, headers: headers, body: '{}')
+
+      expect(service.update_callback_permission_status('ENABLED')).to be(true)
+      expect(update).to have_been_requested
+    end
+
     it 'bounds reading and updating the settings, so saving business hours never hangs on WhatsApp' do
       stub_request(:get, settings_url).to_return(status: 200, headers: headers, body: { calling: {} }.to_json)
       stub_request(:post, settings_url).to_return(status: 200, headers: headers, body: '{}')

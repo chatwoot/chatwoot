@@ -468,16 +468,6 @@
           "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured",
           "MANUAL_FALLBACK": "If your number is already connected to the WhatsApp Business Platform (API), or if you’re a tech provider onboarding your own number, please use the {link} flow",
           "MANUAL_LINK_TEXT": "manual setup flow",
-          "ACCESS_REQUEST": {
-            "TITLE": "Quick setup with Meta",
-            "DESCRIPTION": "Connect a new number or an existing number from the WhatsApp Business app without manual configuration. Tell us what your business does and how you’ll use WhatsApp to enable this option.",
-            "BUTTON": "Request access",
-            "FORM_DESCRIPTION": "Tell us about your business and how you plan to use WhatsApp. Submit your use case to enable quick setup for your account.",
-            "USE_CASE_LABEL": "Business use case",
-            "USE_CASE_PLACEHOLDER": "For example, we sell home furnishings and use WhatsApp to answer product questions and help customers with their orders.",
-            "SUBMIT": "Submit",
-            "ERROR": "We couldn’t enable access. Please try again."
-          },
           "RESTRICTED_WARNING": "WhatsApp Embedded Signup is temporarily unavailable due to an API-level issue on Meta’s side, not a problem with Chatwoot. You can use manual setup for eligible Cloud API numbers. We’re working closely with Meta to resolve it as quickly as possible.",
           "STATUS_LINK": "View status updates",
           "CALLING_ENABLE_FAILED": "Your WhatsApp inbox is ready, but voice calling couldn't be turned on — this number isn't enrolled in the WhatsApp Business Calling API yet. Reach out to Meta or your WhatsApp Business Solution Provider to onboard it, then turn calling on from the inbox's Calls settings."
@@ -832,11 +822,9 @@
         "MANAGE_CONNECTION": "Manage connection",
         "HIDE_CONNECTION": "Hide connection",
         "UPDATE_CONNECTION": "Update connection",
-        "WHATSAPP_ENABLE": "Turn on WhatsApp calling",
-        "WHATSAPP_ENABLE_HELP": "Customers can call this number from WhatsApp. Agents answer in the browser, which needs microphone access.",
-        "META_ON": "Calling on at Meta",
-        "META_HELP": "Calls ring on this WhatsApp number",
-        "TURN_OFF": "Turn off calling"
+        "WHATSAPP": "WhatsApp calling",
+        "WHATSAPP_HELP": "Make and receive WhatsApp calls from this inbox. Agents need microphone access.",
+        "WHATSAPP_ACCEPT_INCOMING": "Accept incoming calls"
       },
       "INCOMING": {
         "TITLE": "When a call comes in",
@@ -862,7 +850,12 @@
         "WAIT": "Wait",
         "THEN": "then play the message and hang up",
         "MESSAGE": "Missed-call message",
-        "MESSAGE_HELP": "Read out to the caller."
+        "MESSAGE_HELP": "Read out to the caller.",
+        "WHATSAPP_DESCRIPTION": "When a call ends without being answered, including when no agent is available.",
+        "WHATSAPP_SEND": "Send a WhatsApp message",
+        "WHATSAPP_SEND_HELP": "Sent after each missed call, in the call's conversation, so the caller can reply there.",
+        "WHATSAPP_PLACEHOLDER": "Sorry we missed your call. Reply here and we'll get back to you as soon as we can.",
+        "WHATSAPP_MESSAGE_HELP": "Leave empty to send the text shown. Only sent within WhatsApp's 24-hour messaging window."
       },
       "OUT_OF_HOURS": {
         "TITLE": "Outside business hours",
@@ -904,6 +897,8 @@
       "CALLING_CUSTOMERS": {
         "TITLE": "Calling customers",
         "DESCRIPTION": "WhatsApp needs the customer's permission before you call them.",
+        "CALLBACK_PERMISSION": "Ask callers for permission to call back",
+        "CALLBACK_PERMISSION_HELP": "After a customer calls, WhatsApp asks if you can call them back. If they allow it, agents can call them without sending a permission request.",
         "PERMISSION_MESSAGE": "Permission request message",
         "PERMISSION_PLACEHOLDER": "Can we call you on WhatsApp about your request?",
         "PERMISSION_HELP": "Sent when an agent calls a customer who hasn't allowed calls yet. Leave empty to use the default."
@@ -1216,6 +1211,35 @@
         "EXPECTED_URL": "Expected URL",
         "COPY_URL": "Copy webhook URL",
         "COPY_SUCCESS": "Webhook URL copied to clipboard"
+      },
+      "CALLING": {
+        "TITLE": "WhatsApp calling",
+        "DESCRIPTION": "Checks that Meta has this number set up to make and receive calls through this inbox.",
+        "UNVERIFIED_HINT": "Meta didn't return this check. Reload the page to try again.",
+        "STATUSES": {
+          "ENABLED": "Enabled",
+          "DISABLED": "Disabled",
+          "CONFIGURED": "Configured",
+          "MISSING": "Missing",
+          "ELIGIBLE": "No restrictions",
+          "RESTRICTED": "Restricted",
+          "UNVERIFIED": "Unable to verify"
+        },
+        "META_STATUS": {
+          "LABEL": "Calling at Meta",
+          "DISABLED_HINT": "Calling is turned off for this number at Meta, so customers can't call it and agents can't place calls.",
+          "FIX_BUTTON": "Enable calling at Meta"
+        },
+        "WEBHOOK_SUBSCRIPTION": {
+          "LABEL": "Call webhook subscription",
+          "APP_NOT_SUBSCRIBED": "The Meta app isn't subscribed to this WhatsApp Business Account, so no calls or messages reach this inbox. Register the webhook to subscribe it again.",
+          "CALLS_FIELD_MISSING": "The Meta app connected to this inbox isn't subscribed to the \"calls\" webhook field. Add \"calls\" under WhatsApp Business Account in the app's Webhooks settings in the Meta App Dashboard."
+        },
+        "ELIGIBILITY": {
+          "LABEL": "Calling eligibility",
+          "RESTRICTED_BUSINESS_INITIATED_CALLING": "Meta has paused outgoing calls and call permission requests until {date} because too many customers blocked or reported calls. It lifts on its own.",
+          "RESTRICTED_USER_INITIATED_CALLING": "Meta has paused incoming calls and hidden the call button until {date} because too many customers blocked or reported calls. It lifts on its own."
+        }
       }
     },
     "SETTINGS": "Settings",

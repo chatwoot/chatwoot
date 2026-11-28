@@ -8,6 +8,7 @@
       "REPLIED_BELOW": "Customer replied below"
     },
     "SELECT_A_CONVERSATION": "Please select a conversation from left pane",
+    "SELECT_OR_ASK_COPILOT": "Select a conversation, or ask Copilot",
     "CSAT_REPLY_MESSAGE": "Please rate the conversation",
     "404": "Sorry, we cannot find the conversation. Please try again",
     "SWITCH_VIEW_LAYOUT": "Switch the layout",
@@ -170,6 +171,8 @@
       "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
       "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply",
       "WHATSAPP_CALL": "Start WhatsApp call",
+      "WHATSAPP_CALL_CAN_CALL_BACK": "Can call back",
+      "WHATSAPP_CALL_CAN_CALL_BACK_UNTIL": "Can call back until {date}",
       "WHATSAPP_CALL_FAILED": "Could not start the WhatsApp call.",
       "VOICE_CALL": "Start call",
       "VOICE_CALL_FAILED": "Could not start the call.",

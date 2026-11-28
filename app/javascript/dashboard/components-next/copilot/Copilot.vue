@@ -18,6 +18,7 @@ import CopilotAgentMessage from './CopilotAgentMessage.vue';
 import CopilotAssistantMessage from './CopilotAssistantMessage.vue';
 import CopilotApprovalMessage from './CopilotApprovalMessage.vue';
 import { APPROVAL_STATUS } from './constants';
+import { supportsCaptainAvatar } from './avatarSupport';
 import CopilotReviewProgress from './CopilotReviewProgress.vue';
 import CopilotThinkingGroup from './CopilotThinkingGroup.vue';
 import ToggleCopilotAssistant from './ToggleCopilotAssistant.vue';
@@ -71,23 +72,9 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  canShowAvatar: {
-    type: Boolean,
-    default: false,
-  },
-  // Workflows is in a test with a few accounts, so the panel labels it beta and offers its starter prompts.
-  isWorkflowsEnabled: {
-    type: Boolean,
-    default: false,
-  },
   onSendMessage: {
     type: Function,
     required: true,
-  },
-  // The old Copilot answers each message on its own and cannot be stopped.
-  canStop: {
-    type: Boolean,
-    default: false,
   },
   onStop: {
     type: Function,
@@ -101,6 +88,7 @@ const emit = defineEmits([
   'selectThread',
   'loadMoreThreads',
   'toggleExpand',
+  'close',
 ]);
 
 const { t } = useI18n();
@@ -114,27 +102,12 @@ const ERROR_DURATION = 2400;
 const SLEEP_AFTER = 2 * 60 * 1000;
 const SEARCH_STEP_PREFIXES = ['search_', 'get_'];
 
-// The avatar needs WebGL2 on real graphics hardware. Checking first avoids downloading it where it can't render.
-const supportsCaptainAvatar = () => {
-  try {
-    const gl = document.createElement('canvas').getContext('webgl2', {
-      failIfMajorPerformanceCaveat: true,
-    });
-    gl?.getExtension('WEBGL_lose_context')?.loseContext();
-    return !!gl;
-  } catch {
-    return false;
-  }
-};
-
 const CopilotAvatar = defineAsyncComponent(() => import('./CopilotAvatar.vue'));
 // The avatar emits unsupported when its graphics context is lost for good, so the logo comes back.
 const isAvatarSupported = ref(supportsCaptainAvatar());
-const showAvatar = computed(
-  () => props.canShowAvatar && isAvatarSupported.value
-);
+const showAvatar = computed(() => isAvatarSupported.value);
 
-const draft = ref('');
+const draft = defineModel('draft', { type: String, default: '' });
 const chatContainer = ref(null);
 const copilotInput = ref(null);
 // A paste only lands in a focused field, so actions that move focus off the input hand it back.
@@ -237,7 +210,7 @@ const hasLiveStep = (item, index) =>
 // Copilot answers one message at a time, so while it works the agent can stop it but not send another message. A new
 // chat has no messages, so there is nothing to stop.
 const isStoppable = computed(
-  () => props.canStop && props.messages.length > 0 && isCopilotWorking.value
+  () => props.messages.length > 0 && isCopilotWorking.value
 );
 
 const showLoader = computed(() => {
@@ -262,6 +235,7 @@ const closeCopilotPanel = () => {
     is_copilot_panel_open: false,
     is_contact_sidebar_open: false,
   });
+  emit('close');
 };
 
 const showHistory = ref(false);
@@ -448,7 +422,7 @@ watch(
       @click="handleSidebarAction"
       @close="closeCopilotPanel"
     >
-      <template v-if="isWorkflowsEnabled" #titleBadge>
+      <template #titleBadge>
         <Label :label="t('GENERAL.BETA')" color="blue" compact />
       </template>
     </SidebarActionsHeader>
@@ -548,7 +522,6 @@ watch(
         class="max-w-3xl mx-auto"
         :has-assistants="hasAssistants"
         :can-suggest-reply="canSuggestReply"
-        :is-workflows-enabled="isWorkflowsEnabled"
         @use-suggestion="sendSuggestion"
       >
         <template v-if="showAvatar" #logo>
