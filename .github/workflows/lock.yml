@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.repository == 'chatwoot/chatwoot' }}
     steps:
-      - uses: dessant/lock-threads@v3
+      - uses: dessant/lock-threads@v6
         with: 
           issue-inactive-days: '30'
           issue-lock-reason: 'resolved'
