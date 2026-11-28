@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'auth', controllers: {
     confirmations: 'devise_overrides/confirmations',
     passwords: 'devise_overrides/passwords',
+    registrations: 'devise_overrides/registrations',
     sessions: 'devise_overrides/sessions',
     token_validations: 'devise_overrides/token_validations',
     omniauth_callbacks: 'devise_overrides/omniauth_callbacks'
