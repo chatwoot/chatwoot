@@ -10,8 +10,16 @@ class Messages::InReplyToMessageBuilder
   private
 
   def set_in_reply_to_attribute
-    @message.content_attributes[:in_reply_to_external_id] = in_reply_to_message.try(:source_id)
+    @message.content_attributes[:in_reply_to_external_id] = in_reply_to_external_id
     @message.content_attributes[:in_reply_to] = in_reply_to_message.try(:id)
+  end
+
+  # Incoming messages keep the provider's id when the quoted message lives in another conversation.
+  # Outgoing messages drop it, because senders forward it to the provider as reply context.
+  def in_reply_to_external_id
+    return in_reply_to_message&.source_id || @in_reply_to_external_id if @message.incoming?
+
+    in_reply_to_message.try(:source_id)
   end
 
   def in_reply_to_message
