@@ -1,0 +1,13 @@
+services:
+  rails:
+    image: chatwoot-premium:${CHATWOOT_TAG}
+    build:
+      context: .
+      dockerfile: Dockerfile.premium
+      args:
+        CHATWOOT_TAG: ${CHATWOOT_TAG}
+    environment:
+      DISABLE_TELEMETRY: "1"
+      PREMIUM_UNLOCK_ALL: "0"
+  sidekiq:
+    image: chatwoot-premium:${CHATWOOT_TAG}
