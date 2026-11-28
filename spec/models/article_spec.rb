@@ -29,6 +29,31 @@ RSpec.describe Article do
         expect(article.errors[:slug]).to include('is reserved')
       end
     end
+
+    it 'rejects a category from another portal' do
+      other_category = create(:category, slug: 'other', locale: 'en', portal: create(:portal))
+      article = build(:article, portal: portal_1, author: user, category_id: other_category.id)
+
+      expect(article).not_to be_valid
+      expect(article.errors[:category_id]).to include('is invalid')
+    end
+
+    it 'rejects moving an article to a category from another portal' do
+      article = create(:article, portal: portal_1, author: user, category: category_1)
+      other_category = create(:category, slug: 'other', locale: 'en', portal: create(:portal, account: account))
+
+      expect(article.update(category_id: other_category.id)).to be false
+      expect(article.errors[:category_id]).to include('is invalid')
+      expect(article.reload.category_id).to eq(category_1.id)
+    end
+
+    it 'keeps existing articles editable when the category is unchanged' do
+      other_category = create(:category, slug: 'other', locale: 'en', portal: create(:portal, account: account))
+      article = create(:article, portal: portal_1, author: user)
+      article.update_column(:category_id, other_category.id) # rubocop:disable Rails/SkipsModelValidations
+
+      expect(article.reload.update(title: 'Updated title')).to be true
+    end
   end
 
   describe 'translation families' do
@@ -134,7 +159,7 @@ RSpec.describe Article do
                        portal_id: portal_1.id, author_id: user.id)
       create(:article, category_id: category_1.id, slug: 'title-1', title: 'title 1', content: 'This is the content', portal_id: portal_1.id,
                        author_id: user.id)
-      create(:article, category_id: category_2.id, slug: 'title-2', title: 'title 2', portal_id: portal_2.id, author_id: user.id)
+      create(:article, locale: 'es', slug: 'title-2', title: 'title 2', portal_id: portal_2.id, author_id: user.id)
       create(:article, category_id: category_2.id, slug: 'title-3', title: 'title 3', portal_id: portal_1.id, author_id: user.id)
       create(:article, category_id: category_3.id, slug: 'title-6', title: 'title 6', portal_id: portal_2.id, author_id: user.id, status: :published)
       create(:article, category_id: category_2.id, slug: 'title-7', title: 'title 7', portal_id: portal_1.id, author_id: user.id, status: :published)

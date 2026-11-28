@@ -108,7 +108,8 @@ RSpec.describe 'Public Categories API', type: :request do
     it 'excludes translations from other portals' do
       category = portal.categories.first
       foreign_portal = create(:portal, config: { allowed_locales: %w[en es] })
-      foreign_category = create(:category, portal: foreign_portal, locale: 'es', associated_category_id: category.id)
+      foreign_category = create(:category, portal: foreign_portal, locale: 'es')
+      foreign_category.update_column(:associated_category_id, category.id) # rubocop:disable Rails/SkipsModelValidations
 
       get "/hc/#{portal.slug}/en/categories/#{category.slug}"
 

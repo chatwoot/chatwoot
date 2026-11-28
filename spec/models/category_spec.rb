@@ -26,6 +26,24 @@ RSpec.describe Category do
       category.update(locale: 'es')
       expect(category.errors.full_messages[0]).to eq("Locale es of category is not part of portal's [\"en\"].")
     end
+
+    it 'accepts parent and associated categories from the same portal' do
+      parent = create(:category, slug: 'parent', locale: 'en', portal: portal)
+      category = build(:category, slug: 'child', locale: 'en', portal: portal,
+                                  parent_category_id: parent.id, associated_category_id: parent.id)
+
+      expect(category).to be_valid
+    end
+
+    it 'rejects parent and associated categories from another portal' do
+      other_category = create(:category, slug: 'other', locale: 'en', portal: create(:portal))
+      category = build(:category, slug: 'child', locale: 'en', portal: portal,
+                                  parent_category_id: other_category.id, associated_category_id: other_category.id)
+
+      expect(category).not_to be_valid
+      expect(category.errors[:parent_category_id]).to include('is invalid')
+      expect(category.errors[:associated_category_id]).to include('is invalid')
+    end
   end
 
   describe 'search' do

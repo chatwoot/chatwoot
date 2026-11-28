@@ -110,6 +110,20 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
         expect(json_response['message']).to eql('Locale should be unique in the category and portal')
       end
 
+      it 'rejects parent and associated categories from another account' do
+        foreign_category = create(:category, slug: 'foreign', portal: create(:portal, account: create(:account)))
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories",
+               params: { category: { name: 'test_category', locale: 'es', slug: 'test_category_1',
+                                     parent_category_id: foreign_category.id, associated_category_id: foreign_category.id } },
+               headers: admin.create_new_auth_token
+        end.not_to(change(Category, :count))
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['attributes']).to contain_exactly('parent_category_id', 'associated_category_id')
+      end
+
       it 'will throw an error slug presence' do
         category_params = {
           category: {
@@ -165,6 +179,17 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
         expect(json_response['payload']['related_categories'][0]['id']).to eql(related_category_1.id)
         expect(json_response['payload']['parent_category']['id']).to eql(related_category_2.id)
         expect(related_category_2.reload.sub_category_ids).to eql([category.id])
+      end
+
+      it 'rejects a parent category from another portal' do
+        other_category = create(:category, slug: 'other', portal: create(:portal, account: account))
+
+        put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories/#{category.id}",
+            params: { category: { parent_category_id: other_category.id } },
+            headers: admin.create_new_auth_token
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(category.reload.parent_category_id).to be_nil
       end
 
       it 'updates related categories' do
