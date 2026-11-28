@@ -8,3 +8,8 @@ properties:
     type: string
     description: Short Code for quick access of the canned response
     example: 'welcome'
+  files:
+    type: array
+    description: Signed ids of the uploaded files to attach, up to 15. The list replaces the files already attached; send an empty list to remove them all, or leave it out to keep them.
+    items:
+      type: string

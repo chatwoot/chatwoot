@@ -11027,6 +11027,35 @@
           "updated_at": {
             "type": "string",
             "description": "The date and time when the canned response was updated"
+          },
+          "files": {
+            "type": "array",
+            "description": "Files attached to the canned response",
+            "items": {
+              "type": "object",
+              "properties": {
+                "signed_id": {
+                  "type": "string",
+                  "description": "Signed id of the file"
+                },
+                "filename": {
+                  "type": "string",
+                  "description": "Name of the file"
+                },
+                "content_type": {
+                  "type": "string",
+                  "description": "MIME type of the file"
+                },
+                "byte_size": {
+                  "type": "integer",
+                  "description": "Size of the file in bytes"
+                },
+                "file_url": {
+                  "type": "string",
+                  "description": "URL to access the file"
+                }
+              }
+            }
           }
         }
       },
@@ -13759,6 +13788,13 @@
             "type": "string",
             "description": "Short Code for quick access of the canned response",
             "example": "welcome"
+          },
+          "files": {
+            "type": "array",
+            "description": "Signed ids of the uploaded files to attach, up to 15. The list replaces the files already attached; send an empty list to remove them all, or leave it out to keep them.",
+            "items": {
+              "type": "string"
+            }
           }
         }
       },

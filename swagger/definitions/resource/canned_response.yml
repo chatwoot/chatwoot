@@ -18,3 +18,24 @@ properties:
   updated_at:
     type: string
     description: The date and time when the canned response was updated
+  files:
+    type: array
+    description: Files attached to the canned response
+    items:
+      type: object
+      properties:
+        signed_id:
+          type: string
+          description: Signed id of the file
+        filename:
+          type: string
+          description: Name of the file
+        content_type:
+          type: string
+          description: MIME type of the file
+        byte_size:
+          type: integer
+          description: Size of the file in bytes
+        file_url:
+          type: string
+          description: URL to access the file

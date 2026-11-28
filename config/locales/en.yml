@@ -160,6 +160,7 @@ en:
       not_found: Assignment policy not found
     attachments:
       invalid: Invalid attachment
+      too_many: 'cannot be more than %{limit}'
     upload:
       missing_input: 'No file or URL provided'
       invalid_url: 'Invalid URL provided'

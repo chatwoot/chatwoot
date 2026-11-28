@@ -17,8 +17,10 @@ class CannedResponse < ApplicationRecord
   validates :short_code, presence: true
   validates :account, presence: true
   validates :short_code, uniqueness: { scope: :account_id }
+  validate :validate_files_limit
 
   belongs_to :account
+  has_many_attached :files
 
   scope :order_by_search, lambda { |search|
     short_code_starts_with = sanitize_sql_array(['WHEN short_code ILIKE ? THEN 1', "#{search}%"])
@@ -29,4 +31,11 @@ class CannedResponse < ApplicationRecord
 
     order(Arel.sql(order_clause) => :desc)
   }
+
+  private
+
+  def validate_files_limit
+    limit = Message::NUMBER_OF_PERMITTED_ATTACHMENTS
+    errors.add(:files, I18n.t('errors.attachments.too_many', limit: limit)) if files.size > limit
+  end
 end
