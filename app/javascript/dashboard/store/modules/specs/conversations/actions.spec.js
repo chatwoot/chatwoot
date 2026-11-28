@@ -1,5 +1,8 @@
 import axios from 'axios';
+import { flushPromises } from '@vue/test-utils';
+import { INBOX_TYPES, TWILIO_CHANNEL_MEDIUM } from 'dashboard/helper/inbox';
 import { emitter } from 'shared/helpers/mitt';
+import { MESSAGE_TYPE } from 'shared/constants/messages';
 import { createStore } from 'vuex';
 import types from '../../../mutation-types';
 import conversationMetadata from '../../conversationMetadata';
@@ -67,16 +70,27 @@ describe('#actions', () => {
     let store;
     let conversationA;
     let conversationB;
+    let inbox;
 
     beforeEach(() => {
-      conversationA = { id: 42, messages: [{ id: 100 }] };
+      inbox = { channel_type: INBOX_TYPES.WHATSAPP };
+      conversationA = {
+        id: 42,
+        inbox_id: 1,
+        can_reply: false,
+        messages: [{ id: 100 }],
+      };
       conversationB = { id: 43, messages: [{ id: 200 }] };
       store = createStore({
         state: {
           allConversations: [conversationA, conversationB],
           selectedChatId: null,
+          syncConversationsMessages: { 42: 100 },
         },
-        getters: { getAutoTranslate: () => ({ enabled: false }) },
+        getters: {
+          getAutoTranslate: () => ({ enabled: false }),
+          'inboxes/getInbox': () => () => inbox,
+        },
         actions,
         mutations,
         modules: {
@@ -87,6 +101,121 @@ describe('#actions', () => {
         },
       });
     });
+
+    const missedIncoming = {
+      id: 101,
+      conversation_id: 42,
+      message_type: MESSAGE_TYPE.INCOMING,
+    };
+
+    it.each([
+      ['fetchPreviousMessages', INBOX_TYPES.WHATSAPP],
+      ['syncActiveConversationMessages', INBOX_TYPES.TWILIO],
+    ])(
+      'reopens the reply window after %s using the conversation API',
+      async (action, channelType) => {
+        inbox.channel_type = channelType;
+        inbox.medium = TWILIO_CHANNEL_MEDIUM.WHATSAPP;
+        axios.get
+          .mockResolvedValueOnce({
+            data: { meta: {}, payload: [missedIncoming] },
+          })
+          .mockResolvedValueOnce({ data: { can_reply: true, messages: [] } });
+
+        await store.dispatch(action, { conversationId: 42, after: 100 });
+        await flushPromises();
+
+        expect(axios.get).toHaveBeenNthCalledWith(
+          2,
+          '/api/v1/conversations/42'
+        );
+        expect(conversationA.messages).toContainEqual(missedIncoming);
+        expect(conversationA.can_reply).toBe(true);
+      }
+    );
+
+    it('keeps the reply window closed when the conversation API reports expiry', async () => {
+      axios.get
+        .mockResolvedValueOnce({
+          data: { meta: {}, payload: [missedIncoming] },
+        })
+        .mockResolvedValueOnce({ data: { can_reply: false } });
+
+      await store.dispatch('fetchPreviousMessages', { conversationId: 42 });
+      await flushPromises();
+
+      expect(axios.get).toHaveBeenCalledTimes(2);
+      expect(conversationA.can_reply).toBe(false);
+    });
+
+    it('loads history even if the conversation API fails', async () => {
+      axios.get
+        .mockResolvedValueOnce({
+          data: { meta: {}, payload: [missedIncoming] },
+        })
+        .mockRejectedValueOnce(new Error('Network error'));
+
+      await store.dispatch('fetchPreviousMessages', { conversationId: 42 });
+      await flushPromises();
+
+      expect(conversationA.messages).toContainEqual(missedIncoming);
+      expect(conversationA.can_reply).toBe(false);
+    });
+
+    it('preserves a reply window opened by a live message while the API request is pending', async () => {
+      let resolveConversation;
+      axios.get
+        .mockResolvedValueOnce({
+          data: { meta: {}, payload: [missedIncoming] },
+        })
+        .mockReturnValueOnce(
+          new Promise(resolve => {
+            resolveConversation = resolve;
+          })
+        );
+
+      await store.dispatch('fetchPreviousMessages', { conversationId: 42 });
+      await store.dispatch('addMessage', { ...missedIncoming, id: 102 });
+      resolveConversation({ data: { can_reply: false } });
+      await flushPromises();
+
+      expect(conversationA.can_reply).toBe(true);
+    });
+
+    it.each([
+      [
+        'an outgoing message',
+        { ...missedIncoming, message_type: MESSAGE_TYPE.OUTGOING },
+        INBOX_TYPES.WHATSAPP,
+        false,
+      ],
+      [
+        'an already loaded message',
+        { ...missedIncoming, id: 100 },
+        INBOX_TYPES.WHATSAPP,
+        false,
+      ],
+      ['an inbox on another channel', missedIncoming, INBOX_TYPES.EMAIL, false],
+      [
+        'a conversation with an open reply window',
+        missedIncoming,
+        INBOX_TYPES.WHATSAPP,
+        true,
+      ],
+    ])(
+      'skips the conversation API for %s',
+      async (_, message, channelType, canReply) => {
+        inbox.channel_type = channelType;
+        conversationA.can_reply = canReply;
+        axios.get.mockResolvedValueOnce({
+          data: { meta: {}, payload: [message] },
+        });
+
+        await store.dispatch('fetchPreviousMessages', { conversationId: 42 });
+
+        expect(axios.get).toHaveBeenCalledTimes(1);
+      }
+    );
 
     it('shares pending history when switching A to B to A and keeps responses in their own conversations', async () => {
       let resolveA;
