@@ -61,11 +61,12 @@ export const SIGNUP_RESULT = Object.freeze({
 // explicit failure event `ERROR` where v3 used `error`, and also reports user-facing
 // failures as a CANCEL carrying an error_message — a bare CANCEL is a deliberate
 // dismissal, so the two have to be told apart rather than both read as "cancelled".
+// Meta nests error_message inside the payload's `data`, next to error_code and session_id.
 export const classifySignupEvent = data => {
   const event = data?.event;
   if (typeof event !== 'string') return { type: SIGNUP_RESULT.IGNORE };
 
-  const errorMessage = data?.error_message;
+  const errorMessage = data.data?.error_message;
 
   if (FINISH_EVENTS.includes(event)) {
     return {
@@ -130,10 +131,11 @@ export const initWhatsAppEmbeddedSignup = configId => {
         config_id: configId,
         response_type: 'code',
         override_default_response_type: true,
+        // No `version`: Meta serves v4 by default and has no explicit `v4` value. v4 ignores
+        // `sessionInfoVersion` and still uses `featureType` to offer coexistence onboarding.
         extras: {
           setup: {},
           featureType: 'whatsapp_business_app_onboarding',
-          sessionInfoVersion: '3',
         },
       }
     );

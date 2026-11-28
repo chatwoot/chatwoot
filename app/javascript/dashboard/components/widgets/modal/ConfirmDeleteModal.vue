@@ -72,6 +72,7 @@ export default {
         :placeholder="confirmPlaceHolderText"
         @blur="v$.value.$touch"
       />
+      <slot />
       <div class="flex items-center justify-end gap-2">
         <NextButton
           faded
