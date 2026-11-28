@@ -22,6 +22,19 @@ RSpec.describe Channel::Instagram do
     expect(channel.errors[:access_token]).to be_present
   end
 
+  describe '#subscribe' do
+    it 'logs an error when the subscription fails on the Instagram Login path' do
+      channel = build(:channel_instagram, account: create(:account))
+      allow(HTTParty).to receive(:post).and_raise(StandardError, 'boom')
+      allow(Rails.logger).to receive(:error)
+
+      channel.subscribe
+
+      expect(Rails.logger).to have_received(:error)
+        .with(a_string_including("Failed to subscribe account #{channel.instagram_id}"))
+    end
+  end
+
   context 'with Unified Login' do
     let(:channel) { build(:channel_instagram, account: create(:account), auth_type: 'unified_login', access_token: 'system_token', expires_at: nil) }
 
