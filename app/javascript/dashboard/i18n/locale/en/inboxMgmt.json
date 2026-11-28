@@ -655,7 +655,8 @@
           },
           "VOICE": {
             "TITLE": "Voice",
-            "DESCRIPTION": "Integrate with Twilio Voice"
+            "DESCRIPTION": "Connect your phone number",
+            "NOT_ENABLED": "Voice is not enabled for this account."
           }
         }
       },
