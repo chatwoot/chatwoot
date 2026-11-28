@@ -308,6 +308,81 @@ describe Messages::MessageBuilder do
         end
       end
 
+      it 'accepts semicolon separated cc_emails and bcc_emails' do
+        params = ActionController::Parameters.new({ cc_emails: 'test1@test.com;test2@test.com',
+                                                    bcc_emails: 'test3@test.com; test4@test.com' })
+
+        message = described_class.new(user, conversation, params).perform
+
+        expect(message.content_attributes[:cc_emails]).to eq ['test1@test.com', 'test2@test.com']
+        expect(message.content_attributes[:bcc_emails]).to eq ['test3@test.com', 'test4@test.com']
+      end
+
+      it 'accepts space separated cc_emails and bcc_emails' do
+        params = ActionController::Parameters.new({ cc_emails: 'test1@test.com test2@test.com',
+                                                    bcc_emails: 'test3@test.com  test4@test.com' })
+
+        message = described_class.new(user, conversation, params).perform
+
+        expect(message.content_attributes[:cc_emails]).to eq ['test1@test.com', 'test2@test.com']
+        expect(message.content_attributes[:bcc_emails]).to eq ['test3@test.com', 'test4@test.com']
+      end
+
+      it 'extracts the address from display name forms without splitting on the name' do
+        cc_emails = 'Jane Smith <jane@test.com>, John Doe <john@test.com>'
+        params = ActionController::Parameters.new({ cc_emails: cc_emails })
+
+        message = described_class.new(user, conversation, params).perform
+
+        expect(message.content_attributes[:cc_emails]).to eq ['jane@test.com', 'john@test.com']
+      end
+
+      it 'keeps a comma inside a quoted display name intact' do
+        params = ActionController::Parameters.new({ cc_emails: '"Doe, John" <john@test.com>, jane@test.com' })
+
+        message = described_class.new(user, conversation, params).perform
+
+        expect(message.content_attributes[:cc_emails]).to eq ['john@test.com', 'jane@test.com']
+      end
+
+      it 'keeps a quoted display name that contains an escaped quote' do
+        # `display_name` comes back unquoted and unescaped, so it cannot be matched back against
+        # the raw input; the address's own `raw` source is what says it was quoted.
+        params = ActionController::Parameters.new({ cc_emails: '"support@test.com \\"team\\"" <agent@test.com>, jane@test.com' })
+
+        message = described_class.new(user, conversation, params).perform
+
+        expect(message.content_attributes[:cc_emails]).to eq ['agent@test.com', 'jane@test.com']
+      end
+
+      it 'rejects an unparseable recipient instead of dropping it' do
+        params = ActionController::Parameters.new({ cc_emails: 'Jane <' })
+
+        expect { described_class.new(user, conversation, params).perform }.to raise_error 'Invalid email address'
+      end
+
+      it 'keeps an email-like quoted display name' do
+        params = ActionController::Parameters.new({ cc_emails: '"support@test.com" <agent@test.com>' })
+        message = described_class.new(user, conversation, params).perform
+
+        expect(message.content_attributes[:cc_emails]).to eq ['agent@test.com']
+      end
+
+      it 'accepts semicolon separated display name forms' do
+        cc_emails = 'Jane Smith <jane@test.com>; John Doe <john@test.com>'
+        params = ActionController::Parameters.new({ cc_emails: cc_emails })
+
+        message = described_class.new(user, conversation, params).perform
+
+        expect(message.content_attributes[:cc_emails]).to eq ['jane@test.com', 'john@test.com']
+      end
+
+      it 'rejects a bare address followed by a display name instead of dropping the first one' do
+        params = ActionController::Parameters.new({ cc_emails: 'jane@test.com John Doe <john@test.com>' })
+
+        expect { described_class.new(user, conversation, params).perform }.to raise_error 'Invalid email address'
+      end
+
       context 'when custom email content is provided' do
         it 'creates message with custom HTML email content' do
           params = ActionController::Parameters.new({
