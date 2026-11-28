@@ -1,4 +1,4 @@
-class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseService
+class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseService # rubocop:disable Metrics/ClassLength
   def send_message(phone_number, message)
     @message = message
 
@@ -77,6 +77,30 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
   def api_headers
     { 'Authorization' => "Bearer #{whatsapp_channel.provider_config['api_key']}", 'Content-Type' => 'application/json' }
+  end
+
+  # Meta's typing indicator (Cloud API docs: cloud-api/typing-indicators). The same call marks
+  # the incoming message as read (blue ticks): Meta does not offer one without the other. There
+  # is no "stop typing": the indicator clears when a message is sent or after 25 seconds.
+  # Called inline from the typing-status request, so it must be quick and must never raise:
+  # a missing indicator is not worth failing the caller.
+  def send_typing_indicator(message_id)
+    response = HTTParty.post(
+      "#{phone_id_path('v25.0')}/messages",
+      headers: api_headers,
+      body: { messaging_product: 'whatsapp', status: 'read', message_id: message_id, typing_indicator: { type: 'text' } }.to_json,
+      timeout: 5
+    )
+    return true if response.success?
+
+    Rails.logger.warn(
+      "[WHATSAPP_TYPING] failed account_id=#{whatsapp_channel.account_id} " \
+      "channel_id=#{whatsapp_channel.id} http_status=#{response.code} body=#{response.body.to_s.truncate(200)}"
+    )
+    false
+  rescue StandardError => e
+    Rails.logger.warn("[WHATSAPP_TYPING] error account_id=#{whatsapp_channel.account_id} channel_id=#{whatsapp_channel.id} #{e.class}: #{e.message}")
+    false
   end
 
   def create_csat_template(template_config)
