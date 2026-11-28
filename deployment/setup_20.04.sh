@@ -350,6 +350,13 @@ function install_databases() {
 ##############################################################################
 function install_webserver() {
   apt-get install -y nginx nginx-full certbot python3-certbot-nginx
+  cat > /etc/nginx/conf.d/gzip.conf << 'EOF'
+gzip on;
+gzip_vary on;
+gzip_proxied any;
+gzip_comp_level 6;
+gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript image/svg+xml;
+EOF
 }
 
 ##############################################################################
