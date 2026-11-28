@@ -459,6 +459,14 @@ const actions = {
         conversationId: message.conversation_id,
         canReply: true,
       });
+      const contactId = message.sender?.id ?? message.sender_id;
+      if (message.inbox_id && contactId) {
+        commit(types.SET_CONTACT_CONVERSATIONS_CAN_REPLY, {
+          inboxId: message.inbox_id,
+          contactId,
+          canReply: true,
+        });
+      }
       commit(types.ADD_CONVERSATION_ATTACHMENTS, message);
       dispatch('autoTranslateMessages', message.conversation_id);
     }

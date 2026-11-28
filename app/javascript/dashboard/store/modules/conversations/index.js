@@ -404,6 +404,19 @@ export const mutations = {
     }
   },
 
+  // The messaging window belongs to the contact on the inbox, so an incoming
+  // message reopens it for every conversation of that contact in the inbox.
+  [types.SET_CONTACT_CONVERSATIONS_CAN_REPLY](
+    _state,
+    { inboxId, contactId, canReply }
+  ) {
+    _state.allConversations.forEach(chat => {
+      if (chat.inbox_id === inboxId && chat.meta?.sender?.id === contactId) {
+        chat.can_reply = canReply;
+      }
+    });
+  },
+
   [types.CLEAR_CONTACT_CONVERSATIONS](_state, contactId) {
     const chats = _state.allConversations.filter(
       c => c.meta.sender.id !== contactId
