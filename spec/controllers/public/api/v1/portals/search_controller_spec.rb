@@ -19,6 +19,16 @@ RSpec.describe 'Public Help Center search', type: :request do
     context "with the #{portal_layout} layout" do
       let(:layout) { portal_layout }
 
+      it 'keeps search result pages out of search engines without a canonical link' do
+        create(:article, account: account, portal: portal, author: author, locale: 'hr', title: 'matchingcase')
+
+        get "/hc/#{portal.slug}/hr/search", params: { query: 'matchingcase', page: 1 }
+
+        expect(response).to have_http_status(:success)
+        expect(response.headers['X-Robots-Tag']).to eq('noindex')
+        expect(Nokogiri::HTML5(response.body).css('head link[rel="canonical"]')).to be_empty
+      end
+
       result_labels.each do |count, expected|
         it "renders the Croatian count for #{count} matching articles" do
           create_list(:article, count, account: account, portal: portal, author: author, locale: 'hr',

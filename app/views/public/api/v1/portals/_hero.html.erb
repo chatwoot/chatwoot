@@ -1,13 +1,5 @@
 <% content_for :head do %>
-  <title><%= @portal.display_title(@locale) %></title>
-  <meta name="title" content="<%= @portal.display_title(@locale) %>">
-
-  <% if @og_image_url.present? %>
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="og:image" content="<%= @og_image_url.html_safe %>">
-    <meta property="og:image" content="<%= @og_image_url.html_safe %>">
-    <meta name="twitter:image" content="<%= @og_image_url.html_safe %>">
-  <% end %>
+  <%= render 'public/api/v1/portals/meta_head', portal: @portal, locale: @locale, og_image_url: @og_image_url %>
 <% end %>
 <section id="portal-bg" class="w-full bg-white dark:bg-slate-900 shadow-inner">
   <div id="portal-bg-gradient" class="pt-8 pb-8 md:pt-14 md:pb-6 min-h-[240px] md:min-h-[260px]">

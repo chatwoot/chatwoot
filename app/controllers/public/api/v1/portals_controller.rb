@@ -11,14 +11,13 @@ class Public::Api::V1::PortalsController < Public::Api::V1::Portals::BaseControl
   layout 'portal'
 
   def show
+    @canonical_url = canonical_url_for(public_portal_locale_path(@portal.slug, @locale))
     @og_image_url = helpers.set_og_image_url('', @portal.localized_value('header_text', @locale))
   end
 
   def sitemap
     @articles = @portal.search_indexable_articles
-    @help_center_url = @portal.custom_domain || ChatwootApp.help_center_root
-    # if help_center_url does not contain a protocol, prepend it with https
-    @help_center_url = "https://#{@help_center_url}" unless @help_center_url.include?('://')
+    @help_center_url = @portal.help_center_url
   end
 
   private

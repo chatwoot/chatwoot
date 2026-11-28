@@ -32,6 +32,39 @@ RSpec.describe 'Public Categories API', type: :request do
       expect(response).to have_http_status(:success)
     end
 
+    describe 'canonical URL' do
+      let(:localized_category) { create(:category, portal: portal, locale: 'es') }
+
+      %w[classic documentation].each do |layout|
+        context "with the #{layout} layout" do
+          before { portal.update!(config: portal.config.merge('layout' => layout)) }
+
+          it 'uses the localized category route without trailing slashes or query strings' do
+            path = "/hc/#{portal.slug}/es/categories/#{localized_category.slug}"
+            get "#{path}/", params: { query: 'canales', page: 2, theme: 'dark', utm_source: 'newsletter', unrelated: 'ignored' }
+
+            expect(response).to have_http_status(:ok)
+            page = Nokogiri::HTML5(response.body)
+            canonical_urls = page.css('head link[rel="canonical"]').map { |link| link['href'] }
+            expect(canonical_urls).to eq(["https://www.example.com#{path}"])
+            content = page.at_css('main').text.squish
+
+            get canonical_urls.first
+
+            expect(response).to have_http_status(:ok)
+            expect(Nokogiri::HTML5(response.body).at_css('main').text.squish).to eq(content)
+          end
+
+          it 'omits canonical links from plain embeds' do
+            get "/hc/#{portal.slug}/es/categories/#{localized_category.slug}", params: { show_plain_layout: true }
+
+            expect(response).to have_http_status(:ok)
+            expect(Nokogiri::HTML5(response.body).css('head link[rel="canonical"]')).to be_empty
+          end
+        end
+      end
+    end
+
     describe 'page metadata' do
       let(:localized_category) do
         create(:category, portal: portal, locale: 'es', name: 'Configuración & canales', description: 'Guía de configuración.')

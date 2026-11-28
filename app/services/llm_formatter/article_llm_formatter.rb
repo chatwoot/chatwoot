@@ -27,8 +27,6 @@ class LlmFormatter::ArticleLlmFormatter
   def public_url
     return unless article.published?
 
-    root = (article.portal.custom_domain || ChatwootApp.help_center_root).to_s
-    root = "https://#{root}" if root.present? && root.exclude?('://')
-    "#{root}/hc/#{article.portal.slug}/articles/#{article.slug}"
+    "#{article.portal.help_center_url}/hc/#{article.portal.slug}/articles/#{article.slug}"
   end
 end

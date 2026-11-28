@@ -1,0 +1,19 @@
+<%# locals: (portal:, locale:, og_image_url: nil) %>
+<% title = portal.display_title(locale) %>
+<% description = portal.localized_value('header_text', locale) %>
+<title><%= title %></title>
+<meta name="title" content="<%= title %>">
+<meta property="og:title" content="<%= title %>">
+<meta name="twitter:title" content="<%= title %>">
+<meta property="og:type" content="website">
+<% if description.present? %>
+  <meta name="description" content="<%= description %>">
+  <meta property="og:description" content="<%= description %>">
+  <meta name="twitter:description" content="<%= description %>">
+<% end %>
+<% if og_image_url.present? %>
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="og:image" content="<%= og_image_url.html_safe %>">
+  <meta property="og:image" content="<%= og_image_url.html_safe %>">
+  <meta name="twitter:image" content="<%= og_image_url.html_safe %>">
+<% end %>

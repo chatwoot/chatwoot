@@ -12,6 +12,20 @@ class Public::Api::V1::Portals::BaseController < PublicController
 
   private
 
+  def canonical_url_for(path)
+    return unless canonical_page?
+
+    "#{@portal.help_center_url}#{path}"
+  end
+
+  def canonical_page?
+    return false if @is_plain_layout_enabled || @is_internal_preview
+    return false if @portal.search_indexing_disabled? || @article&.noindex?
+
+    locale = @article ? @article.public_locale : @locale
+    @portal.public_locale_codes.include?(locale)
+  end
+
   def show_plain_layout
     @is_plain_layout_enabled = params[:show_plain_layout] == 'true'
   end

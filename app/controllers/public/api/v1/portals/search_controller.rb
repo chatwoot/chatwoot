@@ -4,6 +4,7 @@ class Public::Api::V1::Portals::SearchController < Public::Api::V1::Portals::Bas
   before_action :set_portal_layout
   before_action :set_view_variant
   before_action :ensure_portal_feature_enabled
+  after_action :disallow_search_result_indexing
   layout 'portal'
 
   def index
@@ -19,6 +20,11 @@ class Public::Api::V1::Portals::SearchController < Public::Api::V1::Portals::Bas
 
   def search_articles
     @articles = @query.present? ? @articles.search(search_params) : @articles.none
+  end
+
+  # Search result pages repeat article content for arbitrary queries, so keep them out of search engines.
+  def disallow_search_result_indexing
+    response.headers['X-Robots-Tag'] = 'noindex'
   end
 
   def search_params

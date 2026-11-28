@@ -19,6 +19,87 @@ RSpec.describe Public::Api::V1::PortalsController, type: :request do
       expect(response).to redirect_to("/hc/#{portal.slug}/#{portal.default_locale}")
     end
 
+    describe 'canonical URL' do
+      %w[classic documentation].each do |layout|
+        context "with the #{layout} layout" do
+          before do
+            portal.update!(config: portal.config.merge('layout' => layout, 'allowed_locales' => %w[en pt_BR]))
+          end
+
+          it 'uses the custom domain and localized route without trailing slashes or query strings' do
+            get "/hc/#{portal.slug}/pt_BR/", params: { query: 'canais', page: 2, theme: 'dark', utm_source: 'newsletter', unrelated: 'ignored' }
+
+            expect(response).to have_http_status(:ok)
+            page = Nokogiri::HTML5(response.body)
+            canonical_urls = page.css('head link[rel="canonical"]').map { |link| link['href'] }
+            expect(canonical_urls).to eq(["https://www.example.com/hc/#{portal.slug}/pt_BR"])
+            content = page.at_css('main').text.squish
+
+            get canonical_urls.first
+
+            expect(response).to have_http_status(:ok)
+            expect(Nokogiri::HTML5(response.body).at_css('main').text.squish).to eq(content)
+          end
+
+          it 'renders localized social metadata with og:url matching the canonical link' do
+            portal.update!(config: portal.config.merge(
+              'locale_translations' => { 'pt_BR' => { 'page_title' => 'Central de ajuda', 'header_text' => 'Como podemos ajudar?' } }
+            ))
+
+            get "/hc/#{portal.slug}/pt_BR"
+
+            expect(response).to have_http_status(:ok)
+            page_head = Nokogiri::HTML5(response.body).at_css('head')
+            metadata = page_head.css('meta').to_h { |tag| [tag['property'] || tag['name'], tag['content']] }
+            canonical_url = "https://www.example.com/hc/#{portal.slug}/pt_BR"
+            expect(page_head.at_css('title').text).to eq('Central de ajuda')
+            expect(page_head.at_css('link[rel="canonical"]')['href']).to eq(canonical_url)
+            expect(metadata).to include(
+              'og:title' => 'Central de ajuda', 'twitter:title' => 'Central de ajuda', 'og:type' => 'website',
+              'description' => 'Como podemos ajudar?', 'og:description' => 'Como podemos ajudar?',
+              'twitter:description' => 'Como podemos ajudar?', 'og:url' => canonical_url, 'twitter:url' => canonical_url
+            )
+          end
+
+          it 'omits canonical links from plain embeds' do
+            get "/hc/#{portal.slug}/pt_BR", params: { show_plain_layout: true, theme: 'dark' }
+
+            expect(response).to have_http_status(:ok)
+            expect(response.headers['X-Frame-Options']).to be_nil
+            expect(Nokogiri::HTML5(response.body).css('head link[rel="canonical"]')).to be_empty
+          end
+        end
+      end
+
+      it 'uses the configured Help Center URL when there is no custom domain' do
+        portal.update!(custom_domain: nil)
+
+        with_modified_env(HELPCENTER_URL: 'https://www.example.com/') { get "/hc/#{portal.slug}/en" }
+
+        expect(response).to have_http_status(:ok)
+        expect(Nokogiri::HTML5(response.body).at_css('head link[rel="canonical"]')['href']).to eq("https://www.example.com/hc/#{portal.slug}/en")
+      end
+
+      it 'uses the frontend URL when the Help Center URL is unset' do
+        portal.update!(custom_domain: nil)
+
+        with_modified_env(HELPCENTER_URL: nil, FRONTEND_URL: 'https://www.example.com') { get "/hc/#{portal.slug}/en" }
+
+        expect(response).to have_http_status(:ok)
+        expect(Nokogiri::HTML5(response.body).at_css('head link[rel="canonical"]')['href']).to eq("https://www.example.com/hc/#{portal.slug}/en")
+      end
+
+      it 'uses the custom domain when requested through the shared host' do
+        with_modified_env(HELPCENTER_URL: 'https://help.example.test') do
+          host! 'help.example.test'
+          get "/hc/#{portal.slug}/en"
+        end
+
+        expect(response).to have_http_status(:ok)
+        expect(Nokogiri::HTML5(response.body).at_css('head link[rel="canonical"]')['href']).to eq("https://www.example.com/hc/#{portal.slug}/en")
+      end
+    end
+
     it 'shows portal categories with relative author avatars' do
       category = create(:category, portal: portal, account: account, locale: 'en')
       portal.articles.published.first.update!(category: category)
@@ -106,6 +187,7 @@ RSpec.describe Public::Api::V1::PortalsController, type: :request do
       get "/hc/#{portal.slug}/es"
 
       expect(response).to have_http_status(:success)
+      expect(Nokogiri::HTML5(response.body).css('head link[rel="canonical"]')).to be_empty
     end
 
     it 'links the header logo to the current locale' do
@@ -287,6 +369,7 @@ RSpec.describe Public::Api::V1::PortalsController, type: :request do
 
       get "/hc/#{portal.slug}/en"
       expect(response.headers['X-Robots-Tag']).to eq('noindex')
+      expect(Nokogiri::HTML5(response.body).css('head link[rel="canonical"]')).to be_empty
     end
   end
 end

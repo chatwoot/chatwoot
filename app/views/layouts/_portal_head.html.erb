@@ -18,6 +18,12 @@
   <title><%= @portal.display_title(@locale) %></title>
 <% end %>
 
+<% if @canonical_url.present? %>
+  <link rel="canonical" href="<%= @canonical_url %>">
+  <meta property="og:url" content="<%= @canonical_url %>">
+  <meta name="twitter:url" content="<%= @canonical_url %>">
+<% end %>
+
 <% if @portal.logo.present? %>
   <link rel="icon" href="<%= url_for(@portal.logo) %>">
 <% end %>

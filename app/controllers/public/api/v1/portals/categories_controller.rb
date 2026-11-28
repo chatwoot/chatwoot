@@ -16,6 +16,7 @@ class Public::Api::V1::Portals::CategoriesController < Public::Api::V1::Portals:
   end
 
   def show
+    @canonical_url = canonical_url_for(public_portal_category_path(@portal.slug, @category.locale, @category.slug))
     set_locale_switch_urls
     @og_image_url = helpers.set_og_image_url(@portal.name, @category.name)
   end
