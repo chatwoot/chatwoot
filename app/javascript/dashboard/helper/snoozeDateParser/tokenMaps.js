@@ -375,12 +375,13 @@ export const inferHoursFromTOD = (todLabel, rawHour, rawMinutes) => {
   // Try both am and pm interpretations, pick the one in range
   const am = h === 12 ? 0 : h;
   const pm = h === 12 ? 12 : h + 12;
-  const inRange = v => v >= range[0] && v < range[1];
-  if (inRange(am)) return { hours: am, minutes: m };
+  const amCompare = am === 0 ? 24 : am;
+  const inRange = v => v >= range[0] && v <= range[1];
+  if (inRange(amCompare)) return { hours: am, minutes: m };
   if (inRange(pm)) return { hours: pm, minutes: m };
   const mid = (range[0] + range[1]) / 2;
   return {
-    hours: Math.abs(am - mid) <= Math.abs(pm - mid) ? am : pm,
+    hours: Math.abs(amCompare - mid) <= Math.abs(pm - mid) ? am : pm,
     minutes: m,
   };
 };
