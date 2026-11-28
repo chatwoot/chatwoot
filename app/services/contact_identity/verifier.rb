@@ -1,18 +1,21 @@
 class ContactIdentity::Verifier
-  STRATEGIES = [
+  # The token strategy stays out of this list until the callers compare the identifier a token carries.
+  # Today they trust the identifier param, which a token does not cover.
+  DEFAULT_STRATEGIES = [
     ContactIdentity::Strategies::HmacStrategy
   ].freeze
 
-  def initialize(channel:, identifier:, params:)
-    @strategies = STRATEGIES.map do |strategy_class|
+  def initialize(channel:, identifier:, params:, strategies: DEFAULT_STRATEGIES)
+    @strategies = strategies.map do |strategy_class|
       strategy_class.new(channel: channel, identifier: identifier, params: params)
     end
   end
 
   def perform
-    strategy = @strategies.find(&:presented?)
-    return ContactIdentity::Proof.none if strategy.nil?
+    presented_strategies = @strategies.select(&:presented?)
+    return ContactIdentity::Proof.none if presented_strategies.empty?
+    return ContactIdentity::Proof.invalid if presented_strategies.many?
 
-    strategy.verify
+    presented_strategies.first.verify
   end
 end
