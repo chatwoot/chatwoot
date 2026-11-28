@@ -255,4 +255,23 @@ After`;
       expect(formattedMessage).toContain('--</p>');
     });
   });
+
+  describe('Unicode hashtags and non-ASCII mention URIs', () => {
+    it('formats Arabic hashtags on Twitter channels', () => {
+      const formatter = new MessageFormatter('مرحبا #الذكاء_الاصطناعي', true);
+      expect(formatter.formattedMessage).toContain(
+        `https://twitter.com/hashtag/${encodeURIComponent('الذكاء_الاصطناعي')}`
+      );
+      expect(formatter.formattedMessage).toContain('>#الذكاء_الاصطناعي</a>');
+    });
+
+    it('renders mentions with unencoded non-ASCII display names in mention:// URIs', () => {
+      const formatter = new MessageFormatter(
+        '[@محمد](mention://user/1/محمد لبد)'
+      );
+      expect(formatter.formattedMessage).toContain(
+        '<span class="prosemirror-mention-node">@محمد</span>'
+      );
+    });
+  });
 });

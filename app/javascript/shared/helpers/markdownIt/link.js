@@ -29,6 +29,13 @@ const buildMentionTokens = () => (state, silent) => {
   if (pos < max && state.src.charCodeAt(pos) === 0x28 /* ( */) {
     pos += 1;
     res = state.md.helpers.parseLinkDestination(state.src, pos, state.posMax);
+    if (!res.ok && state.src.slice(pos).startsWith('mention://')) {
+      const closeIdx = state.src.indexOf(')', pos);
+      if (closeIdx !== -1 && closeIdx <= state.posMax) {
+        const rawDest = state.src.slice(pos, closeIdx);
+        res = { ok: true, pos: closeIdx, lines: 0, str: encodeURI(rawDest) };
+      }
+    }
     if (res.ok) {
       href = state.md.normalizeLink(res.str);
       if (state.md.validateLink(href)) {

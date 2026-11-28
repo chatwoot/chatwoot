@@ -31,9 +31,9 @@ export default {
       let deltaX = touchX - this.startX;
 
       if (this.direction === 'right') {
-        this.dragDistance = Math.min(this.threshold, deltaX);
+        this.dragDistance = Math.max(0, Math.min(this.threshold, deltaX));
       } else if (this.direction === 'left') {
-        this.dragDistance = Math.max(-this.threshold, deltaX);
+        this.dragDistance = Math.min(0, Math.max(-this.threshold, deltaX));
       }
     },
     resetPosition() {

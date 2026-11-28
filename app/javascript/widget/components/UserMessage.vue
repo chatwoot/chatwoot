@@ -120,7 +120,10 @@ export default {
               @click="toggleReply"
             />
           </div>
-          <DragWrapper direction="left" @dragged="toggleReply">
+          <DragWrapper
+            :direction="$root && $root.isRTL ? 'right' : 'left'"
+            @dragged="toggleReply"
+          >
             <UserMessageBubble
               v-if="showTextBubble"
               :message="message.content"
