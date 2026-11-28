@@ -217,6 +217,7 @@ Rails.application.routes.draw do
                 end
               end
               resource :contact_info_request, only: [:show, :create]
+              resource :location_message, only: [:create]
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
               resource :participants, only: [:show, :create, :update, :destroy]
@@ -424,6 +425,7 @@ Rails.application.routes.draw do
 
           resources :inboxes, only: [] do
             resource :assignment_policy, only: [:show, :create, :destroy], module: :inboxes
+            resource :whatsapp_locations, only: [:update], module: :inboxes
           end
 
           namespace :twitter do

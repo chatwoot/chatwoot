@@ -28,6 +28,7 @@ import BandwidthConfiguration from './settingsPage/BandwidthConfiguration.vue';
 import InboxReconnectionRequired from './components/InboxReconnectionRequired.vue';
 import VoiceConfigurationPage from './settingsPage/VoiceConfigurationPage.vue';
 import WhatsappCallingPage from './settingsPage/WhatsappCallingPage.vue';
+import WhatsappLocationsPage from './settingsPage/WhatsappLocationsPage.vue';
 import CustomerSatisfactionPage from './settingsPage/CustomerSatisfactionPage.vue';
 import CollaboratorsPage from './settingsPage/CollaboratorsPage.vue';
 import BotConfiguration from './components/BotConfiguration.vue';
@@ -67,6 +68,7 @@ export default {
     InboxReconnectionRequired,
     VoiceConfigurationPage,
     WhatsappCallingPage,
+    WhatsappLocationsPage,
     CustomerSatisfactionPage,
     FacebookReauthorize,
     GreetingsEditor,
@@ -310,6 +312,16 @@ export default {
           {
             key: 'calls-configuration',
             name: this.$t('INBOX_MGMT.TABS.CALLS'),
+          },
+        ];
+      }
+
+      if (this.isAWhatsAppCloudChannel) {
+        visibleToAllChannelTabs = [
+          ...visibleToAllChannelTabs,
+          {
+            key: 'whatsapp-locations',
+            name: this.$t('WHATSAPP_LOCATIONS.TAB'),
           },
         ];
       }
@@ -1510,6 +1522,9 @@ export default {
               onTabChange(tabs.findIndex(tab => tab.key === 'business-hours'))
             "
           />
+        </div>
+        <div v-if="selectedTabKey === 'whatsapp-locations'">
+          <WhatsappLocationsPage :inbox="inbox" />
         </div>
         <div v-if="selectedTabKey === 'csat'">
           <CustomerSatisfactionPage :inbox="inbox" />

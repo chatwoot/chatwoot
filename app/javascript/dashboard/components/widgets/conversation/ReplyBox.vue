@@ -25,6 +25,7 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { CMD_AI_ASSIST } from 'dashboard/helper/commandbar/events';
 import { getUndefinedVariablesInMessage } from '@chatwoot/utils';
 import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
+import LocationPicker from 'dashboard/components-next/whatsapp/LocationPicker.vue';
 import ContentTemplates from './ContentTemplates/ContentTemplatesModal.vue';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import { isComposing } from 'shared/helpers/KeyboardHelpers';
@@ -80,6 +81,7 @@ export default {
     ReplyTopPanel,
     ContentTemplates,
     WhatsappTemplates,
+    LocationPicker,
     WootMessageEditor,
     QuotedEmailPreview,
     CopilotEditorSection,
@@ -239,6 +241,13 @@ export default {
     },
     showContentTemplates() {
       return this.isATwilioWhatsAppChannel && !this.isPrivate;
+    },
+    showWhatsappLocation() {
+      return (
+        this.isAWhatsAppCloudChannel &&
+        !this.isPrivate &&
+        !!this.currentChat?.can_reply
+      );
     },
     isWithinMessagingWindow() {
       return !!(
@@ -874,6 +883,9 @@ export default {
     hideWhatsappTemplatesModal() {
       this.showWhatsAppTemplatesModal = false;
       this.requestContactInfoTemplatesOnly = false;
+    },
+    openLocationPicker() {
+      this.$refs.locationPicker.open();
     },
     openContentTemplateModal() {
       this.showContentTemplatesModal = true;
@@ -1563,6 +1575,7 @@ export default {
         :enable-multiple-file-upload="enableMultipleFileUpload"
         :enable-whats-app-templates="showWhatsappTemplates"
         :enable-content-templates="showContentTemplates"
+        :enable-whatsapp-location="showWhatsappLocation"
         :inbox="inbox"
         :is-on-private-note="isOnPrivateNote"
         :is-recording-audio="isRecordingAudio"
@@ -1586,6 +1599,7 @@ export default {
         :new-conversation-modal-active="newConversationModalActive"
         @select-whatsapp-template="openWhatsappTemplateModal"
         @select-content-template="openContentTemplateModal"
+        @select-location="openLocationPicker"
         @toggle-insert-article="toggleInsertArticle"
         @request-contact-info-template="openContactInfoTemplateModal"
       />
@@ -1599,6 +1613,12 @@ export default {
       @close="hideWhatsappTemplatesModal"
       @on-send="onSendWhatsAppReply"
       @cancel="hideWhatsappTemplatesModal"
+    />
+
+    <LocationPicker
+      ref="locationPicker"
+      :conversation-id="conversationId"
+      :locations="inbox.locations"
     />
 
     <ContentTemplates
