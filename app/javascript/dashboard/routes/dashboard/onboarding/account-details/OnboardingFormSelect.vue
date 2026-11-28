@@ -2,6 +2,7 @@
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 defineProps({
+  id: { type: String, default: '' },
   modelValue: { type: String, default: '' },
   options: { type: Array, default: () => [] },
   placeholder: { type: String, default: '' },
@@ -14,6 +15,7 @@ defineEmits(['update:modelValue']);
 <template>
   <div class="relative flex items-center justify-end">
     <select
+      :id="id"
       :value="modelValue"
       class="!h-auto !w-auto !py-0 !ps-0 !pe-[17px] !m-0 !rounded-none !bg-transparent !bg-none !outline-none text-sm text-end border-0 cursor-pointer appearance-none focus:outline-none focus:ring-0"
       :class="[
