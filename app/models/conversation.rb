@@ -213,6 +213,10 @@ class Conversation < ApplicationRecord
     unread_messages.where(account_id: account_id).incoming.last(10)
   end
 
+  def message_summary
+    Conversations::MessageSummary.new(self)
+  end
+
   def cached_label_list_array
     (cached_label_list || '').split(',').map(&:strip)
   end

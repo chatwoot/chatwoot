@@ -173,7 +173,7 @@ class Message < ApplicationRecord
   def conversation_push_event_data
     {
       assignee_id: conversation.assignee_id,
-      unread_count: conversation.unread_incoming_messages.count,
+      unread_count: conversation.message_summary.unread_count,
       last_activity_at: conversation.last_activity_at.to_i,
       last_message_at: conversation.last_message_at&.to_f,
       contact_inbox: { source_id: conversation.contact_inbox.source_id }
