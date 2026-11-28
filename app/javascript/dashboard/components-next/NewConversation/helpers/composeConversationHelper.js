@@ -206,9 +206,12 @@ export const createContactSearcher = () => {
       const camelCasedPayload = camelcaseKeys(payload, { deep: true });
       if (!reachableOnly) return camelCasedPayload || [];
 
-      // Filter contacts that have either phone_number or email
+      // A WhatsApp username means the contact is reachable by its BSUID
       const filteredPayload = camelCasedPayload?.filter(
-        contact => contact.phoneNumber || contact.email
+        contact =>
+          contact.phoneNumber ||
+          contact.email ||
+          contact.additionalAttributes?.socialWhatsappUserName
       );
       return filteredPayload || [];
     } catch (error) {
