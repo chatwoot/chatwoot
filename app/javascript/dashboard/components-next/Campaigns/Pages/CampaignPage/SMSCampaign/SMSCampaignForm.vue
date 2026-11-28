@@ -8,6 +8,7 @@ import { useMapGetter } from 'dashboard/composables/store';
 import Input from 'dashboard/components-next/input/Input.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import { getInboxDisplayName } from 'dashboard/helper/inbox';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import TagMultiSelectComboBox from 'dashboard/components-next/combobox/TagMultiSelectComboBox.vue';
 
@@ -60,8 +61,12 @@ const audienceList = computed(() =>
   mapToOptions(formState.labels.value, 'id', 'title')
 );
 
-const inboxOptions = computed(() =>
-  mapToOptions(formState.inboxes.value, 'id', 'name')
+const inboxOptions = computed(
+  () =>
+    formState.inboxes.value?.map(inbox => ({
+      value: inbox.id,
+      label: getInboxDisplayName(inbox),
+    })) ?? []
 );
 
 const getErrorMessage = (field, errorKey) => {
