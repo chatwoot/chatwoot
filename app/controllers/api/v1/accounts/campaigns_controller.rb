@@ -1,9 +1,11 @@
 class Api::V1::Accounts::CampaignsController < Api::V1::Accounts::BaseController
+  include Api::V1::Accounts::Concerns::InboxTemplatePreloader
   before_action :campaign, except: [:index, :create]
   before_action :check_authorization
 
   def index
-    @campaigns = Current.account.campaigns
+    @campaigns = Current.account.campaigns.includes(inbox: :channel)
+    preload_channel_templates(@campaigns)
   end
 
   def show; end
