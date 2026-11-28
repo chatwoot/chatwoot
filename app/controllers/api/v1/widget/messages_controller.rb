@@ -2,6 +2,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   before_action :prevent_reply_to_resolved_conversation, only: [:create]
   before_action :set_conversation, only: [:create]
   before_action :set_message, only: [:update]
+  before_action :prevent_expired_csat_survey_update, only: [:update]
 
   def index
     @messages = conversation.nil? ? [] : message_finder.perform
@@ -51,6 +52,13 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     return if inbox.allow_messages_after_resolved
 
     render json: { error: I18n.t('errors.conversations.resolved') }, status: :forbidden
+  end
+
+  def prevent_expired_csat_survey_update
+    return unless @message.csat_survey_expired?
+
+    error = I18n.t('errors.csat_survey.expired', days: Message::CSAT_SURVEY_RESPONSE_WINDOW_DAYS)
+    render json: { error: error, error_code: 'csat_survey_expired' }, status: :unprocessable_entity
   end
 
   def set_conversation

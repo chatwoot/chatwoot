@@ -2,6 +2,7 @@ import { API } from 'widget/helpers/axios';
 import { actions } from '../../message';
 
 const commit = vi.fn();
+const dispatch = vi.fn();
 vi.mock('widget/helpers/axios');
 
 describe('#actions', () => {
@@ -20,6 +21,7 @@ describe('#actions', () => {
       await actions.update(
         {
           commit,
+          dispatch,
           getters: {
             getUIFlags: {
               isUpdating: false,
@@ -43,6 +45,32 @@ describe('#actions', () => {
         ],
         ['toggleUpdateStatus', false],
       ]);
+    });
+
+    it('rethrows API errors and resets the updating flag', async () => {
+      const error = { response: { status: 422 } };
+      API.patch.mockRejectedValue(error);
+      commit.mockClear();
+
+      await expect(
+        actions.update(
+          {
+            commit,
+            getters: {
+              getUIFlags: {
+                isUpdating: false,
+              },
+            },
+          },
+          { messageId: 10, submittedValues: { csat_survey_response: {} } }
+        )
+      ).rejects.toBe(error);
+
+      expect(commit.mock.calls).toEqual([
+        ['toggleUpdateStatus', true],
+        ['toggleUpdateStatus', false],
+      ]);
+      commit.mockClear();
     });
 
     it('blocks all new action calls when isUpdating', async () => {

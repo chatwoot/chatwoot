@@ -948,4 +948,29 @@ RSpec.describe Message do
       end
     end
   end
+
+  describe '#csat_survey_expired?' do
+    let(:sent_at) { Time.zone.local(2026, 11, 1, 23, 0, 0) }
+    let(:csat_message) { create(:message, content_type: 'input_csat', created_at: sent_at) }
+
+    it 'is false through the 14th calendar day after the survey was sent' do
+      travel_to(sent_at.to_date + 14.days + 23.hours) do
+        expect(csat_message.csat_survey_expired?).to be(false)
+      end
+    end
+
+    it 'is true from the 15th calendar day after the survey was sent' do
+      travel_to(sent_at.to_date + 15.days) do
+        expect(csat_message.csat_survey_expired?).to be(true)
+      end
+    end
+
+    it 'is false for messages that are not CSAT surveys' do
+      text_message = create(:message, content_type: 'text', created_at: sent_at)
+
+      travel_to(sent_at + 30.days) do
+        expect(text_message.csat_survey_expired?).to be(false)
+      end
+    end
+  end
 end

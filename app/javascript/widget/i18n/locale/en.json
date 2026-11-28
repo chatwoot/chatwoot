@@ -117,6 +117,7 @@
   "CSAT": {
     "TITLE": "Rate your conversation",
     "SUBMITTED_TITLE": "Thank you for submitting the rating",
+    "EXPIRED_TITLE": "This survey has expired and is no longer accepting ratings",
     "PLACEHOLDER": "Tell us more..."
   },
   "EMAIL_TRANSCRIPT": {
