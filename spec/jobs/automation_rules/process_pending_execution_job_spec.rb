@@ -188,6 +188,27 @@ RSpec.describe AutomationRules::ProcessPendingExecutionJob do
     expect(conversation.messages.outgoing.where(content: 'Just checking in').count).to eq(1)
   end
 
+  it 'sends the delayed webhook with the message that armed the row, not a newer one created while it waited' do
+    webhook_rule = create(:automation_rule, account: account, event_name: 'message_created', execution_delay: 60,
+                                            conditions: [{ 'values' => ['outgoing'], 'attribute_key' => 'message_type',
+                                                           'query_operator' => nil, 'filter_operator' => 'equal_to' }],
+                                            actions: [{ 'action_name' => 'send_webhook_event', 'action_params' => ['https://example.com'] }])
+    arming_message = create(:message, conversation: conversation, account: account, message_type: :outgoing, content: 'arming reply')
+    AutomationRulePendingExecution.schedule(rule: webhook_rule, conversation: conversation, message: arming_message)
+    row = AutomationRulePendingExecution.last.tap { |r| r.update!(due_at: 1.minute.ago) }
+
+    # A later outgoing reply lands during the 60-minute delay, before the sweep picks this row up.
+    create(:message, conversation: conversation, account: account, message_type: :outgoing, content: 'later reply')
+
+    payload = nil
+    allow(WebhookJob).to receive(:perform_later) { |_url, sent_payload| payload = sent_payload }
+
+    job.perform(row.reload)
+
+    expect(row.reload).to be_executed
+    expect(payload[:messages].first[:id]).to eq(arming_message.id)
+  end
+
   it 'cancels the follow-up when the customer replied before the arming job ran' do
     agent_reply
     create(:message, conversation: conversation, account: account, message_type: :incoming)
