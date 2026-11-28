@@ -1,24 +1,26 @@
 class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
+  class PageTokenMismatch < StandardError; end
+
   before_action :check_admin_authorization?
   before_action :inbox, only: [:reauthorize_page]
 
   def register_facebook_page
-    user_access_token = params[:user_access_token]
     page_access_token = params[:page_access_token]
     page_id = params[:page_id]
-    inbox_name = params[:inbox_name]
 
     ActiveRecord::Base.transaction do
-      facebook_channel = Current.account.facebook_pages.create!(
-        page_id: page_id, user_access_token: user_access_token,
-        page_access_token: page_access_token
-      )
-      @facebook_inbox = Current.account.inboxes.create!(name: inbox_name, channel: facebook_channel)
+      facebook_channel = create_facebook_inbox
+      raise PageTokenMismatch unless page_token_for_page?(page_access_token, page_id)
+
       sync_page_details(page_access_token, facebook_channel)
       set_avatar(@facebook_inbox, page_id)
     end
   rescue CustomExceptions::Inbox::LimitExceeded => e
     render_error_response(e)
+  rescue PageTokenMismatch
+    render_could_not_create_error('Page access token does not belong to the page')
+  rescue Koala::Facebook::ServerError, Faraday::Error
+    render json: { error: 'Could not reach Facebook. Please try again.' }, status: :service_unavailable
   rescue StandardError => e
     ChatwootExceptionTracker.new(e).capture_exception
     Rails.logger.error "Error in register_facebook_page: #{e.message}"
@@ -73,6 +75,25 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
       ChatwootExceptionTracker.new(e).capture_exception
       Rails.logger.error "Error in update_fb_page: #{e.message}"
     end
+  end
+
+  def create_facebook_inbox
+    facebook_channel = Current.account.facebook_pages.create!(
+      page_id: params[:page_id], user_access_token: params[:user_access_token],
+      page_access_token: params[:page_access_token]
+    )
+    @facebook_inbox = Current.account.inboxes.create!(name: params[:inbox_name], channel: facebook_channel)
+    facebook_channel
+  end
+
+  def page_token_for_page?(page_access_token, page_id)
+    return false if page_access_token.blank? || page_id.blank?
+
+    Koala::Facebook::API.new(page_access_token).get_object('me', { fields: 'id' })&.dig('id') == page_id.to_s
+  rescue Koala::Facebook::ServerError
+    raise
+  rescue Koala::Facebook::APIError
+    false
   end
 
   def get_fb_page(fb_page_id)

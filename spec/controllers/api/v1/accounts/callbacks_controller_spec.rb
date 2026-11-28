@@ -16,6 +16,7 @@ RSpec.describe 'Callbacks API', type: :request do
     ).and_return(
       { 'name' => 'Acme Support', 'instagram_business_account' => { 'id' => 'instagram-business-id' } }
     )
+    allow(koala_api).to receive(:get_object).with('me', { fields: 'id' }).and_return({ 'id' => valid_params[:page_id] })
     allow(koala_oauth).to receive(:exchange_access_token_info).and_return('access_token' => SecureRandom.hex(10))
   end
 
@@ -66,6 +67,7 @@ RSpec.describe 'Callbacks API', type: :request do
         expect(channel.provider_name).to eq('Acme Support')
         expect(channel.instagram_id).to eq('instagram-business-id')
         expect(channel.inbox.name).to eq('Test Inbox')
+        expect(koala_api).to have_received(:get_object).with('me', { fields: 'id' })
       end
 
       it 'registers a new facebook page with avatar' do
@@ -80,6 +82,50 @@ RSpec.describe 'Callbacks API', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
+      end
+
+      it 'does not register the page when the page access token belongs to a different page' do
+        allow(koala_api).to receive(:get_object).with('me', { fields: 'id' }).and_return({ 'id' => 'another-page-id' })
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/callbacks/register_facebook_page",
+               headers: admin.create_new_auth_token,
+               params: valid_params,
+               as: :json
+        end.not_to change(Channel::FacebookPage, :count)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(account.inboxes.find_by(name: 'Test Inbox')).to be_nil
+      end
+
+      it 'does not register the page when the page access token is invalid' do
+        allow(koala_api).to receive(:get_object).with('me', { fields: 'id' })
+                                                .and_raise(Koala::Facebook::AuthenticationError.new(400, 'Invalid OAuth access token'))
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/callbacks/register_facebook_page",
+               headers: admin.create_new_auth_token,
+               params: valid_params,
+               as: :json
+        end.not_to change(Channel::FacebookPage, :count)
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(account.inboxes.find_by(name: 'Test Inbox')).to be_nil
+      end
+
+      it 'returns service unavailable without registering the page when Facebook is down' do
+        allow(koala_api).to receive(:get_object).with('me', { fields: 'id' })
+                                                .and_raise(Koala::Facebook::ServerError.new(503, 'Service Unavailable'))
+
+        expect do
+          post "/api/v1/accounts/#{account.id}/callbacks/register_facebook_page",
+               headers: admin.create_new_auth_token,
+               params: valid_params,
+               as: :json
+        end.not_to change(Channel::FacebookPage, :count)
+
+        expect(response).to have_http_status(:service_unavailable)
+        expect(account.inboxes.find_by(name: 'Test Inbox')).to be_nil
       end
 
       it 'registers a new facebook page with avatar on redirect' do
