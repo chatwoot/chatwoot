@@ -43,9 +43,10 @@ const runSDK = ({ baseUrl, websiteToken }) => {
   }
 
   // if this is an astro app
-  document.addEventListener('astro:before-swap', event =>
-    restoreWidgetInDOM(event.newDocument.body)
-  );
+  document.addEventListener('astro:before-swap', event => {
+    IFrameHelper.events.resetTransientView();
+    restoreWidgetInDOM(event.newDocument.body);
+  });
 
   const chatwootSettings = window.chatwootSettings || {};
   let locale = chatwootSettings.locale;
