@@ -42,6 +42,7 @@ class ConversationOutcome < ApplicationRecord
     unsupported_request
     policy_restriction
     tool_failure
+    generation_failure
     pending_clarification
     usage_limit
   ].freeze

@@ -61,6 +61,7 @@ const REASON_LABELS = {
   unsupported_request: 'UNSUPPORTED_REQUEST',
   policy_restriction: 'POLICY_RESTRICTION',
   tool_failure: 'TOOL_FAILURE',
+  generation_failure: 'GENERATION_FAILURE',
   pending_clarification: 'PENDING_CLARIFICATION',
   usage_limit: 'USAGE_LIMIT',
   unclassified: 'UNCLASSIFIED',
