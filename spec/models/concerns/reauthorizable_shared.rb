@@ -12,6 +12,14 @@ shared_examples_for 'reauthorizable' do
     expect(obj.authorization_error_count).to eq 1
   end
 
+  # Some includers lock on the first error (threshold 1), so the flag may already be set; only reauthorized! clears it.
+  it 'reset_authorization_errors! clears the count and leaves the reauthorization flag alone' do
+    obj.authorization_error!
+
+    expect { obj.reset_authorization_errors! }.not_to change(obj, :reauthorization_required?)
+    expect(obj.authorization_error_count).to eq 0
+  end
+
   it 'prompts reauthorization when error threshold is passed' do
     expect(obj.reauthorization_required?).to be false
 
