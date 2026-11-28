@@ -4,8 +4,8 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
 
     if message.attachments.present?
       send_attachment_message(phone_number, message)
-    elsif message.content_type == 'input_select'
-      send_interactive_text_message(phone_number, message)
+    elsif message.content_type == 'input_select' || cta_url_message?(message)
+      send_interactive_message(phone_number, message)
     else
       send_text_message(phone_number, message)
     end
@@ -240,16 +240,15 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     }
   end
 
-  def send_interactive_text_message(phone_number, message)
-    payload = create_payload_based_on_items(message)
-
+  def send_interactive_message(phone_number, message)
     response = HTTParty.post(
-      "#{phone_id_path}/messages",
+      "#{phone_id_path(cta_url_message?(message) ? 'v24.0' : 'v13.0')}/messages",
       headers: api_headers,
       body: {
         messaging_product: 'whatsapp',
+        context: whatsapp_reply_context(message),
         **recipient_params(phone_number),
-        interactive: payload,
+        interactive: create_interactive_payload(message),
         type: 'interactive'
       }.to_json
     )
