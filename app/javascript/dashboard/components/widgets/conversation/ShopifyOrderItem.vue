@@ -39,7 +39,8 @@ const fulfillmentStatus = computed(() => {
   if (!status) {
     return '';
   }
-  return t(getStatusI18nKey('FULFILLMENT', status));
+  const labelStatus = status === 'partial' ? 'partially_fulfilled' : status;
+  return t(getStatusI18nKey('FULFILLMENT', labelStatus));
 });
 
 const financialStatus = computed(() => {

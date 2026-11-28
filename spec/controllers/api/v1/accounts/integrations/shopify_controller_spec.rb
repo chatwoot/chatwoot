@@ -22,109 +22,128 @@ RSpec.describe 'Shopify Integration API', type: :request do
   end
 
   describe 'GET /api/v1/accounts/:account_id/integrations/shopify/orders' do
-    before do
-      create(:integrations_hook, :shopify, account: account)
-    end
+    let!(:hook) { create(:integrations_hook, :shopify, account: account) }
+    let(:graphql_url) { "https://#{hook.reference_id}/admin/api/#{Shopify::ApiContext::API_VERSION}/graphql.json" }
+    let(:orders_path) { "/api/v1/accounts/#{account.id}/integrations/shopify/orders" }
 
     context 'when it is an authenticated user' do
-      # rubocop:disable RSpec/AnyInstance
-      let(:shopify_client) { instance_double(ShopifyAPI::Clients::Rest::Admin) }
-
-      let(:customers_response) do
-        instance_double(
-          ShopifyAPIResponse,
-          body: { 'customers' => [{ 'id' => '123' }] }
-        )
+      let(:customer_query) { 'email:"test@example.com" OR phone:"+1234567890"' }
+      let(:order_node) do
+        {
+          legacyResourceId: '456',
+          email: 'test@example.com',
+          createdAt: '2026-11-01T12:00:00Z',
+          displayFulfillmentStatus: 'PARTIALLY_FULFILLED',
+          displayFinancialStatus: 'PARTIALLY_PAID',
+          totalPriceSet: { shopMoney: { amount: '100.00', currencyCode: 'CAD' } }
+        }
       end
-
-      let(:orders_response) do
-        instance_double(
-          ShopifyAPIResponse,
-          body: {
-            'orders' => [{
-              'id' => '456',
-              'email' => 'test@example.com',
-              'created_at' => Time.now.iso8601,
-              'total_price' => '100.00',
-              'currency' => 'USD',
-              'fulfillment_status' => 'fulfilled',
-              'financial_status' => 'paid'
-            }]
-          }
-        )
-      end
+      let(:customers) { [{ orders: { nodes: [order_node] } }] }
+      let(:graphql_response) { { data: { customers: { nodes: customers } } } }
+      let(:provider_status) { 200 }
 
       before do
-        allow_any_instance_of(Api::V1::Accounts::Integrations::ShopifyController).to receive(:shopify_client).and_return(shopify_client)
-
-        allow(shopify_client).to receive(:get).with(
-          path: 'customers/search.json',
-          query: { query: "email:#{contact.email} OR phone:#{contact.phone_number}", fields: 'id,email,phone' }
-        ).and_return(customers_response)
-
-        allow(shopify_client).to receive(:get).with(
-          path: 'orders.json',
-          query: { customer_id: '123', status: 'any', fields: 'id,email,created_at,total_price,currency,fulfillment_status,financial_status' }
-        ).and_return(orders_response)
+        allow(Shopify::ApiContext).to receive(:setup!).and_call_original
+        allow(GlobalConfigService).to receive(:load).and_call_original
+        allow(GlobalConfigService).to receive(:load).with('SHOPIFY_CLIENT_ID', nil).and_return('public-client')
+        allow(GlobalConfigService).to receive(:load).with('SHOPIFY_CLIENT_SECRET', nil).and_return('public-secret')
+        stub_request(:post, graphql_url)
+          .with(headers: { 'X-Shopify-Access-Token' => hook.access_token },
+                body: { query: Shopify::OrderLookup::QUERY, variables: { customerQuery: customer_query, orderLimit: 50 } })
+          .to_return(status: provider_status, body: graphql_response.to_json, headers: { 'Content-Type' => 'application/json' })
       end
 
-      it 'returns orders for the contact' do
-        get "/api/v1/accounts/#{account.id}/integrations/shopify/orders",
-            params: { contact_id: contact.id },
-            headers: agent.create_new_auth_token,
-            as: :json
+      it 'returns the existing sidebar response fields' do
+        get orders_path, params: { contact_id: contact.id }, headers: agent.create_new_auth_token, as: :json
 
         expect(response).to have_http_status(:ok)
-        expect(response.parsed_body).to have_key('orders')
-        expect(response.parsed_body['orders'].length).to eq(1)
-        expect(response.parsed_body['orders'][0]['id']).to eq('456')
-        expect(Shopify::ApiContext).to have_received(:setup!)
+        expect(response.parsed_body.fetch('orders').sole).to eq(
+          'id' => 456,
+          'email' => 'test@example.com',
+          'created_at' => '2026-11-01T12:00:00Z',
+          'total_price' => '100.00',
+          'currency' => 'CAD',
+          'fulfillment_status' => 'partial',
+          'financial_status' => 'partially_paid',
+          'admin_url' => "https://#{hook.reference_id}/admin/orders/456"
+        )
       end
 
-      it 'returns error when contact has no email or phone' do
+      it 'returns an error when contact has no email or phone' do
         contact_without_info = create(:contact, account: account)
 
-        get "/api/v1/accounts/#{account.id}/integrations/shopify/orders",
-            params: { contact_id: contact_without_info.id },
-            headers: agent.create_new_auth_token,
-            as: :json
+        get orders_path, params: { contact_id: contact_without_info.id }, headers: agent.create_new_auth_token, as: :json
 
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.parsed_body['error']).to eq('Contact information missing')
-      end
-
-      it 'returns empty array when no customers found' do
-        empty_customers_response = instance_double(
-          ShopifyAPIResponse,
-          body: { 'customers' => [] }
-        )
-
-        allow(shopify_client).to receive(:get).with(
-          path: 'customers/search.json',
-          query: { query: "email:#{contact.email} OR phone:#{contact.phone_number}", fields: 'id,email,phone' }
-        ).and_return(empty_customers_response)
-
-        get "/api/v1/accounts/#{account.id}/integrations/shopify/orders",
-            params: { contact_id: contact.id },
-            headers: agent.create_new_auth_token,
-            as: :json
-
-        expect(response).to have_http_status(:ok)
-        expect(response.parsed_body['orders']).to eq([])
+        expect(WebMock).not_to have_requested(:post, graphql_url)
       end
 
       it 'rejects a disabled retained hook before calling Shopify' do
-        account.hooks.find_by!(app_id: 'shopify').update!(status: :disabled, access_token: nil)
+        hook.update!(status: :disabled, access_token: nil)
 
-        get "/api/v1/accounts/#{account.id}/integrations/shopify/orders",
-            params: { contact_id: contact.id },
-            headers: agent.create_new_auth_token,
-            as: :json
+        get orders_path, params: { contact_id: contact.id }, headers: agent.create_new_auth_token, as: :json
 
         expect(response).to have_http_status(:not_found)
-        expect(shopify_client).not_to have_received(:get)
+        expect(WebMock).not_to have_requested(:post, graphql_url)
       end
-      # rubocop:enable RSpec/AnyInstance
+
+      context 'with only a phone number' do
+        let(:contact) { create(:contact, account: account, email: nil, phone_number: '+1234567890') }
+        let(:customer_query) { 'phone:"+1234567890"' }
+
+        it 'finds the customer by phone' do
+          get orders_path, params: { contact_id: contact.id }, headers: agent.create_new_auth_token, as: :json
+
+          expect(response).to have_http_status(:ok)
+          expect(response.parsed_body.fetch('orders').pluck('id')).to eq([456])
+        end
+      end
+
+      context 'when no customer matches' do
+        let(:customers) { [] }
+
+        it 'returns no orders' do
+          get orders_path, params: { contact_id: contact.id }, headers: agent.create_new_auth_token, as: :json
+
+          expect(response).to have_http_status(:ok)
+          expect(response.parsed_body.fetch('orders')).to eq([])
+        end
+      end
+
+      context 'when the matched customer has no orders' do
+        let(:customers) { [{ orders: { nodes: [] } }] }
+
+        it 'returns no orders' do
+          get orders_path, params: { contact_id: contact.id }, headers: agent.create_new_auth_token, as: :json
+
+          expect(response).to have_http_status(:ok)
+          expect(response.parsed_body.fetch('orders')).to eq([])
+        end
+      end
+
+      context 'when Shopify returns GraphQL errors with HTTP 200' do
+        let(:graphql_response) { { errors: [{ message: 'Access denied for orders field' }], data: nil } }
+
+        it 'returns an error for the sidebar' do
+          get orders_path, params: { contact_id: contact.id }, headers: agent.create_new_auth_token, as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body.fetch('error')).to eq('Shopify could not load orders')
+        end
+      end
+
+      context 'when Shopify rejects the access token' do
+        let(:provider_status) { 401 }
+        let(:graphql_response) { { errors: 'Invalid API key or access token' } }
+
+        it 'returns an error for the sidebar' do
+          get orders_path, params: { contact_id: contact.id }, headers: agent.create_new_auth_token, as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(response.parsed_body.fetch('error')).to include('Invalid API key or access token')
+        end
+      end
     end
 
     context 'when it is an unauthenticated user' do
