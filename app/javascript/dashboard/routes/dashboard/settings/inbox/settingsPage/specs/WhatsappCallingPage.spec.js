@@ -2,6 +2,7 @@ import { mount, flushPromises } from '@vue/test-utils';
 import WhatsappCallingPage from '../WhatsappCallingPage.vue';
 import CallBusinessHours from '../calls/CallBusinessHours.vue';
 import CallSettingsOption from '../calls/CallSettingsOption.vue';
+import SettingsToggleSection from 'dashboard/components-next/Settings/SettingsToggleSection.vue';
 import InboxesAPI from 'dashboard/api/inboxes';
 
 const { dispatch, alert } = vi.hoisted(() => ({
@@ -60,7 +61,11 @@ const mountPage = (overrides = {}) =>
   });
 
 const saveButton = wrapper => wrapper.findAll('button').at(-1);
-const businessHoursSwitch = wrapper => wrapper.find('button[role="switch"]');
+const callingKey = key => `INBOX_MGMT.CALL_SETTINGS.CALLING.${key}`;
+const callingSwitch = wrapper =>
+  wrapper.get(`button[role="switch"][aria-label="${callingKey('WHATSAPP')}"]`);
+const businessHoursSwitch = wrapper =>
+  wrapper.getComponent(CallBusinessHours).get('button[role="switch"]');
 const outOfHoursKey = key => `INBOX_MGMT.CALL_SETTINGS.OUT_OF_HOURS.${key}`;
 
 describe('WhatsappCallingPage', () => {
@@ -237,7 +242,7 @@ describe('WhatsappCallingPage', () => {
     dispatch.mockRejectedValue(new Error('offline'));
     const wrapper = mountPage();
 
-    await wrapper.findAll('button').at(0).trigger('click');
+    await callingSwitch(wrapper).trigger('click');
     await flushPromises();
 
     expect(alert).toHaveBeenCalledWith('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE');
@@ -309,7 +314,7 @@ describe('WhatsappCallingPage', () => {
 
   it('turns WhatsApp calling off straight away', async () => {
     const wrapper = mountPage();
-    await wrapper.findAll('button').at(0).trigger('click');
+    await callingSwitch(wrapper).trigger('click');
     await flushPromises();
 
     expect(InboxesAPI.disableWhatsappCalling).toHaveBeenCalledWith(52);
@@ -321,17 +326,51 @@ describe('WhatsappCallingPage', () => {
     });
     const wrapper = mountPage({ provider_config: { calling_enabled: false } });
 
-    await wrapper.find('input[type="checkbox"]').setValue(true);
+    await callingSwitch(wrapper).trigger('click');
     await flushPromises();
 
     expect(alert).toHaveBeenCalledWith('Invalid timezone_id');
+    expect(callingSwitch(wrapper).attributes('aria-checked')).toBe('false');
   });
 
-  it('only offers to turn calling on while it is off', () => {
+  it('keeps the same calling switch when enabled and reveals the incoming-call option', async () => {
     const wrapper = mountPage({ provider_config: { calling_enabled: false } });
+    const callingCard = wrapper.getComponent(SettingsToggleSection);
+    const toggle = callingSwitch(wrapper);
+    const incomingLabel = callingKey('WHATSAPP_ACCEPT_INCOMING');
 
-    expect(wrapper.findAll('input[type="checkbox"]')).toHaveLength(1);
-    expect(wrapper.findAll('button')).toHaveLength(0);
+    expect(toggle.attributes('aria-checked')).toBe('false');
+    expect(callingCard.find('input[type="checkbox"]').exists()).toBe(false);
+
+    await toggle.trigger('click');
+    await flushPromises();
+
+    expect(InboxesAPI.enableWhatsappCalling).toHaveBeenCalledWith(52);
+    expect(callingSwitch(wrapper).element).toBe(toggle.element);
+    expect(toggle.attributes('aria-checked')).toBe('true');
+    expect(callingCard.text()).toContain(incomingLabel);
+    expect(callingCard.find('#call-routing-sequential-52').exists()).toBe(
+      false
+    );
+    expect(wrapper.text()).not.toContain(callingKey('META_ON'));
+  });
+
+  it('saves the incoming-call preference independently of the main calling switch', async () => {
+    const wrapper = mountPage();
+    const incoming = wrapper
+      .findAllComponents(CallSettingsOption)
+      .find(
+        option =>
+          option.props('label') === callingKey('WHATSAPP_ACCEPT_INCOMING')
+      );
+
+    await incoming.get('input').setValue(false);
+    await saveButton(wrapper).trigger('click');
+    await flushPromises();
+
+    expect(InboxesAPI.setInboundCalls).toHaveBeenCalledWith(52, false);
+    expect(InboxesAPI.disableWhatsappCalling).not.toHaveBeenCalled();
+    expect(callingSwitch(wrapper).attributes('aria-checked')).toBe('true');
   });
 
   describe('when WhatsApp may have other hours', () => {

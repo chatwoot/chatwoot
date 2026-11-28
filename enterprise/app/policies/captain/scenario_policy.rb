@@ -15,6 +15,10 @@ class Captain::ScenarioPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
+  def tool_suggestions?
+    @account_user.administrator?
+  end
+
   def destroy?
     @account_user.administrator?
   end

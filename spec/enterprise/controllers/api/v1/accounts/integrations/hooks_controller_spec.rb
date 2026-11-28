@@ -9,7 +9,7 @@ RSpec.describe 'Integration Hooks API with Captain', type: :request do
     create(:captain_inbox, inbox: foreign_inbox, captain_assistant: assistant)
     headers = admin.create_new_auth_token
     path = api_v1_account_integrations_hooks_url(account_id: account.id)
-    hook_params = { app_id: 'dialogflow', settings: { project_id: 'test', credentials: {} } }
+    hook_params = { app_id: 'dialogflow', settings: attributes_for(:integrations_hook, :dialogflow).fetch(:settings) }
 
     get api_v1_account_inbox_url(account_id: account.id, id: foreign_inbox.id), headers: headers, as: :json
     expect(response).to have_http_status(:not_found)

@@ -54,18 +54,6 @@ describe Integrations::Dialogflow::ProcessorService do
       end
     end
 
-    context 'when dilogflow settings are not present' do
-      it 'will get empty response' do
-        last_count = conversation.reload.messages.count
-        allow(processor).to receive(:get_response).and_return({})
-        hook.settings = { 'project_id' => 'something_invalid', 'credentials' => {} }
-        hook.save!
-        processor.perform
-
-        expect(conversation.reload.messages.count).to eql(last_count)
-      end
-    end
-
     context 'when dialogflow returns fullfillment text to be empty' do
       let(:dialogflow_response) do
         ActiveSupport::HashWithIndifferentAccess.new(
@@ -157,7 +145,6 @@ describe Integrations::Dialogflow::ProcessorService do
     let(:processor) { described_class.new(event_name: event_name, hook: hook, event_data: event_data) }
 
     before do
-      hook.update(settings: { 'project_id' => 'test', 'credentials' => 'creds' })
       allow(google_dialogflow).to receive(:new).and_return(session_client)
       allow(session_client).to receive(:detect_intent).and_return({ session: session, query_input: query_input })
     end
@@ -174,36 +161,63 @@ describe Integrations::Dialogflow::ProcessorService do
       expect { processor.send(:get_response, conversation.contact_inbox.source_id, message.content) }
         .to change(hook, :status).from('enabled').to('disabled')
     end
+
+    it 'skips an existing file-backed credential configuration before constructing a client' do
+      credentials = { 'type' => 'external_account', 'credential_source' => { 'file' => 'unsupported' } }
+      hook.update_columns(settings: hook.settings.merge('credentials' => credentials)) # rubocop:disable Rails/SkipsModelValidations
+
+      expect(processor.send(:get_response, 'test-session', 'Hello')).to be_nil
+      expect(google_dialogflow).not_to have_received(:new)
+    end
+
+    it 'skips an existing configuration with a non-Google token URL' do
+      credentials = hook.settings.fetch('credentials').merge('token_uri' => 'https://example.test/token')
+      hook.update_columns(settings: hook.settings.merge('credentials' => credentials)) # rubocop:disable Rails/SkipsModelValidations
+
+      expect(processor.send(:get_response, 'test-session', 'Hello')).to be_nil
+      expect(google_dialogflow).not_to have_received(:new)
+    end
+
+    it 'skips an existing configuration with an unsupported region' do
+      hook.update_columns(settings: hook.settings.merge('region' => 'invalid-region')) # rubocop:disable Rails/SkipsModelValidations
+
+      expect(processor.send(:get_response, 'test-session', 'Hello')).to be_nil
+      expect(google_dialogflow).not_to have_received(:new)
+    end
   end
 
   describe 'region configuration' do
     let(:processor) { described_class.new(event_name: event_name, hook: hook, event_data: event_data) }
 
     context 'when region is global or not specified' do
-      it 'uses global endpoint and session path' do
-        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {} })
+      it 'uses the global session path' do
+        hook.update!(settings: hook.settings.except('region').merge('project_id' => 'test-project'))
 
-        expect(processor.send(:dialogflow_endpoint)).to eq('dialogflow.googleapis.com')
         expect(processor.send(:build_session_path, 'test-session')).to eq('projects/test-project/agent/sessions/test-session')
       end
     end
 
     context 'when region is specified' do
-      it 'uses regional endpoint and session path' do
-        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'region' => 'europe-west1' })
+      it 'uses the regional session path' do
+        hook.update!(settings: hook.settings.merge('project_id' => 'test-project', 'region' => 'europe-west1'))
 
-        expect(processor.send(:dialogflow_endpoint)).to eq('europe-west1-dialogflow.googleapis.com')
         expect(processor.send(:build_session_path, 'test-session')).to eq('projects/test-project/locations/europe-west1/agent/sessions/test-session')
       end
     end
 
-    it 'configures client with correct endpoint' do
-      hook.update(settings: { 'project_id' => 'test', 'credentials' => {}, 'region' => 'europe-west1' })
+    it 'configures each client with the regional endpoint and only the SDK key fields' do
+      key = hook.settings.fetch('credentials')
+      credentials = key.merge('token_uri' => 'https://oauth2.googleapis.com/token')
+      hook.update!(settings: hook.settings.merge('credentials' => credentials, 'region' => 'europe-west1'))
+      client_class = Google::Cloud::Dialogflow::V2::Sessions::Client
+      client = instance_double(client_class, detect_intent: nil)
       config = OpenStruct.new
-      expect(Google::Cloud::Dialogflow::V2::Sessions::Client).to receive(:configure).and_yield(config)
+      allow(client_class).to receive(:new).and_yield(config).and_return(client)
 
-      processor.send(:configure_dialogflow_client_defaults)
+      processor.send(:get_response, 'test-session', 'Hello')
       expect(config.endpoint).to eq('europe-west1-dialogflow.googleapis.com')
+      expect(config.credentials).to eq(key)
+      expect(config.timeout).to eq(10.0)
     end
 
     context 'when calling detect_intent' do
@@ -214,25 +228,25 @@ describe Integrations::Dialogflow::ProcessorService do
       end
 
       it 'uses global session path when region is not specified' do
-        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {} })
+        hook.update!(settings: hook.settings.except('region').merge('project_id' => 'test-project'))
 
         expect(mock_client).to receive(:detect_intent).with(
           session: 'projects/test-project/agent/sessions/test-session',
           query_input: { text: { text: 'Hello', language_code: 'en-US' } }
         )
 
-        processor.send(:detect_intent, 'test-session', 'Hello')
+        processor.send(:get_response, 'test-session', 'Hello')
       end
 
       it 'uses regional session path when region is specified' do
-        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'region' => 'europe-west1' })
+        hook.update!(settings: hook.settings.merge('project_id' => 'test-project', 'region' => 'europe-west1'))
 
         expect(mock_client).to receive(:detect_intent).with(
           session: 'projects/test-project/locations/europe-west1/agent/sessions/test-session',
           query_input: { text: { text: 'Hello', language_code: 'en-US' } }
         )
 
-        processor.send(:detect_intent, 'test-session', 'Hello')
+        processor.send(:get_response, 'test-session', 'Hello')
       end
     end
   end
@@ -247,96 +261,96 @@ describe Integrations::Dialogflow::ProcessorService do
 
     context 'when language_code is configured' do
       it 'uses the configured language code' do
-        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'language_code' => 'es-ES' })
+        hook.update!(settings: hook.settings.merge('project_id' => 'test-project', 'language_code' => 'es-ES'))
 
         expect(processor.send(:dialogflow_language_code)).to eq('es-ES')
       end
 
       it 'passes the configured language code to detect_intent' do
-        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'language_code' => 'fr-FR' })
+        hook.update!(settings: hook.settings.merge('project_id' => 'test-project', 'language_code' => 'fr-FR'))
 
         expect(mock_client).to receive(:detect_intent).with(
           session: 'projects/test-project/agent/sessions/test-session',
           query_input: { text: { text: 'Hello', language_code: 'fr-FR' } }
         )
 
-        processor.send(:detect_intent, 'test-session', 'Hello')
+        processor.send(:get_response, 'test-session', 'Hello')
       end
     end
 
     context 'when language_code is set to auto' do
       it 'uses contact language_code from additional_attributes' do
-        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'language_code' => 'auto' })
+        hook.update!(settings: hook.settings.merge('project_id' => 'test-project', 'language_code' => 'auto'))
         conversation.contact.update(additional_attributes: { 'language_code' => 'pt-BR' })
 
         expect(processor.send(:dialogflow_language_code)).to eq('pt-BR')
       end
 
       it 'normalizes short contact language codes to supported Dialogflow locales' do
-        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'language_code' => 'auto' })
+        hook.update!(settings: hook.settings.merge('project_id' => 'test-project', 'language_code' => 'auto'))
         conversation.contact.update(additional_attributes: { 'language_code' => 'en' })
 
         expect(processor.send(:dialogflow_language_code)).to eq('en-US')
       end
 
       it 'maps spanish short codes to the preferred locale' do
-        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'language_code' => 'auto' })
+        hook.update!(settings: hook.settings.merge('project_id' => 'test-project', 'language_code' => 'auto'))
         conversation.contact.update(additional_attributes: { 'language_code' => 'es' })
 
         expect(processor.send(:dialogflow_language_code)).to eq('es-ES')
       end
 
       it 'maps unsupported spanish regional variants through the base language' do
-        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'language_code' => 'auto' })
+        hook.update!(settings: hook.settings.merge('project_id' => 'test-project', 'language_code' => 'auto'))
         conversation.contact.update(additional_attributes: { 'language_code' => 'es-MX' })
 
         expect(processor.send(:dialogflow_language_code)).to eq('es-ES')
       end
 
       it 'maps portuguese short codes to the preferred locale' do
-        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'language_code' => 'auto' })
+        hook.update!(settings: hook.settings.merge('project_id' => 'test-project', 'language_code' => 'auto'))
         conversation.contact.update(additional_attributes: { 'language_code' => 'pt' })
 
         expect(processor.send(:dialogflow_language_code)).to eq('pt-BR')
       end
 
       it 'maps unsupported portuguese regional variants through the base language' do
-        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'language_code' => 'auto' })
+        hook.update!(settings: hook.settings.merge('project_id' => 'test-project', 'language_code' => 'auto'))
         conversation.contact.update(additional_attributes: { 'language_code' => 'pt-AO' })
 
         expect(processor.send(:dialogflow_language_code)).to eq('pt-BR')
       end
 
       it 'maps chinese short codes to the preferred locale' do
-        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'language_code' => 'auto' })
+        hook.update!(settings: hook.settings.merge('project_id' => 'test-project', 'language_code' => 'auto'))
         conversation.contact.update(additional_attributes: { 'language_code' => 'zh' })
 
         expect(processor.send(:dialogflow_language_code)).to eq('zh-CN')
       end
 
       it 'maps arabic short codes to the preferred locale' do
-        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'language_code' => 'auto' })
+        hook.update!(settings: hook.settings.merge('project_id' => 'test-project', 'language_code' => 'auto'))
         conversation.contact.update(additional_attributes: { 'language_code' => 'ar' })
 
         expect(processor.send(:dialogflow_language_code)).to eq('ar')
       end
 
       it 'normalizes contact language formatting before checking supported locales' do
-        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'language_code' => 'auto' })
+        hook.update!(settings: hook.settings.merge('project_id' => 'test-project', 'language_code' => 'auto'))
         conversation.contact.update(additional_attributes: { 'language_code' => 'pt_br' })
 
         expect(processor.send(:dialogflow_language_code)).to eq('pt-BR')
       end
 
       it 'falls back to en-US for unsupported contact language codes' do
-        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'language_code' => 'auto' })
+        hook.update!(settings: hook.settings.merge('project_id' => 'test-project', 'language_code' => 'auto'))
         conversation.contact.update(additional_attributes: { 'language_code' => 'xx' })
 
         expect(processor.send(:dialogflow_language_code)).to eq('en-US')
       end
 
       it 'falls back to en-US when contact has no language' do
-        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'language_code' => 'auto' })
+        hook.update!(settings: hook.settings.merge('project_id' => 'test-project', 'language_code' => 'auto'))
         conversation.contact.update(additional_attributes: {})
 
         expect(processor.send(:dialogflow_language_code)).to eq('en-US')
@@ -349,7 +363,7 @@ describe Integrations::Dialogflow::ProcessorService do
       end
 
       it 'falls back to en-US' do
-        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {} })
+        hook.update!(settings: hook.settings.except('language_code'))
 
         expect(processor.send(:dialogflow_language_code)).to eq('en-US')
       end
@@ -361,13 +375,13 @@ describe Integrations::Dialogflow::ProcessorService do
       end
 
       it 'falls back to en-US for empty string' do
-        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'language_code' => '' })
+        hook.update!(settings: hook.settings.merge('project_id' => 'test-project', 'language_code' => ''))
 
         expect(processor.send(:dialogflow_language_code)).to eq('en-US')
       end
 
       it 'falls back to en-US for whitespace-only string' do
-        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'language_code' => '   ' })
+        hook.update!(settings: hook.settings.merge('project_id' => 'test-project', 'language_code' => '   '))
 
         expect(processor.send(:dialogflow_language_code)).to eq('en-US')
       end

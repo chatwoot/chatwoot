@@ -30,6 +30,7 @@ const router = useRouter();
 const { replaceInstallationName } = useBranding();
 
 const dialogRef = ref(null);
+const isDeleting = ref(false);
 
 const accountId = computed(() => store.getters.getCurrentAccountId);
 
@@ -45,18 +46,21 @@ const closeDeletePopup = () => {
   }
 };
 
-const deleteIntegration = async () => {
+const confirmDeletion = async () => {
+  if (isDeleting.value) return;
+
+  isDeleting.value = true;
   try {
     await store.dispatch('integrations/deleteIntegration', props.integrationId);
-    useAlert(t('INTEGRATION_SETTINGS.DELETE.API.SUCCESS_MESSAGE'));
-  } catch (error) {
-    useAlert(t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.API.ERROR_MESSAGE'));
+  } catch {
+    useAlert(t('INTEGRATION_SETTINGS.DELETE.API.ERROR_MESSAGE'));
+    return;
+  } finally {
+    isDeleting.value = false;
   }
-};
 
-const confirmDeletion = () => {
   closeDeletePopup();
-  deleteIntegration();
+  useAlert(t('INTEGRATION_SETTINGS.DELETE.API.SUCCESS_MESSAGE'));
   router.push({ name: 'settings_applications' });
 };
 </script>
@@ -146,6 +150,8 @@ const confirmDeletion = () => {
         t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.YES')
       "
       :cancel-button-label="t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.CONFIRM.NO')"
+      :is-loading="isDeleting"
+      :disable-close="isDeleting"
       @confirm="confirmDeletion"
     />
   </div>

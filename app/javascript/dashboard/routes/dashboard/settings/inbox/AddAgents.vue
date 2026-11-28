@@ -82,8 +82,9 @@ export default {
         });
       } catch (error) {
         useAlert(error.message);
+      } finally {
+        this.isCreating = false;
       }
-      this.isCreating = false;
     },
   },
 };

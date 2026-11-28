@@ -199,6 +199,85 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
 
       expect(configured_assistant.instructions.call(context)).to eq('Copilot instructions')
     end
+
+    it 'gives reply suggestions the response format without the handoff field' do
+      assistant_agent = Agents::Agent.new(name: 'assistant', response_schema: Captain::HandoffResponseSchema)
+      service = described_class.new(
+        assistant: assistant,
+        conversation: conversation,
+        run_options: run_options(source: described_class::REPLY_SUGGESTION_SOURCE)
+      )
+
+      allow(assistant).to receive(:agent).and_return(assistant_agent)
+
+      expect(service.send(:build_and_wire_agents).first.response_schema).to eq(Captain::ResponseSchema)
+    end
+  end
+
+  describe 'handoff field detection' do
+    let(:service) { described_class.new(assistant: assistant, conversation: conversation) }
+    let(:root_span) { instance_double(OpenTelemetry::Trace::Span, set_attribute: nil) }
+    let(:callbacks) { { tool_complete: [], run_complete: [] } }
+
+    def handoff_result(text: 'A teammate will take it from here.')
+      instance_double(Agents::RunResult, output: { 'handoff' => true, 'response_parts' => [{ 'text' => text, 'citation_indexes' => [] }] })
+    end
+
+    def complete_run(result, runner_service = service)
+      runner = instance_double(Agents::AgentRunner)
+      allow(runner).to receive(:on_tool_complete) do |&block|
+        callbacks[:tool_complete] << block
+        runner
+      end
+      allow(runner).to receive(:on_run_complete) do |&block|
+        callbacks[:run_complete] << block
+        runner
+      end
+      runner_service.send(:add_usage_metadata_callback, runner)
+      yield if block_given?
+
+      context_wrapper = Struct.new(:context).new({ __otel_tracing: { root_span: root_span } })
+      callbacks[:run_complete].each { |callback| callback.call('assistant', result, context_wrapper) }
+    end
+
+    before do
+      allow(ChatwootApp).to receive(:otel_enabled?).and_return(false)
+      allow(Rails.logger).to receive(:info)
+    end
+
+    it 'records a reply that sets the handoff field when the handoff tool was not called' do
+      complete_run(handoff_result)
+
+      expect(Rails.logger).to have_received(:info).with(
+        include('Handoff field set without the handoff tool', "account=#{account.id}", "conversation=#{conversation.display_id}")
+      )
+      expect(root_span).to have_received(:set_attribute).with('langfuse.trace.metadata.handoff_without_tool', 'true')
+    end
+
+    it 'records nothing when the handoff tool was called' do
+      complete_run(handoff_result) do
+        tool_context = Struct.new(:context).new({ state: {} })
+        callbacks[:tool_complete].each { |callback| callback.call(Captain::Tools::HandoffTool.new(assistant).name, 'failed', tool_context) }
+      end
+
+      expect(Rails.logger).not_to have_received(:info).with(include('Handoff field set'))
+    end
+
+    it 'records nothing when a newer customer message discards the reply' do
+      responding_to_message = create(:message, conversation: conversation, message_type: :incoming)
+      burst_protected_service = described_class.new(assistant: assistant, conversation: conversation,
+                                                    run_options: run_options(responding_to_message_id: responding_to_message.id))
+
+      complete_run(handoff_result, burst_protected_service) { create(:message, conversation: conversation, message_type: :incoming) }
+
+      expect(Rails.logger).not_to have_received(:info).with(include('Handoff field set'))
+    end
+
+    it 'records nothing when the reply is leaked tool call text, which is retried' do
+      complete_run(handoff_result(text: '{"reason":"customer asked"}'))
+
+      expect(Rails.logger).not_to have_received(:info).with(include('Handoff field set'))
+    end
   end
 
   describe '#generate_response' do
@@ -1195,13 +1274,13 @@ RSpec.describe Captain::Assistant::AgentRunnerService do
       expect(service.response_discarded?).to be true
     end
 
-    it 'does not register a run callback when OTEL and burst protection are disabled' do
+    it 'registers only the handoff field detection when OTEL and burst protection are disabled' do
       service = described_class.new(assistant: assistant, conversation: conversation)
       runner = instance_double(Agents::AgentRunner)
 
       allow(ChatwootApp).to receive(:otel_enabled?).and_return(false)
       allow(runner).to receive(:on_tool_complete).and_return(runner)
-      expect(runner).not_to receive(:on_run_complete)
+      expect(runner).to receive(:on_run_complete).once.and_return(runner)
 
       service.send(:add_usage_metadata_callback, runner)
     end

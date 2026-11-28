@@ -6,6 +6,7 @@ import { useAlert } from 'dashboard/composables';
 import InboxesAPI from 'dashboard/api/inboxes';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import SettingsToggleSection from 'dashboard/components-next/Settings/SettingsToggleSection.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import CallSettingsSection from './calls/CallSettingsSection.vue';
@@ -182,52 +183,29 @@ const applyInboxHours = async () => {
 </script>
 
 <template>
-  <div
-    class="flex flex-col divide-y outline outline-1 -outline-offset-1 outline-n-weak rounded-xl divide-n-weak"
-  >
-    <CallSettingsSection
-      :title="label('CALLING.TITLE')"
-      :description="label('CALLING.DESCRIPTION')"
+  <div class="flex flex-col gap-4">
+    <SettingsToggleSection
+      :model-value="callingEnabled"
+      :header="label('CALLING.WHATSAPP')"
+      :description="label('CALLING.WHATSAPP_HELP')"
+      :disabled="isTogglingCalling || isSaving"
+      @update:model-value="toggleCalling"
     >
-      <div
-        class="flex flex-col gap-4"
-        :class="{ 'pointer-events-none opacity-60': isTogglingCalling }"
-      >
+      <template v-if="callingEnabled" #editor>
         <CallSettingsOption
-          v-if="!callingEnabled"
-          :model-value="false"
-          :label="label('CALLING.WHATSAPP_ENABLE')"
-          :help="label('CALLING.WHATSAPP_ENABLE_HELP')"
-          @update:model-value="toggleCalling"
+          v-model="form.inboundCallsEnabled"
+          :label="label('CALLING.WHATSAPP_ACCEPT_INCOMING')"
+          :help="label('CALLING.TAKE_INCOMING_HELP')"
+          class="mt-2"
+          :disabled="isTogglingCalling || isSaving"
         />
-        <template v-else>
-          <CallSettingsOption
-            v-model="form.inboundCallsEnabled"
-            :label="label('CALLING.TAKE_INCOMING')"
-            :help="label('CALLING.TAKE_INCOMING_HELP')"
-          />
-          <div class="flex flex-wrap items-center gap-2 text-body-main">
-            <span
-              class="px-2 py-0.5 rounded-md bg-n-teal-3 text-n-teal-11 font-mono text-sm"
-            >
-              {{ label('CALLING.META_ON') }}
-            </span>
-            <span class="text-n-slate-12">{{
-              label('CALLING.META_HELP')
-            }}</span>
-            <NextButton
-              :label="label('CALLING.TURN_OFF')"
-              link
-              ruby
-              sm
-              @click="toggleCalling(false)"
-            />
-          </div>
-        </template>
-      </div>
-    </CallSettingsSection>
+      </template>
+    </SettingsToggleSection>
 
-    <template v-if="callingEnabled">
+    <div
+      v-if="callingEnabled"
+      class="flex flex-col divide-y outline outline-1 -outline-offset-1 outline-n-weak rounded-xl divide-n-weak"
+    >
       <div
         class="flex flex-col divide-y divide-n-weak"
         :class="{ 'pointer-events-none opacity-60': isSaving }"
@@ -382,10 +360,10 @@ const applyInboxHours = async () => {
         <NextButton
           :label="label('SAVE')"
           :is-loading="isSaving"
-          :disabled="!isDirty"
+          :disabled="!isDirty || isTogglingCalling"
           @click="save"
         />
       </div>
-    </template>
+    </div>
   </div>
 </template>
