@@ -38,6 +38,11 @@ const searchTerm = ref('');
 
 const showSearch = computed(() => options.length > DROPDOWN_SEARCH_THRESHOLD);
 
+// With the search box visible the list keeps a fixed height, so typing doesn't resize the dropdown.
+const listHeight = computed(() =>
+  showSearch.value ? 'h-72 max-h-[50dvh] content-start' : dropdownMaxHeight
+);
+
 const searchResults = computed(() => {
   // picoSearch throws on a whitespace-only query, which trims down to no search terms.
   const query = searchTerm.value.trim();
@@ -170,7 +175,7 @@ const toggleOption = option => {
           :placeholder="t('COMBOBOX.SEARCH_PLACEHOLDER')"
         />
       </div>
-      <DropdownSection :height="dropdownMaxHeight">
+      <DropdownSection :height="listHeight">
         <template v-if="searchResults.length">
           <DropdownItem
             v-for="option in searchResults"

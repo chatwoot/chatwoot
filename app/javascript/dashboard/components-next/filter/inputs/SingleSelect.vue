@@ -78,6 +78,11 @@ const selected = defineModel({
 
 const searchTerm = ref('');
 
+// With the search box visible the list keeps a fixed height, so typing doesn't resize the dropdown.
+const listHeight = computed(() =>
+  disableSearch ? dropdownMaxHeight : 'h-72 max-h-[50dvh] content-start'
+);
+
 const searchResults = computed(() => {
   if (asyncSearch) return options;
   if (!options) return [];
@@ -168,7 +173,7 @@ const toggleSelected = option => {
           @input="emit('search', $event.target.value)"
         />
       </div>
-      <DropdownSection :height="dropdownMaxHeight">
+      <DropdownSection :height="listHeight">
         <template v-if="isSearching">
           <DropdownItem disabled>
             {{ t('DROPDOWN_MENU.SEARCHING') }}
