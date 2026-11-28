@@ -67,6 +67,12 @@ describe ConversationFinder do
         expect(conversation_ids).not_to include(conversation.id)
         expect(conversation_ids).to include(restricted_conversation.id)
       end
+
+      it 'counts nothing when the agent cannot access the inbox' do
+        result = described_class.new(user_1, { inbox_id: restricted_inbox.id }).perform_meta_only
+
+        expect(result[:count]).to eq(mine_count: 0, assigned_count: 0, unassigned_count: 0, all_count: 0)
+      end
     end
 
     context 'with assignee_type all' do
