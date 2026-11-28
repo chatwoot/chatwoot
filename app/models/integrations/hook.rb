@@ -39,7 +39,8 @@ class Integrations::Hook < ApplicationRecord
   validate :ensure_exclusive_bot_provider, if: -> { dialogflow? && enabled? }
   validate :validate_openai_api_key, if: :validate_openai_api_key?
   validate :validate_cloudflare_realtimekit_credentials, if: :validate_cloudflare_realtimekit_credentials?
-  validate :validate_google_translate_credentials, if: -> { google_translate? && will_save_change_to_settings? }
+  validate :validate_google_translate_credentials, if: -> { google_translate? && settings_changed_or_enabling? }
+  validate :validate_dialogflow_configuration, if: -> { dialogflow? && settings_changed_or_enabling? }
   validates :app_id, uniqueness: { scope: [:account_id], unless: -> { app.present? && app.params[:allow_multiple_hooks].present? } }
 
   # TODO: This seems to be only used for slack at the moment
@@ -166,8 +167,6 @@ class Integrations::Hook < ApplicationRecord
     errors.add(:settings, ': Invalid settings data') unless JSONSchemer.schema(app.params[:settings_json_schema]).valid?(settings)
   end
 
-  # TODO: When adding credential validation for other integrations (dialogflow, dyte, etc.),
-  # extract this into an app-level config flag in apps.yml instead of hardcoding app_id checks.
   def validate_openai_api_key?
     openai? && enabled? && (new_record? || openai_api_key_changed? || will_save_change_to_status?)
   end
@@ -213,6 +212,16 @@ class Integrations::Hook < ApplicationRecord
     return if Integrations::GoogleTranslate::CredentialsValidator.valid?(self)
 
     errors.add(:base, I18n.t('errors.google_translate.invalid_credentials'))
+  end
+
+  def settings_changed_or_enabling?
+    new_record? || will_save_change_to_settings? || will_save_change_to_status?(to: 'enabled')
+  end
+
+  def validate_dialogflow_configuration
+    configuration = Integrations::Dialogflow::Configuration.new(settings)
+    errors.add(:base, I18n.t('errors.dialogflow.invalid_credentials')) unless configuration.valid_credentials?
+    errors.add(:base, I18n.t('errors.dialogflow.invalid_region')) unless configuration.valid_region?
   end
 
   def settings_api_key(value)

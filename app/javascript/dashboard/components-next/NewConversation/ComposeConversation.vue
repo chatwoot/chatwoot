@@ -204,6 +204,11 @@ const onPopoverShow = () => {
   // Cache-aware refetch, so newly synced WhatsApp templates show up here
   // even if the account-cache-invalidated websocket event was missed.
   store.dispatch('inboxes/get');
+  // A contact.updated websocket event replaces the contact in the store
+  // with a payload that has no contact_inboxes, so load them again here.
+  if (props.contactId) {
+    store.dispatch('contacts/fetchContactableInbox', props.contactId);
+  }
 };
 
 const onPopoverHide = () => {

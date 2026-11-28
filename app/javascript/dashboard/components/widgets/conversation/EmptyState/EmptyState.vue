@@ -2,15 +2,14 @@
 import { mapGetters } from 'vuex';
 import { useAdmin } from 'dashboard/composables/useAdmin';
 import { useAccount } from 'dashboard/composables/useAccount';
+import { useCopilotAskBar } from 'dashboard/composables/useCopilotAskBar';
 import OnboardingView from '../OnboardingView.vue';
 import EmptyStateMessage from './EmptyStateMessage.vue';
-import CopilotEmptyStatePrompts from 'dashboard/components-next/copilot/CopilotEmptyStatePrompts.vue';
 
 export default {
   components: {
     OnboardingView,
     EmptyStateMessage,
-    CopilotEmptyStatePrompts,
   },
   props: {
     isOnExpandedLayout: {
@@ -22,10 +21,12 @@ export default {
     const { isAdmin } = useAdmin();
 
     const { accountScopedUrl } = useAccount();
+    const { showAskBar } = useCopilotAskBar();
 
     return {
       isAdmin,
       accountScopedUrl,
+      showAskBar,
     };
   },
   computed: {
@@ -43,10 +44,12 @@ export default {
       return this.$t('CONVERSATION.LOADING_CONVERSATIONS');
     },
     conversationMissingMessage() {
-      if (!this.isOnExpandedLayout) {
-        return this.$t('CONVERSATION.SELECT_A_CONVERSATION');
+      if (this.isOnExpandedLayout) {
+        return this.$t('CONVERSATION.404');
       }
-      return this.$t('CONVERSATION.404');
+      return this.showAskBar
+        ? this.$t('CONVERSATION.SELECT_OR_ASK_COPILOT')
+        : this.$t('CONVERSATION.SELECT_A_CONVERSATION');
     },
     newInboxURL() {
       return this.accountScopedUrl('settings/inboxes/new');
@@ -84,18 +87,19 @@ export default {
 
     <div
       v-else-if="!uiFlags.isFetching && !loadingChatList"
-      class="flex flex-col items-center justify-center h-full"
+      class="flex flex-col items-center justify-center w-full h-full"
     >
       <!-- No conversations available -->
       <EmptyStateMessage
         v-if="!allConversations.length"
         :message="$t('CONVERSATION.NO_MESSAGE_1')"
+        :show-ask-bar="showAskBar"
       />
       <EmptyStateMessage
         v-else-if="allConversations.length && !currentChat.id"
         :message="conversationMissingMessage"
+        :show-ask-bar="showAskBar"
       />
-      <CopilotEmptyStatePrompts />
     </div>
   </div>
 </template>

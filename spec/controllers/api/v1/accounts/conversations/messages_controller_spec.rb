@@ -3,6 +3,43 @@ require 'rails_helper'
 RSpec.describe 'Conversation Messages API', type: :request do
   let!(:account) { create(:account) }
 
+  describe 'translating a message with Google' do
+    let(:admin) { create(:user, account: account, role: :administrator) }
+    let(:conversation) { create(:conversation, account: account) }
+    let(:message) { create(:message, account: account, conversation: conversation, content: 'Hello') }
+    let(:hook) { create(:integrations_hook, :google_translate, account: account) }
+    let(:client_class) { Google::Cloud::Translate::V3::TranslationService::Client }
+    let(:client) { instance_double(client_class, translate_text: translation) }
+    let(:translation) { Google::Cloud::Translate::V3::TranslateTextResponse.new(translations: [{ translated_text: 'Bonjour' }]) }
+    let(:path) { translate_api_v1_account_conversation_message_url(account_id: account.id, conversation_id: conversation.display_id, id: message.id) }
+
+    before do
+      account.update!(translation_provider: 'google_translate')
+      allow(Integrations::GoogleTranslate::CredentialsValidator).to receive(:valid?).and_return(true)
+      allow(client_class).to receive(:new).and_return(client)
+    end
+
+    it 'translates a message when the hook has a service account key' do
+      hook
+
+      post path, params: { target_language: 'fr' }, headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:ok)
+      expect(message.reload.translations).to eq('fr' => 'Bonjour')
+    end
+
+    it 'rejects an unsupported token URL on a stored credential before opening the client' do
+      credentials = hook.settings.fetch('credentials').merge('token_uri' => 'https://example.test/token')
+      hook.update_columns(settings: hook.settings.merge('credentials' => credentials)) # rubocop:disable Rails/SkipsModelValidations
+
+      post path, params: { target_language: 'fr' }, headers: admin.create_new_auth_token, as: :json
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['error']).to eq(I18n.t('errors.google_translate.invalid_credentials'))
+      expect(client_class).not_to have_received(:new)
+    end
+  end
+
   describe 'POST /api/v1/accounts/{account.id}/conversations/<id>/messages' do
     let!(:inbox) { create(:inbox, account: account) }
     let!(:conversation) { create(:conversation, inbox: inbox, account: account) }

@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { useAlert, useTrack } from 'dashboard/composables';
 import { useEmitter } from 'dashboard/composables/emitter';
 import { useStore } from 'dashboard/composables/store';
@@ -20,6 +20,7 @@ import { COPILOT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
 const store = useStore();
 const route = useRoute();
+const router = useRouter();
 const { uiSettings, updateUISettings } = useUISettings();
 const { isEnterprise } = useConfig();
 const { width: windowWidth } = useWindowSize();
@@ -40,12 +41,15 @@ const isSmallScreen = computed(
 );
 
 const selectedCopilotThreadId = ref(null);
+const draft = ref('');
 const isLoadingSelectedThread = ref(false);
 // The conversation the open thread last answered about. A thread stays open across conversations, so its suggested
 // reply can only be used in the conversation it was written for.
 const threadConversationId = ref(null);
 const canUseReply = computed(
-  () => threadConversationId.value === currentChat.value?.id
+  () =>
+    Boolean(currentChat.value?.id) &&
+    threadConversationId.value === currentChat.value.id
 );
 const threads = ref([]);
 const historyPage = ref(0);
@@ -116,14 +120,47 @@ const setAssistant = async assistant => {
   });
 };
 
+const isOnCopilotPage = computed(() => route.name === 'copilot_index');
+// An account with the classic layout expands Copilot in place everywhere and never opens the Copilot page.
+const getAccount = useMapGetter('accounts/getAccount');
+const isClassicLayout = computed(
+  () =>
+    getAccount.value(currentAccountId.value)?.settings
+      ?.copilot_classic_layout === true
+);
+// Expanded inside a conversation, the panel covers the conversation in place instead of opening the Copilot page.
+// Leaving the conversation route clears the selected chat, and Copilot would lose the conversation it answers about.
+const isExpandedInPlace = ref(false);
+const isExpanded = computed(
+  () => isOnCopilotPage.value || isExpandedInPlace.value
+);
+
+const copilotPage = () => ({
+  name: 'copilot_index',
+  params: { threadId: selectedCopilotThreadId.value || '' },
+});
+watch([selectedCopilotThreadId, isOnCopilotPage], () => {
+  if (isOnCopilotPage.value) router.replace(copilotPage());
+});
+
 const shouldShowCopilotPanel = computed(() => {
   const { is_copilot_panel_open: isCopilotPanelOpen } = uiSettings.value;
   return (
     isCopilotAvailable.value &&
-    isCopilotPanelOpen &&
+    (isCopilotPanelOpen || isOnCopilotPage.value) &&
     !uiFlags.value.fetchingList
   );
 });
+watch(shouldShowCopilotPanel, isOpen => {
+  if (!isOpen) isExpandedInPlace.value = false;
+});
+// A page opened while expanded would load behind the panel, so the panel returns to its normal width beside it.
+watch(
+  () => route.path,
+  () => {
+    isExpandedInPlace.value = false;
+  }
+);
 
 // The panel can already be open on load, for someone who used Copilot before the dot existed. They have seen Copilot,
 // so the dot is used up here too, not only when an entry point opens the panel.
@@ -136,20 +173,28 @@ watch(
   { immediate: true }
 );
 
-// Expanded, the panel covers the conversation area. It opens at its normal width every time. It stays below the
-// sidebar's z-40, so the sidebar menus open over it.
-const isExpanded = ref(false);
-watch(shouldShowCopilotPanel, isOpen => {
-  if (!isOpen) isExpanded.value = false;
-});
-// A page opened while expanded, from a Copilot link or the sidebar, would load behind the panel, so the panel returns
-// to its normal width beside it.
-watch(
-  () => route.path,
-  () => {
-    isExpanded.value = false;
+const leaveCopilotPage = () => {
+  if (!isOnCopilotPage.value) return;
+
+  if (window.history.state?.back) router.back();
+  else router.replace({ name: 'home' });
+};
+
+const toggleExpand = () => {
+  if (isExpandedInPlace.value) {
+    isExpandedInPlace.value = false;
+  } else if (isOnCopilotPage.value) {
+    updateUISettings({
+      is_contact_sidebar_open: false,
+      is_copilot_panel_open: true,
+    });
+    leaveCopilotPage();
+  } else if (currentChat.value?.id || isClassicLayout.value) {
+    isExpandedInPlace.value = true;
+  } else {
+    router.push(copilotPage());
   }
-);
+};
 
 const handleReset = () => {
   selectionVersion += 1;
@@ -233,18 +278,30 @@ const selectThread = async thread => {
   }
 };
 
+const openThreadInAddress = () => {
+  const threadId = Number(route.params.threadId);
+  if (threadId && threadId !== selectedCopilotThreadId.value) {
+    selectThread({ id: threadId });
+  }
+};
+watch(() => route.params.threadId, openThreadInAddress);
+
 watch(
   [currentAccountId, isCopilotAvailable],
   ([, isAvailable]) => {
     accountVersion += 1;
     selectionVersion += 1;
     selectedCopilotThreadId.value = null;
+    draft.value = '';
     isLoadingSelectedThread.value = false;
     threads.value = [];
     historyPage.value = 0;
     hasMoreThreads.value = false;
     isLoadingThreads.value = false;
-    if (isAvailable) loadThreads();
+    if (isAvailable) {
+      loadThreads();
+      openThreadInAddress();
+    }
   },
   { immediate: true }
 );
@@ -297,11 +354,14 @@ const sendMessage = async payload => {
 
 // A prompt picked outside the panel starts a new chat. The panel opens expanded, because no conversation is open
 // beside it and the answer gets the room. It skips the panel's own send, so it records the send here.
-useEmitter(BUS_EVENTS.ASK_COPILOT, message => {
+useEmitter(BUS_EVENTS.ASK_COPILOT, async message => {
   handleReset();
-  isExpanded.value = true;
-  sendMessage(message);
+  draft.value = '';
+  router.push({ name: 'copilot_index' });
+  const isSent = await sendMessage(message);
   useTrack(COPILOT_EVENTS.SEND_MESSAGE);
+  // Text typed while the send was pending is newer than the failed question, so it stays.
+  if (!isSent && !draft.value) draft.value = message;
 });
 
 const stopCopilot = async () => {
@@ -323,18 +383,19 @@ onMounted(() => {
   <div
     v-if="shouldShowCopilotPanel"
     v-on-click-outside="() => closeCopilotPanel()"
-    class="bg-n-surface-2 h-full overflow-hidden flex-col fixed top-0 end-0 z-40 w-full max-w-sm transition-transform duration-300 ease-in-out border-s border-n-weak shadow-lg md:shadow-none"
+    class="bg-n-surface-2 h-full overflow-hidden flex-col fixed top-0 end-0 z-40 w-full transition-transform duration-300 ease-in-out border-s border-n-weak shadow-lg md:shadow-none"
     :class="[
       {
         'md:flex': shouldShowCopilotPanel,
         'md:hidden': !shouldShowCopilotPanel,
       },
       isExpanded
-        ? 'md:absolute md:inset-0 md:max-w-none md:z-30'
-        : 'md:static md:w-80 md:min-w-80 2xl:w-[22.5rem] 2xl:min-w-[22.5rem]',
+        ? 'md:absolute md:inset-0 md:z-30 md:border-s-0 md:animate-zoom-in motion-reduce:animate-none'
+        : 'max-w-sm md:static md:w-80 md:min-w-80 2xl:w-[22.5rem] 2xl:min-w-[22.5rem]',
     ]"
   >
     <Copilot
+      v-model:draft="draft"
       :messages="messages"
       :support-agent="currentUser"
       :assistants="assistants"
@@ -353,7 +414,8 @@ onMounted(() => {
       @select-thread="selectThread"
       @load-more-threads="loadThreads(historyPage + 1)"
       @reset="handleReset"
-      @toggle-expand="isExpanded = !isExpanded"
+      @toggle-expand="toggleExpand"
+      @close="leaveCopilotPage"
     />
   </div>
   <template v-else />
