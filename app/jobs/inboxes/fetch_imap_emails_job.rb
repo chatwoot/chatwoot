@@ -1,6 +1,10 @@
 require 'net/imap'
 
 class Inboxes::FetchImapEmailsJob < MutexApplicationJob
+  # Runs can legitimately exceed the default lock TTL when several emails hit the
+  # processing timeout back to back, so the inbox lock has to outlive those runs.
+  LOCK_TTL = 15.minutes
+
   queue_as :scheduled_jobs
 
   def perform(channel, interval = 1)
@@ -38,7 +42,7 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
     started_at = Process.clock_gettime(Process::CLOCK_MONOTONIC)
 
     Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Attempting lock for inbox #{inbox_id}"
-    with_lock(key, 5.minutes) do
+    with_lock(key, LOCK_TTL) do
       Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Lock acquired for inbox #{inbox_id}"
       success = process_email_for_channel(channel, interval)
     end
@@ -79,19 +83,13 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
     false
   end
 
-  def should_skip_email?(message_id)
-    failure_count = Rails.cache.read("email_failures:#{message_id}") || 0
-    failure_count >= 3
-  end
-
-  def mark_email_as_failed(message_id)
-    failure_count = Rails.cache.read("email_failures:#{message_id}") || 0
-    Rails.cache.write("email_failures:#{message_id}", failure_count + 1, expires_in: 6.hours)
+  def failed_message_tracker(channel)
+    @failed_message_tracker ||= Imap::FailedMessageTracker.new(inbox: channel.inbox)
   end
 
   def process_mail(inbound_mail, channel)
     # Skip if this email has failed multiple times recently
-    if should_skip_email?(inbound_mail.message_id)
+    if failed_message_tracker(channel).skip?(inbound_mail.message_id)
       Rails.logger.warn "[IMAP] Skipping problematic email: #{inbound_mail.message_id}"
       return
     end
@@ -101,13 +99,62 @@ class Inboxes::FetchImapEmailsJob < MutexApplicationJob
         Imap::ImapMailbox.new.process(inbound_mail, channel)
       end
     rescue Timeout::Error
-      mark_email_as_failed(inbound_mail.message_id)
+      record_mail_processing_failure(inbound_mail, channel)
       Rails.logger.error "[IMAP] Email processing timeout (#{email_processing_timeout}s): #{inbound_mail.message_id}"
     rescue StandardError => e
-      mark_email_as_failed(inbound_mail.message_id)
+      record_mail_processing_failure(inbound_mail, channel)
       Rails.logger.error "[IMAP] Failed to process email #{inbound_mail.message_id}: #{e.message}"
       ChatwootExceptionTracker.new(e, account: channel.account).capture_exception
     end
+  end
+
+  def record_mail_processing_failure(inbound_mail, channel)
+    failures = failed_message_tracker(channel).record_failure(inbound_mail.message_id)
+    import_without_attachments(inbound_mail, channel) if failures >= Imap::FailedMessageTracker::MAX_FAILURES
+  end
+
+  # Once retries are exhausted the email keeps its place in the tracker, but instead of
+  # failing silently the body is still delivered: attachments are the usual cause of
+  # processing timeouts (large files, slow storage), so the mail is imported without
+  # them and agents get a visible note in the conversation.
+  def import_without_attachments(inbound_mail, channel)
+    return if inbound_mail.attachments.blank?
+    # A retry after a committed import must not claim it was degraded: the
+    # stored message already exists and keeps its attachments.
+    return if channel.inbox.messages.exists?(source_id: inbound_mail.message_id)
+
+    strip_attachments!(inbound_mail)
+    Timeout.timeout(email_processing_timeout) do
+      Imap::ImapMailbox.new.process(inbound_mail, channel)
+    end
+    add_degraded_import_activity_message(channel, inbound_mail.message_id)
+  rescue StandardError => e
+    Rails.logger.error "[IMAP] Failed to import email without attachments #{inbound_mail.message_id}: #{e.message}"
+  end
+
+  # Mail's bang method only strips the top level, leaving attachments nested in
+  # multipart/related parts; strip every multipart level before the retry.
+  def strip_attachments!(mail)
+    mail.parts.each { |part| strip_attachments!(part) if part.multipart? }
+    mail.without_attachments!
+  end
+
+  def add_degraded_import_activity_message(channel, message_id)
+    conversation = channel.inbox.messages.find_by(source_id: message_id)&.conversation
+    return if conversation.blank?
+
+    ::Conversations::ActivityMessageJob.perform_later(
+      conversation,
+      {
+        account_id: conversation.account_id,
+        inbox_id: conversation.inbox_id,
+        message_type: :activity,
+        content: I18n.t(
+          'conversations.activity.email.imported_without_attachments',
+          locale: conversation.account.locale
+        )
+      }
+    )
   end
 
   def email_processing_timeout

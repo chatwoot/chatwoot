@@ -89,24 +89,19 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
 
     context 'when the fetch service returns the email objects' do
       let(:inbound_mail) { instance_double(Mail::Message, message_id: 'message-id') }
-      let(:failure_cache_key) { "email_failures:#{inbound_mail.message_id}" }
       let(:second_inbound_mail) { instance_double(Mail::Message, message_id: 'second-message-id') }
-      let(:second_failure_cache_key) { "email_failures:#{second_inbound_mail.message_id}" }
       let(:mailbox) { double }
       let(:exception_tracker) { double }
       let(:fetch_service) { double }
+      let(:failure_tracker) { instance_double(Imap::FailedMessageTracker, skip?: false, record_failure: 1) }
 
       before do
         allow(Imap::ImapMailbox).to receive(:new).and_return(mailbox)
         allow(ChatwootExceptionTracker).to receive(:new).and_return(exception_tracker)
+        allow(Imap::FailedMessageTracker).to receive(:new).with(inbox: imap_email_channel.inbox).and_return(failure_tracker)
 
         allow(Imap::FetchEmailService).to receive(:new).with(channel: imap_email_channel, interval: 1).and_return(fetch_service)
         allow(fetch_service).to receive(:perform).and_return([inbound_mail])
-      end
-
-      after do
-        Rails.cache.delete(failure_cache_key)
-        Rails.cache.delete(second_failure_cache_key)
       end
 
       it 'calls the mailbox to create emails' do
@@ -121,12 +116,10 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
 
       it 'marks the email as failed when processing times out' do
         allow(Timeout).to receive(:timeout).and_raise(Timeout::Error)
-        allow(Rails.cache).to receive(:read).and_call_original
-        allow(Rails.cache).to receive(:read).with(failure_cache_key).and_return(nil)
-
-        expect(Rails.cache).to receive(:write).with(failure_cache_key, 1, expires_in: 6.hours)
 
         described_class.perform_now(imap_email_channel)
+
+        expect(failure_tracker).to have_received(:record_failure).with('message-id')
       end
 
       it 'continues processing remaining emails when one email fails' do
@@ -141,8 +134,7 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
       end
 
       it 'skips emails that have failed multiple times recently' do
-        allow(Rails.cache).to receive(:read).and_call_original
-        allow(Rails.cache).to receive(:read).with(failure_cache_key).and_return(3)
+        allow(failure_tracker).to receive(:skip?).with('message-id').and_return(true)
 
         expect(mailbox).not_to receive(:process)
 
@@ -155,6 +147,82 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
         expect(exception_tracker).to receive(:capture_exception)
 
         described_class.perform_now(imap_email_channel)
+      end
+
+      context 'when processing retries are exhausted' do
+        let(:inbound_mail) do
+          instance_double(Mail::Message, message_id: 'message-id', attachments: [double])
+        end
+        let(:process_calls) { [] }
+
+        before do
+          allow(failure_tracker).to receive(:record_failure).with('message-id')
+                                                            .and_return(Imap::FailedMessageTracker::MAX_FAILURES)
+          # without_attachments! mutates the mail; its return value is not the mail itself.
+          allow(inbound_mail).to receive(:without_attachments!).and_return(instance_double(Mail::PartsList))
+          allow(inbound_mail).to receive(:parts).and_return([])
+          allow(exception_tracker).to receive(:capture_exception)
+
+          # The first mailbox run raises; a later degraded import succeeds.
+          allow(mailbox).to receive(:process).with(inbound_mail, imap_email_channel) do
+            process_calls << true
+            raise StandardError if process_calls.length == 1
+          end
+        end
+
+        it 'imports the email without attachments' do
+          described_class.perform_now(imap_email_channel)
+
+          expect(inbound_mail).to have_received(:without_attachments!)
+          expect(mailbox).to have_received(:process).with(inbound_mail, imap_email_channel).twice
+        end
+
+        it 'enqueues an activity message when the degraded import succeeds' do
+          allow(mailbox).to receive(:process).with(inbound_mail, imap_email_channel) do
+            process_calls << true
+            raise StandardError if process_calls.length == 1
+
+            create(:message, source_id: 'message-id', account: account,
+                             inbox: imap_email_channel.inbox,
+                             conversation: create(:conversation, account: account, inbox: imap_email_channel.inbox))
+          end
+
+          expect(Conversations::ActivityMessageJob).to receive(:perform_later)
+            .with(anything, hash_including(message_type: :activity))
+
+          described_class.perform_now(imap_email_channel)
+        end
+
+        it 'does not claim a degraded import when the email was already imported' do
+          create(:message, source_id: 'message-id', account: account,
+                           inbox: imap_email_channel.inbox,
+                           conversation: create(:conversation, account: account, inbox: imap_email_channel.inbox))
+
+          expect(Conversations::ActivityMessageJob).not_to receive(:perform_later)
+
+          described_class.perform_now(imap_email_channel)
+
+          expect(inbound_mail).not_to have_received(:without_attachments!)
+        end
+
+        it 'strips attachments nested in multipart parts from a real email' do
+          real_mail = Mail.read(Rails.root.join('spec/fixtures/files/in_reply_to.eml'))
+
+          expect(real_mail.attachments).not_to be_empty
+
+          described_class.new.send(:strip_attachments!, real_mail)
+
+          expect(real_mail.attachments).to be_empty
+        end
+
+        it 'does not retry when the email has no attachments' do
+          allow(inbound_mail).to receive(:attachments).and_return([])
+
+          described_class.perform_now(imap_email_channel)
+
+          expect(inbound_mail).not_to have_received(:without_attachments!)
+          expect(mailbox).to have_received(:process).with(inbound_mail, imap_email_channel).once
+        end
       end
     end
   end

@@ -1,6 +1,8 @@
 require 'net/imap'
 
 class Imap::BaseFetchEmailService
+  include Imap::ConnectionRecovery
+
   MAX_MESSAGES_PER_SYNC = 500
 
   pattr_initialize [:channel!, :interval]
@@ -47,6 +49,8 @@ class Imap::BaseFetchEmailService
   end
 
   def fetch_mail_for_channel
+    @reconnect_attempts = 0
+    @sequences_stale = false
     message_ids_with_seq = fetch_message_ids_with_sequence
     message_ids_with_seq.filter_map do |message_id_with_seq|
       process_message_id(message_id_with_seq)
@@ -61,11 +65,19 @@ class Imap::BaseFetchEmailService
       return
     end
 
+    return if @connection_lost
     return if email_already_present?(channel, message_id)
+
+    # A message that already failed processing is not downloaded again on every
+    # run. It is retried once the tracker's backoff has elapsed.
+    return if failed_message?(message_id)
+
+    seq_no = current_sequence_number(seq_no, message_id)
+    return if seq_no.nil?
 
     # Fetch the original mail content using the sequence no.
     # BODY.PEEK[] avoids RFC822 parser failures seen with some IMAP servers.
-    mail_str = imap_client.fetch(seq_no, 'BODY.PEEK[]')[0].attr['BODY[]']
+    mail_str = fetch_full_message(seq_no, message_id)
 
     if mail_str.blank?
       Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Fetch failed for #{channel.email} with message-id <#{message_id}>."
@@ -75,6 +87,18 @@ class Imap::BaseFetchEmailService
     inbound_mail = build_mail_from_string(mail_str)
     mail_info_logger(inbound_mail, seq_no)
     inbound_mail
+  end
+
+  def failed_message?(message_id)
+    return false unless failed_message_tracker.skip?(message_id)
+
+    Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] Skipping previously failed email for #{channel.email} " \
+                      "with message-id <#{message_id}>."
+    true
+  end
+
+  def failed_message_tracker
+    @failed_message_tracker ||= Imap::FailedMessageTracker.new(inbox: channel.inbox)
   end
 
   # Sends a FETCH command to retrieve data associated with a message in the mailbox.
@@ -125,6 +149,9 @@ class Imap::BaseFetchEmailService
     message_id = mail.message_id
     return nil if message_id.blank?
     return nil if email_already_present?(channel, message_id)
+    # Skip backed-off mail here so it does not consume the per-run sync cap;
+    # healthy messages later in the mailbox still get their turn.
+    return nil if failed_message?(message_id)
 
     [data.seqno, message_id]
   end
@@ -143,13 +170,18 @@ class Imap::BaseFetchEmailService
     imap.select('INBOX')
     Rails.logger.info "[IMAP::FETCH_EMAIL_SERVICE] IMAP connection established for #{channel.email}"
     imap
+  rescue StandardError
+    # Authentication or select failed after the socket was created; close the
+    # client local to this call so it does not leak.
+    imap&.disconnect
+    raise
   end
 
   def terminate_imap_connection
-    imap_client.logout
-  rescue Net::IMAP::Error => e
+    @imap_client&.logout
+  rescue *TRANSIENT_IMAP_ERRORS => e
     Rails.logger.info "Logout failed for #{channel.email} - #{e.message}."
-    imap_client.disconnect
+    disconnect_imap_client
   end
 
   def build_mail_from_string(raw_email_content)
