@@ -16,10 +16,18 @@ class Captain::Tools::BasePublicTool < Agents::Tool
   end
 
   def execute(tool_context, **params)
-    return super if read_only?
-    return failure_result(NEWER_MESSAGE_ARRIVED, tool_context.state) if newer_customer_message_arrived?(tool_context.state)
+    guard = Captain::Tools::RunGuard.new(tool_context.state)
+    return halt_stale_run(guard, tool_context) if stale_run?(tool_context)
 
-    super
+    case guard.register_call(name, params)
+    when :exhausted
+      halt_exhausted_budget(guard, tool_context)
+    when :repeated
+      log_run_guard('repeated_tool_call_skipped', tool_context, guard)
+      Captain::Tools::RunGuard::REPEATED_CALL_MESSAGE
+    else
+      super
+    end
   end
 
   # A tool that changes nothing can still run after a newer customer message, and can run for a reply suggestion
@@ -36,6 +44,31 @@ class Captain::Tools::BasePublicTool < Agents::Tool
 
   def account_scoped(model_class)
     model_class.where(account_id: @assistant.account_id)
+  end
+
+  def stale_run?(tool_context)
+    return false if read_only?
+
+    newer_customer_message_arrived?(tool_context.state)
+  end
+
+  # The run is answering a message the customer already replaced, so the reply is
+  # discarded either way. Halting keeps the model from spending more tool calls on it.
+  def halt_stale_run(guard, tool_context)
+    log_run_guard('stale_run_halted', tool_context, guard)
+    guard.halt(Captain::Tools::RunGuard::STALE_RUN, failure_result(NEWER_MESSAGE_ARRIVED, tool_context.state))
+  end
+
+  def halt_exhausted_budget(guard, tool_context)
+    log_run_guard('tool_call_budget_exceeded', tool_context, guard)
+    guard.halt(Captain::Tools::RunGuard::TOOL_CALL_BUDGET_EXCEEDED, Captain::Tools::RunGuard::BUDGET_EXCEEDED_MESSAGE)
+  end
+
+  def log_run_guard(event, tool_context, guard)
+    Rails.logger.warn do
+      "[Captain V2][RunGuard] #{event} assistant=#{@assistant&.id} " \
+        "conversation=#{tool_context.state&.dig(:conversation, :id)} tool=#{name} tool_calls=#{guard.total_calls}"
+    end
   end
 
   def failure_result(message, state)

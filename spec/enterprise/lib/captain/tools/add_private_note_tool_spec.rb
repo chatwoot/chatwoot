@@ -142,13 +142,15 @@ RSpec.describe Captain::Tools::AddPrivateNoteTool, type: :model do
       create(:message, conversation: conversation, account: account, inbox: inbox, message_type: :incoming)
     end
 
-    it 'skips stale public-tool side effects for Captain V2' do
+    it 'halts the stale run instead of letting the model retry the skipped tool' do
       account.enable_features!(:captain_integration)
 
       expect do
         result = tool.execute(tool_context, note: 'Do not create this note')
         expect(result).to eq('Tool skipped because a newer customer message arrived')
       end.not_to change(Message, :count)
+
+      expect(Captain::Tools::RunGuard.halt_reason(tool_context.state)).to eq(Captain::Tools::RunGuard::STALE_RUN)
     end
 
     it 'marks a stale playground tool call as an error for run details' do
