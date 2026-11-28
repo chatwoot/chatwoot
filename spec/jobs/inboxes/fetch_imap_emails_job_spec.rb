@@ -42,7 +42,7 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
       it 'calls the imap fetch service' do
         fetch_service = double
         allow(Imap::FetchEmailService).to receive(:new).with(channel: imap_email_channel, interval: 1).and_return(fetch_service)
-        allow(fetch_service).to receive(:perform).and_return([])
+        allow(fetch_service).to receive(:perform)
 
         described_class.perform_now(imap_email_channel)
         expect(fetch_service).to have_received(:perform)
@@ -51,7 +51,7 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
       it 'calls the imap fetch service with the correct interval' do
         fetch_service = double
         allow(Imap::FetchEmailService).to receive(:new).with(channel: imap_email_channel, interval: 4).and_return(fetch_service)
-        allow(fetch_service).to receive(:perform).and_return([])
+        allow(fetch_service).to receive(:perform)
 
         described_class.perform_now(imap_email_channel, 4)
         expect(fetch_service).to have_received(:perform)
@@ -62,7 +62,7 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
       it 'calls the Microsoft fetch service' do
         fetch_service = double
         allow(Imap::MicrosoftFetchEmailService).to receive(:new).with(channel: microsoft_imap_email_channel, interval: 1).and_return(fetch_service)
-        allow(fetch_service).to receive(:perform).and_return([])
+        allow(fetch_service).to receive(:perform)
 
         described_class.perform_now(microsoft_imap_email_channel)
         expect(fetch_service).to have_received(:perform)
@@ -101,7 +101,7 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
         allow(ChatwootExceptionTracker).to receive(:new).and_return(exception_tracker)
 
         allow(Imap::FetchEmailService).to receive(:new).with(channel: imap_email_channel, interval: 1).and_return(fetch_service)
-        allow(fetch_service).to receive(:perform).and_return([inbound_mail])
+        allow(fetch_service).to receive(:perform).and_yield(inbound_mail)
       end
 
       after do
@@ -113,7 +113,7 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
         allow(mailbox).to receive(:process)
 
         expect(Imap::FetchEmailService).to receive(:new).with(channel: imap_email_channel, interval: 1).and_return(fetch_service)
-        expect(fetch_service).to receive(:perform).and_return([inbound_mail])
+        expect(fetch_service).to receive(:perform).and_yield(inbound_mail)
         expect(mailbox).to receive(:process).with(inbound_mail, imap_email_channel)
 
         described_class.perform_now(imap_email_channel)
@@ -130,7 +130,7 @@ RSpec.describe Inboxes::FetchImapEmailsJob do
       end
 
       it 'continues processing remaining emails when one email fails' do
-        allow(fetch_service).to receive(:perform).and_return([inbound_mail, second_inbound_mail])
+        allow(fetch_service).to receive(:perform).and_yield(inbound_mail).and_yield(second_inbound_mail)
         allow(mailbox).to receive(:process).with(inbound_mail, imap_email_channel).and_raise(StandardError)
         allow(mailbox).to receive(:process).with(second_inbound_mail, imap_email_channel)
         allow(exception_tracker).to receive(:capture_exception)
