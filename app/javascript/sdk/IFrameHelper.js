@@ -28,7 +28,11 @@ import {
   CHATWOOT_READY,
 } from '../widget/constants/sdkEvents';
 import { SET_USER_ERROR } from '../widget/constants/errorTypes';
-import { getUserCookieName, setCookieWithDomain } from './cookieHelpers';
+import {
+  getUserCookieName,
+  setCookieWithDomain,
+  removeCookieWithDomain,
+} from './cookieHelpers';
 import {
   getAlertAudio,
   initOnEvents,
@@ -196,7 +200,9 @@ export const IFrameHelper = {
       dispatchWindowEvent({ eventName: CHATWOOT_ERROR, data: data });
 
       if (errorType === SET_USER_ERROR) {
-        Cookies.remove(getUserCookieName());
+        removeCookieWithDomain(getUserCookieName(), {
+          baseDomain: window.$chatwoot?.baseDomain,
+        });
       }
     },
     onEvent({ eventIdentifier: eventName, data }) {

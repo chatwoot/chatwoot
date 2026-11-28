@@ -5,6 +5,7 @@ import {
   getUserCookieName,
   getUserString,
   hasUserKeys,
+  removeCookieWithDomain,
   setCookieWithDomain,
 } from '../cookieHelpers';
 
@@ -386,6 +387,48 @@ describe('setCookieWithDomain', () => {
       expires: 7,
       sameSite: 'Lax',
       domain: 'example.com',
+    });
+  });
+});
+
+describe('removeCookieWithDomain', () => {
+  beforeEach(() => {
+    vi.spyOn(Cookies, 'remove');
+  });
+
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
+
+  it('should remove a cookie with default parameters when no baseDomain is provided', () => {
+    removeCookieWithDomain('myCookie');
+
+    expect(Cookies.remove).toHaveBeenCalledTimes(1);
+    expect(Cookies.remove).toHaveBeenCalledWith('myCookie', {
+      domain: undefined,
+    });
+  });
+
+  it('should remove a cookie with a specific base domain and clear host-level fallback', () => {
+    removeCookieWithDomain('myCookie', {
+      baseDomain: 'example.com',
+    });
+
+    expect(Cookies.remove).toHaveBeenCalledTimes(2);
+    expect(Cookies.remove).toHaveBeenNthCalledWith(1, 'myCookie', {
+      domain: 'example.com',
+    });
+    expect(Cookies.remove).toHaveBeenNthCalledWith(2, 'myCookie');
+  });
+
+  it('should treat empty string baseDomain as undefined', () => {
+    removeCookieWithDomain('myCookie', {
+      baseDomain: '',
+    });
+
+    expect(Cookies.remove).toHaveBeenCalledTimes(1);
+    expect(Cookies.remove).toHaveBeenCalledWith('myCookie', {
+      domain: undefined,
     });
   });
 });

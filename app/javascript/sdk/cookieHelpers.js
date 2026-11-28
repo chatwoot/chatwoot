@@ -76,3 +76,17 @@ export const setCookieWithDomain = (
 
   Cookies.set(name, value, cookieOptions);
 };
+
+export const removeCookieWithDomain = (
+  name,
+  { baseDomain = undefined } = {}
+) => {
+  const cookieOptions = {
+    domain: baseDomain || undefined,
+  };
+
+  Cookies.remove(name, cookieOptions);
+  if (baseDomain) {
+    Cookies.remove(name);
+  }
+};
