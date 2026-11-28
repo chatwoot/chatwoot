@@ -1,15 +1,20 @@
 <script>
 import SnackbarContainer from './components/SnackBar/Container.vue';
+import LocaleSwitcher from './components/LocaleSwitcher.vue';
+
+const LOCALE_STORAGE_KEY = 'cw.auth.locale';
 
 export default {
-  components: { SnackbarContainer },
+  components: { SnackbarContainer, LocaleSwitcher },
   data() {
     return { theme: 'light' };
   },
   mounted() {
     this.setColorTheme();
     this.listenToThemeChanges();
-    this.setLocale(window.chatwootConfig.selectedLocale);
+    this.setLocale(
+      this.readStoredLocale() || window.chatwootConfig.selectedLocale
+    );
   },
   methods: {
     setColorTheme() {
@@ -39,6 +44,13 @@ export default {
         this.$root.$i18n.locale = locale;
       }
     },
+    readStoredLocale() {
+      try {
+        return localStorage.getItem(LOCALE_STORAGE_KEY);
+      } catch (_) {
+        return null;
+      }
+    },
   },
 };
 </script>
@@ -46,6 +58,7 @@ export default {
 <template>
   <div class="h-full min-h-screen w-full antialiased" :class="theme">
     <router-view />
+    <LocaleSwitcher />
     <SnackbarContainer />
   </div>
 </template>
