@@ -6,6 +6,7 @@ export const LOCAL_STORAGE_KEYS = {
   COLOR_SCHEME: 'color_scheme',
   MESSAGE_REPLY_TO: 'messageReplyTo',
   RECENT_SEARCHES: 'recentSearches',
+  MENTION_COUNTS: 'mentionCounts',
   SIDEBAR_MINIMIZED_SECTIONS: 'sidebarMinimizedSections',
   CAPTAIN_ASSISTANT_TOOLS_BANNER_DISMISSED:
     'captain_assistant_tools_banner_dismissed',

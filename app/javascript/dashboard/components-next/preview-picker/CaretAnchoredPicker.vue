@@ -33,6 +33,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  searchInEditor: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['select', 'close', 'removeTrigger']);
@@ -149,12 +153,12 @@ const withPicker = action => ({
 });
 
 useKeyboardEvents({
-  Tab: withPicker(moveSelectionDown),
+  Tab: withPicker(props.searchInEditor ? onSelect : moveSelectionDown),
   'Shift+Tab': withPicker(moveSelectionUp),
   Escape: withPicker(() => emit('close')),
   Backspace: {
     action: event => {
-      if (search.value) return;
+      if (props.searchInEditor || search.value) return;
       event.preventDefault();
       emit('removeTrigger');
     },
@@ -192,12 +196,16 @@ watch(
       :search-placeholder="searchPlaceholder"
       :empty-label="emptyLabel"
       :is-loading="isLoading"
+      :hide-search="searchInEditor"
       :preview-layout="previewLayout"
       data-popover-content
       class="fixed z-[9999]"
       :style="pickerStyle"
       @select="onListItemSelection"
     >
+      <template v-if="$slots.item" #item="slotProps">
+        <slot name="item" v-bind="slotProps" />
+      </template>
       <template v-if="$slots.leading" #leading="slotProps">
         <slot name="leading" v-bind="slotProps" />
       </template>

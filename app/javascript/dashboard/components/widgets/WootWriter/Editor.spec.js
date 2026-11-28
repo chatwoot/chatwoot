@@ -4,6 +4,9 @@ import { afterEach, describe, expect, it, vi } from 'vitest';
 import { nextTick } from 'vue';
 import { createStore } from 'vuex';
 import Editor from './Editor.vue';
+import KeyboardEmojiSelector from './keyboardEmojiSelector.vue';
+import CannedResponse from '../conversation/CannedResponse.vue';
+import TagAgents from '../conversation/TagAgents.vue';
 
 vi.mock('vue-router', () => ({
   useRoute: () => ({ params: { accountId: 1 } }),
@@ -52,11 +55,11 @@ afterEach(() => {
   wrapper = null;
 });
 
-const mountEditor = ({ props = {}, attrs = {} } = {}) => {
+const mountEditor = ({ props = {}, attrs = {}, stubs = {} } = {}) => {
   wrapper = mount(Editor, {
     props: { modelValue: 'thanks for reaching ou', ...props },
     attrs,
-    global: { plugins: [store] },
+    global: { plugins: [store], stubs },
     attachTo: document.body,
   });
 };
@@ -89,6 +92,107 @@ describe('Editor', () => {
     it('leaves Enter alone when WebKit reports the composition only through keyCode 229', () => {
       mountEditor();
       expect(editorKeydown({ keyCode: 229 }).defaultPrevented).toBe(false);
+    });
+  });
+
+  describe('a trigger typed in front of existing text', () => {
+    const stubs = { CannedResponse: true, KeyboardEmojiSelector: true };
+
+    const typeAtStart = async text => {
+      const start = Selection.atStart(view.state.doc);
+      view.dispatch(view.state.tr.setSelection(start).insertText(text));
+      await nextTick();
+    };
+
+    it('searches for nothing until something is typed after it', async () => {
+      mountEditor({ props: { modelValue: 'refund' }, stubs });
+      await typeAtStart('/');
+
+      expect(wrapper.findComponent(CannedResponse).props('searchKey')).toBe('');
+    });
+
+    it('keeps that text when the pick is inserted', async () => {
+      mountEditor({ props: { modelValue: 'refund' }, stubs });
+      await typeAtStart('/');
+
+      wrapper.findComponent(CannedResponse).vm.$emit('replace', 'Hello');
+      await nextTick();
+
+      expect(wrapper.emitted('update:modelValue').at(-1)).toEqual([
+        'Hello refund',
+      ]);
+    });
+
+    it('does not open the emoji picker for a lone colon', async () => {
+      mountEditor({ props: { modelValue: 'refund' }, stubs });
+      await typeAtStart(':');
+
+      expect(wrapper.findComponent(KeyboardEmojiSelector).exists()).toBe(false);
+    });
+  });
+
+  describe('mention list in a private note', () => {
+    const mountNote = async () => {
+      mountEditor({
+        props: { modelValue: '', isPrivate: true, overrideLineBreaks: true },
+        stubs: { TagAgents: true },
+      });
+      view.dispatch(view.state.tr.insertText('@di'));
+      await nextTick();
+      return wrapper.findComponent(TagAgents);
+    };
+
+    const setMatches = async (list, hasMatches) => {
+      list.vm.$emit('update:hasMatches', hasMatches);
+      await nextTick();
+    };
+
+    const press = (key, keyCode) =>
+      view.dom.dispatchEvent(
+        new KeyboardEvent('keydown', {
+          key,
+          keyCode,
+          bubbles: true,
+          cancelable: true,
+        })
+      );
+
+    const pressEnter = () => press('Enter', 13);
+
+    it('counts as open only while somebody matches', async () => {
+      const list = await mountNote();
+      await setMatches(list, true);
+      await setMatches(list, false);
+
+      expect(wrapper.emitted('toggleUserMention')).toEqual([[true], [false]]);
+    });
+
+    it('keeps the arrow and Tab keys from the bullet list being typed in', async () => {
+      mountEditor({
+        props: { modelValue: '- first\n- second', isPrivate: true },
+        stubs: { TagAgents: true },
+      });
+      const end = Selection.atEnd(view.state.doc);
+      view.dispatch(view.state.tr.setSelection(end).insertText(' @di'));
+      await nextTick();
+      await setMatches(wrapper.findComponent(TagAgents), true);
+      const note = view.state.doc.toJSON();
+
+      press('ArrowDown', 40);
+      press('Tab', 9);
+
+      expect(view.state.doc.toJSON()).toEqual(note);
+    });
+
+    it('takes Enter only while somebody matches', async () => {
+      const list = await mountNote();
+      await setMatches(list, true);
+      pressEnter();
+      expect(view.state.doc.childCount).toBe(1);
+
+      await setMatches(list, false);
+      pressEnter();
+      expect(view.state.doc.childCount).toBe(2);
     });
   });
 
