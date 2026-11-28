@@ -1,5 +1,7 @@
-<script>
-import { mapActions, mapGetters } from 'vuex';
+<script setup>
+import { computed, ref, onMounted, onBeforeUnmount } from 'vue';
+import { useStore } from 'vuex';
+import { useI18n } from 'vue-i18n';
 import { getContrastingTextColor } from '@chatwoot/utils';
 import CustomButton from 'shared/components/Button.vue';
 import FooterReplyTo from 'widget/components/FooterReplyTo.vue';
@@ -13,124 +15,120 @@ import { emitter } from 'shared/helpers/mitt';
 
 const TRANSCRIPT_COOLDOWN_MS = 15000;
 
-export default {
-  components: {
-    ChatInputWrap,
-    CustomButton,
-    FooterReplyTo,
-  },
-  setup() {
-    const router = useRouter();
-    return { router };
-  },
-  data() {
-    return {
-      inReplyTo: null,
-      isSendingTranscript: false,
-      transcriptCooldown: false,
-      transcriptCooldownTimer: null,
-    };
-  },
-  computed: {
-    ...mapGetters({
-      conversationAttributes: 'conversationAttributes/getConversationParams',
-      widgetColor: 'appConfig/getWidgetColor',
-      conversationSize: 'conversation/getConversationSize',
-      currentUser: 'contacts/getCurrentUser',
-      isWidgetStyleFlat: 'appConfig/isWidgetStyleFlat',
-    }),
-    textColor() {
-      return getContrastingTextColor(this.widgetColor);
-    },
-    hideReplyBox() {
-      const { allowMessagesAfterResolved } = window.chatwootWebChannel;
-      const { status } = this.conversationAttributes;
-      return !allowMessagesAfterResolved && status === 'resolved';
-    },
-    showEmailTranscriptButton() {
-      return this.hasEmail;
-    },
-    hasEmail() {
-      return this.currentUser && this.currentUser.has_email;
-    },
-    hasReplyTo() {
-      return (
-        this.inReplyTo && (this.inReplyTo.content || this.inReplyTo.attachments)
-      );
-    },
-  },
-  mounted() {
-    emitter.on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.toggleReplyTo);
-  },
-  beforeUnmount() {
-    clearTimeout(this.transcriptCooldownTimer);
-  },
-  methods: {
-    ...mapActions('conversation', ['sendMessage', 'sendAttachment']),
-    ...mapActions('conversationAttributes', ['getAttributes']),
-    async handleSendMessage(content) {
-      await this.sendMessage({
-        content,
-        replyTo: this.inReplyTo ? this.inReplyTo.id : null,
-      });
-      // reset replyTo message after sending
-      this.inReplyTo = null;
-      // Update conversation attributes on new conversation
-      if (this.conversationSize === 0) {
-        this.getAttributes();
-      }
-    },
-    async handleSendAttachment(attachment) {
-      await this.sendAttachment({
-        attachment,
-        replyTo: this.inReplyTo ? this.inReplyTo.id : null,
-      });
-      this.inReplyTo = null;
-    },
-    startNewConversation() {
-      this.router.replace({ name: 'prechat-form' });
-      IFrameHelper.sendMessage({
-        event: 'onEvent',
-        eventIdentifier: CHATWOOT_ON_START_CONVERSATION,
-        data: { hasConversation: true },
-      });
-    },
-    toggleReplyTo(message) {
-      this.inReplyTo = message;
-    },
-    startTranscriptCooldown() {
-      this.transcriptCooldown = true;
-      clearTimeout(this.transcriptCooldownTimer);
-      this.transcriptCooldownTimer = setTimeout(() => {
-        this.transcriptCooldown = false;
-      }, TRANSCRIPT_COOLDOWN_MS);
-    },
-    async sendTranscript() {
-      if (
-        !this.hasEmail ||
-        this.isSendingTranscript ||
-        this.transcriptCooldown
-      ) {
-        return;
-      }
-      this.isSendingTranscript = true;
-      try {
-        await sendEmailTranscript();
-        this.startTranscriptCooldown();
-        emitter.emit(BUS_EVENTS.SHOW_ALERT, {
-          message: this.$t('EMAIL_TRANSCRIPT.SEND_EMAIL_SUCCESS'),
-          type: 'success',
-        });
-      } catch (error) {
-        emitter.emit(BUS_EVENTS.SHOW_ALERT, {
-          message: this.$t('EMAIL_TRANSCRIPT.SEND_EMAIL_ERROR'),
-        });
-      } finally {
-        this.isSendingTranscript = false;
-      }
-    },
-  },
+const store = useStore();
+const router = useRouter();
+const { t } = useI18n();
+
+const inReplyTo = ref(null);
+const isSendingTranscript = ref(false);
+const transcriptCooldown = ref(false);
+let transcriptCooldownTimer = null;
+
+const conversationAttributes = computed(
+  () => store.getters['conversationAttributes/getConversationParams']
+);
+const widgetColor = computed(() => store.getters['appConfig/getWidgetColor']);
+const conversationSize = computed(
+  () => store.getters['conversation/getConversationSize']
+);
+const currentUser = computed(() => store.getters['contacts/getCurrentUser']);
+const isWidgetStyleFlat = computed(
+  () => store.getters['appConfig/isWidgetStyleFlat']
+);
+const textColor = computed(() => getContrastingTextColor(widgetColor.value));
+const hideReplyBox = computed(() => {
+  const { allowMessagesAfterResolved } = window.chatwootWebChannel;
+  const { status } = conversationAttributes.value;
+  return !allowMessagesAfterResolved && status === 'resolved';
+});
+const hasEmail = computed(
+  () => currentUser.value && currentUser.value.has_email
+);
+const showEmailTranscriptButton = computed(() => hasEmail.value);
+const hasReplyTo = computed(
+  () =>
+    inReplyTo.value && (inReplyTo.value.content || inReplyTo.value.attachments)
+);
+
+const handleSendMessage = async content => {
+  await store.dispatch('conversation/sendMessage', {
+    content,
+    replyTo: inReplyTo.value ? inReplyTo.value.id : null,
+  });
+  // reset replyTo message after sending
+  inReplyTo.value = null;
+  // Update conversation attributes on new conversation
+  if (conversationSize.value === 0) {
+    store.dispatch('conversationAttributes/getAttributes');
+  }
 };
+
+// A large file selection is sent as several messages; the later ones pass
+// back the reply target returned here, since the preview clears after one.
+// A reply picked while a later batch is still uploading stays in the preview.
+const handleSendAttachment = async (
+  attachment,
+  replyTo = inReplyTo.value ? inReplyTo.value.id : null
+) => {
+  await store.dispatch('conversation/sendAttachment', { attachment, replyTo });
+  if (inReplyTo.value?.id === replyTo) inReplyTo.value = null;
+  return replyTo;
+};
+
+const startNewConversation = () => {
+  router.replace({ name: 'prechat-form' });
+  IFrameHelper.sendMessage({
+    event: 'onEvent',
+    eventIdentifier: CHATWOOT_ON_START_CONVERSATION,
+    data: { hasConversation: true },
+  });
+};
+
+const toggleReplyTo = message => {
+  inReplyTo.value = message;
+};
+
+const startTranscriptCooldown = () => {
+  transcriptCooldown.value = true;
+  clearTimeout(transcriptCooldownTimer);
+  transcriptCooldownTimer = setTimeout(() => {
+    transcriptCooldown.value = false;
+  }, TRANSCRIPT_COOLDOWN_MS);
+};
+
+const sendTranscript = async () => {
+  if (
+    !hasEmail.value ||
+    isSendingTranscript.value ||
+    transcriptCooldown.value
+  ) {
+    return;
+  }
+  isSendingTranscript.value = true;
+  try {
+    await sendEmailTranscript();
+    startTranscriptCooldown();
+    emitter.emit(BUS_EVENTS.SHOW_ALERT, {
+      message: t('EMAIL_TRANSCRIPT.SEND_EMAIL_SUCCESS'),
+      type: 'success',
+    });
+  } catch (error) {
+    emitter.emit(BUS_EVENTS.SHOW_ALERT, {
+      message: t('EMAIL_TRANSCRIPT.SEND_EMAIL_ERROR'),
+    });
+  } finally {
+    isSendingTranscript.value = false;
+  }
+};
+
+onMounted(() => {
+  emitter.on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, toggleReplyTo);
+});
+
+onBeforeUnmount(() => {
+  emitter.off(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, toggleReplyTo);
+  clearTimeout(transcriptCooldownTimer);
+});
 </script>
 
 <template>
