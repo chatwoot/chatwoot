@@ -522,6 +522,17 @@ RSpec.describe 'Api::V1::Accounts::AutomationRulesController', type: :request do
         expect(account.automation_rules.last.execution_delay).to eq(240)
       end
 
+      it 'persists and serializes only_during_business_hours' do
+        post "/api/v1/accounts/#{account.id}/automation_rules",
+             headers: administrator.create_new_auth_token,
+             params: delayed_rule_params.merge(only_during_business_hours: true)
+
+        expect(response).to have_http_status(:success)
+        body = JSON.parse(response.body, symbolize_names: true)
+        expect(body[:only_during_business_hours]).to be(true)
+        expect(account.automation_rules.last.only_during_business_hours).to be(true)
+      end
+
       it 'persists and serializes a delayed customer follow-up with a pending status condition' do
         conditions = [
           { attribute_key: 'message_type', filter_operator: 'equal_to', values: ['outgoing'], query_operator: 'and' },

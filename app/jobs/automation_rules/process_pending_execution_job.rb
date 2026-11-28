@@ -6,6 +6,7 @@ class AutomationRules::ProcessPendingExecutionJob < ApplicationJob
   def perform(pending_execution)
     # Account flag off pauses (not skips): leave the row pending so re-enabling resumes it.
     return unless pending_execution.account.feature_enabled?('delayed_automations')
+    return if deferred_for_business_hours?(pending_execution)
     # Atomic claim: a duplicate enqueue (overlapping sweep or stale reclaim) loses here and returns.
     return unless pending_execution.claim!
 
@@ -39,6 +40,24 @@ class AutomationRules::ProcessPendingExecutionJob < ApplicationJob
     return 'conditions_changed' unless conditions_still_match?(pending_execution)
 
     nil
+  end
+
+  # Business-hours rules never act while the inbox is closed. Deferred before the claim, under the row lock, so
+  # the row stays pending and a re-arm racing this job still moves its clock. The guards run again at opening.
+  def deferred_for_business_hours?(pending_execution)
+    return false unless closed_for_business_hours?(pending_execution)
+
+    opens_at = pending_execution.conversation.inbox.next_opening_after(Time.current)
+    return pending_execution.update_if_claimable!(status: :skipped, skip_reason: 'inbox_never_opens') if opens_at.nil?
+
+    pending_execution.update_if_claimable!(status: :pending, due_at: opens_at)
+  end
+
+  # Rows past the due window are left to expire as usual.
+  def closed_for_business_hours?(pending_execution)
+    return false if pending_execution.due_at < AutomationRulePendingExecution::DUE_WINDOW.ago
+
+    pending_execution.automation_rule&.only_during_business_hours? && pending_execution.conversation&.inbox&.out_of_office?
   end
 
   def conditions_still_match?(pending_execution)

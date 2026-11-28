@@ -346,6 +346,41 @@ describe('AutomationRuleForm', () => {
     expect(MonitorsAPI.get).not.toHaveBeenCalled();
   });
 
+  it('saves business hours with a delayed rule', async () => {
+    const wrapper = mountComponent({
+      mode: 'edit',
+      automation: {
+        ...buildAutomation({ delayed: true }),
+        only_during_business_hours: true,
+        actions: [{ action_name: 'assign_agent', action_params: [1] }],
+      },
+    });
+    wrapper.vm.open(60);
+    await nextTick();
+
+    await wrapper.findAll('button').at(-1).trigger('click');
+    expect(wrapper.emitted('save')[0][0].only_during_business_hours).toBe(true);
+  });
+
+  it('keeps business hours on an instant rule and explains the skip', async () => {
+    const wrapper = mountComponent({
+      mode: 'edit',
+      automation: {
+        ...buildAutomation({ delayed: false }),
+        only_during_business_hours: true,
+        actions: [{ action_name: 'assign_agent', action_params: [1] }],
+      },
+    });
+    wrapper.vm.open(null);
+    await nextTick();
+    expect(wrapper.text()).toContain(
+      'AUTOMATION.ADD.FORM.INSTANT_BUSINESS_HOURS.NOTE'
+    );
+
+    await wrapper.findAll('button').at(-1).trigger('click');
+    expect(wrapper.emitted('save')[0][0].only_during_business_hours).toBe(true);
+  });
+
   it('hides the monitor event on a community installation', async () => {
     featureState.cloud.value = false;
     const wrapper = mountComponent({

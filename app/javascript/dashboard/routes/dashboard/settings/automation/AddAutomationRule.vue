@@ -13,6 +13,7 @@ const START_VALUE = {
   description: null,
   event_name: 'conversation_created',
   execution_delay: null,
+  only_during_business_hours: false,
   conditions: [
     {
       attribute_key: 'status',

@@ -74,9 +74,14 @@ class AutomationRuleListener < BaseListener
       return unless account.feature_enabled?('delayed_automations')
 
       AutomationRulePendingExecution.schedule(rule: rule, conversation: conversation, message: message)
-    else
+    elsif !closed_for_business_hours?(rule, conversation)
       ::AutomationRules::ActionService.new(rule, account, conversation).perform
     end
+  end
+
+  # An instant business-hours rule skips events that happen while the inbox is closed; they don't run later.
+  def closed_for_business_hours?(rule, conversation)
+    rule.only_during_business_hours? && conversation.inbox.out_of_office?
   end
 
   def rule_present?(event_name, account)

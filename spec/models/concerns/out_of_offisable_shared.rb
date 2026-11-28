@@ -22,4 +22,24 @@ shared_examples_for 'out_of_offisable' do
                                 'close_hour' => 17, 'close_minutes' => 0 }])
     expect(obj.reload.weekly_schedule.find { |schedule| schedule['day_of_week'] == 1 }['open_hour']).to eq 10
   end
+
+  describe '#next_opening_after' do
+    # Default working hours: Mon-Fri 9:00-17:00, weekends closed.
+    before { obj.update!(timezone: 'Asia/Kolkata') }
+
+    let(:zone) { ActiveSupport::TimeZone['Asia/Kolkata'] }
+
+    it 'returns the same morning before opening' do
+      expect(obj.next_opening_after(zone.parse('2024-01-22 07:30'))).to eq(zone.parse('2024-01-22 09:00'))
+    end
+
+    it 'returns Monday opening after Friday closing, in the inbox timezone' do
+      expect(obj.next_opening_after(zone.parse('2024-01-19 17:00'))).to eq(zone.parse('2024-01-22 09:00'))
+    end
+
+    it 'returns nil when every day is closed' do
+      obj.working_hours.each { |hours| hours.update!(closed_all_day: true) }
+      expect(obj.next_opening_after(zone.parse('2024-01-19 17:00'))).to be_nil
+    end
+  end
 end

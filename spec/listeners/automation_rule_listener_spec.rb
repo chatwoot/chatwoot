@@ -91,6 +91,18 @@ describe AutomationRuleListener do
         listener.conversation_updated(event)
         expect(AutomationRules::ActionService).not_to have_received(:new).with(automation_rule, account, conversation)
       end
+
+      it 'runs a business-hours rule only while the inbox is open' do
+        automation_rule.update!(only_during_business_hours: true)
+        conversation.inbox.update!(working_hours_enabled: true, timezone: 'UTC')
+        allow(condition_match).to receive(:present?).and_return(true)
+
+        travel_to(Time.utc(2026, 11, 21, 12)) { listener.conversation_updated(event) } # Saturday, closed
+        expect(AutomationRules::ActionService).not_to have_received(:new)
+
+        travel_to(Time.utc(2026, 11, 23, 12)) { listener.conversation_updated(event) } # Monday, open
+        expect(AutomationRules::ActionService).to have_received(:new).with(automation_rule, account, conversation)
+      end
     end
   end
 

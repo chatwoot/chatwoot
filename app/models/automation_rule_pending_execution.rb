@@ -96,8 +96,9 @@ class AutomationRulePendingExecution < ApplicationRecord
       # unchanged). Re-anchoring a row whose worker died mid-run back to pending also keeps a stale
       # reclaim from firing the old clock instead of the latest one. A skipped row re-arms whatever
       # the reason: its key recurs while the customer stays quiet, so leaving it terminal would
-      # suppress every later message in the episode until the row is purged.
-      row.update!(status: :pending, skip_reason: nil, due_at: due_at, message_id: message.id)
+      # suppress every later message in the episode until the row is purged. due_at never moves earlier,
+      # so a business-hours deferral survives a later customer message instead of expiring.
+      row.update!(status: :pending, skip_reason: nil, due_at: [due_at, row.due_at].max, message_id: message.id)
     end
   end
 
@@ -192,6 +193,16 @@ class AutomationRulePendingExecution < ApplicationRecord
   # The claim renews updated_at, so a processing row past the timeout means its worker died. Only
   # then may a re-arm take the row back: pulling a live worker's row to pending would let the sweep
   # claim it and run the same actions alongside the worker still executing them.
+  # Changes a due row without claiming it, so a re-arm racing the caller still sees a pending row.
+  def update_if_claimable!(attributes)
+    with_lock do
+      next false unless claimable?
+
+      update!(attributes)
+      true
+    end
+  end
+
   def stale_processing?
     processing? && updated_at < STALE_PROCESSING_TIMEOUT.ago
   end

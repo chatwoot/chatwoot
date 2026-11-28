@@ -210,4 +210,42 @@ RSpec.describe AutomationRules::ProcessPendingExecutionJob do
     expect(row.skip_reason).to eq('episode_moved')
     expect(conversation.messages.outgoing.pluck(:content)).not_to include('Just checking in')
   end
+
+  it 'waits for the inbox to open when a business-hours rule comes due while it is closed' do
+    # Default working hours: Mon-Fri 9:00-17:00.
+    conversation.inbox.update!(working_hours_enabled: true, timezone: 'UTC')
+    rule.update!(only_during_business_hours: true)
+    monday_opening = Time.zone.parse('2024-01-22 09:00:00')
+
+    travel_to(Time.zone.parse('2024-01-20 10:00:00')) { job.perform(pending_execution.reload) }
+    expect(pending_execution.reload).to be_pending
+    expect(pending_execution.due_at).to eq(monday_opening)
+    expect(conversation.reload.label_list).to be_empty
+
+    travel_to(monday_opening + 1.minute) { described_class.new.perform(pending_execution.reload) }
+    expect(pending_execution.reload).to be_executed
+  end
+
+  it 'gives a teammate reply after a business-hours deferral its full wait' do
+    conversation.inbox.update!(working_hours_enabled: true, timezone: 'UTC')
+    follow_up_rule.update!(only_during_business_hours: true)
+
+    travel_to(Time.zone.parse('2024-01-20 10:00:00')) { job.perform(follow_up_execution.reload) }
+    expect(follow_up_execution.reload.due_at).to eq(Time.zone.parse('2024-01-22 09:00:00'))
+
+    travel_to(Time.zone.parse('2024-01-22 08:50:00')) do
+      reply = create(:message, conversation: conversation, account: account, message_type: :outgoing)
+      AutomationRulePendingExecution.schedule(rule: follow_up_rule, conversation: conversation, message: reply)
+    end
+    expect(follow_up_execution.reload.due_at).to eq(Time.zone.parse('2024-01-22 09:50:00'))
+  end
+
+  it 'skips a business-hours rule when the inbox is closed every day' do
+    conversation.inbox.update!(working_hours_enabled: true)
+    conversation.inbox.working_hours.each { |hours| hours.update!(closed_all_day: true) }
+    rule.update!(only_during_business_hours: true)
+
+    job.perform(pending_execution.reload)
+    expect(pending_execution.reload.skip_reason).to eq('inbox_never_opens')
+  end
 end

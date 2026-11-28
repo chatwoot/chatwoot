@@ -8,6 +8,7 @@ import MultiSelect from 'dashboard/components-next/filter/inputs/MultiSelect.vue
 import DurationInput from 'dashboard/components-next/input/DurationInput.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import ToggleSwitch from 'dashboard/components-next/switch/Switch.vue';
 import { DURATION_UNITS } from 'dashboard/components-next/input/constants';
 import {
   DELAYED_TRIGGERS,
@@ -48,6 +49,10 @@ const eventName = defineModel('eventName', { type: String, required: true });
 const conditions = defineModel('conditions', { type: Array, required: true });
 const delay = defineModel('delay', { type: Number, default: null });
 const unit = defineModel('unit', { type: String, required: true });
+const onlyDuringBusinessHours = defineModel('onlyDuringBusinessHours', {
+  type: Boolean,
+  default: false,
+});
 
 const { t } = useI18n();
 const { formatUnit } = useNumberFormatter();
@@ -413,6 +418,15 @@ defineExpose({ validate, resetValidation });
             </div>
           </div>
           <div class="flex items-center gap-3 min-h-8">
+            <span class="w-20 shrink-0" />
+            <label class="flex items-center gap-2 mb-0 cursor-pointer">
+              <ToggleSwitch v-model="onlyDuringBusinessHours" />
+              <span class="text-sm text-n-slate-12">
+                {{ $t('AUTOMATION.ADD.FORM.WAIT.BUSINESS_HOURS.LABEL') }}
+              </span>
+            </label>
+          </div>
+          <div class="flex items-center gap-3 min-h-8">
             <span class="text-sm w-20 shrink-0 text-n-slate-11">
               {{ $t('AUTOMATION.ADD.FORM.WAIT.INBOX_LABEL') }}
             </span>
@@ -425,6 +439,12 @@ defineExpose({ validate, resetValidation });
           <Icon icon="i-lucide-info" class="mt-0.5 shrink-0 text-n-slate-10" />
           <div class="flex flex-col min-w-0 gap-2">
             <p class="mb-0 text-xs text-n-slate-11">{{ explanation }}</p>
+            <p
+              v-if="onlyDuringBusinessHours"
+              class="mb-0 text-xs text-n-slate-11"
+            >
+              {{ $t('AUTOMATION.ADD.FORM.WAIT.BUSINESS_HOURS.EXPLANATION') }}
+            </p>
             <p class="mb-0 text-xs text-n-slate-11">
               {{ $t('AUTOMATION.ADD.FORM.WAIT.FOOTNOTE') }}
             </p>

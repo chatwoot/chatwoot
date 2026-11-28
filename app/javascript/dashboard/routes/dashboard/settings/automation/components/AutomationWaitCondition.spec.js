@@ -5,6 +5,7 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 import ConditionRow from 'dashboard/components-next/filter/ConditionRow.vue';
 import FilterSelect from 'dashboard/components-next/filter/inputs/FilterSelect.vue';
 import MultiSelect from 'dashboard/components-next/filter/inputs/MultiSelect.vue';
+import ToggleSwitch from 'dashboard/components-next/switch/Switch.vue';
 import { DURATION_UNITS } from 'dashboard/components-next/input/constants';
 import AutomationWaitCondition from './AutomationWaitCondition.vue';
 
@@ -537,6 +538,20 @@ describe('AutomationWaitCondition', () => {
     ]);
     expect(wrapper.findComponent(ConditionRow).exists()).toBe(false);
     expect(wrapper.findComponent(NextButton).exists()).toBe(false);
+  });
+
+  it('toggles business hours and explains when the actions run', async () => {
+    const wrapper = mountComponent();
+    await nextTick();
+    const explanationKey =
+      'AUTOMATION.ADD.FORM.WAIT.BUSINESS_HOURS.EXPLANATION';
+    expect(wrapper.text()).not.toContain(explanationKey);
+
+    wrapper.findComponent(ToggleSwitch).vm.$emit('update:modelValue', true);
+    expect(wrapper.emitted('update:onlyDuringBusinessHours')).toEqual([[true]]);
+
+    await wrapper.setProps({ onlyDuringBusinessHours: true });
+    expect(wrapper.text()).toContain(explanationKey);
   });
 
   it('validates every added condition before returning the result', async () => {

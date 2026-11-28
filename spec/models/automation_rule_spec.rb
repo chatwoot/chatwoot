@@ -357,6 +357,12 @@ RSpec.describe AutomationRule do
     end
   end
 
+  it 'rejects business hours on a monitor rule' do
+    rule = build(:automation_rule, event_name: 'monitor_matched', only_during_business_hours: true)
+    rule.valid?
+    expect(rule.errors[:only_during_business_hours]).to include('is not supported for monitor events.')
+  end
+
   describe 'discarding stale pending executions on edit' do
     let(:account) { create(:account) }
     let(:conversation) { create(:conversation, account: account, status: :pending) }
@@ -375,6 +381,11 @@ RSpec.describe AutomationRule do
 
     it 'discards armed rows when the delay changes' do
       rule.update!(execution_delay: 120)
+      expect(rule.pending_executions.pending).to be_empty
+    end
+
+    it 'discards armed rows when business hours are toggled' do
+      rule.update!(only_during_business_hours: true)
       expect(rule.pending_executions.pending).to be_empty
     end
 

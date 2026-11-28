@@ -8,6 +8,7 @@ json.actions automation_rule.actions
 json.created_on automation_rule.created_at.to_i
 json.active automation_rule.active?
 json.execution_delay automation_rule.execution_delay
+json.only_during_business_hours automation_rule.only_during_business_hours
 if ChatwootApp.enterprise?
   json.monitor_id automation_rule.monitor_id
   json.monitor_name automation_rule.monitor&.name

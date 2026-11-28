@@ -11,6 +11,7 @@
 #  execution_delay            :integer
 #  monitor_event_activated_at :datetime
 #  name                       :string           not null
+#  only_during_business_hours :boolean          default(FALSE), not null
 #  created_at                 :datetime         not null
 #  updated_at                 :datetime         not null
 #  account_id                 :bigint           not null
@@ -45,6 +46,7 @@ class AutomationRule < ApplicationRecord
   validates :execution_delay, numericality: { only_integer: true, in: EXECUTION_DELAY_RANGE }, allow_nil: true
   validate :execution_delay_supported_conditions
   validate :execution_delay_supported_event
+  validate :business_hours_supported_event
 
   after_update_commit :reauthorized!, if: -> { saved_change_to_conditions? }
   # Discard rows armed under the old definition; they re-arm on the next matching event.
@@ -172,11 +174,18 @@ class AutomationRule < ApplicationRecord
     errors.add(:execution_delay, 'only supports status and inbox conditions for conversation-level events.')
   end
 
+  # Monitor matches are delivered by their own job, which doesn't check business hours.
+  def business_hours_supported_event
+    return unless only_during_business_hours? && event_name == 'monitor_matched'
+
+    errors.add(:only_during_business_hours, 'is not supported for monitor events.')
+  end
+
   # Deactivating counts: without it a rule turned off and back on before its due time would still
   # run the actions the admin turned it off to stop.
   def execution_config_changed?
-    saved_change_to_active? || saved_change_to_execution_delay? || saved_change_to_event_name? ||
-      saved_change_to_conditions? || saved_change_to_actions?
+    saved_change_to_active? || saved_change_to_execution_delay? || saved_change_to_only_during_business_hours? ||
+      saved_change_to_event_name? || saved_change_to_conditions? || saved_change_to_actions?
   end
 
   def discard_stale_pending_executions
