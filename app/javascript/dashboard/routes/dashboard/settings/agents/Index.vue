@@ -275,6 +275,19 @@ usePageCommands(() => [
                 >
                   {{ $t('AGENT_MGMT.LIST.VERIFICATION_PENDING') }}
                 </span>
+                <div class="w-px h-3 bg-n-strong rounded-lg" />
+                <span
+                  v-if="agent.active === false"
+                  class="text-body-main font-medium text-n-ruby-11 bg-n-ruby-2 px-2 py-0.5 rounded"
+                >
+                  {{ $t('AGENT_MGMT.LIST.SUSPENDED') }}
+                </span>
+                <span
+                  v-else
+                  class="text-body-main font-medium text-n-teal-11 bg-n-teal-2 px-2 py-0.5 rounded"
+                >
+                  {{ $t('AGENT_MGMT.LIST.ACTIVE') }}
+                </span>
               </div>
             </div>
           </div>
@@ -316,6 +329,7 @@ usePageCommands(() => [
         :email="currentAgent.email"
         :availability="currentAgent.availability_status"
         :custom-role-id="currentAgent.custom_role_id"
+        :active="currentAgent.active"
         @close="hideEditPopup"
       />
     </woot-modal>

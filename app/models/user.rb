@@ -67,6 +67,12 @@ class User < ApplicationRecord
          :two_factor_authenticatable,
          :omniauthable, omniauth_providers: [:google_oauth2, :saml]
 
+  def active_for_authentication?
+    return false if account_users.exists? && !account_users.exists?(active: true)
+
+    super
+  end
+
   # TODO: remove in a future version once online status is moved to account users
   # remove the column availability from users
   enum :availability, { online: 0, offline: 1, busy: 2 }
