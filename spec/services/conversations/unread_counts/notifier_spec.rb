@@ -43,6 +43,28 @@ RSpec.describe Conversations::UnreadCounts::Notifier do
     end
   end
 
+  context 'when reconcile_only is true' do
+    let(:refresh_result) { false }
+
+    it 'does not dispatch unread count changed event even if filtered counts are enabled' do
+      conversation.account.enable_features!(:unread_count_for_filters)
+
+      expect(described_class.new(conversation).perform(reconcile_only: true)).to be(false)
+      expect(Rails.configuration.dispatcher).not_to have_received(:dispatch)
+    end
+
+    it 'dispatches unread count changed event when memberships actually change' do
+      allow(refresher).to receive(:perform).and_return(true)
+
+      expect(described_class.new(conversation).perform(reconcile_only: true)).to be(true)
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch).with(
+        'conversation.unread_count_changed',
+        kind_of(Time),
+        conversation: conversation
+      )
+    end
+  end
+
   context 'when conversation unread counts feature is disabled' do
     before do
       conversation.account.disable_features!(:conversation_unread_counts)
