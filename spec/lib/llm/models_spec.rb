@@ -59,6 +59,16 @@ RSpec.describe Llm::Models do
     end
   end
 
+  describe '.temperature_for' do
+    it 'keeps the temperature for a model that config/llm.yml says supports it' do
+      expect(described_class.temperature_for('gpt-6-luna', 0.4)).to eq(0.4)
+    end
+
+    it 'keeps the temperature for a model in neither config/llm.yml nor the registry' do
+      expect(described_class.temperature_for('llama-3.3-70b-versatile', 0.4)).to eq(0.4)
+    end
+  end
+
   describe '.feature_config' do
     it 'returns model metadata for a feature' do
       config = described_class.feature_config('editor')
