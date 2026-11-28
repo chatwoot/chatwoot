@@ -14,12 +14,26 @@ RSpec.describe 'Api::V1::Accounts::BaseController', type: :request do
     let(:agent_bot) { create(:agent_bot, account: account) }
 
     it 'allows assignments via API' do
+      create(:agent_bot_inbox, agent_bot: agent_bot, inbox: inbox)
+
       post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
            headers: { api_access_token: agent_bot.access_token.token },
            params: { assignee_id: agent.id },
            as: :json
 
       expect(response).to have_http_status(:success)
+    end
+
+    it 'rejects assignments for a conversation in an inbox the bot is not connected to' do
+      create(:agent_bot_inbox, agent_bot: agent_bot, inbox: create(:inbox, account: account))
+
+      post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
+           headers: { api_access_token: agent_bot.access_token.token },
+           params: { assignee_id: agent.id },
+           as: :json
+
+      expect(response).to have_http_status(:unauthorized)
+      expect(conversation.reload.assignee).to be_nil
     end
   end
 
@@ -58,6 +72,17 @@ RSpec.describe 'Api::V1::Accounts::BaseController', type: :request do
            as: :json
 
       expect(response).to have_http_status(:success)
+    end
+
+    it 'rejects requests for a conversation in an inbox the bot is not connected to' do
+      create(:agent_bot_inbox, agent_bot: global_bot, inbox: create(:inbox, account: account))
+
+      post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
+           headers: { api_access_token: global_bot.access_token.token },
+           params: { assignee_id: agent.id },
+           as: :json
+
+      expect(response).to have_http_status(:unauthorized)
     end
   end
 
@@ -99,6 +124,7 @@ RSpec.describe 'Api::V1::Accounts::BaseController', type: :request do
 
     it 'allows agent bots' do
       agent_bot = create(:agent_bot, account: account)
+      create(:agent_bot_inbox, agent_bot: agent_bot, inbox: inbox)
 
       post api_v1_account_conversation_assignments_url(account_id: account.id, conversation_id: conversation.display_id),
            headers: { api_access_token: agent_bot.access_token.token },

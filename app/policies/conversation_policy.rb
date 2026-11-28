@@ -8,7 +8,9 @@ class ConversationPolicy < ApplicationPolicy
   end
 
   def show?
-    administrator? || agent_bot? || agent_can_view_conversation?
+    return agent_bot_can_view_conversation? if user.is_a?(AgentBot)
+
+    administrator? || agent_can_view_conversation?
   end
 
   private
@@ -21,8 +23,12 @@ class ConversationPolicy < ApplicationPolicy
     account_user&.administrator?
   end
 
-  def agent_bot?
-    user.is_a?(AgentBot)
+  def agent_bot_can_view_conversation?
+    assigned_to_agent_bot? || user.agent_bot_inboxes.active.exists?(inbox_id: record.inbox_id)
+  end
+
+  def assigned_to_agent_bot?
+    record.ai_assignee_type == 'AgentBot' && record.assignee_agent_bot_id == user.id
   end
 
   def inbox_access?
