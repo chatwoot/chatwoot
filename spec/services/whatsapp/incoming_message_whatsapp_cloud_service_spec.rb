@@ -997,6 +997,52 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
         expect { rotate }.not_to change(ContactInbox, :count)
       end
     end
+
+    context 'when a message arrives after its WhatsApp timestamp' do
+      let(:delayed_params) do
+        params.deep_dup.tap do |payload|
+          message = payload.dig(:entry, 0, :changes, 0, :value, :messages).first
+          message[:id] = 'wamid.delayed-message'
+          message[:type] = 'text'
+          message[:text] = { body: 'Delayed message' }
+          message.delete(:image)
+        end
+      end
+
+      it 'preserves arrival time for unread and activity while recording the sender time' do
+        travel_to(Time.zone.at(1_700_000_000)) do
+          described_class.new(inbox: whatsapp_channel.inbox, params: delayed_params).perform
+
+          message = whatsapp_channel.inbox.messages.find_by!(source_id: 'wamid.delayed-message')
+          conversation = message.conversation
+          conversation.update!(agent_last_seen_at: Time.zone.at(1_680_000_000))
+
+          expect(message.external_created_at).to eq(1_664_799_904)
+          expect(message.created_at).to eq(Time.current)
+          expect(conversation.unread_messages).to include(message)
+          expect(conversation.reload.last_activity_at).to eq(Time.current)
+        end
+      end
+
+      it 'does not rewind activity when an older message arrives later' do
+        travel_to(Time.zone.at(1_700_000_000)) do
+          described_class.new(inbox: whatsapp_channel.inbox, params: delayed_params).perform
+        end
+
+        older_params = delayed_params.deep_dup
+        older_message = older_params.dig(:entry, 0, :changes, 0, :value, :messages).first
+        older_message[:id] = 'wamid.older-message'
+        older_message[:timestamp] = '1664799903'
+
+        travel_to(Time.zone.at(1_700_000_060)) do
+          described_class.new(inbox: whatsapp_channel.inbox, params: older_params).perform
+
+          message = whatsapp_channel.inbox.messages.find_by!(source_id: 'wamid.older-message')
+          expect(message.external_created_at).to eq(1_664_799_903)
+          expect(message.conversation.reload.last_activity_at).to eq(Time.current)
+        end
+      end
+    end
   end
 
   # Métodos auxiliares para reduzir o tamanho do exemplo
