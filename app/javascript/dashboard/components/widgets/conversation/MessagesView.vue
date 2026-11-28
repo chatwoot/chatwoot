@@ -204,6 +204,8 @@ export default {
       currentUserId: 'getCurrentUserID',
       listLoadingStatus: 'getAllMessagesLoaded',
       isMetaMessageSendingDisabled: 'globalConfig/isMetaMessageSendingDisabled',
+      isMessengerHumanAgentEnabled: 'globalConfig/isMessengerHumanAgentEnabled',
+      isInstagramHumanAgentEnabled: 'globalConfig/isInstagramHumanAgentEnabled',
     }),
     inboxId() {
       return this.currentChat.inbox_id;
@@ -321,6 +323,15 @@ export default {
       return '';
     },
     replyWindowLinkText() {
+      // The Human Agent feature extends the Meta messaging window from 24 hours
+      // to 7 days, so the banner must not claim 24 hours when it is enabled.
+      // https://developers.facebook.com/docs/features-reference/human-agent/
+      if (
+        (this.isAFacebookInbox && this.isMessengerHumanAgentEnabled) ||
+        (this.isAnInstagramChannel && this.isInstagramHumanAgentEnabled)
+      ) {
+        return this.$t('CONVERSATION.7_DAYS_WINDOW');
+      }
       if (
         this.isAWhatsAppChannel ||
         this.isAFacebookInbox ||

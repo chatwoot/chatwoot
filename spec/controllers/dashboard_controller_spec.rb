@@ -18,6 +18,19 @@ describe '/app/login', type: :request do
     end
   end
 
+  context 'with Meta human agent configs' do
+    it 'exposes the human agent flags in the global config' do
+      InstallationConfig.where(name: 'ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT').first_or_create(value: true)
+      InstallationConfig.where(name: 'ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT').first_or_create(value: true)
+      GlobalConfig.clear_cache
+
+      get '/app/login'
+
+      expect(response.body).to include '"ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT":true'
+      expect(response.body).to include '"ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT":true'
+    end
+  end
+
   context 'with non-HTML format' do
     it 'returns not acceptable for JSON with error message' do
       get '/app/login', headers: { 'Accept' => 'application/json' }
