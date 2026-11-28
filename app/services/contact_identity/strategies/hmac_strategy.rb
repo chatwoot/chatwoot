@@ -8,9 +8,9 @@ class ContactIdentity::Strategies::HmacStrategy < ContactIdentity::Strategies::B
   end
 
   def verify
-    return ContactIdentity::Proof.verified if ActiveSupport::SecurityUtils.secure_compare(params[:identifier_hash].to_s, expected_hash)
+    return ContactIdentity::Proof.invalid unless ActiveSupport::SecurityUtils.secure_compare(params[:identifier_hash].to_s, expected_hash)
 
-    ContactIdentity::Proof.invalid
+    ContactIdentity::Proof.verified(identifier: identifier.to_s)
   end
 
   private

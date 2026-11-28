@@ -8,7 +8,9 @@
 class ContactIdentifyAction
   include UrlHelper
   # contact_inbox is the session that sent the request. Its inbox decides whether details alone can merge contacts.
-  pattr_initialize [:contact!, :params!, :contact_inbox!, { retain_original_contact_name: false, discard_invalid_attrs: false }]
+  # verification_source names the trusted source the params come from, such as a signed token. Without it they are visitor input.
+  pattr_initialize [:contact!, :params!, :contact_inbox!,
+                    { retain_original_contact_name: false, discard_invalid_attrs: false, verification_source: nil }]
 
   def perform
     @attributes_to_update = [:identifier, :name, :email, :phone_number]
@@ -74,17 +76,47 @@ class ContactIdentifyAction
     return if existing_contact.blank?
     # A visitor cannot change a verified value, so the contact cannot join another one through it.
     # The contact can change after each merge, so this asks the current one.
-    return false if @contact.attribute_verified?(key)
+    return false if protected_from_visitor?(key)
 
     return true if params[:identifier].blank? && anonymous_widget_visitor_on_open_inbox?
+    return true unless identified_as_someone_else?(existing_contact)
 
     # we want to prevent merging contacts with different identifiers
-    if existing_contact.identifier.present? && existing_contact.identifier != params[:identifier]
-      # we will remove attribute from update list
-      @attributes_to_update.delete(key)
+    # we will remove attribute from update list
+    @attributes_to_update.delete(key) unless take_value_from?(existing_contact, key)
+    false
+  end
+
+  def visitor_input?
+    verification_source.blank?
+  end
+
+  # The identifier is what a contact's values were verified for. A visitor who could change it
+  # would keep those values under an identifier of their choice, and lock their owner out of them.
+  def protected_from_visitor?(attribute)
+    return false unless visitor_input?
+    return @contact.any_attribute_verified? if attribute.to_sym == :identifier
+
+    @contact.attribute_verified?(attribute)
+  end
+
+  def identified_as_someone_else?(existing_contact)
+    existing_contact.identifier.present? && existing_contact.identifier != params[:identifier]
+  end
+
+  # A value from a trusted source moves from another identified contact to this one, unless that contact's value is verified too.
+  def take_value_from?(identified_contact, key)
+    return false if visitor_input?
+
+    if identified_contact.attribute_verified?(key)
+      Rails.logger.info "[CONTACT_IDENTIFY] Skipped verified #{key} of contact #{@contact.id}: " \
+                        "contact #{identified_contact.id} holds it as verified in account #{account.id}"
       return false
     end
 
+    identified_contact.update!(key => nil)
+    Rails.logger.info "[CONTACT_IDENTIFY] Moved #{key} from contact #{identified_contact.id} to contact #{@contact.id} " \
+                      "in account #{account.id}"
     true
   end
 
@@ -102,10 +134,14 @@ class ContactIdentifyAction
   # case: contact 1: email: 1@test.com, phone: 123456789
   # params: email: 2@test.com, phone: 123456789
   # we don't want to overwrite 1@test.com since email parameter takes higer priority
+  #
+  # A phone number from a trusted source follows the same rule. The other contact may be a real WhatsApp or SMS contact,
+  # and channels do not mark the phone numbers they supply as verified yet. Until they do, the number stays with that contact.
   def mergable_phone_contact?
     return true if params[:email].blank?
 
     if existing_phone_number_contact.email.present? && existing_phone_number_contact.email != params[:email]
+      log_skipped_phone_number unless visitor_input?
       @attributes_to_update.delete(:phone_number)
       return false
     end
@@ -114,19 +150,31 @@ class ContactIdentifyAction
 
   # A visitor cannot change a verified value. The contact can be another one after a merge,
   # so this reads the marks of the contact that is written.
-  def unverified_params
-    params.reject { |attribute, _value| @contact.attribute_verified?(attribute) }
+  def writable_params
+    params.reject { |attribute, _value| protected_from_visitor?(attribute) }
+  end
+
+  def log_skipped_phone_number
+    Rails.logger.info "[CONTACT_IDENTIFY] Skipped verified phone_number of contact #{@contact.id}: " \
+                      "contact #{existing_phone_number_contact.id} holds it with another email in account #{account.id}"
   end
 
   def update_contact
-    @contact.attributes = unverified_params.slice(*@attributes_to_update).reject do |_k, v|
-      v.blank?
-    end.merge({ custom_attributes: custom_attributes, additional_attributes: additional_attributes })
     # blank identifier or email will throw unique index error
     # TODO: replace reject { |_k, v| v.blank? } with compact_blank when rails is upgraded
+    assign_contact_values(writable_params.slice(*@attributes_to_update).reject { |_k, v| v.blank? })
+    @contact.attributes = { custom_attributes: custom_attributes, additional_attributes: additional_attributes }
     @contact.discard_invalid_attrs if discard_invalid_attrs
-    @contact.save! if @contact.changed?
+    # A trusted value that the contact already stores changes no column, but its mark still has to be stored.
+    @contact.save! if @contact.changed? || @contact.verification_to_store?
     enqueue_avatar_job
+  end
+
+  def assign_contact_values(values)
+    return @contact.attributes = values if visitor_input?
+
+    @contact.attributes = values.slice(:identifier)
+    @contact.assign_verified_attributes(values.except(:identifier), source: verification_source)
   end
 
   def enqueue_avatar_job

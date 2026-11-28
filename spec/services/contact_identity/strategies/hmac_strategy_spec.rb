@@ -30,6 +30,10 @@ RSpec.describe ContactIdentity::Strategies::HmacStrategy do
       expect(strategy.verify.status).to eq(ContactIdentity::Proof::VERIFIED)
     end
 
+    it 'names the identifier it verified' do
+      expect(strategy.verify.identifier).to eq('contact-identifier')
+    end
+
     it 'returns an invalid proof when the hash was computed for another identifier' do
       strategy = described_class.new(channel: channel, identifier: 'other-identifier', params: params)
 

@@ -2,7 +2,8 @@
 # The token carries the contact's identifier and details as claims.
 class ContactIdentity::Strategies::JwtStrategy < ContactIdentity::Strategies::BaseStrategy
   ALGORITHM = 'HS256'.freeze
-  ATTRIBUTE_CLAIMS = %w[name email phone_number avatar_url custom_attributes].freeze
+  STRING_CLAIMS = %w[name email phone_number avatar_url].freeze
+  HASH_CLAIMS = %w[custom_attributes].freeze
 
   def presented?
     params[:identity_token].present?
@@ -15,7 +16,7 @@ class ContactIdentity::Strategies::JwtStrategy < ContactIdentity::Strategies::Ba
     token_identifier = identifier_in(claims)
     return ContactIdentity::Proof.invalid if token_identifier.blank?
 
-    ContactIdentity::Proof.verified(identifier: token_identifier, attributes: claims.slice(*ATTRIBUTE_CLAIMS))
+    ContactIdentity::Proof.verified(identifier: token_identifier, attributes: attributes_in(claims))
   end
 
   private
@@ -34,6 +35,13 @@ class ContactIdentity::Strategies::JwtStrategy < ContactIdentity::Strategies::Ba
 
   def signing_secrets
     @signing_secrets ||= channel.inbox.contact_identity_signing_keys.map(&:secret)
+  end
+
+  # Claims can hold any JSON value, so a claim of the wrong type is dropped here.
+  def attributes_in(claims)
+    strings = claims.slice(*STRING_CLAIMS).select { |_claim, value| value.is_a?(String) }
+    hashes = claims.slice(*HASH_CLAIMS).select { |_claim, value| value.is_a?(Hash) }
+    strings.merge(hashes)
   end
 
   def identifier_in(claims)

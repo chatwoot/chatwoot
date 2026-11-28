@@ -4,7 +4,8 @@ module VerifiableAttributes
   extend ActiveSupport::Concern
 
   VERIFIABLE_ATTRIBUTES = %w[name email phone_number].freeze
-  VERIFICATION_SOURCES = %w[jwt].freeze
+  SOURCE_JWT = 'jwt'.freeze
+  VERIFICATION_SOURCES = [SOURCE_JWT].freeze
 
   included do
     validate :verified_attributes_are_known, if: :will_save_change_to_verified_attributes?
@@ -12,6 +13,10 @@ module VerifiableAttributes
 
   def attribute_verified?(attribute)
     verified_attributes.key?(attribute.to_s)
+  end
+
+  def any_attribute_verified?
+    verified_attributes.present?
   end
 
   # Writes the values a trusted source vouches for. Their marks are set when the contact is stored.
@@ -25,6 +30,13 @@ module VerifiableAttributes
 
     trusted_values.each_key do |attribute|
       pending_verifications[attribute] = { value: self[attribute], source: source }
+    end
+  end
+
+  # True when storing the contact would add a mark or change its source, even if no value changes.
+  def verification_to_store?
+    pending_verifications.any? do |attribute, pending_verification|
+      pending_verification[:value] == self[attribute] && verified_attributes[attribute] != pending_verification[:source]
     end
   end
 

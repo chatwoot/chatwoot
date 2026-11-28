@@ -1,6 +1,9 @@
 class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
   include WidgetHelper
 
+  # The identify endpoint accepts a signed token only.
+  TOKEN_STRATEGIES = [ContactIdentity::Strategies::JwtStrategy].freeze
+
   before_action :validate_hmac, only: [:set_user]
   before_action :validate_hmac_for_identified_update, only: [:update]
 
@@ -11,18 +14,27 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
   end
 
   def set_user
-    contact = nil
-
-    if a_different_contact?
-      @contact_inbox, @widget_auth_token = build_contact_inbox_with_token(@web_widget)
-      contact = @contact_inbox.contact
-    else
-      contact = @contact
-    end
+    contact = session_contact_for(permitted_params[:identifier])
 
     @contact_inbox.update(hmac_verified: true) if should_verify_hmac?
 
     identify_contact(contact)
+  end
+
+  def identify
+    proof = ContactIdentity::Verifier.new(channel: @web_widget, identifier: nil, params: params, strategies: TOKEN_STRATEGIES).perform
+    return render_unauthorized(I18n.t('errors.contact_identity.invalid_token')) unless proof.verified?
+
+    contact = session_contact_for(proof.identifier)
+    @contact_inbox.update(hmac_verified: true)
+    @contact = ContactIdentifyAction.new(
+      contact: contact,
+      params: proof.attributes.symbolize_keys.merge(identifier: proof.identifier),
+      contact_inbox: @contact_inbox,
+      discard_invalid_attrs: true,
+      verification_source: VerifiableAttributes::SOURCE_JWT
+    ).perform
+    render :set_user
   end
 
   # TODO : clean up this with proper routes delete contacts/custom_attributes
@@ -44,8 +56,12 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
     @contact = contact_identify_action.perform
   end
 
-  def a_different_contact?
-    @contact.identifier.present? && @contact.identifier != permitted_params[:identifier]
+  # A session that belongs to another identified contact moves to a new contact with its own session token.
+  def session_contact_for(identifier)
+    return @contact unless @contact.identifier.present? && @contact.identifier != identifier
+
+    @contact_inbox, @widget_auth_token = build_contact_inbox_with_token(@web_widget)
+    @contact_inbox.contact
   end
 
   # The plain update endpoint is also used for anonymous prechat updates
