@@ -105,6 +105,40 @@ After`;
     });
   });
 
+  describe('#renderTableCellLists', () => {
+    const tableWith = cell => `| Header |\n| --- |\n| ${cell} |`;
+
+    it('renders the list a help center table cell holds', () => {
+      const formatter = new MessageFormatter(
+        tableWith('List: <ul><li>One</li><li>**Two**</li></ul>')
+      );
+
+      formatter.renderTableCellLists();
+
+      const cell = new DOMParser()
+        .parseFromString(formatter.formattedMessage, 'text/html')
+        .querySelector('td');
+      const items = [...cell.querySelectorAll('ul > li')];
+      expect(items.map(item => item.textContent.trim())).toEqual([
+        'One',
+        'Two',
+      ]);
+      expect(formatter.plainText).toMatch(/List:\s+One\s+Two/);
+    });
+
+    it.each([
+      ['escaped in a cell', tableWith('\\<ul>\\<li>One\\</li>\\</ul>')],
+      ['outside a table', 'Text <ul><li>One</li></ul>'],
+    ])('leaves list tags %s as text', (_, message) => {
+      const formatter = new MessageFormatter(message);
+
+      formatter.renderTableCellLists();
+
+      expect(formatter.formattedMessage).toContain('&lt;ul&gt;&lt;li&gt;One');
+      expect(formatter.formattedMessage).not.toContain('<ul>');
+    });
+  });
+
   describe('user mentions', () => {
     it('should render the mention label inside a mention node', () => {
       const message = 'Hey [@Pranav](mention://user/1/Pranav)';

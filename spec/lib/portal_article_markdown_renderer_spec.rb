@@ -352,6 +352,26 @@ describe PortalArticleMarkdownRenderer do
     it 'does not emit the marker comment into the rendered html' do
       expect(render_table("<!--cw-colwidths:120,200-->\n#{plain_table}")).not_to include('cw-colwidths')
     end
+
+    context 'when a cell holds a list' do
+      it 'renders the list with its nesting and formatting' do
+        output = render_table("| Header |\n| --- |\n| List: <ul><li>Test 1</li><li>**Test 2** <ol><li>tt</li></ol></li></ul> |\n")
+        expect(output).to include('<td>List: <ul><li>Test 1</li><li><strong>Test 2</strong> <ol><li>tt</li></ol></li></ul></td>')
+      end
+
+      it 'omits any other tag and any attribute' do
+        output = render_table("| Header |\n| --- |\n| <script>alert(1)</script><ul onclick=\"x()\"><li class=\"y\">a</li></ul> |\n")
+        expect(output).not_to include('<script')
+        expect(output).not_to include('onclick')
+        expect(output).not_to include('class="y"')
+      end
+
+      it 'omits list tags outside a table cell' do
+        output = render_table('Text <ul><li>a</li></ul>')
+        expect(output).not_to include('<ul>')
+        expect(output).not_to include('<li>')
+      end
+    end
   end
 
   describe '#image' do

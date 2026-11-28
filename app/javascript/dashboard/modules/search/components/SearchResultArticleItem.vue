@@ -41,6 +41,7 @@ const truncatedContent = computed(() => {
 
   // Use MessageFormatter to properly convert markdown to plain text
   const formatter = new MessageFormatter(props.content);
+  formatter.renderTableCellLists();
   const plainText = formatter.plainText.trim();
 
   return plainText.length > MAX_LENGTH

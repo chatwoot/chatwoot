@@ -16,6 +16,8 @@ class PortalArticleMarkdownRenderer < CommonMarker::HtmlRenderer
   # so cells without an explicit colwidth render the same minimum here as in the editor.
   TABLE_CELL_MIN_WIDTH_PX = 50
   COLWIDTHS_COMMENT = /<!--cw-colwidths:([\d,]+)-->/
+  # A markdown table cell is a single line, so the article editor writes a list inside it as these bare tags.
+  CELL_LIST_TAG = %r{\A</?(?:ul|ol|li)>\z}
 
   # The article editor serializes column widths as a `<!--cw-colwidths:...-->` HTML
   # comment immediately before each resized table. Capture it (emitting nothing) so the
@@ -25,6 +27,12 @@ class PortalArticleMarkdownRenderer < CommonMarker::HtmlRenderer
     return super unless match
 
     @pending_colwidths = match[1].split(',').map(&:to_i)
+  end
+
+  def inline_html(node)
+    return super unless node.parent.type == :table_cell && CELL_LIST_TAG.match?(node.string_content)
+
+    out(node.string_content)
   end
 
   def table(node)

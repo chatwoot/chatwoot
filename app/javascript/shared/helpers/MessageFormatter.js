@@ -55,6 +55,26 @@ const fillEmptyTableCells = md => {
   });
 };
 
+// Help center articles write a list inside a table cell as bare <ul>, <ol> and
+// <li> tags. Runs before `text_join`, so an escaped `\<ul>` stays text.
+const ESCAPED_LIST_TAG = /&lt;(\/?(?:ul|ol|li))&gt;/g;
+const tableCellLists = md => {
+  md.core.ruler.before('text_join', 'table-cell-lists', state => {
+    state.tokens.forEach((token, index) => {
+      const opener = state.tokens[index - 1]?.type;
+      if (opener !== 'th_open' && opener !== 'td_open') return;
+      token.children.forEach(child => {
+        if (child.type !== 'text') return;
+        child.type = 'html_inline';
+        // The space keeps words apart when the result is read as plain text.
+        child.content = md.utils
+          .escapeHtml(child.content)
+          .replace(ESCAPED_LIST_TAG, ' <$1>');
+      });
+    });
+  });
+};
+
 const createMarkdownInstance = (linkify = true) => {
   return MarkdownIt({
     html: false,
@@ -127,6 +147,10 @@ class MessageFormatter {
   disableImageRendering() {
     this.md.disable(['add-image-sizing']);
     this.md.renderer.rules.image = () => '';
+  }
+
+  renderTableCellLists() {
+    this.md.use(tableCellLists);
   }
 
   get formattedMessage() {
