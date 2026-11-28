@@ -113,7 +113,7 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def delete_user_record(agent)
-    DeleteObjectJob.perform_later(agent) if agent.reload.account_users.blank?
+    DeleteObjectJob.perform_later(agent) if agent.reload.account_users.blank? && agent.type != 'SuperAdmin'
   end
 end
 
