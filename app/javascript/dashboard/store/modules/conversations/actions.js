@@ -470,7 +470,7 @@ const actions = {
   },
 
   updateMessage({ commit, dispatch, rootGetters, state }, message) {
-    commit(types.ADD_MESSAGE, message);
+    commit(types.UPDATE_MESSAGE, message);
 
     const contactInfoRequest =
       message.content_attributes?.whatsapp_contact_info;
