@@ -196,6 +196,8 @@ en:
         invalid: Invalid email
       phone_number:
         invalid: should be in e164 format
+      verified_attributes:
+        invalid: can only mark name, email or phone number, with a known source
     companies:
       domain:
         invalid: must be a valid domain name

@@ -72,6 +72,9 @@ class ContactIdentifyAction
 
   def merge_contacts?(existing_contact, key)
     return if existing_contact.blank?
+    # A visitor cannot change a verified value, so the contact cannot join another one through it.
+    # The contact can change after each merge, so this asks the current one.
+    return false if @contact.attribute_verified?(key)
 
     return true if params[:identifier].blank? && anonymous_widget_visitor_on_open_inbox?
 
@@ -109,8 +112,14 @@ class ContactIdentifyAction
     true
   end
 
+  # A visitor cannot change a verified value. The contact can be another one after a merge,
+  # so this reads the marks of the contact that is written.
+  def unverified_params
+    params.reject { |attribute, _value| @contact.attribute_verified?(attribute) }
+  end
+
   def update_contact
-    @contact.attributes = params.slice(*@attributes_to_update).reject do |_k, v|
+    @contact.attributes = unverified_params.slice(*@attributes_to_update).reject do |_k, v|
       v.blank?
     end.merge({ custom_attributes: custom_attributes, additional_attributes: additional_attributes })
     # blank identifier or email will throw unique index error

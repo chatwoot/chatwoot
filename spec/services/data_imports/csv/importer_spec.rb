@@ -43,6 +43,19 @@ RSpec.describe DataImports::Csv::Importer do
     expect(Rails.configuration.dispatcher).not_to have_received(:dispatch).with(Events::Types::CONTACT_UPDATED, anything, anything)
   end
 
+  it 'clears the mark of a verified value that the import changes' do
+    existing = create(:contact, account: account, email: 'existing@example.com', name: 'Existing')
+    existing.assign_verified_attributes({ name: 'Existing', email: 'existing@example.com' }, source: 'jwt')
+    existing.save!
+    data_import
+
+    DataImports::Csv::PreparationJob.perform_now(data_import, run_id)
+    importer.import_contacts_page
+
+    expect(existing.reload.name).to eq('Updated')
+    expect(existing.verified_attributes).to eq('email' => 'jwt')
+  end
+
   context 'when ordinary CSV columns update custom attributes' do
     let(:csv) { "name,email,row_number,tier,notes\nUpdated,existing@example.com,customer-42,,New note\n" }
 

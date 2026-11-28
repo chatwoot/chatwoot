@@ -59,10 +59,26 @@ class ContactMergeAction
     # attributes in base contact are given preference
     merged_attributes = mergee_contact_attributes.deep_merge(base_contact_attributes)
     merged_attributes['contact_type'] = higher_contact_type
+    verified_mergee_values = verified_values_only_on_mergee
 
     @mergee_contact.reload.destroy!
     Rails.configuration.dispatcher.dispatch(CONTACT_MERGED, Time.zone.now, contact: @base_contact)
-    @base_contact.update!(merged_attributes)
+    @base_contact.assign_attributes(merged_attributes)
+    verified_mergee_values.each do |source, values|
+      @base_contact.assign_verified_attributes(values, source: source)
+    end
+    @base_contact.save!
+  end
+
+  # A verified value of the mergee contact replaces an unverified value of the base contact.
+  # Returns the values grouped by the source that verified them.
+  def verified_values_only_on_mergee
+    mergee_contact.verified_attributes.each_with_object({}) do |(attribute, source), values_by_source|
+      next if base_contact.attribute_verified?(attribute)
+
+      values_by_source[source] ||= {}
+      values_by_source[source][attribute] = mergee_contact[attribute]
+    end
   end
 
   def higher_contact_type

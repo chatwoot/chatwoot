@@ -160,6 +160,75 @@ describe ContactIdentifyAction do
       end
     end
 
+    context 'when a trusted source has verified values of the contact' do
+      def verified_contact(attributes)
+        customer = create(:contact, { account: account, identifier: 'customer-1' }.merge(attributes))
+        customer.assign_verified_attributes(attributes, source: 'jwt')
+        customer.save!
+        customer
+      end
+
+      it 'does not let a visitor who merges into the contact change its verified values' do
+        customer = verified_contact(name: 'Customer', email: 'customer@test.com', phone_number: '+919999888877')
+        params = { email: 'customer@test.com', name: 'Visitor', phone_number: '+911111111111' }
+
+        result = described_class.new(contact: contact, contact_inbox: contact_inbox, params: params).perform
+
+        expect(result.id).to eq customer.id
+        expect(customer.reload).to have_attributes(name: 'Customer', email: 'customer@test.com', phone_number: '+919999888877')
+        expect(customer.verified_attributes).to eq('name' => 'jwt', 'email' => 'jwt', 'phone_number' => 'jwt')
+      end
+
+      it 'lets the visitor change a value that is not verified' do
+        customer = verified_contact(email: 'customer@test.com')
+        customer.update!(name: 'Customer')
+
+        described_class.new(contact: contact, contact_inbox: contact_inbox, params: { email: 'customer@test.com', name: 'Visitor' }).perform
+
+        expect(customer.reload.name).to eq 'Visitor'
+        expect(customer.verified_attributes).to eq('email' => 'jwt')
+      end
+
+      it 'does not merge into the contact of a phone number when that contact has another email' do
+        contact.update!(identifier: 'visitor-1')
+        contact.assign_verified_attributes({ email: 'visitor@test.com' }, source: 'jwt')
+        contact.save!
+        phone_contact = create(:contact, account: account, phone_number: '+919999888877', email: 'other@test.com')
+        params = { identifier: 'visitor-1', email: 'visitor@test.com', phone_number: '+919999888877' }
+
+        result = described_class.new(contact: contact, contact_inbox: contact_inbox, params: params).perform
+
+        expect(result.id).to eq contact.id
+        expect(contact.reload.phone_number).to be_nil
+        expect(phone_contact.reload.email).to eq 'other@test.com'
+      end
+
+      it 'does not match another contact through a verified value of the contact it merged into' do
+        customer = verified_contact(email: 'customer@test.com')
+        other_contact = create(:contact, account: account, email: 'other@test.com')
+        params = { identifier: 'customer-1', email: 'other@test.com' }
+
+        result = described_class.new(contact: contact, contact_inbox: contact_inbox, params: params).perform
+
+        expect(result.id).to eq customer.id
+        expect(customer.reload.email).to eq 'customer@test.com'
+        expect(other_contact.reload.email).to eq 'other@test.com'
+      end
+
+      it 'does not match another contact through a value the visitor cannot change' do
+        contact.update!(identifier: 'visitor-1')
+        contact.assign_verified_attributes({ email: 'visitor@test.com' }, source: 'jwt')
+        contact.save!
+        other_contact = create(:contact, account: account, email: 'other@test.com')
+
+        result = described_class.new(contact: contact, contact_inbox: contact_inbox, params: { email: 'other@test.com' }).perform
+
+        expect(result.id).to eq contact.id
+        expect(contact.reload.email).to eq 'visitor@test.com'
+        expect(other_contact.reload).to be_present
+      end
+    end
+
     context 'when contacts with blank identifiers exist and identify action is called with blank identifier' do
       it 'updates the attributes of contact passed in to identify action' do
         create(:contact, account: account, identifier: '')

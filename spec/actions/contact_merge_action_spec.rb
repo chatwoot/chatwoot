@@ -89,6 +89,55 @@ describe ContactMergeAction do
       end
     end
 
+    context 'when a trusted source has verified values of the contacts' do
+      def verify(contact, attributes)
+        contact.assign_verified_attributes(attributes, source: 'jwt')
+        contact.save!
+      end
+
+      it 'takes a verified value of the mergee contact over an unverified value of the base contact' do
+        verify(mergee_contact, email: 'new@new.com')
+
+        contact_merge
+
+        expect(base_contact.reload.email).to eq('new@new.com')
+        expect(base_contact.verified_attributes).to eq('email' => 'jwt')
+      end
+
+      it 'keeps a verified value of the base contact over an unverified value of the mergee contact' do
+        verify(base_contact, email: 'old@old.com')
+
+        contact_merge
+
+        expect(base_contact.reload.email).to eq('old@old.com')
+        expect(base_contact.verified_attributes).to eq('email' => 'jwt')
+      end
+
+      it 'keeps the value of the base contact when both values are verified' do
+        verify(base_contact, email: 'old@old.com')
+        verify(mergee_contact, email: 'new@new.com')
+
+        contact_merge
+
+        expect(base_contact.reload.email).to eq('old@old.com')
+        expect(base_contact.verified_attributes).to eq('email' => 'jwt')
+      end
+
+      it 'keeps the value of the base contact when neither value is verified' do
+        contact_merge
+
+        expect(base_contact.reload.email).to eq('old@old.com')
+        expect(base_contact.verified_attributes).to eq({})
+      end
+
+      it 'does not mark a value that the base contact takes from an unverified mergee contact' do
+        contact_merge
+
+        expect(base_contact.reload.phone_number).to eq('+12212345')
+        expect(base_contact.attribute_verified?(:phone_number)).to be(false)
+      end
+    end
+
     context 'when contacts belong to a different account' do
       it 'throws an exception' do
         new_account = create(:account)
