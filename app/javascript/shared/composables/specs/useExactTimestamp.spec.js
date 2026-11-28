@@ -76,6 +76,19 @@ describe('useExactTimestamp', () => {
     expect(exactTimestamp('')).toBe('');
   });
 
+  describe('with showSeconds', () => {
+    it('adds the seconds to the time', () => {
+      const exactTimestamp = useExactTimestamp({ showSeconds: true });
+      expect(exactTimestamp(TIMESTAMP)).toMatch(/^Feb 10, 2021, 3:35:43\sPM$/);
+    });
+
+    it('keeps the clock convention of the dashboard language', () => {
+      vi.mocked(useI18n).mockReturnValue({ locale: ref('de') });
+      const exactTimestamp = useExactTimestamp({ showSeconds: true });
+      expect(exactTimestamp(TIMESTAMP)).toBe('10.02.2021, 15:35:43');
+    });
+  });
+
   describe('with showTimeZone', () => {
     // Nov 27 2025, 15:35:53 UTC — late November keeps northern zones on
     // standard time.
