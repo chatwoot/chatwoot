@@ -171,6 +171,24 @@ describe Whatsapp::IncomingMessageService do
         expect(whatsapp_channel.inbox.messages.first.content).to eq('Test')
       end
 
+      it 'stores the Meta timestamp as external_created_at and keeps created_at as the processing time' do
+        travel_to('2021-10-10 12:00:00 UTC') do
+          described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+
+          message = whatsapp_channel.inbox.messages.first
+          expect(message.content_attributes['external_created_at']).to eq(1_633_034_394)
+          expect(message.created_at).to eq(Time.current)
+        end
+      end
+
+      it 'does not set external_created_at when the Meta timestamp is missing or malformed' do
+        params[:messages].first[:timestamp] = 'not-a-timestamp'
+
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+
+        expect(whatsapp_channel.inbox.messages.first.content_attributes).not_to have_key('external_created_at')
+      end
+
       it 'appends to last conversation when if conversation already exists' do
         contact_inbox = create(:contact_inbox, inbox: whatsapp_channel.inbox, source_id: params[:messages].first[:from])
         2.times.each { create(:conversation, inbox: whatsapp_channel.inbox, contact_inbox: contact_inbox, contact: contact_inbox.contact) }
@@ -593,20 +611,23 @@ describe Whatsapp::IncomingMessageService do
     end
 
     context 'when valid contact message params' do
+      let(:params) do
+        { 'contacts' => [{ 'profile' => { 'name' => 'Kedar' }, 'wa_id' => '919746334593' }],
+          'messages' => [{ 'from' => '919446284490',
+                           'id' => 'wamid.SDFADSf23sfasdafasdfa',
+                           'timestamp' => '1675823265',
+                           'type' => 'contacts',
+                           'contacts' => [
+                             {
+                               'name' => { 'formatted_name' => 'Apple Inc.' },
+                               'phones' => [{ 'phone' => '+911800', 'type' => 'MAIN' }]
+                             },
+                             { 'name' => { 'first_name' => 'Chatwoot', 'formatted_name' => 'Chatwoot' },
+                               'phones' => [{ 'phone' => '+1 (415) 341-8386' }] }
+                           ] }] }.with_indifferent_access
+      end
+
       it 'creates appropriate message and attachments' do
-        params = { 'contacts' => [{ 'profile' => { 'name' => 'Kedar' }, 'wa_id' => '919746334593' }],
-                   'messages' => [{ 'from' => '919446284490',
-                                    'id' => 'wamid.SDFADSf23sfasdafasdfa',
-                                    'timestamp' => '1675823265',
-                                    'type' => 'contacts',
-                                    'contacts' => [
-                                      {
-                                        'name' => { 'formatted_name' => 'Apple Inc.' },
-                                        'phones' => [{ 'phone' => '+911800', 'type' => 'MAIN' }]
-                                      },
-                                      { 'name' => { 'first_name' => 'Chatwoot', 'formatted_name' => 'Chatwoot' },
-                                        'phones' => [{ 'phone' => '+1 (415) 341-8386' }] }
-                                    ] }] }.with_indifferent_access
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
         expect(Contact.all.first.name).to eq('Kedar')
         expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
@@ -619,6 +640,13 @@ describe Whatsapp::IncomingMessageService do
         m2 = whatsapp_channel.inbox.messages.last
         expect(m2.content).to eq('Chatwoot')
         expect(m2.attachments.first.meta).to eq({ 'firstName' => 'Chatwoot' })
+      end
+
+      it 'stores the parent message timestamp on every contact card' do
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+
+        external_times = whatsapp_channel.inbox.messages.map { |m| m.content_attributes['external_created_at'] }
+        expect(external_times).to eq([1_675_823_265, 1_675_823_265])
       end
     end
 

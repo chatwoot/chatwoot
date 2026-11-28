@@ -35,11 +35,19 @@ const {
   contentAttributes,
 } = useMessageContext();
 
+// When the channel reports when the message was actually sent (e.g. WhatsApp), show that time.
+const displayTime = computed(() => {
+  const externalCreatedAt = contentAttributes.value?.externalCreatedAt;
+  return Number.isInteger(externalCreatedAt) && externalCreatedAt > 0
+    ? externalCreatedAt
+    : createdAt.value;
+});
+
 const readableTime = computed(() =>
-  messageTimestamp(createdAt.value, 'LLL d, h:mm a')
+  messageTimestamp(displayTime.value, 'LLL d, h:mm a')
 );
 
-const exactTime = computed(() => exactTimestamp(createdAt.value));
+const exactTime = computed(() => exactTimestamp(displayTime.value));
 
 const showStatusIndicator = computed(() => {
   if (isPrivate.value) return false;

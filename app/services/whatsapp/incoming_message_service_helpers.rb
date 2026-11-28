@@ -24,6 +24,13 @@ module Whatsapp::IncomingMessageServiceHelpers
     messages_data.first[:type]
   end
 
+  # Unix epoch (seconds) at which the message was sent on WhatsApp. created_at stays the time we
+  # stored it, since unread counts, activity and history paging rely on that order.
+  def external_created_at(message)
+    epoch = Integer(message[:timestamp], exception: false)
+    epoch&.positive? ? { external_created_at: epoch } : {}
+  end
+
   def message_content(message)
     return I18n.t('conversations.messages.whatsapp.flow_response') if message.dig(:interactive, :nfm_reply).present?
 
