@@ -151,9 +151,49 @@ describe 'Rack::Attack auth throttles' do
     end
   end
 
+  describe 'mfa_login/user' do
+    let(:user) { create(:user) }
+    let(:mfa_token) { Mfa::TokenService.new(user: user).generate_token }
+
+    it 'keys verification submissions by the user the token was issued to' do
+      expect(throttle_key('mfa_login/user', json_env({ mfa_token: mfa_token, otp_code: '123456' }))).to eq(user.id)
+    end
+
+    it 'shares one key across alternate encodings of the same token' do
+      padded_token = "#{mfa_token}=="
+      expect(Mfa::TokenService.new(token: padded_token).verify_token).to eq(user)
+
+      expect(throttle_key('mfa_login/user', form_env({ 'mfa_token' => padded_token, 'otp_code' => '123456' }))).to eq(user.id)
+    end
+
+    it 'skips tokens that do not verify' do
+      expect(throttle_key('mfa_login/user', json_env({ mfa_token: 'tok', otp_code: '123456' }))).to be_nil
+    end
+
+    it 'skips expired tokens' do
+      token = mfa_token
+      travel_to(Mfa::TokenService::MFA_TOKEN_EXPIRY.from_now + 1.minute) do
+        expect(throttle_key('mfa_login/user', json_env({ mfa_token: token, otp_code: '123456' }))).to be_nil
+      end
+    end
+
+    it 'skips tokens issued for a different purpose' do
+      setup_token = Mfa::SetupTokenService.new(user: user).generate_token
+      expect(throttle_key('mfa_login/user', json_env({ mfa_token: setup_token, otp_code: '123456' }))).to be_nil
+    end
+  end
+
   describe 'mfa_login/token' do
-    it 'keys JSON verification submissions by token' do
-      expect(throttle_key('mfa_login/token', json_env({ mfa_token: 'tok', otp_code: '123456' }))).to eq('tok')
+    let(:user) { create(:user) }
+
+    it 'keys other sign-in tokens by the raw token' do
+      setup_token = Mfa::SetupTokenService.new(user: user).generate_token
+      expect(throttle_key('mfa_login/token', json_env({ mfa_token: setup_token, otp_code: '123456' }))).to eq(setup_token)
+    end
+
+    it 'leaves MFA login tokens to the per-user throttle' do
+      mfa_token = Mfa::TokenService.new(user: user).generate_token
+      expect(throttle_key('mfa_login/token', json_env({ mfa_token: mfa_token, otp_code: '123456' }))).to be_nil
     end
   end
 

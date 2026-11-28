@@ -95,6 +95,14 @@ class Rack::Attack
       email&.downcase&.gsub(/\s+/, '')
     end
 
+    def mfa_token_user_id
+      token = auth_param('mfa_token')
+      return if token.nil?
+
+      decoded = Mfa::TokenService.new(token: token).decode_token
+      decoded[:user_id] if decoded[:token_type] == Mfa::TokenService::TOKEN_TYPE
+    end
+
     def normalized_super_admin_email
       email = super_admin_params&.dig('email')
       email.downcase.gsub(/\s+/, '') if email.is_a?(String) && email.present?
@@ -218,9 +226,12 @@ class Rack::Attack
     req.ip if req.path_without_extensions == '/auth/sign_in' && req.post? && req.auth_param('mfa_token').present?
   end
 
+  throttle('mfa_login/user', limit: 10, period: 1.minute) do |req|
+    req.mfa_token_user_id if req.path_without_extensions == '/auth/sign_in' && req.post?
+  end
+
   throttle('mfa_login/token', limit: 10, period: 1.minute) do |req|
-    # Track by MFA token to prevent brute force on a specific token
-    req.auth_param('mfa_token') if req.path_without_extensions == '/auth/sign_in' && req.post?
+    req.auth_param('mfa_token') if req.path_without_extensions == '/auth/sign_in' && req.post? && req.mfa_token_user_id.nil?
   end
 
   # Separate rate limiting for enforced MFA setup verification attempts
