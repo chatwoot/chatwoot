@@ -1,5 +1,5 @@
 class Whatsapp::FacebookApiClient
-  BASE_URI = 'https://graph.facebook.com'.freeze
+  BASE_URI = ENV.fetch('WHATSAPP_CLOUD_BASE_URL', 'https://graph.facebook.com').delete_suffix('/').freeze
   # Base webhook fields resent on every subscribe so Meta won't reset to defaults. `calls` is added by callers only when voice is enabled.
   WEBHOOK_DEFAULT_FIELDS = %w[messages smb_message_echoes].freeze
 

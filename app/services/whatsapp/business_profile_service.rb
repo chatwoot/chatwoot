@@ -1,5 +1,5 @@
 class Whatsapp::BusinessProfileService
-  BASE_URI = 'https://graph.facebook.com'.freeze
+  BASE_URI = ENV.fetch('WHATSAPP_CLOUD_BASE_URL', 'https://graph.facebook.com').delete_suffix('/').freeze
   FIELDS = %w[about address description email profile_picture_url websites vertical].freeze
 
   def initialize(channel, api_version:)

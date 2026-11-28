@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe Whatsapp::HealthService do
   subject(:service) { described_class.new(channel) }
 
+  let(:base_uri) { described_class::BASE_URI }
+
   let(:provider_config) do
     {
       'api_key' => 'test_access_token',
@@ -73,10 +75,16 @@ RSpec.describe Whatsapp::HealthService do
   end
 
   before do
-    stub_request(:get, %r{\Ahttps://graph\.facebook\.com/v24\.0/test_phone_number_id\?})
+    stub_request(:get, %r{\A#{Regexp.escape(base_uri)}/v24\.0/test_phone_number_id\?})
       .to_return(status: 200, body: phone_health_response.to_json, headers: { 'Content-Type' => 'application/json' })
-    stub_request(:get, %r{\Ahttps://graph\.facebook\.com/v24\.0/test_waba_id\?})
+    stub_request(:get, %r{\A#{Regexp.escape(base_uri)}/v24\.0/test_waba_id\?})
       .to_return(status: 200, body: business_account_response.to_json, headers: { 'Content-Type' => 'application/json' })
+  end
+
+  it 'uses the configured base URL or the default without a trailing slash' do
+    expected_base_uri = ENV.fetch('WHATSAPP_CLOUD_BASE_URL', 'https://graph.facebook.com').delete_suffix('/')
+
+    expect(described_class::BASE_URI).to eq(expected_base_uri)
   end
 
   describe '#fetch_health_status' do
@@ -110,7 +118,7 @@ RSpec.describe Whatsapp::HealthService do
       service.fetch_health_status
 
       expect(
-        a_request(:get, %r{graph\.facebook\.com/v24\.0/test_phone_number_id}).with do |request|
+        a_request(:get, %r{#{Regexp.escape(base_uri)}/v24\.0/test_phone_number_id}).with do |request|
           fields = CGI.parse(request.uri.query)['fields']&.first.to_s.split(',')
           fields.include?('whatsapp_business_manager_messaging_limit') && fields.exclude?('messaging_limit_tier')
         end
@@ -120,7 +128,7 @@ RSpec.describe Whatsapp::HealthService do
     it 'fetches the business profile only when requested' do
       profile_request = stub_request(
         :get,
-        %r{\Ahttps://graph\.facebook\.com/v24\.0/test_phone_number_id/whatsapp_business_profile\?}
+        %r{\A#{Regexp.escape(Whatsapp::BusinessProfileService::BASE_URI)}/v24\.0/test_phone_number_id/whatsapp_business_profile\?}o
       ).to_return(status: 200, body: business_profile_response.to_json, headers: { 'Content-Type' => 'application/json' })
 
       result = service.fetch_health_status(include_business_profile: true)
@@ -139,15 +147,15 @@ RSpec.describe Whatsapp::HealthService do
 
     it 'uses a newer configured API version' do
       allow(GlobalConfigService).to receive(:load).with('WHATSAPP_API_VERSION', 'v22.0').and_return('v25.0')
-      stub_request(:get, %r{graph\.facebook\.com/v25\.0/test_phone_number_id})
+      stub_request(:get, %r{#{Regexp.escape(base_uri)}/v25\.0/test_phone_number_id})
         .to_return(status: 200, body: phone_health_response.to_json, headers: { 'Content-Type' => 'application/json' })
-      stub_request(:get, %r{graph\.facebook\.com/v25\.0/test_waba_id})
+      stub_request(:get, %r{#{Regexp.escape(base_uri)}/v25\.0/test_waba_id})
         .to_return(status: 200, body: business_account_response.to_json, headers: { 'Content-Type' => 'application/json' })
 
       service.fetch_health_status
 
       expect(
-        a_request(:get, %r{graph\.facebook\.com/v25\.0/test_phone_number_id}).with do |request|
+        a_request(:get, %r{#{Regexp.escape(base_uri)}/v25\.0/test_phone_number_id}).with do |request|
           request.uri.path == '/v25.0/test_phone_number_id'
         end
       ).to have_been_made.once
@@ -183,7 +191,7 @@ RSpec.describe Whatsapp::HealthService do
       let(:previous_health) { { quality_rating: 'GREEN', status: 'CONNECTED' } }
 
       before do
-        stub_request(:get, %r{graph\.facebook\.com/v24\.0/test_phone_number_id})
+        stub_request(:get, %r{#{Regexp.escape(base_uri)}/v24\.0/test_phone_number_id})
           .to_return(
             status: 400,
             body: {
@@ -220,7 +228,7 @@ RSpec.describe Whatsapp::HealthService do
 
     context 'when business account enrichment fails' do
       before do
-        stub_request(:get, %r{graph\.facebook\.com/v24\.0/test_waba_id})
+        stub_request(:get, %r{#{Regexp.escape(base_uri)}/v24\.0/test_waba_id})
           .to_return(
             status: 400,
             body: {
@@ -253,7 +261,7 @@ RSpec.describe Whatsapp::HealthService do
       end
 
       it 'preserves the phone health when the enrichment request times out' do
-        stub_request(:get, %r{graph\.facebook\.com/v24\.0/test_waba_id}).to_timeout
+        stub_request(:get, %r{#{Regexp.escape(base_uri)}/v24\.0/test_waba_id}).to_timeout
 
         expect { service.sync_health_status! }.not_to raise_error
 
@@ -307,7 +315,7 @@ RSpec.describe Whatsapp::HealthService do
         attempted_at = Time.zone.parse('2026-07-21 12:00:00')
         newer_attempted_at = attempted_at + 1.minute
         expect(Rails.logger).not_to receive(:warn)
-        stub_request(:get, %r{graph\.facebook\.com/v24\.0/test_phone_number_id}).to_return do
+        stub_request(:get, %r{#{Regexp.escape(base_uri)}/v24\.0/test_phone_number_id}).to_return do
           channel.update_columns( # rubocop:disable Rails/SkipsModelValidations
             phone_number_health: newer_health,
             phone_number_health_checked_at: newer_attempted_at,
@@ -327,7 +335,7 @@ RSpec.describe Whatsapp::HealthService do
       it 'does not replace the newer successful snapshot with an older error' do
         attempted_at = Time.zone.parse('2026-07-21 12:00:00')
         newer_attempted_at = attempted_at + 1.minute
-        stub_request(:get, %r{graph\.facebook\.com/v24\.0/test_phone_number_id}).to_return do
+        stub_request(:get, %r{#{Regexp.escape(base_uri)}/v24\.0/test_phone_number_id}).to_return do
           channel.update_columns( # rubocop:disable Rails/SkipsModelValidations
             phone_number_health: newer_health,
             phone_number_health_checked_at: newer_attempted_at,

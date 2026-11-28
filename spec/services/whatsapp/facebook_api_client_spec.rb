@@ -3,6 +3,7 @@ require 'rails_helper'
 describe Whatsapp::FacebookApiClient do
   let(:access_token) { 'test_access_token' }
   let(:api_client) { described_class.new(access_token) }
+  let(:base_uri) { described_class::BASE_URI }
   let(:api_version) { 'v22.0' }
   let(:app_id) { 'test_app_id' }
   let(:app_secret) { 'test_app_secret' }
@@ -13,12 +14,18 @@ describe Whatsapp::FacebookApiClient do
     allow(GlobalConfigService).to receive(:load).with('WHATSAPP_APP_SECRET', '').and_return(app_secret)
   end
 
+  it 'uses the configured base URL or the default without a trailing slash' do
+    expected_base_uri = ENV.fetch('WHATSAPP_CLOUD_BASE_URL', 'https://graph.facebook.com').delete_suffix('/')
+
+    expect(described_class::BASE_URI).to eq(expected_base_uri)
+  end
+
   describe '#exchange_code_for_token' do
     let(:code) { 'test_code' }
 
     context 'when successful' do
       before do
-        stub_request(:get, "https://graph.facebook.com/#{api_version}/oauth/access_token")
+        stub_request(:get, "#{base_uri}/#{api_version}/oauth/access_token")
           .with(query: { client_id: app_id, client_secret: app_secret, code: code })
           .to_return(
             status: 200,
@@ -35,7 +42,7 @@ describe Whatsapp::FacebookApiClient do
 
     context 'when failed' do
       before do
-        stub_request(:get, "https://graph.facebook.com/#{api_version}/oauth/access_token")
+        stub_request(:get, "#{base_uri}/#{api_version}/oauth/access_token")
           .with(query: { client_id: app_id, client_secret: app_secret, code: code })
           .to_return(status: 400, body: { error: 'Invalid code' }.to_json)
       end
@@ -51,7 +58,7 @@ describe Whatsapp::FacebookApiClient do
 
     context 'when successful' do
       before do
-        stub_request(:get, "https://graph.facebook.com/#{api_version}/#{waba_id}/phone_numbers")
+        stub_request(:get, "#{base_uri}/#{api_version}/#{waba_id}/phone_numbers")
           .with(query: { access_token: access_token })
           .to_return(
             status: 200,
@@ -69,7 +76,7 @@ describe Whatsapp::FacebookApiClient do
 
     context 'when failed' do
       before do
-        stub_request(:get, "https://graph.facebook.com/#{api_version}/#{waba_id}/phone_numbers")
+        stub_request(:get, "#{base_uri}/#{api_version}/#{waba_id}/phone_numbers")
           .with(query: { access_token: access_token })
           .to_return(status: 403, body: { error: 'Access denied' }.to_json)
       end
@@ -86,7 +93,7 @@ describe Whatsapp::FacebookApiClient do
 
     context 'when successful' do
       before do
-        stub_request(:get, "https://graph.facebook.com/#{api_version}/debug_token")
+        stub_request(:get, "#{base_uri}/#{api_version}/debug_token")
           .with(query: { input_token: input_token, access_token: app_access_token })
           .to_return(
             status: 200,
@@ -103,7 +110,7 @@ describe Whatsapp::FacebookApiClient do
 
     context 'when failed' do
       before do
-        stub_request(:get, "https://graph.facebook.com/#{api_version}/debug_token")
+        stub_request(:get, "#{base_uri}/#{api_version}/debug_token")
           .with(query: { input_token: input_token, access_token: app_access_token })
           .to_return(status: 400, body: { error: 'Invalid token' }.to_json)
       end
@@ -120,7 +127,7 @@ describe Whatsapp::FacebookApiClient do
 
     context 'when successful' do
       before do
-        stub_request(:post, "https://graph.facebook.com/#{api_version}/#{phone_number_id}/register")
+        stub_request(:post, "#{base_uri}/#{api_version}/#{phone_number_id}/register")
           .with(
             headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' },
             body: { messaging_product: 'whatsapp', pin: pin }.to_json
@@ -140,7 +147,7 @@ describe Whatsapp::FacebookApiClient do
 
     context 'when failed' do
       before do
-        stub_request(:post, "https://graph.facebook.com/#{api_version}/#{phone_number_id}/register")
+        stub_request(:post, "#{base_uri}/#{api_version}/#{phone_number_id}/register")
           .with(
             headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' },
             body: { messaging_product: 'whatsapp', pin: pin }.to_json
@@ -159,7 +166,7 @@ describe Whatsapp::FacebookApiClient do
 
     context 'when successful' do
       before do
-        stub_request(:post, "https://graph.facebook.com/#{api_version}/#{phone_number_id}/deregister")
+        stub_request(:post, "#{base_uri}/#{api_version}/#{phone_number_id}/deregister")
           .with(headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' })
           .to_return(status: 200, body: { success: true }.to_json, headers: { 'Content-Type' => 'application/json' })
       end
@@ -172,7 +179,7 @@ describe Whatsapp::FacebookApiClient do
 
     context 'when failed' do
       before do
-        stub_request(:post, "https://graph.facebook.com/#{api_version}/#{phone_number_id}/deregister")
+        stub_request(:post, "#{base_uri}/#{api_version}/#{phone_number_id}/deregister")
           .to_return(status: 400, body: { error: 'Deregistration failed' }.to_json)
       end
 
@@ -192,7 +199,7 @@ describe Whatsapp::FacebookApiClient do
       before do
         # Step 1: Subscribe app to WABA with the default field list (`calls` is added only when voice is enabled).
         # Pinning the body guards against regressions that drop a field and break delivery.
-        stub_request(:post, "https://graph.facebook.com/#{api_version}/#{waba_id}/subscribed_apps")
+        stub_request(:post, "#{base_uri}/#{api_version}/#{waba_id}/subscribed_apps")
           .with(
             headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' },
             body: { subscribed_fields: %w[messages smb_message_echoes] }.to_json
@@ -204,7 +211,7 @@ describe Whatsapp::FacebookApiClient do
           )
 
         # Step 2: Override callback at phone number level
-        stub_request(:post, "https://graph.facebook.com/#{api_version}/#{phone_number_id}")
+        stub_request(:post, "#{base_uri}/#{api_version}/#{phone_number_id}")
           .with(
             headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' },
             body: { webhook_configuration: { override_callback_uri: callback_url, verify_token: verify_token } }.to_json
@@ -224,7 +231,7 @@ describe Whatsapp::FacebookApiClient do
 
     context 'when app subscription fails' do
       before do
-        stub_request(:post, "https://graph.facebook.com/#{api_version}/#{waba_id}/subscribed_apps")
+        stub_request(:post, "#{base_uri}/#{api_version}/#{waba_id}/subscribed_apps")
           .with(
             headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' }
           )
@@ -241,7 +248,7 @@ describe Whatsapp::FacebookApiClient do
     context 'when phone number callback override fails' do
       before do
         # Step 1 succeeds
-        stub_request(:post, "https://graph.facebook.com/#{api_version}/#{waba_id}/subscribed_apps")
+        stub_request(:post, "#{base_uri}/#{api_version}/#{waba_id}/subscribed_apps")
           .with(
             headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' }
           )
@@ -252,7 +259,7 @@ describe Whatsapp::FacebookApiClient do
           )
 
         # Step 2 fails
-        stub_request(:post, "https://graph.facebook.com/#{api_version}/#{phone_number_id}")
+        stub_request(:post, "#{base_uri}/#{api_version}/#{phone_number_id}")
           .with(
             headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' },
             body: { webhook_configuration: { override_callback_uri: callback_url, verify_token: verify_token } }.to_json
@@ -273,7 +280,7 @@ describe Whatsapp::FacebookApiClient do
 
     context 'when successful' do
       before do
-        stub_request(:post, "https://graph.facebook.com/#{api_version}/#{phone_number_id}")
+        stub_request(:post, "#{base_uri}/#{api_version}/#{phone_number_id}")
           .with(
             headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' },
             body: { webhook_configuration: { override_callback_uri: '' } }.to_json
@@ -293,7 +300,7 @@ describe Whatsapp::FacebookApiClient do
 
     context 'when failed' do
       before do
-        stub_request(:post, "https://graph.facebook.com/#{api_version}/#{phone_number_id}")
+        stub_request(:post, "#{base_uri}/#{api_version}/#{phone_number_id}")
           .with(
             headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' },
             body: { webhook_configuration: { override_callback_uri: '' } }.to_json

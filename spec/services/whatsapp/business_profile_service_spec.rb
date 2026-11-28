@@ -3,6 +3,8 @@ require 'rails_helper'
 RSpec.describe Whatsapp::BusinessProfileService do
   subject(:service) { described_class.new(channel, api_version: 'v24.0') }
 
+  let(:base_uri) { described_class::BASE_URI }
+
   let(:channel) do
     instance_double(
       Channel::Whatsapp,
@@ -31,7 +33,7 @@ RSpec.describe Whatsapp::BusinessProfileService do
   it 'returns the business profile from the phone number endpoint' do
     request = stub_request(
       :get,
-      %r{\Ahttps://graph\.facebook\.com/v24\.0/test_phone_number_id/whatsapp_business_profile\?}
+      %r{\A#{Regexp.escape(base_uri)}/v24\.0/test_phone_number_id/whatsapp_business_profile\?}
     ).to_return(status: 200, body: profile_response.to_json, headers: { 'Content-Type' => 'application/json' })
 
     expect(service.fetch).to eq(profile_response['data'].first)
