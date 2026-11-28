@@ -6,6 +6,7 @@ import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
 import MessageStatus from './MessageStatus.vue';
 import Icon from 'next/icon/Icon.vue';
 import { useInbox } from 'dashboard/composables/useInbox';
+import { useLocale } from 'shared/composables/useLocale';
 import { useMessageContext } from './provider.js';
 
 import { MESSAGE_STATUS, MESSAGE_TYPES } from './constants';
@@ -25,6 +26,7 @@ const {
   isAnInstagramChannel,
   isATiktokChannel,
 } = useInbox();
+const { resolvedLocale } = useLocale();
 
 const {
   status,
@@ -36,7 +38,7 @@ const {
 } = useMessageContext();
 
 const readableTime = computed(() =>
-  messageTimestamp(createdAt.value, 'LLL d, h:mm a')
+  messageTimestamp(createdAt.value, 'LLL d, h:mm a', resolvedLocale.value)
 );
 
 const exactTime = computed(() => exactTimestamp(createdAt.value));
