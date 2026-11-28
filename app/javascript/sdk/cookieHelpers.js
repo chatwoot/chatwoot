@@ -76,3 +76,14 @@ export const setCookieWithDomain = (
 
   Cookies.set(name, value, cookieOptions);
 };
+
+// The widget confirms a setUser call by sending back the hash it received.
+// The hash is stored only when it belongs to the user the SDK holds now,
+// so a late confirmation for an earlier call is ignored.
+export const storeConfirmedUserHash = userHash => {
+  const { identifier, user, baseDomain } = window.$chatwoot;
+  if (!user) return;
+  if (userHash !== computeHashForUserData({ identifier, user })) return;
+
+  setCookieWithDomain(getUserCookieName(), userHash, { baseDomain });
+};

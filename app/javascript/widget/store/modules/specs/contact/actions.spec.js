@@ -21,9 +21,13 @@ describe('#actions', () => {
       vi.spyOn(API, 'patch').mockResolvedValue({
         data: { widget_auth_token: 'token' },
       });
-      await actions.setUser({ commit, dispatch }, { identifier: 1, user });
+      await actions.setUser(
+        { commit, dispatch },
+        { identifier: 1, user, userHash: 'user-hash' }
+      );
       expect(sendMessage.mock.calls).toEqual([
         [{ data: { widgetAuthToken: 'token' }, event: 'setAuthCookie' }],
+        [{ data: { userHash: 'user-hash' }, event: 'setUserCookie' }],
       ]);
       expect(commit.mock.calls).toEqual([]);
       expect(dispatch.mock.calls).toEqual([
@@ -42,8 +46,13 @@ describe('#actions', () => {
         identifier_hash: '12345',
       };
       vi.spyOn(API, 'patch').mockResolvedValue({ data: { id: 1 } });
-      await actions.setUser({ commit, dispatch }, { identifier: 1, user });
-      expect(sendMessage.mock.calls).toEqual([]);
+      await actions.setUser(
+        { commit, dispatch },
+        { identifier: 1, user, userHash: 'user-hash' }
+      );
+      expect(sendMessage.mock.calls).toEqual([
+        [{ data: { userHash: 'user-hash' }, event: 'setUserCookie' }],
+      ]);
       expect(commit.mock.calls).toEqual([]);
       expect(dispatch.mock.calls).toEqual([
         ['get'],
@@ -60,10 +69,35 @@ describe('#actions', () => {
         avatar_url: '',
       };
       API.patch.mockResolvedValue({ data: { id: 1 } });
-      await actions.setUser({ commit, dispatch }, { identifier: 1, user });
-      expect(sendMessage.mock.calls).toEqual([]);
+      await actions.setUser(
+        { commit, dispatch },
+        { identifier: 1, user, userHash: 'user-hash' }
+      );
+      expect(sendMessage.mock.calls).toEqual([
+        [{ data: { userHash: 'user-hash' }, event: 'setUserCookie' }],
+      ]);
       expect(commit.mock.calls).toEqual([]);
       expect(dispatch.mock.calls).toEqual([['get']]);
+    });
+
+    it('does not confirm the user when the request fails', async () => {
+      const user = { email: 'thoma@sphadikam.com', name: 'Adu Thoma' };
+      const error = { response: { data: { error: 'Invalid hash' } } };
+      API.patch.mockRejectedValue(error);
+      await actions.setUser(
+        { commit, dispatch },
+        { identifier: 1, user, userHash: 'user-hash' }
+      );
+      expect(sendMessage.mock.calls).toEqual([
+        [
+          {
+            event: 'error',
+            errorType: 'SET_USER_ERROR',
+            data: { error: 'Invalid hash' },
+          },
+        ],
+      ]);
+      expect(dispatch.mock.calls).toEqual([]);
     });
   });
 

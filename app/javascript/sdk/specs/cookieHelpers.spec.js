@@ -6,6 +6,7 @@ import {
   getUserString,
   hasUserKeys,
   setCookieWithDomain,
+  storeConfirmedUserHash,
 } from '../cookieHelpers';
 
 describe('#getUserCookieName', () => {
@@ -387,5 +388,53 @@ describe('setCookieWithDomain', () => {
       sameSite: 'Lax',
       domain: 'example.com',
     });
+  });
+});
+
+describe('#storeConfirmedUserHash', () => {
+  const identifier = 'user-1';
+  const user = { name: 'Pranav', email: 'pranav@example.com' };
+  const userHash = computeHashForUserData({ identifier, user });
+
+  beforeEach(() => {
+    vi.spyOn(Cookies, 'set').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    delete global.$chatwoot;
+    vi.restoreAllMocks();
+  });
+
+  it('stores the hash of the user the SDK holds', () => {
+    global.$chatwoot = {
+      websiteToken: '123456',
+      baseDomain: '.example.com',
+      identifier,
+      user,
+    };
+
+    storeConfirmedUserHash(userHash);
+
+    expect(Cookies.set).toHaveBeenCalledWith(
+      'cw_user_123456',
+      userHash,
+      expect.objectContaining({ domain: '.example.com' })
+    );
+  });
+
+  it('does not store a hash for another user', () => {
+    global.$chatwoot = { websiteToken: '123456', identifier: 'user-2', user };
+
+    storeConfirmedUserHash(userHash);
+
+    expect(Cookies.set).not.toHaveBeenCalled();
+  });
+
+  it('does not store a hash when the SDK holds no user', () => {
+    global.$chatwoot = { websiteToken: '123456' };
+
+    storeConfirmedUserHash(userHash);
+
+    expect(Cookies.set).not.toHaveBeenCalled();
   });
 });

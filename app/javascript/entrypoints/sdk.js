@@ -15,7 +15,6 @@ import {
   removeClasses,
   restoreWidgetInDOM,
 } from '../sdk/DOMHelpers';
-import { setCookieWithDomain } from '../sdk/cookieHelpers';
 import { SDK_SET_BUBBLE_VISIBILITY } from 'shared/constants/sharedFrameEvents';
 
 const runSDK = ({ baseUrl, websiteToken }) => {
@@ -120,20 +119,16 @@ const runSDK = ({ baseUrl, websiteToken }) => {
         );
       }
 
-      const userCookieName = getUserCookieName();
-      const existingCookieValue = Cookies.get(userCookieName);
-      const hashToBeStored = computeHashForUserData({ identifier, user });
-      if (hashToBeStored === existingCookieValue) {
+      const userHash = computeHashForUserData({ identifier, user });
+      if (userHash === Cookies.get(getUserCookieName())) {
         return;
       }
 
       window.$chatwoot.identifier = identifier;
       window.$chatwoot.user = user;
-      IFrameHelper.sendMessage('set-user', { identifier, user });
-
-      setCookieWithDomain(userCookieName, hashToBeStored, {
-        baseDomain,
-      });
+      // The hash is stored as a cookie only after the widget confirms this call.
+      // Until then, a repeated call sends the user again.
+      IFrameHelper.sendMessage('set-user', { identifier, user, userHash });
     },
 
     setCustomAttributes(customAttributes = {}) {

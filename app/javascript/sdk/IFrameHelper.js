@@ -28,7 +28,11 @@ import {
   CHATWOOT_READY,
 } from '../widget/constants/sdkEvents';
 import { SET_USER_ERROR } from '../widget/constants/errorTypes';
-import { getUserCookieName, setCookieWithDomain } from './cookieHelpers';
+import {
+  getUserCookieName,
+  setCookieWithDomain,
+  storeConfirmedUserHash,
+} from './cookieHelpers';
 import {
   getAlertAudio,
   initOnEvents,
@@ -208,6 +212,11 @@ export const IFrameHelper = {
 
     setAuthCookie({ data: { widgetAuthToken } }) {
       updateAuthCookie(widgetAuthToken, window.$chatwoot.baseDomain);
+    },
+
+    // Sent by the widget after the server accepts a setUser call
+    setUserCookie({ data: { userHash } }) {
+      storeConfirmedUserHash(userHash);
     },
 
     setCampaignReadOn() {
