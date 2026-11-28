@@ -69,6 +69,8 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def process_standard_response
+    return process_transfer_promise_handoff if transfer_promise_handoff?
+
     message = nil
     ActiveRecord::Base.transaction do
       next if newer_customer_message_arrived?
@@ -89,6 +91,25 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     v2_handoff_tool_completed? ? process_v2_handoff : process_failure_handoff
     record_v2_failure_handoff(source: Captain::ConversationEvents::Sources::TOOL) unless v2_handoff_tool_completed?
 
+    capture_assistant_session(result_message: @handoff_message, credits_consumed: 0.0)
+  end
+
+  # The reply tells the customer that a person is taking over, but the handoff tool did not run. Make the reply true
+  # by handing off the way a successful handoff tool call would, and drop the reply.
+  def transfer_promise_handoff?
+    mode = Captain::Conversation::TransferPromiseCheck.mode
+    return false if mode == Captain::Conversation::TransferPromiseCheck::OFF
+
+    reply = Captain::Assistant::ResponseParts.from_response(@response).plain_text
+    promised = Captain::Conversation::TransferPromiseCheck.new(conversation: @conversation, reply: reply).promised?
+    promised && mode == Captain::Conversation::TransferPromiseCheck::HANDOFF
+  end
+
+  def process_transfer_promise_handoff
+    return if newer_customer_message_arrived?
+
+    process_failure_handoff
+    record_v2_failure_handoff(source: Captain::ConversationEvents::Sources::TRANSFER_PROMISE)
     capture_assistant_session(result_message: @handoff_message, credits_consumed: 0.0)
   end
 

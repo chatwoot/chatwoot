@@ -5,7 +5,6 @@ class Captain::Assistant::AgentRunnerService
   include Captain::Assistant::RunnerCallbacksHelper
   include Captain::Assistant::AgentRunResponse
   include Captain::Assistant::RunnerInstrumentationHelper
-  include Captain::Assistant::HandoffFieldDetection
   include Captain::Assistant::TracePayloadHelper
   include Captain::Assistant::RunnerStateHelper
 
@@ -191,9 +190,7 @@ class Captain::Assistant::AgentRunnerService
     agent = @assistant.agent
     agent.clone(
       instructions: ->(context) { @assistant.agent_instructions(context, prompt_template: 'copilot_reply_suggestion') },
-      tools: copilot_tools(agent.tools.select(&:read_only?)),
-      # An agent reads the suggestion before sending it, so it keeps the response format without the handoff field.
-      response_schema: Captain::ResponseSchema
+      tools: copilot_tools(agent.tools.select(&:read_only?))
     )
   end
 

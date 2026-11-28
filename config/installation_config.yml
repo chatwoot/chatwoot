@@ -242,6 +242,16 @@
   display_title: 'OpenRouter Decision Model Endpoint'
   description: 'The OpenRouter API base URL for Captain Classifier and conversation monitors. Example: https://openrouter.ai/api'
   locked: false
+- name: CAPTAIN_TRANSFER_PROMISE_CHECK_MODE
+  value: 'off'
+  display_title: 'Transfer promise check'
+  description: 'Checks each Captain reply for a promise that a person is taking over when the handoff tool did not run. Log only records it. Hand off drops the reply and hands the conversation to the team. Needs the OpenRouter API key.'
+  locked: false
+  type: select
+  options:
+    'off': 'Off'
+    shadow: 'Log only'
+    handoff: 'Hand off'
 - name: CAPTAIN_FIRECRAWL_API_KEY
   display_title: 'FireCrawl API Key (optional)'
   description: 'The FireCrawl API key for the Captain AI service'
