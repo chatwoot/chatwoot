@@ -363,7 +363,8 @@
         "GENERATING": "Generating...",
         "CANCEL": "Cancel"
       },
-      "GENERATE_ERROR": "There was an error processing the content, please verify your OpenAI API key and try again"
+      "GENERATE_ERROR": "There was an error processing the content, please verify your OpenAI API key and try again",
+      "NO_REPLY_NEEDED": "No reply needed. {reason}"
     },
     "DELETE": {
       "BUTTON_TEXT": "Delete",

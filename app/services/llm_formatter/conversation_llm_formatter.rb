@@ -4,6 +4,7 @@ class LlmFormatter::ConversationLlmFormatter < LlmFormatter::DefaultLlmFormatter
     sections << "Conversation ID: ##{@record.display_id}"
     sections << "Channel: #{@record.inbox.channel.name}"
     sections << "Created At: #{@record.created_at}"
+    sections.concat(timing_lines) if config[:include_timestamps]
     sections << 'Message History:'
     sections << if @record.messages.any?
                   build_messages(config)
@@ -42,7 +43,7 @@ class LlmFormatter::ConversationLlmFormatter < LlmFormatter::DefaultLlmFormatter
       # Skip private messages unless explicitly included in config
       next if message.private? && !config[:include_private_messages]
 
-      message_text << format_message(message)
+      message_text << format_message(message, config)
     end
     message_text
   end
@@ -55,7 +56,7 @@ class LlmFormatter::ConversationLlmFormatter < LlmFormatter::DefaultLlmFormatter
       # Skip private messages unless explicitly included in config
       next if message.private? && !config[:include_private_messages]
 
-      formatted = format_message(message)
+      formatted = format_message(message, config)
       break if character_count + formatted.length > config[:token_limit]
 
       selected.prepend(formatted)
@@ -65,17 +66,47 @@ class LlmFormatter::ConversationLlmFormatter < LlmFormatter::DefaultLlmFormatter
     selected.join
   end
 
-  def format_message(message)
-    sender = case message.sender_type
-             when 'User'
-               'Support Agent'
-             when 'Contact'
-               'User'
-             else
-               'Bot'
-             end
+  def format_message(message, config = {})
+    sender = sender_label(message)
     sender = "[Private Note] #{sender}" if message.private?
+    sender = "[#{format_time(message.created_at)}] #{sender}" if config[:include_timestamps]
     "#{sender}: #{message.content_for_llm}\n"
+  end
+
+  def sender_label(message)
+    case message.sender_type
+    when 'User'
+      'Support Agent'
+    when 'Contact'
+      'User'
+    else
+      'Bot'
+    end
+  end
+
+  # Matches the dashboard's "who spoke last" rule (getLastEmailInSelectedChat): public, not forwarded, incoming or outgoing.
+  def timing_lines
+    latest = @record.messages.where(message_type: [:incoming, :outgoing], private: false).not_forwarded.reorder(created_at: :desc).first
+    customer_last = @record.messages.incoming.reorder(created_at: :desc).first
+
+    lines = ["Current Time: #{format_time(Time.current)}"]
+    lines << "Latest Message: from #{sender_label(latest)}, #{time_since(latest.created_at)}" if latest
+    lines << (customer_last ? "Customer Last Wrote: #{time_since(customer_last.created_at)}" : 'Customer Last Wrote: never')
+    lines
+  end
+
+  def format_time(time)
+    time.utc.strftime('%Y-%m-%d %H:%M UTC')
+  end
+
+  def time_since(time)
+    minutes = ((Time.current - time) / 60).floor
+    return "#{minutes} minutes ago" if minutes < 60
+
+    hours = minutes / 60
+    return "#{hours} hours ago" if hours < 48
+
+    "#{hours / 24} days ago"
   end
 
   def build_attributes

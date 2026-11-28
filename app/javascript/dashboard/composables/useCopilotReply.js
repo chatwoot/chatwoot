@@ -179,6 +179,7 @@ export function useCopilotReply() {
         message: content,
         followUpContext: newContext,
         errorType,
+        noReplyReason,
       } = await processEvent(action, data, {
         signal: requestController.signal,
       });
@@ -199,6 +200,11 @@ export function useCopilotReply() {
         const eventKey = `${getEventPrefix(action)}_USED`;
         useTrack(
           CAPTAIN_EVENTS[eventKey],
+          buildPayload(action, trackedConversationId.value)
+        );
+      } else if (noReplyReason !== undefined) {
+        useTrack(
+          CAPTAIN_EVENTS.REPLY_SUGGESTION_NOT_NEEDED,
           buildPayload(action, trackedConversationId.value)
         );
       } else if (errorType && errorType !== CAPTAIN_ERROR_TYPES.ABORTED) {

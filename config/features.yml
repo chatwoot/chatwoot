@@ -333,3 +333,8 @@
   display_name: Sort conversations by last message
   enabled: true
   column: feature_flags_ext_1
+- name: captain_agent_reply_draft
+  display_name: Captain agent reply draft
+  enabled: false
+  chatwoot_internal: true
+  column: feature_flags_ext_1
