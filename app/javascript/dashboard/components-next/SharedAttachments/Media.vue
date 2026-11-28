@@ -8,7 +8,7 @@ import {
   shortTimestamp,
 } from 'shared/helpers/timeHelper';
 import { useExactTimestamp } from 'shared/composables/useExactTimestamp';
-import { downloadFile } from '@chatwoot/utils';
+import { useFileDownload } from 'dashboard/composables/useFileDownload';
 import {
   ATTACHMENT_TYPES,
   MEDIA_TYPES,
@@ -139,11 +139,13 @@ const onTileActivate = (attachment, index) => {
   emit('select', attachment);
 };
 
+const { download } = useFileDownload();
+
 const onDownloadFile = async attachment => {
   const { id, file_type: type, data_url: url, extension } = attachment;
   try {
     downloadingId.value = id;
-    await downloadFile({ url, type, extension });
+    await download({ url, type, extension });
   } catch (error) {
     useAlert(t('CONVERSATION_SIDEBAR.SHARED_FILES.DOWNLOAD_ERROR'));
   } finally {
