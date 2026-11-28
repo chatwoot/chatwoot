@@ -3,6 +3,7 @@ import ConversationApi from '../../../api/inbox/conversation';
 import MessageApi from '../../../api/inbox/message';
 import { MESSAGE_STATUS, MESSAGE_TYPE } from 'shared/constants/messages';
 import { createPendingMessage } from 'dashboard/helper/commons';
+import { INBOX_TYPES, TWILIO_CHANNEL_MEDIUM } from 'dashboard/helper/inbox';
 import filterQueryGenerator, {
   withTimestampTimezone,
 } from 'dashboard/helper/filterQueryGenerator';
@@ -33,13 +34,50 @@ const MESSAGES_PER_PAGE = 20;
 
 const pendingHistoryRequests = new Map();
 
-const reopenReplyWindowFromHistory = (commit, conversationId, meta) => {
-  // A history request can return after a newer incoming message arrived live.
-  if (meta?.can_reply === true) {
-    commit(types.SET_CONVERSATION_CAN_REPLY, {
-      conversationId,
-      canReply: true,
-    });
+const refreshReplyWindowAfterHistory = async (
+  { commit, state, rootGetters },
+  conversationId,
+  messages,
+  accountId
+) => {
+  if (ConversationApi.accountIdFromRoute !== accountId) return;
+
+  const conversation = state.allConversations.find(
+    chat => chat.id === conversationId
+  );
+  if (conversation?.can_reply !== false) return;
+
+  const { channel_type: channelType, medium } = rootGetters['inboxes/getInbox'](
+    conversation.inbox_id
+  );
+  const isWhatsApp =
+    channelType === INBOX_TYPES.WHATSAPP ||
+    (channelType === INBOX_TYPES.TWILIO &&
+      medium === TWILIO_CHANNEL_MEDIUM.WHATSAPP);
+  if (!isWhatsApp) return;
+
+  const loadedMessageIds = new Set(conversation.messages.map(({ id }) => id));
+  const hasMissedIncoming = messages.some(
+    message =>
+      message.message_type === MESSAGE_TYPE.INCOMING &&
+      !loadedMessageIds.has(message.id)
+  );
+  if (!hasMissedIncoming) return;
+
+  try {
+    const { data } = await ConversationApi.show(conversationId);
+    // Keep a window that a newer live message may have opened in the meantime.
+    if (
+      data.can_reply === true &&
+      ConversationApi.accountIdFromRoute === accountId
+    ) {
+      commit(types.SET_CONVERSATION_CAN_REPLY, {
+        conversationId,
+        canReply: true,
+      });
+    }
+  } catch {
+    // History is still usable if verifying the reply window fails.
   }
 };
 
@@ -184,7 +222,9 @@ const actions = {
     commit(types.CLEAR_CURRENT_CHAT_WINDOW);
   },
 
-  fetchPreviousMessages: ({ commit, dispatch }, data) => {
+  fetchPreviousMessages: (context, data) => {
+    const { commit, dispatch } = context;
+    const accountId = ConversationApi.accountIdFromRoute;
     const requestKey = JSON.stringify([
       MessageApi.url,
       data.conversationId,
@@ -197,6 +237,12 @@ const actions = {
 
     const request = MessageApi.getPreviousMessages(data)
       .then(({ data: { meta, payload } }) => {
+        refreshReplyWindowAfterHistory(
+          context,
+          data.conversationId,
+          payload,
+          accountId
+        );
         commit(`conversationMetadata/${types.SET_CONVERSATION_METADATA}`, {
           id: data.conversationId,
           data: meta,
@@ -205,7 +251,6 @@ const actions = {
           id: data.conversationId,
           data: payload,
         });
-        reopenReplyWindowFromHistory(commit, data.conversationId, meta);
         dispatch('autoTranslateMessages', data.conversationId);
         // A short backward page means the start is reached; `after` requests only prove it when empty.
         const hasReachedFirstMessage = data.after
@@ -243,10 +288,9 @@ const actions = {
     }
   },
 
-  syncActiveConversationMessages: async (
-    { commit, state, dispatch },
-    { conversationId }
-  ) => {
+  syncActiveConversationMessages: async (context, { conversationId }) => {
+    const { commit, state, dispatch } = context;
+    const accountId = ConversationApi.accountIdFromRoute;
     const { allConversations, syncConversationsMessages } = state;
     const lastMessageId = syncConversationsMessages[conversationId];
     const selectedChat = allConversations.find(
@@ -266,6 +310,12 @@ const actions = {
         id: conversationId,
         data: meta,
       });
+      refreshReplyWindowAfterHistory(
+        context,
+        conversationId,
+        payload,
+        accountId
+      );
       // Find the messages that are not already present in the store
       const missingMessages = payload.filter(
         message => !messages.find(item => item.id === message.id)
@@ -283,7 +333,6 @@ const actions = {
         conversationId,
         messageId: null,
       });
-      reopenReplyWindowFromHistory(commit, conversationId, meta);
       dispatch('autoTranslateMessages', conversationId);
       dispatch('markMessagesRead', { id: conversationId }, { root: true });
     } catch (error) {
