@@ -190,6 +190,131 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
       end
     end
 
+    context 'when a contact replies with a button or list selection' do
+      let(:reply_message) { {} }
+      let(:reply_params) do
+        {
+          phone_number: whatsapp_channel.phone_number,
+          object: 'whatsapp_business_account',
+          entry: [{
+            changes: [{
+              value: {
+                contacts: [{ profile: { name: 'Reply Contact' }, wa_id: sender_number }],
+                messages: [{
+                  from: sender_number,
+                  id: 'wamid.reply-message',
+                  timestamp: '1664799904'
+                }.merge(reply_message)]
+              }
+            }]
+          }]
+        }.with_indifferent_access
+      end
+
+      context 'with a template quick reply button' do
+        let(:reply_message) do
+          {
+            type: 'button',
+            context: { from: whatsapp_channel.phone_number, id: 'wamid.template-message' },
+            button: { payload: 'reminder-1234', text: 'Done' }
+          }
+        end
+
+        it 'stores the Meta button object as-is under selected_reply.button' do
+          described_class.new(inbox: whatsapp_channel.inbox, params: reply_params).perform
+
+          message = whatsapp_channel.inbox.messages.last
+          expect(message.content).to eq('Done')
+          expect(message.content_attributes['selected_reply']).to eq(
+            'type' => 'button',
+            'button' => { 'payload' => 'reminder-1234', 'text' => 'Done' }
+          )
+        end
+
+        it 'exposes the selected reply in the webhook payload' do
+          described_class.new(inbox: whatsapp_channel.inbox, params: reply_params).perform
+
+          selected_reply = whatsapp_channel.inbox.messages.last.webhook_data[:content_attributes][:selected_reply]
+          expect(selected_reply).to eq(
+            'type' => 'button',
+            'button' => { 'payload' => 'reminder-1234', 'text' => 'Done' }
+          )
+          expect(JSON.parse(selected_reply.to_json).dig('button', 'payload')).to eq('reminder-1234')
+        end
+      end
+
+      context 'with a template quick reply button carrying unknown Meta fields' do
+        let(:reply_message) do
+          {
+            type: 'button',
+            button: { payload: 'opt-1', text: 'Option 1', id: 'future-meta-id', extra: { nested: 'value' } }
+          }
+        end
+
+        it 'preserves every field without renaming or filtering' do
+          described_class.new(inbox: whatsapp_channel.inbox, params: reply_params).perform
+
+          message = whatsapp_channel.inbox.messages.last
+          expect(message.content_attributes['selected_reply']).to eq(
+            'type' => 'button',
+            'button' => { 'payload' => 'opt-1', 'text' => 'Option 1', 'id' => 'future-meta-id', 'extra' => { 'nested' => 'value' } }
+          )
+        end
+      end
+
+      context 'with an interactive button reply' do
+        let(:reply_message) do
+          {
+            type: 'interactive',
+            interactive: { type: 'button_reply', button_reply: { id: 'confirm-yes', title: 'Yes' } }
+          }
+        end
+
+        it 'stores the Meta button_reply object as-is under selected_reply.button_reply' do
+          described_class.new(inbox: whatsapp_channel.inbox, params: reply_params).perform
+
+          message = whatsapp_channel.inbox.messages.last
+          expect(message.content).to eq('Yes')
+          expect(message.content_attributes['selected_reply']).to eq(
+            'type' => 'button_reply',
+            'button_reply' => { 'id' => 'confirm-yes', 'title' => 'Yes' }
+          )
+        end
+      end
+
+      context 'with an interactive list reply' do
+        let(:reply_message) do
+          {
+            type: 'interactive',
+            interactive: { type: 'list_reply', list_reply: { id: 'slot-morning', title: 'Morning', description: '9am - 12pm' } }
+          }
+        end
+
+        it 'stores the Meta list_reply object as-is, including description' do
+          described_class.new(inbox: whatsapp_channel.inbox, params: reply_params).perform
+
+          message = whatsapp_channel.inbox.messages.last
+          expect(message.content).to eq('Morning')
+          expect(message.content_attributes['selected_reply']).to eq(
+            'type' => 'list_reply',
+            'list_reply' => { 'id' => 'slot-morning', 'title' => 'Morning', 'description' => '9am - 12pm' }
+          )
+        end
+      end
+
+      context 'with a plain text message' do
+        let(:reply_message) { { type: 'text', text: { body: 'Hello' } } }
+
+        it 'does not store a selected reply' do
+          described_class.new(inbox: whatsapp_channel.inbox, params: reply_params).perform
+
+          message = whatsapp_channel.inbox.messages.last
+          expect(message.content).to eq('Hello')
+          expect(message.content_attributes).not_to have_key('selected_reply')
+        end
+      end
+    end
+
     context 'when invalid attachment message params' do
       let(:error_params) do
         {

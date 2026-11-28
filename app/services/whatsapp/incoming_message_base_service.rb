@@ -181,6 +181,8 @@ class Whatsapp::IncomingMessageBaseService
     content_attrs[:in_reply_to_external_id] = @in_reply_to_external_id if @in_reply_to_external_id.present?
     referral_content_attrs = referral_attributes(message)
     content_attrs[:referral] = referral_content_attrs if referral_content_attrs.present?
+    selected_reply = selected_reply_attributes(message)
+    content_attrs[:selected_reply] = selected_reply if selected_reply.present?
 
     flow_response = message.dig(:interactive, :nfm_reply)
     if flow_response.present?
