@@ -3,7 +3,7 @@ import { ref, computed, watch } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import { OnClickOutside } from '@vueuse/components';
-import { useStore, useMapGetter } from 'dashboard/composables/store.js';
+import { useMapGetter } from 'dashboard/composables/store.js';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { debounce } from '@chatwoot/utils';
 import {
@@ -54,6 +54,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  filters: {
+    type: Object,
+    required: true,
+  },
   isCategoryArticles: {
     type: Boolean,
     default: false,
@@ -69,7 +73,6 @@ const emit = defineEmits([
 
 const router = useRouter();
 const route = useRoute();
-const store = useStore();
 const { t } = useI18n();
 
 const isSwitchingPortal = useMapGetter('portals/isSwitchingPortal');
@@ -99,20 +102,6 @@ const isTranslationAvailable = computed(
 );
 
 const allItems = computed(() => props.articles.map(a => ({ id: a.id })));
-const visibleArticleIds = computed(() => props.articles.map(a => a.id));
-
-const selectAllLabel = computed(() => {
-  if (!visibleArticleIds.value.length) return '';
-  return t('HELP_CENTER.ARTICLES_PAGE.BULK_TRANSLATE.SELECT_ALL', {
-    count: visibleArticleIds.value.length,
-  });
-});
-
-const selectedCountLabel = computed(() =>
-  t('HELP_CENTER.ARTICLES_PAGE.BULK_TRANSLATE.SELECTED_COUNT', {
-    count: selectedArticleIds.value.size,
-  })
-);
 
 const bulkTranslateDialogRef = ref(null);
 
@@ -163,6 +152,37 @@ const articlesCount = computed(() => {
 });
 
 const totalPages = computed(() => Math.ceil(articlesCount.value / 25) || 1);
+
+const isAllMatchingSelected = ref(false);
+
+const canSelectAllMatching = computed(
+  () =>
+    !isAllMatchingSelected.value &&
+    selectedArticleIds.value.size === props.articles.length &&
+    articlesCount.value > props.articles.length
+);
+
+const selectedCount = computed(() =>
+  isAllMatchingSelected.value
+    ? articlesCount.value
+    : selectedArticleIds.value.size
+);
+
+const selectedCountLabel = computed(() =>
+  t('HELP_CENTER.ARTICLES_PAGE.BULK_TRANSLATE.SELECTED_COUNT', {
+    count: selectedCount.value,
+  })
+);
+
+const bulkTarget = computed(() =>
+  isAllMatchingSelected.value
+    ? { filters: props.filters }
+    : { articleIds: [...selectedArticleIds.value] }
+);
+
+watch(selectedArticleIds, () => {
+  isAllMatchingSelected.value = false;
+});
 
 const showArticleHeaderControls = computed(
   () => !props.isCategoryArticles && !isSwitchingPortal.value
@@ -249,44 +269,40 @@ const openTranslateDialog = () => {
 };
 
 const onBulkActionSuccess = message => {
-  useAlert(message);
+  const isQueued = isAllMatchingSelected.value;
+  useAlert(
+    isQueued
+      ? t('HELP_CENTER.ARTICLES_PAGE.BULK_ACTIONS.ALL_IN_PROGRESS', {
+          count: articlesCount.value,
+        })
+      : message
+  );
   clearSelection();
-  emit('refreshArticles');
+  if (!isQueued) emit('refreshArticles');
 };
 
 const bulkUpdateStatus = async status => {
-  const selectedIds = [...selectedArticleIds.value];
-  const { portalSlug } = route.params;
+  const skippedCount =
+    status === ARTICLE_STATUSES.PUBLISHED || isAllMatchingSelected.value
+      ? 0
+      : props.articles.filter(
+          article =>
+            selectedArticleIds.value.has(article.id) &&
+            article.status === ARTICLE_STATUSES.PUBLISHED &&
+            hasPendingChanges(article)
+        ).length;
 
-  const pendingIds = props.articles
-    .filter(
-      article =>
-        selectedIds.includes(article.id) &&
-        article.status === ARTICLE_STATUSES.PUBLISHED &&
-        hasPendingChanges(article)
-    )
-    .map(article => article.id);
-
-  // Publish promotes each pending draft; other status changes skip them.
-  const isPublishing = status === ARTICLE_STATUSES.PUBLISHED;
-  const draftIds = isPublishing ? pendingIds : [];
-  const skippedCount = isPublishing ? 0 : pendingIds.length;
-  const articleIds = selectedIds.filter(id => !pendingIds.includes(id));
-
-  if (!articleIds.length && !draftIds.length) {
+  if (skippedCount === selectedArticleIds.value.size) {
     useAlert(t('HELP_CENTER.ARTICLES_PAGE.BULK_ACTIONS.STATUS_SKIPPED_ALL'));
     return;
   }
 
   try {
-    if (articleIds.length) {
-      await articlesAPI.bulkUpdateStatus({ portalSlug, articleIds, status });
-    }
-    await Promise.all(
-      draftIds.map(articleId =>
-        store.dispatch('articles/publishDraft', { portalSlug, articleId })
-      )
-    );
+    await articlesAPI.bulkUpdateStatus({
+      portalSlug: route.params.portalSlug,
+      ...bulkTarget.value,
+      status,
+    });
     onBulkActionSuccess(
       t('HELP_CENTER.ARTICLES_PAGE.BULK_ACTIONS.STATUS_SUCCESS')
     );
@@ -317,7 +333,7 @@ const handleBulkUpdateCategory = async ({ value }) => {
   try {
     await articlesAPI.bulkUpdateCategory({
       portalSlug: route.params.portalSlug,
-      articleIds: [...selectedArticleIds.value],
+      ...bulkTarget.value,
       categoryId: value,
     });
     onBulkActionSuccess(
@@ -339,7 +355,7 @@ const bulkDelete = async () => {
   try {
     await articlesAPI.bulkDelete({
       portalSlug: route.params.portalSlug,
-      articleIds: [...selectedArticleIds.value],
+      ...bulkTarget.value,
     });
     deleteConfirmDialogRef.value?.close();
     onBulkActionSuccess(
@@ -421,12 +437,24 @@ watch(
           <BulkSelectBar
             v-model="selectedArticleIds"
             :all-items="allItems"
-            :select-all-label="selectAllLabel"
             :selected-count-label="selectedCountLabel"
             class="py-2 ltr:!pr-3 rtl:!pl-3 justify-between"
           >
-            <template #secondaryActions>
+            <template #primaryActions>
               <Button
+                v-if="canSelectAllMatching"
+                sm
+                link
+                :label="
+                  t(
+                    'HELP_CENTER.ARTICLES_PAGE.BULK_ACTIONS.SELECT_ALL_MATCHING',
+                    { count: articlesCount }
+                  )
+                "
+                @click="isAllMatchingSelected = true"
+              />
+              <Button
+                v-else
                 sm
                 ghost
                 slate
@@ -491,7 +519,7 @@ watch(
                   </OnClickOutside>
                 </div>
                 <Button
-                  v-if="isTranslationAvailable"
+                  v-if="isTranslationAvailable && !isAllMatchingSelected"
                   sm
                   faded
                   slate
@@ -552,13 +580,13 @@ watch(
       :title="
         t(
           'HELP_CENTER.ARTICLES_PAGE.BULK_ACTIONS.DELETE_CONFIRM_TITLE',
-          selectedArticleIds.size
+          selectedCount
         )
       "
       :description="
         t(
           'HELP_CENTER.ARTICLES_PAGE.BULK_ACTIONS.DELETE_CONFIRM_DESCRIPTION',
-          selectedArticleIds.size
+          selectedCount
         )
       "
       :confirm-button-label="

@@ -3,6 +3,22 @@
 import PortalsAPI from './portals';
 import { getArticleSearchURL } from 'dashboard/helper/URLHelper.js';
 
+const bulkTargetParams = ({ articleIds, filters }) => {
+  if (!filters) return { ids: articleIds };
+
+  const { locale, status, authorId, categorySlug, query } = filters;
+  return {
+    select_all: true,
+    filters: {
+      locale,
+      status,
+      author_id: authorId,
+      category_slug: categorySlug,
+      query,
+    },
+  };
+};
+
 class ArticlesAPI extends PortalsAPI {
   constructor() {
     super('articles', { accountScoped: true });
@@ -88,24 +104,24 @@ class ArticlesAPI extends PortalsAPI {
     );
   }
 
-  bulkUpdateStatus({ portalSlug, articleIds, status }) {
+  bulkUpdateStatus({ portalSlug, articleIds, filters, status }) {
     return axios.patch(
       `${this.url}/${portalSlug}/articles/bulk_actions/update_status`,
-      { ids: articleIds, status }
+      { ...bulkTargetParams({ articleIds, filters }), status }
     );
   }
 
-  bulkUpdateCategory({ portalSlug, articleIds, categoryId }) {
+  bulkUpdateCategory({ portalSlug, articleIds, filters, categoryId }) {
     return axios.patch(
       `${this.url}/${portalSlug}/articles/bulk_actions/update_category`,
-      { ids: articleIds, category_id: categoryId }
+      { ...bulkTargetParams({ articleIds, filters }), category_id: categoryId }
     );
   }
 
-  bulkDelete({ portalSlug, articleIds }) {
+  bulkDelete({ portalSlug, articleIds, filters }) {
     return axios.delete(
       `${this.url}/${portalSlug}/articles/bulk_actions/delete_articles`,
-      { data: { ids: articleIds } }
+      { data: bulkTargetParams({ articleIds, filters }) }
     );
   }
 }
