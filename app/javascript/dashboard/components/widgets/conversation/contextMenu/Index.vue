@@ -14,7 +14,7 @@ import wootConstants from 'dashboard/constants/globals';
 import AgentLoadingPlaceholder from './agentLoadingPlaceholder.vue';
 import NextInput from 'dashboard/components-next/input/Input.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
-import { openCommandBar } from 'dashboard/modules/command-bar/openCommandBar';
+import { useCommandBar } from '@chatwoot/jumpbar';
 import { SNOOZE_CONVERSATION_PAGE } from 'dashboard/modules/command-bar/commands';
 
 const MENU = {
@@ -246,7 +246,7 @@ export default {
     },
     async snoozeConversation() {
       await this.$store.dispatch('setContextMenuChatId', this.chatId);
-      openCommandBar({ page: SNOOZE_CONVERSATION_PAGE });
+      useCommandBar().open({ page: SNOOZE_CONVERSATION_PAGE });
     },
     assignPriority(priority) {
       this.$emit('assignPriority', priority);
