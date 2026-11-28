@@ -16,7 +16,7 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
            Captain::Tools::Copilot::GetAccountDirectoryService, Captain::Tools::Copilot::SearchChatwootDocsService].freeze
   WORKFLOW_TOOLS = [Captain::Tools::Copilot::GetDataService, Captain::Tools::Copilot::ReviewConversationsService,
                     Captain::Tools::Copilot::ContinueReviewService, Captain::Tools::Copilot::DisplayService,
-                    Captain::Tools::Copilot::ActService].freeze
+                    Captain::Tools::Copilot::ActService, Captain::Tools::Copilot::ReadToolResultService].freeze
   TOOLS_WITH_CARD = %w[review_conversations continue_review act].freeze
 
   def initialize(run, token)
@@ -40,6 +40,7 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
     @transcript = Captain::Copilot::TurnTranscript.new(@run, llm, protocol: protocol)
     @transcript.load
     @transcript.save(@token)
+    @budget = Captain::Copilot::ContextBudget.new(llm, thread_id: @run.copilot_thread_id, run_id: @run.id)
     params = instrumentation_params
     with_copilot_trace(params[:span_name], params, turn: @run, input: @run.copilot_message.message['content']) do |span|
       save_trace_carrier
@@ -88,17 +89,27 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
       raise Captain::Copilot::LimitExceededError, 'The turn reached its model-call limit' if model_calls > MAX_MODEL_CALLS
 
       llm.with_tool_options(choice: :none) if model_calls == MAX_MODEL_CALLS
-      @run.ensure_can_continue!
-
+      prepare_model_call
       llm.step
     end
     :complete
   rescue Captain::Copilot::BackgroundRunPending
     :awaiting_background_run
+  rescue RubyLLM::ContextLengthExceededError
+    raise unless @budget.compact_after_overflow!
+
+    @transcript.save(@token)
+    retry
+  end
+
+  def prepare_model_call
+    @run.ensure_can_continue!
+    @transcript.save(@token) if @budget.fit!
   end
 
   def start_tool_call(call)
-    @step_message = nil
+    # A result saved for the previous call must not be saved again for a tool RubyLLM answers without calling it.
+    @step_message = @saved_result = nil
     @run.with_lease(@token) do
       @tool_call = @run.tool_calls.find_or_create_by!(call_id: call.id) do |record|
         record.assign_attributes(name: call.name, arguments: call.arguments)
@@ -117,7 +128,8 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
     @run.with_lease(@token) do
       failure = tool_error(result)
       # The result keeps the whole error for the model; the column holds a summary within the string limit.
-      @tool_call.update!(status: failure ? :failed : :completed, result: @chart_data ? result.merge(chart_data: @chart_data) : result,
+      saved = @saved_result.nil? ? result : @saved_result
+      @tool_call.update!(status: failure ? :failed : :completed, result: @chart_data ? saved.merge(chart_data: @chart_data) : saved,
                          error: failure.to_s.truncate(ApplicationRecord::MAX_STRING_COLUMN_LENGTH).presence)
       next unless failure
 
@@ -186,6 +198,12 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
     background_run.summary
   end
 
+  # The tool call saves the whole result, and the model sees it whole only when it is small enough.
+  def model_view(result)
+    @saved_result = result
+    Captain::Copilot::ToolResultView.for_model(result, @tool_call)
+  end
+
   # Chart data is for the panel, not the model, so the model sees only the chart marker. finish_tool_call saves the data
   # on the tool call, where the marker in the answer finds it.
   def hide_chart_data(result)
@@ -198,11 +216,12 @@ class Captain::Copilot::TurnService < Llm::BaseAiService
   def perform_tool(tool, original, tool_call, arguments)
     # A failed call keeps no chart, so the data from an earlier call is cleared first.
     @chart_data = nil
-    return hide_chart_data(@tool_call.result) if @tool_call.completed?
+    return model_view(hide_chart_data(@tool_call.result)) if @tool_call.completed?
 
     tool.tool_call = @tool_call if tool.respond_to?(:tool_call=)
     # Traced here because each tool defines its own execute, which shadows the Instrumentation BaseTool prepends.
-    hide_chart_data(started_run_result(instrument_tool_call(@tool_call.name, arguments) { original.call(tool_call: tool_call, **arguments) }))
+    result = instrument_tool_call(@tool_call.name, arguments) { original.call(tool_call: tool_call, **arguments) }
+    model_view(hide_chart_data(started_run_result(result)))
   rescue Captain::Copilot::LeaseLostError, Captain::Copilot::BackgroundRunPending
     raise
   rescue ArgumentError, ActiveRecord::RecordNotFound => e
