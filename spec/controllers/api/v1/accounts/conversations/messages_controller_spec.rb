@@ -304,6 +304,50 @@ RSpec.describe 'Conversation Messages API', type: :request do
         expect(JSON.parse(response.body, symbolize_names: true)[:meta][:contact][:id]).to eq(conversation.contact_id)
       end
     end
+
+    shared_examples 'WhatsApp reply window metadata' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+      let(:inbox) { channel.inbox }
+      let(:conversation) { create(:conversation, account: account, inbox: inbox) }
+      let(:path) { api_v1_account_conversation_messages_url(account_id: account.id, conversation_id: conversation.display_id) }
+      let(:headers) { agent.create_new_auth_token }
+
+      before { create(:inbox_member, inbox: inbox, user: agent) }
+
+      it 'reports the current reply window when a missed customer message is fetched' do
+        previous_message = create(:message, account: account, inbox: inbox, conversation: conversation,
+                                            message_type: :incoming, created_at: 25.hours.ago)
+
+        get path, headers: headers, as: :json
+        expect(response.parsed_body.dig('meta', 'can_reply')).to be(false)
+
+        incoming = create(:message, account: account, inbox: inbox, conversation: conversation, message_type: :incoming)
+
+        get path, params: { after: previous_message.id }, headers: headers, as: :json
+        expect(response).to have_http_status(:ok)
+        expect(response.parsed_body.dig('meta', 'can_reply')).to be(true)
+        expect(response.parsed_body['payload'].pluck('id')).to eq([incoming.id])
+
+        travel 25.hours do
+          get path, headers: headers, as: :json
+          expect(response.parsed_body.dig('meta', 'can_reply')).to be(false)
+        end
+      end
+    end
+
+    context 'with WhatsApp Cloud' do
+      let(:channel) do
+        create(:channel_whatsapp, provider: 'whatsapp_cloud', account: account, sync_templates: false, validate_provider_config: false)
+      end
+
+      it_behaves_like 'WhatsApp reply window metadata'
+    end
+
+    context 'with Twilio WhatsApp' do
+      let(:channel) { create(:channel_twilio_sms, :whatsapp, account: account) }
+
+      it_behaves_like 'WhatsApp reply window metadata'
+    end
   end
 
   describe 'DELETE /api/v1/accounts/{account.id}/conversations/:conversation_id/messages/:id' do

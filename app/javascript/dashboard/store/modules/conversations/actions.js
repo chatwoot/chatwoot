@@ -33,6 +33,16 @@ const MESSAGES_PER_PAGE = 20;
 
 const pendingHistoryRequests = new Map();
 
+const reopenReplyWindowFromHistory = (commit, conversationId, meta) => {
+  // A history request can return after a newer incoming message arrived live.
+  if (meta?.can_reply === true) {
+    commit(types.SET_CONVERSATION_CAN_REPLY, {
+      conversationId,
+      canReply: true,
+    });
+  }
+};
+
 const TERMINAL_CONTACT_INFO_REQUEST_STATES = ['shared', 'identity_conflict'];
 
 const contactInfoSourceId = message =>
@@ -195,6 +205,7 @@ const actions = {
           id: data.conversationId,
           data: payload,
         });
+        reopenReplyWindowFromHistory(commit, data.conversationId, meta);
         dispatch('autoTranslateMessages', data.conversationId);
         // A short backward page means the start is reached; `after` requests only prove it when empty.
         const hasReachedFirstMessage = data.after
@@ -272,6 +283,7 @@ const actions = {
         conversationId,
         messageId: null,
       });
+      reopenReplyWindowFromHistory(commit, conversationId, meta);
       dispatch('autoTranslateMessages', conversationId);
       dispatch('markMessagesRead', { id: conversationId }, { root: true });
     } catch (error) {

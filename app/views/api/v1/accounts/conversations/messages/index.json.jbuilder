@@ -1,4 +1,7 @@
+inbox = @conversation.inbox
+
 json.meta do
+  json.can_reply @conversation.can_reply? if inbox.whatsapp? || inbox.twilio_whatsapp?
   json.labels @conversation.cached_label_list_array
   json.additional_attributes @conversation.additional_attributes
   json.contact @conversation.contact.push_event_data

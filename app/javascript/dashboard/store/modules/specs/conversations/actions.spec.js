@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { emitter } from 'shared/helpers/mitt';
+import { MESSAGE_TYPE } from 'shared/constants/messages';
 import { createStore } from 'vuex';
 import types from '../../../mutation-types';
 import conversationMetadata from '../../conversationMetadata';
@@ -69,12 +70,13 @@ describe('#actions', () => {
     let conversationB;
 
     beforeEach(() => {
-      conversationA = { id: 42, messages: [{ id: 100 }] };
+      conversationA = { id: 42, can_reply: false, messages: [{ id: 100 }] };
       conversationB = { id: 43, messages: [{ id: 200 }] };
       store = createStore({
         state: {
           allConversations: [conversationA, conversationB],
           selectedChatId: null,
+          syncConversationsMessages: { 42: 100 },
         },
         getters: { getAutoTranslate: () => ({ enabled: false }) },
         actions,
@@ -86,6 +88,64 @@ describe('#actions', () => {
           },
         },
       });
+    });
+
+    it.each(['fetchPreviousMessages', 'syncActiveConversationMessages'])(
+      'reopens the reply window when %s loads a missed inbound message',
+      async action => {
+        const incoming = {
+          id: 101,
+          conversation_id: 42,
+          message_type: MESSAGE_TYPE.INCOMING,
+          created_at: Math.floor(Date.now() / 1000),
+        };
+        axios.get.mockResolvedValueOnce({
+          data: { meta: { can_reply: true }, payload: [incoming] },
+        });
+
+        await store.dispatch(action, { conversationId: 42, after: 100 });
+
+        expect(conversationA.messages).toContainEqual(incoming);
+        expect(conversationA.can_reply).toBe(true);
+      }
+    );
+
+    it('keeps the reply window closed when the server reports an expired window', async () => {
+      const incoming = { id: 99, message_type: MESSAGE_TYPE.INCOMING };
+      axios.get.mockResolvedValueOnce({
+        data: { meta: { can_reply: false }, payload: [incoming] },
+      });
+
+      await store.dispatch('fetchPreviousMessages', {
+        conversationId: 42,
+        before: 100,
+      });
+
+      expect(conversationA.messages).toContainEqual(incoming);
+      expect(conversationA.can_reply).toBe(false);
+    });
+
+    it('preserves a reply window opened by a live message while history is loading', async () => {
+      let resolveHistory;
+      axios.get.mockReturnValueOnce(
+        new Promise(resolve => {
+          resolveHistory = resolve;
+        })
+      );
+      const history = store.dispatch('fetchPreviousMessages', {
+        conversationId: 42,
+        before: 100,
+      });
+
+      await store.dispatch('addMessage', {
+        id: 101,
+        conversation_id: 42,
+        message_type: MESSAGE_TYPE.INCOMING,
+      });
+      resolveHistory({ data: { meta: { can_reply: false }, payload: [] } });
+      await history;
+
+      expect(conversationA.can_reply).toBe(true);
     });
 
     it('shares pending history when switching A to B to A and keeps responses in their own conversations', async () => {
