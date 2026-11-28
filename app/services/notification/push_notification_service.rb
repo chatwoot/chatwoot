@@ -116,11 +116,24 @@ class Notification::PushNotificationService
   end
 
   def remove_subscription_if_error(subscription, response)
-    if JSON.parse(response[:body])['results']&.first&.keys&.include?('error')
-      subscription.destroy!
-    else
+    if response[:status_code] == 200
       Rails.logger.info("FCM push sent to #{user.email} with title #{push_message[:title]}")
+      return
     end
+
+    error_code = fcm_error_code(response[:body])
+    # Only UNREGISTERED means the token is gone for good; every other error can
+    # be transient or caused by the request itself.
+    subscription.destroy! if error_code == 'UNREGISTERED'
+    Rails.logger.warn("FCM push failed for subscription #{subscription.id}: HTTP #{response[:status_code]} (#{error_code})")
+  end
+
+  def fcm_error_code(body)
+    error = JSON.parse(body.to_s).fetch('error', {})
+    detail = error.fetch('details', []).find { |item| item['@type'] == 'type.googleapis.com/google.firebase.fcm.v1.FcmError' }
+    detail&.fetch('errorCode', nil) || error['status'] || 'UNKNOWN'
+  rescue JSON::ParserError
+    'UNKNOWN'
   end
 
   def fcm_options(subscription)
