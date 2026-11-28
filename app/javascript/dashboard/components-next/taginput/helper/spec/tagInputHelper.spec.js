@@ -1,6 +1,10 @@
+import { vi } from 'vitest';
 import {
   validatePhoneNumber,
   formatPhoneNumber,
+  normalizePhoneNumber,
+  isPhoneLikeInput,
+  detectInputType,
   buildTagMenuItems,
   MODE,
   INPUT_TYPES,
@@ -9,8 +13,12 @@ import {
   createNewTagMenuItem,
   canAddTag,
   findMatchingMenuItem,
+  resolveDropdownSelection,
 } from '../tagInputHelper';
 import { email } from '@vuelidate/validators';
+import { getActiveCountryCode } from 'shared/components/PhoneInput/helper';
+
+vi.mock('shared/components/PhoneInput/helper');
 
 describe('tagInputHelper', () => {
   describe('validatePhoneNumber', () => {
@@ -56,6 +64,84 @@ describe('tagInputHelper', () => {
       const result = formatPhoneNumber(null);
       expect(result.isValid).toBe(false);
       expect(result.formattedValue).toBe(null);
+    });
+  });
+
+  describe('isPhoneLikeInput', () => {
+    it('accepts digits with common separators', () => {
+      expect(isPhoneLikeInput('9017880795')).toBe(true);
+      expect(isPhoneLikeInput('901-788-0795')).toBe(true);
+      expect(isPhoneLikeInput('(901) 788-0795')).toBe(true);
+      expect(isPhoneLikeInput('+1 901.788.0795')).toBe(true);
+    });
+
+    it('rejects input containing letters or @', () => {
+      expect(isPhoneLikeInput('jane@example.com')).toBe(false);
+      expect(isPhoneLikeInput('jane')).toBe(false);
+      expect(isPhoneLikeInput('ext 123')).toBe(false);
+    });
+
+    it('rejects input without any digit', () => {
+      expect(isPhoneLikeInput('+')).toBe(false);
+      expect(isPhoneLikeInput('()-')).toBe(false);
+      expect(isPhoneLikeInput('')).toBe(false);
+      expect(isPhoneLikeInput(null)).toBe(false);
+    });
+  });
+
+  describe('detectInputType', () => {
+    it('returns tel for phone-like input', () => {
+      expect(detectInputType('901-788-0795')).toBe(INPUT_TYPES.TEL);
+      expect(detectInputType('+19017880795')).toBe(INPUT_TYPES.TEL);
+    });
+
+    it('returns email for everything else', () => {
+      expect(detectInputType('jane@example.com')).toBe(INPUT_TYPES.EMAIL);
+      expect(detectInputType('jane')).toBe(INPUT_TYPES.EMAIL);
+      expect(detectInputType('')).toBe(INPUT_TYPES.EMAIL);
+    });
+  });
+
+  describe('default country inference', () => {
+    beforeEach(() => {
+      getActiveCountryCode.mockReturnValue('CA');
+    });
+
+    it('validates national numbers against the inferred country', () => {
+      expect(validatePhoneNumber('9017880795')).toBe(true);
+      expect(validatePhoneNumber('901-788-0795')).toBe(true);
+      expect(validatePhoneNumber('123')).toBe(false);
+    });
+
+    it('formats national numbers with the inferred country prefix', () => {
+      const result = formatPhoneNumber('901-788-0795');
+      expect(result.isValid).toBe(true);
+      expect(result.formattedValue).toBe('+1 901 788 0795');
+    });
+
+    it('explicit + prefix wins over the inferred country', () => {
+      const result = formatPhoneNumber('+918283838283');
+      expect(result.isValid).toBe(true);
+      expect(result.formattedValue).toBe('+91 82838 38283');
+    });
+  });
+
+  describe('normalizePhoneNumber', () => {
+    it('normalizes explicit international numbers without a default country', () => {
+      expect(normalizePhoneNumber('+1 901-788-0795')).toBe('+19017880795');
+    });
+
+    it('normalizes national numbers using the inferred country', () => {
+      getActiveCountryCode.mockReturnValue('CA');
+      expect(normalizePhoneNumber('(901) 788-0795')).toBe('+19017880795');
+      expect(normalizePhoneNumber('19017880795')).toBe('+19017880795');
+    });
+
+    it('returns null for invalid input', () => {
+      expect(normalizePhoneNumber('123')).toBe(null);
+      expect(normalizePhoneNumber('invalid')).toBe(null);
+      expect(normalizePhoneNumber('')).toBe(null);
+      expect(normalizePhoneNumber(null)).toBe(null);
     });
   });
 
@@ -359,6 +445,121 @@ describe('tagInputHelper', () => {
     it('handles empty menu items', () => {
       const result = findMatchingMenuItem([], 'test@example.com');
       expect(result).toBeUndefined();
+    });
+
+    describe('with tel type', () => {
+      const phoneMenuItems = [
+        { phoneNumber: '+19017880795', label: 'Jane', email: null },
+        { phoneNumber: '+918283838283', label: 'Ravi', email: null },
+      ];
+
+      it('matches by exact E.164 value', () => {
+        const result = findMatchingMenuItem(
+          phoneMenuItems,
+          '+19017880795',
+          INPUT_TYPES.TEL
+        );
+        expect(result).toEqual(phoneMenuItems[0]);
+      });
+
+      it('matches formatted input against stored E.164', () => {
+        getActiveCountryCode.mockReturnValue('CA');
+        const result = findMatchingMenuItem(
+          phoneMenuItems,
+          '901-788-0795',
+          INPUT_TYPES.TEL
+        );
+        expect(result).toEqual(phoneMenuItems[0]);
+      });
+
+      it('returns undefined when the number is not in the list', () => {
+        const result = findMatchingMenuItem(
+          phoneMenuItems,
+          '+15550001111',
+          INPUT_TYPES.TEL
+        );
+        expect(result).toBeUndefined();
+      });
+
+      it('returns undefined for unparseable input', () => {
+        const result = findMatchingMenuItem(
+          phoneMenuItems,
+          '123',
+          INPUT_TYPES.TEL
+        );
+        expect(result).toBeUndefined();
+      });
+
+      it('ignores items without a phoneNumber', () => {
+        const result = findMatchingMenuItem(
+          [{ email: 'a@b.com', label: 'A' }],
+          '+19017880795',
+          INPUT_TYPES.TEL
+        );
+        expect(result).toBeUndefined();
+      });
+    });
+  });
+
+  describe('resolveDropdownSelection', () => {
+    const emailContact = {
+      email: 'jane@example.com',
+      phoneNumber: null,
+      label: 'Jane',
+    };
+    const phoneContact = {
+      email: null,
+      phoneNumber: '+19017880795',
+      label: 'Jane',
+    };
+
+    it('selects by email for email input type', () => {
+      expect(resolveDropdownSelection(INPUT_TYPES.EMAIL, emailContact)).toEqual(
+        {
+          isEmail: true,
+          tagValue: 'jane@example.com',
+          shouldValidate: true,
+        }
+      );
+    });
+
+    it('selects by phone number for tel input type', () => {
+      expect(resolveDropdownSelection(INPUT_TYPES.TEL, phoneContact)).toEqual({
+        isEmail: false,
+        tagValue: '+19017880795',
+        shouldValidate: true,
+      });
+    });
+
+    it('selects an email-only item as email in tel mode without validation', () => {
+      expect(resolveDropdownSelection(INPUT_TYPES.TEL, emailContact)).toEqual({
+        isEmail: true,
+        tagValue: 'jane@example.com',
+        shouldValidate: false,
+      });
+    });
+
+    it('prefers the phone number when an item has both in tel mode', () => {
+      const contactWithBoth = {
+        email: 'jane@example.com',
+        phoneNumber: '+19017880795',
+        label: 'Jane',
+      };
+      expect(
+        resolveDropdownSelection(INPUT_TYPES.TEL, contactWithBoth)
+      ).toEqual({
+        isEmail: false,
+        tagValue: '+19017880795',
+        shouldValidate: true,
+      });
+    });
+
+    it('falls back to the item value without validation for text input type', () => {
+      expect(resolveDropdownSelection(INPUT_TYPES.TEXT, phoneContact)).toEqual({
+        isEmail: false,
+        tagValue: '+19017880795',
+        shouldValidate: false,
+      });
     });
   });
 });
