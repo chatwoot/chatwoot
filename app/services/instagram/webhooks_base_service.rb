@@ -29,8 +29,10 @@ class Instagram::WebhooksBaseService
   def update_instagram_profile_link(user)
     return unless user['username']
 
-    instagram_attributes = build_instagram_attributes(user)
-    @contact.update!(additional_attributes: @contact.additional_attributes.merge(instagram_attributes))
+    additional_attributes = @contact.additional_attributes || {}
+    instagram_attributes = build_instagram_attributes(user).deep_stringify_keys
+    instagram_attributes['social_profiles'] = (additional_attributes['social_profiles'] || {}).merge(instagram_attributes['social_profiles'])
+    @contact.update!(additional_attributes: additional_attributes.merge(instagram_attributes))
   end
 
   def build_instagram_attributes(user)
