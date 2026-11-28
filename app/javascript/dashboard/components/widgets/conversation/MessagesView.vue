@@ -20,11 +20,13 @@ import { useCampaignHistory } from 'dashboard/composables/useCampaignHistory';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { CONTACT_CONVERSATION_NAVIGATION } from 'dashboard/composables/useContactConversationNavigation';
+import { useContactConversationHistory } from 'dashboard/composables/useContactConversationHistory';
 
 // components
 import ReplyBox from './ReplyBox.vue';
 import MessageList from 'next/message/MessageList.vue';
 import ContactConversationLink from './ContactConversationLink.vue';
+import ContactHistoryDivider from './ContactHistoryDivider.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -60,7 +62,7 @@ import { REPLY_POLICY } from 'shared/constants/links';
 import { META_RESTRICTION_STATUS_URL } from 'dashboard/constants/globals';
 import { SESSION_STORAGE_KEYS } from 'dashboard/constants/sessionStorage';
 import { CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
-import { INBOX_TYPES } from 'dashboard/helper/inbox';
+import { INBOX_TYPES, getReadableInboxByType } from 'dashboard/helper/inbox';
 
 const FOLD_MOTION =
   'duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:duration-0';
@@ -79,6 +81,7 @@ export default {
     ReplyBox,
     Banner,
     ContactConversationLink,
+    ContactHistoryDivider,
     Spinner,
     NextButton,
     CollapsedReplyBar,
@@ -164,8 +167,28 @@ export default {
       if (e.clipboardData?.files.length) revealReplyBox();
     });
 
+    const {
+      historySegments,
+      isHistoryLoading,
+      hasHistoryError,
+      hasMoreHistory,
+      loadMoreHistory,
+    } = useContactConversationHistory();
+    // Before the first load, the navigation knows whether an older conversation exists.
+    const canLoadHistory = computed(() =>
+      historySegments.value.length
+        ? hasMoreHistory.value
+        : Boolean(olderConversation.value)
+    );
+
     return {
       ...useCampaignHistory(),
+      historySegments,
+      isHistoryLoading,
+      hasHistoryError,
+      canLoadHistory,
+      loadMoreHistory,
+      emailChannelType: INBOX_TYPES.EMAIL,
       olderConversation,
       newerConversation,
       openConversation,
@@ -475,8 +498,49 @@ export default {
       this.scrollTopBeforeLoad = this.conversationPanel.scrollTop;
     },
 
+    // Keeps the visible messages in place while history is prepended above them.
+    async loadEarlierHistory() {
+      const panel = this.conversationPanel;
+      const conversationId = this.currentChat.id;
+      const heightBefore = panel.scrollHeight;
+      const scrollTopBefore = panel.scrollTop;
+      await this.loadMoreHistory();
+      this.$nextTick(() => {
+        if (this.currentChat.id !== conversationId) return;
+        this.isProgrammaticScroll = true;
+        panel.scrollTop = scrollTopBefore + (panel.scrollHeight - heightBefore);
+        this.setScrollParams();
+      });
+    },
+
+    // Same duplicate filtering as the open conversation gets in getMessages.
+    historyMessages({ conversation, messages }) {
+      const inbox = this.$store.getters['inboxes/getInbox'](
+        conversation.inbox_id
+      );
+      const channel = getReadableInboxByType(
+        inbox.channel_type,
+        inbox.phone_number
+      );
+      return channel === 'whatsapp'
+        ? filterDuplicateSourceMessages(messages)
+        : messages;
+    },
+
     async fetchPreviousMessages(scrollTop = 0) {
       this.setScrollParams();
+      // Once this conversation is fully loaded, scrolling up continues into older ones.
+      if (
+        scrollTop < 100 &&
+        this.listLoadingStatus &&
+        this.hasUserScrolled &&
+        this.canLoadHistory &&
+        !this.isHistoryLoading &&
+        !this.hasHistoryError
+      ) {
+        this.loadEarlierHistory();
+        return;
+      }
       const shouldLoadMoreMessages =
         this.currentChat.dataFetched === true &&
         !this.listLoadingStatus &&
@@ -592,8 +656,56 @@ export default {
             <Spinner v-if="shouldShowSpinner" class="text-n-brand" />
           </li>
         </transition>
+        <template v-if="listLoadingStatus">
+          <li v-if="canLoadHistory" class="flex justify-center my-2 list-none">
+            <NextButton
+              :label="
+                hasHistoryError
+                  ? $t('CONVERSATION.CONTACT_HISTORY.LOAD_ERROR')
+                  : $t('CONVERSATION.CONTACT_HISTORY.LOAD_EARLIER')
+              "
+              :color="hasHistoryError ? 'ruby' : 'slate'"
+              :is-loading="isHistoryLoading"
+              icon="i-lucide-history"
+              sm
+              faded
+              @click="loadEarlierHistory"
+            />
+          </li>
+          <template
+            v-for="segment in historySegments"
+            :key="segment.conversation.id"
+          >
+            <ContactHistoryDivider
+              :conversation="segment.conversation"
+              :to="
+                buildConversationPath(segment.conversation.id, {
+                  keepFolderScope: false,
+                })
+              "
+              @navigate="openConversation(segment.conversation)"
+            />
+            <li class="list-none">
+              <MessageList
+                class="!px-0 !bg-transparent"
+                :current-user-id="currentUserId"
+                :is-an-email-channel="
+                  segment.conversation.meta?.channel === emailChannelType
+                "
+                :messages="historyMessages(segment)"
+                @retry="handleMessageRetry"
+              />
+            </li>
+          </template>
+          <ContactHistoryDivider
+            v-if="historySegments.length"
+            :conversation="currentChat"
+          />
+        </template>
         <ContactConversationLink
-          v-if="olderConversation && listLoadingStatus"
+          v-if="
+            olderConversation && listLoadingStatus && !historySegments.length
+          "
           direction="older"
           :conversation="olderConversation"
           :to="
