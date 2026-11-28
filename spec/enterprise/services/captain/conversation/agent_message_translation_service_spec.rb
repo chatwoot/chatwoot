@@ -194,6 +194,20 @@ RSpec.describe Captain::Conversation::AgentMessageTranslationService do
     expect(message.content_attributes).to eq('translation_failed' => true)
   end
 
+  it 'sends the reply as written when a stored Google credential type is unsupported' do
+    allow(Integrations::GoogleTranslate::CredentialsValidator).to receive(:valid?).and_return(true)
+    hook = create(:integrations_hook, :google_translate, account: account)
+    hook.update_columns(settings: hook.settings.merge('credentials' => 'credentials.json')) # rubocop:disable Rails/SkipsModelValidations
+    account.update!(translation_provider: 'google_translate')
+    expect(Google::Cloud::Translate::V3::TranslationService::Client).not_to receive(:new)
+    expect(ChatwootExceptionTracker).not_to receive(:new)
+
+    described_class.new(message: message).perform
+
+    expect(message.reload.content).to eq('Hello there')
+    expect(message.content_attributes).to eq('translation_failed' => true)
+  end
+
   it 'sends the reply as written and reports an error from Google that is not about the key' do
     allow(Integrations::GoogleTranslate::CredentialsValidator).to receive(:valid?).and_return(true)
     create(:integrations_hook, :google_translate, account: account)

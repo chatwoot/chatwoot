@@ -5,7 +5,56 @@ RSpec.describe 'Integration Hooks API', type: :request do
   let(:admin) { create(:user, account: account, role: :administrator) }
   let(:agent) { create(:user, account: account, role: :agent) }
   let(:inbox) { create(:inbox, account: account) }
-  let(:params) { { app_id: 'dialogflow', inbox_id: inbox.id, settings: { project_id: 'xx', credentials: { test: 'test' }, region: 'europe-west1' } } }
+  let(:dialogflow_settings) { attributes_for(:integrations_hook, :dialogflow).fetch(:settings).merge(region: 'europe-west1') }
+  let(:params) { { app_id: 'dialogflow', inbox_id: inbox.id, settings: dialogflow_settings } }
+
+  describe 'Dialogflow credentials' do
+    let(:headers) { admin.create_new_auth_token }
+    let(:hook) { create(:integrations_hook, :dialogflow, account: account, inbox: inbox) }
+
+    it 'rejects file-backed external account configurations on create' do
+      credentials = { type: 'external_account', credential_source: { file: 'unsupported' } }
+      settings = dialogflow_settings.merge(credentials: credentials)
+
+      expect do
+        post api_v1_account_integrations_hooks_url(account_id: account.id),
+             params: { hook: params.merge(settings: settings) }, headers: headers, as: :json
+      end.not_to change(Integrations::Hook, :count)
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['message']).to include(I18n.t('errors.dialogflow.invalid_credentials'))
+    end
+
+    it 'rejects non-Google credential URLs on update and preserves the saved key' do
+      credentials = dialogflow_settings.fetch(:credentials).merge(token_uri: 'https://example.test/token')
+      settings = dialogflow_settings.merge(credentials: credentials)
+
+      expect do
+        patch api_v1_account_integrations_hook_url(account_id: account.id, id: hook.id),
+              params: { hook: { settings: settings } }, headers: headers, as: :json
+      end.not_to(change { hook.reload.settings['credentials'] })
+
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response.parsed_body['message']).to include(I18n.t('errors.dialogflow.invalid_credentials'))
+    end
+
+    it 'allows disabling an existing invalid hook and re-enabling it with corrected credentials' do
+      hook.update_columns(settings: hook.settings.merge('credentials' => {})) # rubocop:disable Rails/SkipsModelValidations
+      path = api_v1_account_integrations_hook_url(account_id: account.id, id: hook.id)
+
+      patch path, params: { hook: { status: 'disabled' } }, headers: headers, as: :json
+      expect(response).to have_http_status(:success)
+      expect(hook.reload).to be_disabled
+
+      patch path, params: { hook: { status: 'enabled' } }, headers: headers, as: :json
+      expect(response).to have_http_status(:unprocessable_entity)
+      expect(hook.reload).to be_disabled
+
+      patch path, params: { hook: { status: 'enabled', settings: dialogflow_settings } }, headers: headers, as: :json
+      expect(response).to have_http_status(:success)
+      expect(hook.reload).to be_enabled
+    end
+  end
 
   describe 'existing cross-account hooks' do
     let(:foreign_inbox) { create(:inbox, name: 'Private foreign inbox') }

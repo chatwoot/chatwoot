@@ -48,6 +48,8 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     end
 
     render json: { content: translated_content }
+  rescue Integrations::GoogleTranslate::Client::InvalidCredentials => e
+    render_could_not_create_error(e.message)
   rescue Google::Cloud::Error => e
     # `details` carries the clean human message; `message` includes gRPC debug noise
     render_could_not_create_error(e.details.presence || e.message)

@@ -21,6 +21,7 @@ RSpec.describe Integrations::Hook do
   end
 
   it 'keeps monitor Slack channels when another integration is removed' do
+    allow(Integrations::GoogleTranslate::CredentialsValidator).to receive(:valid?).and_return(true)
     create(:integrations_hook, :google_translate, account: account).destroy!
 
     expect(monitor.reload.slack_channel_id).to eq('C0ALERTS')
