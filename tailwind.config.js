@@ -297,6 +297,9 @@ const tailwindConfig = {
       'scale-in': {
         '0%': { opacity: 0, transform: 'scale(0.97)' },
       },
+      'zoom-in': {
+        '0%': { opacity: 0, transform: 'scale(0.9)' },
+      },
       'sheet-in': {
         from: { opacity: 0, transform: 'translateY(-1rem)' },
         to: { opacity: 1, transform: 'translateY(0)' },
@@ -319,6 +322,7 @@ const tailwindConfig = {
       twinkle: 'twinkle 0.9s ease-in-out infinite',
       'fade-in': 'fade-in 0.3s ease-out',
       'scale-in': 'scale-in 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
+      'zoom-in': 'zoom-in 0.4s cubic-bezier(0.16, 1, 0.3, 1)',
       'sheet-in': 'sheet-in 0.2s ease-out',
       'page-progress':
         'page-progress 8s cubic-bezier(0.1, 0.8, 0.2, 1) 0.15s forwards',

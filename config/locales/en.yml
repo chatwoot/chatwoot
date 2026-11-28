@@ -109,6 +109,8 @@ en:
       cannot_revoke_current: You cannot revoke the current session.
 
   errors:
+    installation_config:
+      invalid_dpa_signing_url: 'DPA Signing URL must be an HTTPS link to %{host}.'
     bandwidth:
       token_request_failed: "Unable to reach Bandwidth authentication. Please try again later."
       invalid_configuration: 'Provide a valid Bandwidth account ID, application ID, client ID, and client secret.'
@@ -253,6 +255,9 @@ en:
         contact_phone_required: 'Contact phone number is required'
         permission_request_failed: 'Failed to send call permission request'
         permission_window_closed: "This contact hasn't allowed calls and hasn't messaged you in the last 24 hours, so a call permission request can't be sent. Send them a message template first."
+    dialogflow:
+      invalid_credentials: 'Enter a JSON key from a Google Cloud service account for Dialogflow.'
+      invalid_region: 'Select a supported Dialogflow region.'
     google_translate:
       invalid_credentials: 'This Google Cloud key is not working. Check the project ID and key file and try again.'
     openai:
@@ -601,6 +606,7 @@ en:
         display: 'Preparing the results'
         get_report: 'Reading the reports'
         get_account_directory: 'Looking up agents, inboxes and teams'
+        search_chatwoot_docs: 'Searching the Chatwoot docs'
     documents:
       limit_exceeded: 'Document limit exceeded'
       pdf_format_error: 'must be a PDF file'
@@ -902,6 +908,7 @@ en:
         editor: 'Editor'
         assistant: 'Assistant'
         copilot_workflows: 'Copilot'
+        scenario_tool_suggestion: 'Scenario tool suggestions'
         document_faq_generation: 'Document FAQ generation'
         conversation_faq_generation: 'Conversation FAQ generation'
         conversation_faq_matching: 'Conversation FAQ matching'

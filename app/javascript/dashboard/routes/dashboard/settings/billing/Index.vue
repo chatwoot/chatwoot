@@ -12,6 +12,7 @@ import BillingMeter from './components/BillingMeter.vue';
 import BillingCard from './components/BillingCard.vue';
 import BillingHeader from './components/BillingHeader.vue';
 import DetailItem from './components/DetailItem.vue';
+import LegalComplianceCard from './components/LegalComplianceCard.vue';
 import PurchaseCreditsModal from './components/PurchaseCreditsModal.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
@@ -198,7 +199,7 @@ onMounted(handleBillingPageLogic);
       />
     </template>
     <template #body>
-      <section v-if="currencySelectionRequired" class="grid gap-4">
+      <section v-if="currencySelectionRequired" class="grid gap-3">
         <BillingCard
           :title="$t('BILLING_SETTINGS.CURRENCY.SELECT.TITLE')"
           :description="$t('BILLING_SETTINGS.CURRENCY.SELECT.DESCRIPTION')"
@@ -221,7 +222,7 @@ onMounted(handleBillingPageLogic);
           </template>
         </BillingCard>
       </section>
-      <section v-else class="grid gap-4">
+      <section v-else class="grid gap-3">
         <Banner
           v-if="isPastDue"
           color="ruby"
@@ -300,13 +301,13 @@ onMounted(handleBillingPageLogic);
               </ButtonV4>
             </div>
           </template>
-          <div v-if="captainLimits && responseLimits" class="px-5">
+          <div v-if="captainLimits && responseLimits" class="px-4">
             <BillingMeter
               :title="$t('BILLING_SETTINGS.CAPTAIN.RESPONSES')"
               v-bind="responseLimits"
             />
           </div>
-          <div v-if="captainLimits && documentLimits" class="px-5">
+          <div v-if="captainLimits && documentLimits" class="px-4">
             <BillingMeter
               :title="$t('BILLING_SETTINGS.CAPTAIN.DOCUMENTS')"
               v-bind="documentLimits"
@@ -325,8 +326,10 @@ onMounted(handleBillingPageLogic);
           </template>
         </BillingCard>
 
+        <LegalComplianceCard />
+
         <BillingHeader
-          class="px-1 mt-5"
+          class="px-1 mt-3"
           :title="$t('BILLING_SETTINGS.CHAT_WITH_US.TITLE')"
           :description="$t('BILLING_SETTINGS.CHAT_WITH_US.DESCRIPTION')"
         >

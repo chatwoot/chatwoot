@@ -21,6 +21,16 @@ describe Integrations::GoogleTranslate::DetectLanguageService do
       expect(message.conversation.reload.additional_attributes['conversation_language']).to eq('es')
     end
 
+    it 'skips language detection for a stored file-backed key' do
+      credentials = { 'type' => 'external_account', 'credential_source' => { 'file' => 'unsupported' } }
+      hook.update_columns(settings: hook.settings.merge('credentials' => credentials)) # rubocop:disable Rails/SkipsModelValidations
+
+      HookJob.perform_now(hook, 'message.created', { message: message })
+
+      expect(Google::Cloud::Translate::V3::TranslationService::Client).not_to have_received(:new)
+      expect(message.conversation.reload.additional_attributes['conversation_language']).to be_nil
+    end
+
     it 'will not update the conversation language if it is already present' do
       message.conversation.update!(additional_attributes: { conversation_language: 'en' })
       described_class.new(hook: hook, message: message).perform

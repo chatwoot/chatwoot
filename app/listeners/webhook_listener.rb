@@ -83,6 +83,30 @@ class WebhookListener < BaseListener
     deliver_account_webhooks(payload, account)
   end
 
+  def article_created(event)
+    article, account = extract_article_and_account(event)
+    payload = article.webhook_data.merge(event: 'article_created')
+    deliver_account_webhooks(payload, account)
+  end
+
+  def article_updated(event)
+    article, account = extract_article_and_account(event)
+    changed_attributes = extract_changed_attributes(event)
+    return if changed_attributes.blank?
+
+    payload = article.webhook_data.merge(event: 'article_updated', changed_attributes: changed_attributes)
+    deliver_account_webhooks(payload, account)
+  end
+
+  def article_deleted(event)
+    article_data = event.data[:article_data]
+    account = Account.find_by(id: article_data.dig(:account, :id))
+    return if account.nil?
+
+    payload = article_data.merge(event: 'article_deleted')
+    deliver_account_webhooks(payload, account)
+  end
+
   def conversation_typing_on(event)
     handle_typing_status(__method__.to_s, event)
   end

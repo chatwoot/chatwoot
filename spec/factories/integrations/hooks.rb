@@ -9,7 +9,16 @@ FactoryBot.define do
 
     trait :dialogflow do
       app_id { 'dialogflow' }
-      settings { { project_id: 'test', credentials: {}, region: 'global', language_code: 'en-US' } }
+      settings do
+        {
+          project_id: 'test',
+          credentials: {
+            type: 'service_account', project_id: 'test', client_email: 'dialogflow@test.iam.gserviceaccount.com', private_key: 'test-key'
+          },
+          region: 'global',
+          language_code: 'en-US'
+        }
+      end
     end
 
     trait :dyte do
@@ -19,7 +28,14 @@ FactoryBot.define do
 
     trait :google_translate do
       app_id { 'google_translate' }
-      settings { { project_id: 'test', credentials: {} } }
+      settings do
+        {
+          project_id: 'test',
+          credentials: {
+            type: 'service_account', project_id: 'test', client_email: 'translate@test.iam.gserviceaccount.com', private_key: 'test-key'
+          }
+        }
+      end
     end
 
     trait :openai do

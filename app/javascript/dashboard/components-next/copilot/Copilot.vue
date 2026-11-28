@@ -18,6 +18,7 @@ import CopilotAgentMessage from './CopilotAgentMessage.vue';
 import CopilotAssistantMessage from './CopilotAssistantMessage.vue';
 import CopilotApprovalMessage from './CopilotApprovalMessage.vue';
 import { APPROVAL_STATUS } from './constants';
+import { supportsCaptainAvatar } from './avatarSupport';
 import CopilotReviewProgress from './CopilotReviewProgress.vue';
 import CopilotThinkingGroup from './CopilotThinkingGroup.vue';
 import ToggleCopilotAssistant from './ToggleCopilotAssistant.vue';
@@ -87,6 +88,7 @@ const emit = defineEmits([
   'selectThread',
   'loadMoreThreads',
   'toggleExpand',
+  'close',
 ]);
 
 const { t } = useI18n();
@@ -100,25 +102,12 @@ const ERROR_DURATION = 2400;
 const SLEEP_AFTER = 2 * 60 * 1000;
 const SEARCH_STEP_PREFIXES = ['search_', 'get_'];
 
-// The avatar needs WebGL2 on real graphics hardware. Checking first avoids downloading it where it can't render.
-const supportsCaptainAvatar = () => {
-  try {
-    const gl = document.createElement('canvas').getContext('webgl2', {
-      failIfMajorPerformanceCaveat: true,
-    });
-    gl?.getExtension('WEBGL_lose_context')?.loseContext();
-    return !!gl;
-  } catch {
-    return false;
-  }
-};
-
 const CopilotAvatar = defineAsyncComponent(() => import('./CopilotAvatar.vue'));
 // The avatar emits unsupported when its graphics context is lost for good, so the logo comes back.
 const isAvatarSupported = ref(supportsCaptainAvatar());
 const showAvatar = computed(() => isAvatarSupported.value);
 
-const draft = ref('');
+const draft = defineModel('draft', { type: String, default: '' });
 const chatContainer = ref(null);
 const copilotInput = ref(null);
 // A paste only lands in a focused field, so actions that move focus off the input hand it back.
@@ -246,6 +235,7 @@ const closeCopilotPanel = () => {
     is_copilot_panel_open: false,
     is_contact_sidebar_open: false,
   });
+  emit('close');
 };
 
 const showHistory = ref(false);

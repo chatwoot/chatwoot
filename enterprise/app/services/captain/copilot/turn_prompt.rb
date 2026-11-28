@@ -14,6 +14,7 @@ module Captain::Copilot::TurnPrompt
     instructions = Captain::PromptRenderer.render('copilot_workflows', product_name: @assistant.config['product_name'],
                                                                        conversations_per_turn: CopilotRun::CONVERSATIONS_PER_TURN,
                                                                        chatwoot_cloud: ChatwootApp.chatwoot_cloud?,
+                                                                       chatwoot_docs: @tools.any? { |tool| tool.name == 'search_chatwoot_docs' },
                                                                        user_name: @user.name, user_id: @user.id,
                                                                        current_time: @run.created_at.in_time_zone(@account.report_time_zone).iso8601)
     tools = @tools.map { |tool| "- #{tool.name}: #{tool.description}" }.join("\n")

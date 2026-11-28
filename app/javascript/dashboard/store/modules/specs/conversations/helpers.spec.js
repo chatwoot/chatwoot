@@ -1,5 +1,6 @@
 import {
   findPendingMessageIndex,
+  sortComparator,
   applyPageFilters,
   filterByInbox,
   filterByTeam,
@@ -170,5 +171,24 @@ describe('#filterByUnattended', () => {
   });
   it('returns true if conversation type is unattended and has first reply', () => {
     expect(filterByUnattended(true, 'mentions', 123)).toEqual(true);
+  });
+});
+
+describe('last message sorting', () => {
+  const chats = [
+    { id: 1, last_message_at: null },
+    { id: 2, last_message_at: 100.11 },
+    { id: 3, last_message_at: 100.11 },
+    { id: 4, last_message_at: 100.12 },
+    { id: 5 },
+  ];
+
+  it.each([
+    ['last_message_at_desc', [4, 3, 2, 5, 1]],
+    ['last_message_at_asc', [2, 3, 4, 1, 5]],
+  ])('uses the database null and tie order for %s', (key, expected) => {
+    expect(
+      [...chats].sort((a, b) => sortComparator(a, b, key)).map(c => c.id)
+    ).toEqual(expected);
   });
 });
