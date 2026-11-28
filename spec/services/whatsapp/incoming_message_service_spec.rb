@@ -12,6 +12,9 @@ describe Whatsapp::IncomingMessageService do
       Redis::Alfred.scan_each(match: 'MESSAGE_SOURCE_KEY::*') do |key|
         Redis::Alfred.delete(key)
       end
+      Redis::Alfred.scan_each(match: 'WHATSAPP_REVOKE_TOMBSTONE::*') do |key|
+        Redis::Alfred.delete(key)
+      end
     end
 
     let!(:whatsapp_channel) { create(:channel_whatsapp, sync_templates: false) }
@@ -366,6 +369,31 @@ describe Whatsapp::IncomingMessageService do
         message = whatsapp_channel.inbox.messages.last
         expect(message.content).to eq('This message is unavailable.')
         expect(message.content_attributes['is_unsupported']).to be(true)
+      end
+    end
+
+    context 'when a message is deleted for everyone' do
+      let(:revoke_params) do
+        {
+          'contacts' => [{ 'profile' => { 'name' => 'Sojan Jose' }, 'wa_id' => wa_id }],
+          'messages' => [{ 'from' => wa_id, 'id' => 'wamid.revoke', 'timestamp' => '1633034400', 'type' => 'revoke',
+                           'revoke' => { 'original_message_id' => 'SDFADSf23sfasdafasdfa' } }]
+        }.with_indifferent_access
+      end
+
+      it 'marks the original message deleted without creating a new message' do
+        described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
+
+        expect { described_class.new(inbox: whatsapp_channel.inbox, params: revoke_params).perform }.not_to change(Message, :count)
+
+        message = whatsapp_channel.inbox.messages.find_by!(source_id: 'SDFADSf23sfasdafasdfa')
+        expect(message.content).to eq('This message was deleted')
+        expect(message.content_attributes['deleted']).to be(true)
+      end
+
+      it 'ignores a revoke for a message that was never stored' do
+        expect { described_class.new(inbox: whatsapp_channel.inbox, params: revoke_params).perform }
+          .not_to(change { [Contact.count, Conversation.count, Message.count] })
       end
     end
 
