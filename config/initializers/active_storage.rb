@@ -82,3 +82,120 @@ Rails.application.config.to_prepare do
 
   ActiveStorage::Streaming.prepend(ActiveStorageProxyRangeLimit) unless ActiveStorage::Streaming < ActiveStorageProxyRangeLimit
 end
+
+class ActiveStorageLegacyMessageReader
+  class UnsupportedFormat < StandardError; end
+
+  SCALARS = { '0' => nil, 'T' => true, 'F' => false }.freeze
+  READERS = {
+    'i' => :read_long, 'l' => :read_bignum, ':' => :read_symbol, ';' => :read_symbol_link,
+    '"' => :read_string, 'I' => :read_encoded_string, '[' => :read_array, '{' => :read_hash
+  }.freeze
+
+  def self.load(dumped)
+    new(dumped).read
+  end
+
+  def initialize(dumped)
+    @bytes = dumped.b
+    @position = 0
+    @symbols = []
+  end
+
+  def read
+    unsupported! unless read_bytes(2) == "\x04\b".b
+    value = read_value
+    unsupported! unless @position == @bytes.bytesize
+
+    value
+  end
+
+  private
+
+  def read_value
+    type = read_byte.chr
+    return SCALARS[type] if SCALARS.key?(type)
+
+    send(READERS.fetch(type) { unsupported! })
+  end
+
+  def read_array
+    Array.new(read_count) { read_value }
+  end
+
+  def read_hash
+    Array.new(read_count) { [read_value, read_value] }.to_h
+  end
+
+  def read_string
+    read_bytes(read_long)
+  end
+
+  def read_symbol_link
+    @symbols.fetch(read_long) { unsupported! }
+  end
+
+  def read_symbol
+    read_bytes(read_long).force_encoding(Encoding::UTF_8).to_sym.tap { |symbol| @symbols << symbol }
+  end
+
+  def read_encoded_string
+    unsupported! unless read_byte.chr == '"'
+    string = read_string
+    read_count.times { string.force_encoding(encoding_for(read_value, read_value)) }
+    string
+  end
+
+  def encoding_for(name, value)
+    case name
+    when :E then value == true ? Encoding::UTF_8 : Encoding::US_ASCII
+    when :encoding then Encoding.find(value)
+    else unsupported!
+    end
+  end
+
+  def read_bignum
+    sign = read_byte.chr
+    unsupported! unless %w[+ -].include?(sign)
+    value = little_endian(read_bytes(read_long * 2))
+    sign == '-' ? -value : value
+  end
+
+  def read_long
+    head = read_byte
+    head -= 256 if head > 127
+    return 0 if head.zero?
+    return head - 5 if head > 4
+    return head + 5 if head < -4
+
+    value = little_endian(read_bytes(head.abs))
+    head.positive? ? value : value - (1 << (8 * head.abs))
+  end
+
+  def read_count
+    count = read_long
+    unsupported! unless count.between?(0, @bytes.bytesize - @position)
+    count
+  end
+
+  def little_endian(bytes)
+    bytes.bytes.each_with_index.sum { |byte, index| byte << (8 * index) }
+  end
+
+  def read_byte
+    read_bytes(1).ord
+  end
+
+  def read_bytes(length)
+    unsupported! unless length.between?(0, @bytes.bytesize - @position)
+    @bytes.byteslice(@position, length).tap { @position += length }
+  end
+
+  def unsupported!
+    raise UnsupportedFormat, 'Unsupported message format'
+  end
+end
+
+Rails.application.message_verifiers.rotate do |salt|
+  { serializer: ActiveStorageLegacyMessageReader } if salt == 'ActiveStorage'
+end
